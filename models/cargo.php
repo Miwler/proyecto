@@ -6,19 +6,25 @@ class cargo {
     private $nombre;
     private $tabla;
     private $orden;
-    
+
     private $usuario_id;
     private $usuario_mod_id;
     Private $message;
+<<<<<<< HEAD
     PRivate $teta;
     public $cucardas;
     public $Venezolas;
     public $Venezolas1;
+=======
+
+    //prueba de github
+
+>>>>>>> 30a5a53fe2603b545b979bdde726ad15e44ec559
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
 
-        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
         if (property_exists('cargo', $temporal)) {
             $this->$temporal = $valor;
         } else {
@@ -70,7 +76,7 @@ class cargo {
             $this->message = 'Se guardó correctamente';
             return $retornar;
         } catch (Exception $ex) {
-            
+
         }
     }
 
