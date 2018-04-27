@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 /*hola miwlerr/
-/**
+/**de
  * Description of ventasController
  *
  * @author miwler
@@ -18,6 +18,7 @@
     }
 //=============================================================
 //INICIO DE COTIZACIONES
+//PRUEBA
 function get_Cotizacion_Mantenimiento(){
     require ROOT_PATH.'models/cotizacion.php';
     require ROOT_PATH.'models/moneda.php';
