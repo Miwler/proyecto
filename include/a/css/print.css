@@ -1,0 +1,13 @@
+﻿body,#TitleContent_Mod h1
+{
+	background:#fff;
+}
+
+#divHeader,#divHeader-temp,#divMenu,.contenedor-criterio,.tool-content,#criterio-busqueda,#divBackground,.modulo_acceso_directo,.btnReporte,#divFooter,#content-end,.btnPrint {
+	display:none;
+}
+
+#content
+{
+    border:0px;
+}

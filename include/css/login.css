@@ -1,0 +1,75 @@
+﻿body {
+   
+    font-family:tahoma;
+    font-size :11px;	
+}
+
+#lg-container
+{
+	background:rgba(255,255,255,.5);
+	width:300px;
+	margin:100px auto;
+	box-shadow:10px 5px 10px #ddd;
+	webkit-box-radius:10px 5px 10px #ccc;
+	moz-box-radius:10px 5px 10px #ddd;
+	border-radius:5px 0px 5px 5px;
+	webkit-border-radius:5px 0px 5px 5px;
+	moz-border-radius:5px 0px 5px 5px;
+}
+
+#lg-container{
+	position:relative;
+	top:5%;
+}
+
+#tb-login
+{
+	width:100%;
+	background:url('/include/img/background-tape.png');
+	text-align:center;
+	padding:20px;
+	border-top:4px solid #d6d7d8;
+	border-bottom:4px solid #d6d7d8;
+}
+
+caption{
+	text-align:right;
+	padding-top:10px;
+}
+
+.lg-text{
+	text-align:center;
+}
+
+#lg-tb
+{
+	padding:10px 0px;
+}
+
+#btnEnviar
+{
+	border:0px;
+	width:48px;
+	height:48px;
+	background:url('/include/img/lg-power.png') ;
+}
+
+	#btnEnviar:hover
+	{
+		background:url('/include/img/lg-power.png')  0px -48px ;
+	}
+	
+	#btnEnviar:active
+	{
+		background:url('/include/img/lg-power.png')  0px -96px ;
+	}
+
+.frmMessage
+{
+	color:#610B0B;	
+	font-size:12px;
+	font-family:tahoma;
+	font-weight:bold;
+}
+
+

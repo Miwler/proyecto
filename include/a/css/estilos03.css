@@ -1,0 +1,94 @@
+﻿body {
+	background:#fff;
+	margin:0;
+	padding:0;
+	font-family:sans-serif;
+	font-size:12px;		
+}
+
+.divTitle
+{
+    min-height:15px;
+	background:#ddd;
+	color:#000;
+	border-top:1px solid #fff;
+	border-left :1px solid #fff;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	padding:2px 3px;	
+	position:relative;
+	font-weight:bold;
+    width:100%;
+}
+
+/*-----Header------*/
+#divHeader
+{
+    width:100%;
+    margin:5px auto;
+    font-family:'Times New Roman';
+}
+
+#divDate
+{
+    font-size:25px;
+    font-weight:bold;
+}
+
+#divHour
+{
+    font-size:23px;
+}
+
+#divDate,#divLector-codigo,#divBtnSalir,#info-alumna,#info-marcacion,#divHour
+{
+    text-align:center;
+}
+
+/*-----------Content------*/
+#content
+{	
+	background:#fff;
+	padding-top:2px;
+	border:1px solid #F0F1F1;
+}
+
+
+/*-----Footer------*/
+#divFooter
+{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	background:#222;
+	color:#989897;
+    font-size:12px;
+}
+
+#divFooter:hover
+{	
+	color:#fff;
+	cursor:pointer;
+}
+
+#contentFooter
+{	
+	padding:2px 5px;
+	margin:0px auto;
+	width:1024px;
+}
+	#contentFooter #simbolo
+	{
+		font-size:14px;
+	}
+
+
+#divFooter-temp
+{
+	height:20px;
+}
+
+.clear
+{
+    clear:both;
+}

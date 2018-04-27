@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^(\w+)/(\w+)$ index.php?c=$1&v=$2 [QSA,L]	
+	RewriteRule ^(\w+)/(\w+)/(\w+)$ index.php?c=$1&v=$2&id=$3 [QSA,L]
+	#RewriteRule ^index\.php$ [L]	
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . index.php [L]
+	#Deshabilitar el acceso a el directorio modelo
+	RewriteRule ^(modelo)/ - [R=404]
+	#ErrorDocument 404 error.php	
+</IfModule>

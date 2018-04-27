@@ -1,0 +1,9 @@
+{
+	"user-autentication":true,
+	"login":{
+		"captcha-enable":true,
+		"attempt":5,
+		"interval":"00:05:00"
+	}
+	
+}

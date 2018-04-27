@@ -1,0 +1,25 @@
+﻿.div_autocomplete
+{
+    background:#fff;
+    z-index:50;
+    max-height:100px;
+    position:absolute;
+    overflow:auto;
+    border:1px solid #000;
+}
+
+.divAutocomplete-item
+{
+    padding: 0px 2px;
+}
+
+.divAutocomplete-item:hover
+{
+    background:#ccc;
+    cursor:pointer;
+}
+
+.divSeleccionado
+{
+    background:#ddd;
+}

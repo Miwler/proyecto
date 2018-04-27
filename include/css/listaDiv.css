@@ -1,0 +1,99 @@
+.input-content
+{
+    /*float: left;
+    position:relative;	*/
+    border:1px solid #a4a4a4;
+    padding:0px 2px 2px 2px;
+    background:#fff;
+    display:inline-block;
+       /* height: 25px;*/
+    border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -webkit-box-shadow: 1px 1px 2px 0px rgba(189,187,189,1);
+    -moz-box-shadow: 1px 1px 2px 0px rgba(189,187,189,1);
+    box-shadow: 1px 1px 2px 0px rgba(189,187,189,1);
+    
+}
+
+.input-content img
+{
+        cursor :pointer ;
+        float:right;
+}
+
+.input-content input[type=text]
+{       box-shadow: none;
+        border:0;
+}
+
+.cbo-div
+{
+position:absolute;
+z-index:10;
+display:none;
+background:#DDD;
+max-height:17px;
+
+}
+
+.cbo-div li
+{
+        padding-left:3px;		
+}
+
+.cbo-ul
+{
+	margin:0;	
+	padding:0;
+	border:1.4px solid #a4a4a4;
+        border-radius: 5px;
+	background:#fff;
+	max-height:150px;
+	overflow:auto;
+        background:rgba(255,246,163,1);
+        
+}
+
+.cbo-ul li
+{      
+        list-style:none;
+        display:block;
+}
+
+.cbo-ul li:hover
+{
+        background:#ccc;
+        cursor:pointer;
+}
+
+.cbo-ul a
+{
+        display:block;
+}
+
+
+.div-list
+{
+	float:left;
+}
+
+.delete-list
+{
+	margin:6px 2px 0px 2px;
+	width:9px;
+	height:9px;
+	float:left;
+}
+
+.cObj_Sel
+{
+	background:#67719B;
+	color:#fff;
+}
+#IntCantidad{
+    float:left;
+    position: absolute;
+    color:#a4a4a4;
+    margin-left:5px;
+}

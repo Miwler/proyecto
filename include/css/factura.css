@@ -1,0 +1,80 @@
+                .titulo_cabecera{
+                    font-size:10px;
+                    height: 15.5px;
+                    text-align: center;
+                    background:#A9A9A9;
+                }
+                .titulo_cabecera span{
+                    display:inline-block;
+                    vertical-align:middle;
+                }
+                #cabecer td,#cabecer span{font-size:10px;}
+                .contenido_cabecera{
+                    font-size:10px;
+                }
+                .textocabecera span{ font-size:10px;display:inline-block;
+                    vertical-align:middle;}
+                .info_Guia{
+                    
+                }
+                .info_Guia td{
+                    border:1px solid #000;
+                    font-size:10px;
+                }
+                .spantitulo{
+                    display: block;
+                    
+                    text-align: center;
+                }
+                .titulo_cuerpo{
+                    font-size:11px;
+                    font-weight: bold;
+                    
+                }
+                .cuerpo th{
+                    text-align:center;
+                    border:1px solid #000;
+                }
+                .cuerpo td{
+                    border:1px solid #000;
+                    font-size:10px;
+                    vertical-align:top;
+                }
+                .pie_guia td{ 
+                border:1px solid #000;
+                }
+                .contenido_pie{
+                   
+                  
+                    
+                }
+                .titulo_pie{
+                    font-weight:bold;
+                    
+                    background:#A9A9A9;
+                    font-size:10px;
+                    text-align:center;
+                    height: 15.5px;
+                    vertical-align: middle;
+                    padding-top: 2px;
+                }
+                .marcar{
+                    border:1px solid #000;
+                    height:11.7px;
+                    width:11.7px;
+                    display:block;
+                }
+                .opciones_marca td{
+                    font-size:7px;
+                    border:none;
+                }
+                .contenido_pie span{
+                    font-size:10px;
+                }
+                .separaciones{
+                    border:#fff!important;
+                }
+                .transportista td{
+                    border:none;
+                    font-size:7px;
+                }

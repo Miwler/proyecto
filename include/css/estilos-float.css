@@ -1,0 +1,223 @@
+﻿body {
+	background:#fff;
+	margin:0;
+	padding:0;
+	font-family:calibri;
+	font-size:13px;	
+        
+}
+.container{
+    padding-right: 0px; 
+    padding-left: 0px; 
+}
+.float-title
+{
+	/*background:#597EBD;
+	color:#fff;*/
+    min-height:15px;
+	background:#ddd;
+	color:#000;
+	border-top:1px solid #fff;
+	border-left :1px solid #fff;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	padding:2px 3px;	
+	position:relative;
+	font-weight:bold;
+}
+form >table th{
+    color:#0B55C4;
+    padding-right: 10px;
+    text-align: right;
+    font-size:12px;
+}
+
+h1.title-principal{
+	font-size:1.5em;
+	
+	display:inline-block;
+        color: #fff;
+        text-align: center!important;
+       
+        margin:5px;
+}
+
+#divHeader{
+    height: 40px !important;
+    border-style: outset;
+    background: rgba(0, 153, 104, 2);
+}
+
+#divHeader button{
+    border:1px solid #fff;
+    margin-top: 2px;
+    margin-right: 2px;
+}
+#divHeader button>img{
+    width:25px;
+}
+#divHeader button>img:hover{
+    
+    background: url('../../include/img/boton/close15-32.png');
+    cursor:pointer;
+}
+.tbSepaciones th{
+    border:1px solid #000;
+    background:#D7D7D7;
+    font-size:12px;
+}
+.tbSepaciones td{
+    border:1px solid #000;
+    font-size:11px;
+}
+
+input:disabled{
+    background: rgba(0, 0, 0, 0.6);
+    /*color:#fff;*/
+}
+#fondo_mensaje{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* width: 100%; */
+    height: 100%;
+    min-width: 1024px;
+    z-index: 1001;
+    padding-top: 50px;
+}
+#cuerpo_mensaje{
+    background:#fff;
+    
+    margin:0 auto;
+}
+#cuerpo_mensaje a,.detalleMovimiento a{
+    color:blue;
+    text-decoration:underline;
+    font-size:15px;
+    cursor: pointer;
+}
+#cuerpo_mensaje a:hover,.detalleMovimiento a:hover{
+    color:#007fff;
+}
+.detalleMovimiento th{
+    border:1px solid #000;
+    background:#90EE90;
+    font-family: calibri;
+} 
+.detalleMovimiento td{
+    border:1px solid #000;
+    font-family: calibri;
+    padding:0 5px;
+}
+.detalleMovimiento .center{
+    text-align:center;
+}
+.detalleMovimiento .right{
+    text-align:right;
+}
+.detalleMovimiento .left{
+    text-align:left;
+}
+.contenedor_detalle{
+    border:1px solid #000;
+}
+.tabla_serie table{
+    border:1px solid #000;
+}
+.tabla_serie tr:nth-child(odd){
+    background: rgba(110,222,199,0.5);
+   
+}
+.tabla_serie tr:nth-child(even){
+    background: #FFFFFF;
+    
+}
+.tabla_serie th{
+    text-align:center;
+      background: rgba(0,100,240,0.2);
+}
+.tabla_serie td{
+    border:none;
+    text-align: center;
+    padding:5px 0 2px 0;
+    
+}
+.ContenedorCuadro td, .ContenedorCuadro th{
+    border-bottom:1px solid #0B55C4;
+}
+.ContenedorCuadro th{
+    background:rgba(116, 207, 141, 0.9);
+    color:#fff;
+    text-align:center;
+}
+.titulo_Formulario{
+    text-align: center;
+    background:rgba(0, 153, 104, 0.5);
+    border-bottom:1px solid rgba(0, 153, 104, 1);
+    margin-bottom:1px;
+    color: #fff;
+    font-size: 20px;
+    margin-top:0;
+}
+.divDetalleCabecera ul{
+    margin-top:0;
+    padding-left:0;
+}
+.divDetalleCabecera{
+    height: 26px;
+}
+.divDetalle li{
+    list-style:none;
+    float: left;
+    
+    margin-right: 5px;
+    background:rgba(0, 153, 102, 0.6);
+}
+.divDetalle a{
+    display:block;
+    cursor:pointer;
+    color:#fff;
+    padding:5px 10px;
+}
+.divDetalle li>a:hover{
+background:rgba(0, 153, 102, 1)
+}
+.divDetalleCuerpo,.divDetalleCabecera{
+    border:1px solid #000;
+    width: 96%;
+    margin: 0 auto;
+}
+.divDetalleCuerpo>div{
+    width: 100%;
+    
+}
+
+.liActivo{
+    background:rgba(0, 153, 102, 0.8)
+}
+
+.checkboxTitle{
+    width:13px;
+    height: 13px;
+}
+.row{
+    margin-right:0 !important;
+    margin-left:0 !important;
+    
+
+}
+.row .botones{
+    margin:15px 0;
+}
+.form-requerido{
+    border:1px solid rgba(255, 0, 0, 0.5)!important;
+}
+.divBuscador{
+    position:absolute!important;
+    z-index: 10;margin-top: -14px;background:#7FFFD4;
+}
+.nav-tabs>li>a{
+    padding:5px 10px;
+}

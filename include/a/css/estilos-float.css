@@ -1,0 +1,27 @@
+﻿body {
+	background:#fff;
+	margin:0;
+	padding:0;
+	font-family:calibri;
+	font-size:13px;	
+        
+}
+
+#content-float{
+	overflow:auto;
+        height:500px!important;
+}
+
+h1.title-principal{
+	font-size:2em;
+	margin-bottom:10px;
+	display:inline-block;
+        color: #7c7c7c;
+        text-align: center!important;
+        margin-left: 10px;
+}
+
+#divHeader{
+	border-bottom:1px solid #000;
+}
+

@@ -1,0 +1,81 @@
+﻿.input-content
+{
+	position:relative;	
+	border:1px solid #a4a4a4;
+	padding:0px 2px 2px 2px;
+	background:#fff;
+	display:inline-block;
+}
+
+	.input-content img
+	{
+		cursor :pointer ;
+		float:right;
+	}
+
+	.input-content input[type=text]
+	{
+		border:0;
+	}
+
+.cbo-div
+{
+	position:absolute;
+	z-index:10;
+	display:none;
+	background:#DDD;
+    max-height:17px;
+}
+
+	.cbo-div li
+	{
+		padding-left:3px;		
+	}
+
+.cbo-ul
+{
+	margin:0;	
+	padding:0;
+	border:1px solid #000;
+	background:#fff;
+	max-height:100px;
+	overflow:auto;
+}
+
+	.cbo-ul li
+	{
+		list-style:none;
+		display:block;
+	}
+
+		.cbo-ul li:hover
+		{
+			background:#ccc;
+			cursor:pointer;
+		}
+
+	.cbo-ul a
+	{
+		display:block;
+	}
+
+
+.div-list
+{
+	float:left;
+}
+
+.delete-list
+{
+	margin:6px 2px 0px 2px;
+	width:9px;
+	height:9px;
+	float:left;
+}
+
+.cObj_Sel
+{
+	background:#67719B;
+	color:#fff;
+}
+

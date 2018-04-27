@@ -1,0 +1,18 @@
+<br />
+<font size='1'><table class='xdebug-error xe-warning' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Warning: require(C:\xampp\htdocs\proyecto/views/shared/excel-view.php): failed to open stream: No such file or directory in C:\xampp\htdocs\proyecto\views\reporte\reporte_cuentas_pagar_exportar.php on line <i>19</i></th></tr>
+<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
+<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
+<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0000</td><td bgcolor='#eeeeec' align='right'>142184</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\xampp\htdocs\proyecto\index.php' bgcolor='#eeeeec'>..\index.php<b>:</b>0</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.0000</td><td bgcolor='#eeeeec' align='right'>161888</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'C:\xampp\htdocs\proyecto\lib\controlPage.php'</font> )</td><td title='C:\xampp\htdocs\proyecto\index.php' bgcolor='#eeeeec'>..\index.php<b>:</b>5</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.0000</td><td bgcolor='#eeeeec' align='right'>296520</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'C:\xampp\htdocs\proyecto\views\reporte\reporte_cuentas_pagar_exportar.php'</font> )</td><td title='C:\xampp\htdocs\proyecto\lib\controlPage.php' bgcolor='#eeeeec'>..\controlPage.php<b>:</b>140</td></tr>
+</table></font>
+<br />
+<font size='1'><table class='xdebug-error xe-fatal-error' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Fatal error: require(): Failed opening required 'C:\xampp\htdocs\proyecto/views/shared/excel-view.php' (include_path='.;C:\xampp\php\PEAR') in C:\xampp\htdocs\proyecto\views\reporte\reporte_cuentas_pagar_exportar.php on line <i>19</i></th></tr>
+<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
+<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
+<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0000</td><td bgcolor='#eeeeec' align='right'>142184</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\xampp\htdocs\proyecto\index.php' bgcolor='#eeeeec'>..\index.php<b>:</b>0</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.0000</td><td bgcolor='#eeeeec' align='right'>161888</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'C:\xampp\htdocs\proyecto\lib\controlPage.php'</font> )</td><td title='C:\xampp\htdocs\proyecto\index.php' bgcolor='#eeeeec'>..\index.php<b>:</b>5</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.0000</td><td bgcolor='#eeeeec' align='right'>296520</td><td bgcolor='#eeeeec'>require( <font color='#00bb00'>'C:\xampp\htdocs\proyecto\views\reporte\reporte_cuentas_pagar_exportar.php'</font> )</td><td title='C:\xampp\htdocs\proyecto\lib\controlPage.php' bgcolor='#eeeeec'>..\controlPage.php<b>:</b>140</td></tr>
+</table></font>
