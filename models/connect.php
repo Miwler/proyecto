@@ -14,7 +14,7 @@ class connect
             //$this->db='bd_ventas_prueba';
             $this->db='bd_jjsoluciones_test' ;
             $this->db_user='root';
-            $this->db_password='123';
+            $this->db_password='';
             $this->gError='';
             $this->connect();
 	}

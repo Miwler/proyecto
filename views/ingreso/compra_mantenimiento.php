@@ -18,7 +18,7 @@
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1"  method="post" action="/Compra/ajaxCompra_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Ingreso/ajaxCompra_Mantenimiento" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding"> 
             <ul class="nav nav-tabs">

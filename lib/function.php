@@ -49,6 +49,9 @@ function cargarInformacion($empresa_ID){
             return $retorna;
         }
         function getMenu($ruta){
+            if(!class_exists("seguridad")){
+                require ROOT_PATH . 'models/seguridad.php';
+            }
             $dtMenu=seguridad::getGridMenuUsuario($_SESSION['usuario_ID'],$ruta);
             RETURN $dtMenu;
         }

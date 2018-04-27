@@ -1,7 +1,7 @@
 <?php
 
 
-class compra {
+class ingreso {
    private $ID;
     private $descripcion;
     private $codigo;
@@ -28,7 +28,7 @@ class compra {
     private $total;
     private $periodo;
     private $monto_pendiente;
-    private $orden_compra_ID;
+    private $orden_ingreso_ID;
     private $message;
     private $estado;
     private $moneda;
@@ -42,14 +42,14 @@ class compra {
     private $motivo_anulacion_ID;
     private $operador_ID_anulacion;
     private $dtForma_Pago;
-    private $numero_orden_compra;
+    private $numero_orden_ingreso;
     private $dtProveedor;
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
 
         // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
-        if (property_exists('compra', $temporal)) {
+        if (property_exists('ingreso', $temporal)) {
             $this->$temporal = $valor;
         } else {
             echo $var . " No existe.";
@@ -60,7 +60,7 @@ class compra {
         $temporal = $var;
 
         // Verifica que exista
-        if (property_exists('compra', $temporal)) {
+        if (property_exists('ingreso', $temporal)) {
             return $this->$temporal;
         }
 
@@ -82,26 +82,26 @@ class compra {
             if($this->fecha_vencimiento!=null){
                     $fecha_vencimiento_save='"'.FormatTextToDate($this->fecha_vencimiento,'Y-m-d').'"';
             }
-            $orden_compra_ID='NULL';
-            if($this->orden_compra_ID!=null){
-                $orden_compra_ID=$this->orden_compra_ID;
+            $orden_ingreso_ID='NULL';
+            if($this->orden_ingreso_ID!=null){
+                $orden_ingreso_ID=$this->orden_ingreso_ID;
             }
             $forma_pago=1;
             if($this->forma_pago_ID!=null){
                 $forma_pago=$this->forma_pago_ID!=null;
             }
-            $q='select ifnull(max(ID),0)+1 as ID from compra;';
+            $q='select ifnull(max(ID),0)+1 as ID from ingreso;';
             $ID=$cn->getData($q);
-            $q='select ifnull(max(codigo),0)+1 as ID from compra where empresa_ID='.$_SESSION['empresa_ID'].';';
+            $q='select ifnull(max(codigo),0)+1 as ID from ingreso where empresa_ID='.$_SESSION['empresa_ID'].';';
             $codigo=$cn->getData($q);
             
-            $q='INSERT INTO compra(ID,codigo,empresa_ID,comprobante_tipo_ID,serie,numero,proveedor_ID,fecha_emision,fecha_vencimiento,tipo_cambio,vigv,';
-            $q.='con_igv,estado_ID,descuento,recargo,subtotal,igv,total,usuario_id,numero_guia,moneda_ID,orden_compra_ID,descripcion,periodo,monto_pendiente,forma_pago_ID) ';
+            $q='INSERT INTO ingreso(ID,codigo,empresa_ID,comprobante_tipo_ID,serie,numero,proveedor_ID,fecha_emision,fecha_vencimiento,tipo_cambio,vigv,';
+            $q.='con_igv,estado_ID,descuento,recargo,subtotal,igv,total,usuario_id,numero_guia,moneda_ID,orden_ingreso_ID,descripcion,periodo,monto_pendiente,forma_pago_ID) ';
             $q.='VALUES ('.$ID.','.$codigo.','.$_SESSION['empresa_ID'].','.$this->comprobante_tipo_ID.',"'.$this->serie.'",'.$this->numero.',';
             $q.=$this->proveedor_ID.','.$fecha_emision_save.','.$fecha_vencimiento_save.','.number_format($this->tipo_cambio,2,'.','').',';
             $q.= number_format($this->vigv,2,'.','').','.$this->con_igv.','.$this->estado_ID.','.number_format($this->descuento,2,'.','').','.number_format($this->recargo,2,'.','').',';
             $q.=number_format($this->subtotal,2,'.','').','.number_format($this->igv,2,'.','').','.number_format($this->total,2,'.','').','.$this->usuario_id.',"'.$this->numero_guia.'",';
-            $q.=$this->moneda_ID.','.$orden_compra_ID.',"'.$this->descripcion.'",'.$this->periodo.','.number_format($this->monto_pendiente,2,'.','').','.$forma_pago.');';
+            $q.=$this->moneda_ID.','.$orden_ingreso_ID.',"'.$this->descripcion.'",'.$this->periodo.','.number_format($this->monto_pendiente,2,'.','').','.$forma_pago.');';
             //echo $q;
             $retornar=$cn->transa($q);
 
@@ -128,11 +128,11 @@ class compra {
                     if($this->fecha_vencimiento!=null){
                             $fecha_vencimiento_save='"'.FormatTextToDate($this->fecha_vencimiento,'Y-m-d').'"';
                     }
-                    $orden_compra_ID='NULL';
-                    if($this->orden_compra_ID!=null&&$this->orden_compra_ID!=-1){
-                        $orden_compra_ID=$this->orden_compra_ID;
+                    $orden_ingreso_ID='NULL';
+                    if($this->orden_ingreso_ID!=null&&$this->orden_ingreso_ID!=-1){
+                        $orden_ingreso_ID=$this->orden_ingreso_ID;
                     }
-                    $q="UPDATE compra SET orden_compra_ID=".$orden_compra_ID.", comprobante_tipo_ID=".$this->comprobante_tipo_ID.",serie='".$this->serie."',numero='".$this->numero."',";
+                    $q="UPDATE ingreso SET orden_ingreso_ID=".$orden_ingreso_ID.", comprobante_tipo_ID=".$this->comprobante_tipo_ID.",serie='".$this->serie."',numero='".$this->numero."',";
                     $q.="proveedor_ID=".$this->proveedor_ID.",fecha_emision=".$fecha_emision_save.",fecha_vencimiento=".$fecha_vencimiento_save.",";
                     $q.="tipo_cambio='".number_format($this->tipo_cambio,2,'.','')."',con_igv='".$this->con_igv."',vigv='".number_format($this->vigv,2,'.','')."',estado_ID=".$this->estado_ID;
                     $q.=",descuento='".number_format($this->descuento,2,'.','')."',recargo='".number_format($this->recargo,2,'.','')."',";
@@ -154,7 +154,7 @@ class compra {
             $retornar=-1;
             try{
                     
-                    $q="UPDATE compra SET monto_pendiente=".number_format($this->monto_pendiente,2,'.','').",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
+                    $q="UPDATE ingreso SET monto_pendiente=".number_format($this->monto_pendiente,2,'.','').",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
                     $q.=" WHERE ID=".$this->ID;
 
                     $retornar=$cn->transa($q);
@@ -163,7 +163,7 @@ class compra {
                     return $retornar;
             }
             catch(Exception $ex){
-                    throw new Exception("Ocurrio un error en la consulta actualizar compra");
+                    throw new Exception("Ocurrio un error en la consulta actualizar ingreso");
             }
     }
     function actualizarEstado(){
@@ -171,7 +171,7 @@ class compra {
        $retornar=-1;
        try{
 
-               $q="UPDATE compra SET estado_ID=".$this->estado_ID.",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
+               $q="UPDATE ingreso SET estado_ID=".$this->estado_ID.",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
                $q.=" WHERE ID=".$this->ID;
 
                $retornar=$cn->transa($q);
@@ -180,7 +180,7 @@ class compra {
                return $retornar;
        }
        catch(Exception $ex){
-               throw new Exception("Ocurrio un error en la consulta actualizar compra");
+               throw new Exception("Ocurrio un error en la consulta actualizar ingreso");
        }
     }
 function actualizar2(){
@@ -188,7 +188,7 @@ function actualizar2(){
     $retornar=-1;
     try{
 
-        $q="UPDATE compra SET subtotal='".number_format($this->subtotal,2,'.','');
+        $q="UPDATE ingreso SET subtotal='".number_format($this->subtotal,2,'.','');
         $q.="',igv='".number_format($this->igv,2,'.','')."',total='".number_format($this->total,2,'.','');
         $q.="',monto_pendiente=".number_format($this->monto_pendiente,2,'.','').",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
         $q.=" WHERE ID=".$this->ID;
@@ -207,7 +207,7 @@ function actualizar2(){
             $retornar=-1;
             try{
 
-                    $q='UPDATE compra SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
+                    $q='UPDATE ingreso SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
                     $q.=' WHERE ID='.$this->ID;
 
                     $retornar=$cn->transa($q);
@@ -227,46 +227,46 @@ function actualizar2(){
             {
                     $q='Select ID,codigo,comprobante_tipo_ID,serie,numero,numero_guia,proveedor_ID,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,';
                     $q.='DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,tipo_cambio,vigv,con_igv,estado_ID,forma_pago_ID,descuento,';
-                    $q.='recargo,subtotal,igv,total,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id,moneda_ID,periodo,monto_pendiente,ifnull(orden_compra_ID,-1) as orden_compra_ID,descripcion ';
-                    $q.=' from compra ';
+                    $q.='recargo,subtotal,igv,total,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id,moneda_ID,periodo,monto_pendiente,ifnull(orden_ingreso_ID,-1) as orden_ingreso_ID,descripcion ';
+                    $q.=' from ingreso ';
                     $q.=' where ID='.$ID;
                     //echo $q;
                     $dt=$cn->getGrid($q);			
-                    $ocompra=null;
+                    $oingreso=null;
 
                     foreach($dt as $item)
                     {
-                            $ocompra=new compra();
+                            $oingreso=new ingreso();
 
-                            $ocompra->ID=$item['ID'];
-                            $ocompra->codigo=$item['codigo'];
-                            $ocompra->comprobante_tipo_ID=$item['comprobante_tipo_ID'];
-                            $ocompra->serie=$item['serie'];
-                            $ocompra->numero=$item['numero'];
-                            $ocompra->numero_guia=$item['numero_guia'];
-                            $ocompra->proveedor_ID=$item['proveedor_ID'];
-                            $ocompra->fecha_emision=$item['fecha_emision'];
-                            $ocompra->fecha_vencimiento=$item['fecha_vencimiento'];
-                            $ocompra->tipo_cambio=$item['tipo_cambio'];
-                            $ocompra->vigv=$item['vigv'];
-                            $ocompra->con_igv=$item['con_igv'];
-                            $ocompra->estado_ID=$item['estado_ID'];
+                            $oingreso->ID=$item['ID'];
+                            $oingreso->codigo=$item['codigo'];
+                            $oingreso->comprobante_tipo_ID=$item['comprobante_tipo_ID'];
+                            $oingreso->serie=$item['serie'];
+                            $oingreso->numero=$item['numero'];
+                            $oingreso->numero_guia=$item['numero_guia'];
+                            $oingreso->proveedor_ID=$item['proveedor_ID'];
+                            $oingreso->fecha_emision=$item['fecha_emision'];
+                            $oingreso->fecha_vencimiento=$item['fecha_vencimiento'];
+                            $oingreso->tipo_cambio=$item['tipo_cambio'];
+                            $oingreso->vigv=$item['vigv'];
+                            $oingreso->con_igv=$item['con_igv'];
+                            $oingreso->estado_ID=$item['estado_ID'];
                             
-                            $ocompra->moneda_ID=$item['moneda_ID'];
+                            $oingreso->moneda_ID=$item['moneda_ID'];
                            
-                            $ocompra->descuento=$item['descuento'];
-                            $ocompra->recargo=$item['recargo'];
-                            $ocompra->subtotal=$item['subtotal'];
-                            $ocompra->igv=$item['igv'];
-                            $ocompra->total=$item['total'];
-                            $ocompra->usuario_id=$item['usuario_id'];
-                            $ocompra->usuario_mod_id=$item['usuario_mod_id'];
-                            $ocompra->periodo=$item['periodo'];
-                            $ocompra->monto_pendiente=$item['monto_pendiente'];
-                            $ocompra->orden_compra_ID=$item['orden_compra_ID'];
-                            $ocompra->descripcion=$item['descripcion'];
+                            $oingreso->descuento=$item['descuento'];
+                            $oingreso->recargo=$item['recargo'];
+                            $oingreso->subtotal=$item['subtotal'];
+                            $oingreso->igv=$item['igv'];
+                            $oingreso->total=$item['total'];
+                            $oingreso->usuario_id=$item['usuario_id'];
+                            $oingreso->usuario_mod_id=$item['usuario_mod_id'];
+                            $oingreso->periodo=$item['periodo'];
+                            $oingreso->monto_pendiente=$item['monto_pendiente'];
+                            $oingreso->orden_ingreso_ID=$item['orden_ingreso_ID'];
+                            $oingreso->descripcion=$item['descripcion'];
                     }			
-                    return $ocompra;				
+                    return $oingreso;				
             }catch(Exeption $ex)
             {
                     throw new Exception("Ocurrio un error en la consulta.");
@@ -278,7 +278,7 @@ function actualizar2(){
             $retornar=-1;
             try{
                     //Verifico que no se repita la serie y el número por cada proveedor
-                    $q='SELECT count(ID) FROM compra';
+                    $q='SELECT count(ID) FROM ingreso';
                     $q.=' WHERE empresa_ID='.$_SESSION['empresa_ID'].' and del=0 and proveedor_ID="'.$this->proveedor_ID.'" and serie="'.$this->serie.'" and numero="'.$this->numero.'"';		
 
                     if($this->ID!=0){
@@ -288,7 +288,7 @@ function actualizar2(){
                     $retornar=$cn->getData($q);			
 
                     if ($retornar>0){
-                            $this->message='Ya existe una comprobante de compras con la misma serie y el mismo número para este proveedor.';
+                            $this->message='Ya existe una comprobante de ingresos con la misma serie y el mismo número para este proveedor.';
                             return $retornar;
                     }
                     //echo $q;
@@ -303,7 +303,7 @@ function actualizar2(){
         $cn = new connect();
         try {
             $q = 'select count(co.ID) ';
-            $q.=' FROM compra co,proveedor pr,estado est, moneda mo, comprobante_tipo ct';
+            $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct';
             $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID  and mo.ID=co.moneda_ID and ct.ID=co.comprobante_tipo_ID ';
 
             if ($filtro != '') {
@@ -325,8 +325,8 @@ function actualizar2(){
             $q = 'select co.ID,co.codigo,pr.razon_social as proveedor,pr.ID as proveedor_ID,co.numero,co.numero_guia, co.moneda_ID, ';
             $q.= 'mo.descripcion as moneda,mo.simbolo,est.nombre as estado,co.fecha_emision,co.fecha_vencimiento,co.serie,';
             $q.= 'ct.nombre as comprobante,co.subtotal,co.vigv,co.subtotal,co.total,co.periodo';
-            $q.=',co.monto_pendiente,co.estado_ID,ifNull(orden_compra_ID,-1) as orden_compra_ID';
-            $q.=' FROM compra co,proveedor pr,estado est, moneda mo, comprobante_tipo ct ';
+            $q.=',co.monto_pendiente,co.estado_ID,ifNull(orden_ingreso_ID,-1) as orden_ingreso_ID';
+            $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct ';
             $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and mo.ID=co.moneda_ID and ct.ID=co.comprobante_tipo_ID ';
 
 
@@ -356,7 +356,7 @@ function actualizar2(){
             $q.= 'mo.descripcion as moneda,mo.simbolo,est.nombre as estado,co.fecha_emision,co.fecha_vencimiento,co.serie,';
             $q.= 'ct.nombre as comprobante,co.subtotal,co.vigv,co.subtotal,co.total,co.periodo';
             $q.=',co.monto_pendiente, co.estado_ID, co.fecha_anulacion, co.operador_ID_anulacion, co.motivo_anulacion_ID';
-            $q.=' FROM compra co,proveedor pr,estado est, forma_pago fp, moneda mo, comprobante_tipo ct ';
+            $q.=' FROM ingreso co,proveedor pr,estado est, forma_pago fp, moneda mo, comprobante_tipo ct ';
             $q.=' where co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and fp.ID=co.forma_pago_ID and mo.ID=co.moneda_ID and ct.ID=co.comprobante_tipo_ID ';
 
 
@@ -387,7 +387,7 @@ function actualizar2(){
             if ($this->fecha_anulacion != null) {
                 $fecha_save = '"' . FormatTextToDate($this->fecha_anulacion, 'Y-m-d') . '"';
             }
-            $q = 'update compra set fecha_anulacion =' . $fecha_save . ',motivo_anulacion_ID=' . $this->motivo_anulacion_ID;
+            $q = 'update ingreso set fecha_anulacion =' . $fecha_save . ',motivo_anulacion_ID=' . $this->motivo_anulacion_ID;
             $q.=',operador_ID_anulacion=' . $this->operador_ID_anulacion . ', estado_ID=10 where ID=' . $this->ID;
             //echo $q;
             $numero = $cn->transa($q);
@@ -401,7 +401,7 @@ function actualizar2(){
         }
     }
     
-	// inicio de reportes dasboard de compra//
+	// inicio de reportes dasboard de ingreso//
 	
 	
 	   
@@ -411,7 +411,7 @@ function actualizar2(){
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'select co.fecha_emision,dayname(co.fecha_emision) as dia, sum(co.total) as total_dia , co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.=' where  YEARWEEK(co.fecha_emision) =  YEARWEEK(CURDATE()) and co.moneda_ID = 1 and co.estado_ID!= 10 and co.del=0 ';
             $q.=' group by co.fecha_emision ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -432,7 +432,7 @@ function actualizar2(){
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'select co.fecha_emision,dayname(co.fecha_emision) as dia, sum(co.total) as total_dia , co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.=' where  YEARWEEK(co.fecha_emision) =  YEARWEEK(CURDATE()) and co.moneda_ID = 2 and co.estado_ID!= 10 and co.del=0 ';
             $q.=' group by co.fecha_emision ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -453,7 +453,7 @@ function actualizar2(){
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = ' select co.fecha_emision, DAYOFMONTH(co.fecha_emision) as numero_dia, monthname(co.fecha_emision) as mes, sum(co.total) as total_dia, co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.='  where month(co.fecha_emision) = month(curdate()) and co.moneda_ID = 1 and co.estado_ID!= 10 and co.del=0 ';
             $q.=' group by day(co.fecha_emision)  ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -474,7 +474,7 @@ function actualizar2(){
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = ' select co.fecha_emision, DAYOFMONTH(co.fecha_emision) as numero_dia, monthname(co.fecha_emision) as mes, sum(co.total) as total_dia, co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.='  where month(co.fecha_emision) = month(curdate()) and co.moneda_ID = 2 and co.estado_ID!= 10 and co.del=0 ';
             $q.=' group by day(co.fecha_emision)  ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -496,7 +496,7 @@ function actualizar2(){
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'select monthname(co.fecha_emision) as mes, sum(co.total) as total_mes, co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.=' where year(co.fecha_emision) = year(curdate()) and co.moneda_ID = 1 and co.estado_ID!= 10 and co.del=0';
             $q.=' group by monthname(co.fecha_emision)';
   //          $q.=' order by month(co.fecha_emision) desc';
@@ -517,7 +517,7 @@ function actualizar2(){
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'select monthname(co.fecha_emision) as mes, sum(co.total) as total_mes, co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.=' where year(co.fecha_emision) = year(curdate()) and co.moneda_ID = 2 and co.estado_ID!= 10 and co.del=0';
             $q.=' group by monthname(co.fecha_emision)';
   //          $q.=' order by month(co.fecha_emision) desc';
@@ -536,7 +536,7 @@ function actualizar2(){
         $cn = new connect();
         try {
             $q = 'select year(co.fecha_emision) as anio, sum(co.total) as total_anio, co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.='where co.moneda_ID = 1 and co.estado_ID!= 10 and co.del=0 ';
             $q.='group by year(co.fecha_emision)  ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -554,7 +554,7 @@ function actualizar2(){
         $cn = new connect();
         try {
             $q = 'select year(co.fecha_emision) as anio, sum(co.total) as total_anio, co.moneda_ID, co.estado_ID ';
-            $q.='from compra co ';
+            $q.='from ingreso co ';
             $q.='where co.moneda_ID = 2 and co.estado_ID!= 10 and co.del=0 ';
             $q.='group by year(co.fecha_emision)  ';
      //       $q.=' order by day(co.fecha_emision) desc';

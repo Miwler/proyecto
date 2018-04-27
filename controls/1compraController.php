@@ -196,7 +196,7 @@ function post_ajaxCompra_Mantenimiento() {
 }
 
 function get_Compra_Mantenimiento_Nuevo(){
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/comprobante_tipo.php';
@@ -207,7 +207,7 @@ function get_Compra_Mantenimiento_Nuevo(){
     $returnView_float=true;
 
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
-    $oCompra = new compra();
+    $oCompra = new ingreso();
     $oCompra->oEstado=estado::getByID(9);
     $oCompra->dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $dtComprobante_Tipo=comprobante_tipo::getGrid('ct.en_compra=1');
@@ -228,7 +228,7 @@ function get_Compra_Mantenimiento_Nuevo(){
 }
 function post_Compra_Mantenimiento_Nuevo(){
    
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/orden_compra.php';
     require ROOT_PATH.'models/comprobante_tipo.php';
     require ROOT_PATH.'models/estado.php';
@@ -256,7 +256,7 @@ function post_Compra_Mantenimiento_Nuevo(){
    
     try{
         if($ID==0){
-             $oCompra=new compra();
+             $oCompra=new ingreso();
         }else {
             $oCompra=compra::getByID($ID);
             if($oCompra==null){
@@ -1317,7 +1317,7 @@ echo json_encode($retornar);
 function get_Compra_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/comprobante_tipo.php';
     require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/forma_pago.php';
@@ -1368,7 +1368,7 @@ function get_Compra_Mantenimiento_Editar($id){
 
 }
 function post_Compra_Mantenimiento_Editar($id){
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/orden_compra.php';
     require ROOT_PATH.'models/comprobante_tipo.php';
     require ROOT_PATH.'models/estado.php';
@@ -1460,7 +1460,7 @@ function post_Compra_Mantenimiento_Editar($id){
 
 function get_Compra_Mantenimiento_Ver_Detalle($id){
  require ROOT_PATH.'models/comprobante_tipo.php';
- require ROOT_PATH.'models/compra.php';
+ require ROOT_PATH.'models/ingreso.php';
  require ROOT_PATH.'models/estado.php';
  require ROOT_PATH.'models/moneda.php';
  require ROOT_PATH.'models/forma_pago.php';
@@ -1494,7 +1494,7 @@ function get_Compra_Mantenimiento_Ver_Detalle($id){
 
 }
 function post_Compra_Mantenimiento_Ver_Detalle($id){
-require ROOT_PATH.'models/compra.php';
+require ROOT_PATH.'models/ingreso.php';
 require ROOT_PATH.'models/comprobante_tipo.php';
 require ROOT_PATH.'models/estado.php';
 require ROOT_PATH.'models/moneda.php';
@@ -1910,7 +1910,7 @@ function post_ajaxSeleccionar_Producto(){
 
     echo json_encode($retornar);
 }
-function post_ajaxPrecio_Compra(){
+function post_ajaxPrecio_ingreso(){
 
     require ROOT_PATH . 'models/compra.php';
     require ROOT_PATH . 'models/compra_detalle.php';
@@ -2231,7 +2231,7 @@ function post_ajaxPagos_Mantenimiento() {
     echo json_encode($retornar);
 }
 function get_Pagos_Mantenimiento_Registro($id){
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/estado.php';
     global  $returnView_float;
@@ -2246,7 +2246,7 @@ function get_Pagos_Mantenimiento_Registro($id){
     $GLOBALS['mensaje']='';
 }
 function post_ajaxGrabarPagos_Mantenimiento_Registro(){
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/compra_pagos.php';
      if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
      require ROOT_PATH.'models/moneda.php';
@@ -2324,7 +2324,7 @@ function post_ajaxGrabarPagos_Mantenimiento_Registro(){
 }
 
 function post_ajaxPagos_Mantenimiento_Registro(){
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/compra_pagos.php';
  
     require ROOT_PATH . 'controls/funcionController.php';
@@ -2688,7 +2688,7 @@ function get_OrdenCompra_Mantenimiento_Nuevo(){
     
     global $returnView_float;
     $returnView_float=true;
-    $oOrden_Compra = new orden_compra();
+    $oOrden_Compra = new orden_ingreso();
     
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_compra"');
@@ -2726,7 +2726,7 @@ function post_OrdenCompra_Mantenimiento_Nuevo(){
     $comentario=  FormatTextSave($_POST['txtComentario']);
     
     if($orden_compra_ID==0){
-        $oOrden_Compra = new orden_compra();
+        $oOrden_Compra = new orden_ingreso();
         $oOrden_Compra->ID=0;
     }else {
         $oOrden_Compra=orden_compra::getByID($orden_compra_ID);
@@ -3243,14 +3243,14 @@ function post_ajaxComprar_Orden(){
     require ROOT_PATH.'models/producto.php';
     require ROOT_PATH.'models/orden_compra.php';
     require ROOT_PATH.'models/orden_compra_detalle.php';
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/compra_detalle.php';
     require ROOT_PATH.'models/inventario.php';
     $orden_compra_ID=$_POST['id'];
     $compra_ID=0;
     try{
         $oOrden_Compra=orden_compra::getByID($orden_compra_ID);
-        $oCompra=new compra();
+        $oCompra=new ingreso();
         $oCompra->comprobante_tipo_ID=1;
         $oCompra->serie='';
         $oCompra->numero=0;
@@ -3319,10 +3319,10 @@ function post_ajaxComprar_Orden(){
     $retornar=Array('resultado'=>$resultado,'compra_ID'=>$compra_ID,'mensaje'=>$mensaje);
     echo json_encode($retornar);
 }
-function post_ajaxCargarCompra(){
+function post_ajaxCargaringreso(){
     require ROOT_PATH.'models/producto.php';
     require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/proveedor.php';
     $compra_ID=$_POST['id'];
     $numero=0;
@@ -3570,7 +3570,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
 }
 function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
     require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/operador.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/motivo_anulacion.php';
@@ -3598,7 +3598,7 @@ function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
 function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
     require ROOT_PATH.'models/inventario.php';
     require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/compra.php';
+    require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/compra_detalle.php';
     require ROOT_PATH.'models/operador.php';
     require ROOT_PATH.'models/moneda.php';
