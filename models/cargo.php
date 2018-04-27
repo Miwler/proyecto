@@ -18,6 +18,9 @@ class cargo {
 =======
 
     //prueba de github
+    private $a;
+    private $b;
+    private $c;
 
 >>>>>>> 30a5a53fe2603b545b979bdde726ad15e44ec559
     public function __set($var, $valor) {
