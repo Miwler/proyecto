@@ -10,6 +10,9 @@ class cargo {
     private $usuario_id;
     private $usuario_mod_id;
     Private $message;
+    PRivate $teta;
+    public $cucardas;
+    public $Venezolas;
 
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
