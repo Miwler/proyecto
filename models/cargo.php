@@ -13,7 +13,7 @@ class cargo {
     PRivate $teta;
     public $cucardas;
     public $Venezolas;
-
+    public $Venezolas1;
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
