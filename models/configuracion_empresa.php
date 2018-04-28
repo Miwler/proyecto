@@ -159,7 +159,7 @@ class configuracion_empresa
 		try 
 		{
 			$q='Select ID,nombre,empresa_ID,valor,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
-			$q.=' FROM configuracion_empresa as p';
+			$q.=' FROM configuracion_empresa';
 			$q.=' where del=0';			
 			
 			if($filtro!=''){

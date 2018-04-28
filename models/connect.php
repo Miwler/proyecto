@@ -9,12 +9,12 @@ class connect
 
 	function __construct()
 	{
-            $this->host='localhost';
+            $this->host='200.4.228.195';
             //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
             $this->db='bd_jjsoluciones_test' ;
             $this->db_user='root';
-            $this->db_password='';
+            $this->db_password='Lima123';
             $this->gError='';
             $this->connect();
 	}

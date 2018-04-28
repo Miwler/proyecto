@@ -14,7 +14,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1" name="frm1" method="post" action="Compra/ordencompra_mantenimiento_editar_producto/<?php echo $GLOBALS['oOrden_Compra_detalle']->ID; ?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1" name="frm1" method="post" action="/Ingreso/orden_compra_mantenimiento_editar_producto/<?php echo $GLOBALS['oOrden_Compra_detalle']->ID; ?>" onsubmit="return validar();" class="form-horizontal">
     <div class="form-body">
         <div class="form-group">
             <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Línea:</label>

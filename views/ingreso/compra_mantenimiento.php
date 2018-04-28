@@ -223,18 +223,18 @@
             f.enviar();
     }
     var fncNuevo=function(){	
-        window_float_open_modal('REGISTRAR NUEVA COMPRA','/Compra/Compra_Mantenimiento_Nuevo','','',f,800,550);
+        window_float_open_modal('REGISTRAR NUEVA COMPRA','/Ingreso/Compra_Mantenimiento_Nuevo','','',f,800,550);
         
     }
 
  
     var fncEditar=function(id){	
-        window_float_open_modal('EDITAR COMPRA','/Compra/Compra_Mantenimiento_Editar',id,'',f,800,580);
+        window_float_open_modal('EDITAR COMPRA','/Ingreso/Compra_Mantenimiento_Editar',id,'',f,800,580);
        
     }
 
     var fncEliminar=function(id){
-        cargarValores('/Compra/ajaxCompra_Mantenimiento_Eliminar',id,function(resultado){
+        cargarValores('/Ingreso/ajaxCompra_Mantenimiento_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 f.enviar();
                 mensaje.info("OK",resultado.mensaje);
@@ -250,7 +250,7 @@
 
 
     var fncVerDetalle=function(id){	
-        window_float_open_modal('VER COMPRA','/Compra/Compra_Mantenimiento_Editar',id,'',f,800,550);
+        window_float_open_modal('VER COMPRA','/Ingreso/Compra_Mantenimiento_Editar',id,'',f,800,550);
         
 
     }

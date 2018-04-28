@@ -11,6 +11,7 @@ function fncHead() { ?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jPdf.js"></script>
     <script type="text/javascript" src="include/js/jValidarLargoComentarios.js" ></script>
+    <script type="text/javascript" src="include/js/jPdf.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
         <?php if($GLOBALS['oOrden_Compra']->estado_ID==59){ ?>
@@ -48,7 +49,7 @@ function fncPage() { ?>
         font-size:10px;
     }
 </style>
-<form id="form"  method="POST" action="/Compra/OrdenCompra_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Compra']->ID;?>" onsubmit="return validar();" >
+<form id="form"  method="POST" action="/Ingreso/Orden_Compra_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Compra']->ID;?>" onsubmit="return validar();" >
 <div class="panel panel-tab rounded shadow">
     <div class="panel-heading no-padding">
         <ul class="nav nav-tabs responsive-tabs">
@@ -179,7 +180,7 @@ function fncPage() { ?>
                     Guardar
                 </button>
 
-                <button  id="btnPDF" name="btnPDF" type="button" title="Descargar en PDF" class="btn btn-info" onclick=" pdf.descargar('Compra/OrdenCompra_pdf/<?php echo $GLOBALS['oOrden_Compra']->ID;?>');" >
+                <button  id="btnPDF" name="btnPDF" type="button" title="Descargar en PDF" class="btn btn-info" onclick=" pdf.descargar('Ingreso/Orden_Compra_pdf/<?php echo $GLOBALS['oOrden_Compra']->ID;?>');" >
                     <span class="glyphicon glyphicon-cloud-download"></span>
                     PDF
                 </button> 
@@ -225,16 +226,16 @@ function fncPage() { ?>
     
     var fncRegistrar_Productos=function(){
         var orden_compra_ID=$('#txtOrden_Compra_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR DETALLE DE COMPRA",'Compra/ordencompra_mantenimiento_nuevo_producto',orden_compra_ID,'',fncCargar_Detalle_Orden,null,450);
+        parent.window_float_open_modal_hijo("AGREGAR DETALLE DE COMPRA",'Ingreso/orden_compra_mantenimiento_nuevo_producto',orden_compra_ID,'',fncCargar_Detalle_Orden,null,450);
     }
     var fncEditar=function(id){
         //var id=$('#detalle_ID').val();
-        parent.window_float_open_modal_hijo("EDITAR DETALLE COMPRA","Compra/OrdenCompra_Mantenimiento_Editar_Producto",id,"",fncCargar_Detalle_Orden,null,400);
+        parent.window_float_open_modal_hijo("EDITAR DETALLE COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar_Producto",id,"",fncCargar_Detalle_Orden,null,450);
 
     }
     var fncEliminar=function(id){
        
-        cargarValores('/Compra/ajaxOrdenCompra_Mantenimiento_Producto_Eliminar',id,function(resultado){
+        cargarValores('/Ingreso/ajaxOrden_Compra_Mantenimiento_Producto_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 fncCargar_Detalle_Orden();
                 toastem.info(resultado.mensaje);
@@ -249,19 +250,17 @@ function fncPage() { ?>
     var fncCargar_Detalle_Orden=function(){
         //alert('f');
         var orden_compra_ID=$('#txtOrden_Compra_ID').val();
-        var orden=$('#txtOrden').val();
-        var tipo=$('#chkOrdenASC').val();
-        cargarValores2("/Compra/ajaxOrdenCompra_Mantenimiento_Producto",orden_compra_ID,orden,tipo,function(resultado){
-             $('#divContenedor_Float_Hijo').html(resultado.resultado);
+        cargarValores("/Ingreso/ajaxOrden_Compra_Mantenimiento_Producto",orden_compra_ID,function(resultado){
+            
+            $('#divContenedor_Float_Hijo').html(resultado.resultado);
+            
             if(resultado.mensaje==1){
+                
                 $('#txtSubTotal').val(resultado.subtotal);
                 $('#txtIGV').val(resultado.igv);
                 $('#txtTotal').val(resultado.total);
-                //fncSeleccionarDetalle();
-            }
-       
-            
-            
+                
+            } 
         });
     }
     var salir=function(){

@@ -34,7 +34,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1"  method="post" action="Compra/compra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['compra_ID']; ?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post" action="Ingreso/compra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['compra_ID']; ?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -297,7 +297,7 @@
     var fncListaProductosVendidos=function(producto_ID){
         var compra_detalle_ID=$('#txtID').val();
          //$('#tbdocumentos').html('<div style="background:#000;opacity:0.7;width:500px;height:100%;text-align:center;" ><img width="80px" src="/include/img/loader-Login.gif"></div>');
-        cargarValores1('/Compra/ajaxProductos_Vendidos',producto_ID,compra_detalle_ID,function(resultado){
+        cargarValores1('/Ingreso/ajaxProductos_Vendidos',producto_ID,compra_detalle_ID,function(resultado){
            
             $('#tbdocumentos').html(resultado.html); 
             $('#script').html(resultado.funcion);

@@ -94,7 +94,7 @@ class estado {
 		}
 	} 
 	
-	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='est.ID asc,est.orden asc')
+	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='est.orden asc')
 	{
 		$cn =new connect();
 		try 

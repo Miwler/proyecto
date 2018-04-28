@@ -1,9 +1,9 @@
 <?php
 
 
-class compra_detalle {
+class ingreso_detalle {
     private $ID;
-    private $compra_ID;
+    private $ingreso_ID;
     private $producto_ID;
     private $descripcion;
     private $cantidad;
@@ -29,7 +29,7 @@ class compra_detalle {
             $temporal = $var;
 
             // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
-            if (property_exists('compra_detalle',$temporal))
+            if (property_exists('ingreso_detalle',$temporal))
              {
                     $this->$temporal = $valor;
              }
@@ -44,7 +44,7 @@ class compra_detalle {
             $temporal = $var;
 
             // Verifica que exista
-            if (property_exists('compra_detalle', $temporal))
+            if (property_exists('ingreso_detalle', $temporal))
              {
                     return $this->$temporal;
              }
@@ -59,11 +59,11 @@ class compra_detalle {
 		$retornar=-1;
 		try{
                     $ID=0;
-			$q="select ifnull(max(ID),0)+1 as ID from compra_detalle;";
+			$q="select ifnull(max(ID),0)+1 as ID from ingreso_detalle;";
 			$ID=$cn->getData($q);
 			
-			$q="INSERT INTO compra_detalle(ID,compra_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,usuario_id,destino) ";
-			$q.="VALUES (".$ID.",".$this->compra_ID.",".$this->producto_ID.",'".$this->descripcion."',".$this->cantidad.",'";
+			$q="INSERT INTO ingreso_detalle(ID,ingreso_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,usuario_id,destino) ";
+			$q.="VALUES (".$ID.",".$this->ingreso_ID.",".$this->producto_ID.",'".$this->descripcion."',".$this->cantidad.",'";
 			$q.=number_format($this->precio,2,'.','')."','".number_format($this->subtotal,2,'.','')."','".number_format($this->igv,2,'.','')."','".number_format($this->total,2,'.','')."',".$this->usuario_id.','.$this->destino.');';
 			//echo $q;
 			$retornar=$cn->transa($q);
@@ -75,7 +75,7 @@ class compra_detalle {
 			return $retornar;
 		}
 		catch(Exception $ex){
-			throw new Exception("Ocurrio un error en la consulta insertar compradetalle");
+			throw new Exception("Ocurrio un error en la consulta insertar ingresodetalle");
 		}
 	}	
 		
@@ -84,7 +84,7 @@ class compra_detalle {
             $retornar=-1;
             try{
 
-                    $q="UPDATE compra_detalle SET producto_ID=".$this->producto_ID.", descripcion='".$this->descripcion."',cantidad=".$this->cantidad.",precio='".number_format($this->precio,2,'.','')."',subtotal='".number_format($this->subtotal,2,'.','')."',";
+                    $q="UPDATE ingreso_detalle SET producto_ID=".$this->producto_ID.", descripcion='".$this->descripcion."',cantidad=".$this->cantidad.",precio='".number_format($this->precio,2,'.','')."',subtotal='".number_format($this->subtotal,2,'.','')."',";
                     $q.="igv='".number_format($this->igv,2,'.','')."',total='".number_format($this->total,2,'.','')."',destino=".$this->destino.",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
                     $q.=" WHERE ID=".$this->ID;
 
@@ -104,7 +104,7 @@ class compra_detalle {
             $retornar=-1;
             try{
 
-                    $q='UPDATE compra_detalle SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
+                    $q='UPDATE ingreso_detalle SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
                     $q.=' WHERE ID='.$this->ID;
                     //echo $q;
                     $retornar=$cn->transa($q);
@@ -122,31 +122,31 @@ class compra_detalle {
             $cn =new connect();
             try 
             {
-                    $q='Select ID,compra_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,destino,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-                    $q.=' from compra_detalle ';
+                    $q='Select ID,ingreso_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,destino,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
+                    $q.=' from ingreso_detalle ';
                     $q.=' where ID='.$ID;
                     //echo $q;
                     $dt=$cn->getGrid($q);			
-                    $ocompra_detalle=null;
+                    $oingreso_detalle=null;
 
                     foreach($dt as $item)
                     {
-                            $ocompra_detalle=new compra_detalle();
+                            $oingreso_detalle=new ingreso_detalle();
 
-                            $ocompra_detalle->ID=$item['ID'];
-                            $ocompra_detalle->compra_ID=$item['compra_ID'];
-                            $ocompra_detalle->producto_ID=$item['producto_ID'];
-                            $ocompra_detalle->descripcion=$item['descripcion'];
-                            $ocompra_detalle->cantidad=$item['cantidad'];
-                            $ocompra_detalle->precio=$item['precio'];
-                            $ocompra_detalle->subtotal=$item['subtotal'];
-                            $ocompra_detalle->igv=$item['igv'];
-                            $ocompra_detalle->total=$item['total'];
-                            $ocompra_detalle->destino=$item['destino'];
-                            $ocompra_detalle->usuario_id=$item['usuario_id'];
-                            $ocompra_detalle->usuario_mod_id=$item['usuario_mod_id'];
+                            $oingreso_detalle->ID=$item['ID'];
+                            $oingreso_detalle->ingreso_ID=$item['ingreso_ID'];
+                            $oingreso_detalle->producto_ID=$item['producto_ID'];
+                            $oingreso_detalle->descripcion=$item['descripcion'];
+                            $oingreso_detalle->cantidad=$item['cantidad'];
+                            $oingreso_detalle->precio=$item['precio'];
+                            $oingreso_detalle->subtotal=$item['subtotal'];
+                            $oingreso_detalle->igv=$item['igv'];
+                            $oingreso_detalle->total=$item['total'];
+                            $oingreso_detalle->destino=$item['destino'];
+                            $oingreso_detalle->usuario_id=$item['usuario_id'];
+                            $oingreso_detalle->usuario_mod_id=$item['usuario_mod_id'];
                     }			
-                    return $ocompra_detalle;
+                    return $oingreso_detalle;
             }catch(Exeption $ex)
             {
                     throw new Exception("Ocurrio un error en la consulta.");
@@ -170,7 +170,7 @@ class compra_detalle {
         try 
         {
             $q='select count(ccd.ID) ';
-            $q.=' FROM compra_detalle as ccd';
+            $q.=' FROM ingreso_detalle as ccd';
             $q.=' where ccd.del=0';
 
             if ($filtro!='')
@@ -192,10 +192,10 @@ class compra_detalle {
             $cn =new connect();
             try 
             {
-                    $q='select ccd.ID as codigo,ccd.producto_ID,ccd.compra_ID,ccd.descripcion,ccd.cantidad,';
+                    $q='select ccd.ID as codigo,ccd.producto_ID,ccd.ingreso_ID,ccd.descripcion,ccd.cantidad,';
                     $q.='ccd.precio,ccd.subtotal,ccd.igv,ccd.total,pro.nombre as producto,ccd.destino,ifnull(ccd.usuario_mod_id,-1) as usuario_mod_id, es.nombre as estado';
-                    $q.=' FROM compra_detalle ccd, producto pro,estado es,compra co';
-                    $q.=' where ccd.del=0 and co.del=0 and ccd.compra_ID=co.ID and ccd.producto_ID=pro.ID and pro.estado_ID=es.ID';
+                    $q.=' FROM ingreso_detalle ccd, producto pro,estado es,ingreso co';
+                    $q.=' where ccd.del=0 and co.del=0 and ccd.ingreso_ID=co.ID and ccd.producto_ID=pro.ID and pro.estado_ID=es.ID';
 
                     if($filtro!=''){
                             $q.=' and '.$filtro;
@@ -215,19 +215,19 @@ class compra_detalle {
                     throw new Exception($q);
             }
     }
-    static function getGridPrecioCompra($producto_ID)
+    static function getGridPrecioingreso($producto_ID)
     {
             $cn =new connect();
             try 
             {
-                $q='create temporary TABLE tbprecio_compra  select cd.ID,cd.compra_ID,cd.precio,(case when co.moneda_ID=1 then cd.precio else round(cd.precio*co.tipo_cambio,2) end) as precio_soles,(case when co.moneda_ID=2 then cd.precio else round(cd.precio/co.tipo_cambio,2) end) as precio_dolares,co.tipo_cambio,co.fecha_emision';
+                $q='create temporary TABLE tbprecio_ingreso  select cd.ID,cd.ingreso_ID,cd.precio,(case when co.moneda_ID=1 then cd.precio else round(cd.precio*co.tipo_cambio,2) end) as precio_soles,(case when co.moneda_ID=2 then cd.precio else round(cd.precio/co.tipo_cambio,2) end) as precio_dolares,co.tipo_cambio,co.fecha_emision';
                 
-                $q.=' from compra_detalle cd,compra co';
-                $q.=' where cd.del=0 and co.del=0 and cd.compra_ID=co.ID and cd.producto_ID='.$producto_ID.' order by co.fecha_emision desc limit 0, 20;';
+                $q.=' from ingreso_detalle cd,ingreso co';
+                $q.=' where cd.del=0 and co.del=0 and cd.ingreso_ID=co.ID and cd.producto_ID='.$producto_ID.' order by co.fecha_emision desc limit 0, 20;';
                 $cn->transa($q);
-                $q='select precio_soles,  precio_dolares from tbprecio_compra group by precio_soles, precio_dolares order by precio_dolares desc limit 1,1 ;';    
+                $q='select precio_soles,  precio_dolares from tbprecio_ingreso group by precio_soles, precio_dolares order by precio_dolares desc limit 1,1 ;';    
                 $dt=$cn->getGrid($q);
-                $q='drop table tbprecio_compra;'   ;
+                $q='drop table tbprecio_ingreso;'   ;
                  $cn->transa($q);   
                 return $dt;												
             }catch(Exception $ex)

@@ -1,6 +1,6 @@
 <?php
 
-class orden_venta {
+class salida {
     private $ID;
     private $empresa_ID;
     private $cotizacion_ID;
@@ -51,7 +51,7 @@ class orden_venta {
           $temporal = $var;
 
           // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
-          if (property_exists('orden_venta',$temporal))
+          if (property_exists('salida',$temporal))
            {
                   $this->$temporal = $valor;
            }
@@ -65,7 +65,7 @@ class orden_venta {
         $temporal = $var;
 
         // Verifica que exista
-        if (property_exists('orden_venta', $temporal))
+        if (property_exists('salida', $temporal))
          {
                 return $this->$temporal;
          }
@@ -82,9 +82,9 @@ class orden_venta {
             if($this->fecha!=null){
                 $fecha_save='"'.FormatTextToDate($this->fecha,'Y-m-d').'"';
             }
-           $q='select ifnull(max(ID),0)+1 as ID from orden_venta;';
+           $q='select ifnull(max(ID),0)+1 as ID from salida;';
            $ID=$cn->getData($q);
-            $q='INSERT INTO orden_venta (ID,empresa_ID,cotizacion_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
+            $q='INSERT INTO salida (ID,empresa_ID,cotizacion_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
             $q.='numero_concatenado,numero_orden_compra,moneda_ID,fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
             $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
             $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,';
@@ -116,7 +116,7 @@ class orden_venta {
             if($this->fecha!=null){
                 $fecha_save='"'.FormatTextToDate($this->fecha,'Y-m-d').'"';
             }
-            $q='UPDATE orden_venta SET cotizacion_ID='.$this->cotizacion_ID.',cliente_ID='.$this->cliente_ID.','
+            $q='UPDATE salida SET cotizacion_ID='.$this->cotizacion_ID.',cliente_ID='.$this->cliente_ID.','
                     . 'cliente_contacto_ID='.$this->cliente_contacto_ID.',operador_ID='.$this->operador_ID.','
                     . 'periodo='.$this->periodo.',numero='.$this->numero.',numero_concatenado="'.$this->numero_concatenado.'",'
                     . 'numero_orden_compra="'.$this->numero_orden_compra.'",moneda_ID='.$this->moneda_ID.',fecha='.$fecha_save.','
@@ -168,7 +168,7 @@ class orden_venta {
         $cn =new connect();
 	$retornar=-1;
         try{
-            $q='update orden_venta set impresion='.$valor.', usuario_mod_id='.$this->usuario_mod_id;
+            $q='update salida set impresion='.$valor.', usuario_mod_id='.$this->usuario_mod_id;
             $q.=' where del=0 and id='.$this->ID;
             $retornar=$cn->transa($q);
             $this->getMessage='Se guardó correctamente';
@@ -184,7 +184,7 @@ class orden_venta {
             $retornar=-1;
             try{
 
-                    $q='UPDATE orden_venta SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
+                    $q='UPDATE salida SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
                     $q.=' WHERE del=0 and ID='.$this->ID;
 
                     $retornar=$cn->transa($q);
@@ -202,7 +202,7 @@ class orden_venta {
         try 
         {
             $q='SELECT  count(ov.ID)';
-            $q.=' FROM orden_venta ov,cliente cl, estado es ';
+            $q.=' FROM salida ov,cliente cl, estado es ';
             $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID and ov.empresa_ID='.$_SESSION['empresa_ID'];
             if ($filtro!='')
             {
@@ -227,53 +227,53 @@ class orden_venta {
                     $q.='numero_concatenado,numero_orden_compra,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
                     $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
                     $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,validez_oferta,garantia,observacion,numero_pagina,nproducto_pagina,impresion,ver_adicional,adicional,usuario_id ';
-                    $q.=' FROM orden_venta ';
+                    $q.=' FROM salida ';
                     $q.=' where del=0 and ID='.$ID;
 			//echo $q;
 			$dt=$cn->getGrid($q);			
-			$oOrden_Venta=null;
+			$osalida=null;
 			
 			foreach($dt as $item)
 			{
-                            $oOrden_Venta=new orden_venta();
-                            $oOrden_Venta->ID=$item['ID'];
-                            $oOrden_Venta->empresa_ID=$item['empresa_ID'];
-                            $oOrden_Venta->cotizacion_ID=$item['cotizacion_ID'];
-                            $oOrden_Venta->cliente_ID=$item['cliente_ID'];
-                            $oOrden_Venta->cliente_contacto_ID=$item['cliente_contacto_ID'];
-                            $oOrden_Venta->operador_ID=$item['operador_ID'];
-                            $oOrden_Venta->periodo=$item['periodo'];
-                            $oOrden_Venta->numero=$item['numero'];
-                            $oOrden_Venta->numero_concatenado=$item['numero_concatenado'];
-                            $oOrden_Venta->numero_orden_compra=$item['numero_orden_compra'];
-                            $oOrden_Venta->moneda_ID=$item['moneda_ID'];
-                            $oOrden_Venta->fecha=$item['fecha'];
-                            $oOrden_Venta->igv=$item['igv'];
-                            $oOrden_Venta->vigv_soles=$item['vigv_soles'];
-                            $oOrden_Venta->vigv_dolares=$item['vigv_dolares'];
-                            $oOrden_Venta->precio_venta_neto_soles=$item['precio_venta_neto_soles'];
-                            $oOrden_Venta->precio_venta_total_soles=$item['precio_venta_total_soles'];
-                            $oOrden_Venta->precio_venta_neto_dolares=$item['precio_venta_neto_dolares'];
-                            $oOrden_Venta->precio_venta_total_dolares=$item['precio_venta_total_dolares'];
-                            $oOrden_Venta->forma_pago_ID=$item['forma_pago_ID'];
-                            $oOrden_Venta->tiempo_credito=$item['tiempo_credito'];
-                            $oOrden_Venta->descuento_soles=$item['descuento_soles'];
-                            $oOrden_Venta->descuento_dolares=$item['descuento_dolares'];
-                            $oOrden_Venta->estado_ID=$item['estado_ID'];
-                            $oOrden_Venta->tipo_cambio=$item['tipo_cambio'];
-                            $oOrden_Venta->plazo_entrega=$item['plazo_entrega'];
-                            $oOrden_Venta->lugar_entrega=$item['lugar_entrega'];
-                            $oOrden_Venta->validez_oferta=$item['validez_oferta'];
-                            $oOrden_Venta->garantia=$item['garantia'];
-                            $oOrden_Venta->observacion=$item['observacion'];
-                            $oOrden_Venta->numero_pagina=$item['numero_pagina'];
-                            $oOrden_Venta->nproducto_pagina=$item['nproducto_pagina'];
-                            $oOrden_Venta->impresion=$item['impresion'];
-                            $oOrden_Venta->usuario_id=$item['usuario_id'];
-                            $oOrden_Venta->ver_adicional=$item['ver_adicional'];
-                            $oOrden_Venta->adicional=$item['adicional'];
+                            $osalida=new salida();
+                            $osalida->ID=$item['ID'];
+                            $osalida->empresa_ID=$item['empresa_ID'];
+                            $osalida->cotizacion_ID=$item['cotizacion_ID'];
+                            $osalida->cliente_ID=$item['cliente_ID'];
+                            $osalida->cliente_contacto_ID=$item['cliente_contacto_ID'];
+                            $osalida->operador_ID=$item['operador_ID'];
+                            $osalida->periodo=$item['periodo'];
+                            $osalida->numero=$item['numero'];
+                            $osalida->numero_concatenado=$item['numero_concatenado'];
+                            $osalida->numero_orden_compra=$item['numero_orden_compra'];
+                            $osalida->moneda_ID=$item['moneda_ID'];
+                            $osalida->fecha=$item['fecha'];
+                            $osalida->igv=$item['igv'];
+                            $osalida->vigv_soles=$item['vigv_soles'];
+                            $osalida->vigv_dolares=$item['vigv_dolares'];
+                            $osalida->precio_venta_neto_soles=$item['precio_venta_neto_soles'];
+                            $osalida->precio_venta_total_soles=$item['precio_venta_total_soles'];
+                            $osalida->precio_venta_neto_dolares=$item['precio_venta_neto_dolares'];
+                            $osalida->precio_venta_total_dolares=$item['precio_venta_total_dolares'];
+                            $osalida->forma_pago_ID=$item['forma_pago_ID'];
+                            $osalida->tiempo_credito=$item['tiempo_credito'];
+                            $osalida->descuento_soles=$item['descuento_soles'];
+                            $osalida->descuento_dolares=$item['descuento_dolares'];
+                            $osalida->estado_ID=$item['estado_ID'];
+                            $osalida->tipo_cambio=$item['tipo_cambio'];
+                            $osalida->plazo_entrega=$item['plazo_entrega'];
+                            $osalida->lugar_entrega=$item['lugar_entrega'];
+                            $osalida->validez_oferta=$item['validez_oferta'];
+                            $osalida->garantia=$item['garantia'];
+                            $osalida->observacion=$item['observacion'];
+                            $osalida->numero_pagina=$item['numero_pagina'];
+                            $osalida->nproducto_pagina=$item['nproducto_pagina'];
+                            $osalida->impresion=$item['impresion'];
+                            $osalida->usuario_id=$item['usuario_id'];
+                            $osalida->ver_adicional=$item['ver_adicional'];
+                            $osalida->adicional=$item['adicional'];
 			}			
-			return $oOrden_Venta;
+			return $osalida;
 				
 		}catch(Exeption $ex)
 		{
@@ -290,7 +290,7 @@ class orden_venta {
                     $q.='precio_venta_total_soles,ov.precio_venta_neto_dolares,ov.precio_venta_total_dolares,ov.forma_pago_ID,ov.';
                     $q.='tiempo_credito,ov.descuento_soles,ov.descuento_dolares,ov.estado_ID,ov.tipo_cambio,ov.plazo_entrega,ov.lugar_entrega,ov.validez_oferta,ov.garantia,ov.observacion,ov.usuario_id,ov.usuario_mod_id,ov.impresion, ';
                     $q.='cl.razon_social ,es.nombre as estado';
-                    $q.=' FROM orden_venta ov,cliente cl, estado es ';
+                    $q.=' FROM salida ov,cliente cl, estado es ';
                     $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID';
 			
 			
@@ -316,7 +316,7 @@ class orden_venta {
         $cn =new connect();
         try 
         {
-            $q='select DISTINCT periodo from orden_venta where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
+            $q='select DISTINCT periodo from salida where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
                 //echo $q;
                 $dt=$cn->getGrid($q);									
                 return $dt;												
@@ -330,7 +330,7 @@ class orden_venta {
       $cn =new connect();
       $numero=0;
         try{
-            $q='select ifnull(max(numero),0) +1 as numero from orden_venta where empresa_ID='.$_SESSION['empresa_ID'];
+            $q='select ifnull(max(numero),0) +1 as numero from salida where empresa_ID='.$_SESSION['empresa_ID'];
             $numero=$cn->getData($q);
             //echo $q;
             return $numero;
@@ -345,7 +345,7 @@ class orden_venta {
             try 
             {
                 $q='SELECT  count(ov.ID)';
-                $q.=' FROM orden_venta ov,cliente cl, estado es ';
+                $q.=' FROM salida ov,cliente cl, estado es ';
                 $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID and ov.empresa_ID='.$_SESSION['empresa_ID'];
                 if ($filtro!='')
                 {
@@ -364,9 +364,9 @@ class orden_venta {
         $cn =new connect();
             try 
             {
-                $q='update orden_venta set impresion=0 where ID='. $this->ID;
+                $q='update salida set impresion=0 where ID='. $this->ID;
                 $resultado=$cn->transa($q);									
-                $q='update factura_venta set con_guia=0 where orden_venta_ID='. $this->ID;
+                $q='update factura_venta set con_guia=0 where salida_ID='. $this->ID;
                 $resultado=$cn->transa($q);
                 return $resultado;					
             }catch(Exception $ex)
@@ -388,7 +388,7 @@ class orden_venta {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = ' select ov.fecha,dayname(ov.fecha) as dia, sum(ov.precio_venta_total_soles) as total_dia , ov.moneda_ID ';
-            $q.='from orden_venta ov ';
+            $q.='from salida ov ';
             $q.='  where ov.empresa_ID='.$_SESSION['empresa_ID'].' and YEARWEEK(ov.fecha) =  YEARWEEK(CURDATE()) and ov.moneda_ID = 1 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42)  ';
             $q.=' group by ov.fecha ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -409,7 +409,7 @@ class orden_venta {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'select ov.fecha,dayname(ov.fecha) as dia, sum(ov.precio_venta_total_dolares) as total_dia , ov.moneda_ID ';
-            $q.='from orden_venta ov ';
+            $q.='from salida ov ';
             $q.=' where empresa_ID='.$_SESSION['empresa_ID'].' and  YEARWEEK(ov.fecha) =  YEARWEEK(CURDATE()) and ov.moneda_ID = 2 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.=' group by ov.fecha ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -430,7 +430,7 @@ class orden_venta {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = ' select ov.fecha, DAYOFMONTH(ov.fecha) as numero_dia, monthname(ov.fecha) as mes, sum(ov.precio_venta_total_soles) as total_dia, ov.moneda_ID ';
-            $q.='from orden_venta ov  ';
+            $q.='from salida ov  ';
             $q.='  where month(ov.fecha) = month(curdate()) and ov.moneda_ID = 1 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.=' group by day(ov.fecha) ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -451,7 +451,7 @@ class orden_venta {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = ' select ov.fecha, DAYOFMONTH(ov.fecha) as numero_dia, monthname(ov.fecha) as mes, sum(ov.precio_venta_total_dolares) as total_dia, ov.moneda_ID ';
-            $q.='from orden_venta ov  ';
+            $q.='from salida ov  ';
             $q.='   where month(ov.fecha) = month(curdate()) and ov.moneda_ID = 2 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.=' group by day(ov.fecha)   ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -473,7 +473,7 @@ class orden_venta {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'SELECT monthname(ov.fecha) as mes, sum(ov.precio_venta_total_soles) as total_mes, ov.moneda_ID ';
-            $q.='from orden_venta ov ';
+            $q.='from salida ov ';
             $q.=' where year(ov.fecha) = year(curdate()) and ov.moneda_ID = 1 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.=' group by monthname(ov.fecha) ';
   //          $q.=' order by month(co.fecha_emision) desc';
@@ -494,7 +494,7 @@ class orden_venta {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
             $q = 'SELECT monthname(ov.fecha) as mes, sum(ov.precio_venta_total_dolares) as total_mes, ov.moneda_ID ';
-            $q.='from orden_venta ov ';
+            $q.='from salida ov ';
             $q.=' where year(ov.fecha) = year(curdate()) and ov.moneda_ID = 2 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.=' group by monthname(ov.fecha) ';
   //          $q.=' order by month(co.fecha_emision) desc';
@@ -513,7 +513,7 @@ class orden_venta {
         $cn = new connect();
         try {
             $q = 'SELECT year(ov.fecha) as anio, sum(ov.precio_venta_total_soles) as total_anio, ov.moneda_ID ';
-            $q.='from orden_venta ov ';
+            $q.='from salida ov ';
             $q.='where ov.moneda_ID = 1 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.='group by year(ov.fecha)  ';
      //       $q.=' order by day(co.fecha_emision) desc';
@@ -531,7 +531,7 @@ class orden_venta {
         $cn = new connect();
         try {
             $q = 'SELECT year(ov.fecha) as anio, sum(ov.precio_venta_total_dolares) as total_anio, ov.moneda_ID  ';
-            $q.='from orden_venta ov ';
+            $q.='from salida ov ';
             $q.='where ov.moneda_ID = 2 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.='group by year(ov.fecha)   ';
      //       $q.=' order by day(co.fecha_emision) desc';

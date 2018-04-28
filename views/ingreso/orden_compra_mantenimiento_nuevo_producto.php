@@ -14,7 +14,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1"  method="post"  action="Compra/ordencompra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['orden_compra_ID']; ?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post"  action="Ingreso/orden_compra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['orden_compra_ID']; ?>" onsubmit="return validar();" class="form-horizontal">
     <div class="form-body">
         <div class="form-group">
             <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Línea:</label>
@@ -193,6 +193,7 @@
     
     var fncProducto=function(){
         var producto_ID=$("#selProducto").val();
+        
         if(producto_ID>0){
             //$('#tbdocumentos').html('<div style="background:#000;opacity:0.7;width:100%;height:100%;text-align:center;" ><img width="80px" src="/include/img/loader-Login.gif"></div>');
             cargarValores('/Funcion/ajaxSeleccionar_Producto1',producto_ID,function(resultado){
@@ -202,7 +203,7 @@
                 if(resultado.resultado==1){
                     $('#txtStock').val(resultado.stock);
                 }else{
-                    mensaje.error(resultado.mensaje);
+                    mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
                 }
                 
                 //fncListaProductosVendidos(producto_ID);

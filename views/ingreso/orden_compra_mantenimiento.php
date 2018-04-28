@@ -16,7 +16,7 @@
 <?php } ?>
 
 <?php function fncPage(){?>
-<form id="frm1"  method="post" action="/Compra/ajaxOrdenCompra_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Ingreso/ajaxOrden_Compra_Mantenimiento" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -198,7 +198,7 @@
                 f.enviar();
         }
             var fncNuevo=function(){			
-                window_float_open_modal('REGISTRAR NUEVA ORDEN COMPRA','/Compra/OrdenCompra_Mantenimiento_Nuevo','','',f,null,590);
+                window_float_open_modal('REGISTRAR NUEVA ORDEN COMPRA','/Ingreso/Orden_Compra_Mantenimiento_Nuevo','','',f,null,590);
 
             }
 
@@ -207,14 +207,14 @@
             }*/
             var fncEditar=function(id){
                 //var id=$('#detalle_ID').val();
-                window_float_open_modal("EDITAR ORDEN COMPRA","Compra/OrdenCompra_Mantenimiento_Editar",id,"",f,null,600);
+                window_float_open_modal("EDITAR ORDEN COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar",id,"",f,null,600);
 
             }
   
 
             var fncEliminar=function(id){
 
-                cargarValores('/Compra/ajaxOrdenCompra_Mantenimiento_Eliminar',id,function(resultado){
+                cargarValores('/Ingreso/ajaxOrden_Compra_Mantenimiento_Eliminar',id,function(resultado){
                     if(resultado.resultado==1){
                         f.enviar();
                         mensaje.info("Ok",resultado.mensaje);
@@ -229,7 +229,7 @@
             
             
             var fncVerDetalle=function(id){	
-                window_float_open_modal("VER ORDEN DE COMPRA","Compra/OrdenCompra_Mantenimiento_Editar",id,"",f,null,560);
+                window_float_open_modal("VER ORDEN DE COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar",id,"",f,null,560);
                
 
             }

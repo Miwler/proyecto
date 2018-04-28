@@ -3,6 +3,7 @@
 
 class ingreso {
    private $ID;
+   private $tipo_movimiento_ID;
     private $descripcion;
     private $codigo;
     private $nombre;
@@ -18,7 +19,7 @@ class ingreso {
     private $fecha_vencimiento;
     private $con_igv;
     private $tipo_cambio;
-    private $comprobante_tipo_ID;
+    private $tipo_comprobante_ID;
     private $serie;
     private $vigv;
     private $descuento;
@@ -32,7 +33,7 @@ class ingreso {
     private $message;
     private $estado;
     private $moneda;
-    private $dtComprobante_Tipo;
+    private $dtTipo_Comprobante;
     private $oEstado;
     private $oProveedor;
     private $dtMoneda;
@@ -44,6 +45,7 @@ class ingreso {
     private $dtForma_Pago;
     private $numero_orden_ingreso;
     private $dtProveedor;
+    private $dtEstado;
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
@@ -92,12 +94,12 @@ class ingreso {
             }
             $q='select ifnull(max(ID),0)+1 as ID from ingreso;';
             $ID=$cn->getData($q);
-            $q='select ifnull(max(codigo),0)+1 as ID from ingreso where empresa_ID='.$_SESSION['empresa_ID'].';';
+            $q='select ifnull(max(codigo),0)+1 as ID from ingreso where tipo_movimiento_ID='.$this->tipo_movimiento_ID.' and  empresa_ID='.$_SESSION['empresa_ID'].';';
             $codigo=$cn->getData($q);
             
-            $q='INSERT INTO ingreso(ID,codigo,empresa_ID,comprobante_tipo_ID,serie,numero,proveedor_ID,fecha_emision,fecha_vencimiento,tipo_cambio,vigv,';
+            $q='INSERT INTO ingreso(ID,codigo,empresa_ID,tipo_movimiento_ID,tipo_comprobante_ID,serie,numero,proveedor_ID,fecha_emision,fecha_vencimiento,tipo_cambio,vigv,';
             $q.='con_igv,estado_ID,descuento,recargo,subtotal,igv,total,usuario_id,numero_guia,moneda_ID,orden_ingreso_ID,descripcion,periodo,monto_pendiente,forma_pago_ID) ';
-            $q.='VALUES ('.$ID.','.$codigo.','.$_SESSION['empresa_ID'].','.$this->comprobante_tipo_ID.',"'.$this->serie.'",'.$this->numero.',';
+            $q.='VALUES ('.$ID.','.$codigo.','.$_SESSION['empresa_ID'].','.$this->tipo_movimiento_ID.','.$this->tipo_comprobante_ID.',"'.$this->serie.'",'.$this->numero.',';
             $q.=$this->proveedor_ID.','.$fecha_emision_save.','.$fecha_vencimiento_save.','.number_format($this->tipo_cambio,2,'.','').',';
             $q.= number_format($this->vigv,2,'.','').','.$this->con_igv.','.$this->estado_ID.','.number_format($this->descuento,2,'.','').','.number_format($this->recargo,2,'.','').',';
             $q.=number_format($this->subtotal,2,'.','').','.number_format($this->igv,2,'.','').','.number_format($this->total,2,'.','').','.$this->usuario_id.',"'.$this->numero_guia.'",';
@@ -132,7 +134,7 @@ class ingreso {
                     if($this->orden_ingreso_ID!=null&&$this->orden_ingreso_ID!=-1){
                         $orden_ingreso_ID=$this->orden_ingreso_ID;
                     }
-                    $q="UPDATE ingreso SET orden_ingreso_ID=".$orden_ingreso_ID.", comprobante_tipo_ID=".$this->comprobante_tipo_ID.",serie='".$this->serie."',numero='".$this->numero."',";
+                    $q="UPDATE ingreso SET orden_ingreso_ID=".$orden_ingreso_ID.", tipo_comprobante_ID=".$this->tipo_comprobante_ID.",serie='".$this->serie."',numero='".$this->numero."',";
                     $q.="proveedor_ID=".$this->proveedor_ID.",fecha_emision=".$fecha_emision_save.",fecha_vencimiento=".$fecha_vencimiento_save.",";
                     $q.="tipo_cambio='".number_format($this->tipo_cambio,2,'.','')."',con_igv='".$this->con_igv."',vigv='".number_format($this->vigv,2,'.','')."',estado_ID=".$this->estado_ID;
                     $q.=",descuento='".number_format($this->descuento,2,'.','')."',recargo='".number_format($this->recargo,2,'.','')."',";
@@ -225,7 +227,7 @@ function actualizar2(){
             $cn =new connect();
             try 
             {
-                    $q='Select ID,codigo,comprobante_tipo_ID,serie,numero,numero_guia,proveedor_ID,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,';
+                    $q='Select ID,codigo,tipo_comprobante_ID,serie,numero,numero_guia,proveedor_ID,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,';
                     $q.='DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,tipo_cambio,vigv,con_igv,estado_ID,forma_pago_ID,descuento,';
                     $q.='recargo,subtotal,igv,total,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id,moneda_ID,periodo,monto_pendiente,ifnull(orden_ingreso_ID,-1) as orden_ingreso_ID,descripcion ';
                     $q.=' from ingreso ';
@@ -240,7 +242,7 @@ function actualizar2(){
 
                             $oingreso->ID=$item['ID'];
                             $oingreso->codigo=$item['codigo'];
-                            $oingreso->comprobante_tipo_ID=$item['comprobante_tipo_ID'];
+                            $oingreso->tipo_comprobante_ID=$item['tipo_comprobante_ID'];
                             $oingreso->serie=$item['serie'];
                             $oingreso->numero=$item['numero'];
                             $oingreso->numero_guia=$item['numero_guia'];
@@ -304,7 +306,7 @@ function actualizar2(){
         try {
             $q = 'select count(co.ID) ';
             $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct';
-            $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID  and mo.ID=co.moneda_ID and ct.ID=co.comprobante_tipo_ID ';
+            $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID  and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -327,7 +329,7 @@ function actualizar2(){
             $q.= 'ct.nombre as comprobante,co.subtotal,co.vigv,co.subtotal,co.total,co.periodo';
             $q.=',co.monto_pendiente,co.estado_ID,ifNull(orden_ingreso_ID,-1) as orden_ingreso_ID';
             $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct ';
-            $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and mo.ID=co.moneda_ID and ct.ID=co.comprobante_tipo_ID ';
+            $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
 
 
             if ($filtro != '') {
@@ -357,7 +359,7 @@ function actualizar2(){
             $q.= 'ct.nombre as comprobante,co.subtotal,co.vigv,co.subtotal,co.total,co.periodo';
             $q.=',co.monto_pendiente, co.estado_ID, co.fecha_anulacion, co.operador_ID_anulacion, co.motivo_anulacion_ID';
             $q.=' FROM ingreso co,proveedor pr,estado est, forma_pago fp, moneda mo, comprobante_tipo ct ';
-            $q.=' where co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and fp.ID=co.forma_pago_ID and mo.ID=co.moneda_ID and ct.ID=co.comprobante_tipo_ID ';
+            $q.=' where co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and fp.ID=co.forma_pago_ID and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
 
 
             if ($filtro != '') {

@@ -30,7 +30,7 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1||$GLOBALS['resultado'] == 1) { ?>
 
-<form id="form" method="POST" action="/Compra/Compra_Mantenimiento_Nuevo" onsubmit="return validar();" style="width:800px" class="form-horizontal" >
+<form id="form" method="POST" action="/Ingreso/Compra_Mantenimiento_Nuevo" onsubmit="return validar();" style="width:800px" class="form-horizontal" >
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -52,8 +52,8 @@ function fncPage() { ?>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <div class="row">
                                 <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6" style="padding-left:0;">
-                                    <input id="txtOrden_Compra_ID" name="txtOrden_Compra_ID" value="<?php echo $GLOBALS['oCompra']->orden_compra_ID;?>" style="display:none;"/>
-                                    <input type="text" id="txtNumeroOrden" name="txtNumeroOrden" disabled class="form-control" value="<?php echo $GLOBALS['oCompra']->numero_orden_compra; ?>">
+                                    <input id="txtOrden_Compra_ID" name="txtOrden_Compra_ID" value="<?php echo $GLOBALS['oCompra']->orden_ingreso_ID;?>" style="display:none;"/>
+                                    <input type="text" id="txtNumeroOrden" name="txtNumeroOrden" disabled class="form-control" value="<?php echo $GLOBALS['oCompra']->numero_orden_ingreso; ?>">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
                                     <button type="button" id="btnBuscarOC" class="btn btn-success" title="Buscar Orden" onclick="fncBuscarOrden();"><span class="glyphicon glyphicon-search"></span>Buscar</button>
@@ -78,12 +78,12 @@ function fncPage() { ?>
                         
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <select id="cboComprobante_Tipo" name="cboComprobante_Tipo" disabled class="form-control">
-                                <?php foreach($GLOBALS['oCompra']->dtComprobante_Tipo as $iComprobante){ ?>
+                                <?php foreach($GLOBALS['oCompra']->dtTipo_Comprobante as $iComprobante){ ?>
                                 <option value="<?php echo $iComprobante['ID']; ?>"><?php echo FormatTextView($iComprobante['nombre']); ?></option>
                                 <?php } ?>       
                             </select>
                             <script type="text/javascript">
-                                $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->comprobante_tipo_ID;?>);
+                                $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->tipo_comprobante_ID;?>);
                             </script>
                         </div>
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Número:<span class="asterisk">*</span></label>
@@ -297,11 +297,11 @@ function fncPage() { ?>
 
     var fncRegistrar_Productos=function(){
         var compra_ID=$('#txtID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO",'Compra/Compra_Mantenimiento_Nuevo_Producto',compra_ID,'',fncCargar_Detalle_Compra,null,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO",'Ingreso/Compra_Mantenimiento_Nuevo_Producto',compra_ID,'',fncCargar_Detalle_Compra,null,600);
 
     }
     var fncEditar=function(id){
-        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Compra/Compra_Mantenimiento_Editar_Producto",id,"",fncCargar_Detalle_Compra,null,600);
+        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Ingreso/Compra_Mantenimiento_Editar_Producto",id,"",fncCargar_Detalle_Compra,null,600);
         
     }
     var fncValidarExistencia=function(){
@@ -320,7 +320,7 @@ function fncPage() { ?>
     var fncSeries=function(compra_detalle_ID){
         if(fncValidarExistencia()==1){
             //var compra_detalle_ID=$('#detalle_ID').val();
-           parent.window_float_open_modal_hijo("REGISTR DE SERIES DE PRODUCTOS","Compra/Compra_Mantenimiento_Producto_Serie",compra_detalle_ID,"",fncCargar_Detalle_Compra,800,550);
+           parent.window_float_open_modal_hijo("REGISTR DE SERIES DE PRODUCTOS","Ingreso/Compra_Mantenimiento_Producto_Serie",compra_detalle_ID,"",fncCargar_Detalle_Compra,800,550);
 
         }
 
@@ -329,7 +329,7 @@ function fncPage() { ?>
     var fncEliminar=function(id){
         //var id=$('#detalle_ID').val();
         $("#fondo_espera").css('display','block');
-        cargarValores('/Compra/ajaxCompra_Mantenimiento_Producto_Eliminar',id,function(resultado){
+        cargarValores('/Ingreso/ajaxCompra_Mantenimiento_Producto_Eliminar',id,function(resultado){
             
             if(resultado.resultado==1){
                 
@@ -349,7 +349,7 @@ function fncPage() { ?>
         var compra_ID=$('#txtID').val();
         var orden=$('#txtOrden').val();
         var tipo=$('#chkOrdenASC').val();
-        cargarValores2("/Compra/ajaxCompra_Mantenimiento_Detalle",compra_ID,orden,tipo,function(resultado){
+        cargarValores2("/Ingreso/ajaxCompra_Mantenimiento_Detalle",compra_ID,orden,tipo,function(resultado){
             $('#divContenedor_Float_Hijo').html(resultado.resultado);
             if(resultado.mensaje==1){
                 $('#txtSubTotal').val(resultado.subtotal);
@@ -391,13 +391,13 @@ function fncPage() { ?>
         }
     }
     var fncComprobante_Tipo=function(){
-        var comprobante_tipo_ID=$('#cboComprobante_Tipo').val();	
+        var tipo_comprobante_ID=$('#cboComprobante_Tipo').val();	
 
         $('#txtSerie').attr('disabled','disabled');
         $('#txtNumero').attr('disabled','disabled');
 
         //Verifico si el comprobante requiere serie y número
-        if(comprobante_tipo_ID==1){
+        if(tipo_comprobante_ID==1){
                 $('#txtSerie').removeAttr('disabled');
                 $('#txtNumero').removeAttr('disabled');
         }else{
@@ -407,7 +407,7 @@ function fncPage() { ?>
     }
     var fncCargarValores=function(compra_ID){
         //alert(compra_ID);
-        cargarValores('Compra/ajaxCargarCompra',compra_ID,function(resultado){
+        cargarValores('Ingreso/ajaxCargarCompra',compra_ID,function(resultado){
             if(resultado.resultado==1){
                 $('#txtID').val(compra_ID);
                 $('#txtNumero').val(resultado.numero);
@@ -437,7 +437,7 @@ function fncPage() { ?>
         
     }
     var fncBuscarOrden=function(){
-    parent.window_float_open_modal_hijo("ORDEN DE COMPRAS GENERADAS","Compra/compra_mantenimiento_buscar_orden",'','',fncCargarValores,640,500);
+    parent.window_float_open_modal_hijo("ORDEN DE COMPRAS GENERADAS","Ingreso/compra_mantenimiento_buscar_orden",'','',fncCargarValores,640,500);
         //window_float_deslizar('form','Compra/compra_mantenimiento_buscar_orden','','');
     }
           
