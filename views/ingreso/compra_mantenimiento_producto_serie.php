@@ -29,26 +29,23 @@
 <?php function fncPage(){?>
 
  
-<form id="frm2"  class="divRegistrarSeries form-horizontal"  method="post" action="/Compra/Compra_Mantenimiento_Producto_Serie/<?php echo $GLOBALS['oCompra_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
-    <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
-        <div class="panel-heading">
-            <div class="form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <label>Producto:</label>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oProducto->nombre);?>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <label>Cantidad:</label>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <?php echo $GLOBALS['oCompra_Detalle']->cantidad;?>
-                </div>
+<form id="frm2"  class="divRegistrarSeries form-horizontal"  method="post" action="/Ingreso/Compra_Mantenimiento_Producto_Serie/<?php echo $GLOBALS['oCompra_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+    <div class="form-body">
+        <div class="form-group">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <label>Producto:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oProducto->nombre);?>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <label>Cantidad:</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <?php echo $GLOBALS['oCompra_Detalle']->cantidad;?>
             </div>
         </div>
-        <div class="panel-body">
-            <div class="form-group">
+        <div class="form-group">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <label>Ingrese la serie:</label>
                 </div>
@@ -70,22 +67,22 @@
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <div class="ckbox ckbox-theme">
                         <input  type="checkbox" id="ckDetalle" name="ckSecuencia" value="ckDetalle"  class="seleccionar">
-                        <label for="ckSecuencia">Detalle</label>
+                        <label for="ckDetalle">Detalle</label>
                     </div>
                     
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 grid_detalle" style="height: 350px;overflow:auto;">
-                    <table class="table table-striped table-primary">
+                    <table id="tablaserie" class="table table-striped table-primary">
                         <thead>
                             <tr>
                                 
-                                <th>Nro.</th>
-                                <th>Serie</th>
-                                <th>Factura V.</th>
-                                <th>Gu&iacute;a V.</th>
-                                <th>Action</th>
+                                <th class="text-center">Nro.</th>
+                                <th class="text-center">Serie</th>
+                                <th class="text-center">Factura V.</th>
+                                <th class="text-center">Gu&iacute;a V.</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,10 +90,10 @@
                         <?php foreach($GLOBALS['oCompra_Detalle']->dtInventario as $item){?>
                             <tr class="item-tr">
                                 
-                                <td class="tdCenter"><?php echo $i;?></td>
+                                <td class="text-center"><?php echo $i;?></td>
                                 <td class="tdLeft" style="width:200px;"><input type="text" id="<?php echo $item['ID'] ?>" name="<?php echo $item['ID'] ?>" value="<?php echo $item['serie']?>" style="display:none;"><span id="span<?php echo $item['ID'] ?>"><?php echo $item['serie'] ?></span></td>
-                                <td class="tdCenter"><?php echo ($item['numero_factura_venta']=="")?"": sprintf("%'.07d",$item['numero_factura_venta']);?></td>
-                                <td class="tdCenter"><?php echo ($item['numero_guia_venta']=="")?"":sprintf("%'.07d",$item['numero_guia_venta']);?></td>
+                                <td class="text-center"><?php echo ($item['numero_factura_venta']=="")?"": sprintf("%'.07d",$item['numero_factura_venta']);?></td>
+                                <td class="text-center"><?php echo ($item['numero_guia_venta']=="")?"":sprintf("%'.07d",$item['numero_guia_venta']);?></td>
                                 <td class="text-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -116,23 +113,21 @@
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                        Guardar
-                    </button>
-                    <button id="btnRegresar" type="button" title="Cancelar"  class="btn btn-danger" onclick="parent.float_close_modal_hijo();">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
-			
+    <div class="form-footer">
+        <div class="pull-left">
+            <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Guardar
+            </button>
+            <button id="btnRegresar" type="button" title="Cancelar"  class="btn btn-danger" onclick="parent.float_close_modal_hijo();">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Cancelar
+            </button>
+        </div>
+        <div class="clerafix"></div>
+    </div>
+    
 </form>
    <script type="text/javascript">
 
@@ -146,14 +141,15 @@
 
         fncRegistrarSeries($('#txtRegSeries').val());
     });*/
-    $('.grid_detalle input').keyup(function(){
+    $('#tablaserie input').keyup(function(){
         $('#span'+this.id).html($(this).val());
     });
         var fncRegistrarSeries=function(serie){
             var valor=$('.seleccionar').val();
             //verificamos duplicado
             var i=0;
-            $('.grid_detalle tr :input').each(function(){
+            $('#tablaserie tr :input[type=text]').each(function(){
+                //alert(this.id);
                 var serie_reg=this.value;
                 if(serie_reg==$.trim(serie)){
                     i++;
@@ -161,7 +157,7 @@
             });
             if(i==0){
                 if(valor=="ckSecuencia"){
-                $('.grid_detalle tr :input').each(function(){
+                $('#tablaserie tr :input[type=text]').each(function(){
                         if($.trim($(this).val())==''){
                             $(this).val($.trim(serie));
 

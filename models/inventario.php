@@ -266,16 +266,16 @@ class inventario {
         $cn = new connect();
         try {
             $q="select inv.ID,pro.nombre as producto,(case when ovd.tipo=3 then 'Componente' else 'Adicional' end) as tipo, (case when inv.serie is null or inv.serie='NULL' then '' else inv.serie end)  as serie,";
-            $q.="(case when inv.ingreso_detalle_ID is null then '' else cd.ID end ) as compra_detalle,";
-            $q.="(case when inv.ingreso_detalle_ID is null then '' else co.numero end ) as numero_compra,";
+            $q.="(case when inv.ingreso_detalle_ID is null then '' else cd.ID end ) as ingreso_detalle,";
+            $q.="(case when inv.ingreso_detalle_ID is null then '' else co.numero end ) as numero_ingreso,";
             $q.="(case when inv.salida_detalle_ID is null then '' else ovd.ID end ) as salida_detalle_ID,";
             $q.="(case when inv.salida_detalle_ID is null then '' else ov.numero_concatenado end ) as numero_salida,";
             $q.="ifNull((case when inv.salida_detalle_ID is null then '' else fv.numero_concatenado end ),'') as numero_factura_venta,";
             $q.="ifNull((case when inv.salida_detalle_ID is null then '' else gv.numero_concatenado end ),'') as numero_guia_venta,";
             $q.="(case when inv.cotizacion_detalle_ID is null then '' else cod.ID end ) as cotizacion_detalle_ID,";
             $q.="(case when inv.cotizacion_detalle_ID is null then '' else cot.numero_concatenado end ) as numero_cotizacion";
-            $q.=" from inventario inv left join compra_detalle cd on inv.ingreso_detalle_ID=cd.ID";
-            $q.=" left join compra co on cd.ingreso_ID=co.ID";
+            $q.=" from inventario inv left join ingreso_detalle cd on inv.ingreso_detalle_ID=cd.ID";
+            $q.=" left join ingreso co on cd.ingreso_ID=co.ID";
             $q.=" left join salida_detalle ovd on inv.salida_detalle_ID=ovd.ID ";
             $q.=" left join salida ov on ovd.salida_ID=ov.ID";
             $q.=" left join factura_venta fv on fv.salida_ID=ov.ID";
@@ -356,11 +356,11 @@ class inventario {
     }
     
     
-        static function getGridCompraAnulada($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
+        static function getGridingresoAnulada($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
         $cn = new connect();
         try {
-            $q='select inv.ID, inv.producto_ID,inv.ingreso_detalle_ID,inv.salida_detalle_ID,cod.descripcion,cod.ID as codigo_compradetalle, co.ID as codigo_compra,inv.estado_ID ';
-            $q.=' from inventario inv, compra_detalle cod, compra co ';
+            $q='select inv.ID, inv.producto_ID,inv.ingreso_detalle_ID,inv.salida_detalle_ID,cod.descripcion,cod.ID as codigo_ingresodetalle, co.ID as codigo_ingreso,inv.estado_ID ';
+            $q.=' from inventario inv, ingreso_detalle cod, ingreso co ';
             $q.=' where inv.del=0 and co.ID = cod.ingreso_ID and cod.ID = inv.ingreso_detalle_ID ';
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -386,8 +386,8 @@ class inventario {
       static function getGridComprobarVenta($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
         $cn = new connect();
         try {
-            $q='select inv.ID, inv.producto_ID,inv.ingreso_detalle_ID,inv.salida_detalle_ID,cod.descripcion,cod.ID as codigo_compradetalle, co.ID as codigo_compra,inv.estado_ID ';
-            $q.=' from inventario inv, compra_detalle cod, compra co ';
+            $q='select inv.ID, inv.producto_ID,inv.ingreso_detalle_ID,inv.salida_detalle_ID,cod.descripcion,cod.ID as codigo_ingresodetalle, co.ID as codigo_ingreso,inv.estado_ID ';
+            $q.=' from inventario inv, ingreso_detalle cod, ingreso co ';
             $q.=' where inv.del=0 and co.ID = cod.ingreso_ID and cod.ID = inv.ingreso_detalle_ID and inv.salida_detalle_ID !="" and inv.ingreso_detalle_ID !="" ';
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -603,11 +603,11 @@ class inventario {
          $cn =new connect();
          try 
          {
-                $q='select ovd.ID,ov.fecha,  ov.moneda_ID as moneda_venta,round(ov.tipo_cambio,2) as tipo_cambio_venta,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,co.moneda_ID as moneda_compra,co.tipo_cambio as tipo_cambio_compra,';
-                $q.='(case when co.moneda_ID=2 then  round(cod.precio*co.tipo_cambio,2) else cod.precio end) as precio_compra_soles,';
-                $q.=' (case when co.moneda_ID=1 then  round(cod.precio/co.tipo_cambio,2) else cod.precio end) as precio_compra_dolares, ';
+                $q='select ovd.ID,ov.fecha,  ov.moneda_ID as moneda_venta,round(ov.tipo_cambio,2) as tipo_cambio_venta,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,co.moneda_ID as moneda_ingreso,co.tipo_cambio as tipo_cambio_ingreso,';
+                $q.='(case when co.moneda_ID=2 then  round(cod.precio*co.tipo_cambio,2) else cod.precio end) as precio_ingreso_soles,';
+                $q.=' (case when co.moneda_ID=1 then  round(cod.precio/co.tipo_cambio,2) else cod.precio end) as precio_ingreso_dolares, ';
                 $q.=' inv.utilidad_soles,inv.utilidad_dolares,inv.comision_soles,inv.comision_dolares';
-                $q.=' from inventario inv , salida_detalle ovd,salida ov, compra_detalle cod,compra co ';
+                $q.=' from inventario inv , salida_detalle ovd,salida ov, ingreso_detalle cod,ingreso co ';
                 $q.=' where inv.del=0 and ov.ID=ovd.salida_ID and ovd.ID=inv.salida_detalle_ID and inv.ingreso_detalle_ID=cod.ID and cod.ingreso_ID=co.ID  ';
                 $q.=' and inv.estado_ID=49 order by inv.salida_detalle_ID asc ';
                 
@@ -626,9 +626,9 @@ class inventario {
         try {
             
             $q="CREATE TEMPORARY TABLE  IF NOT EXISTS Temporal(";
-            $q.=" select cd.ID as movimiento_ID,'Compra' as movimiento ,co.serie,co.numero, co.fecha_emision as fecha ,pro.ID as producto_ID, pro.nombre as producto, ";
+            $q.=" select cd.ID as movimiento_ID,'ingreso' as movimiento ,co.serie,co.numero, co.fecha_emision as fecha ,pro.ID as producto_ID, pro.nombre as producto, ";
             $q.="cd.cantidad,cd.descripcion,cd.precio,cd.subtotal, cd.igv,cd.total,mo.descripcion as moneda";
-            $q.=" from producto pro,compra co,  compra_detalle cd, moneda mo";
+            $q.=" from producto pro,ingreso co,  ingreso_detalle cd, moneda mo";
             $q.=" where cd.ingreso_ID=co.ID and cd.producto_ID=pro.ID and co.moneda_ID=mo.ID and cd.del=0 and cd.producto_ID=".$producto_ID.");";
             //echo $q;
             /*$q.=" UNION ";*/

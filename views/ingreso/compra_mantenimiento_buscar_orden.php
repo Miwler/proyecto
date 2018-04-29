@@ -16,7 +16,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1"  method="post" action="Compra/compra_mantenimiento_buscar_orden" onsubmit="return validar();">
+<form id="frm1"  method="post" action="Ingreso/compra_mantenimiento_buscar_orden" onsubmit="return validar();">
     
     <div class="panel panel-info">
         <div class="panel-body" style="height: 400px;overflow: auto;">
@@ -58,7 +58,7 @@
 <script type="text/javascript">
     var fncComprar=function(id){
         $('#fondo_espera').css('display','block');
-        cargarValores('Compra/ajaxComprar_Orden',id,function(resultado){
+        cargarValores('Ingreso/ajaxComprar_Orden',id,function(resultado){
             if(resultado.resultado==1){
                 toastem.info(resultado.mensaje);
                 parent.windos_float_save_modal_hijo(resultado.compra_ID);

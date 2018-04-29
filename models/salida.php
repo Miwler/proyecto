@@ -10,7 +10,7 @@ class salida {
     private $periodo;
     private $numero;
     private $numero_concatenado;
-    private $numero_orden_compra;
+    private $numero_orden_ingreso;
     private $moneda_ID;
     private $fecha;
     private $igv;
@@ -85,12 +85,12 @@ class salida {
            $q='select ifnull(max(ID),0)+1 as ID from salida;';
            $ID=$cn->getData($q);
             $q='INSERT INTO salida (ID,empresa_ID,cotizacion_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
-            $q.='numero_concatenado,numero_orden_compra,moneda_ID,fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
+            $q.='numero_concatenado,numero_orden_ingreso,moneda_ID,fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
             $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
             $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,';
             $q.='validez_oferta,garantia,observacion,numero_pagina,nproducto_pagina,ver_adicional,adicional,usuario_id)';
             $q.='values ('.$ID.','.$_SESSION['empresa_ID'].','.$this->cotizacion_ID.','.$this->cliente_ID.','.$this->cliente_contacto_ID.','.$this->operador_ID.',';
-            $q.=$this->periodo.','.$this->numero.',"'.$this->numero_concatenado.'","'.$this->numero_orden_compra.'",'.$this->moneda_ID.','.$fecha_save.','.$this->igv.',';
+            $q.=$this->periodo.','.$this->numero.',"'.$this->numero_concatenado.'","'.$this->numero_orden_ingreso.'",'.$this->moneda_ID.','.$fecha_save.','.$this->igv.',';
             $q.=$this->vigv_soles.','.$this->vigv_dolares.','.$this->precio_venta_neto_soles.','.$this->precio_venta_total_soles.','.$this->precio_venta_neto_dolares.',';
             $q.=$this->precio_venta_total_dolares.','.$this->forma_pago_ID.','.$this->tiempo_credito.','.$this->descuento_soles.','.$this->descuento_dolares.','.$this->estado_ID.',';
             $q.=$this->tipo_cambio.','.$this->plazo_entrega.',"'.$this->lugar_entrega.'","'.$this->validez_oferta.'","'.$this->garantia.'","'.$this->observacion.'",';
@@ -119,7 +119,7 @@ class salida {
             $q='UPDATE salida SET cotizacion_ID='.$this->cotizacion_ID.',cliente_ID='.$this->cliente_ID.','
                     . 'cliente_contacto_ID='.$this->cliente_contacto_ID.',operador_ID='.$this->operador_ID.','
                     . 'periodo='.$this->periodo.',numero='.$this->numero.',numero_concatenado="'.$this->numero_concatenado.'",'
-                    . 'numero_orden_compra="'.$this->numero_orden_compra.'",moneda_ID='.$this->moneda_ID.',fecha='.$fecha_save.','
+                    . 'numero_orden_ingreso="'.$this->numero_orden_ingreso.'",moneda_ID='.$this->moneda_ID.',fecha='.$fecha_save.','
                     . 'igv='.$this->igv.',vigv_soles='.$this->vigv_soles.',vigv_dolares='.$this->vigv_dolares.',precio_venta_neto_soles='.$this->precio_venta_neto_soles.','
                     . 'precio_venta_total_soles='.$this->precio_venta_total_soles.',precio_venta_neto_dolares='.$this->precio_venta_neto_dolares.','
                     . 'precio_venta_total_dolares='.$this->precio_venta_total_dolares.',forma_pago_ID='.$this->forma_pago_ID.',tiempo_credito='.$this->tiempo_credito.','
@@ -224,7 +224,7 @@ class salida {
 		try 
 		{
                     $q='SELECT  ID,empresa_ID,ifNull(cotizacion_ID,-1) as cotizacion_ID ,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
-                    $q.='numero_concatenado,numero_orden_compra,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
+                    $q.='numero_concatenado,numero_orden_ingreso,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
                     $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
                     $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,validez_oferta,garantia,observacion,numero_pagina,nproducto_pagina,impresion,ver_adicional,adicional,usuario_id ';
                     $q.=' FROM salida ';
@@ -245,7 +245,7 @@ class salida {
                             $osalida->periodo=$item['periodo'];
                             $osalida->numero=$item['numero'];
                             $osalida->numero_concatenado=$item['numero_concatenado'];
-                            $osalida->numero_orden_compra=$item['numero_orden_compra'];
+                            $osalida->numero_orden_ingreso=$item['numero_orden_ingreso'];
                             $osalida->moneda_ID=$item['moneda_ID'];
                             $osalida->fecha=$item['fecha'];
                             $osalida->igv=$item['igv'];
@@ -286,7 +286,7 @@ class salida {
 		try 
 		{
                     $q='SELECT  ov.ID,ov.empresa_ID,ifNull(ov.cotizacion_ID,-1) as cotizacion_ID,ov.cliente_ID,ov.cliente_contacto_ID,ov.operador_ID,ov.periodo,ov.numero,ov.';
-                    $q.='numero_concatenado,ov.numero_orden_compra,ov.moneda_ID,date_format(ov.fecha,"%d/%m/%Y") as fecha,ov.igv,ov.vigv_soles,ov.vigv_dolares,ov.precio_venta_neto_soles,ov.';
+                    $q.='numero_concatenado,ov.numero_orden_ingreso,ov.moneda_ID,date_format(ov.fecha,"%d/%m/%Y") as fecha,ov.igv,ov.vigv_soles,ov.vigv_dolares,ov.precio_venta_neto_soles,ov.';
                     $q.='precio_venta_total_soles,ov.precio_venta_neto_dolares,ov.precio_venta_total_dolares,ov.forma_pago_ID,ov.';
                     $q.='tiempo_credito,ov.descuento_soles,ov.descuento_dolares,ov.estado_ID,ov.tipo_cambio,ov.plazo_entrega,ov.lugar_entrega,ov.validez_oferta,ov.garantia,ov.observacion,ov.usuario_id,ov.usuario_mod_id,ov.impresion, ';
                     $q.='cl.razon_social ,es.nombre as estado';

@@ -34,7 +34,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1"  method="post" action="Ingreso/compra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['compra_ID']; ?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post" action="Ingreso/compra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['compra_ID'];?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -192,10 +192,6 @@
             </div>
         </div>
     </div>
-
-   
-
-    
 </form>
     <script type="text/javascript">
         <?php if($GLOBALS['oCompra_Detalle']->destino==1){ ?>

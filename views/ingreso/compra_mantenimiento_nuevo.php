@@ -320,7 +320,7 @@ function fncPage() { ?>
     var fncSeries=function(compra_detalle_ID){
         if(fncValidarExistencia()==1){
             //var compra_detalle_ID=$('#detalle_ID').val();
-           parent.window_float_open_modal_hijo("REGISTR DE SERIES DE PRODUCTOS","Ingreso/Compra_Mantenimiento_Producto_Serie",compra_detalle_ID,"",fncCargar_Detalle_Compra,800,550);
+           parent.window_float_open_modal_hijo("REGISTRAR DE SERIES DE PRODUCTOS","Ingreso/Compra_Mantenimiento_Producto_Serie",compra_detalle_ID,"",fncCargar_Detalle_Compra,800,550);
 
         }
 

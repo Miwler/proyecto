@@ -348,7 +348,7 @@ function post_Compra_Mantenimiento_Nuevo(){
 
 }
 function get_compra_mantenimiento_buscar_orden(){
-    require ROOT_PATH.'models/orden_compra.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/comprobante_tipo.php';
@@ -410,7 +410,7 @@ function get_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
         $GLOBALS['oCompra_Detalle']=$oCompra_detalle;
         
     }
-function post_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
+function post_Compra_Mantenimiento_Nuevo_Producto($ID){
     require ROOT_PATH . 'models/categoria.php';
     require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'models/producto.php';
@@ -421,14 +421,14 @@ function post_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
     require ROOT_PATH . 'models/factura_venta.php';
     require ROOT_PATH . 'models/salida.php';
     require ROOT_PATH . 'models/salida_detalle.php';
-    
+    require ROOT_PATH . 'models/moneda.php';
     require ROOT_PATH . 'models/guia_venta.php';
     require ROOT_PATH . 'models/operador.php';
     global $returnView_float;
     $returnView_float=true;
     //$ID=$_POST['txtID'];
     //$inventario_ID=$_POST['txtInventarioID1'];
-    //$compra_ID=$_POST['txtCompraID'];
+    $compra_ID=$ID;
     $linea_ID=$_POST['selLinea'];
     $categoria_ID=$_POST['selCategoria'];
     $producto_ID=$_POST['selProducto'];
@@ -441,9 +441,12 @@ function post_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
     $destino=$_POST['rbDestino'];
     //$fecha_emision=$_POST['txtfechaEmision'];
     try{
+        $oCompra=ingreso::getByID($ID);
         $oCompra_detalle=new ingreso_detalle();
-        $oCompra_Detalle->ingreso_ID=$compra_ID;
+       
         $oCompra_detalle->producto_ID=$producto_ID;
+        $oCompra_detalle->ingreso_ID=$ID;
+       
         $oCompra_detalle->descripcion=$descripcion;
         $oCompra_detalle->cantidad=$cantidad;
         $oCompra_detalle->precio=$precio;
@@ -453,7 +456,7 @@ function post_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
         $oCompra_detalle->destino=$destino;
         $oCompra_detalle->usuario_id=$_SESSION['usuario_ID'];
         $oCompra_detalle->insertar();
-        $oCompra=ingreso::getByID($oCompra_Detalle->ingreso_ID);
+        
         actualizar_costo_compra($oCompra);
         if($destino==1){
             for($y=0; $y<$cantidad; $y++){
@@ -779,7 +782,7 @@ function post_ajaxProductos_Vendidos(){
         foreach($dtInventario_salida as $item){
             $cantidad_comprada=count(inventario::getGrid('salida_detalle_ID='.$compra_detalle_ID.' and producto_ID='.$producto_ID.' and salida_detalle_ID='.$item['salida_detalle_ID']));
             $osalida_detalle=salida_detalle::getByID($item['salida_detalle_ID']);
-            if($osalida_detalle!=null){
+           if($osalida_detalle!=null){
                 $osalida=salida::getByID($osalida_detalle->salida_ID);
                 $html.="<tr>";
                 $html.="<td class='tdCenter'>".$item['cantidad']."</td>";
@@ -790,7 +793,7 @@ function post_ajaxProductos_Vendidos(){
                 $numero_guia="";
                 $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$osalida_detalle->salida_ID);
                 if(count($dtFactura_Venta)>0){
-                     $i=0;
+                    $i=0;
                     foreach($dtFactura_Venta as $value){
                        $fecha= date_format(new datetime($value['fecha_emision']),'d/m/Y');
                        if($i==0){
@@ -818,7 +821,7 @@ function post_ajaxProductos_Vendidos(){
                             }
                        }
 
-                      
+                     
                 $html.="<td class='tdCenter'>".$fecha."</td>";  
                 $html.="<td class='tdCenter'>".$numero_factura."</td>";
                 $html.="<td class='tdCenter'>".$numero_guia."</td>";
@@ -2826,8 +2829,8 @@ function get_Orden_Compra_Mantenimiento_Editar($id){
 
 }
 function post_Orden_Compra_Mantenimiento_Editar(){
-    require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/orden_compra_detalle.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
+    require ROOT_PATH.'models/orden_ingreso_detalle.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/proveedor.php';
@@ -2884,7 +2887,7 @@ function post_Orden_Compra_Mantenimiento_Editar(){
     $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social");
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $dtMoneda=moneda::getGrid();
-    $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_compra"');
+    $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_ingreso"');
 
     $oProveedor=proveedor::getByID($oOrden_Compra->proveedor_ID);
     $oOrden_Compra->dtProveedor=$dtProveedor;
@@ -3259,8 +3262,8 @@ function get_Orden_Compra_PDF($id){
 
 function post_ajaxComprar_Orden(){
     require ROOT_PATH.'models/producto.php';
-    require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/orden_compra_detalle.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
+    require ROOT_PATH.'models/orden_ingreso_detalle.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/ingreso_detalle.php';
     require ROOT_PATH.'models/inventario.php';
@@ -3269,7 +3272,8 @@ function post_ajaxComprar_Orden(){
     try{
         $oOrden_Compra=orden_ingreso::getByID($orden_compra_ID);
         $oCompra=new ingreso();
-        $oCompra->comprobante_tipo_ID=1;
+        $oCompra->tipo_movimiento_ID=1;//Tipo movimiento compra
+        $oCompra->tipo_comprobante_ID=1;
         $oCompra->serie='';
         $oCompra->numero=0;
         $oCompra->proveedor_ID=$oOrden_Compra->proveedor_ID;
@@ -3299,7 +3303,7 @@ function post_ajaxComprar_Orden(){
         $oOrden_Compra->actualizar(); 
         
         //Agregamos los detalles
-        $dtOrden_Compra_Detalle=orden_ingreso_detalle::getGrid("ocd.orden_compra_ID=".$orden_compra_ID);
+        $dtOrden_Compra_Detalle=orden_ingreso_detalle::getGrid("ocd.orden_ingreso_ID=".$orden_compra_ID);
         foreach($dtOrden_Compra_Detalle as $item){
             $oCompra_Detalle=new ingreso_detalle();
             $oCompra_Detalle->ingreso_ID=$oCompra->ID;
@@ -3337,7 +3341,7 @@ function post_ajaxComprar_Orden(){
     $retornar=Array('resultado'=>$resultado,'compra_ID'=>$compra_ID,'mensaje'=>$mensaje);
     echo json_encode($retornar);
 }
-function post_ajaxCargaringreso(){
+function post_ajaxCargarCompra(){
     require ROOT_PATH.'models/producto.php';
     require ROOT_PATH.'models/orden_compra.php';
     require ROOT_PATH.'models/ingreso.php';
