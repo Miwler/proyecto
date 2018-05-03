@@ -1936,7 +1936,7 @@ function post_ajaxPrecio_ingreso(){
     require ROOT_PATH . 'models/producto.php';
     $producto_ID=$_POST['id'];
     try {
-        $dtPrecio_Compra_Detalle=ingreso_detalle::getGridPrecioCompra($producto_ID);
+        $dtPrecio_Compra_Detalle=ingreso_detalle::getGridPrecioIngreso($producto_ID);
         if(count($dtPrecio_Compra_Detalle)>0){
 
             foreach($dtPrecio_Compra_Detalle as $item){
@@ -2088,7 +2088,7 @@ function get_Pagos_Mantenimiento() {
     }
     $GLOBALS['dtProveedor']=proveedor::getGrid('prv.empresa_ID='.$_SESSION['empresa_ID'].' and prv.ID in ('.$proveedor_IDs.')',-1,-1,'prv.razon_social asc');
     $GLOBALS['dtPerido']=$array_periodo;
-    $GLOBALS['dtEstado']=estado::getGrid('est.tabla="compra"',-1,-1,'est.nombre asc');
+    $GLOBALS['dtEstado']=estado::getGrid('est.tabla="ingreso"',-1,-1,'est.nombre asc');
 }
 function post_ajaxPagos_Mantenimiento() {
     require ROOT_PATH . 'models/ingreso.php';
@@ -2295,7 +2295,7 @@ function post_ajaxGrabarPagos_Mantenimiento_Registro(){
         if(trim($monto_pagado)==""){
             throw new Exception("Debe registrar un monto.");
         }
-        $dtCompra_Pagos1=compra_pagos::getGrid('compra_ID='.$compra_ID,-1,-1,'fecha asc, fdc asc');
+        $dtCompra_Pagos1=ingreso_pagos::getGrid('ingreso_ID='.$compra_ID,-1,-1,'fecha asc, fdc asc');
            
         if($oCompra->monto_pendiente>0 && $monto_pagado!=0 ){
                 $monto_total_pagado=0;
@@ -2311,8 +2311,8 @@ function post_ajaxGrabarPagos_Mantenimiento_Registro(){
                 $monto_pendiente=number_format($monto_total_pendiente,2,'.',',');
                 
                 $oMoneda=moneda::getByID($oCompra->moneda_ID);
-                $oCompra_Pagos=new compra_pagos();
-                $oCompra_Pagos->compra_ID=$oCompra->ID;
+                $oCompra_Pagos=new ingreso_pagos();
+                $oCompra_Pagos->ingreso_ID=$oCompra->ID;
                 $oCompra_Pagos->fecha=$fecha_pago;
                 $oCompra_Pagos->monto_pagado=$monto_pagado;
                 $oCompra_Pagos->monto_pendiente=$monto_total_pendiente;
@@ -2357,14 +2357,14 @@ function post_ajaxPagos_Mantenimiento_Registro(){
             '</tr></thead><tbody>';
     try{
         
-        $dtCompra_Pagos=compra_pagos::getGrid('compra_ID='.$compra_ID,-1,-1,'ID asc');
+        $dtCompra_Pagos=ingreso_pagos::getGrid('ingreso_ID='.$compra_ID,-1,-1,'ID asc');
         $i=1;
         foreach($dtCompra_Pagos as $value){
             $fecha=date('d/m/Y',strtotime($value['fecha']));
             $resultado.= '<tr class="item-tr" id="'.$value['ID'].'" >'.
-                '<td class="tdCenter">'.$i.'</td>'.
-                '<td class="tdCenter">'.$fecha.'</td>'.
-                '<td class="tdRight">'.number_format($value['monto_pagado'],2,'.',',').'</td>'.
+                '<td class="text-center">'.$i.'</td>'.
+                '<td class="text-center">'.$fecha.'</td>'.
+                '<td class="text-right">'.number_format($value['monto_pagado'],2,'.',',').'</td>'.
                 '<td class="text-right">'.number_format($value['monto_pendiente'],2,'.',',').'</td>';
                 $botones=array();
                 array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar pago&#39;,fncEliminar,&#39;' . $value['ID'] . '&#39;);" title="Eliminar Pago"><span class="glyphicon glyphicon-trash">Eliminar</a>');
@@ -2387,26 +2387,26 @@ function post_ajaxMantenimiento_Registro_Eliminar(){
     require ROOT_PATH . 'models/ingreso.php';
     require ROOT_PATH . 'models/ingreso_pagos.php';
         $compra_pagos_ID=$_POST['id'];
-        
+        $monto_pendiente="";
         try{
 
-            $oCompra_Pagos=compra_pagos::getByID($compra_pagos_ID);
+            $oCompra_Pagos=ingreso_pagos::getByID($compra_pagos_ID);
             if($oCompra_Pagos==null){
                 $resultado=-1;
                 $mensaje="El registro ya fue eliminado";
             }else {
                     $oCompra_Pagos->usuario_mod_id=$_SESSION['usuario_ID'];
                 if($oCompra_Pagos->eliminar()==1){
-                    $oCompra=ingreso::getByID($oCompra_Pagos->compra_ID);
+                    $oCompra=ingreso::getByID($oCompra_Pagos->ingreso_ID);
                     $oCompra->monto_pendiente=$oCompra->monto_pendiente+$oCompra_Pagos->monto_pagado;
                     //Cambiamos el estado a pendiente
                     $oCompra->estado_ID=9;
                     $oCompra->usuario_mod_id=$_SESSION['usuario_ID'];
                     $oCompra->actualizar();
                     //Actualizamos los montos pendientes
-                    $dtCompra_Pagos_despues=compra_pagos::getGrid('compra_ID='.$oCompra->ID .' and monto_pendiente <'.$oCompra_Pagos->monto_pendiente,-1,-1,'fecha asc, fdc asc');
+                    $dtCompra_Pagos_despues=ingreso_pagos::getGrid('ingreso_ID='.$oCompra->ID .' and monto_pendiente <'.$oCompra_Pagos->monto_pendiente,-1,-1,'fecha asc, fdc asc');
                     foreach($dtCompra_Pagos_despues as $item){
-                        $oCompra_Pagos1=compra_pagos::getByID($item['ID']);
+                        $oCompra_Pagos1=ingreso_pagos::getByID($item['ID']);
                        // date("d/m/Y",strtotime($item['fecha_emision']))
                         $oCompra_Pagos1->fecha= date("d/m/Y",strtotime($oCompra_Pagos1->fecha));
                         $oCompra_Pagos1->monto_pendiente=$oCompra_Pagos1->monto_pendiente+$oCompra_Pagos->monto_pagado;
@@ -2418,8 +2418,9 @@ function post_ajaxMantenimiento_Registro_Eliminar(){
                 
                 $mensaje=$oCompra_Pagos->message;
                 $resultado=1;
+                $monto_pendiente=number_format($oCompra->monto_pendiente,2,'.',',');
             }
-            $monto_pendiente=number_format($oCompra->monto_pendiente,2,'.',',');
+            
         } catch (Exception $ex) {
             $resultado=-1;
             $mensaje=$ex->getMessage();
@@ -3394,7 +3395,7 @@ function get_Anulacion_Comprobante_Mantenimiento() {
     require ROOT_PATH . 'models/moneda.php';
     require ROOT_PATH . 'models/proveedor.php';
     require ROOT_PATH . 'models/ingreso.php';
-    require ROOT_PATH . 'models/orden_compra.php';
+    require ROOT_PATH . 'models/orden_ingreso.php';
     require ROOT_PATH . 'models/inventario.php';
     global $returnView;
     $returnView = true;
@@ -3426,7 +3427,7 @@ function get_Anulacion_Comprobante_Mantenimiento() {
     $GLOBALS['dtPeriodo']=$array_periodo;
 }
 function post_ajaxAnulacion_Comprobante_Mantenimiento() {
-    require ROOT_PATH . 'models/orden_compra.php';
+    require ROOT_PATH . 'models/orden_ingreso.php';
     require ROOT_PATH . 'models/moneda.php';
     require ROOT_PATH . 'models/estado.php';
     require ROOT_PATH . 'models/ingreso.php';
@@ -3487,7 +3488,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
             break;
     }
     $filtro="co.estado_ID = 11 and co.total>0";
-   if($opcion_tipo=="buscar"){
+    if($opcion_tipo=="buscar"){
         if($periodo!=0){
             $filtro.=" and co.periodo=".$periodo;
         }
@@ -3503,7 +3504,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
             $filtro.=" and co.proveedor_ID=".$proveedor_ID;
         }
         if($todos==0){
-            if($fecha_inicio!="__/__/____" &&$fecha_fin!="__/__/____" ){
+            if($fecha_inicio!="" &&$fecha_fin!="" ){
         
                 $filtro.=" and  co.fecha_emision between '".$fecha_inicio."' and '". $fecha_fin."'";
             }
@@ -3591,7 +3592,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
     echo json_encode($retornar);
 }
 function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
-    require ROOT_PATH.'models/orden_compra.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/operador.php';
     require ROOT_PATH.'models/moneda.php';
@@ -3606,7 +3607,7 @@ function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
     $oCompra->moneda=  FormatTextViewHtml($oMoneda->descripcion);
     $dtOperador=operador::getGrid('op.cargo_ID in (1,3)',-1,-1);
     $oCompra->dtOperador=$dtOperador;
-    $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="compra"',-1,-1,'nombre asc');
+    $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="ingreso"',-1,-1,'nombre asc');
     $oCompra->dtMotivo_Anulacion=$dtMotivo_Anulacion;
     if($oCompra->estado_ID==11){
         $oCompra->fecha_anulacion=date('d/m/Y');
@@ -3619,7 +3620,7 @@ function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
 }
 function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
     require ROOT_PATH.'models/inventario.php';
-    require ROOT_PATH.'models/orden_compra.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/ingreso_detalle.php';
     require ROOT_PATH.'models/operador.php';
@@ -3642,11 +3643,11 @@ function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
         $oCompra->actualizarAnulacion();
 //        $mensaje=$oCompra->message;
         
-        $dtCompra_Pagos = compra_pagos::getGrid('compra_ID='.$oCompra->ID);
+        $dtCompra_Pagos = ingreso_pagos::getGrid('ingreso_ID='.$oCompra->ID);
             if(count($dtCompra_Pagos)>0){
             foreach($dtCompra_Pagos as $value){
 
-                $oCompra_Pagos=compra_pagos::getByID($value['ID']);           
+                $oCompra_Pagos=ingreso_pagos::getByID($value['ID']);           
                 $oCompra_Pagos->usuario_mod_id=$_SESSION['usuario_ID'];
                 $oCompra_Pagos->eliminar();
             
@@ -3668,7 +3669,7 @@ function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
     $oCompra->moneda=  FormatTextViewHtml($oMoneda->descripcion);
     $dtOperador=operador::getGrid('op.cargo_ID in (1,3)',-1,-1);
     $oCompra->dtOperador=$dtOperador;
-    $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="compra"',-1,-1,'nombre asc');
+    $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="ingreso"',-1,-1,'nombre asc');
     $oCompra->dtMotivo_Anulacion=$dtMotivo_Anulacion;
 
     $GLOBALS['oFactura_Venta']=$oCompra;

@@ -17,7 +17,7 @@
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncPage(){?>
-    <form id="frm1"  method="post" action="/Compra/ajaxAnulacion_Comprobante_Mantenimiento" class="form-horizontal">
+    <form id="frm1"  method="post" action="/Ingreso/ajaxAnulacion_Comprobante_Mantenimiento" class="form-horizontal">
         <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding"> 
             <ul class="nav nav-tabs">
@@ -217,13 +217,13 @@
 
 
         var fncAnular=function(id){
-            window_float_open_modal('ANULACIÓN DE COMPROBANTES DE COMPRAS','/Compra/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500);
+            window_float_open_modal('ANULACIÓN DE COMPROBANTES DE COMPRAS','/Ingreso/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500);
              
            
         }
 
         var fncVendido=function(id){
-            window_float_open_modal('ANULACIÓN DE COMPROBANTES DE COMPRAS - VENDIDOS','/Compra/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500);
+            window_float_open_modal('ANULACIÓN DE COMPROBANTES DE COMPRAS - VENDIDOS','/Ingreso/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500);
                 
         }
 

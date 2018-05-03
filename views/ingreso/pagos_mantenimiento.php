@@ -19,7 +19,7 @@
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1"  method="post" action="/Compra/ajaxPagos_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Ingreso/ajaxPagos_Mantenimiento" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding"> 
             <ul class="nav nav-tabs">
@@ -225,7 +225,7 @@
 
 
     var fncPagar=function(id){
-        window_float_open_modal('REGISTRO DE PAGOS','/Compra/pagos_mantenimiento_registro',id,'',f,800,460);
+        window_float_open_modal('REGISTRO DE PAGOS','/Ingreso/pagos_mantenimiento_registro',id,'',f,800,460);
         //window_float_open('/Compra/pagos_mantenimiento_registro',id,'',f);
     }
 

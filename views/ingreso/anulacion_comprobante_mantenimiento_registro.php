@@ -28,7 +28,7 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1" name="frm1" method="POST" style="width:800px;" action="/Compra/Anulacion_Comprobante_Mantenimiento_Registro/<?php echo $GLOBALS['oCompra']->ID;?>" onsubmit="return validar();">
+<form id="frm1" name="frm1" method="POST" style="width:800px;" action="/Ingreso/Anulacion_Comprobante_Mantenimiento_Registro/<?php echo $GLOBALS['oCompra']->ID;?>" onsubmit="return validar();">
     <div class="panel panel-info form-horizontal">
         <div class="panel-body form-body">
             <div class="form-group">
@@ -157,7 +157,7 @@ var validar=function(){
       var motivo_anulacion_ID=$('#selMotivo_Anulacion_ID').val();
       var usuario_anulacion_id=$('#seloperador_ID_anulacion').val();
       var fecha_anulacion=$('#txtFecha_Anulacion').val();
-    if(fecha_anulacion=='__/__/____'){
+    if(fecha_anulacion==''){
 
         mensaje.advertencia('VALIDACIÓN DE DATOS','Ingrese una fecha valida.','txtFecha_Anulacion');
 

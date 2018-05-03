@@ -41,7 +41,7 @@ class salida_detalle {
     private $oMoneda;
     private $salida_detalle_padre_ID;
     private $oProducto;
-    private $osalida;
+    private $oSalida;
     private $precio_unitario;
     private $subtotal;
     private $vigv;

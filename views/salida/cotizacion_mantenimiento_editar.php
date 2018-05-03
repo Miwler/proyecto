@@ -6,12 +6,13 @@
 <?php function fncHead(){?>
 	
 	<script type="text/javascript" src="include/js/jForm.js"></script>
-     
        
+        
         <script type="text/javascript" src="include/js/jPdf.js"></script>
-	<script type="text/javascript" src="include/js/jCronometro.js"></script>
+	
         <script type="text/javascript" src="include/js/jValidarLargoComentarios.js" ></script>
-
+	
+        <script type="text/javascript" src="include/js/jCronometro.js"></script>
         <link rel="stylesheet" type="text/css" href="include/css/cronometro.css" />
 
     <script type="text/javascript">
@@ -56,9 +57,9 @@
 <?php function fncPage(){?>
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==2||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Ventas/Cotizacion_Mantenimiento_Clonar/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();"  class="form-horizontal">
+<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Editar/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();"  class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
-        <div class="panel-heading no-padding">
+         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divCliente" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Cliente</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos Generales</span></a></li>
@@ -84,10 +85,7 @@
                                  <?php }?>
                             </select>
                             <script type="text/javascript">
-                            <?php if($GLOBALS['oCotizacion']->ID!=0){ ?>
-                                $("#selCliente").val(<?php echo $GLOBALS['oCotizacion']->cliente_ID;?>);
-
-                            <?php }  ?>
+                            $("#selCliente").val(<?php echo $GLOBALS['oCotizacion']->cliente_ID;?>);
                             </script>
                         </div>
                     </div>
@@ -131,24 +129,23 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Fecha: </label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo date("d/m/Y"); ?>" /> 
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Número: </label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtCotizacion_ID" name="txtCotizacion_ID" value="<?php echo $GLOBALS['oCotizacion']->ID; ?>"style="display:none;">
-                            <input id="txtNumero" name="txtNumero" type="text" class="text-int form-control" style="width:100px;" disabled autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->numero_concatenado; ?>" /> 
+                            <input id="txtNumero" name="txtNumero" type="text" class="text-int form-control" disabled autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->numero_concatenado; ?>" /> 
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Estado: </label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selEstado" name="selEstado" class="form-control">
                                 <?php foreach($GLOBALS['dtEstado'] as $value){?>
                                 <option value="<?php echo $value['ID'];?>"><?php  echo FormatTextView($value['nombre']);?></option>
@@ -158,21 +155,26 @@
                                 $('#selEstado').val(<?php echo $GLOBALS['oCotizacion']->estado_ID;?>);
                             </script>
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Tiempo avance: </label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtTiempo_Avance" name="txtTiempo_Avance" disabled class="cronometro form-control" autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->tardanza; ?>" > 
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Plazo de entrega: </label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtPlazo_Entrega" name="txtPlazo_Entrega" placeholder="Días" class="int form-control" autocomplete="off"  value="<?php echo $GLOBALS['oCotizacion']->plazo_entrega; ?>"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label>Validez: </label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo  FormatTextView($GLOBALS['oCotizacion']->validez_oferta); ?>" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -180,17 +182,10 @@
                             <label>Lugar de entrega: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;" class="form-control text-uppercase"><?php echo FormatTextViewHtml(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;" class="form-control"><?php echo FormatTextViewHtml(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Validez: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo  FormatTextView($GLOBALS['oCotizacion']->validez_oferta); ?>" >
-                        </div>
-                    </div>
+                  
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Garantía: </label>
@@ -210,10 +205,10 @@
                 </div>
                 <div id="divDatos_Economicos" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Moneda: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
                                 <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
@@ -223,20 +218,19 @@
                                 $('#cboMoneda').val('<?php echo $GLOBALS['oCotizacion']->moneda_ID;?>');
                             </script>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Tipo de cambio: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio"  class="decimal form-control text-left" value="<?php echo $GLOBALS['oCotizacion']->tipo_cambio; ?>" />
                         </div>
                     </div>
+                    
                     <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Forma de pago: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
                                 <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo FormatTextView($iForma_Pago['nombre']);?></option>
@@ -246,12 +240,10 @@
                                    $('#selForma_Pago').val('<?php echo $GLOBALS['oCotizacion']->forma_pago_ID;?>')
                             </script> 
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Tiempo de crédito: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selTiempo_Credito" name="selTiempo_Credito" class="form-control">
                                 <option value="0">--</option>
                                 <?php foreach($GLOBALS['dtCredito'] as $idtCredito){ ?>
@@ -263,17 +255,16 @@
                             </script>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <label>Nro. Cuentas: </label>
                         </div>
-
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ContenedorCuadro" style="overflow:auto;">
                             <?php echo $GLOBALS['dtNumero_Cuenta'];?>
                         </div>
                     </div>
+                    
                 </div>
                 <div id="divEjecutivo" class="tab-pane fade inner-all">
                     <div class="form-group">
@@ -379,16 +370,16 @@
       //Opción para editar los detalles
     var fncRegistrar_Productos=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Ventas/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);
        
     }
      var fncEditarProducto=function(id){
-         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Ventas/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,700,600);
+         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,700,600);
        
         
     }
     var fncEliminarProducto=function(id){
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
                 
                 if(resultado.resultado==1){
                     $('#detalle_ID').val('');
@@ -403,14 +394,14 @@
     }
     var fncRegistrar_Obsequios=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Ventas/cotizacion_mantenimiento_obsequio_nuevo",cotizacion_ID,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/cotizacion_mantenimiento_obsequio_nuevo",cotizacion_ID,"",fncCargar_Detalle_Obsequios,700,600);
     }
     var fncEditarObsequio=function(id){
-        parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Ventas/Cotizacion_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Cotizacion_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
 
     }
     var fncEliminarObsequio=function(id){
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 //$('#detalle_ID').val('');
                 fncCargar_Detalle_Obsequios();
@@ -422,7 +413,7 @@
         }); 
     }
      
-
+    
     
     var fncCargar_Detalle_Cotizacion=function(){
        
@@ -431,7 +422,7 @@
         var orden=$('#txtOrden').val();
         var tipo=$('#chkOrdenASC').val();
         $('#divContenedor_Float_Hijo').css('display', 'block');
-        cargarValores3("Ventas/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
+        cargarValores3("Salida/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
             $('#productos').html(resultado.resultado);
             //fncSeleccionarDetalle();
         });
@@ -439,13 +430,13 @@
     var fncCargar_Detalle_Obsequios=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
         $('#divContenedor_Float_Hijo').css('display', 'block');
-        cargarValores("Ventas/ajaxCotizacion_Detalle_Obsequios",cotizacion_ID,function(resultado){
+        cargarValores("Salida/ajaxCotizacion_Detalle_Obsequios",cotizacion_ID,function(resultado){
             $('#obsequios').html(resultado.resultado);
             //fncSeleccionarDetalle();
         });
     }
     var fncCargaValores=function(id){
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
                       
             $('#txtDireccion').val(resultado.Direccion);
             $('#txtLugar_Entrega').val(resultado.Direccion);
@@ -477,7 +468,7 @@
     }
     function limpiarPadre(){
         //alert(IDimagen);
-         $('#txtDireccion').val('');
+        $('#txtDireccion').val('');
             $('#txtTelefono').val('');
             $('#selRepresentante').html('<option value="0">--</option>'); 
             $('#selForma_Pago').val('0');
@@ -496,34 +487,39 @@
         var SelForma_Pago = $.trim($('#selForma_Pago'));
         var estado_ID = $.trim($('#selEstado'));
         if(cliente_ID==0){
-           mensaje.advertencia("VALDIACIÓN DE DATOS",'Seleccione un cliente.','selCliente');
-           $('.nav-tabs a[href="#divCliente"]').tab('show');
+           mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione un cliente.','selCliente');
+            $('.nav-tabs a[href="#divCliente"]').tab('show');
             return false;
         }	
 
 
 
         if(isNaN(Plazo_Entrega)||$.trim(Plazo_Entrega)==""){
-           mensaje.advertencia("VALDIACIÓN DE DATOS",'Ingrese un plazo de entrega.','txtPlazo_Entrega');
-           $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
+           toastem.error("VALIDACIÓN DE DATOS",'Ingrese un plazo de entrega.','txtPlazo_Entrega');
+             $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
             return false;
         }
         if(isNaN(Validez_Oferta)||$.trim(Validez_Oferta)==""){
-            mensaje.advertencia("VALDIACIÓN DE DATOS",'Ingrese un tiempo de validez de la oferta.','txtValidez_Oferta');
-            $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
-            return false;
-        }
-        if(Garantia==""){
-            mensaje.advertencia("VALDIACIÓN DE DATOS",'Ingrese un tiempo de garantía.','txtGarantia');
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese un tiempo de validez de la oferta.','txtValidez_Oferta');
            $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
             return false;
+        }
+         if(Garantia==""){
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese un tiempo de garantía.','txtGarantia');
+             $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
+                return false;
+        }
+        if(SelForma_Pago=""){
+            mensaje.error("VALIDACIÓN DE DATOS",'Ingrese una forma de pago.','selForma_Pago');
+            $('.nav-tabs a[href="#divDatos_Economicos"]').tab('show');
+            
         }
         var i=0;
         $('#tbnumero_cuenta input:checkbox:checked').each(function(){
             i++;
         });
         if(i==0){
-            mensaje.advertencia("VALDIACIÓN DE DATOS",'Selecciones como mínimo un número de cuenta.');
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Selecciones como mínimo un número de cuenta.');
              $('.nav-tabs a[href="#divDatos_Economicos"]').tab('show');
             return false;
         }
@@ -549,9 +545,9 @@
        
         var orden_venta_ID=$('#txtCotizacion_ID').val();
         
-        cargarValores('Ventas/ajaxActualzarDimension',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxActualzarDimension',orden_venta_ID,function(resultado){
             if(resultado.resultado==-1){
-                toastem.error('Ocurrió un error en el dimensionamiento');
+                mensaje.error('OCURRIÓ UN ERROR','Ocurrió un error en el dimensionamiento');
             }
             
         });
@@ -573,7 +569,7 @@
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
     });
 //   ampliarVentanaVertical(750,'form');
- //fncCargar_Detalle_Cotizacion();
+//    fncCargar_Detalle_Cotizacion();
 </script>
 
 <?php } ?>

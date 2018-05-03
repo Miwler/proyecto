@@ -28,9 +28,10 @@
 <?php function fncPage(){?>
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm2"  class="divRegistrarSeries"  method="post" action="/Ventas/Orden_Venta_Mantenimiento_Producto_Serie_hijo/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
-    <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
-        <div class="panel-heading">
+<form id="frm2"  class="divRegistrarSeries"  method="post" action="/Salida/Orden_Venta_Mantenimiento_Producto_Serie_hijo/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+    
+       
+        <div class="form-body">
             <div class="form-group">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <label>Producto:</label>
@@ -45,8 +46,6 @@
                     <?php echo $GLOBALS['oOrden_Venta_Detalle']->cantidad;?>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
             <div class="form-group">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <label>Ingrese la serie:</label>
@@ -104,7 +103,7 @@
                                 <td><?php echo FormatTextView($item['producto']);?></td>
                                 <?php } ?>
                                 <td class="tdLeft"><input type="text" id="<?php echo $item['ID'] ?>" name="<?php echo $item['ID'] ?>" value="<?php echo $item['serie']?>" style="display:none;"><span id="span<?php echo $item['ID'] ?>"><?php echo $item['serie'] ?></span></td>
-                                <td class="tdCenter"><?php echo $item['numero_orden_venta']?></td>
+                                <td class="tdCenter"><?php echo $item['numero_salida']?></td>
                                 <td class="tdCenter"><?php echo $item['numero_factura_venta']?></td>
 
                             </tr>
@@ -115,8 +114,8 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
+        <div class="form-footer">
+            <div class="pull-left">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
@@ -129,7 +128,7 @@
                 </div>
             </div>
         </div>
-    </div>
+   
 </form>
    <script type="text/javascript">
 

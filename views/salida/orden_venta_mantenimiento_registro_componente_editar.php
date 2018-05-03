@@ -26,7 +26,7 @@
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
  
 
-<form id="frm1"  method="post"  action="Ventas/Orden_Venta_Mantenimiento_Registro_Componente_Editar/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Registro_Componente_Editar/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -141,8 +141,8 @@
                                <th>Moneda</th>
                                <th>Precio compra</th>
                                <th>Sub Total</th>
-                               <th>I.G.V <?php echo $GLOBALS['oOrden_Venta_Detalle']->oOrden_Venta->igv*100;?>%
-                                   <input type="text" id="txtValIgv" name="txtValIgv" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->oOrden_Venta->igv;?>" style="display:none;">
+                               <th>I.G.V <?php echo $GLOBALS['oOrden_Venta_Detalle']->oSalida->igv*100;?>%
+                                   <input type="text" id="txtValIgv" name="txtValIgv" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->oSalida->igv;?>" style="display:none;">
                                </th>
                                <th>Total</th>
                            </tr>
@@ -192,7 +192,7 @@
 <script type="text/javascript">
 
         $(document).ready(function(){
-            fncCargarPrecioCompra(<?php echo $GLOBALS['oOrden_Venta_Detalle']->oProducto->ID;?>);
+            fncCargarPrecioCompra(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
             
         });
         
@@ -268,7 +268,7 @@
     var fncValidarAutorizacion=function(){
         var resultado=0;
         var valor=$('#txtContrasena').val();
-        cargarValores('/Ventas/ajaxValidarCostoCompraMenor',valor,function(resultado){
+        cargarValores('/Salida/ajaxValidarCostoCompraMenor',valor,function(resultado){
             Resultado_verificar=resultado.resultado;
             
             if(resultado.resultado==-1){
@@ -293,7 +293,7 @@
         
     }
     var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Ventas/ajaxHistorial_Producto',producto_ID,function(resultado){
+        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
             $('#historial').html(resultado.html); 
         });
     }
@@ -401,7 +401,7 @@
         $('#txtStock').val('');
     }
     var fncCargarPrecioCompra=function(producto_ID){
-          cargarValores('/Compra/ajaxPrecio_Compra',producto_ID,function(resultado){
+          cargarValores('/Ingreso/ajaxPrecio_Ingreso',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
             $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
             
@@ -415,7 +415,7 @@
      } 
      
     function calcularTipoCambio(tipo){
-        var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta_Detalle']->oOrden_Venta->tipo_cambio; ?>;
+        var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta_Detalle']->oSalida->tipo_cambio; ?>;
         if(tipo=="1"){
             var valorSoles=$('#txtPrecioUnitarioSoles').val();
             var valorDolares=redondear(parseFloat(valorSoles)/tipo_cambio,2);
@@ -487,7 +487,7 @@
 
     }
     function VerSeparaciones(producto_ID){
-        cargarValores('/Ventas/ajaxVerSeparaciones',producto_ID,function(resultado){
+        cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
             $('#separaciones').html(resultado.html); 
             if(resultado.resultado==-1){
                $('#separaciones').html(resultado.mensaje); 

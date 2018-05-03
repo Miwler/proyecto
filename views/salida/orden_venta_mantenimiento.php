@@ -18,7 +18,7 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1" name="frm1" method="post" action="/Ventas/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
+<form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -224,7 +224,7 @@
 
 
     var fncNuevo=function(){
-        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Ventas/Orden_Venta_Mantenimiento_Nuevo','','',f,800,550);
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,550);
 
     }
     var fncMantenimiento=function(){
@@ -234,14 +234,14 @@
         f.enviar();
     }
     var fncEditar=function(id){
-         window_float_open_modal('EDITAR ORDEN DE VENTA','Ventas/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
+         window_float_open_modal('EDITAR ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
     }
     var fncVer=function(id){
-         window_float_open_modal('VER ORDEN DE VENTA','Ventas/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
+         window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
     }
 
 		function fncSUNAT(id) {
-				cargarValores('ventas/ajaxEnviarSUNAT',id,function(resultado){
+				cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
 
 					var obj = $.parseJSON(resultado);
 					console.log(resultado);
@@ -257,7 +257,7 @@
 
     var fncEliminar=function(id){
 
-            gridEliminar(f,id,'/Ventas/ajaxOrden_Venta_Mantenimiento_Eliminar');
+            gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
     }
 
     $('#txtBuscar,#txtMostrar,#txtPeriodo,#txtNumero').keypress(function(e){

@@ -228,7 +228,7 @@ function fncPage() { ?>
             return false;
         }
         $('#txtMonto_Pago').removeAttr('disabled');
-        enviarFormulario("compra/ajaxGrabarPagos_Mantenimiento_Registro",'frm1',function(res){
+        enviarFormulario("Ingreso/ajaxGrabarPagos_Mantenimiento_Registro",'frm1',function(res){
             if(res.resultado==1){
                 toastem.success(res.mensaje);
                 $("#txtMonto_Pago").val("");
@@ -245,7 +245,7 @@ function fncPage() { ?>
     }
     var cargarDetalle=function(){
         var compra_ID=$("#txtCompra_ID").val();
-        cargarValores('compra/ajaxPagos_Mantenimiento_Registro',compra_ID,function(res){
+        cargarValores('ingreso/ajaxPagos_Mantenimiento_Registro',compra_ID,function(res){
             $("#divPagos").html(res.resultado);
         });
     }
@@ -296,7 +296,7 @@ function fncPage() { ?>
     
     
     var fncEliminar=function(id){
-        cargarValores('/Compra/ajaxMantenimiento_Registro_Eliminar',id,function(resultado){
+        cargarValores('/Ingreso/ajaxMantenimiento_Registro_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 f.enviar();
 

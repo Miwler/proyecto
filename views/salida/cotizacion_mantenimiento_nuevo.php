@@ -26,7 +26,7 @@ $(document).ready(function(){
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Ventas/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal" >
+<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal" >
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -345,16 +345,16 @@ $(document).ready(function(){
     }
     var fncRegistrar_Productos=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Ventas/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);
        
     }
      var fncEditarProducto=function(id){
-         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Ventas/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,700,600);
+         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,700,600);
        
         
     }
     var fncEliminarProducto=function(id){
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
                 
                 if(resultado.resultado==1){
                     $('#detalle_ID').val('');
@@ -369,14 +369,14 @@ $(document).ready(function(){
     }
     var fncRegistrar_Obsequios=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Ventas/cotizacion_mantenimiento_obsequio_nuevo",cotizacion_ID,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/cotizacion_mantenimiento_obsequio_nuevo",cotizacion_ID,"",fncCargar_Detalle_Obsequios,700,600);
     }
     var fncEditarObsequio=function(id){
-        parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Ventas/Cotizacion_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Cotizacion_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
 
     }
     var fncEliminarObsequio=function(id){
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 //$('#detalle_ID').val('');
                 fncCargar_Detalle_Obsequios();
@@ -399,7 +399,7 @@ $(document).ready(function(){
         var tipo=$('#chkOrdenASC').val();
         //$('#divContenedor_Float_Hijo').css('display', 'block');
         if(cotizacion_ID!=0){
-            cargarValores3("Ventas/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
+            cargarValores3("Salida/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
                 $('#productos').html(resultado.resultado);
                 //fncSeleccionarDetalle();
             });
@@ -411,7 +411,7 @@ $(document).ready(function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
         //$('#divContenedor_Float_Hijo').css('display', 'block');
         if(cotizacion_ID!=0){
-            cargarValores("Ventas/ajaxCotizacion_Detalle_Obsequios",cotizacion_ID,function(resultado){
+            cargarValores("Salida/ajaxCotizacion_Detalle_Obsequios",cotizacion_ID,function(resultado){
                 $('#obsequios').html(resultado.resultado);
                 //fncSeleccionarDetalle();
             });
@@ -420,7 +420,7 @@ $(document).ready(function(){
     }
     var fncCargaValores=function(id){
        
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
                       
             $('#txtDireccion').val(resultado.Direccion);
             $('#txtLugar_Entrega').val(resultado.Direccion);

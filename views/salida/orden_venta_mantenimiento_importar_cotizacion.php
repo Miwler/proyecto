@@ -29,7 +29,7 @@
 <?php function fncPage(){?>
 
  
- <form id="frm2"  class="divRegistrarSeries" method="post" action="/Ventas/ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion" class="form-horizontal">
+ <form id="frm2"  class="divRegistrarSeries" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion" class="form-horizontal">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-group">
@@ -125,12 +125,12 @@
     var fncVender=function(id){
         //alert(id);
         $('#divCotizaciones').html('<div style="background:#000;opacity:0.7;width:100%;height:100%;text-align:center;" ><img width="100px" src="/include/img/loader-Login.gif"></div>');
-        cargarValores('/Ventas/ajaxExtraerCotizacion',id,function(Result){
+        cargarValores('/Salida/ajaxExtraerCotizacion',id,function(Result){
           
           if(Result.resultado==1){
               toastem.info('La importación se realizó correctamete.');
              
-              setTimeout('parent.windos_float_save_modal_hijo('+Result.orden_venta_ID+');', 1000);
+              setTimeout('parent.windos_float_save_modal_hijo('+Result.salida_ID+');', 1000);
           }else {
               
                 mensaje.error("OCURRIÓ UN ERROR",Result.mensaje);

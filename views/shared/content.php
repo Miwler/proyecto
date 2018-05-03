@@ -579,7 +579,7 @@
             $("#menu-empresas").show("fast");
         }                 
         $(document).ready(function() {
-            $("#float_modal_hijo_hijo").draggable({
+            /*$("#float_modal_hijo_hijo").draggable({
                 handle: ".modal-header"
             });
             $("#float_modal_hijo").draggable({
@@ -587,7 +587,7 @@
             });
             $("#float_modal").draggable({
                 handle: ".modal-header"
-            });    
+            });   */ 
                 
             $(document).click(function(e){
                 if(e.target.id!='menu-modulos' && e.target.id!="btn_vermodulo"){

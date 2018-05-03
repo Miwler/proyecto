@@ -31,7 +31,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1"  method="post"  action="Ventas/Cotizacion_Mantenimiento_Obsequio_Nuevo/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post"  action="Salida/Cotizacion_Mantenimiento_Obsequio_Nuevo/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -194,7 +194,7 @@
 
     
     var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Ventas/ajaxHistorial_Producto',producto_ID,function(resultado){
+        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
             $('#historial').html(resultado.html); 
         });
     }
@@ -274,7 +274,7 @@
 
     
     var fncCargarPrecioCompra=function(producto_ID){
-          cargarValores('/Compra/ajaxPrecio_Compra',producto_ID,function(resultado){
+          cargarValores('/Ingreso/ajaxPrecio_Compra',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
             $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
             
@@ -290,7 +290,7 @@
     
    
     function VerSeparaciones(producto_ID){
-        cargarValores('/Ventas/ajaxVerSeparaciones',producto_ID,function(resultado){
+        cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
             $('#separaciones').html(resultado.html); 
             if(resultado.resultado==-1){
                $('#separaciones').html(resultado.mensaje); 

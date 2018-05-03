@@ -16,7 +16,7 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registro de cotizaciones
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1"  method="post" action="/Ventas/ajaxCotizacion_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Salida/ajaxCotizacion_Mantenimiento" class="form-horizontal">
 
 <div class="panel panel-tab panel-tab-double shadow">
 
@@ -215,17 +215,17 @@
             f.enviar();
     }
     var fncNuevo=function(){
-        window_float_open_modal('REGISTRAR NUEVA COTIZACIÓN','Ventas/Cotizacion_Mantenimiento_Nuevo','','',f,800,550);
+        window_float_open_modal('REGISTRAR NUEVA COTIZACIÓN','Salida/Cotizacion_Mantenimiento_Nuevo','','',f,800,550);
       
     }
    
     var fncEditar=function(id){	
-        window_float_open_modal('EDITAR COTIZACIÓN','/Ventas/Cotizacion_Mantenimiento_Editar',id,'',f,800,550);
+        window_float_open_modal('EDITAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Editar',id,'',f,800,550);
         
 
     }
     var fncClonar=function(id){	
-        window_float_open_modal('CLONAR COTIZACIÓN','/Ventas/Cotizacion_Mantenimiento_Clonar',id,'',f,800,550);  
+        window_float_open_modal('CLONAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Clonar',id,'',f,800,550);  
     }
     var fncEliminar=function(id){	
         gridEliminar(f,id,'/Ventas/ajaxCotizacion_Mantenimiento_Eliminar');
