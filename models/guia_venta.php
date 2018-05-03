@@ -18,7 +18,7 @@ class guia_venta {
     private $punto_partida;
     private $punto_llegada;
     private $empresa_transporte;
-    private $orden_venta_ID ;
+    private $salida_ID ;
     private $usuario_id;
     private $numero;
     Private $numero_concatenado;
@@ -90,10 +90,10 @@ class guia_venta {
             $ID=$cn->getData($q);
             $q = 'insert into guia_venta(ID,factura_venta_ID,serie,fecha_emision,orden_pedido,orden_ingreso,';
             $q.='numero,numero_concatenado,vehiculo_ID,chofer_ID,estado_ID,fecha_inicio_traslado,punto_partida,punto_llegada,';
-            $q.='empresa_transporte,orden_venta_ID,opcion,numero_producto,usuario_id)';
+            $q.='empresa_transporte,salida_ID,opcion,numero_producto,usuario_id)';
             $q.='values('.$ID.','.$this->factura_venta_ID.',"'.$this->serie.'",'. $fecha_emision ;
             $q.=',"'. $this->orden_pedido.'","'.$this->orden_ingreso.'",'.$this->numero.',"'.$this->numero_concatenado.'",'.$vehiculo.','.$chofer.','.$this->estado_ID;
-            $q.=','.$fecha_inicio_traslado.',"'.$this->punto_partida.'","'.$this->punto_llegada.'","'.$this->empresa_transporte.'",'. $this->orden_venta_ID.','.$this->opcion.','.$this->numero_producto.','.$this->usuario_id.')';
+            $q.=','.$fecha_inicio_traslado.',"'.$this->punto_partida.'","'.$this->punto_llegada.'","'.$this->empresa_transporte.'",'. $this->salida_ID.','.$this->opcion.','.$this->numero_producto.','.$this->usuario_id.')';
             //echo $q;
             $retornar = $cn->transa($q);
 
@@ -236,7 +236,6 @@ class guia_venta {
                 $oGuia_Venta->chofer_ID= $item['chofer_ID'];
                 $oGuia_Venta->estado_ID= $item['estado_ID'];
                 $oGuia_Venta->numero_pagina= $item['numero_pagina'];
-                
                 $oGuia_Venta->fecha_inicio_traslado= $item['fecha_inicio_traslado'];
                 $oGuia_Venta->punto_partida= $item['punto_partida'];
                 $oGuia_Venta->punto_llegada= $item['punto_llegada'];

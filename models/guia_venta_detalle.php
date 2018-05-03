@@ -4,7 +4,7 @@ class guia_venta_detalle {
 
     private $ID;
     private $guia_venta_ID;
-    private $orden_venta_detalle_ID;
+    private $salida_detalle_ID;
     private $usuario_id;
     private $usuario_mod_id;
     Private $message;
@@ -40,8 +40,8 @@ class guia_venta_detalle {
             
             $q = 'select ifnull(max(ID),0)+1 from guia_venta_detalle';
             $ID=$cn->getData($q);
-            $q = 'insert into guia_venta_detalle(ID,guia_venta_ID,orden_venta_detalle_ID,usuario_id)';
-            $q.=' values('.$ID.','.$this->guia_venta_ID.','.$this->orden_venta_detalle_ID.','.$this->usuario_id.')' ;
+            $q = 'insert into guia_venta_detalle(ID,guia_venta_ID,salida_detalle_ID,usuario_id)';
+            $q.=' values('.$ID.','.$this->guia_venta_ID.','.$this->salida_detalle_ID.','.$this->usuario_id.')' ;
             //echo $q;
             $retornar = $cn->transa($q);
 
@@ -59,7 +59,7 @@ class guia_venta_detalle {
         $cn = new connect();
         $retornar = -1;
         try {
-            $q = 'UPDATE guia_venta_detalle set guia_venta_ID='.$this->guia_venta_ID.',orden_venta_detalle_ID='.$this->orden_venta_detalle_ID.',usuario_mod_id='.$this->usuario_mod_id;
+            $q = 'UPDATE guia_venta_detalle set guia_venta_ID='.$this->guia_venta_ID.',salida_detalle_ID='.$this->salida_detalle_ID.',usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where ID='.$this->ID;
             
             $retornar = $cn->transa($q);
@@ -109,7 +109,7 @@ class guia_venta_detalle {
     static function getByID($ID) {
         $cn = new connect();
         try {
-            $q = 'Select ID,guia_venta_ID,orden_venta_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
+            $q = 'Select ID,guia_venta_ID,salida_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
             $q.=' from guia_venta_detalle ';
             $q.=' where del=0 and ID=' . $ID;
 
@@ -121,7 +121,7 @@ class guia_venta_detalle {
 
                 $oGuia_Venta_Detalle->ID= $item['ID'];
                 $oGuia_Venta_Detalle->guia_venta_ID= $item['guia_venta_ID'];
-                $oGuia_Venta_Detalle->orden_venta_detalle_ID= $item['orden_venta_detalle_ID'];
+                $oGuia_Venta_Detalle->salida_detalle_ID= $item['salida_detalle_ID'];
                
                 $oGuia_Venta_Detalle->usuario_id= $item['usuario_id'];
                 $oGuia_Venta_Detalle->usuario_mod_id= $item['usuario_mod_id'];
@@ -136,7 +136,7 @@ class guia_venta_detalle {
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
         $cn = new connect();
         try {
-            $q = 'Select ID,guia_venta_ID,orden_venta_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
+            $q = 'Select ID,guia_venta_ID,salida_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
             $q.=' from Guia_Venta_Detalle ';
             $q.=' where del=0 ';
 
@@ -164,9 +164,9 @@ class guia_venta_detalle {
         $q='select ovd.ID, ov.moneda_ID,pro.peso, um.nombre as unidad_medida,ovd.cantidad,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,';
         $q.='ovd.vigv_soles,ovd.vigv_dolares,ovd.precio_venta_subtotal_soles,ovd.precio_venta_subtotal_dolares,ovd.precio_venta_soles';
         $q.=',ovd.precio_venta_dolares,pro.nombre as producto,ovd.descripcion';
-        $q.=' from orden_venta ov,orden_venta_detalle ovd,guia_venta_detalle gvd, producto pro,unidad_medida um';
-        $q.=' where gvd.del=0 and ov.del=0 and ovd.del=0 and  ov.ID=ovd.orden_venta_ID and';
-        $q.=' gvd.orden_venta_detalle_ID =ovd.ID and ovd.producto_ID=pro.ID and pro.unidad_medida_ID=um.ID';
+        $q.=' from salida ov,salida_detalle ovd,guia_venta_detalle gvd, producto pro,unidad_medida um';
+        $q.=' where gvd.del=0 and ov.del=0 and ovd.del=0 and  ov.ID=ovd.salida_ID and';
+        $q.=' gvd.salida_detalle_ID =ovd.ID and ovd.producto_ID=pro.ID and pro.unidad_medida_ID=um.ID';
 
         if($filtro!=''){
                 $q.=' and '.$filtro;

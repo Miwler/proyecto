@@ -4117,7 +4117,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $dtEstado=estado::getGrid('est.tabla="salida"');
         $osalida->dtRepresentante_Cliente=cliente_contacto::getGrid('clic.cliente_ID='.$osalida->cliente_ID,-1,-1,'pe.apellido_paterno asc,pe.apellido_paterno asc, pe.nombres asc');
         $osalida->bloquear_edicion=factura_venta::getCount('salida_ID='.$id.' and estado_ID=41');
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
         $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $GLOBALS['oCliente']=$oCliente;
         $GLOBALS['dtCliente']=$dtCliente;
@@ -6824,7 +6824,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $GLOBALS['facturas_informacion']=extraer_estructura_facturas($osalida);
 
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['listaproducto']=$listaproducto;
         $GLOBALS['mensaje']=$mensaje;
 
@@ -6884,7 +6884,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta->estado_ID=35;
                     $oFactura_Venta->moneda_ID=$Moneda_ID;
                     $oFactura_Venta->orden_pedido=$orden_pedido;
-                    $oFactura_Venta->orden_compra=$orden_compra;
+                    $oFactura_Venta->orden_ingreso=$orden_compra;
                     $oFactura_Venta->opcion=$opcion;
                     $oFactura_Venta->numero_producto=$arrayProductoFactura[$i];
                     //$oFactura_Venta->con_guia=$con_guia;
@@ -6939,7 +6939,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                             //$oFactura_Venta->estado_ID=34;
                             $oFactura_Venta->moneda_ID=$Moneda_ID;
                             $oFactura_Venta->orden_pedido=$orden_pedido;
-                            $oFactura_Venta->orden_compra=$orden_compra;
+                            $oFactura_Venta->orden_ingreso=$orden_compra;
                             $oFactura_Venta->opcion=$opcion;
                             $oFactura_Venta->numero_producto=$arrayProductoFactura[$i];
                             $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
@@ -6989,7 +6989,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         $oFactura_Venta->dtSerie=$dtSerie;
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['listaproducto']=$listaproducto;
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
@@ -7434,7 +7434,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $oFactura_Venta->monto_pendiente=$total;
         $oFactura_Venta->actualizarCostos();
     }
-    function get_salida_Mantenimiento_Guia($id){
+    function get_Orden_Venta_Mantenimiento_Guia($id){
         require ROOT_PATH . 'models/salida.php';
         require ROOT_PATH . 'models/salida_detalle.php';
         require ROOT_PATH . 'models/producto.php';
@@ -7471,7 +7471,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             if($array_facturas[0]){
                 $oFacutura_Venta=factura_venta::getByID($array_facturas[0]);
                 $oGuia_Venta->orden_pedido=$oFacutura_Venta->orden_pedido;
-                $oGuia_Venta->orden_compra=$oFacutura_Venta->orden_compra;
+                $oGuia_Venta->orden_ingreso=$oFacutura_Venta->orden_compra;
             }
             $osalida->serie='001';
             $oGuia_Venta->ID=0;
@@ -7541,7 +7541,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $GLOBALS['facturas_informacion']=$informacion;
 
         $GLOBALS['oGuia_Venta']=$oGuia_Venta;
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['listaproducto']=$listaproducto;
 
 
@@ -7621,7 +7621,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oGuia_Venta->salida_ID=$salida_ID;
 
                     $oGuia_Venta->fecha_emision=$fecha_emision;
-                    $oGuia_Venta->orden_compra=$orden_compra;
+                    $oGuia_Venta->orden_ingreso=$orden_compra;
                     $oGuia_Venta->orden_pedido=$orden_pedido;
                     $oGuia_Venta->vehiculo_ID=$vehiculo_ID;
                     $oGuia_Venta->chofer_ID=$chofer_ID;
@@ -7693,7 +7693,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $oGuia_Venta->dtSerie=$dtSerie;
         $GLOBALS['facturas_informacion']=$informacion;
         $GLOBALS['oGuia_Venta']=$oGuia_Venta;
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['listaproducto']=mostrar_productos($salida_ID,3);
         $GLOBALS['mensaje']=$mensaje;
         $GLOBALS['resultado']=$resultado;
@@ -7755,12 +7755,12 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
 
     }
-    function get_salida_Mantenimiento_Factura_Vista_Previa($id){
+    function get_Orden_Venta_Mantenimiento_Factura_Vista_Previa($id){
         require ROOT_PATH.'models/salida.php';
         global $returnView_float;
         $returnView_float=true;
         $osalida=salida::getByID($id);
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
     }
 
     function get_Factura_Vista_Previa($id){
@@ -7802,14 +7802,14 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $dtsalida_Numero_Cuenta=salida_numero_cuenta::getGrid1('ovnc.salida_ID='.$id,-1,-1);
             $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$id.' and estado_ID in (35,41)',-1,-1);
 
-            $pdf->osalida=$osalida;
+            $pdf->oOrden_Venta=$osalida;
             $pdf->oDatos_Generales=$oDatos_Generales;
             $pdf->oCliente=$oCliente;
             $pdf->oCliente_Contacto=$oCliente_Contacto;
             $pdf->oMoneda=$oMoneda;
             $pdf->oForma_Pago=$oForma_Pago;
             $pdf->oOperador=$oOperador;
-            $pdf->dtsalida_Numero_Cuenta=$dtsalida_Numero_Cuenta;
+            $pdf->dtOrden_Venta_Numero_Cuenta=$dtsalida_Numero_Cuenta;
             foreach($dtFactura_Venta as $item){
                 $oFactura_Venta=factura_venta::getByID($item['ID']);
                 $pdf->AddPage();
@@ -7921,7 +7921,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $font = printer_create_font("Arial",20,10,300,false,false, false,0);
                     $font_negrita=printer_create_font("Arial",20,10,700,false,false, false,0);
                     $font_moneda=printer_create_font("Arial",20,10,700,false,false, false,0);
-					$font_total=printer_create_font("Arial",25,10,700,false,false, false,0);
+                    $font_total=printer_create_font("Arial",25,10,700,false,false, false,0);
                     printer_select_font($handle, $font);
 
                     //Imprimimos la cabecera
@@ -7944,7 +7944,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     //====
                     printer_draw_text($handle,$oCliente->ruc,160,465);
                     printer_draw_text($handle,$oCliente->codigo,630,465);
-                    printer_draw_text($handle,$oFactura_Venta->orden_compra,1350,465);
+                    printer_draw_text($handle,$oFactura_Venta->orden_ingreso,1350,465);
                     //Detalle
                     //=============================================================
                     $alto=610;
@@ -8089,7 +8089,6 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $factura_detalle=extraer_estructura_facturas($osalida);
                 //Actualizamos el orden de venta
                 if($factura_emitidos==0){
-
                     $osalida->estado_ID=40;
                     $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
                     $osalida->actualizar();
@@ -8138,11 +8137,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global $returnView_float;
         $returnView_float=true;
         $osalida=salida::getByID($id);
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
     }
 
     function get_Guia_Vista_Previa($id){
-        require ('./controls/guia_ventapdfController.php');
+        require ROOT_PATH.'formatos_pdf/guia_venta.php';
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/factura_venta.php';
         require ROOT_PATH.'models/guia_venta.php';
@@ -8273,7 +8272,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     //direccion ip local-nombre de impresora
                     //===========================================
                         //$handle = printer_open("Guia");
-                                            $handle = printer_open("PDFCreator");
+                    $handle = printer_open("PDFCreator");
                                             //$handle = printer_open("TASKalfa 306ci");
                                     //========
                     printer_set_option($handle, PRINTER_PAPER_LENGTH, 200 );
@@ -8295,7 +8294,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     printer_draw_text($handle,$oGuia_Venta->fecha_emision,150,375);
                     printer_draw_text($handle,$oGuia_Venta->fecha_inicio_traslado,580,375);
                     printer_draw_text($handle,$oGuia_Venta->orden_pedido,1350,345);
-                    printer_draw_text($handle,$oGuia_Venta->orden_compra,1350,375);
+                    printer_draw_text($handle,$oGuia_Venta->orden_ingreso,1350,375);
                     //fila2
                     printer_draw_text($handle,$oGuia_Venta->punto_partida,80,455);
                     printer_draw_text($handle,$oGuia_Venta->punto_llegada,800,455);

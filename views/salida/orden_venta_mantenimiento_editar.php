@@ -39,7 +39,7 @@ $(document).ready(function(){
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Ventas/Orden_Venta_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Venta']->ID?>" onsubmit="return validar();" class="form-horizontal">
+<form id="form" method="POST" action="/Salida/Orden_Venta_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Venta']->ID?>" onsubmit="return validar();" class="form-horizontal">
      <div class="panel panel-tab rounded shadow">
          <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -393,7 +393,7 @@ $(document).ready(function(){
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-             parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Ventas/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,600);
+             parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,600);
         
         }else {
             toastem.error('Debe registrar productos.');
@@ -407,7 +407,7 @@ $(document).ready(function(){
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Ventas/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,600);
+            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,600);
         }else {
             toastem.error('Debe registrar productos.');
         }
@@ -423,7 +423,7 @@ $(document).ready(function(){
     }
     var fncQuitarPrint=function(){
         var orden_venta_ID=$('#txtID').val();
-        cargarValores('Ventas/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
             toastem.info(resultado.mensaje);
             if(resultado.resultado==1){
                 setTimeout('window_float_save_modal();', 1000);   
@@ -462,32 +462,32 @@ $(document).ready(function(){
    var fncRegistrar_Productos=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Ventas/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,600);
     }
     var fncEditarProducto=function(id){
-        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Ventas/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
        
     }
     var fncVerProducto=function(id){
-        parent.window_float_open_modal_hijo("VER PRODUCTO","Ventas/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("VER PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
        
     }
     var fncRegistrar_Obsequios=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/Orden_Venta_Mantenimiento_Obsequio_Nuevo',orden_venta_ID,'',fncCargar_Detalle_Obsequios);
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Ventas/Orden_Venta_Mantenimiento_Obsequio_Nuevo",orden_venta_ID,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/Orden_Venta_Mantenimiento_Obsequio_Nuevo",orden_venta_ID,"",fncCargar_Detalle_Obsequios,700,600);
     }
     
     var fncEditarObsequio=function(id){
 
-         parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Ventas/Orden_Venta_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
+         parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Orden_Venta_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
     }
     var fncSeries=function(id){
-       parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Ventas/Orden_Venta_Mantenimiento_Producto_Serie",id,"",fncCargar_Detalle_Orden_Venta,700,500);
+       parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Orden_Venta_Mantenimiento_Producto_Serie",id,"",fncCargar_Detalle_Orden_Venta,700,500);
             
     }
     var fncEliminarProducto=function(ID){
-        cargarValores('/Ventas/ajaxOrden_Venta_Detalle_Mantenimiento_Eliminar',ID,function(resultado){   
+        cargarValores('/Salida/ajaxOrden_Venta_Detalle_Mantenimiento_Eliminar',ID,function(resultado){   
             if(resultado.resultado==1){
                 fncCargar_Detalle_Orden_Venta();
                 toastem.info(resultado.mensaje);
@@ -497,7 +497,7 @@ $(document).ready(function(){
         });
     }
     var fncEliminarObsequio=function(ID){
-        cargarValores('/Ventas/ajaxOrden_Venta_Detalle_Mantenimiento_Eliminar',ID,function(resultado){
+        cargarValores('/Salida/ajaxOrden_Venta_Detalle_Mantenimiento_Eliminar',ID,function(resultado){
             if(resultado.resultado==1){
                 
                 fncCargar_Detalle_Obsequios();
@@ -517,7 +517,7 @@ $(document).ready(function(){
         var orden=$('#txtOrden').val();
         var tipo=$('#chkOrdenASC').val();
         //$('#divContenedor_Float_Hijo').css('display', 'block');
-        cargarValores("Ventas/ajaxOrden_Venta_Detalle_Productos",orden_venta_ID,function(resultado){
+        cargarValores("Salida/ajaxOrden_Venta_Detalle_Productos",orden_venta_ID,function(resultado){
             $('#productos').html(resultado.resultado);
             $('#subtotal').html(resultado.subtotal);
             $('#vigv').html(resultado.vigv);
@@ -532,7 +532,7 @@ $(document).ready(function(){
         var orden_venta_ID=$('#txtID').val();
         if(orden_venta_ID>0){
             //$('#divContenedor_Float_Hijo').css('display', 'block');
-            cargarValores("Ventas/ajaxOrden_Venta_Detalle_Obsequios",orden_venta_ID,function(resultado){
+            cargarValores("Salida/ajaxOrden_Venta_Detalle_Obsequios",orden_venta_ID,function(resultado){
                 //alert(resultado.resultado);
                 $('#obsequios').html(resultado.resultado);
                 //fncSeleccionarDetalle();
@@ -542,7 +542,7 @@ $(document).ready(function(){
     }
     
     var fncCargaValores=function(id){
-        cargarValores('/Ventas/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
+        cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
             $('#txtDireccion').val(resultado.Direccion);
             $('#txtLugar_Entrega').val(resultado.Direccion);
             $('#txtTelefono').val(resultado.Telefono);
@@ -625,7 +625,7 @@ $(document).ready(function(){
         //$('#fondo_espera').css('display','block');
     }
     var mostrarInformacion=function(orden_venta_ID){
-        cargarValores('Ventas/ajaxMostrarInformacion',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxMostrarInformacion',orden_venta_ID,function(resultado){
             $('#txtID').val(resultado.orden_venta_ID);
             $('#txtCotizacion_ID').val(resultado.cotizacion_ID);
             cboCliente.seleccionar(resultado.cliente_ID,resultado.Ruc+'-'+resultado.Razon_Social);
@@ -753,7 +753,7 @@ $(document).ready(function(){
 
          }
          //alert(numero_pagina);
-         cargarValores2('/Ventas/ajaxOrden_Venta_Grabar',orden_venta_ID,numero_pagina,nproductoxhoja,function(resultado){
+         cargarValores2('/Salida/ajaxOrden_Venta_Grabar',orden_venta_ID,numero_pagina,nproductoxhoja,function(resultado){
              if(resultado.resultado==-1){
                  toastem.error(resultado.mensaje);
              }

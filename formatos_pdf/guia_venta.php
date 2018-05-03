@@ -164,7 +164,7 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','',7);
         $this->SetXY(170,45);
         $this->Cell(40,5,$oGuia_Venta->orden_pedido,0,2,'L');
-        $this->Cell(95,5,$oGuia_Venta->orden_compra,0,2,'L');
+        $this->Cell(95,5,$oGuia_Venta->orden_ingreso,0,2,'L');
         $this->Ln(2);
         //domicilio de partida
         $this->SetFillColor(215,215,215);

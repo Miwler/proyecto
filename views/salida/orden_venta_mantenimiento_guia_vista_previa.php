@@ -7,7 +7,7 @@
         <script src="../../include/js/jPdf.js" type="text/javascript"></script>
         <script type="text/javascript">
         $(document).ready(function(){
-          pdf.mostrar('Ventas/Guia_Vista_Previa/<?php echo $GLOBALS['oOrden_Venta']->ID;?>');
+          pdf.mostrar('Salida/Guia_Vista_Previa/<?php echo $GLOBALS['oOrden_Venta']->ID;?>');
         });
         </script>
 <?php } ?>
@@ -21,7 +21,7 @@
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
  
 
-<form id="frm1"  method="post"  action="Ventas/Orden_Venta_Mantenimiento_Guia_Vista_Previa/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();">
+<form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Guia_Vista_Previa/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();">
     <div class="form-body">
         <iframe id="pdf" style='width: 100%; height: 540px;'>
         </iframe>

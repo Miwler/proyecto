@@ -32,7 +32,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['resultado']==1){ ?>
-<form id="frm1"  method="post"  action="Ventas/Orden_Venta_Mantenimiento_Factura/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Factura/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -111,7 +111,7 @@
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->orden_compra; ?>" >
+                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->orden_ingreso; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>N° orden de pedido</label>
@@ -240,7 +240,7 @@
     var fncVistaPrevia=function(){
         var orden_venta_ID=$('#txtorden_ventaID').val();
         //window_float_deslizar_hijo('form','Ventas/Orden_Venta_Mantenimiento_Factura_Vista_Previa',orden_venta_ID,'');
-        parent.window_float_open_modal_hijo_hijo("VISTA PREVIA DE FACTURA","/Ventas/Orden_Venta_Mantenimiento_Factura_Vista_Previa",orden_venta_ID,"",null,700,600);
+        parent.window_float_open_modal_hijo_hijo("VISTA PREVIA DE FACTURA","Salida/Orden_Venta_Mantenimiento_Factura_Vista_Previa",orden_venta_ID,"",null,700,600);
         
     }
     function fncNumero(){
@@ -258,7 +258,7 @@
    }*/
     var fncActualizarNumero=function(){
        var serie=$('#selSerie').val();
-        cargarValores('/Ventas/ajaxFactura_Venta_Numero_Ultimo',serie,function(resultado){
+        cargarValores('/Salida/ajaxFactura_Venta_Numero_Ultimo',serie,function(resultado){
             if(resultado.resultado==1){
                 $('#txtNumero').val(resultado.numero); 
             }else{
@@ -273,7 +273,7 @@
         $('#fondo_espera').css('display','block');
         var orden_venta_ID=$('#txtorden_ventaID').val();
         
-        cargarValores('ventas/ajaxImprimir_Factura',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxImprimir_Factura',orden_venta_ID,function(resultado){
             
             if(resultado.resultado==1){
                 $('#txtEstado').val('Emitido');
@@ -314,12 +314,12 @@
       
        var fecha_emision=$('#txtFecha_Emision').val();
        var fecha_vencimiento=$('#txtFecha_Vencimiento').val();
-       if(fecha_emision=="__/__/____"){
+       if(fecha_emision==""){
            toastem.error('Seleccione la fecha de emisión.');
            $('#txtFecha_Emision').focus();
            return false;
        }
-        if(fecha_vencimiento=="__/__/____"){
+        if(fecha_vencimiento==""){
            toastem.error('Seleccione fecha de vencimiento.');
            $('#txtFecha_Vencimiento').focus();
            return false;
@@ -362,7 +362,7 @@
         $('#Imprimir').css('display','none');
     }
     var fncVerFecha=function(d,fecha){
-         var fechaFinal="__/__/____";
+         var fechaFinal="";
         if(d.trim().length>0){
               var Fecha = new Date();
               var sFecha = fecha || (Fecha.getDate() + "/" + (Fecha.getMonth() +1) + "/" + Fecha.getFullYear());
@@ -383,7 +383,7 @@
     }
     var fncQuitarGuia=function(){
       var ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
-      cargarValores('/Ventas/ajaxQuitarGuia',ID,function(resultado){
+      cargarValores('/Salida/ajaxQuitarGuia',ID,function(resultado){
           $('.float-mensaje').html(resultado.mensaje);
            if(resultado.resultado==1){
                $('#selGuia_Venta').val('0');
@@ -408,7 +408,7 @@
         var orden_venta_ID=$('#txtorden_ventaID').val();
         var serie=$('#selSerie').val();
 
-        cargarValores1('Ventas/ajaxExtraer_Estructura_Facturas',orden_venta_ID,serie,function(resultado){
+        cargarValores1('Salida/ajaxExtraer_Estructura_Facturas',orden_venta_ID,serie,function(resultado){
 
             $('#tdfacturas_detalle').html(resultado.html);
         });

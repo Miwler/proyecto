@@ -37,7 +37,7 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['resultado']==1){ ?>
-<form id="frm1"  method="post"  action="Ventas/Orden_Venta_Mantenimiento_Guia/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Guia/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -100,7 +100,7 @@
                             <label>Punto de Partida:</label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <input type="text" id="txtPunto_Partida" name="txtPunto_Partida" required class="form-control form-requerido" value="<?php echo FormatTextView($GLOBALS['oGuia_Venta']->punto_partida);?>">
+                            <input type="text" id="txtPunto_Partida" name="txtPunto_Partida" required class="form-control form-requerido" value="<?php echo $GLOBALS['oGuia_Venta']->punto_partida;?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -162,7 +162,7 @@
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off"  class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->orden_compra; ?>" >
+                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off"  class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->orden_ingreso; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>N° orden de pedido</label>
@@ -275,12 +275,12 @@
     var fncVistaPrevia=function(){
         var orden_venta_ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
         
-        parent.window_float_open_modal_hijo_hijo("VISTA PREVIA DE GUÍA","/Ventas/Orden_Venta_Mantenimiento_Guia_Vista_Previa",orden_venta_ID,"",null,700,600);
+        parent.window_float_open_modal_hijo_hijo("VISTA PREVIA DE GUÍA","/Salida/Orden_Venta_Mantenimiento_Guia_Vista_Previa",orden_venta_ID,"",null,700,600);
     }
 
     var fncActualizarNumero=function(){
        var serie=$("#selSerie").val();
-        cargarValores('/Ventas/ajaxGuia_Venta_Numero_Ultimo',serie,function(resultado){
+        cargarValores('/Saldia/ajaxGuia_Venta_Numero_Ultimo',serie,function(resultado){
             if(resultado.resultado==1){
                 $('#txtNumero').val(resultado.numero); 
             }else{
@@ -298,7 +298,7 @@
         $('#fondo_espera').css('display','block');
         var orden_venta_ID=$('#txtorden_ventaID').val();
         
-        cargarValores('ventas/ajaxImprimir_Guia',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxImprimir_Guia',orden_venta_ID,function(resultado){
              //alert(resultado.mensaje);
             if(resultado.resultado==1){
                 $('#txtEstado').val('Emitido');
@@ -319,7 +319,7 @@
     }
     var fncAnularGuia=function(){
         var orden_venta_ID=$('#txtorden_ventaID').val();
-        cargarValores('ventas/ajaxAnular_Guia',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxAnular_Guia',orden_venta_ID,function(resultado){
             if(resultado.resultado==1){
                 toastem.success(resultado.mensaje);
                 desbloquear_guia();
@@ -433,7 +433,7 @@
   }
   var fncQuitarGuia=function(){
     var ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
-    cargarValores('/Ventas/ajaxQuitarGuia',ID,function(resultado){
+    cargarValores('/Salida/ajaxQuitarGuia',ID,function(resultado){
         $('.float-mensaje').html(resultado.mensaje);
          if(resultado.resultado==1){
              $('#selGuia_Venta').val('0');
