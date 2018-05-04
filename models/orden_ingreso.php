@@ -59,7 +59,7 @@ class orden_ingreso {
             }
             $q = 'select ifnull(max(ID),0)+1 as ID from orden_ingreso;';
             $ID = $cn->getData($q);
-            $q = 'select ifnull(max(numero_orden),0)+1 as ID from orden_ingreso where and tipo_orden_ID='.$this->tipo_orden_ID.' and empresa_ID='.$_SESSION['empresa_ID'].';';
+            $q = 'select ifnull(max(numero_orden),0)+1 as ID from orden_ingreso where  tipo_orden_ID='.$this->tipo_orden_ID.' and empresa_ID='.$_SESSION['empresa_ID'].';';
             $numero_orden=$cn->getData($q);
             $q = 'INSERT INTO orden_ingreso(ID,empresa_ID,tipo_orden_ID,numero_orden,fecha,proveedor_ID,moneda_ID,estado_ID,tipo_cambio,vigv,subtotal,igv,total,comentario,usuario_id)';
             $q.='values (' . $ID .','.$_SESSION["empresa_ID"].','.$this->tipo_orden_ID.',' . $numero_orden . ',' . $fecha_save . ',' . $this->proveedor_ID . ',' . $this->moneda_ID . ',' . $this->estado_ID . ',"' . number_format($this->tipo_cambio, 2, '.', '') . '","' . number_format($this->vigv, 2, '.', '') . '","' . number_format($this->subtotal, 2, '.', '') . '",' . number_format($this->igv, 2, '.', '') . ',' . number_format($this->total, 2, '.', '') .',"'.$this->comentario.'",' . $this->usuario_id . ')';
