@@ -47,7 +47,7 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1||$GLOBALS['resultado'] == 1) { ?>
 
-<form id="form"  method="POST" action="/Compra/Compra_Mantenimiento_Editar/<?php echo $GLOBALS['oCompra']->ID;?>" onsubmit="return validar();" style="width:800px" >
+<form id="form"  method="POST" action="/Ingreso/Compra_Mantenimiento_Editar/<?php echo $GLOBALS['oCompra']->ID;?>" onsubmit="return validar();" style="width:800px" >
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">

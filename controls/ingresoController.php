@@ -1335,7 +1335,7 @@ echo json_encode($retornar);
 
 function get_Compra_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/comprobante_tipo.php';
-    require ROOT_PATH.'models/orden_compra.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
@@ -2443,7 +2443,7 @@ function get_Orden_Compra_Mantenimiento(){
     global $returnView;
     $returnView=true;
     $dtProveedor=proveedor::getGrid('ID<>0',-1,-1,"razon_social asc");
-    $dtEstado=estado::getGrid('tabla="orden_compra"',-1,-1,"orden asc");
+    $dtEstado=estado::getGrid('tabla="orden_ingreso" and ID in (55,56)');
     $dtMoneda=moneda::getGrid();
     $GLOBALS['dtProveedor']=$dtProveedor;
     $GLOBALS['dtEstado']=$dtEstado;
