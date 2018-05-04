@@ -1334,7 +1334,7 @@ echo json_encode($retornar);
 
 
 function get_Compra_Mantenimiento_Editar($id){
-    require ROOT_PATH.'models/comprobante_tipo.php';
+    require ROOT_PATH.'models/tipo_comprobante_empresa.php';
     require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/estado.php';
@@ -1363,16 +1363,18 @@ function get_Compra_Mantenimiento_Editar($id){
         $numero_orden_compra=sprintf("%'.07d",$oOrden_Compra->numero_orden);
     }
     $oCompra->numero_orden_ingreso=$numero_orden_compra;
-    $dtEstado=estado::getGrid('est.ID in (9,10,11) and est.tabla="compra"');
+    $dtEstado=estado::getGrid('est.ID in (9,10,11) and est.tabla="ingreso"');
     $oProveedor=proveedor::getByID($oCompra->proveedor_ID); 
     $dtMoneda=moneda::getGrid();
 
-    $dtComprobante_tipo=comprobante_tipo::getGrid('ct.en_compra=1');
+//    $dtComprobante_tipo=comprobante_tipo::getGrid('ct.en_compra=1');
+    $dtTipo_Comprobante = tipo_comprobante_empresa::getGrid('tce.tabla="ingreso"');
     $oCompra->oEstado=estado::getByID($oCompra->estado_ID);
     $oCompra->dtMoneda=$dtMoneda;
     //$GLOBALS['dtMoneda']=$dtMoneda;
     $oCompra->oProveedor=proveedor::getByID($oCompra->proveedor_ID);   
-    $oCompra->dtComprobante_Tipo=$dtComprobante_tipo;
+//    $oCompra->dtComprobante_Tipo=$dtComprobante_tipo;
+    $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
     $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID']);
     $oCompra->dtProveedor=$dtProveedor;
     $GLOBALS['oCompra']=$oCompra;
@@ -1380,7 +1382,7 @@ function get_Compra_Mantenimiento_Editar($id){
     $GLOBALS['tipo_cambio']=$oDatos_generales->tipo_cambio;
     $GLOBALS['vigv']=$oDatos_generales->vigv;
     $GLOBALS['con_igv']=1;
-    $GLOBALS['dtComprobante_tipo']=$dtComprobante_tipo;
+//    $GLOBALS['dtComprobante_tipo']=$dtComprobante_tipo;
     $GLOBALS['dtEstado']=$dtEstado;
 //        $GLOBALS['mensaje']='';
     //$GLOBALS['mensaje1']='Inicio';

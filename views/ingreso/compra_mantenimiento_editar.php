@@ -99,7 +99,7 @@ function fncPage() { ?>
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Tipo comprobante:</label>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <select id="cboComprobante_Tipo" name="cboComprobante_Tipo" disabled class="form-control">
-                                <?php foreach($GLOBALS['oCompra']->dtComprobante_Tipo as $iComprobante){ ?>
+                                <?php foreach($GLOBALS['oCompra']->dtTipo_Comprobante as $iComprobante){ ?>
                                 <option value="<?php echo $iComprobante['ID']; ?>"><?php echo FormatTextView($iComprobante['nombre']); ?></option>
                                 <?php } ?>       
                             </select>
