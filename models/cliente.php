@@ -173,7 +173,7 @@ class cliente {
             $q.= 'descuento, tiempo_credito, usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from cliente ';
             $q.=' where del=0 and ID='.$ID;
-
+            //echo $q;
             $dt = $cn->getGrid($q);
             $oCliente = null;
 

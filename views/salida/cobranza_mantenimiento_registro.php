@@ -35,7 +35,7 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 
-<form id="frm1" method="POST"  action="/Ventas/Cobranza_Mantenimiento_Registro" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1" method="POST"  action="/Salida/Cobranza_Mantenimiento_Registro" onsubmit="return validar();" class="form-horizontal">
     <div class="form-body">
         <div class="form-group">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -149,9 +149,9 @@ function fncPage() { ?>
     var f=new form('frm1','divRegistro_Cobranzas');
     f.terminado = function () {
         var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
-        grids = new grid(tb);
-        grids.nuevoEvento();
-        grids.fncPaginacion(f);			
+        /*grids = new grid(tb);
+        /*grids.nuevoEvento();
+        grids.fncPaginacion(f);	*/		
     }
     f.enviar();    
     var fncMontoPendiente=function(monto_pendiente){
@@ -179,14 +179,14 @@ function fncPage() { ?>
         var fecha=$('#txtFecha_Pago').val();
         var aporte=$('#txtMonto_Pago').val();
         var error=0;
-        if(fecha=='__/__/____'){
-            toastem.error('Registre una fecha');
-            $('#txtFecha_Pago').focus();
+        if(fecha==''){
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Registre una fecha.','txtFecha_Pago');
+           
             error=1;
         }
         if(aporte==''||aporte==0){
-            toastem.error('Ingrese un monto de aporte válido');
-            $('#txtMonto_Pago').focus();
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese un monto de aporte válido.','txtMonto_Pago');
+          
           error=1;
         }
         var monto_pendiente=parseFloat($('#txtMonto_Pendiente').val().replace(',',''));
@@ -194,7 +194,9 @@ function fncPage() { ?>
         var monto_reg=parseFloat($('#txtMonto_Pago').val());
         
         if(monto_reg>monto_pendiente){
-            toastem.error('El monto no puede mayor al monto pendiente.');
+             mensaje.advertencia("VALIDACIÓN DE DATOS",'El monto no puede mayor al monto pendiente.');
+          
+
              error=1;
         }
         if(error==0){
