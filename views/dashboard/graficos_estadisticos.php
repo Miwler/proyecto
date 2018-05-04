@@ -80,7 +80,8 @@ function fncMenu() { ?>
                     </select>
                 </div>
             </div>
-            <ul id="menu_opciones" class="nav nav-tabs nav-justified">
+            <div class="form-group">
+                <ul id="menu_opciones" class="nav nav-tabs nav-justified">
                 <li class="nav-item">
                     <a id="compras" class="nav-link active" data-toggle="tab" href="#panel1" role="tab"><h3>Compras</h3></a>
                 </li>
@@ -91,6 +92,8 @@ function fncMenu() { ?>
                     <a id="ganancias" class="nav-link" data-toggle="tab" href="#panel3" role="tab"><h3>Ganancias</h3></a>
                 </li>
             </ul>
+            </div>
+            
         </div>
     </div>
    

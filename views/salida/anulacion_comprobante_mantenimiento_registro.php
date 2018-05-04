@@ -35,7 +35,7 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1" method="POST" action="/Ventas/Anulacion_Comprobante_Mantenimiento_Registro/<?php echo $GLOBALS['oFactura_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1" method="POST" action="/Salida/Anulacion_Comprobante_Mantenimiento_Registro/<?php echo $GLOBALS['oFactura_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     
     <div class="form-body">
         <div class="form-group">

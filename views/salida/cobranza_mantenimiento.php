@@ -19,7 +19,7 @@
      <i class="fa fa-file-text" aria-hidden="true"></i> Registro de cobranzas de facturas
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1"  method="post" action="/Ventas/ajaxCobranza_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Salida/ajaxCobranza_Mantenimiento" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding"> 
            <ul class="nav nav-tabs">
@@ -227,7 +227,7 @@
             f.enviar();
         }
         var fncCobrar=function(id){
-            window_float_open_modal('REGISTRO DE COBRANZA','Ventas/cobranza_mantenimiento_registro',id,'',f,800,650); 
+            window_float_open_modal('REGISTRO DE COBRANZA','Salida/cobranza_mantenimiento_registro',id,'',f,800,650); 
             //window_float_open('/Ventas/cobranza_mantenimiento_registro',id,'',f);
         }
         var fncCargarVista=function(valor){

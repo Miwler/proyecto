@@ -18,7 +18,7 @@
 <?php } ?>
 <?php function fncPage(){?>
      
-<form id="frm1"  method="post" action="/Ventas/ajaxAnulacion_Comprobante_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Salida/ajaxAnulacion_Comprobante_Mantenimiento" class="form-horizontal">
 <div class="panel panel-tab panel-tab-double shadow">
     <div class="panel-heading no-padding"> 
         <ul class="nav nav-tabs">
@@ -203,10 +203,10 @@
         var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
 
         grids = new grid(tb);
-        grids.nuevoEvento();
+        /*grids.nuevoEvento();
         grids.fncPaginacion1(f);
         $('[data-toggle="tooltip"]').tooltip(); 
-        $('#websendeos').stacktable();
+        $('#websendeos').stacktable();*/
     }
     f.enviar();
     var fncCargaValores=function(){
@@ -232,7 +232,7 @@
 
 
     var fncAnular=function(id){
-        window_float_open_modal('ANULACIÓN DE FACTURAS','Ventas/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500); 
+        window_float_open_modal('ANULACIÓN DE FACTURAS','Salida/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500); 
         
     }
 

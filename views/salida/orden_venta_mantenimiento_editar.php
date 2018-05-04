@@ -370,7 +370,7 @@ $(document).ready(function(){
         var tipo=$('#chkOrdenASC').val();
         if (col_old == col) {
             if(tipo=="ASC"){
-                $('#chkOrdenASC').val('DESC');
+                $('#chkOrdenASC').val('DESC');va
             }else {
                  $('#chkOrdenASC').val('ASC');
             }
@@ -583,34 +583,39 @@ $(document).ready(function(){
     }
     var validar=function(){
         //$('#txtSubTotalSoles').removeAttr('disabled');
-        var cliente_ID=$('#txtCliente_ID').val();
+        var cliente_ID=$('#selCliente').val();
 
         var Plazo_Entrega=$.trim($('#txtPlazo_Entrega').val());
         var Validez_Oferta=$('#txtValidez_Oferta').val();
         var Garantia=$.trim($('#txtGarantia').val());
-
-        if(cliente_ID==undefined){
-           toastem.error('Seleccione un cliente.');
-            $('#txtdivCliente').focus();
+        var SelForma_Pago = $.trim($('#selForma_Pago'));
+        if(cliente_ID==0){
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione un cliente.','selCliente');
+            $('.nav-tabs a[href="#divCliente"]').tab('show');
             return false;
         }	
 
 
 
         if(isNaN(Plazo_Entrega)||$.trim(Plazo_Entrega)==""){
-           toastem.error('Ingrese un plazo de entrega.');
-            $('#txtPlazo_Entrega').focus();
+           mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese un plazo de entrega.','txtPlazo_Entrega');
+           $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
             return false;
         }
         if(isNaN(Validez_Oferta)||$.trim(Validez_Oferta)==""){
-            toastem.error('Ingrese un tiempo de validez de la oferta.');
-            $('#txtValidez_Oferta').focus();
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese un tiempo de validez de la oferta.','txtValidez_Oferta');
+            $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
             return false;
         }
          if(Garantia==""){
-            toastem.error('Ingrese un tiempo de garantía.');
-            $('#txtGarantia').focus();
+             mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese un tiempo de garantía.','txtGarantia');
+            $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
                 return false;
+        }
+        if(SelForma_Pago=""){
+            mensaje.error("VALIDACIÓN DE DATOS",'Ingrese una forma de pago.','selForma_Pago');
+            $('.nav-tabs a[href="#divDatos_Economicos"]').tab('show');
+            
         }
         var i=0;
         $('#tbnumero_cuenta input:checkbox:checked').each(function(){

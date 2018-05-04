@@ -4139,7 +4139,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/moneda.php';
         require ROOT_PATH.'models/estado.php';
         require ROOT_PATH.'models/cliente.php';
-        require ROOT_PATH.'models/representantecliente.php';
+        require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
         require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
@@ -4152,13 +4152,13 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global  $returnView_float;
         $returnView_float=true;
 
-        if(isset($_POST['txtCliente_ID'])){
-            $Cliente_ID=$_POST['txtCliente_ID'];
-        }else{$Cliente_ID=0;}
+        if(isset($_POST['selCliente'])){
+            $cliente_ID=$_POST['selCliente'];
+        }else{$cliente_ID=0;}
         $numero_orden_compra=$_POST['txtNumero_Orden_Compra'];
-        $representante_cliente_ID=0;
+        $cliente_contacto_ID=0;
         if(isset($_POST['selRepresentante'])){
-            $representante_cliente_ID= $_POST['selRepresentante'];
+            $cliente_contacto_ID= $_POST['selRepresentante'];
         }
 
         $moneda_ID=$_POST['cboMoneda'];
@@ -4182,8 +4182,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
             $osalida=salida::getByID($id);
             actualizar_costos_salida_detalle($osalida,$tipo_cambio);
-            $osalida->numero_orden_ingeso=$numero_orden_compra;
-            $osalida->representante_cliente_ID=$representante_cliente_ID;
+            $osalida->cliente_ID=$cliente_ID;
+            $osalida->numero_orden_ingreso=$numero_orden_compra;
+            $osalida->cliente_contacto_ID=$cliente_contacto_ID;
             $osalida->moneda_ID=$moneda_ID;
             $osalida->tipo_cambio=$tipo_cambio;
             $osalida->plazo_entrega=$plazo_entrega;
@@ -4224,7 +4225,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         }
                     }
                 $resultado=1;
-                $mensaje=$osalida->message;
+                $mensaje=$osalida->getMessage;
             }else {
                 $resultado=-1;
                 $mensaje="No se puede modificar la orden de venta, los comprobantes ya fueron remitidos.";
@@ -4239,7 +4240,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $mensaje=$ex->getMessage();
 
         }
-        $osalida->dtRepresentante_Cliente=representantecliente::getGrid('pr.cliente_ID='.$Cliente_ID);
+        $osalida->dtRepresentante_Cliente=cliente_contacto::getGrid('clic.cliente_ID='.$cliente_ID);
         $contar_hijo=salida_detalle::getCount('salida_ID='.$id);
         if($contar_hijo>0){
             $osalida->ver_factura=1;
@@ -4265,12 +4266,14 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         }else {
             $oCotizacion=cotizacion::getByID($osalida->cotizacion_ID);
         }
+        $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");$dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         //$oFactura_Venta=new factura_venta();
         //$oFactura_Venta->ID=0;
         $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(2,$osalida->moneda_ID,null,$osalida);
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oOrden_Venta']=$osalida;
         //$GLOBALS['oFactura_Venta']=$oFactura_Venta;
         $GLOBALS['oCliente']=$oCliente;
+        $GLOBALS['dtCliente']=$dtCliente;
         $GLOBALS['oCotizacion']=$oCotizacion;
         $GLOBALS['dtCredito']=$dtCredito;
         $GLOBALS['oOperador']=$oOperador;

@@ -125,11 +125,11 @@ class reportes
         try {
             $q="select   CONCAT(pe.nombres,' ',pe.apellido_paterno) as operador,op.comision, sum(inv.utilidad_soles)  as utilidad_soles,";
             $q.="sum(inv.utilidad_dolares)  as utilidad_dolares, sum(inv.comision_soles)  as comision_soles,sum(inv.comision_dolares)  as comision_dolares";
-            $q.=" from inventario inv left join orden_venta_detalle ovd on inv.orden_venta_detalle_ID=ovd.ID";
-            $q.=" left join orden_venta ov on ovd.orden_venta_ID=ov.ID";
+            $q.=" from inventario inv left join salida_detalle ovd on inv.salida_detalle_ID=ovd.ID";
+            $q.=" left join salida ov on ovd.salida_ID=ov.ID";
             $q.=" left join operador op on ov.operador_ID=op.ID";
             $q.=" left join persona pe on op.persona_ID=pe.ID";
-            $q.=" left join factura_venta fv on fv.orden_venta_ID=ov.ID";
+            $q.=" left join factura_venta fv on fv.salida_ID=ov.ID";
             $q.=" where ovd.del=0 and ov.del=0 and inv.estado_ID=49";
            
 
@@ -156,11 +156,11 @@ class reportes
             $q=" select ifnull(fv.serie,'') as serie,ifnull(fv.numero_concatenado,'') as numero_factura, ov.numero_concatenado,";
             $q.="CONCAT(pe.nombres,' ',pe.apellido_paterno) as operador,op.comision, sum(inv.utilidad_soles)  as utilidad_soles,";
             $q.=" sum(inv.utilidad_dolares)  as utilidad_dolares, sum(inv.comision_soles)  as comision_soles,sum(inv.comision_dolares)  as comision_dolares";
-            $q.="  from inventario inv left join orden_venta_detalle ovd on inv.orden_venta_detalle_ID=ovd.ID";
-            $q.=" left join orden_venta ov on ovd.orden_venta_ID=ov.ID";
+            $q.="  from inventario inv left join salida_detalle ovd on inv.salida_detalle_ID=ovd.ID";
+            $q.=" left join salida ov on ovd.salida_ID=ov.ID";
             $q.=" left join operador op on ov.operador_ID=op.ID";
             $q.="   left join persona pe on op.persona_ID=pe.ID";
-            $q.=" left join factura_venta fv on fv.orden_venta_ID=ov.ID ";
+            $q.=" left join factura_venta fv on fv.salida_ID=ov.ID ";
             $q.="   where ovd.del=0 and ov.del=0 and inv.estado_ID=49 ";
            
 
@@ -185,8 +185,8 @@ class reportes
         $cn = new connect();
         try {
             $q="select cli.ruc,cli.razon_social,mo.descripcion as moneda,(case when ov.moneda_ID=1 then sum(ov.precio_venta_total_soles) else  sum(precio_venta_total_dolares) end) as monto_total";
-            $q.=" from orden_venta ov, cliente cli, moneda mo, factura_venta fv";
-            $q.=" where ov.cliente_ID=cli.ID and fv.orden_venta_ID = ov.ID and ov.moneda_ID=mo.ID and ov.del=0 ";
+            $q.=" from salida ov, cliente cli, moneda mo, factura_venta fv";
+            $q.=" where ov.cliente_ID=cli.ID and fv.salida_ID = ov.ID and ov.moneda_ID=mo.ID and ov.del=0 ";
            
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -210,8 +210,8 @@ class reportes
         try {
             $q="select cli.ruc,cli.razon_social,concat(fv.serie,'-',fv.numero) as factura,DATE_FORMAT(fv.fecha_emision,'%d/%m/%Y')  as fecha,mo.simbolo as moneda,";
             $q.=" (case when ov.moneda_ID=1 then ov.precio_venta_total_soles else  precio_venta_total_dolares end) as monto_total";
-            $q.="   from orden_venta ov, cliente cli, moneda mo, factura_venta fv";
-           $q.="   where ov.cliente_ID=cli.ID and fv.orden_venta_ID = ov.ID and ov.moneda_ID=mo.ID and ov.del=0";
+            $q.="   from salida ov, cliente cli, moneda mo, factura_venta fv";
+           $q.="   where ov.cliente_ID=cli.ID and fv.salida_ID = ov.ID and ov.moneda_ID=mo.ID and ov.del=0";
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
             }
@@ -234,7 +234,7 @@ class reportes
         $cn = new connect();
         try {
             $q="select year(co.fecha_emision) as periodo,month(co.fecha_emision) as mes,day(co.fecha_emision) as dia,co.moneda_ID,mo.descripcion as moneda, sum(co.total) as total ";
-            $q.=" from compra co, moneda mo";
+            $q.=" from ingreso co, moneda mo";
             $q.=" where co.moneda_ID=mo.ID and co.del=0 and co.estado_ID<>10";
          
             if ($filtro != '') {
@@ -262,7 +262,7 @@ class reportes
         try {
             $q="select year(ov.fecha) as periodo,month(fecha)as mes,day(fecha) as dia, ov.moneda_ID,";
             $q.=" (case ov.moneda_ID when 1 then sum(precio_venta_total_soles)  else sum(precio_venta_total_dolares) end) as total";
-            $q.=" from orden_venta ov";
+            $q.=" from salida ov";
             $q.=" where ov.del=0 and ov.estado_ID<>58";
          
             if ($filtro != '') {
@@ -290,8 +290,8 @@ class reportes
         try {
             $q = "select cl.ruc, cl.razon_social,concat(fv.serie,'-',fv.numero_concatenado) as factura,DATE_FORMAT(fv.fecha_emision,'%d/%m/%Y') as fecha_emision ,DATE_FORMAT(fv.fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento,";
             $q.='   mo.simbolo as moneda,fv.monto_total,fv.monto_pendiente';
-            $q.=' from factura_venta fv, orden_venta ov,cliente cl, moneda mo';
-            $q.=' where fv.del=0 and ov.del=0 and fv.orden_venta_ID=ov.ID and ov.cliente_ID=cl.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41';
+            $q.=' from factura_venta fv, salida ov,cliente cl, moneda mo';
+            $q.=' where fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41';
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -313,8 +313,8 @@ class reportes
         $cn = new connect();
         try {
             $q = "select cl.ruc, cl.razon_social,mo.simbolo as moneda,sum(fv.monto_total) as monto_total,sum(fv.monto_pendiente) as monto_pendiente";
-            $q.='  from factura_venta fv, orden_venta ov,cliente cl, moneda mo';
-            $q.=' where fv.del=0 and ov.del=0 and fv.orden_venta_ID=ov.ID and ov.cliente_ID=cl.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41 and ov.periodo=2016';
+            $q.='  from factura_venta fv, salida ov,cliente cl, moneda mo';
+            $q.=' where fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41';
             
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -337,8 +337,8 @@ class reportes
         try {
             $q="select year(ov.fecha) as periodo,month(ov.fecha) as mes,day(ov.fecha) as dia,ov.moneda_ID,";
             $q.=" (case ov.moneda_ID when 1 then sum(inv.utilidad_soles) else sum(inv.utilidad_dolares)end ) as total";
-            $q.=" from inventario inv left join orden_venta_detalle ovd on inv.orden_venta_detalle_ID=ovd.ID";
-            $q.=" left join orden_venta ov on ovd.orden_venta_ID=ov.ID";
+            $q.=" from inventario inv left join salida_detalle ovd on inv.salida_detalle_ID=ovd.ID";
+            $q.=" left join salida ov on ovd.salida_ID=ov.ID";
             $q.=" where inv.del=0 and inv.estado_ID=49";
         
             if ($filtro != '') {
@@ -368,7 +368,7 @@ class reportes
         try {
             $q="select pro.ruc , upper(pro.razon_social) as razon_social,pro.direccion,mo.simbolo as moneda,sum(co.subtotal) as 'sub_total',";
             $q.="sum(co.igv) as 'igv', sum(co.total) as total";
-            $q.=" from compra co, proveedor pro,moneda mo";
+            $q.=" from ingreso co, proveedor pro,moneda mo";
             $q.=" where co.proveedor_ID=pro.ID and co.moneda_ID=mo.ID and co.del=0 and co.empresa_ID=".$_SESSION['empresa_ID'];
            
         
@@ -397,7 +397,7 @@ class reportes
         try {
             $q="select  pro.ruc,pro.razon_social,ifnull(co.periodo,0)as periodo,co.fecha_emision,concat(co.serie,' - ',co.numero) as factura";
             $q.=",mo.simbolo,co.subtotal as sub_total,co.igv,co.total";
-            $q.=" from compra co, proveedor pro,moneda mo";
+            $q.=" from ingreso co, proveedor pro,moneda mo";
             $q.=" where co.proveedor_ID=pro.ID and co.moneda_ID=mo.ID and co.del=0 ";
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -422,7 +422,7 @@ class reportes
             $q = "select pr.ruc,pr.razon_social, ifnull(co.periodo,'') as periodo,DATE_FORMAT(co.fecha_emision,'%d/%m/%Y') AS fecha_emision,concat(co.serie,'-',co.numero) as factura,";
             $q.= "mo.simbolo as moneda,DATE_FORMAT(ifnull(co.fecha_vencimiento,'0000-00-00'),'%d/%m/%Y') as fecha_vencimiento ,";
             $q.= "co.subtotal,co.igv,co.total,ifnull(co.monto_pendiente,0) as monto_pendiente";
-            $q.=" FROM compra co,proveedor pr,moneda mo";
+            $q.=" FROM ingreso co,proveedor pr,moneda mo";
             $q.=' where co.proveedor_ID=pr.ID  and co.moneda_ID=mo.ID  and co.del=0 and co.estado_ID=9 and co.forma_pago_ID=1';
             
             if ($filtro != '') {
@@ -446,7 +446,7 @@ class reportes
         try {
             $q = "select pr.ruc,pr.razon_social,mo.simbolo as moneda,sum(co.subtotal) as subtotal ,sum(co.igv) as igv,";
             $q.= "sum(co.total) as total,sum(ifnull(co.monto_pendiente,0)) as monto_pendiente";
-            $q.=" FROM compra co,proveedor pr,moneda mo";
+            $q.=" FROM ingreso co,proveedor pr,moneda mo";
             $q.=' where co.proveedor_ID=pr.ID  and co.moneda_ID=mo.ID  and co.del=0 and co.estado_ID=9 and co.forma_pago_ID=1';
             
             if ($filtro != '') {
@@ -470,7 +470,7 @@ class reportes
         try {
             $q = "select  DATE_FORMAT(co.fecha_anulacion,'%d/%m/%Y') as fecha_anulacion,pr.ruc, pr.razon_social,concat(co.serie,'-',co.numero) as comprobante";
             $q.= ",mo.simbolo,co.total,concat(pe.nombres,' ', pe.apellido_paterno) as autorizador,ma.nombre as motivo";
-            $q.= ' FROM compra co,proveedor pr,moneda mo, motivo_anulacion ma, operador op ,persona pe';
+            $q.= ' FROM ingreso co,proveedor pr,moneda mo, motivo_anulacion ma, operador op ,persona pe';
             $q.=' where co.del=0 and co.proveedor_ID=pr.ID and mo.ID=co.moneda_ID and co.operador_ID_anulacion=op.ID and op.persona_ID=pe.ID ';
             $q.=' and co.motivo_anulacion_ID=ma.ID and co.estado_ID = 10';
 

@@ -96,7 +96,7 @@
             $('#fondo_espera').css('display','block');
             cargarFormularios('Reporte/ajaxGenerar_Reportes_Ventas','divCuerpo',validar,function(resultado){
                 $('#fondo_espera').css('display','none');
-               alert(resultado.url);
+              
                window.open(resultado.url, '_blank');
 
             });
@@ -154,7 +154,7 @@
                     $("#selMoneda").prop('disabled',false);
                     $("#txtCliente_ID").prop('disabled',false);
                     $("#selOperador").prop('disabled',false);
-                    $("#ckEstado").prop('disabled',false);
+                    //$("#ckEstado").prop('disabled',false);
                     
                 case '10'://Facturas por cobrar
                     $("#selPeriodo").prop('disabled',false);
@@ -162,7 +162,7 @@
                     $("#selMoneda").prop('disabled',false);
                     $("#txtCliente_ID").prop('disabled',false);
                     $("#selOperador").prop('disabled',false);
-                    $("#ckEstado").prop('disabled',false);
+                    //$("#ckEstado").prop('disabled',false);
                     break;
            }
           

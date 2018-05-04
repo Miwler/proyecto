@@ -99,7 +99,7 @@ class salida {
             $retornar=$cn->transa($q);
             //echo $q;
             $this->ID=$ID;
-            $this->getMessage='Se guardó correctamente';
+            $this->getMessage='Se actualizó correctamente';
             
             return $retornar;
             
