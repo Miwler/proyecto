@@ -1958,12 +1958,13 @@ function get_Chofer_Mantenimiento_Editar($id) {
         return;
         
     }
-    $dtPersona=persona::getGrid("ID=".$oChofer->persona_ID);
+    $dtPersona=persona::getGrid('',-1,-1,'apellido_paterno,apellido_materno,nombres');
     $dtEstado=estado::getGrid('est.tabla="chofer"',-1,-1,"est.nombre");
     $oChofer->nombres=$dtPersona[0]['datos'];
     $oChofer->dtEstado=$dtEstado;
 
     $GLOBALS['oChofer'] = $oChofer;
+    $GLOBALS['dtPersona'] = $dtPersona;
     
 }
 
@@ -1982,7 +1983,7 @@ function post_Chofer_Mantenimiento_Editar($id) {
         return;
         
     }
-    $persona_ID=$_POST['txtPersona_ID'];
+    $persona_ID=$_POST['selPersona'];
     $licencia_conducir = FormatTextSave(strtoupper($_POST['txtLicencia_Conducir']));
     $celular = FormatTextSave($_POST['txtCelular']);
     $estado_ID = $_POST['selEstado_ID'];

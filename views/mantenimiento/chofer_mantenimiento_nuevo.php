@@ -35,16 +35,12 @@ function fncPage() { ?>
             <label>Persona: </label>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" title="Agregar persona nueva" onclick="fncAgregar_Persona();"><img src="/include/img/boton/add_user-20.png"></a>
         </div>
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-<!--            <input type="text" id="txtPersona_ID" class="form-control form-requerido">
-            <script type="text/javascript">
-                var cboPersona = newCbo('divPersona', 'txtPersona_ID', '/funcion/ajaxCbo_Persona', true);
-            </script>-->
-                                        <select id="selPersona" name="selPersona" class="chosen-select">
-                               <option value="0">--Seleccionar--</option>
-                                <?php foreach($GLOBALS['dtPersona'] as $persona){?>
-                               <option value="<?php echo $persona['ID']?>"><?php echo FormatTextView(strtoupper($persona['apellido_paterno']. ' '. $persona['apellido_materno']. ' ' . $persona['nombres']));?></option>
-                                <?php }?>
-                            </select>
+            <select id="selPersona" name="selPersona" class="chosen-select">
+               <option value="0">--Seleccionar--</option>
+                <?php foreach($GLOBALS['dtPersona'] as $persona){?>
+               <option value="<?php echo $persona['ID']?>"><?php echo FormatTextView(strtoupper($persona['apellido_paterno']. ' '. $persona['apellido_materno']. ' ' . $persona['nombres']));?></option>
+                <?php }?>
+            </select>
         </div>
 
     </div>
@@ -122,11 +118,9 @@ function fncPage() { ?>
             $('#selPersona').trigger("chosen:updated");
             
         });
-//        cboPersona.seleccionar(id, nombres);
-//       alert(nombres);
     }
-            var salir=function(){
-        //window.parent.fncMantenimiento();
+    
+    var salir=function(){
         window_float_close_modal();
     }
     
