@@ -106,11 +106,13 @@
         }
 
         var fncNuevo=function(){			
-                window_float_open('/Mantenimiento/Vehiculo_mantenimiento_Nuevo','','',f);
+                //window_float_open('/Mantenimiento/Vehiculo_mantenimiento_Nuevo','','',f);
+                //window_float_open_modal('REGISTRAR NUEVA COMPRA','/Ingreso/Compra_Mantenimiento_Nuevo','','',f,800,550);
+                window_float_open_modal('REGISTRAR NUEVO VEHICULO','/Mantenimiento/Vehiculo_Mantenimiento_Nuevo','','',f,600,300);
         }
 
         var fncEditar=function(id){			
-                window_float_open('/Mantenimiento/Vehiculo_mantenimiento_Editar',id,'',f);
+                window_float_open_modal('EDITAR VEHICULO','/Mantenimiento/Vehiculo_Mantenimiento_Editar',id,'',f,600,300);
         }
 
         var fncEliminar=function(id){			

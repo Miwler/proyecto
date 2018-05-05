@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float-hijo.php";
+require ROOT_PATH."views/shared/content-float-modal-hijo.php";	
 ?>	
 <?php
 function fncTitle() { ?>Nueva persona<?php } ?>
@@ -20,15 +20,15 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
 
-<form id="form"  method="POST" action="/Mantenimiento/Persona_Mantenimiento_Nuevo" style="width:700px;padding-top:15px;margin:0 auto;" onsubmit="return validar();" >
+<form id="form"  method="POST" action="/Mantenimiento/Persona_Mantenimiento_Nuevo" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-success">
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
+                    <div class="panel panel-defualt">
                         <div class="panel-heading">Datos personales</div>
                         <div class="panel-body">
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Documento: </label>
                                 </div>
@@ -43,7 +43,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Número: </label>
                                 </div>
@@ -51,7 +51,7 @@ function fncPage() { ?>
                                     <input type="text" id="txtNumero" name="txtNumero" maxlength="8"  value="<?php echo $GLOBALS['oPersona']->numero;?>" autocomplete="off" class="form-control form-requerido text-int" > 
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Apellido Paterno: </label>
                                 </div>
@@ -59,7 +59,7 @@ function fncPage() { ?>
                                     <input type="text" id="txtApellido_Paterno" name="txtApellido_Paterno"  value="<?php echo FormatTextView($GLOBALS['oPersona']->apellido_paterno);?>" autocomplete="off" class="form-control form-requerido text-uppercase" > 
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Apellido Materno: </label>
                                 </div>
@@ -67,7 +67,7 @@ function fncPage() { ?>
                                     <input type="text" id="txtApellido_Materno" name="txtApellido_Materno" value="<?php echo FormatTextView($GLOBALS['oPersona']->apellido_materno);?>" autocomplete="off" class="form-control form-requerido text-uppercase">
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Nombres: </label>
                                 </div>
@@ -76,7 +76,7 @@ function fncPage() { ?>
 
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Fecha nacimiento: </label>
                                 </div>
@@ -84,7 +84,7 @@ function fncPage() { ?>
                                   <input type='date' id='txtFecha_Nacimiento' name="txtFecha_Nacimiento" class="form-control"  />
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Sexo: </label>
                                 </div>
@@ -104,12 +104,12 @@ function fncPage() { ?>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             Información de contacto
                         </div>
                         <div class="panel-body">
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Departamento: </label>
                                 </div>
@@ -124,7 +124,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Provincia: </label>
                                 </div>
@@ -137,7 +137,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Distrito: </label>
                                 </div>
@@ -150,7 +150,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Dirección: </label>
                                 </div>
@@ -158,7 +158,7 @@ function fncPage() { ?>
                                     <input type="text" id="txtDireccion" name="txtDireccion" value="<?php echo FormatTextView($GLOBALS['oPersona']->direccion);?>" autocomplete="off" class="form-control text-uppercase">
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Correo: </label>
                                 </div>
@@ -166,7 +166,7 @@ function fncPage() { ?>
                                     <input type="text" id="txtCorreo" name="txtCorreo" value="<?php echo FormatTextView($GLOBALS['oPersona']->correo);?>" autocomplete="off" class="form-control">
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Teléfono: </label>
                                 </div>
@@ -174,7 +174,7 @@ function fncPage() { ?>
                                     <input type="text" id="txtTelefono" name="txtTelefono" value="<?php echo FormatTextView($GLOBALS['oPersona']->telefono);?>" autocomplete="off" class="form-control text-uppercase">
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="form-group"> 
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Celular: </label>
                                 </div>
@@ -190,14 +190,14 @@ function fncPage() { ?>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success">
+                        <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                         Guardar
                     </button>
-                    <button  id="btnCancelar" name="btnCancelar" class="btn btn-warning" type="button" onclick="window_deslizar_close();" >
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Salir
-                    </button>   
+                    <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="parent.float_close_modal_hijo();" >
+                        <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
+                        Cancelar
+                    </button>    
                 </div>
             </div>
         </div>
@@ -260,8 +260,8 @@ function fncPage() { ?>
 <script type="text/javascript">
     $(document).ready(function(){
         toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
-        window.parent.fncCargarPersona(<?php echo $GLOBALS['oPersona']->ID?>,'<?php echo $GLOBALS['oPersona']->apellido_paterno.' '.$GLOBALS['oPersona']->apellido_materno.','.$GLOBALS['oPersona']->nombres;?>');
-        setTimeout('window_deslizar_close();', 1000);
+        //window.parent.fncCargarPersona(<?php echo $GLOBALS['oPersona']->ID?>,'<?php echo $GLOBALS['oPersona']->apellido_paterno.' '.$GLOBALS['oPersona']->apellido_materno.','.$GLOBALS['oPersona']->nombres;?>');
+        setTimeout('parent.windos_float_save_modal_hijo(<?php echo $GLOBALS['oPersona']->ID?>);', 1000);
     });       
 </script>
 <?php } ?>

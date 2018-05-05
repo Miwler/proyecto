@@ -242,9 +242,9 @@
 
 		function fncSUNAT(id) {
 				cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
-
-					var obj = $.parseJSON(resultado);
 					console.log(resultado);
+					var obj = $.parseJSON(resultado);
+
 					console.log(obj.MensajeRespuesta);
 
 

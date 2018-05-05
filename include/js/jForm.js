@@ -1,5 +1,5 @@
 var form = function (frm,div)
-{  
+{
     this.Form = document.getElementById(frm) ;
     this.Div = document.getElementById(div);
     this.divMensaje ='';
@@ -59,7 +59,7 @@ var enviar = function (obj,btn)
                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                             }
                             break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -75,7 +75,7 @@ var enviar = function (obj,btn)
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
                         break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -90,12 +90,12 @@ var enviar = function (obj,btn)
 
     var aleatorio = Math.random();
     myObject['aleatorio'] = aleatorio;
-    myObject['btnEnviar'] = btn;  
+    myObject['btnEnviar'] = btn;
     //alert(myObject['btnEnviar']);
     $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-  
+
     /*Se convierte en json para enviarlo*/
-   
+
     data = JSON.stringify(myObject);
     data = $.parseJSON(data);
  //alert (data);
@@ -105,14 +105,14 @@ var enviar = function (obj,btn)
         data: data,
         cache:false,
         datatype: "json",
-       
-        success: function (respuesta) { 
-            
+
+        success: function (respuesta) {
+
            //alert(respuesta);
-            var respuesta = $.parseJSON(respuesta);   
-            
+            var respuesta = $.parseJSON(respuesta);
+
             $(obj.Div).html(respuesta.resultado);
-            if (respuesta.funcion != '') {                
+            if (respuesta.funcion != '') {
                 $('#script').html(respuesta.funcion);
             }
 
@@ -135,11 +135,11 @@ var enviar = function (obj,btn)
                     }, 10000);
                 }
             }
-            
+
         },
         complete: function () {
             obj.terminado();
-            
+
         },
         error: function ()
         {
@@ -155,15 +155,15 @@ var ajaxGuardar= function (obj, btn) {
         return false;
     }
 
-    var data = new FormData();    
-    $(obj.Form).serializeArray().forEach(function (ob, key) {       
+    var data = new FormData();
+    $(obj.Form).serializeArray().forEach(function (ob, key) {
         data.append(ob.name, ob.value);
     });
 
     var sizeArchive = 0;
     $(obj.Form).find('input[type=file]').each(function (key, ob) {
         var files = $("#" + ob.id).get(0).files;
-        for (i = 0; i < files.length; i++) {           
+        for (i = 0; i < files.length; i++) {
             data.append("file" + i, files[i]);
             sizeArchive = sizeArchive + files[i].size;
         }
@@ -183,7 +183,7 @@ var ajaxGuardar= function (obj, btn) {
         contentType: false,
         processData: false,
         data: data,
-        datatype: "json",       
+        datatype: "json",
         success: function (respuesta) {
             var respuesta = $.parseJSON(respuesta);
             $(obj.Div).html(respuesta.mensaje);
@@ -212,8 +212,8 @@ function frmOcultar_Mensaje(obj) {
 }
 
 var enviarValor = function (divForm,divResultado,url,url1)
-{ 
-   
+{
+
    /*var vali=validaHijo();
     if(vali==false){
         return false;
@@ -233,7 +233,7 @@ var enviarValor = function (divForm,divResultado,url,url1)
                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                             }
                             break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -249,7 +249,7 @@ var enviarValor = function (divForm,divResultado,url,url1)
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
                         break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -259,7 +259,7 @@ var enviarValor = function (divForm,divResultado,url,url1)
                         break;
                 }
             }
-            
+
         }
     });
 
@@ -268,9 +268,9 @@ var enviarValor = function (divForm,divResultado,url,url1)
     /*myObject['btnEnviar'] = btn;  */
     //alert(myObject['btnEnviar']);
     $('#'+divResultado).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-  
+
     /*Se convierte en json para enviarlo*/
-   
+
     data = JSON.stringify(myObject);
     data = $.parseJSON(data);
  //alert (data);
@@ -280,22 +280,22 @@ var enviarValor = function (divForm,divResultado,url,url1)
         data: data,
         cache:false,
         datatype: "json",
-       
-        success: function (respuesta) { 
-            var respuesta = $.parseJSON(respuesta);   
+
+        success: function (respuesta) {
+            var respuesta = $.parseJSON(respuesta);
             alert(respuesta);
             //alert(respuesta.mensaje);
             //$('#'+divResultado).html(respuesta.resultado);
             //$('#txtcotizacion_detalle_ID').val(respuesta.cotizacion_detalle_ID);
            if(respuesta.resultado==1){
                mostrarValores(divResultado,url1,respuesta.ID);
-              
-           } 
+
+           }
         },
         complete: function () {
-           
-            //$('#ModalProducto').modal( 'toggle' ); 
-            
+
+            //$('#ModalProducto').modal( 'toggle' );
+
         },
         error: function ()
         {
@@ -306,7 +306,7 @@ var enviarValor = function (divForm,divResultado,url,url1)
 }
 
 var enviarValorHijo = function (divForm,divResultado,url,url1)
-{ 
+{
    /* if (!obj.validar()){
         return false;
     }*/
@@ -315,7 +315,7 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
     var myObject = new Object();
 
     $('#'+divForm).find('input,textarea,button,select').each(function (key, ob) {
-		
+
         if (ob.name != '' && ob.name != undefined) {
             if (myObject[ob.name] == undefined) {
                // alert(ob.name);
@@ -325,7 +325,7 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                             }
                             break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -341,7 +341,7 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
                         break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -359,9 +359,9 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
     /*myObject['btnEnviar'] = btn;  */
     //alert(myObject['btnEnviar']);
     $('#'+divResultado).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-  
+
     /*Se convierte en json para enviarlo*/
-   
+
     data = JSON.stringify(myObject);
     data = $.parseJSON(data);
  //alert (data);
@@ -371,24 +371,24 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
         data: data,
         cache:false,
         datatype: "json",
-       
-        success: function (respuesta) { 
+
+        success: function (respuesta) {
             //alert(respuesta);
-            
-            var respuesta = $.parseJSON(respuesta);   
-            
+
+            var respuesta = $.parseJSON(respuesta);
+
             alert(respuesta.mensaje);
             //$('#'+divResultado).html(respuesta.resultado);
            if(respuesta.resultado==1){
                mostrarValores(divResultado,url1,respuesta.ID);
            }
-         
+
         },
         complete: function () {
-           
-          //$('#ModalProducto').modal( 'toggle' ); 
 
-            
+          //$('#ModalProducto').modal( 'toggle' );
+
+
         },
         error: function ()
         {
@@ -398,8 +398,8 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
     });
 }
 var enviarValores = function (divForm,url,resultado)
-{ 
-   
+{
+
    /*var vali=validaHijo();
     if(vali==false){
         return false;
@@ -419,7 +419,7 @@ var enviarValores = function (divForm,url,resultado)
                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                             }
                             break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -435,7 +435,7 @@ var enviarValores = function (divForm,url,resultado)
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
                         break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -445,7 +445,7 @@ var enviarValores = function (divForm,url,resultado)
                         break;
                 }
             }
-            
+
         }
     });
 
@@ -453,9 +453,9 @@ var enviarValores = function (divForm,url,resultado)
     myObject['aleatorio'] = aleatorio;
     /*myObject['btnEnviar'] = btn;  */
     //alert(myObject['btnEnviar']);
-   
+
     /*Se convierte en json para enviarlo*/
-   
+
     data = JSON.stringify(myObject);
     data = $.parseJSON(data);
  //alert (data);
@@ -465,7 +465,7 @@ var enviarValores = function (divForm,url,resultado)
         data: data,
         cache:false,
         datatype: "json",
-       
+
        success: function (respuesta) {
            //alert(respuesta);
             var respuesta = $.parseJSON(respuesta);
@@ -473,9 +473,9 @@ var enviarValores = function (divForm,url,resultado)
 
         },
         complete: function () {
-           
-            //$('#ModalProducto').modal( 'toggle' ); 
-            
+
+            //$('#ModalProducto').modal( 'toggle' );
+
         },
         error: function ()
         {
@@ -485,7 +485,7 @@ var enviarValores = function (divForm,url,resultado)
     });
 }
 var mostrarValores = function (divResultado,url,id)
-{ 
+{
 
 //alert(id);
     $.ajax({
@@ -493,17 +493,17 @@ var mostrarValores = function (divResultado,url,id)
         url: url,
         data: {
             ID: id
-            
+
         },
         datatype: "json",
-       
-        success: function (respuesta) { 
+
+        success: function (respuesta) {
           //alert(respuesta);
-            
-            var respuesta = $.parseJSON(respuesta);   
-       
+
+            var respuesta = $.parseJSON(respuesta);
+
             $('#'+divResultado).html(respuesta.resultado);
-            if (respuesta.funcion != '') {  
+            if (respuesta.funcion != '') {
                 //alert(respuesta.funcion);
                 $('#script').html(respuesta.funcion);
             }
@@ -512,7 +512,7 @@ var mostrarValores = function (divResultado,url,id)
             if (!limpiar()){
                 limpiar();;
             }
-          
+
         },
         error: function ()
         {
@@ -522,30 +522,30 @@ var mostrarValores = function (divResultado,url,id)
     });
 }
 var mostrarValor = function (divResultado,url,id,divresultado1)
-{ 
+{
     $.ajax({
         type: "post",
         url: url,
         data: {
             ID: id
-            
+
         },
         datatype: "json",
-       
-        success: function (respuesta) { 
+
+        success: function (respuesta) {
            // alert(respuesta);
-            
-            var respuesta = $.parseJSON(respuesta);   
-            
+
+            var respuesta = $.parseJSON(respuesta);
+
             $('#'+divResultado).val(respuesta.resultado);
             $('#'+divresultado1).val(respuesta.resultado1);
-            if (respuesta.funcion != '') {  
+            if (respuesta.funcion != '') {
                 //alert(respuesta.funcion);
                 //$('#script').html(respuesta.funcion);
             }
         },
         complete: function () {
-          
+
          // ajaxSelect('selCategoria', '/Compra/ajaxSelect_Categoria/' + respuesta.resultado1, '',null);
         },
         error: function ()
@@ -557,7 +557,7 @@ var mostrarValor = function (divResultado,url,id,divresultado1)
     });
 }
 var cargarValores=function(url,id,resultado){
-    
+
     $.ajax({
         type: "post",
         url: url,
@@ -566,17 +566,17 @@ var cargarValores=function(url,id,resultado){
         },
         datatype: "json",
         success: function (respuesta) {
-            //alert(respuesta);
-            var respuesta = $.parseJSON(respuesta);
+            console.log(respuesta);
+            respuesta = $.parseJSON(respuesta);
             resultado(respuesta);
 
         },
         error: function (ex) {
             alert(ex);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
-}  
+}
 var cargarValores1=function(url,id,id1,resultado){
     //alert(id);
     $.ajax({
@@ -595,10 +595,10 @@ var cargarValores1=function(url,id,id1,resultado){
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
-}  
+}
 var cargarValores2=function(url,id,id1,id2,resultado){
     //alert(id);
     $.ajax({
@@ -618,7 +618,7 @@ var cargarValores2=function(url,id,id1,id2,resultado){
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
 }
@@ -642,7 +642,7 @@ var cargarValores3=function(url,id,id1,id2,id3,resultado){
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
 }
@@ -650,13 +650,13 @@ var cargarFormularios=function(url,divForm,funcion,resultado){
     if(funcion!=null){
         funcion.apply();
     }
-   
+
 
     var data = null;
     var myObject = new Object();
 
     $('#'+divForm).find('input,textarea,button,select').each(function (key, ob) {
-	
+
         if (ob.name != '' && ob.name != undefined) {
             if (myObject[ob.name] == undefined) {
                // alert(ob.name);
@@ -666,7 +666,7 @@ var cargarFormularios=function(url,divForm,funcion,resultado){
                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                             }
                             break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -677,13 +677,13 @@ var cargarFormularios=function(url,divForm,funcion,resultado){
                 }
             } else {
                 switch (ob.type) {
-                   
+
                     case 'radio':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
                         break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -701,8 +701,8 @@ var cargarFormularios=function(url,divForm,funcion,resultado){
     myObject['aleatorio'] = aleatorio;
     data = JSON.stringify(myObject);
     data = $.parseJSON(data);
-    
-   
+
+
     $.ajax({
         type: "post",
         url: url,
@@ -717,18 +717,18 @@ var cargarFormularios=function(url,divForm,funcion,resultado){
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
 }
 var enviarFormulario = function(url,divForm,resultado)
-{ 
-  
+{
+
     var data = null;
     var myObject = new Object();
 
     $('#'+divForm).find('input,textarea,button,select').each(function (key, ob) {
-		
+
         if (ob.name != '' && ob.name != undefined) {
             if (myObject[ob.name] == undefined) {
                // alert(ob.name);
@@ -738,7 +738,7 @@ var enviarFormulario = function(url,divForm,resultado)
                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                             }
                             break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -754,7 +754,7 @@ var enviarFormulario = function(url,divForm,resultado)
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
                         break;
-                    case 'checkbox':                        
+                    case 'checkbox':
                         if (ob.checked) {
                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
                         }
@@ -772,9 +772,9 @@ var enviarFormulario = function(url,divForm,resultado)
     /*myObject['btnEnviar'] = btn;  */
     //alert(myObject['btnEnviar']);
     //$('#'+divForm).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-  
+
     /*Se convierte en json para enviarlo*/
-   
+
     data = JSON.stringify(myObject);
     data = $.parseJSON(data);
  //alert (data);
@@ -784,18 +784,18 @@ var enviarFormulario = function(url,divForm,resultado)
         data: data,
         cache:false,
         datatype: "json",
-       
-        success: function (respuesta) { 
-            
+
+        success: function (respuesta) {
+
             //alert(respuesta);
-            
+
             var respuesta = $.parseJSON(respuesta);
             resultado(respuesta);
-            
-          
+
+
         },
         complete: function () {
-          
+
         },
         error: function ()
         {
@@ -807,7 +807,7 @@ var enviarFormulario = function(url,divForm,resultado)
 
 var actualizarCk=function(url,id,valor){
      //$('#' + objContent).html('<div id="grid-loading"><img style="width:40%;" src="/include/img/loading-select.gif" /></div>');
-   
+
     $.ajax({
         type: "post",
         url: url,
@@ -819,14 +819,14 @@ var actualizarCk=function(url,id,valor){
         success: function (respuesta) {
             //alert(respuesta);
             var respuesta = $.parseJSON(respuesta);
-            
+
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
-} 
+}
 
 var seleccionarCk=function(url,ID1,ID2){
      //$('#' + objContent).html('<div id="grid-loading"><img style="width:40%;" src="/include/img/loading-select.gif" /></div>');
@@ -845,11 +845,11 @@ var seleccionarCk=function(url,ID1,ID2){
             if(respuesta.mensaje){
                  alert(respuesta.mensaje);
             }
-           
+
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
 }
@@ -879,7 +879,7 @@ var regitrarSeries=function(url,ID,serie){
         },
         error: function () {
             alert(respuesta.mensaje);
-            //$('#' + objContent).html('Error al conectarse con el servidor');            
+            //$('#' + objContent).html('Error al conectarse con el servidor');
         }
     });
 }
@@ -903,8 +903,8 @@ var regitrarSeries=function(url,ID,serie){
             }
         }
 
-		
-		
+
+
         //funcion para solo numeros decimal con 2  decimales
         function numeroDecimal(e, field) {
             key = e.keyCode ? e.keyCode : e.which
@@ -928,8 +928,8 @@ var regitrarSeries=function(url,ID,serie){
             // other key
             return false
         }
-		
-		
+
+
 		//funcion para solo numeros decimal con 4 decimales
         function numeroDecimal4(e, field) {
             key = e.keyCode ? e.keyCode : e.which
@@ -953,10 +953,9 @@ var regitrarSeries=function(url,ID,serie){
             // other key
             return false
         }
-		
-		
-	
-       
- 
+
+
+
+
+
         //funcion para solo numeros
-        

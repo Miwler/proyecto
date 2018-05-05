@@ -424,6 +424,30 @@
          $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje);
          echo json_encode($retornar);
    }
+   
+   
+       function post_ajaxOption_Persona(){
+        require ROOT_PATH.'models/persona.php';
+
+        $id=$_POST['id'];
+        try{
+            $dtPersona=persona::getGrid('',-1,-1,"apellido_paterno asc,apellido_materno asc, nombres asc");
+            $html="<option value='0'>--SELECCIONAR--</option>";
+            foreach($dtPersona as $item){
+                $html.="<option value='".$item['ID']."'>".FormatTextView(strtoupper($item['apellido_paterno']. ' '. $item['apellido_materno']. ' ' . $item['nombres']))."</option>";
+            }
+            $mensaje="";
+            $resultado=1;
+        }  catch (Exception $ex){
+            $resultado=-1;
+            $mensaje=$ex->getMessage();
+        }
+        
+        $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje,'html'=>$html);
+        echo json_encode($retornar);
+   }
+   
+   
     function post_ajaxExtraerInformacionPersona(){
         require ROOT_PATH.'models/persona.php';
         $persona_ID=$_POST['id'];

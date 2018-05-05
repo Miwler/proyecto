@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
@@ -26,6 +26,10 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
     <form id="form"  method="POST" action="/Mantenimiento/Chofer_Mantenimiento_Editar/<?php echo $GLOBALS['oChofer']->ID;?>" style="width:500px;padding-top:15px;" onsubmit="return validar();" >
+        <div class="panel panel-tab rounded shadow">
+            <div class="panel-body no-padding rounded-bottom">
+                <div class="tab-content form-horizontal">
+                <div id="divDatos" class="tab-pane fade in active inner-all">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Persona: </label>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" title="Agregar persona nueva" onclick="fncAgregar_Persona();"><img src="/include/img/boton/add_user-20.png"></a>
@@ -69,6 +73,10 @@ function fncPage() { ?>
                 </script>
             </div>
         </div>
+            </div>
+                </div>
+            </div>
+            <div class="panel-footer">
          <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
@@ -79,6 +87,8 @@ function fncPage() { ?>
                     <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
                     Cancelar
                 </button>   
+            </div>
+        </div>
             </div>
         </div>
     </form>

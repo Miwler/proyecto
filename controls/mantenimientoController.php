@@ -1896,12 +1896,16 @@ function get_Chofer_Mantenimiento() {
 function get_Chofer_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/chofer.php';
     require ROOT_PATH . 'models/estado.php';
+    require ROOT_PATH . 'models/persona.php';
     global $returnView_float;
     $returnView_float = true;
     $oChofer = new chofer;
+    
     $dtEstado=estado::getGrid('est.tabla="chofer"',-1,-1,"est.nombre");
+    $dtPersona = persona::getGrid('',-1,-1,'apellido_paterno,apellido_materno,nombres');
     $oChofer->dtEstado=$dtEstado;
     $GLOBALS['oChofer'] = $oChofer;
+    $GLOBALS['dtPersona'] = $dtPersona;
     $GLOBALS['mensaje'] = '';
 }
 

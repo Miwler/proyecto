@@ -9,6 +9,7 @@ class connect
 
 	function __construct()
 	{
+
             //$this->host='200.4.228.195';
             $this->host='localhost';
             //$this->db='bdsystemsales';
@@ -16,21 +17,21 @@ class connect
             $this->db='bd_jjsoluciones_test' ;
             $this->db_user='root';
             //$this->db_password='Lima123';
-           $this->db_password='';
+            $this->db_password='';
             $this->gError='';
             $this->connect();
 	}
 
-	
+
 	function connect()
 	{
 		try
-		{			
+		{
 			$this->connect=new PDO('mysql:host='.$this->host.';dbname='.$this->db,$this->db_user,$this->db_password);
-			$this->connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);			
+			$this->connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		}catch(PDOException $ex)
-		{			
-			throw new Exception('Ocurrio un Error al conectarse con la base de datos');									
+		{
+			throw new Exception('Ocurrio un Error al conectarse con la base de datos');
 		}
 	}
 
@@ -38,25 +39,25 @@ class connect
 	{
 		$this->conexion=null;
 	}
-	
+
 	function getData($q)
 	{
 		try
-		{		
+		{
 			$result=$this->connect->query($q);
 			$dt=$result->fetchAll();
-			
+
 			if(count($dt)==0)
 			{
 			 	$dt[0][0]='';
 			}
-			
+
 			$this->disconnect();
 			return $dt[0][0];
 		}catch(PDOException $ex)
 		{
 			$this->disconnect();
-			throw new Exception('Ocurrio un Error en la consulta');									
+			throw new Exception('Ocurrio un Error en la consulta');
 		}
 	}
 

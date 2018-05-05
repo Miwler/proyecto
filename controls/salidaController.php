@@ -10899,7 +10899,7 @@ function post_ajaxEnviarSUNAT() {
 
             echo json_encode($resultado_sunat);
           }else{
-            echo $resultado_sunat;
+            echo json_encode($resultado_sunat);
           }
 
           $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
@@ -10920,20 +10920,22 @@ function post_ajaxEnviarSUNAT() {
 
 
         }else {
-          echo $resultado_firma;
+          echo json_encode($resultado_firma);
         }
 
 
 
       }else {
-        echo $resultado_GFactura;
+        echo json_encode($resultado_GFactura);
       }
 
 
 
 
     } catch (Exception $ex) {
-        $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+        $retornar = Array('resultado' => '', 'mensaje' => $ex->getMessage());
+        echo json_encode($retornar);
+        //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
     }
 
     //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);

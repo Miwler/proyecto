@@ -102,11 +102,11 @@
         }
 
         var fncNuevo=function(){			
-                window_float_open('/Mantenimiento/Chofer_mantenimiento_Nuevo','','',f);
+                window_float_open_modal('REGISTRAR NUEVO CHOFER','/Mantenimiento/Chofer_Mantenimiento_Nuevo','','',f,600,300);
         }
 
         var fncEditar=function(id){			
-                window_float_open('/Mantenimiento/Chofer_mantenimiento_Editar',id,'',f);
+                window_float_open_modal('EDITAR CHOFER','/Mantenimiento/Chofer_Mantenimiento_Editar',id,'',f,600,300);
         }
 
         var fncEliminar=function(id){			
