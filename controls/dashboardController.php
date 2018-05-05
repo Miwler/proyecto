@@ -7,7 +7,7 @@ function get_Index($id) {
 
 //-----------------------------------------------------------------------------------------------------------------------------
 function get_Graficos_Estadisticos() {
-    require ROOT_PATH.'models/compra.php';
+    //require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'controls/funcionController.php';
     global $returnView;
     $returnView = true;

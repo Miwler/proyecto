@@ -7,7 +7,7 @@ class guia_venta {
     private $serie;
     private $fecha_emision;
     private $orden_pedido;
-    private $orden_compra;
+    private $orden_ingreso;
     private $vehiculo_ID;
     private $chofer_ID;
     private $estado_ID;
@@ -18,7 +18,7 @@ class guia_venta {
     private $punto_partida;
     private $punto_llegada;
     private $empresa_transporte;
-    private $orden_venta_ID ;
+    private $salida_ID ;
     private $usuario_id;
     private $numero;
     Private $numero_concatenado;
@@ -88,12 +88,12 @@ class guia_venta {
            
             $q = 'select ifnull(max(ID),0)+1 from guia_venta';
             $ID=$cn->getData($q);
-            $q = 'insert into guia_venta(ID,factura_venta_ID,serie,fecha_emision,orden_pedido,orden_compra,';
+            $q = 'insert into guia_venta(ID,factura_venta_ID,serie,fecha_emision,orden_pedido,orden_ingreso,';
             $q.='numero,numero_concatenado,vehiculo_ID,chofer_ID,estado_ID,fecha_inicio_traslado,punto_partida,punto_llegada,';
-            $q.='empresa_transporte,orden_venta_ID,opcion,numero_producto,usuario_id)';
+            $q.='empresa_transporte,salida_ID,opcion,numero_producto,usuario_id)';
             $q.='values('.$ID.','.$this->factura_venta_ID.',"'.$this->serie.'",'. $fecha_emision ;
-            $q.=',"'. $this->orden_pedido.'","'.$this->orden_compra.'",'.$this->numero.',"'.$this->numero_concatenado.'",'.$vehiculo.','.$chofer.','.$this->estado_ID;
-            $q.=','.$fecha_inicio_traslado.',"'.$this->punto_partida.'","'.$this->punto_llegada.'","'.$this->empresa_transporte.'",'. $this->orden_venta_ID.','.$this->opcion.','.$this->numero_producto.','.$this->usuario_id.')';
+            $q.=',"'. $this->orden_pedido.'","'.$this->orden_ingreso.'",'.$this->numero.',"'.$this->numero_concatenado.'",'.$vehiculo.','.$chofer.','.$this->estado_ID;
+            $q.=','.$fecha_inicio_traslado.',"'.$this->punto_partida.'","'.$this->punto_llegada.'","'.$this->empresa_transporte.'",'. $this->salida_ID.','.$this->opcion.','.$this->numero_producto.','.$this->usuario_id.')';
             //echo $q;
             $retornar = $cn->transa($q);
 
@@ -130,7 +130,7 @@ class guia_venta {
            
             $q = 'update guia_venta set factura_venta_ID='.$this->factura_venta_ID.',serie="'.$this->serie.'", numero='.$this->numero;
             $q.=',numero_concatenado="'.$this->numero_concatenado.'",fecha_emision='.$fecha_emision.',orden_pedido="'. $this->orden_pedido;
-            $q.='",orden_compra="'.$this->orden_compra.'",vehiculo_ID='.$vehiculo.',chofer_ID='.$chofer.',estado_ID='.$this->estado_ID;
+            $q.='",orden_ingreso="'.$this->orden_ingreso.'",vehiculo_ID='.$vehiculo.',chofer_ID='.$chofer.',estado_ID='.$this->estado_ID;
             $q.=',fecha_inicio_traslado='.$fecha_inicio_traslado.',punto_partida="'.$this->punto_partida;
             $q.='",punto_llegada="'.$this->punto_llegada.'",empresa_transporte="'.$this->empresa_transporte.'", impresion='.$this->impresion;
             $q.=',opcion='.$this->opcion.', numero_producto='.$this->numero_producto.',usuario_mod_id='.$this->usuario_mod_id;
@@ -212,7 +212,7 @@ class guia_venta {
     static function getByID($ID) {
         $cn = new connect();
         try {
-            $q = 'Select ID,factura_venta_ID,numero,numero_concatenado,serie,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,orden_pedido,orden_compra,vehiculo_ID,';
+            $q = 'Select ID,factura_venta_ID,numero,numero_concatenado,serie,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,orden_pedido,orden_ingreso,vehiculo_ID,';
             $q.= 'chofer_ID,estado_ID,ifnull(numero_pagina,-1) as numero_pagina,DATE_FORMAT(fecha_inicio_traslado,"%d/%m/%Y") as fecha_inicio_traslado,punto_partida,';
             $q.='numero_producto,punto_llegada,empresa_transporte,impresion,usuario_id,opcion,ifnull(usuario_mod_id,-1) as usuario_mod_id' ;
             $q.=' from guia_venta ';
@@ -231,12 +231,11 @@ class guia_venta {
                 $oGuia_Venta->serie= $item['serie'];
                 $oGuia_Venta->fecha_emision= $item['fecha_emision'];
                 $oGuia_Venta->orden_pedido= $item['orden_pedido'];
-                $oGuia_Venta->orden_compra= $item['orden_compra'];
+                $oGuia_Venta->orden_ingreso= $item['orden_ingreso'];
                 $oGuia_Venta->vehiculo_ID= $item['vehiculo_ID'];
                 $oGuia_Venta->chofer_ID= $item['chofer_ID'];
                 $oGuia_Venta->estado_ID= $item['estado_ID'];
                 $oGuia_Venta->numero_pagina= $item['numero_pagina'];
-                
                 $oGuia_Venta->fecha_inicio_traslado= $item['fecha_inicio_traslado'];
                 $oGuia_Venta->punto_partida= $item['punto_partida'];
                 $oGuia_Venta->punto_llegada= $item['punto_llegada'];
@@ -257,7 +256,7 @@ class guia_venta {
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
         $cn = new connect();
         try {
-            $q = 'Select ID,factura_venta_ID,numero,numero_concatenado,serie,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,orden_pedido,orden_compra,vehiculo_ID,';
+            $q = 'Select ID,factura_venta_ID,numero,numero_concatenado,serie,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,orden_pedido,orden_ingreso,vehiculo_ID,';
             $q.= 'chofer_ID,estado_ID,numero_pagina,DATE_FORMAT(fecha_inicio_traslado,"%d/%m/%Y") as fecha_inicio_traslado,punto_partida,punto_llegada';
              $q.= ',empresa_transporte,impresion,numero_producto,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id' ;
             $q.=' from guia_venta ';

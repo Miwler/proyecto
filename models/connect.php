@@ -9,12 +9,23 @@ class connect
 
 	function __construct()
 	{
+<<<<<<< HEAD
             $this->host='198.57.247.225';
             //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
             $this->db='celadmay_sistema' ;
             $this->db_user='celadmay_sistema';
             $this->db_password='sistema123';
+=======
+            //$this->host='200.4.228.195';
+            $this->host='localhost';
+            //$this->db='bdsystemsales';
+            //$this->db='bd_ventas_prueba';
+            $this->db='bd_jjsoluciones_test' ;
+            $this->db_user='root';
+            //$this->db_password='Lima123';
+           $this->db_password='';
+>>>>>>> a32d17ae86641cb07421f8e0c331d75a97c97c33
             $this->gError='';
             $this->connect();
 	}

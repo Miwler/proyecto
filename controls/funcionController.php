@@ -117,8 +117,8 @@
      echo json_encode($retornar);
    }
     function mostrarNumeroCuentas($case,$moneda_ID,$oCotizacion,$oOrden_Venta){
-        if(!class_exists('orden_venta_numero_cuenta')){
-           require ROOT_PATH.'models/orden_venta_numero_cuenta.php'; 
+        if(!class_exists('salida_numero_cuenta')){
+           require ROOT_PATH.'models/salida_numero_cuenta.php'; 
         }
          if(!class_exists('cotizacion_numero_cuenta')){
            require ROOT_PATH.'models/cotizacion_numero_cuenta.php'; 
@@ -190,7 +190,7 @@
                         }
                     }
                     if($oOrden_Venta!=null){
-                        $dtOrden_Venta_Numero_Cuenta=orden_venta_numero_cuenta::getGrid('orden_venta_ID='.$oOrden_Venta->ID);
+                        $dtOrden_Venta_Numero_Cuenta=salida_numero_cuenta::getGrid('salida_ID='.$oOrden_Venta->ID);
                         foreach($dtOrden_Venta_Numero_Cuenta as $item){
                             if($item['numero_cuenta_ID']==$value['ID']){
                                 $checked="checked";

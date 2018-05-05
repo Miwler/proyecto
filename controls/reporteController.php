@@ -764,15 +764,15 @@
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.operador_ID=".$operador_ID;
                     }
-                    if(isset($_POST['ckEstado'])){
+                    /*if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID =60"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID in (60,41)";
                         
-                    }
-                    if(isset($cliente_ID)&&$cliente_ID!=""){
+                    }*/
+                    if(isset($cliente_ID)&&$cliente_ID!=0){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.cliente_ID=" .$cliente_ID;  
                     }
@@ -808,15 +808,15 @@
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.operador_ID=".$operador_ID;
                     }
-                    if(isset($_POST['ckEstado'])){
+                    /*if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID =60"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID in (60,41)";
                         
-                    }
-                    if(isset($cliente_ID)&&$cliente_ID!=""){
+                    }*/
+                    if(isset($cliente_ID)&&$cliente_ID!=0){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.cliente_ID=" .$cliente_ID;  
                     }
@@ -937,7 +937,7 @@
         $resultado.='</div>';
         //$resultado.='<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 text-right"><label>Solo Facturas cobrados</label></div>';
         $resultado.='<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
-        $resultado.='<div class="ckbox ckbox-theme"><input type="checkbox" name="ckEstado" id="ckEstado" disabled ><label for="ckEstado">Solo Facturas cobrados</label></div>';
+        $resultado.='<div class="ckbox ckbox-theme"><input type="checkbox" name="ckEstado" id="ckEstado" disabled ><label for="ckEstado">Solo Facturas canceladas</label></div>';
         $resultado.='</div>';
         $resultado.='</div>';
         
@@ -1024,7 +1024,7 @@
                         "comision_soles"=>"Comisión (S/.)",
                         "comision_dolares"=>"Comisión (U$$.)"
                         );
-                    $array_ancho=array(50,15,15,25,25,25);
+                    $array_ancho=array(50,25,15,25,25,25);
                     $array_alineacion=array('L','C','R','R','R','R');
                     $array_tipo=array('texto','numero','moneda','moneda','moneda','moneda');
                     $ruta=contructor_pdf_reporte($dtReportes,$oReportes,$titulo_cabecera,$subtitulo,"vertical",$array_ancho,$array_alineacion,$array_tipo);
@@ -1068,7 +1068,7 @@
                         "comision_soles"=>"Comisión (S/.)",
                         "comision_dolares"=>"Comisión (U$$.)"
                         );
-                    $array_ancho=array(50,10,15,15,15,25,25,25);
+                    $array_ancho=array(45,10,15,20,15,25,25,25);
                     $array_alineacion=array('L','L','L','C','R','R','R','R');
                     $array_tipo=array('texto','texto','texto','numero','moneda','moneda','moneda','moneda');
                     $ruta=contructor_pdf_reporte($dtReportes,$oReportes,$titulo_cabecera,$subtitulo,"vertical",$array_ancho,$array_alineacion,$array_tipo);
@@ -1176,14 +1176,14 @@
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.operador_ID=".$operador_ID;
                     }
-                    if(isset($_POST['ckEstado'])){
+                    /*if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID =60"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID in (60,41)";    
-                    }
-                    if(isset($cliente_ID)&&$cliente_ID!=""){
+                    }*/
+                    if(isset($cliente_ID)&&$cliente_ID!=0){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.cliente_ID=" .$cliente_ID;  
                     }
@@ -1223,14 +1223,14 @@
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.operador_ID=".$operador_ID;
                     }
-                    if(isset($_POST['ckEstado'])){
+                    /*if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID =60"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="fv.estado_ID in (60,41)";    
-                    }
-                    if(isset($cliente_ID)&&$cliente_ID!=""){
+                    }*/
+                    if(isset($cliente_ID)&&$cliente_ID!=0){
                         $filtro.=($filtro=="")?"":" and ";
                         $filtro.="ov.cliente_ID=" .$cliente_ID;  
                     }

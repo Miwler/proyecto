@@ -3,7 +3,7 @@
 class factura_venta_detalle {
     private $ID;
     private $factura_venta_ID;
-    private $orden_venta_detalle_ID;
+    private $salida_detalle_ID;
     private $usuario_id;
     private $usuario_mod_id;
     private $message;
@@ -44,8 +44,8 @@ class factura_venta_detalle {
            
             $q='select ifnull(max(ID),0)+1 as ID from factura_venta_detalle;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO factura_venta_detalle (ID,factura_venta_ID,orden_venta_detalle_ID,usuario_id) ';
-            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->orden_venta_detalle_ID.','.$this->usuario_id.')';
+            $q='INSERT INTO factura_venta_detalle (ID,factura_venta_ID,salida_detalle_ID,usuario_id) ';
+            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->salida_detalle_ID.','.$this->usuario_id.')';
             //echo $q;
             $retornar=$cn->transa($q);
             
@@ -64,7 +64,7 @@ class factura_venta_detalle {
 	$retornar=-1;
         try{
             
-            $q='UPDATE factura_venta_detalle set factura_venta_ID='.$this->factura_venta_ID.',orden_venta_detalle_ID='.$this->orden_venta_detalle_ID.' usuario_mod_id='.$this->usuario_mod_id;
+            $q='UPDATE factura_venta_detalle set factura_venta_ID='.$this->factura_venta_ID.',salida_detalle_ID='.$this->salida_detalle_ID.' usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
             $retornar=$cn->transa($q);
@@ -123,7 +123,7 @@ class factura_venta_detalle {
             $cn =new connect();
             try 
             {
-                $q='select ID,factura_venta_ID,orden_venta_detalle_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
+                $q='select ID,factura_venta_ID,salida_detalle_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
                 $q.=' from factura_venta_detalle';
                 $q.=' where del=0 and ID='.$ID;
                     //echo $q;
@@ -135,7 +135,7 @@ class factura_venta_detalle {
                         $oFactura_Venta_Detalle = new factura_venta_detalle();
                         $oFactura_Venta_Detalle->ID=$item['ID'];
                         $oFactura_Venta_Detalle->factura_venta_ID=$item['factura_venta_ID'];
-                        $oFactura_Venta_Detalle->orden_venta_detalle_ID=$item['orden_venta_detalle_ID'];
+                        $oFactura_Venta_Detalle->salida_detalle_ID=$item['salida_detalle_ID'];
                         $oFactura_Venta_Detalle->usuario_id=$item['usuario_id'];
                         $oFactura_Venta_Detalle->usuario_mod_id=$item['usuario_mod_id'];
                     }			
@@ -151,7 +151,7 @@ class factura_venta_detalle {
 		$cn =new connect();
 		try 
 		{
-                    $q='select ID,factura_venta_ID,orden_venta_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta_detalle';
+                    $q='select ID,factura_venta_ID,salida_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta_detalle';
                     $q.=' where del=0';
 			
                         if($filtro!=''){
@@ -179,9 +179,9 @@ class factura_venta_detalle {
         $q='select ovd.ID, ov.moneda_ID,ovd.cantidad,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,';
         $q.='ovd.vigv_soles,ovd.vigv_dolares,ovd.precio_venta_subtotal_soles,precio_venta_subtotal_dolares,ovd.precio_venta_soles';
         $q.=',ovd.precio_venta_dolares,pro.nombre as producto,ovd.descripcion';
-        $q.=' from orden_venta ov,orden_venta_detalle ovd,factura_venta_detalle fvd, producto pro';
-        $q.=' where fvd.del=0 and ov.del=0 and ovd.del=0 and  ov.ID=ovd.orden_venta_ID and';
-        $q.=' fvd.orden_venta_detalle_ID =ovd.ID and ovd.producto_ID=pro.ID';
+        $q.=' from salida ov,salida_detalle ovd,factura_venta_detalle fvd, producto pro';
+        $q.=' where fvd.del=0 and ov.del=0 and ovd.del=0 and  ov.ID=ovd.salida_ID and';
+        $q.=' fvd.salida_detalle_ID =ovd.ID and ovd.producto_ID=pro.ID';
 
         if($filtro!=''){
                 $q.=' and '.$filtro;

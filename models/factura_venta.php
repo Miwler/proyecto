@@ -13,9 +13,9 @@ class factura_venta {
     private $plazo_factura;
     private $fecha_vencimiento;
     private $moneda_ID;
-    private $orden_venta_ID;
+    private $salida_ID;
     private $orden_pedido;
-    private $orden_compra;
+    private $orden_ingreso;
     private $usuario_id;
     private $usuario_mod_id;
     private $opcion;
@@ -99,9 +99,9 @@ class factura_venta {
             }
             $q='select ifnull(max(ID),0)+1 as ID from factura_venta;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO factura_venta (ID,empresa_ID,serie,orden_venta_ID,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,estado_ID,moneda_ID,orden_pedido,orden_compra,con_guia,usuario_id,opcion,numero_producto) ';
-            $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].',"'.$this->serie.'",'.$this->orden_venta_ID.','.$this->numero.',"'.$this->numero_concatenado.'",'.$fecha_save.','.$this->forma_pago_ID.','.$this->plazo_factura.','.$fecha_save_vencimiento;
-            $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_compra.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.')';
+            $q='INSERT INTO factura_venta (ID,empresa_ID,serie,salida_ID,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,estado_ID,moneda_ID,orden_pedido,orden_ingreso,con_guia,usuario_id,opcion,numero_producto) ';
+            $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].',"'.$this->serie.'",'.$this->salida_ID.','.$this->numero.',"'.$this->numero_concatenado.'",'.$fecha_save.','.$this->forma_pago_ID.','.$this->plazo_factura.','.$fecha_save_vencimiento;
+            $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.')';
 
             $retornar=$cn->transa($q);
             
@@ -131,9 +131,9 @@ class factura_venta {
             if($this->con_guia!=null){
                 $con_guia=$this->con_guia;
             }
-            $q='UPDATE factura_venta set orden_venta_ID='.$this->orden_venta_ID.',serie="'.$this->serie.'",numero='.$this->numero.',numero_concatenado="'.$this->numero_concatenado.'",fecha_emision='.$fecha_save.
+            $q='UPDATE factura_venta set salida_ID='.$this->salida_ID.',serie="'.$this->serie.'",numero='.$this->numero.',numero_concatenado="'.$this->numero_concatenado.'",fecha_emision='.$fecha_save.
                ',forma_pago_ID='.$this->forma_pago_ID.',plazo_factura='.$this->plazo_factura.',fecha_vencimiento='.$fecha_save_vencimiento.',estado_ID='.$this->estado_ID.
-               ',moneda_ID='.$this->moneda_ID .',orden_pedido="'.$this->orden_pedido.'",orden_compra="'.$this->orden_compra.'",impresion='.$this->impresion.',con_guia='.$con_guia.',opcion='.$this->opcion;
+               ',moneda_ID='.$this->moneda_ID .',orden_pedido="'.$this->orden_pedido.'",orden_ingreso="'.$this->orden_ingreso.'",impresion='.$this->impresion.',con_guia='.$con_guia.',opcion='.$this->opcion;
                 ',numero_producto='.$this->numero_producto.', usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
@@ -271,8 +271,8 @@ class factura_venta {
             $cn =new connect();
             try 
             {
-                $q='select ID,orden_venta_ID,serie,numero,numero_concatenado,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,forma_pago_ID,plazo_factura,DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,';
-                $q.='estado_ID,moneda_ID,orden_pedido,orden_compra,impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
+                $q='select ID,salida_ID,serie,numero,numero_concatenado,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,forma_pago_ID,plazo_factura,DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,';
+                $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
                 $q.='ifnull(monto_pendiente,0) as monto_pendiente,DATE_FORMAT(fecha_anulacion,"%d/%m/%Y") as fecha_anulacion,operador_ID_anulacion,motivo_anulacion_ID ,opcion,numero_producto,';
                 $q.='usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
                 $q.=' where del=0 and ID='.$ID;
@@ -284,7 +284,7 @@ class factura_venta {
                     {
                         $oFactura_Venta = new factura_venta();
                         $oFactura_Venta->ID=$item['ID'];
-                        $oFactura_Venta->orden_venta_ID=$item['orden_venta_ID'];
+                        $oFactura_Venta->salida_ID=$item['salida_ID'];
                         $oFactura_Venta->serie=$item['serie'];
                         $oFactura_Venta->numero=$item['numero'];
                         $oFactura_Venta->numero_concatenado=$item['numero_concatenado'];
@@ -295,7 +295,7 @@ class factura_venta {
                         $oFactura_Venta->estado_ID=$item['estado_ID'];
                         $oFactura_Venta->moneda_ID=$item['moneda_ID'];
                         $oFactura_Venta->orden_pedido=$item['orden_pedido'];
-                        $oFactura_Venta->orden_compra=$item['orden_compra'];
+                        $oFactura_Venta->orden_ingreso=$item['orden_ingreso'];
                         $oFactura_Venta->impresion=$item['impresion'];
                         $oFactura_Venta->con_guia=$item['con_guia'];
                         $oFactura_Venta->pago=$item['pago'];
@@ -323,8 +323,8 @@ class factura_venta {
 		$cn =new connect();
 		try 
 		{
-                    $q='select ID,orden_venta_ID,serie,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,';
-                    $q.='estado_ID,moneda_ID,orden_pedido,orden_compra,impresion,con_guia,pago,usuario_id,fecha_anulacion,';
+                    $q='select ID,salida_ID,serie,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,';
+                    $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,usuario_id,fecha_anulacion,';
                     $q.='operador_ID_anulacion,motivo_anulacion_ID,opcion,numero_producto,';
                     $q.='monto_total_neto,monto_total_igv,monto_total,';
                     $q.='ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
@@ -352,10 +352,10 @@ class factura_venta {
 		$cn =new connect();
 		try 
 		{
-                    $q='select fv.ID,ov.numero as orden_venta,fv.fecha_emision,fv.fecha_vencimiento,fv.numero_concatenado,ov.moneda_ID,cl.razon_social as cliente,fv.pago,fv.forma_pago_ID,fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.estado_ID';
+                    $q='select fv.ID,ov.numero as salida,fv.fecha_emision,fv.fecha_vencimiento,fv.numero_concatenado,ov.moneda_ID,cl.razon_social as cliente,fv.pago,fv.forma_pago_ID,fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.estado_ID';
                      $q.=' ,es.nombre as estado, fv.monto_pendiente';
-                    $q.=' from factura_venta fv, orden_venta ov,cliente cl, estado es';
-                    $q.=' where ov.empresa_ID='.$_SESSION['empresa_ID'].' and fv.del=0 and ov.del=0 and fv.orden_venta_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID ';
+                    $q.=' from factura_venta fv, salida ov,cliente cl, estado es';
+                    $q.=' where ov.empresa_ID='.$_SESSION['empresa_ID'].' and fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID ';
 			
                         if($filtro!=''){
 				$q.=' and '.$filtro;
@@ -382,8 +382,8 @@ class factura_venta {
         try {
             $q = 'select fv.ID,fv.numero_concatenado as numero,ov.cliente_ID,cl.razon_social as cliente,fv.fecha_emision,fv.fecha_vencimiento,';
             $q.='fv.moneda_ID,mo.descripcion as moneda, mo.simbolo, fv.forma_pago_ID,fv.monto_total,fv.monto_pendiente,fv.estado_ID,es.nombre as estado ';
-            $q.=' from factura_venta fv, orden_venta ov,cliente cl, estado es, moneda mo';
-            $q.=' where fv.del=0 and ov.del=0 and fv.orden_venta_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41';
+            $q.=' from factura_venta fv, salida ov,cliente cl, estado es, moneda mo';
+            $q.=' where fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41';
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
