@@ -3,7 +3,7 @@
 class factura_venta_sunat {
 
     private $ID;
-    private $orden_venta_ID;
+    private $salida_ID;
     private $cabecera_documento_Id;
     private $FechaGeneracion;
     private $FechaRespuesta;
@@ -21,7 +21,7 @@ class factura_venta_sunat {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
 
-        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
         if (property_exists('factura_venta_sunat', $temporal)) {
             $this->$temporal = $valor;
         } else {
@@ -48,8 +48,8 @@ class factura_venta_sunat {
 
             $q = 'select ifnull(max(ID),0)+1 from factura_venta_sunat';
             $ID=$cn->getData($q);
-            $q = 'insert into factura_venta_sunat(ID,orden_venta_ID,cabecera_documento_Id,FechaGeneracion,FechaRespuesta,XmlFirmado,RepresentacionImpresa,EstadoEnvio,CodigoEstado,DescripcionEstado,CdrSunat,usuario_id)';
-            $q.='values('.$ID.','.$this->orden_venta_ID.',"' . $this->cabecera_documento_Id . '","' . $this->FechaGeneracion . '","'.$this->FechaRespuesta.'","'.$this->XmlFirmado.'","'.$this->RepresentacionImpresa.'","'.$this->EstadoEnvio.'","'.$this->CodigoEstado.'","'.$this->DescripcionEstado.'","'.$this->CdrSunat.'",'. $this->usuario_id .');';
+            $q = 'insert into factura_venta_sunat(ID,salida_ID,cabecera_documento_Id,FechaGeneracion,FechaRespuesta,XmlFirmado,RepresentacionImpresa,EstadoEnvio,CodigoEstado,DescripcionEstado,CdrSunat,usuario_id)';
+            $q.='values('.$ID.','.$this->salida_ID.',"' . $this->cabecera_documento_Id . '","' . $this->FechaGeneracion . '","'.$this->FechaRespuesta.'","'.$this->XmlFirmado.'","'.$this->RepresentacionImpresa.'","'.$this->EstadoEnvio.'","'.$this->CodigoEstado.'","'.$this->DescripcionEstado.'","'.$this->CdrSunat.'",'. $this->usuario_id .');';
             //echo $q;
             $retornar = $cn->transa($q);
             $this->ID = $ID;
@@ -71,7 +71,7 @@ class factura_venta_sunat {
             $this->message = 'Se guardó correctamente';
             return $retornar;
         } catch (Exception $ex) {
-            
+
         }
     }
 
