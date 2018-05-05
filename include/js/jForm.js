@@ -566,12 +566,11 @@ var cargarValores=function(url,id,resultado){
         },
         datatype: "json",
         success: function (respuesta) {
-            console.log(respuesta);
-            respuesta = $.parseJSON(respuesta);
-            resultado(respuesta);
-
+            //console.log(respuesta);
+            resultado($.parseJSON(respuesta));
         },
         error: function (ex) {
+          console.log(ex);
             alert(ex);
             //$('#' + objContent).html('Error al conectarse con el servidor');
         }
@@ -953,6 +952,23 @@ var regitrarSeries=function(url,ID,serie){
             // other key
             return false
         }
+
+        // Block UI Element
+function block_ui(eo_function) {
+    var html_message =
+        '<div class="progress" style="margin: 0px !important;">' +
+        '<div class="progress-bar progress-bar-teal progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">' +
+        '<span class="label label-defaul"><strong>Procesando petici&oacute;n</strong></span>' +
+        '</div>' +
+        '<div>';
+    $.blockUI(
+        {
+            fadeIn: 1000,
+            message: html_message,
+            onBlock: eo_function
+        });
+    //$.unblockUI();
+}
 
 
 

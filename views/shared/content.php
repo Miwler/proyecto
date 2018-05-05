@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
+
 	 <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        
+
 	<title>
 		<?php  fncTitle(); echo " - SIEM" ?>
 	</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<base href="<?php echo DOMAIN_BASE; ?>">
-	<link type="image/x-icon" href="files/imagenes/favicon/<?php echo $_SESSION['favicon'];?>" rel="icon" /> 
-	
+	<link type="image/x-icon" href="files/imagenes/favicon/<?php echo $_SESSION['favicon'];?>" rel="icon" />
+
 
         <!-- START @FONT STYLES -->
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet">
@@ -59,11 +59,15 @@
         <script src="../../../assets/global/plugins/bower_components/moment/min/moment.min.js"></script>
         <script src="../../../assets/global/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
         <script src="../../assets/global/plugins/bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
-        
+
+				<script src="../../assets/global/plugins/bower_components/blockui/jquery.blockUI.js" type="text/javascript"></script>
+
+
+
         <script src="../../include/stacktable/stacktable.js" type="text/javascript"></script>
 	<link href="../../include/stacktable/stacktable.css" rel="stylesheet" type="text/css"/>
         <!--PLUGIN PROPIOS-->
-        <script type="text/javascript" src="include/js/jscript.js" ></script>  
+        <script type="text/javascript" src="include/js/jscript.js" ></script>
         <script type="text/javascript" src="include/js/logincerrar.js" ></script>
         <script src="../../include/js/jNotificacion.js" type="text/javascript"></script>
         <?php  fncHead();	?>
@@ -87,12 +91,12 @@
                     <div class="navbar-header">
 
                         <!-- Start brand -->
-                        <a class="navbar-brand" href="dashboard.html">
+                        <a class="navbar-brand" href="#">
                             <?php if(isset($_SESSION['empresa_ID'])&&$_SESSION['empresa_ID']!=1){?>
                             <img class="logo" src="<?php echo logo;?>" style="max-height: 50px;"/>
                             <?php }else{?>
                             <img src="../../include/img/logo/1.png" alt="" style="max-height: 50px;"/>
-                              
+
                            <?php } ?>
                         </a><!-- /.navbar-brand -->
                         <!--/ End brand -->
@@ -139,7 +143,7 @@
                                             </a>
                                         </li>
                                         <?php } ?>
-                                  
+
                                     </ul>
                                 </div>
                             </li>
@@ -147,7 +151,7 @@
 
                         </ul><!-- /.nav navbar-nav navbar-left -->
                         <!--/ End left navigation -->
-                        
+
                         <!-- Start right navigation -->
                         <ul class="nav navbar-nav navbar-right"><!-- /.nav navbar-nav navbar-right -->
 
@@ -165,13 +169,13 @@
                                     <div class="dropdown-body" style="height: 225px;">
 
                                         <!-- Start message search -->
-                                       
+
                                         <!--/ End message search -->
 
                                         <!-- Start message list -->
                                         <div class="media-list niceScroll" id="contenedorNotificacion">
 
-                                       
+
                                         </div>
                                         <!--/ End message list -->
 
@@ -305,7 +309,7 @@
                             </li><!-- /.dropdown navbar-profile -->
                             <!--/ End profile -->
 
-                            
+
 
                         </ul>
                         <!--/ End right navigation -->
@@ -333,7 +337,7 @@
             <aside id="sidebar-left" class="sidebar-circle">
 
                 <!-- Start left navigation - profile shortcut -->
-                
+
                 <!--/ End left navigation -  profile shortcut -->
 
                 <!-- Start left navigation - menu -->
@@ -343,19 +347,17 @@
                         <span class="pull-right"><i class="<?php echo $_SESSION['icono']?>"></i></span>
                     </li>
                     <?php
-                        require ROOT_PATH."/lib/menu.php";				
+                        require ROOT_PATH."/lib/menu.php";
                     ?>
                 </ul>
-               
+
                <!-- /.sidebar-menu -->
                 <!--/ End left navigation - menu -->
 
                 <!-- Start left navigation - footer -->
                 <div class="sidebar-footer hidden-xs hidden-sm hidden-md">
-                    <a id="setting" class="pull-left" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-title="Setting"><i class="fa fa-cog"></i></a>
                     <a id="fullscreen" class="pull-left" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-title="Fullscreen"><i class="fa fa-desktop"></i></a>
-                    <a id="lock-screen" data-url="lock-screen.html" class="pull-left" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-title="Lock Screen"><i class="fa fa-lock"></i></a>
-                    <a id="logout" data-url="index.html" class="pull-left" onclick="fncLogout();" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-title="Logout"><i class="fa fa-power-off"></i></a>
+                    <a id="logout" data-url="" class="pull-left" onclick="fncLogout();" href="javascript:void(0);" data-toggle="tooltip" data-placement="top" data-title="Logout"><i class="fa fa-power-off"></i></a>
                 </div><!-- /.sidebar-footer -->
                 <!--/ End left navigation - footer -->
 
@@ -382,7 +384,7 @@
                             </li>
                             <li class="active">Quick Access</li>
                         </ol>-->
-                       
+
                     </div>
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
@@ -390,7 +392,7 @@
                 <!-- Start body content -->
                 <div class="body-content animated fadeIn">
 
-                   <?php						
+                   <?php
                                     fncPage();
                                 ?>
 
@@ -407,7 +409,7 @@
             </section><!-- /#page-content -->
             <!--/ END PAGE CONTENT -->
 
-           
+
 
         </section><!-- /#wrapper -->
         <!--/ END WRAPPER -->
@@ -493,15 +495,15 @@
     <div id="divContent-float"  style="display:none;">
             <div id="loading-float" style="width:100%;text-align:center;" >
                 <div style="margin:0 auto;">
-                    <img title="Cargando" alt="Cargando" src="include/img/loading_bar.gif"/> 
-                    <img class="boton" title="Cerrar" alt="Cerrar" style="width:15px;height:15px;" src="include/img/boton/close_delete-16.png" onclick="window_float_close();" /> 
+                    <img title="Cargando" alt="Cargando" src="include/img/loading_bar.gif"/>
+                    <img class="boton" title="Cerrar" alt="Cerrar" style="width:15px;height:15px;" src="include/img/boton/close_delete-16.png" onclick="window_float_close();" />
                 </div>
-            	
-            </div>  
-            <div id="window-float"  style="display:none;"> </div>		
+
+            </div>
+            <div id="window-float"  style="display:none;"> </div>
     </div>
     <!-- Modal -->
-  
+
     <div id="toastem"></div>
    <div id="fondo_espera" style="background:#000;opacity:0.7;width:100%;height:100%;z-index: 56;text-align:center;top:0;position:absolute; display:none;" ><img width="80px" src="/include/img/loader-Login.gif"></div>
     <div id="float_modal" class="modal fade modal-success" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -521,7 +523,7 @@
 
         </div>
    </div>
-  
+
    <div id="float_modal_hijo" class="modal fade modal-info" data-backdrop="static"  data-keyboard="false" role="dialog">
         <div class="modal-dialog">
 
@@ -570,14 +572,14 @@
         });
     /*$('.nav-tabs a').click(function(){
         $(this).tab('show');
-        
+
     })*/
         var fncVerModalModulos=function(){
             $("#menu-modulos").show("fast");
         }
         var fncVerEmpresas=function(){
             $("#menu-empresas").show("fast");
-        }                 
+        }
         $(document).ready(function() {
             /*$("#float_modal_hijo_hijo").draggable({
                 handle: ".modal-header"
@@ -587,8 +589,8 @@
             });
             $("#float_modal").draggable({
                 handle: ".modal-header"
-            });   */ 
-                
+            });   */
+
             $(document).click(function(e){
                 if(e.target.id!='menu-modulos' && e.target.id!="btn_vermodulo"){
                     $("#menu-modulos").hide("fast");
@@ -599,7 +601,7 @@
             });
             <?php if(isset($_SESSION['tabs'])){?>
             $("div.bhoechie-tab-menu>div.list-group-<?php echo $_SESSION['tabs'];?>>a").click(function(e) {
-               
+
                 e.preventDefault();
                 $(this).siblings('a.active').removeClass("active");
                 $(this).addClass("active");
@@ -625,13 +627,13 @@
                     //resultado(respuesta);
 
                 }
-                
+
             });
-            
+
         });
         </script>
    <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
-       
+
 
         <!-- START @PAGE LEVEL PLUGINS -->
         <script src="../../assets/global/plugins/bower_components/bootstrap-session-timeout/dist/bootstrap-session-timeout.min.js"></script>
@@ -680,7 +682,7 @@
         margin-left: 0;
     }
     #menu-modulos ul>li>a:hover{
-        
+
         border:1px #808080 solid;
         cursor:pointer;
     }

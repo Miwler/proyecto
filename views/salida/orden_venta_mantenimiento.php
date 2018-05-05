@@ -241,11 +241,13 @@
     }
 
 		function fncSUNAT(id) {
+			block_ui(function () {
 				cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
 					console.log(resultado);
 					var obj = $.parseJSON(resultado);
 
-					console.log(obj.MensajeRespuesta);
+					$.unblockUI();
+					//console.log(obj.MensajeRespuesta);
 
 
 
@@ -253,6 +255,7 @@
 							alert(obj.MensajeRespuesta);
 					}
 			});
+		});
 		}
 
     var fncEliminar=function(id){
