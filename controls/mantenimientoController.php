@@ -1915,7 +1915,7 @@ function post_Chofer_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/estado.php';
     global $returnView_float;
     $returnView_float = true;
-    $persona_ID=$_POST['txtPersona_ID'];
+    $persona_ID=$_POST['selPersona'];
     $licencia_conducir = FormatTextSave(strtoupper($_POST['txtLicencia_Conducir']));
     $celular = FormatTextSave($_POST['txtCelular']);
     $estado_ID = $_POST['selEstado_ID'];
