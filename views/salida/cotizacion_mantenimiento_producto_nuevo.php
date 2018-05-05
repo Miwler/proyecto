@@ -89,10 +89,7 @@
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lista_producto" id="tdProducto" >
                             <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                <option value='0'>--SELECCIONAR--</option>
-                                <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                <?php } ?>
+                                <?php echo utf8_encode($GLOBALS['listaProducto']);?>
                             </select>
                             
                             <script type="text/javascript">
@@ -598,7 +595,7 @@
 
 
     var fncCargarPrecioCompra=function(producto_ID){
-          cargarValores('/Ingreso/ajaxPrecio_Compra',producto_ID,function(resultado){
+          cargarValores('/Ingreso/ajaxPrecio_Ingreso',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
             $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
             
@@ -761,6 +758,10 @@
         
             }
         }
+    });
+    $(".chosen-search input").on("keyup",function(){
+        alert($(this).val());
+        
     });
     </script>
     <style>
