@@ -523,6 +523,7 @@ function get_cotizacion_mantenimiento_producto_nuevo($id){
     $GLOBALS['linea_ID']=0;
     $GLOBALS['categoria_ID']=0;
     $GLOBALS['dtProducto']=producto::getGrid("",-1,-1,"pr.nombre asc");
+    $GLOBALS['listaProducto']=producto::getLista("");
     $GLOBALS['dtCategoria']=$dtCategoria;
     $GLOBALS['dtLinea']=$dtLinea;
     //$GLOBALS['dtProducto']=$dtProducto;

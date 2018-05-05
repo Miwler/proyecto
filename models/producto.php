@@ -263,6 +263,19 @@ function verificarHijos($categoria_ID){
             throw new Exception($q);
         }
     }   
-    
+    static function getLista($nombre) {
+        $cn = new connect();
+        try {
+            
+            $q="call getOptionProducto(".$_SESSION['empresa_ID'].",'".$nombre."');";
+           
+            //echo $q;
+            $dt = $cn->getData($q);
+           
+            return $dt;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
     
 }
