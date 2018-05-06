@@ -2,32 +2,32 @@
 class datos_generales
 {
 	private $ID;
-        private $empresa_ID;
+  private $empresa_ID;
 	private $ruc;
 	private $razon_social;
 	private $alias;
 	private $direccion;
 	private $direccion_fiscal;
-        
+
 	private $distrito_ID;
         private $favicon;
 	private $logo_extension;
         private $imagen;
 	private $correo;
-       
+
 	private $pagina_web;
 	private $telefono;
 	private $celular;
-	
+
 	private $tipo_cambio;
 	private $vigv;
-       
+
         private $observacion;
-        
+
         private $quienes_somos;
         private $mision;
         private $vision;
-       
+
         private $skype;
         private $persona_contacto;
         private $cargo_contacto;
@@ -36,8 +36,8 @@ class datos_generales
         private $servidorSMTP;
         private $puertoSMTP;
         private $sitio_web;
-	private $usuario_id;	
-	private $usuario_mod_id;	
+	private $usuario_id;
+	private $usuario_mod_id;
 	private $getMessage;
 	private $provincia_ID;
         private $departamento_ID;
@@ -47,8 +47,8 @@ class datos_generales
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
 		$temporal = $var;
-		
-		// Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+
+		// Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
 		if (property_exists('datos_generales',$temporal))
 		 {
 			$this->$temporal = $valor;
@@ -58,21 +58,21 @@ class datos_generales
 			echo $var . " No existe.";
 		 }
 	 }
-	 
+
 	 public function __get($var)
 	 {
 		$temporal = $var;
-		
+
 		// Verifica que exista
 		if (property_exists('datos_generales', $temporal))
 		 {
 			return $this->$temporal;
 		 }
-		 
+
 		// Retorna nulo si no existe
 		return null;
 	}
-	
+
 function insertar() {
     $cn = new connect();
     $retornar = -1;
@@ -92,7 +92,7 @@ function insertar() {
         $q.=$this->puertoSMTP.'","'.$this->sitio_web.'",'.$this->usuario_id.')';
         $retornar = $cn->transa($q);
 
-        
+
         $this->ID = $ID;
         $this->getMessage = 'Se guardó correctamente';
         return $retornar;
@@ -101,8 +101,8 @@ function insertar() {
         throw new Exception($q);
     }
 }
-	
-	
+
+
 function actualizar() {
     $cn = new connect();
     $retornar = -1;
@@ -162,8 +162,8 @@ function actualizar_datos_empresa() {
     } catch (Exception $ex) {
         throw new Exception("Ocurrio un error en la consulta");
     }
-}	
-	
+}
+
 function actualizar_correoSMTP() {
     $cn = new connect();
     $retornar = -1;
@@ -177,9 +177,9 @@ function actualizar_correoSMTP() {
         return $retornar;
     } catch (Exception $ex) {
         throw new Exception("Ocurrio un error en la consulta");
-    }   
-}	
-	
+    }
+}
+
 function eliminar() {
     $cn = new connect();
     $retornar = -1;
@@ -196,10 +196,10 @@ function eliminar() {
         throw new Exception("Ocurrio un error en la consulta");
     }
 }
-	
-	
-	
-	
+
+
+
+
 static function getCount($filtro = '') {
 $cn = new connect();
 try {
@@ -221,7 +221,7 @@ try {
 static function getByID($ID)
 {
         $cn =new connect();
-        try 
+        try
         {
             $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,distrito_ID,favicon,logo_extension,imagen,';
             $q.='correo,pagina_web,telefono,celular,tipo_cambio,vigv,observacion,quienes_somos,mision,vision,skype,persona_contacto';
@@ -229,7 +229,7 @@ static function getByID($ID)
             $q.=' from datos_generales ';
             $q.=' where ID='.$ID;
 
-            $dt=$cn->getGrid($q);			
+            $dt=$cn->getGrid($q);
             $oDatos_generales=null;
 
             foreach($dt as $item)
@@ -267,7 +267,7 @@ static function getByID($ID)
                 $oDatos_generales->sitio_web=$item['sitio_web'];
                 $oDatos_generales->usuario_id=$item['usuario_id'];
                 $oDatos_generales->usuario_mod_id=$item['usuario_mod_id'];
-            }			
+            }
             return $oDatos_generales;
 
         }catch(Exeption $ex)
@@ -307,7 +307,7 @@ static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'dg.ID 
 static function getByID1($empresa_ID)
 {
     $cn =new connect();
-    try 
+    try
     {
         $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,distrito_ID,favicon,ifnull(logo_extension,"") as logo_extension,imagen,';
         $q.='correo,pagina_web,telefono,celular,tipo_cambio,vigv,observacion,quienes_somos,mision,vision,skype,persona_contacto';
@@ -315,7 +315,7 @@ static function getByID1($empresa_ID)
         $q.=' from datos_generales ';
         $q.=' where del=0 and empresa_ID='.$empresa_ID;
         //echo $q;
-        $dt=$cn->getGrid($q);			
+        $dt=$cn->getGrid($q);
         $oDatos_generales=null;
 
         foreach($dt as $item)
@@ -353,7 +353,7 @@ static function getByID1($empresa_ID)
             $oDatos_generales->sitio_web=$item['sitio_web'];
             $oDatos_generales->usuario_id=$item['usuario_id'];
             $oDatos_generales->usuario_mod_id=$item['usuario_mod_id'];
-        }			
+        }
         return $oDatos_generales;
 
     }catch(Exeption $ex)
@@ -364,7 +364,7 @@ static function getByID1($empresa_ID)
     static function getByEmpresa()
     {
         $cn =new connect();
-        try 
+        try
         {
             $q='select dg.ID,dg.empresa_ID,dg.ruc,dg.razon_social,dg.alias,dg.direccion,dg.direccion_fiscal,dg.distrito_ID,dg.favicon,dg.logo_extension,dg.imagen,';
             $q.='dg.correo,dg.pagina_web,dg.telefono,dg.celular,dg.tipo_cambio,dg.vigv,dg.observacion,dg.quienes_somos,dg.mision,dg.vision,dg.skype,dg.persona_contacto';
@@ -373,7 +373,7 @@ static function getByID1($empresa_ID)
             $q.=' from datos_generales dg,empresa em ';
             $q.=' where dg.empresa_ID=em.ID and dg.del=0 and em.del=0 and dg.empresa_ID='.$_SESSION['empresa_ID'];
             //echo $q;
-            $dt=$cn->getGrid($q);			
+            $dt=$cn->getGrid($q);
             $oDatos_generales=null;
 
             foreach($dt as $item)
@@ -411,8 +411,8 @@ static function getByID1($empresa_ID)
                 $oDatos_generales->sitio_web=$item['sitio_web'];
                 $oDatos_generales->nombre=$item['nombre'];
                 $oDatos_generales->ruta=$item['ruta'];
-                
-            }			
+
+            }
             return $oDatos_generales;
 
     }catch(Exeption $ex)

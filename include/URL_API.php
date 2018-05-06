@@ -43,26 +43,30 @@ class api_SUNAT {
 
       }
 
-      public function getParamEmisor(){
+      public function getParamEmisor($empresa_ID){
 
-        $certificateCAcer = ROOT_PATH.'files/SUNAT/CERTIFICADO/10474911085.pfx';
+        require ROOT_PATH.'models/datos_generales.php';
+
+        $oDatos_generales=datos_generales::getByID($empresa_ID);
+
+        $certificateCAcer = ROOT_PATH.'files/SUNAT/CERTIFICADO/'.$oDatos_generales->ruc.'.pfx';
         $certificateCAcerContent = file_get_contents($certificateCAcer);
         $certificadostring =  PHP_EOL.chunk_split(base64_encode($certificateCAcerContent), 64, PHP_EOL).PHP_EOL;
 
         $Emisor = array (
-          'NroDocumento' => '10474911085',
+          'NroDocumento' => $oDatos_generales->ruc,
           'TipoDocumento' => '6',
-          'NombreLegal' => 'SUPERMERCADOS PERUANOS SOCIEDAD ANONIMA',
-          'NombreComercial' => 'PLAZA VEA',
+          'NombreLegal' => $oDatos_generales->razon_social,
+          'NombreComercial' => $oDatos_generales->alias,
           'Ubigeo' => '140101',
-          'Direccion' => 'CAL.MORELLI NRO. 181 INT. P-2',
-          'Urbanizacion' => 'string',
+          'Direccion' => $oDatos_generales->direccion_fiscal,
+          'Urbanizacion' => '',
           'Departamento' => 'LIMA',
           'Provincia' => 'LIMA',
           'Distrito' => 'SAN BORJA'
         );
 
-        $data = array( "RUC"=>"10474911085",
+        $data = array( "RUC"=>$oDatos_generales->ruc,
                       "UsuarioSol"=>"MODDATOS",
                       "ClaveSol"=>"MODDATOS",
                       "Certificado"=>$certificadostring,

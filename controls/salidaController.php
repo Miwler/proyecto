@@ -3713,7 +3713,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
     //$filtro = 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><thead><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-theme table-middle table-hover table-striped table-bordered table-condensed dt-responsive nowrap"><thead><tr>';
     $resultado.= '<th></th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Número' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Fecha' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -3722,10 +3722,14 @@ function post_ajaxOrden_Venta_Mantenimiento() {
     $resultado.='<th class="thOrden" onclick="fncOrden(5);">Monto S/.' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(6);">Monto $' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(7);">Estado' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(7);">PDF' . (($txtOrden == 8 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(7);">XML' . (($txtOrden == 9 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(7);">CDR' . (($txtOrden == 10 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(8);">Estado SUNAT' . (($txtOrden == 11 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 9;
+    $colspanFooter = 13;
     try {
         $cantidadMaxima = salida::getCount($filtro);
         $dtsalida = salida::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
@@ -3747,8 +3751,25 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             $resultado.='<td class="tdRight">' . $item['precio_venta_total_soles'] . '</td>';
             $resultado.='<td class="tdRight">' . $item['precio_venta_total_dolares'] . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
+            $resultado.='<td class="text-center"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></td>';
+            $resultado.='<td class="text-center"><i class="fa fa-file-code-o" style="font-size:30px;color:#007BE8"></i></td>';
+            $resultado.='<td class="text-center"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></td>';
+            $resultado.='<td class="text-center">';
 
-               $botones=array();
+            if (trim($item['sunat_codigo_estado'])=='-1') {
+                $resultado.='<button type="button" class="btn btn-danger btn-sm btn-block"><span class="glyphicon glyphicon-ban-circle"></span> Borrador</button>';
+            }elseif (trim($item['sunat_codigo_estado'])=='0') {
+                $resultado.='<button type="button" class="btn btn-success btn-sm btn-block"';
+                $resultado.='data-toggle="tooltip" data-html="true" title="Enviado a la SUNAT : SI <br>Aceptado : SI <br>Código : 0"';
+                $resultado.='><span class="glyphicon glyphicon-ok"></span> Ok</button>';
+            }else {
+              $resultado.='<button type="button" class="btn btn-warning btn-sm btn-block"';
+              $resultado.='data-toggle="tooltip" data-html="true" title="Enviado a la SUNAT : SI <br>Aceptado : NO <br>Código : '.FormatTextViewHtml($item['codigo_estado']).'"';
+              $resultado.='><span class="glyphicon glyphicon-remove"></span><i class="fa fa-refresh fa-spin"></i> Ok</button>';
+            }
+            $resultado.='</td>';
+
+            $botones=array();
             if($item['estado_ID']==40||$item['estado_ID']==42){
 
                 $editar='<a onclick="fncVer(' . $item['ID'] . ');"><img title="Ver" src="/include/img/boton/find_14x14.png" />&nbsp;Ver</a>';
@@ -10757,16 +10778,28 @@ function post_ajaxGuia_Venta_Numero_Ultimo() {
     echo json_encode($retornar);
 }
 function post_ajaxEnviarSUNAT() {
-  //if(!class_exists("api_SUNAT"))require ROOT_PATH . 'include/URL_API.php';
-  require ROOT_PATH . 'models/factura_venta_sunat.php';
+
+  require ROOT_PATH.'models/factura_venta_sunat.php';
+  require ROOT_PATH.'models/salida.php';
+  require ROOT_PATH.'models/moneda.php';
+  require ROOT_PATH.'models/cliente.php';
+  require ROOT_PATH.'models/empresa.php';
+
   require_once('include/URL_API.php');
 
   $new = new api_SUNAT();
   $id=$_POST['id'];
 
+  $oSalida=salida::getByID($id);
+  $oEmpresa=empresa::getByID($oSalida->empresa_ID);
+  $oCliente=cliente::getByID($oSalida->cliente_ID);
+  $oMoneda=moneda::getByID($oSalida->moneda_ID);
+
+  //var_dump($oSalida);
+
     try {
 
-      $param_emisor = $new->getParamEmisor();
+      $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
       $data = array (
         'IdDocumento' => 'B010-0001',
         'TipoDocumento' => '03',
@@ -10822,6 +10855,7 @@ function post_ajaxEnviarSUNAT() {
         'CalculoDetraccion' => 0.04,
       );
 
+      $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
       $resultado_GFactura = $new->sendPostCPE(json_encode($data),'GenerarFactura');
       $data_GFactura = json_decode($resultado_GFactura);
 
@@ -10888,38 +10922,58 @@ function post_ajaxEnviarSUNAT() {
           //   "Pila": "string"
           // }
 
+          $sunat_respuesta='';
           if ($data_sunat->Exito==true) {
             // echo 'CodigoRespuesta : '.$data_sunat->CodigoRespuesta.'<br>';
             // echo 'MensajeRespuesta : '.$data_sunat->MensajeRespuesta.'<br>';
             // echo 'NombreArchivo : '.$data_sunat->NombreArchivo.'<br>';
             // echo 'TramaZipCdr : '.$data_sunat->TramaZipCdr.'<br>';
+
+            $sunat_respuesta = $data_sunat->MensajeRespuesta;
             if ($data_sunat->CodigoRespuesta==0) {
               $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr);
             }
 
             echo json_encode($resultado_sunat);
           }else{
+            $sunat_respuesta = $data_sunat->MensajeError;
             echo json_encode($resultado_sunat);
           }
 
-          $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
+
           $oFactura_Venta_Sunat=new factura_venta_sunat();
           $oFactura_Venta_Sunat->salida_ID=$id;
-          $oFactura_Venta_Sunat->cabecera_documento_Id=$id;
-          $oFactura_Venta_Sunat->FechaGeneracion=$FechaRespuesta;
-          $oFactura_Venta_Sunat->FechaRespuesta=$FechaRespuesta;
-          $oFactura_Venta_Sunat->XmlFirmado=$data_firma->TramaXmlFirmado;
-          $oFactura_Venta_Sunat->RepresentacionImpresa=$data_firma->ResumenFirma;
-          $oFactura_Venta_Sunat->EstadoEnvio="";
-          $oFactura_Venta_Sunat->CodigoEstado=$data_sunat->CodigoRespuesta;
-          $oFactura_Venta_Sunat->DescripcionEstado=$data_sunat->MensajeRespuesta;
-          $oFactura_Venta_Sunat->CdrSunat=$data_sunat->TramaZipCdr;
+          $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
+          $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
+          $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
+          $oFactura_Venta_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
+          $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
+          $oFactura_Venta_Sunat->representacion_impresa='';
+          $oFactura_Venta_Sunat->estado_envio=1;
+          $oFactura_Venta_Sunat->codigo_estado=$data_sunat->CodigoRespuesta;
+          $oFactura_Venta_Sunat->descripcion_estado=FormatTextSave($sunat_respuesta);
+          $oFactura_Venta_Sunat->cdr_sunat=$data_sunat->TramaZipCdr;
           $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
           $oFactura_Venta_Sunat->insertar();
 
 
 
         }else {
+          $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
+          $oFactura_Venta_Sunat=new factura_venta_sunat();
+          $oFactura_Venta_Sunat->salida_ID=$id;
+          $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
+          $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
+          $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
+          $oFactura_Venta_Sunat->nombre_archivo=$nombreArchivo;
+          $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
+          $oFactura_Venta_Sunat->representacion_impresa='';
+          $oFactura_Venta_Sunat->estado_envio=0;
+          $oFactura_Venta_Sunat->codigo_estado="";
+          $oFactura_Venta_Sunat->descripcion_estado="Ocurrió un error al firmar la trama xml";
+          $oFactura_Venta_Sunat->cdr_sunat="";
+          $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
+          $oFactura_Venta_Sunat->insertar();
           echo json_encode($resultado_firma);
         }
 
@@ -10935,6 +10989,7 @@ function post_ajaxEnviarSUNAT() {
     } catch (Exception $ex) {
         $retornar = Array('resultado' => '', 'mensaje' => $ex->getMessage());
         echo json_encode($retornar);
+
         //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
     }
 

@@ -557,25 +557,31 @@ var mostrarValor = function (divResultado,url,id,divresultado1)
     });
 }
 var cargarValores=function(url,id,resultado){
-
-    $.ajax({
-        type: "post",
-        url: url,
-        data: {
-            id: id
-        },
-        datatype: "json",
-        success: function (respuesta) {
-            //console.log(respuesta);
-            resultado($.parseJSON(respuesta));
-        },
-        error: function (ex) {
-          console.log(ex);
-            alert(ex);
-            //$('#' + objContent).html('Error al conectarse con el servidor');
+  $.ajax({
+      type: "post",
+      url: url,
+      data: {
+          id: id
+      },
+      datatype: "json",
+      success: function (respuesta) {
+        try {
+          console.log(respuesta);
+          resultado($.parseJSON(respuesta));
+        } catch (e) {
+            $.unblockUI();
+            console.log(e);
+            alert(e.message);
         }
-    });
+      },
+      error: function (ex) {
+        console.log(ex);
+          alert(ex);
+          //$('#' + objContent).html('Error al conectarse con el servidor');
+      }
+  });
 }
+
 var cargarValores1=function(url,id,id1,resultado){
     //alert(id);
     $.ajax({

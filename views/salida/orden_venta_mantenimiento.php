@@ -166,6 +166,33 @@
         </div>
     </div>
 
+		<div id="popover_content_wrapper" style="display: none">
+		    <div>
+		        <table class="table table-bordered table-dark">
+		    <thead>
+		    <tr>
+		        <td>Enviado a la SUNAT</td>
+		        <td>OK</td>
+		    </tr>
+		    <tr>
+		        <td>Aceptado por la SUNAT</td>
+		        <td>OK</td>
+		    </tr>
+		    <tr>
+		        <td>Código</td>
+		        <td>0</td>
+		    </tr>
+		    <tr>
+		        <td>Descripción</td>
+		        <td>La Factura numero F001-1, ha sido aceptada </td>
+		    </tr>
+		</thead>
+		</table>
+		        <br>
+
+		    </div>
+		</div>
+
 </form>
 <script type="text/javascript">
     $('.nav-tabs a').on('show.bs.tab', function(event){
@@ -241,21 +268,26 @@
     }
 
 		function fncSUNAT(id) {
-			block_ui(function () {
-				cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
-					console.log(resultado);
-					var obj = $.parseJSON(resultado);
+			try {
+					block_ui(function () {
+						cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
+							console.log(resultado);
+							$.unblockUI();
 
-					$.unblockUI();
-					//console.log(obj.MensajeRespuesta);
+							var obj = $.parseJSON(resultado);
+							//console.log(obj.MensajeRespuesta);
+							if (obj.Exito==true) {
+									alert(obj.MensajeRespuesta);
+							}
+					});
+				});
+			} catch (e) {
+				$.unblockUI();
+				console.log(e);
+			} finally {
 
+			}
 
-
-					if (obj.Exito==true) {
-							alert(obj.MensajeRespuesta);
-					}
-			});
-		});
 		}
 
     var fncEliminar=function(id){
@@ -287,6 +319,14 @@
             $('#txtFechaFin').prop('disabled', false);
         }
     });
+
+		$(document).ready(function(){
+    $("#myTooltips a").tooltip({
+        template : '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-head"><h3><span class="glyphicon glyphicon-info-sign"></span> Tool Info</h3></div><div class="tooltip-inner"></div></div>'
+    });
+});
+
+
 </script>
 
 <?php } ?>

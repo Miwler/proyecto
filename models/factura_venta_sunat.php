@@ -4,15 +4,16 @@ class factura_venta_sunat {
 
     private $ID;
     private $salida_ID;
-    private $cabecera_documento_Id;
-    private $FechaGeneracion;
-    private $FechaRespuesta;
-    private $XmlFirmado;
-    private $RepresentacionImpresa;
-    private $EstadoEnvio;
-    private $CodigoEstado;
-    private $DescripcionEstado;
-    private $CdrSunat;
+    private $fecha_generacion;
+    private $fecha_respuesta;
+    private $nombre_archivo;
+    private $xml_firmado;
+    private $hash;
+    private $representacion_impresa;
+    private $estado_envio;
+    private $codigo_estado;
+    private $descripcion_estado;
+    private $cdr_sunat;
     private $usuario_id;
 
     Private $getMessage;
@@ -48,16 +49,16 @@ class factura_venta_sunat {
 
             $q = 'select ifnull(max(ID),0)+1 from factura_venta_sunat';
             $ID=$cn->getData($q);
-            $q = 'insert into factura_venta_sunat(ID,salida_ID,cabecera_documento_Id,FechaGeneracion,FechaRespuesta,XmlFirmado,RepresentacionImpresa,EstadoEnvio,CodigoEstado,DescripcionEstado,CdrSunat,usuario_id)';
-            $q.='values('.$ID.','.$this->salida_ID.',"' . $this->cabecera_documento_Id . '","' . $this->FechaGeneracion . '","'.$this->FechaRespuesta.'","'.$this->XmlFirmado.'","'.$this->RepresentacionImpresa.'","'.$this->EstadoEnvio.'","'.$this->CodigoEstado.'","'.$this->DescripcionEstado.'","'.$this->CdrSunat.'",'. $this->usuario_id .');';
+            $q = 'insert into factura_venta_sunat(ID,salida_ID,fecha_generacion,fecha_respuesta,nombre_archivo,hash,xml_firmado,representacion_impresa,estado_envio,codigo_estado,descripcion_estado,cdr_sunat,usuario_id)';
+            $q.='values('.$ID.','.$this->salida_ID.',"' . $this->fecha_generacion . '","'.$this->fecha_respuesta.'","'.$this->nombre_archivo.'","'.$this->hash.'","'.$this->xml_firmado.'","'.$this->representacion_impresa.'","'.$this->estado_envio.'","'.$this->codigo_estado.'","'.$this->descripcion_estado.'","'.$this->cdr_sunat.'",'. $this->usuario_id .');';
             //echo $q;
             $retornar = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
             return $retornar;
         } catch (Exception $ex) {
-
-            throw new Exception("Ocurrio un error en la consulta");
+            throw new Exception($ex);
+            //throw new Exception("Ocurrio un error en la consulta");
         }
     }
 

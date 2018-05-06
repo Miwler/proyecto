@@ -50,7 +50,7 @@ class salida {
 // convierte a minúsculas toda una cadena la función strtolower
           $temporal = $var;
 
-          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
           if (property_exists('salida',$temporal))
            {
                   $this->$temporal = $valor;
@@ -100,9 +100,9 @@ class salida {
             //echo $q;
             $this->ID=$ID;
             $this->getMessage='Se actualizó correctamente';
-            
+
             return $retornar;
-            
+
         } catch (Exception $ex) {
 
             throw new Exception($q);
@@ -164,9 +164,9 @@ class salida {
         throw new Exception("Ocurrio un error en la consulta");
         }
     }
-    function actualizarImpresion($valor){
+  function actualizarImpresion($valor){
         $cn =new connect();
-	$retornar=-1;
+	      $retornar=-1;
         try{
             $q='update salida set impresion='.$valor.', usuario_mod_id='.$this->usuario_mod_id;
             $q.=' where del=0 and id='.$this->ID;
@@ -178,7 +178,7 @@ class salida {
         throw new Exception("Ocurrio un error en la consulta");
         }
     }
-    
+
     function eliminar(){
             $cn =new connect();
             $retornar=-1;
@@ -195,11 +195,11 @@ class salida {
             catch(Exception $ex){
                     throw new Exception("Ocurrio un error en la consulta");
             }
-    }    
+    }
     static function getCount($filtro='')
     {
         $cn =new connect();
-        try 
+        try
         {
             $q='SELECT  count(ov.ID)';
             $q.=' FROM salida ov,cliente cl, estado es ';
@@ -209,19 +209,19 @@ class salida {
                     $q.=' and '.$filtro;
             }
             //echo $q;
-            $resultado=$cn->getData($q);									
+            $resultado=$cn->getData($q);
 
-            return $resultado;					
+            return $resultado;
         }catch(Exception $ex)
         {
                 throw new Exception($q);
         }
-    } 
+    }
         //modificado por ortega-agregar todos los datos y cargar en el modelo
    static function getByID($ID)
 	{
 		$cn =new connect();
-		try 
+		try
 		{
                     $q='SELECT  ID,empresa_ID,ifNull(cotizacion_ID,-1) as cotizacion_ID ,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
                     $q.='numero_concatenado,numero_orden_ingreso,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
@@ -230,101 +230,111 @@ class salida {
                     $q.=' FROM salida ';
                     $q.=' where del=0 and ID='.$ID;
 			//echo $q;
-			$dt=$cn->getGrid($q);			
+			$dt=$cn->getGrid($q);
 			$osalida=null;
-			
+
 			foreach($dt as $item)
 			{
-                            $osalida=new salida();
-                            $osalida->ID=$item['ID'];
-                            $osalida->empresa_ID=$item['empresa_ID'];
-                            $osalida->cotizacion_ID=$item['cotizacion_ID'];
-                            $osalida->cliente_ID=$item['cliente_ID'];
-                            $osalida->cliente_contacto_ID=$item['cliente_contacto_ID'];
-                            $osalida->operador_ID=$item['operador_ID'];
-                            $osalida->periodo=$item['periodo'];
-                            $osalida->numero=$item['numero'];
-                            $osalida->numero_concatenado=$item['numero_concatenado'];
-                            $osalida->numero_orden_ingreso=$item['numero_orden_ingreso'];
-                            $osalida->moneda_ID=$item['moneda_ID'];
-                            $osalida->fecha=$item['fecha'];
-                            $osalida->igv=$item['igv'];
-                            $osalida->vigv_soles=$item['vigv_soles'];
-                            $osalida->vigv_dolares=$item['vigv_dolares'];
-                            $osalida->precio_venta_neto_soles=$item['precio_venta_neto_soles'];
-                            $osalida->precio_venta_total_soles=$item['precio_venta_total_soles'];
-                            $osalida->precio_venta_neto_dolares=$item['precio_venta_neto_dolares'];
-                            $osalida->precio_venta_total_dolares=$item['precio_venta_total_dolares'];
-                            $osalida->forma_pago_ID=$item['forma_pago_ID'];
-                            $osalida->tiempo_credito=$item['tiempo_credito'];
-                            $osalida->descuento_soles=$item['descuento_soles'];
-                            $osalida->descuento_dolares=$item['descuento_dolares'];
-                            $osalida->estado_ID=$item['estado_ID'];
-                            $osalida->tipo_cambio=$item['tipo_cambio'];
-                            $osalida->plazo_entrega=$item['plazo_entrega'];
-                            $osalida->lugar_entrega=$item['lugar_entrega'];
-                            $osalida->validez_oferta=$item['validez_oferta'];
-                            $osalida->garantia=$item['garantia'];
-                            $osalida->observacion=$item['observacion'];
-                            $osalida->numero_pagina=$item['numero_pagina'];
-                            $osalida->nproducto_pagina=$item['nproducto_pagina'];
-                            $osalida->impresion=$item['impresion'];
-                            $osalida->usuario_id=$item['usuario_id'];
-                            $osalida->ver_adicional=$item['ver_adicional'];
-                            $osalida->adicional=$item['adicional'];
-			}			
+        $osalida=new salida();
+        $osalida->ID=$item['ID'];
+        $osalida->empresa_ID=$item['empresa_ID'];
+        $osalida->cotizacion_ID=$item['cotizacion_ID'];
+        $osalida->cliente_ID=$item['cliente_ID'];
+        $osalida->cliente_contacto_ID=$item['cliente_contacto_ID'];
+        $osalida->operador_ID=$item['operador_ID'];
+        $osalida->periodo=$item['periodo'];
+        $osalida->numero=$item['numero'];
+        $osalida->numero_concatenado=$item['numero_concatenado'];
+        $osalida->numero_orden_ingreso=$item['numero_orden_ingreso'];
+        $osalida->moneda_ID=$item['moneda_ID'];
+        $osalida->fecha=$item['fecha'];
+        $osalida->igv=$item['igv'];
+        $osalida->vigv_soles=$item['vigv_soles'];
+        $osalida->vigv_dolares=$item['vigv_dolares'];
+        $osalida->precio_venta_neto_soles=$item['precio_venta_neto_soles'];
+        $osalida->precio_venta_total_soles=$item['precio_venta_total_soles'];
+        $osalida->precio_venta_neto_dolares=$item['precio_venta_neto_dolares'];
+        $osalida->precio_venta_total_dolares=$item['precio_venta_total_dolares'];
+        $osalida->forma_pago_ID=$item['forma_pago_ID'];
+        $osalida->tiempo_credito=$item['tiempo_credito'];
+        $osalida->descuento_soles=$item['descuento_soles'];
+        $osalida->descuento_dolares=$item['descuento_dolares'];
+        $osalida->estado_ID=$item['estado_ID'];
+        $osalida->tipo_cambio=$item['tipo_cambio'];
+        $osalida->plazo_entrega=$item['plazo_entrega'];
+        $osalida->lugar_entrega=$item['lugar_entrega'];
+        $osalida->validez_oferta=$item['validez_oferta'];
+        $osalida->garantia=$item['garantia'];
+        $osalida->observacion=$item['observacion'];
+        $osalida->numero_pagina=$item['numero_pagina'];
+        $osalida->nproducto_pagina=$item['nproducto_pagina'];
+        $osalida->impresion=$item['impresion'];
+        $osalida->usuario_id=$item['usuario_id'];
+        $osalida->ver_adicional=$item['ver_adicional'];
+        $osalida->adicional=$item['adicional'];
+			}
 			return $osalida;
-				
+
 		}catch(Exeption $ex)
 		{
 			throw new Exception($q);
 		}
 	}
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ov.ID asc')
+
+  static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ov.ID asc')
 	{
 		$cn =new connect();
-		try 
+		try
 		{
-                    $q='SELECT  ov.ID,ov.empresa_ID,ifNull(ov.cotizacion_ID,-1) as cotizacion_ID,ov.cliente_ID,ov.cliente_contacto_ID,ov.operador_ID,ov.periodo,ov.numero,ov.';
-                    $q.='numero_concatenado,ov.numero_orden_ingreso,ov.moneda_ID,date_format(ov.fecha,"%d/%m/%Y") as fecha,ov.igv,ov.vigv_soles,ov.vigv_dolares,ov.precio_venta_neto_soles,ov.';
-                    $q.='precio_venta_total_soles,ov.precio_venta_neto_dolares,ov.precio_venta_total_dolares,ov.forma_pago_ID,ov.';
-                    $q.='tiempo_credito,ov.descuento_soles,ov.descuento_dolares,ov.estado_ID,ov.tipo_cambio,ov.plazo_entrega,ov.lugar_entrega,ov.validez_oferta,ov.garantia,ov.observacion,ov.usuario_id,ov.usuario_mod_id,ov.impresion, ';
-                    $q.='cl.razon_social ,es.nombre as estado';
-                    $q.=' FROM salida ov,cliente cl, estado es ';
-                    $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID';
-			
-			
-                        if($filtro!=''){
+        $q='SELECT ifnull(fvs.codigo_estado,-1) as sunat_codigo_estado,fvs.codigo_estado,ov.ID,ov.empresa_ID,ifNull(ov.cotizacion_ID,-1) as cotizacion_ID,ov.cliente_ID,ov.cliente_contacto_ID,ov.operador_ID,ov.periodo,ov.numero,ov.';
+        $q.='numero_concatenado,ov.numero_orden_ingreso,ov.moneda_ID,date_format(ov.fecha,"%d/%m/%Y") as fecha,ov.igv,ov.vigv_soles,ov.vigv_dolares,ov.precio_venta_neto_soles,ov.';
+        $q.='precio_venta_total_soles,ov.precio_venta_neto_dolares,ov.precio_venta_total_dolares,ov.forma_pago_ID,ov.';
+        $q.='tiempo_credito,ov.descuento_soles,ov.descuento_dolares,ov.estado_ID,ov.tipo_cambio,ov.plazo_entrega,ov.lugar_entrega,ov.validez_oferta,ov.garantia,ov.observacion,ov.usuario_id,ov.usuario_mod_id,ov.impresion, ';
+        $q.='cl.razon_social ,es.nombre as estado,';
+        $q.=' fvs.descripcion_estado as estado_sunat';
+        $q.=' FROM salida ov ';
+        $q.=' inner join cliente cl on ov.cliente_ID=cl.ID';
+        $q.=' inner join estado es on ov.estado_ID=es.ID';
+        $q.=' left join (';
+        $q.='     select  max(ID) max_id,fvs.salida_ID';
+        $q.='     from factura_venta_sunat fvs ';
+        $q.='     where del=0 group by salida_ID ';
+	      $q.='     order by fvs.ID desc ';
+        $q.=' ) as fvs_max on fvs_max.salida_ID=ov.ID';
+        $q.=' left join  factura_venta_sunat fvs ON (fvs.ID = fvs_max.max_id)';
+        $q.=' where ov.del=0';
+
+        if($filtro!=''){
 				$q.=' and '.$filtro;
 			}
-			
+
 			$q.=' Order By '.$order;
-			
+
 			if($desde!=-1&&$hasta!=-1){
 				$q.=' Limit '.$desde.','.$hasta;
 			}
                         //echo $q;
-			$dt=$cn->getGrid($q);									
-			return $dt;												
+			$dt=$cn->getGrid($q);
+			return $dt;
 		}catch(Exception $ex)
 		{
 			throw new Exception($q);
 		}
-	} 
+	}
     static function getPeriodos()
     {
         $cn =new connect();
-        try 
+        try
         {
             $q='select DISTINCT periodo from salida where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
                 //echo $q;
-                $dt=$cn->getGrid($q);									
-                return $dt;												
+                $dt=$cn->getGrid($q);
+                return $dt;
         }catch(Exception $ex)
         {
                 throw new Exception($q);
         }
-    } 
+    }
 
     static function getNumero(){
       $cn =new connect();
@@ -337,12 +347,12 @@ class salida {
         } catch (Exception $ex) {
             throw new Exception("Ocurrio un error en la consulta");
         }
-              
+
     }
      static function verificarDisponibilidadImpresora()
 	{
             $cn =new connect();
-            try 
+            try
             {
                 $q='SELECT  count(ov.ID)';
                 $q.=' FROM salida ov,cliente cl, estado es ';
@@ -352,36 +362,36 @@ class salida {
                     $q.=' and '.$filtro;
                 }
                 //echo $q;
-                $resultado=$cn->getData($q);									
+                $resultado=$cn->getData($q);
 
-                return $resultado;					
+                return $resultado;
             }catch(Exception $ex)
             {
                     throw new Exception($q);
             }
-	} 
+	}
     function liberarImpresora(){
         $cn =new connect();
-            try 
+            try
             {
                 $q='update salida set impresion=0 where ID='. $this->ID;
-                $resultado=$cn->transa($q);									
+                $resultado=$cn->transa($q);
                 $q='update factura_venta set con_guia=0 where salida_ID='. $this->ID;
                 $resultado=$cn->transa($q);
-                return $resultado;					
+                return $resultado;
             }catch(Exception $ex)
             {
                     throw new Exception($q);
             }
     }
-    
-    
-       
-    	
+
+
+
+
 	// inicio de reportes dasboard de ventas//
-	
-	
-	   
+
+
+
         static function MostrarGrafico_DiarioSoles() {
         $cn = new connect();
         try {
@@ -401,8 +411,8 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
+
+
         static function MostrarGrafico_DiarioDolares() {
         $cn = new connect();
         try {
@@ -422,8 +432,8 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
+
+
        static function MostrarGrafico_DiarioxMesSoles() {
         $cn = new connect();
         try {
@@ -443,8 +453,8 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
+
+
            static function MostrarGrafico_DiarioxMesDolares() {
         $cn = new connect();
         try {
@@ -464,9 +474,9 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
-        
+
+
+
         static function MostrarGrafico_MensualSoles() {
         $cn = new connect();
         try {
@@ -486,8 +496,8 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
+
+
             static function MostrarGrafico_MensualDolares() {
         $cn = new connect();
         try {
@@ -507,8 +517,8 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
+
+
        static function MostrarGrafico_AnualSoles() {
         $cn = new connect();
         try {
@@ -524,9 +534,9 @@ class salida {
             throw new Exception($q);
         }
     }
-    
-    
-    
+
+
+
            static function MostrarGrafico_AnualDolares() {
         $cn = new connect();
         try {
@@ -542,8 +552,8 @@ class salida {
             throw new Exception($q);
         }
     }
-    
+
   }
- 
+
 
 ?>
