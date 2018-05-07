@@ -10887,7 +10887,7 @@ function post_ajaxEnviarSUNAT() {
 
       $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
       $data = array (
-        'IdDocumento' => 'B010-'.$oFactura_venta[0]['numero'],
+        'IdDocumento' => 'B010-0001',
         'TipoDocumento' => '03',
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
