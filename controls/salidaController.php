@@ -3734,8 +3734,15 @@ function post_ajaxOrden_Venta_Mantenimiento() {
         $cantidadMaxima = salida::getCount($filtro);
         $dtsalida = salida::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtsalida);
+        $fila = 0;
+        $enviado_por_la_SUNAT = '';
+        $aceptada_por_la_SUNAT = '';
+        $codigo_SUNAT = '';
+        $descripcion_SUNAT = '';
+        $otros = '';
 
         foreach ($dtsalida as $item) {
+            $fila = $fila + 1;
             $oMoneda=moneda::getByID($item['moneda_ID']);
             $resultado.='<tr class="tr-item">';
             $impresion='';
@@ -3757,16 +3764,63 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             $resultado.='<td class="text-center">';
 
             if (trim($item['sunat_codigo_estado'])=='-1') {
-                $resultado.='<button type="button" class="btn btn-danger btn-sm btn-block"><span class="glyphicon glyphicon-ban-circle"></span> Borrador</button>';
+                $enviado_por_la_SUNAT = '<span class="glyphicon glyphicon-remove"></span>';
+                $aceptada_por_la_SUNAT = '<span class="glyphicon glyphicon-remove"></span>';
+                $codigo_SUNAT = '';
+                $descripcion_SUNAT = '';
+                $otros = '';
+
+                $resultado.='<button type="button" class="btn btn-danger btn-sm btn-block" onclick="fnModalPopover();" onmouseover="fnModalPopover()" rel="popover" data-popover-content="#myPopover'.$fila.'"><span class="glyphicon glyphicon-ban-circle"></span> Borrador</button>';
             }elseif (trim($item['sunat_codigo_estado'])=='0') {
+                $enviado_por_la_SUNAT = '<i class="fa fa-check"></i>';
+                $aceptada_por_la_SUNAT = '<i class="fa fa-check"></i>';
+                $codigo_SUNAT = FormatTextViewHtml($item['codigo_estado']);
+                $descripcion_SUNAT = FormatTextViewHtml($item['descripcion_estado']);
+                $otros = '';
                 $resultado.='<button type="button" class="btn btn-success btn-sm btn-block"';
-                $resultado.='data-toggle="tooltip" data-html="true" title="Enviado a la SUNAT : SI <br>Aceptado : SI <br>Código : 0"';
+                $resultado.=' onclick="fnModalPopover();" onmouseover="fnModalPopover()" rel="popover" data-popover-content="#myPopover'.$fila.'" ';
                 $resultado.='><span class="glyphicon glyphicon-ok"></span> Ok</button>';
             }else {
-              $resultado.='<button type="button" class="btn btn-warning btn-sm btn-block"';
-              $resultado.='data-toggle="tooltip" data-html="true" title="Enviado a la SUNAT : SI <br>Aceptado : NO <br>Código : '.FormatTextViewHtml($item['codigo_estado']).'"';
-              $resultado.='><span class="glyphicon glyphicon-remove"></span><i class="fa fa-refresh fa-spin"></i> Ok</button>';
+                $enviado_por_la_SUNAT = '<i class="fa fa-check"></i>';
+                $aceptada_por_la_SUNAT = '<span class="glyphicon glyphicon-remove"></span><i class="fa fa-refresh fa-spin"></i>';
+                $codigo_SUNAT = FormatTextViewHtml($item['codigo_estado']);
+                $descripcion_SUNAT = FormatTextViewHtml($item['descripcion_estado']);
+                $otros = '';
+                $resultado.='<button type="button" class="btn btn-warning btn-sm btn-block" ';
+                $resultado.=' onclick="fnModalPopover();" onmouseover="fnModalPopover()" rel="popover" data-popover-content="#myPopover'.$fila.'"';
+                $resultado.='><span class="glyphicon glyphicon-remove"></span><i class="fa fa-refresh fa-spin"></i> Ok</button>';
+
+
             }
+
+            $resultado.='
+            <div id="myPopover'.$fila.'" class="hide">
+            <table class="table">
+              <tbody>
+              <tr>
+                <td class="text-right">Enviada a la SUNAT</td>
+                <td>'.$enviado_por_la_SUNAT.'</td>
+              </tr>
+              <tr>
+                <td class="text-right">Aceptada por la SUNAT</td>
+                <td>'.$aceptada_por_la_SUNAT.'</td>
+              </tr>
+              <tr>
+                <td class="text-right">Código</td>
+                <td>'.$codigo_SUNAT.'</td>
+              </tr>
+              <tr>
+                <td class="text-right">Descripción</td>
+                <td>'.$descripcion_SUNAT.'</td>
+              </tr>
+              <tr>
+                <td class="text-right">Otros</td>
+                <td>'.$otros.'</td>
+              </tr>
+              </tbody>
+            </table>
+            </div>';
+
             $resultado.='</td>';
 
             $botones=array();
@@ -10781,6 +10835,8 @@ function post_ajaxEnviarSUNAT() {
 
   require ROOT_PATH.'models/factura_venta_sunat.php';
   require ROOT_PATH.'models/salida.php';
+  require ROOT_PATH.'models/factura_venta.php';
+  require ROOT_PATH.'models/salida_detalle.php';
   require ROOT_PATH.'models/moneda.php';
   require ROOT_PATH.'models/cliente.php';
   require ROOT_PATH.'models/empresa.php';
@@ -10791,72 +10847,101 @@ function post_ajaxEnviarSUNAT() {
   $id=$_POST['id'];
 
   $oSalida=salida::getByID($id);
+  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
+  $oSalidaDetalle=salida_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
   $oEmpresa=empresa::getByID($oSalida->empresa_ID);
   $oCliente=cliente::getByID($oSalida->cliente_ID);
   $oMoneda=moneda::getByID($oSalida->moneda_ID);
+
+
 
   //var_dump($oSalida);
 
     try {
 
+      $DocumentoDetalle = array();
+      $Discrepancias = array();
+      $DocumentoRelacionado = array();
+
+      for ($i=0; $i < count($oSalidaDetalle); $i++) {
+      $DocumentoDetalle[] = array (
+        'Id' => $i+1,
+        'Cantidad' => 10,
+        'UnidadMedida' => 'NIU',
+        'CodigoItem' => '2435675',
+        'Descripcion' => $oSalidaDetalle[$i]['producto'],
+        'PrecioUnitario' => 10,
+        'PrecioReferencial' => 10,
+        'TipoPrecio' => '01',
+        'TipoImpuesto' => '10',
+        'Impuesto' => 18,
+        'ImpuestoSelectivo' => 0,
+        'OtroImpuesto' => 0,
+        'Descuento' => 0,
+        'PlacaVehiculo' => 'string',
+        'TotalVenta' => 100,
+        'Suma' => 100,
+      );
+    }
+
+
       $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
       $data = array (
-        'IdDocumento' => 'B010-0001',
+        'IdDocumento' => 'B010-'.$oFactura_venta[0]['numero'],
         'TipoDocumento' => '03',
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
-          'NroDocumento' => '88888888',
+          'NroDocumento' => $oCliente->ruc,
           'TipoDocumento' => '1',
-          'NombreLegal' => 'CLIENTE GENERICO',
+          'NombreLegal' => $oCliente->razon_social,
         ),
-        'FechaEmision' => '2018-04-10',
-        'Moneda' => 'PEN',
+        'FechaEmision' => $oSalida->fecha,
+        'Moneda' => $oMoneda->codigo,
         'TipoOperacion' => '',
         'Gravadas' => 100,
         'Gratuitas' => 0,
         'Inafectas' => 0,
         'Exoneradas' => 0,
         'DescuentoGlobal' => 0,
-        'Items' => array (
-          0 =>
-          array (
-            'Id' => 1,
-            'Cantidad' => 10,
-            'UnidadMedida' => 'NIU',
-            'CodigoItem' => '2435675',
-            'Descripcion' => 'USB Kingston ©',
-            'PrecioUnitario' => 10,
-            'PrecioReferencial' => 10,
-            'TipoPrecio' => '01',
-            'TipoImpuesto' => '10',
-            'Impuesto' => 18,
-            'ImpuestoSelectivo' => 0,
-            'OtroImpuesto' => 0,
-            'Descuento' => 0,
-            'PlacaVehiculo' => 'string',
-            'TotalVenta' => 100,
-            'Suma' => 100,
-          ),
-        ),
         'TotalVenta' => 118,
         'TotalIgv' => 18,
         'TotalIsc' => 0,
         'TotalOtrosTributos' => 0,
         'MontoEnLetras' => 'SON CIENTO DIECIOCHO SOLES CON 0/100',
-        'PlacaVehiculo' => 'string',
+        'PlacaVehiculo' => '',
         'MontoPercepcion' => 0,
         'MontoDetraccion' => 0,
-        'TipoDocAnticipo' => 'string',
-        'DocAnticipo' => 'string',
-        'MonedaAnticipo' => 'string',
+        'TipoDocAnticipo' => '',
+        'DocAnticipo' => '',
+        'MonedaAnticipo' => '',
         'MontoAnticipo' => 0,
         'CalculoIgv' => 0.18,
         'CalculoIsc' => 0.10,
         'CalculoDetraccion' => 0.04,
+        'Items' => $DocumentoDetalle,
       );
 
+      $metodo = '';
+      switch ($data['TipoDocumento']) {
+          case '01':
+              $metodo = 'GenerarFactura';
+              break;
+          case '03':
+              $metodo = 'GenerarFactura';
+              break;
+          case '07':
+      				$metodo = 'GenerarNotaCredito';
+      				break;
+      		case '08':
+      					$metodo = 'GenerarNotaDebito';
+      			break;
+      		default:
+              $metodo = 'GenerarFactura';
+              break;
+      }
+
       $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
-      $resultado_GFactura = $new->sendPostCPE(json_encode($data),'GenerarFactura');
+      $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
       $data_GFactura = json_decode($resultado_GFactura);
 
       //{

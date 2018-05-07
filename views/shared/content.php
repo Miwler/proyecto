@@ -590,6 +590,7 @@
             $("#float_modal").draggable({
                 handle: ".modal-header"
             });   */
+						
 
             $(document).click(function(e){
                 if(e.target.id!='menu-modulos' && e.target.id!="btn_vermodulo"){
