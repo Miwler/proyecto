@@ -23,12 +23,12 @@ class salida_detalle {
     private $usuario_id;
     private $usuario_mod_id;
     private $obsequio;
-    
+
     Private $verBotonSerie;
     Private $verBotonTerminar;
     private $dtInventario;
     private $tipo;
-    
+
     //1 producto
 //2 producto con componente (se convierte en una descripción y no descuenta stock)
 //3 Componente (calcula el valor de venta del padre)
@@ -36,7 +36,7 @@ class salida_detalle {
 //5 producto con componente y adicional (se convierte en descripción, los componentes que lo integran hacen la suma de la venta total , el adicional suma al precio   )
 //6 Producto con adicional
 //7  Obsequio (se convierte en obsequio el costo de venta es 0)
-   
+
     Private $message;
     private $oMoneda;
     private $salida_detalle_padre_ID;
@@ -63,7 +63,7 @@ class salida_detalle {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
 
-        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
         if (property_exists('salida_detalle', $temporal)) {
             $this->$temporal = $valor;
         } else {
@@ -89,7 +89,7 @@ class salida_detalle {
         try {
             $q = 'select ifnull(max(ID),0)+1 as ID from salida_detalle;';
             $ID=$cn->getData($q);
-            
+
             $q = 'insert into salida_detalle (ID,producto_ID,observacion,salida_ID,descripcion,cantidad,';
             $q.='precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,salida_detalle_ID,ver_precio,estado_ID,cotizacion_detalle_ID,';
@@ -265,16 +265,16 @@ class salida_detalle {
             $q.='igv,vigv_soles,vigv_dolares,salida_detalle_ID,estado_ID,ver_precio,obsequio,cotizacion_detalle_ID,tipo,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM salida_detalle ';
             $q.=' where del=0 ';
-            
+
             if($filtro!=''){
                 $q.=' and '.$filtro;
             }
-			
+
 		$q.=' Order By '.$order;
-			
+
             if($desde!=-1&&$hasta!=-1){
                     $q.=' Limit '.$desde.','.$hasta;
-            }		
+            }
 //echo $q;
             $dt = $cn->getGrid($q);
             return $dt;
@@ -289,17 +289,17 @@ class salida_detalle {
             $q.='ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,ovd.precio_venta_subtotal_soles,ovd.precio_venta_subtotal_dolares,ovd.vigv_soles,ovd.vigv_dolares,ovd.precio_venta_soles,ovd.precio_venta_dolares ';
             $q.=' from salida_detalle ovd, producto pro, unidad_medida um, salida ov';
             $q.=' where ovd.salida_ID=ov.ID and ovd.producto_ID=pro.ID and pro.unidad_medida_ID=um.ID';
-            $q.=' and ovd.del=0 ';
-            
+            $q.=' and ovd.del=0';
+
             if($filtro!=''){
                 $q.=' and '.$filtro;
             }
-			
+
 		$q.=' Order By '.$order;
-			
+
             if($desde!=-1&&$hasta!=-1){
                     $q.=' Limit '.$desde.','.$hasta;
-            }		
+            }
             //echo $q;
             $dt = $cn->getGrid($q);
             return $dt;

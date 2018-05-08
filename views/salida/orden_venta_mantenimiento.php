@@ -8,8 +8,14 @@
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
 
-
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
+		<style media="screen">
+		.tooltip-inner {
+	max-width: 350px;
+	/* If max-width does not work, try using width instead */
+	width: 350px;
+}
+		</style>
 
 <?php } ?>
 <?php function fncMenu(){?>
@@ -166,32 +172,6 @@
         </div>
     </div>
 
-		<div id="popover_content_wrapper" style="display: none">
-		    <div>
-		        <table class="table table-bordered table-dark">
-		    <thead>
-		    <tr>
-		        <td>Enviado a la SUNAT</td>
-		        <td>OK</td>
-		    </tr>
-		    <tr>
-		        <td>Aceptado por la SUNAT</td>
-		        <td>OK</td>
-		    </tr>
-		    <tr>
-		        <td>Código</td>
-		        <td>0</td>
-		    </tr>
-		    <tr>
-		        <td>Descripción</td>
-		        <td>La Factura numero F001-1, ha sido aceptada </td>
-		    </tr>
-		</thead>
-		</table>
-		        <br>
-
-		    </div>
-		</div>
 
 </form>
 <script type="text/javascript">
@@ -309,6 +289,7 @@
 
         $('#txtNumero').val(nNumero.substring(nNumero.length-9,nNumero.length));
     }
+
     $('#txtBuscar').focus();
     $('#ckTodos').click(function(){
         if($(this).prop('checked')){
@@ -320,11 +301,30 @@
         }
     });
 
+		function fnModalPopover() {
+
+			$('[rel="popover"]').popover({
+					container: 'body',
+					html: true,
+					trigger: 'focus',
+					placement: "left",
+					content: function () {
+							var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
+							return clone;
+					}
+			}).on("show.bs.popover", function () { $(this).data("bs.popover").tip().css("max-width", "650px"); });
+		}
+
+
+
+
 		$(document).ready(function(){
-    $("#myTooltips a").tooltip({
-        template : '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-head"><h3><span class="glyphicon glyphicon-info-sign"></span> Tool Info</h3></div><div class="tooltip-inner"></div></div>'
-    });
-});
+
+
+
+
+
+			});
 
 
 </script>

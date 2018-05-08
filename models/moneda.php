@@ -2,17 +2,18 @@
 
 class moneda {
     private $ID;
+    private $codigo;
     private $descripcion;
     private $simbolo;
     private $usuario_id;
     private $message;
-    
+
     public function __set($var, $valor)
     {
 // convierte a min�sculas toda una cadena la funci�n strtolower
           $temporal = $var;
 
-          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
           if (property_exists('moneda',$temporal))
            {
                   $this->$temporal = $valor;
@@ -38,7 +39,7 @@ class moneda {
     static function getByID($ID) {
         $cn = new connect();
         try {
-            $q = 'Select ID,descripcion,simbolo,usuario_id';
+            $q = 'Select ID,codigo,descripcion,simbolo,usuario_id';
             $q.=' from moneda ';
             $q.=' where del=0 and ID=' . $ID;
 
@@ -49,10 +50,11 @@ class moneda {
                 $oMoneda = new moneda();
 
                 $oMoneda->ID = $item['ID'];
+                $oMoneda->codigo = $item['codigo'];
                 $oMoneda->descripcion = $item['descripcion'];
                 $oMoneda->simbolo = $item['simbolo'];
                 $oMoneda->usuario_id = $item['usuario_id'];
-             
+
             }
             return $oMoneda;
         } catch (Exeption $ex) {
@@ -62,27 +64,27 @@ class moneda {
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
 		$cn =new connect();
-		try 
+		try
 		{
-			$q='SELECT ID,descripcion,simbolo';
+			$q='SELECT ID,codigo,descripcion,simbolo';
 			$q.=' FROM moneda ';
 			$q.=' where del=0';
 			if($filtro!=''){
 				$q.=' and '.$filtro;
 			}
-			
+
 			$q.=' Order By '.$order;
-			
+
 			if($desde!=-1&&$hasta!=-1){
 				$q.=' Limit '.$desde.','.$hasta;
-			}			
+			}
 			//echo $q;
-			$dt=$cn->getGrid($q);									
-			return $dt;												
+			$dt=$cn->getGrid($q);
+			return $dt;
 		}catch(Exception $ex)
 		{
 			throw new Exception('Ocurrio un error en la consulta');
 		}
-	} 
+	}
 }
 ?>
