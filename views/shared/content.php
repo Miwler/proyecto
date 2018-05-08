@@ -59,8 +59,8 @@
         <script src="../../../assets/global/plugins/bower_components/moment/min/moment.min.js"></script>
         <script src="../../../assets/global/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
         <script src="../../assets/global/plugins/bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
-
-				<script src="../../assets/global/plugins/bower_components/blockui/jquery.blockUI.js" type="text/javascript"></script>
+        
+        <script src="../../assets/global/plugins/bower_components/blockui/jquery.blockUI.js" type="text/javascript"></script>
 
 
 
