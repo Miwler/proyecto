@@ -6,6 +6,9 @@ class correlativos {
     private $comprobante_tipo_ID;
     private $serie;
     private $ultimo_numero;
+    private $empresa_ID;
+    private $tipo_comprobante_empresa_ID;
+    private $electronico;
     private $usuario_id;	
     private $usuario_mod_id;
     private $message;
@@ -82,7 +85,7 @@ class correlativos {
             $cn =new connect();
             try 
             {
-                    $q='Select ID,comprobante_tipo_ID,serie,ultimo_numero,usuario_id';
+                    $q='Select ID,serie,ultimo_numero,electronico,tipo_comprobante_empresa_ID,usuario_id';
                     $q.=' from correlativos ';
                     $q.=' where ID='.$ID;
 
@@ -91,13 +94,13 @@ class correlativos {
 
                     foreach($dt as $item)
                     {
-                            $oCorrelativos=new correlativos();
-
-                            $oCorrelativos->ID=$item['ID'];
-                            $oCorrelativos->comprobante_tipo_ID=$item['comprobante_tipo_ID'];
-                            $oCorrelativos->serie=FormatTextView($item['serie']);
-                            $oCorrelativos->ultimo_numero=$item['ultimo_numero'];
-                            $oCorrelativos->usuario_id=$item['usuario_id'];
+                        $oCorrelativos=new correlativos();
+                        $oCorrelativos->ID=$item['ID'];
+                        $oCorrelativos->serie=FormatTextView($item['serie']);
+                        $oCorrelativos->ultimo_numero=$item['ultimo_numero'];
+                        $oCorrelativos->electronico=$item['electronico'];
+                        $oCorrelativos->tipo_comprobante_empresa_ID=$item['tipo_comprobante_empresa_ID'];
+                        $oCorrelativos->usuario_id=$item['usuario_id'];
 
                     }			
                     return $oCorrelativos;
@@ -142,10 +145,30 @@ class correlativos {
         $cn =new connect();
         try 
         {
+            
             $q='Select ifnull(ultimo_numero,0)+1';
             $q.=' from correlativos ';
             $q.='where del=0 and empresa_ID='.$_SESSION['empresa_ID'].' and comprobante_tipo_ID='.$comprobante_tipo_ID.' and serie="'.$serie.'"';
             //echo $q;
+            $retorna=$cn->getData($q);			
+            		
+            return $retorna;
+
+        }catch(Exeption $ex)
+        {
+                throw new Exception("Ocurrio un error en la consulta.");
+        }
+    }
+    static function getNumero($tabla,$correlativo_ID)
+    {
+        $cn =new connect();
+        try 
+        {
+            
+            $q='select ifnull(cor.ultimo_numero,0)+1';
+            $q.=' from correlativos cor,tipo_comprobante_empresa tce';
+            $q.=' where cor.tipo_comprobante_empresa_ID=tce.ID and tce.del=0 and cor.del=0 and tce.tabla="'.$tabla.'" and tce.empresa_ID='.$_SESSION['empresa_ID']." and cor.ID=".$correlativo_ID;
+
             $retorna=$cn->getData($q);			
             		
             return $retorna;
@@ -223,6 +246,23 @@ class correlativos {
                             $q.=' Limit '.$desde.','.$hasta;
                     }			
 
+                    $dt=$cn->getGrid($q);									
+                    return $dt;												
+            }catch(Exception $ex)
+            {
+                    throw new Exception('Ocurrio un error en la consulta');
+            }
+    }
+    static function getGridCorrelativos($tabla)
+    {
+            $cn =new connect();
+            try 
+            {
+                    $q='select cor.ID,cor.serie,cor.ultimo_numero ';
+                    $q.=' from correlativos cor,tipo_comprobante_empresa tce';
+                    $q.=' where cor.tipo_comprobante_empresa_ID=tce.ID and tce.del=0 and cor.del=0 and tce.tabla="'.$tabla.'" and tce.empresa_ID='.$_SESSION['empresa_ID'];
+
+                   //echo $q;
                     $dt=$cn->getGrid($q);									
                     return $dt;												
             }catch(Exception $ex)

@@ -50,6 +50,7 @@ class factura_venta {
     private $ver_vista_previa;
     private $ver_imprimir;
     private $dtSerie;
+    private $correlativos_ID;
    
    
   public function __set($var, $valor)
@@ -99,9 +100,9 @@ class factura_venta {
             }
             $q='select ifnull(max(ID),0)+1 as ID from factura_venta;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO factura_venta (ID,empresa_ID,serie,salida_ID,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,estado_ID,moneda_ID,orden_pedido,orden_ingreso,con_guia,usuario_id,opcion,numero_producto) ';
+            $q='INSERT INTO factura_venta (ID,empresa_ID,serie,salida_ID,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,estado_ID,moneda_ID,orden_pedido,orden_ingreso,con_guia,usuario_id,opcion,numero_producto,correlativos_ID) ';
             $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].',"'.$this->serie.'",'.$this->salida_ID.','.$this->numero.',"'.$this->numero_concatenado.'",'.$fecha_save.','.$this->forma_pago_ID.','.$this->plazo_factura.','.$fecha_save_vencimiento;
-            $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.')';
+            $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.','.$this->correlativos_ID.')';
 
             $retornar=$cn->transa($q);
             
@@ -134,7 +135,7 @@ class factura_venta {
             $q='UPDATE factura_venta set salida_ID='.$this->salida_ID.',serie="'.$this->serie.'",numero='.$this->numero.',numero_concatenado="'.$this->numero_concatenado.'",fecha_emision='.$fecha_save.
                ',forma_pago_ID='.$this->forma_pago_ID.',plazo_factura='.$this->plazo_factura.',fecha_vencimiento='.$fecha_save_vencimiento.',estado_ID='.$this->estado_ID.
                ',moneda_ID='.$this->moneda_ID .',orden_pedido="'.$this->orden_pedido.'",orden_ingreso="'.$this->orden_ingreso.'",impresion='.$this->impresion.',con_guia='.$con_guia.',opcion='.$this->opcion;
-                ',numero_producto='.$this->numero_producto.', usuario_mod_id='.$this->usuario_mod_id;
+                ',numero_producto='.$this->numero_producto.',correlativos_ID='.$this->correlativos_ID.' usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
             $retornar=$cn->transa($q);
@@ -273,7 +274,7 @@ class factura_venta {
             {
                 $q='select ID,salida_ID,serie,numero,numero_concatenado,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,forma_pago_ID,plazo_factura,DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,';
                 $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
-                $q.='ifnull(monto_pendiente,0) as monto_pendiente,DATE_FORMAT(fecha_anulacion,"%d/%m/%Y") as fecha_anulacion,operador_ID_anulacion,motivo_anulacion_ID ,opcion,numero_producto,';
+                $q.='ifnull(monto_pendiente,0) as monto_pendiente,DATE_FORMAT(fecha_anulacion,"%d/%m/%Y") as fecha_anulacion,operador_ID_anulacion,motivo_anulacion_ID ,opcion,numero_producto,correlativos_ID,';
                 $q.='usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
                 $q.=' where del=0 and ID='.$ID;
                     //echo $q;
@@ -308,6 +309,7 @@ class factura_venta {
                         $oFactura_Venta->motivo_anulacion_ID=$item['motivo_anulacion_ID'];
                         $oFactura_Venta->opcion=$item['opcion'];
                         $oFactura_Venta->numero_producto=$item['numero_producto'];
+                        $oFactura_Venta->correlativos_ID=$item['correlativos_ID'];
                         $oFactura_Venta->usuario_id=$item['usuario_id'];
                         $oFactura_Venta->usuario_mod_id=$item['usuario_mod_id'];
                     }			
@@ -326,7 +328,7 @@ class factura_venta {
                     $q='select ID,salida_ID,serie,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,';
                     $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,usuario_id,fecha_anulacion,';
                     $q.='operador_ID_anulacion,motivo_anulacion_ID,opcion,numero_producto,';
-                    $q.='monto_total_neto,monto_total_igv,monto_total,';
+                    $q.='monto_total_neto,monto_total_igv,monto_total,correlativos_ID,';
                     $q.='ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
                     $q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
 			

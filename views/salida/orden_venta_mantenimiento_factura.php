@@ -50,15 +50,16 @@
                             <label>Número de Factura</label>
                             <input type="hidden" id="txtID" name="txtID" value="<?php echo  $GLOBALS['oFactura_Venta']->ID;?>">
                             <input type="hidden" id="txtorden_ventaID" name="txtorden_ventaID" value="<?php echo  $GLOBALS['oOrden_Venta']->ID;?>">
+                            <input type="hidden" id="txtSerie" name="txtSerie" value="<?php echo  $GLOBALS['oFactura_Venta']->serie;?>">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <select id="selSerie" name="selSerie" class="form-control" disabled >
+                            <select id="selSerie" name="selSerie" class="form-control" disabled onchange="fncActualizarNumero();" >
                                 <?php foreach($GLOBALS['oFactura_Venta']->dtSerie as $value){ ?>
-                                <option value="<?php echo $value['nombre'];?>"><?php echo $value['nombre'];?></option>
+                                <option value="<?php echo $value['ID'];?>"><?php echo $value['serie'];?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
-                             $('#selSerie').val('<?php echo $GLOBALS['oFactura_Venta']->serie;?>');
+                             $('#selSerie').val('<?php echo $GLOBALS['oFactura_Venta']->correlativos_ID;?>');
                              </script>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -257,10 +258,11 @@
       window.parent.ocultarBotonGuia(valor);
    }*/
     var fncActualizarNumero=function(){
-       var serie=$('#selSerie').val();
-        cargarValores('/Salida/ajaxFactura_Venta_Numero_Ultimo',serie,function(resultado){
+       var correlativos_ID=$('#selSerie').val();
+        cargarValores('/Salida/ajaxFactura_Venta_Numero_Ultimo',correlativos_ID,function(resultado){
             if(resultado.resultado==1){
                 $('#txtNumero').val(resultado.numero); 
+                $("#txtSerie").val(resultado.serie);
             }else{
                 mensaje.error("OCURRIÓ UN ERROR","Ocurrió un error, comuniquese con el área de sistemas.");
             }
