@@ -10863,12 +10863,12 @@ function post_ajaxEnviarSUNAT() {
 
   $oSalida=salida::getByID($id);
   $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
-  $oSalidaDetalle=salida_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
+  $oSalidaDetalle=factura_venta_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
   $oEmpresa=empresa::getByID($oSalida->empresa_ID);
   $oCliente=cliente::getByID($oSalida->cliente_ID);
   $oMoneda=moneda::getByID($oSalida->moneda_ID);
 
-
+  //var_dump($oFactura_venta);
 
   //var_dump($oSalida);
 
@@ -10899,10 +10899,14 @@ function post_ajaxEnviarSUNAT() {
       );
     }
 
+      if (count($oFactura_venta)==0) {
+        throw new Exception("");
+      }
+
 
       $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
       $data = array (
-        'IdDocumento' => 'B010-0001',
+        'IdDocumento' => 'B010-'.$oFactura_venta[0]['numero_concatenado'],
         'TipoDocumento' => '03',
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
@@ -11087,7 +11091,7 @@ function post_ajaxEnviarSUNAT() {
 
 
     } catch (Exception $ex) {
-        $retornar = Array('resultado' => '', 'mensaje' => $ex->getMessage());
+        $retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
         echo json_encode($retornar);
 
         //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
