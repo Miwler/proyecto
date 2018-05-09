@@ -22,6 +22,7 @@ class salida_detalle {
     private $cotizacion_detalle_ID;
     private $usuario_id;
     private $usuario_mod_id;
+    private $tipo_ID;
     private $obsequio;
 
     Private $verBotonSerie;
@@ -93,11 +94,11 @@ class salida_detalle {
             $q = 'insert into salida_detalle (ID,producto_ID,observacion,salida_ID,descripcion,cantidad,';
             $q.='precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,salida_detalle_ID,ver_precio,estado_ID,cotizacion_detalle_ID,';
-            $q.='usuario_id,tipo)values ';
+            $q.='usuario_id,tipo_ID)values ';
             $q.='('.$ID.','.$this->producto_ID.',"'.$this->observacion.'",'.$this->salida_ID.',"'.FormatTextSave($this->descripcion).'",'.$this->cantidad.',';
             $q.=$this->precio_venta_unitario_soles.','.$this->precio_venta_unitario_dolares.','.$this->precio_venta_subtotal_soles.','.$this->precio_venta_subtotal_dolares.',';
             $q.=$this->precio_venta_soles.','.$this->precio_venta_dolares.','.$this->igv.','.$this->vigv_soles.','.$this->vigv_dolares.','.$this->salida_detalle_ID.',';
-            $q.=$this->ver_precio . ','.$this->estado_ID.','.$this->cotizacion_detalle_ID.','.$this->usuario_id.','.$this->tipo.')';
+            $q.=$this->ver_precio . ','.$this->estado_ID.','.$this->cotizacion_detalle_ID.','.$this->usuario_id.','.$this->tipo_ID.')';
            //echo $q;
             $retorna = $cn->transa($q);
 
@@ -122,7 +123,7 @@ class salida_detalle {
             $q.='",cantidad='.$this->cantidad.',precio_venta_unitario_soles='.$this->precio_venta_unitario_soles.',precio_venta_subtotal_soles='.$this->precio_venta_subtotal_soles;
             $q.=',precio_venta_subtotal_dolares='.$this->precio_venta_subtotal_dolares.',precio_venta_unitario_dolares='.$this->precio_venta_unitario_dolares.',igv='.$this->igv;
             $q.=',vigv_soles='.$this->vigv_soles.',vigv_dolares='.$this->vigv_dolares.',precio_venta_soles='.$this->precio_venta_soles.',precio_venta_dolares='.$this->precio_venta_dolares;
-            $q.=',salida_detalle_ID='.$this->salida_detalle_ID.',estado_ID='.$this->estado_ID.', cotizacion_detalle_ID='.$cotizacion_detalle_ID .',ver_precio='.$this->ver_precio.',tipo='.$this->tipo.',usuario_mod_id='.$this->usuario_mod_id;
+            $q.=',salida_detalle_ID='.$this->salida_detalle_ID.',estado_ID='.$this->estado_ID.', cotizacion_detalle_ID='.$cotizacion_detalle_ID .',ver_precio='.$this->ver_precio.',tipo_ID='.$this->tipo_ID.',usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and id=' . $this->ID;
             $retornar = $cn->transa($q);
             $this->message = 'Se guardó correctamente';
@@ -150,7 +151,7 @@ class salida_detalle {
         $cn =new connect();
 	$retornar=-1;
         try{
-            $q='update salida_detalle set tipo='.$this->tipo;
+            $q='update salida_detalle set tipo_ID='.$this->tipo_ID;
             $q.=' where ID='.$this->ID;
             $retornar=$cn->transa($q);
             //$this->message='Se guardó correctamente';
@@ -215,7 +216,7 @@ class salida_detalle {
         try {
             $q = 'SELECT ID,producto_ID,observacion,salida_ID,descripcion,cantidad,precio_venta_unitario_soles,';
             $q.='precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,precio_venta_soles,precio_venta_dolares,';
-            $q.='igv,vigv_soles,vigv_dolares,salida_detalle_ID,estado_ID,cotizacion_detalle_ID,ver_precio,obsequio,tipo,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id';
+            $q.='igv,vigv_soles,vigv_dolares,salida_detalle_ID,estado_ID,cotizacion_detalle_ID,ver_precio,obsequio,tipo_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM salida_detalle ';
             $q.=' where del=0 and ID='.$ID;
             //echo $q;
@@ -245,7 +246,7 @@ class salida_detalle {
                 $osalida_Detalle->cotizacion_detalle_ID=$item['cotizacion_detalle_ID'];
                 $osalida_Detalle->ver_precio=$item['ver_precio'];
                 $osalida_Detalle->obsequio=$item['obsequio'];
-                $osalida_Detalle->tipo=$item['tipo'];
+                $osalida_Detalle->tipo_ID=$item['tipo_ID'];
                 $osalida_Detalle->usuario_id=$item['usuario_id'];
                 $osalida_Detalle->usuario_mod_id=$item['usuario_mod_id'];
 
@@ -262,7 +263,7 @@ class salida_detalle {
         try {
             $q = 'SELECT ID,producto_ID,observacion,salida_ID,descripcion,cantidad,precio_venta_unitario_soles,';
             $q.='precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,precio_venta_soles,precio_venta_dolares,';
-            $q.='igv,vigv_soles,vigv_dolares,salida_detalle_ID,estado_ID,ver_precio,obsequio,cotizacion_detalle_ID,tipo,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id';
+            $q.='igv,vigv_soles,vigv_dolares,salida_detalle_ID,estado_ID,ver_precio,obsequio,cotizacion_detalle_ID,tipo_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM salida_detalle ';
             $q.=' where del=0 ';
 

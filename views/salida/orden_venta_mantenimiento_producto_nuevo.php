@@ -29,7 +29,7 @@
 <?php } ?>
 
 <?php function fncPage(){?>
-<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['oOrden_Venta_Detalle']->tipo==2||$GLOBALS['oOrden_Venta_Detalle']->tipo==5||$GLOBALS['oOrden_Venta_Detalle']->tipo==6){ ?>
+<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['oOrden_Venta_Detalle']->tipo_ID==2||$GLOBALS['oOrden_Venta_Detalle']->tipo_ID==5||$GLOBALS['oOrden_Venta_Detalle']->tipo_ID==6){ ?>
 <form id="frm1"  method="post" action="Salida/Orden_Venta_Mantenimiento_Producto_Nuevo/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
@@ -593,9 +593,9 @@
             VerSeparaciones(resultado.producto_ID);
         });
      }
-    function calcularTipoCambio(tipo){
+    function calcularTipoCambio(tipo_ID){
         var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>;
-        if(tipo=="1"){
+        if(tipo_ID=="1"){
             var valorSoles=$('#txtPrecioUnitarioSoles').val().split(',').join('')*1;
             var valorDolares=redondear(parseFloat(valorSoles)/tipo_cambio,2);
             $('#txtPrecioUnitarioDolares').val(valorDolares);
@@ -764,7 +764,7 @@
  $(document).ready(function () {
 
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
-    <?php if($GLOBALS['oOrden_Venta_Detalle']->tipo==1){ ?>
+    <?php if($GLOBALS['oOrden_Venta_Detalle']->tipo_ID==1){ ?>
     setTimeout('parent.windos_float_save_modal_hijo("crear_boton_factura();");', 1000);
     //window.parent.crear_boton_factura();
     <?php } ?>

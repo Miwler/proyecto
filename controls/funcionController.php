@@ -210,22 +210,22 @@
     }
     function retornar_tipo($componente, $adicional){
         
-        $tipo=1;
+        $tipo_ID=1;
         switch([$componente,$adicional]){
             case ['0','0']:
-                $tipo=1;
+                $tipo_ID=1;
                 break;
             case ['1','0']:
-                $tipo=2;
+                $tipo_ID=2;
                 break;
             case ['1','1']:
-                $tipo=5;
+                $tipo_ID=5;
                 break;
             case ['0','1']:
-                $tipo=6;
+                $tipo_ID=6;
                 break;
         }
-        return $tipo;
+        return $tipo_ID;
     }
     function retornar_valores($tipo){
         $array=array("componente"=>'0','adicional'=>'0');
