@@ -277,7 +277,7 @@
                         <img width="14"  alt="" src="/include/img/boton/save_48x48.png">
                        Guardar
                     </button>
-                     <button id="btnRegresar1" type="button" class="btn btn-warning" onclick="parent.float_close_modal_hijo();" title="Regresar">
+                     <button id="btnRegresar1" type="button" class="btn btn-warning" onclick="parent.windos_float_save_modal_hijo();" title="Regresar">
                         <span class="glyphicon glyphicon-arrow-left"></span>
                             Regresar
                     </button>   
@@ -435,11 +435,11 @@
     }
     var fncNuevoAdicional=function(){
         var id=$('#txtID').val();
-        parent.window_float_open_modal_hijo_hijo("AGREGAR COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Adicional_Nuevo",id,"",fncCargar_Cotizacion_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("AGREGAR ADICIONAL","/Salida/Cotizacion_Mantenimiento_Registro_Adicional_Nuevo",id,"",fncCargar_Cotizacion_Adicional,700,600);
 
     }
     var fncEditarAdicional=function(id){
-        parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Cotizacion_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("EDITAR ADICIONAL","/Salida/Cotizacion_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Cotizacion_Adicional,700,600);
 
         
     }

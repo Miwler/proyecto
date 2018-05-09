@@ -1460,7 +1460,7 @@ function post_ajaxCotizacion_Mantenimiento_Registro_Adicional(){
                     $subtotal=$item['precio_venta_subtotal_dolares'];
                 }
                 $oProducto=producto::getByID($item['producto_ID']);
-                $html.="<tr class='item-tr' id='".$item['ID']."' onclick='fncActivar(".$item['ID'].",this)'>";
+                $html.="<tr class='item-tr' id='".$item['ID']."'>";
                 $html.="<td class='tdCenter'>".  sprintf("%',05d",$item['producto_ID'])."</td>";
                 $html.="<td class='tdLeft'>".  FormatTextView(strtoupper($oProducto->nombre))."</td>";
                 $html.="<td class='tdCenter'>".$item['cantidad']."</td>";
@@ -2488,7 +2488,7 @@ function get_cotizacion_mantenimiento_registro_Adicional_editar($id){
     $oCotizacion_Detalle->cotizacion_detalle_padre_ID=$id;
     $oCotizacion_Detalle->stock=$stock;
     $oCotizacion_Detalle->oProducto=$oProducto;
-
+    $GLOBALS['dtProducto']=$dtProducto;
     $GLOBALS['oCotizacion_Detalle']=$oCotizacion_Detalle;
     $GLOBALS['oCotizacion']=$oCotizacion;
     $GLOBALS['oInventario']=$oInventario;
@@ -2503,7 +2503,7 @@ function post_cotizacion_mantenimiento_registro_Adicional_editar($id){
     global  $returnView_float;
     $returnView_float=true;
     $tipo=4;
-    $producto_ID=$_POST['txtProducto_ID'];
+    $producto_ID=$_POST['selProducto'];
     $descripcion=  FormatTextSave($_POST['txtDescripcion']);
     $cantidad=$_POST['txtCantidad'];
      if(isset($_POST['cbVer_Precio'])){
