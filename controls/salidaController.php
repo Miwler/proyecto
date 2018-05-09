@@ -10836,6 +10836,7 @@ function post_ajaxEnviarSUNAT() {
   require ROOT_PATH.'models/factura_venta_sunat.php';
   require ROOT_PATH.'models/salida.php';
   require ROOT_PATH.'models/factura_venta.php';
+  require ROOT_PATH.'models/factura_venta_detalle.php';
   require ROOT_PATH.'models/salida_detalle.php';
   require ROOT_PATH.'models/moneda.php';
   require ROOT_PATH.'models/cliente.php';
@@ -10848,7 +10849,7 @@ function post_ajaxEnviarSUNAT() {
 
   $oSalida=salida::getByID($id);
   $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
-  $oSalidaDetalle=factura_venta_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
+  $oSalidaDetalle=factura_venta_detalle::getGrid2($id);
   $oEmpresa=empresa::getByID($oSalida->empresa_ID);
   $oCliente=cliente::getByID($oSalida->cliente_ID);
   $oMoneda=moneda::getByID($oSalida->moneda_ID);
@@ -10866,21 +10867,21 @@ function post_ajaxEnviarSUNAT() {
       for ($i=0; $i < count($oSalidaDetalle); $i++) {
       $DocumentoDetalle[] = array (
         'Id' => $i+1,
-        'Cantidad' => 10,
+        'Cantidad' => $oSalidaDetalle[$i]['cantidad'],
         'UnidadMedida' => 'NIU',
-        'CodigoItem' => '2435675',
-        'Descripcion' => $oSalidaDetalle[$i]['producto'],
-        'PrecioUnitario' => 10,
-        'PrecioReferencial' => 10,
+        'CodigoItem' => $oSalidaDetalle[$i]['producto_ID'],
+        'Descripcion' => $oSalidaDetalle[$i]['producto_nombre'],
+        'PrecioUnitario' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
+        'PrecioReferencial' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
         'TipoPrecio' => '01',
         'TipoImpuesto' => '10',
         'Impuesto' => 18,
         'ImpuestoSelectivo' => 0,
         'OtroImpuesto' => 0,
         'Descuento' => 0,
-        'PlacaVehiculo' => 'string',
-        'TotalVenta' => 100,
-        'Suma' => 100,
+        'PlacaVehiculo' => '',
+        'TotalVenta' => $oSalidaDetalle[$i]['precio_venta_soles'],
+        'Suma' => $oSalidaDetalle[$i]['precio_venta_soles'],
       );
     }
 
@@ -10902,19 +10903,19 @@ function post_ajaxEnviarSUNAT() {
         'FechaEmision' => $oSalida->fecha,
         'Moneda' => $oMoneda->codigo,
         'TipoOperacion' => '',
-        'Gravadas' => 100,
-        'Gratuitas' => 0,
-        'Inafectas' => 0,
-        'Exoneradas' => 0,
-        'DescuentoGlobal' => 0,
-        'TotalVenta' => 118,
-        'TotalIgv' => 18,
+        'Gravadas' => $oFactura_venta[0]['gravadas'],
+        'Gratuitas' => $oFactura_venta[0]['gratuitas'],
+        'Inafectas' => $oFactura_venta[0]['inafectas'],
+        'Exoneradas' => $oFactura_venta[0]['exoneradas'],
+        'DescuentoGlobal' => $oFactura_venta[0]['descuento_global'],
+        'TotalVenta' => $oFactura_venta[0]['monto_total'],
+        'TotalIgv' => $oFactura_venta[0]['monto_total_igv'],
         'TotalIsc' => 0,
         'TotalOtrosTributos' => 0,
         'MontoEnLetras' => 'SON CIENTO DIECIOCHO SOLES CON 0/100',
         'PlacaVehiculo' => '',
         'MontoPercepcion' => 0,
-        'MontoDetraccion' => 0,
+        'MontoDetraccion' => $oFactura_venta[0]['monto_detraccion'],
         'TipoDocAnticipo' => '',
         'DocAnticipo' => '',
         'MonedaAnticipo' => '',
