@@ -1460,7 +1460,7 @@ function post_ajaxCotizacion_Mantenimiento_Registro_Adicional(){
                     $subtotal=$item['precio_venta_subtotal_dolares'];
                 }
                 $oProducto=producto::getByID($item['producto_ID']);
-                $html.="<tr class='item-tr' id='".$item['ID']."' onclick='fncActivar(".$item['ID'].",this)'>";
+                $html.="<tr class='item-tr' id='".$item['ID']."'>";
                 $html.="<td class='tdCenter'>".  sprintf("%',05d",$item['producto_ID'])."</td>";
                 $html.="<td class='tdLeft'>".  FormatTextView(strtoupper($oProducto->nombre))."</td>";
                 $html.="<td class='tdCenter'>".$item['cantidad']."</td>";
@@ -2488,7 +2488,7 @@ function get_cotizacion_mantenimiento_registro_Adicional_editar($id){
     $oCotizacion_Detalle->cotizacion_detalle_padre_ID=$id;
     $oCotizacion_Detalle->stock=$stock;
     $oCotizacion_Detalle->oProducto=$oProducto;
-
+    $GLOBALS['dtProducto']=$dtProducto;
     $GLOBALS['oCotizacion_Detalle']=$oCotizacion_Detalle;
     $GLOBALS['oCotizacion']=$oCotizacion;
     $GLOBALS['oInventario']=$oInventario;
@@ -2503,7 +2503,7 @@ function post_cotizacion_mantenimiento_registro_Adicional_editar($id){
     global  $returnView_float;
     $returnView_float=true;
     $tipo=4;
-    $producto_ID=$_POST['txtProducto_ID'];
+    $producto_ID=$_POST['selProducto'];
     $descripcion=  FormatTextSave($_POST['txtDescripcion']);
     $cantidad=$_POST['txtCantidad'];
      if(isset($_POST['cbVer_Precio'])){
@@ -4388,7 +4388,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $resultado.='</tr></thead>';
         $resultado.='<tbody>';
         try {
-            $filtro='salida_ID='.$salida_ID. ' and tipo in(1,2,5,6) and salida_detalle_ID=0';
+            $filtro='salida_ID='.$salida_ID. ' and tipo_ID in(1,2,5,6) and salida_detalle_ID=0';
 
             $rows=salida_detalle::getCount($filtro);
 
@@ -4413,7 +4413,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
                     //$contar=cotizacion_detalle::getCount('cotizacion_ID='.$cotizacion_ID.' and cotizacion_detalle_ID='.$item['ID'],-1,-1,'tipo asc');
 
-                    $array=retornar_valores($item['tipo']);
+                    $array=retornar_valores($item['tipo_ID']);
                     $componente="";
                     if($array['componente']==1){
                         $componente="<img src='/include/img/boton/check_16x16.png'/>";
@@ -4780,7 +4780,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $osalida_Detalle->cotizacion_detalle_ID=$item['ID'];
                     $osalida_Detalle->ver_precio=$item['ver_precio'];
                     $osalida_Detalle->usuario_id=$_SESSION['usuario_ID'];
-                    $osalida_Detalle->tipo=$item['tipo'];
+                    $osalida_Detalle->tipo_ID=$item['tipo_ID'];
                     $osalida_Detalle->obsequio=0;
                     $osalida_Detalle->insertar();
                     $producto_ID_old=$osalida_Detalle->producto_ID;
@@ -5260,7 +5260,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $osalida_Detalle->ID=0;
         $oInventario=new inventario(0);
         $oInventario->stock=0;
-        $osalida_Detalle->tipo=1;
+        $osalida_Detalle->tipo_ID=1;
         $osalida_Detalle->adicional=0;
         $osalida_Detalle->componente=0;
         $GLOBALS['dtCategoria']=$dtCategoria;
@@ -5299,7 +5299,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         if(isset($_POST['ckAdicional'])){
             $adicional=$_POST['ckAdicional'];
         }
-        $tipo=retornar_tipo($componente,$adicional);
+        $tipo_ID=retornar_tipo($componente,$adicional);
         $producto_ID=$_POST['selProducto'];
         $descripcion=FormatTextSave(trim($_POST['txtDescripcion']));
         $cantidad=$_POST['txtCantidad'];
@@ -5339,7 +5339,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             //generamos la orden de venta detalle con estado registrado
             $osalida_Detalle->estado_ID=33;
             $osalida_Detalle->cotizacion_detalle_ID='NULL';
-            $osalida_Detalle->tipo=$tipo;
+            $osalida_Detalle->tipo_ID=$tipo_ID;
             $osalida_Detalle->ver_precio=1;
             //$osalida_Detalle->obsequio=0;
 
@@ -5428,7 +5428,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         try{
             $limpiar=0;
             //no separamos productos con componente internos
-            if($osalida_Detalle->tipo==2||$osalida_Detalle->tipo==5){
+            if($osalida_Detalle->tipo_ID==2||$osalida_Detalle->tipo_ID==5){
 
                 $limpiar=1;
                 //Actualizamos todos los hijos
@@ -5471,7 +5471,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     }
                     //verificamos si es un componente
                     $cantidad=$osalida_Detalle->cantidad;
-                    if($osalida_Detalle->tipo==3){
+                    if($osalida_Detalle->tipo_ID==3){
                         $osalida_Detalle_Padre=salida_detalle::getByID($osalida_Detalle->salida_detalle_ID);
                         $cantidad=$osalida_Detalle->cantidad*$osalida_Detalle_Padre->cantidad;
                     }
@@ -5518,7 +5518,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     //====================================================
                      //verificamos si es un componente
                     $cantidad=$osalida_Detalle->cantidad;
-                    if($osalida_Detalle->tipo==3){
+                    if($osalida_Detalle->tipo_ID==3){
                         $osalida_Detalle_Padre=salida_detalle::getByID($osalida_Detalle->salida_detalle_ID);
                         $cantidad=$osalida_Detalle->cantidad*$osalida_Detalle_Padre->cantidad;
                     }
@@ -5620,7 +5620,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $precio_venta_unitario_dolares=0;
         $precio_venta_subtotal_soles=0;
         $precio_venta_subtotal_dolares=0;
-        switch($osalida_Detalle->tipo){
+        switch($osalida_Detalle->tipo_ID){
             case 2://Producto con componente
                 $precio_venta_unitario_soles=$precio_venta_subtotal_soles_hijo;
                 $precio_venta_unitario_dolares=$precio_venta_subtotal_dolares_hijo;
@@ -5645,7 +5645,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
                 break;
         }
-        if($osalida_Detalle->tipo!=1){//verificamos que no sea un producto
+        if($osalida_Detalle->tipo_ID!=1){//verificamos que no sea un producto
             $osalida_Detalle->precio_venta_unitario_soles=$precio_venta_unitario_soles;
             $osalida_Detalle->precio_venta_unitario_dolares=$precio_venta_unitario_dolares;
             $osalida_Detalle->precio_venta_subtotal_soles=$precio_venta_subtotal_soles;
@@ -5658,7 +5658,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         }
         $osalida_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
         $osalida_Detalle->actualizar();
-        switch($osalida_Detalle->tipo){
+        switch($osalida_Detalle->tipo_ID){
             case 2://Producto con componente
 
                 $osalida_Detalle->adicional_soles='';
@@ -5812,7 +5812,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global  $returnView_float;
 
         $returnView_float=true;
-         $tipo=7;
+         $tipo_ID=7;
 
         $producto_ID=$_POST['selProducto'];
         $descripcion=FormatTextSave(trim($_POST['txtDescripcion']));
@@ -5847,7 +5847,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $osalida_Detalle->cotizacion_detalle_ID='NULL';
             $osalida_Detalle->ver_precio=0;
             $osalida_Detalle->obsequio=1;
-            $osalida_Detalle->tipo=$tipo;
+            $osalida_Detalle->tipo_ID=$tipo_ID;
             $osalida_Detalle->usuario_id=$_SESSION['usuario_ID'];
             $osalida_Detalle->insertar();
             $producto_ID_old=$producto_ID;
@@ -5901,7 +5901,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $dtsalida_Detalle_Hijo=salida_detalle::getGrid('salida_detalle_ID='.$id);
         $contar=count($dtsalida_Detalle_Hijo);
         $osalida=salida::getByID($osalida_Detalle->salida_ID);
-        $array=retornar_valores($osalida_Detalle->tipo);
+        $array=retornar_valores($osalida_Detalle->tipo_ID);
         $osalida_Detalle->componente=$array['componente'];
         $osalida_Detalle->adicional=$array['adicional'];
         $oInventario=new inventario();
@@ -5956,7 +5956,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         if(isset($_POST['ckAdicional'])){
             $adicional=$_POST['ckAdicional'];
         }
-        $tipo=retornar_tipo($componente,$adicional);
+        $tipo_ID=retornar_tipo($componente,$adicional);
         try{
             $osalida_Detalle=salida_detalle::getByID($id);
             $producto_ID_old=$osalida_Detalle->producto_ID;
@@ -5966,7 +5966,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $osalida_Detalle->salida_detalle_ID=0;
             $osalida_Detalle->ver_precio=1;
             $osalida_Detalle->usuario_id=$_SESSION['usuario_ID'];
-            $osalida_Detalle->tipo=$tipo;
+            $osalida_Detalle->tipo_ID=$tipo_ID;
             $osalida_Detalle->actualizar();
 
             $osalida_Detalle->precio_venta_unitario_soles=$PrecioUnitarioSoles;
@@ -5979,7 +5979,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $osalida_Detalle->precio_venta_soles=$TotalSoles;
             $osalida_Detalle->precio_venta_dolares=$TotalDolares;
             actualizar_costo_salida_detalle_padre($osalida_Detalle);
-            if($tipo==2||$tipo==5){
+            if($tipo_ID==2||$tipo_ID==5){
                 //Actualizamos a los hijos
                 $dtsalida_Detalle_Hijos=salida_detalle::getGrid('salida_detalle_ID='.$osalida_Detalle->ID.' and tipo=3',-1,-1,'ID asc');
                 foreach($dtsalida_Detalle_Hijos as $hijos){
@@ -6013,7 +6013,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $oProducto=producto::getByID($osalida_Detalle->producto_ID);
         $osalida_Detalle->oProducto=$oProducto;
         $osalida_Detalle->stock=$stock;
-        $array=retornar_valores($osalida_Detalle->tipo);
+        $array=retornar_valores($osalida_Detalle->tipo_ID);
         $osalida_Detalle->componente=$array['componente'];
         $osalida_Detalle->adicional=$array['adicional'];
         $osalida_Detalle=llenarValores($osalida_Detalle);
@@ -6325,7 +6325,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $TotalSoles=$_POST['txtTotalSoles'];
         $TotalDolares=$_POST['txtTotalDolares'];
         //El tipo es 3 de un componente
-        $tipo=3;
+        $tipo_ID=3;
         try{
             $osalida_Detalle_Padre=salida_detalle::getByID($id);
             $producto_ID_old=$producto_ID;
@@ -6347,7 +6347,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $osalida_Detalle->cotizacion_detalle_ID=-1;
             $osalida_Detalle->ver_precio=$ver_precio;
             $osalida_Detalle->obsequio=0;
-            $osalida_Detalle->tipo=$tipo;
+            $osalida_Detalle->tipo_ID=$tipo_ID;
             $osalida_Detalle->usuario_id=$_SESSION['usuario_ID'];
             $osalida_Detalle->cantidad=$cantidad;
             $osalida_Detalle->insertar();
@@ -6549,7 +6549,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global  $returnView_float;
         $returnView_float=true;
         //El tipo es 4 de un adicional
-        $tipo=4;//$_POST['rbtipo'];
+        $tipo_ID=4;//$_POST['rbtipo'];
         $producto_ID=$_POST['selProducto'];
         $descripcion=  FormatTextSave($_POST['txtDescripcion']);
         $cantidad=$_POST['txtCantidad'];
@@ -6602,7 +6602,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $osalida_Detalle->usuario_id=$_SESSION['usuario_ID'];
 
             //$osalida_Detalle->cantidad_separada=0;
-            $osalida_Detalle->tipo=$tipo;
+            $osalida_Detalle->tipo_ID=$tipo_ID;
             $osalida_Detalle->insertar();
 
             $producto_ID_old=$osalida_Detalle->producto_ID;
@@ -6688,7 +6688,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/inventario.php';
         global  $returnView_float;
         $returnView_float=true;
-        $tipo=4;
+        $tipo_ID=4;
         $producto_ID=$_POST['selProducto'];
         $descripcion=  FormatTextSave($_POST['txtDescripcion']);
         $cantidad=$_POST['txtCantidad'];
@@ -6722,7 +6722,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $osalida_Detalle->precio_venta_soles=$TotalSoles;
             $osalida_Detalle->precio_venta_dolares=$TotalDolares;
             $osalida_Detalle->ver_precio=$ver_precio;
-            $osalida_Detalle->tipo=$tipo;
+            $osalida_Detalle->tipo_ID=$tipo_ID;
             $osalida_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
             $osalida_Detalle->actualizar();
 
@@ -6770,7 +6770,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 }
                 //$contador_hijos=salida_detalle::getCount('salida_ID='.$osalida_Detalle->salida_ID.' and tipo in (2,5,6)');
                 $mensaje='';
-                switch($osalida_Detalle->tipo){
+                switch($osalida_Detalle->tipo_ID){
                     case 1:
                         if ($osalida_Detalle->eliminar()==-1){
                         throw new Exception($osalida_Detalle->message);
@@ -6817,28 +6817,32 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/factura_venta.php';
         if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
         require ROOT_PATH . 'models/moneda.php';
-        require ROOT_PATH . 'models/serie.php';
+        
         require ROOT_PATH . 'models/usuario.php';
         require ROOT_PATH . 'models/estado.php';
         require ROOT_PATH . 'models/correlativos.php';
+        require ROOT_PATH . 'models/configuracion_empresa.php';
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
+        
+        $dtConfiguracion_Empresa=configuracion_empresa::getGrid();
         $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
         $osalida=salida::getByID($salida_ID);
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
         $listaproducto=mostrar_productos($salida_ID,3);
         $ContarFactura_Venta=factura_venta::getCount('salida_ID='.$id);
-
+        
         $mensaje="";
         $informacion="";
+        $dtGridCorrelativo=correlativos::getGridCorrelativos("factura_venta");
         if($ContarFactura_Venta==0){
             $oFactura_Venta=new factura_venta();
-
             $oFactura_Venta->ID=0;
             $oFactura_Venta->fecha_emision=date("d/m/Y");
             $oFactura_Venta->moneda_ID=$osalida->moneda_ID;
-            $numero_temporal=correlativos::getByNumero(3,'001');
+            $numero_temporal=correlativos::getNumero('factura_venta',$dtConfiguracion_Empresa[4]['valor']);
+            $oFactura_Venta->serie=correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])->serie;
             $oFactura_Venta->numero=$numero_temporal;
             $numero_concatenado=sprintf("%'.07d",$numero_temporal);
             $oFactura_Venta->numero_concatenado=$numero_concatenado;
@@ -6848,7 +6852,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $oFactura_Venta->ver_vista_previa=0;
             $oFactura_Venta->ver_imprimir=0;
             $oFactura_Venta->ver_cambios=0;
-            $oFactura_Venta->serie='001';
+            $oFactura_Venta->correlativos_ID=$dtConfiguracion_Empresa[4]['valor'];
             //generamos una factura en estado registrado
             $oEstado=estado::getByID(35);
 
@@ -6868,7 +6872,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             //$oFactura_Venta->ver_cambios=0;
             switch($oFactura_Venta->estado_ID){
                 case 35:
-                    $numero_temporal=correlativos::getByNumero(3,$oFactura_Venta->serie);
+                    
+                    $numero_temporal=correlativos::getNumero("factura_venta",$oFactura_Venta->correlativos_ID);
                     $numero_concatenado=sprintf("%'.07d",$numero_temporal);
                     $oFactura_Venta->numero_concatenado=$numero_concatenado;
 
@@ -6882,12 +6887,12 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     break;
                 case 53:
                     //factura anulado
-                    $numero_temporal=correlativos::getByNumero(3,$oFactura_Venta->serie);
+                    $numero_temporal=correlativos::getNumero("factura_venta",$oFactura_Venta->correlativos_ID);
                     $numero_concatenado=sprintf("%'.07d",$numero_temporal);
                     $oFactura_Venta->numero_concatenado=$numero_concatenado;
                     $oFactura_Venta->plazo_factura=0;
                     $oFactura_Venta->fecha_emision=date("d/m/Y");
-                    $oFactura_Venta->fecha_vencimiento="__/__/____";
+                    $oFactura_Venta->fecha_vencimiento="";
                     $oFactura_Venta->ver_vista_previa=0;
                     $oFactura_Venta->ver_imprimir=0;
                     break;
@@ -6897,9 +6902,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         }
         $oFactura_Venta->estado=$oEstado->nombre;
-        $oFactura_Venta->dtSerie=serie::getGrid('se.comprobante_tipo_ID=3',-1,-1,'se.nombre');
+        $oFactura_Venta->dtSerie=$dtGridCorrelativo;
         $osalida=salida::getByID($salida_ID);
-        $osalida->serie='001';
+        $osalida->serie=$oFactura_Venta->serie;
         $GLOBALS['facturas_informacion']=extraer_estructura_facturas($osalida);
 
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
@@ -6928,7 +6933,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         if(isset($_POST['ckOpcion'])){
             $opcion=$_POST['ckOpcion'];
         }
-        $serie=$_POST['selSerie'];
+        $serie=$_POST['txtSerie'];
+        $correlativos_ID=$_POST['selSerie'];
         $numero=$_POST['txtNumero'];
         $Fecha_Emision=$_POST['txtFecha_Emision'];
         $Plazo_Factura=$_POST['txtPlazo_Factura'];
@@ -6950,8 +6956,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta=new factura_venta();
 
                     $oFactura_Venta->salida_ID=$salida_ID;
+                    $oFactura_Venta->correlativos_ID=$correlativos_ID;
                     $oFactura_Venta->serie=$serie;
-                    $numero_temporal=correlativos::getByNumero(3,$serie)+$i;
+                    $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
                     $numero_concatenado=sprintf("%'.07d",$numero_temporal);
                     $oFactura_Venta->numero=$numero_temporal;
                     $oFactura_Venta->numero_concatenado=$numero_concatenado;
@@ -7004,7 +7011,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
                         if($oFactura_Venta->estado_ID==35){
                             $oFactura_Venta->serie=$serie;
-                            $numero_temporal=correlativos::getByNumero(3,$serie)+$i;
+                            $oFactura_Venta->correlativos_ID=$correlativos_ID;
+                            $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
                             $numero_concatenado=sprintf("%'.07d",$numero_temporal);
 
 
@@ -7064,7 +7072,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0 and obsequio=0");
         $listaproducto=mostrar_productos($salida_ID,3);
 
-        $dtSerie=serie::getGrid('se.comprobante_tipo_ID=3', -1,-1,'se.nombre asc');
+        $dtSerie=correlativos::getGridCorrelativos('factura_venta');
 
         $oFactura_Venta->dtSerie=$dtSerie;
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
@@ -7151,6 +7159,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
          if(!class_exists('factura_venta')){
             require ROOT_PATH . 'models/factura_venta.php';
         }
+        if(!class_exists('configuracion_empresa')){
+            require ROOT_PATH . 'models/configuracion_empresa.php';
+        }
+        $dtConfiguracion_Empresa=configuracion_empresa::getGrid();
         $html="<table class='table table-bordered table-hover'>";
         $html.="<thead><th>Nro</th><th>Serie</th><th>Nro. Factura</th><th>Items x factura </th><th>Sub Total</th><th>IGV</th><th>Total</th><th>Observación</th></thead>";
         $html.="<tbody>";
@@ -7167,7 +7179,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $html.="<tr>";
                     $html.="<td class='tdCenter'>".$valor."</td>";
                     $html.="<td class='tdCenter'>".$serie."</td>";
-                    $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByNumero(3,$serie)+$i)."</td>";
+                    $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])->ultimo_numero+$i)."</td>";
                     $observacion="Sin Generar";
 
                     $html.="<td class='tdCenter'>".$array[$i]."</td>";
@@ -7247,18 +7259,18 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         $oFactura_Venta=factura_venta::getByID($arrayFactura[$i]);
 
                         if($osalida->estado_ID==58){
-                            $numero=correlativos::getByNumero(3,$serie)+$i;
+                            $numero=correlativos::getByID($oFactura_Venta->correlativos_ID)->ultimo_numero+$i;
                             $observacion="Por generar x anulación";
                         }else {
                             $serie=$oFactura_Venta->serie;
-                            $numero=correlativos::getByNumero(3,$serie)+$i;
+                            $numero=correlativos::getByID($oFactura_Venta->correlativos_ID)->ultimo_numero+$i;
                             $observacion="Generado";
 
                         }
 
                     }else {
 
-                        $numero=correlativos::getByNumero(3,$serie)+$i;
+                        $numero=correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])->ultimo_numero+$i;
                         $observacion="Por generar";
                     }
                     $html.="<tr>";
@@ -8576,7 +8588,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             case 1:
                 $dtsalida_detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo in (1,2,5,6)');
 
-                $html ='<table style="width:1000px" cellsspacin="0" cellspadding="0" id="tablaproducto">';
+                $html ='<table  id="tablaproducto" class="table table-hover table-bordered">';
                 $i=1;
                 foreach ($dtsalida_detalle as $item){
 
@@ -9680,7 +9692,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         break;
                 }
             }
-            switch($osalida_Detalle->tipo){
+            switch($osalida_Detalle->tipo_ID){
                 case 2://Producto con componente
 
                     $osalida_Detalle->adicional_soles='';
@@ -9769,7 +9781,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         break;
                 }
             }
-            switch($osalida_Detalle->tipo){
+            switch($osalida_Detalle->tipo_ID){
                 case 2://Producto con componente
 
                     $osalida_Detalle->adicional_soles='';
@@ -9928,7 +9940,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $dtInventario = inventario::getGridInventario('inv.salida_detalle_ID='.$salida_detalle_ID,-1,-1,'ID asc');
         //$dtInventario = array();
         $internos=0;
-        if($osalida_Detalle->tipo==2||$osalida_Detalle->tipo==5||$osalida_Detalle->tipo==6||$osalida_Detalle->tipo==7){
+        if($osalida_Detalle->tipo_ID==2||$osalida_Detalle->tipo_ID==5||$osalida_Detalle->tipo_ID==6||$osalida_Detalle->tipo_ID==7){
             $dtsalida_Detalle_Hijos=salida_detalle::getGrid('salida_detalle_ID='.$osalida_Detalle->ID,-1,-1,'tipo asc,producto_ID asc');
                 foreach($dtsalida_Detalle_Hijos as $item){
 
@@ -9971,7 +9983,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $oInventario->actualizar();
             }
 
-            if($osalida_Detalle->tipo==2||$osalida_Detalle->tipo==5||$osalida_Detalle->tipo==6||$osalida_Detalle->tipo==7){
+            if($osalida_Detalle->tipo_ID==2||$osalida_Detalle->tipo_ID==5||$osalida_Detalle->tipo_ID==6||$osalida_Detalle->tipo_ID==7){
                 $dtsalida_Detalle_Hijos=salida_detalle::getGrid('salida_detalle_ID='.$osalida_Detalle->ID,-1,-1,'tipo asc,producto_ID asc');
                 foreach($dtsalida_Detalle_Hijos as $item){
                     $dtInventario_hijo=inventario::getGridInventario('inv.salida_detalle_ID='.$item['ID'],-1,-1,'ID asc');
@@ -10021,7 +10033,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         $osalida_Detalle=salida_detalle::getByID($salida_detalle_ID);
         $cantidad=$osalida_Detalle->cantidad;
-        if($osalida_Detalle->tipo==3){
+        if($osalida_Detalle->tipo_ID==3){
             $osalida_Detalle_Padre=salida_detalle::getByID($osalida_Detalle->salida_detalle_ID);
             $cantidad=$cantidad*$osalida_Detalle_Padre->cantidad;
 
@@ -10806,15 +10818,18 @@ function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
 function post_ajaxFactura_Venta_Numero_Ultimo() {
     require ROOT_PATH . 'models/correlativos.php';
 
-    $serie=$_POST['id'];
+    $correlativos_ID=$_POST['id'];
     $numero="";
+    $serie="";
     try {
-       $numero=sprintf("%'.07d",correlativos::getByNumero(3,$serie));
+       $numero=sprintf("%'.07d",correlativos::getNumero("factura_venta",$correlativos_ID));
+       $oCoreelatvos=correlativos::getByID($correlativos_ID);
+       $serie=$oCoreelatvos->serie;
        $resultado=1;
     } catch (Exception $ex) {
         $resultado=-1;
     }
-    $retornar = Array('resultado' => $resultado, 'numero' => $numero);
+    $retornar = Array('resultado' => $resultado, 'numero' => $numero,"serie"=>$serie);
     echo json_encode($retornar);
 }
 function post_ajaxGuia_Venta_Numero_Ultimo() {

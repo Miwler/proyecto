@@ -1,5 +1,5 @@
 <?php		
-	require ROOT_PATH."views/shared/content-float-modal-hijo-hijo.php.php";	
+	require ROOT_PATH."views/shared/content-float-modal-hijo-hijo.php";
 ?>	
 <?php function fncTitle(){?>EDITAR ADICIONAL<?php } ?>
 
@@ -272,7 +272,7 @@
     var fncValidarAutorizacion=function(){
         var resultado=0;
         var valor=$('#txtContrasena').val();
-        cargarValores('/Ventas/ajaxValidarCostoCompraMenor',valor,function(resultado){
+        cargarValores('/Salida/ajaxValidarCostoCompraMenor',valor,function(resultado){
             Resultado_verificar=resultado.resultado;
             
             if(resultado.resultado==-1){
@@ -429,7 +429,7 @@
         $('#txtStock').val('');
     }
     var fncCargarPrecioCompra=function(producto_ID){
-          cargarValores('/Ingreso/ajaxPrecio_Compra',producto_ID,function(resultado){
+          cargarValores('/Ingreso/ajaxPrecio_Ingreso',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
             $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
             
