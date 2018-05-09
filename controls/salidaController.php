@@ -7179,7 +7179,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $html.="<tr>";
                     $html.="<td class='tdCenter'>".$valor."</td>";
                     $html.="<td class='tdCenter'>".$serie."</td>";
-                    $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])+$i)."</td>";
+                    $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])->ultimo_numero+$i)."</td>";
                     $observacion="Sin Generar";
 
                     $html.="<td class='tdCenter'>".$array[$i]."</td>";
