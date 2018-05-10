@@ -107,9 +107,9 @@ var enviar = function (obj,btn)
         datatype: "json",
 
         success: function (respuesta) {
-
+          console.log(respuesta);
            //alert(respuesta);
-            var respuesta = $.parseJSON(respuesta);
+            respuesta = $.parseJSON(respuesta);
 
             $(obj.Div).html(respuesta.resultado);
             if (respuesta.funcion != '') {

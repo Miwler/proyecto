@@ -6817,7 +6817,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/factura_venta.php';
         if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
         require ROOT_PATH . 'models/moneda.php';
-        
+
         require ROOT_PATH . 'models/usuario.php';
         require ROOT_PATH . 'models/estado.php';
         require ROOT_PATH . 'models/correlativos.php';
@@ -6825,14 +6825,14 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
-        
+
         $dtConfiguracion_Empresa=configuracion_empresa::getGrid();
         $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
         $osalida=salida::getByID($salida_ID);
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
         $listaproducto=mostrar_productos($salida_ID,3);
         $ContarFactura_Venta=factura_venta::getCount('salida_ID='.$id);
-        
+
         $mensaje="";
         $informacion="";
         $dtGridCorrelativo=correlativos::getGridCorrelativos("factura_venta");
@@ -6872,7 +6872,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             //$oFactura_Venta->ver_cambios=0;
             switch($oFactura_Venta->estado_ID){
                 case 35:
-                    
+
                     $numero_temporal=correlativos::getNumero("factura_venta",$oFactura_Venta->correlativos_ID);
                     $numero_concatenado=sprintf("%'.07d",$numero_temporal);
                     $oFactura_Venta->numero_concatenado=$numero_concatenado;
@@ -10862,18 +10862,21 @@ function post_ajaxEnviarSUNAT() {
   $new = new api_SUNAT();
   $id=$_POST['id'];
 
-  $oSalida=salida::getByID($id);
-  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
-  $oSalidaDetalle=factura_venta_detalle::getGrid2($id);
-  $oEmpresa=empresa::getByID($oSalida->empresa_ID);
-  $oCliente=cliente::getByID($oSalida->cliente_ID);
-  $oMoneda=moneda::getByID($oSalida->moneda_ID);
+  try {
+    $oSalida=salida::getByID($id);
 
-  //var_dump($oFactura_venta);
+    $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
 
-  //var_dump($oSalida);
+    $oSalidaDetalle=factura_venta_detalle::getGrid2($id);
 
-    try {
+    $oEmpresa=empresa::getByID($oSalida->empresa_ID);
+    $oCliente=cliente::getByID($oSalida->cliente_ID);
+    $oMoneda=moneda::getByID($oSalida->moneda_ID);
+
+    //VALIDAR SI ESISTE
+    //var_dump($oFactura_venta);
+    //var_dump($oSalida);
+
 
       $DocumentoDetalle = array();
       $Discrepancias = array();
@@ -10901,24 +10904,24 @@ function post_ajaxEnviarSUNAT() {
     }
 
       if (count($oFactura_venta)==0) {
-        throw new Exception("");
+        throw new Exception("Falta generar la facura");
       }
 
 
       $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
       $data = array (
-        'IdDocumento' => 'B010-'.$oFactura_venta[0]['numero_concatenado'],
-        'TipoDocumento' => '03',
+        'IdDocumento' => $oFactura_venta[0]['serie'].'-'.$oFactura_venta[0]['numero_concatenado'],
+        'TipoDocumento' => $oFactura_venta[0]['codigo'],
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
           'NroDocumento' => $oCliente->ruc,
-          'TipoDocumento' => '1',
+          'TipoDocumento' => '6',//SOLO FACTURA
           'NombreLegal' => $oCliente->razon_social,
         ),
         'FechaEmision' => $oSalida->fecha,
         'Moneda' => $oMoneda->codigo,
         'TipoOperacion' => '',
-        'Gravadas' => $oFactura_venta[0]['gravadas'],
+        'Gravadas' => $oFactura_venta[0]['monto_total_neto'],//$oFactura_venta[0]['gravadas']
         'Gratuitas' => $oFactura_venta[0]['gratuitas'],
         'Inafectas' => $oFactura_venta[0]['inafectas'],
         'Exoneradas' => $oFactura_venta[0]['exoneradas'],

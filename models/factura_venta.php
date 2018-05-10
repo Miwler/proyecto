@@ -50,7 +50,6 @@ class factura_venta {
     private $ver_vista_previa;
     private $ver_imprimir;
     private $dtSerie;
-<<<<<<< HEAD
 
     private $gravadas;
     private $gratuitas;
@@ -60,11 +59,10 @@ class factura_venta {
   	private $monto_detraccion;
 
 
-=======
+
     private $correlativos_ID;
-   
-   
->>>>>>> 0a1a945b4a4bff25198c5f33444656094b43b154
+
+
   public function __set($var, $valor)
     {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -337,17 +335,17 @@ class factura_venta {
 		$cn =new connect();
 		try
 		{
-                    $q='select ID,salida_ID,serie,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,';
-                    $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,usuario_id,fecha_anulacion,';
-                    $q.='operador_ID_anulacion,motivo_anulacion_ID,opcion,numero_producto,';
-<<<<<<< HEAD
-                    $q.='monto_total_neto,monto_total_igv,monto_total,';
-                    $q.='ifNull(usuario_mod_id,-1) as usuario_mod_id,gravadas,gratuitas,inafectas,exoneradas,descuento_global,monto_detraccion from factura_venta';
-=======
-                    $q.='monto_total_neto,monto_total_igv,monto_total,correlativos_ID,';
-                    $q.='ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
->>>>>>> 0a1a945b4a4bff25198c5f33444656094b43b154
-                    $q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
+                    $q='select fv.ID,tc.codigo,fv.salida_ID,fv.serie,fv.numero,fv.numero_concatenado,fv.fecha_emision,fv.forma_pago_ID,fv.plazo_factura,fv.fecha_vencimiento,';
+                    $q.='fv.estado_ID,fv.moneda_ID,fv.orden_pedido,fv.orden_ingreso,fv.impresion,fv.con_guia,fv.pago,fv.usuario_id,fv.fecha_anulacion,';
+                    $q.='fv.operador_ID_anulacion,fv.motivo_anulacion_ID,fv.opcion,fv.numero_producto,';
+                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,';
+                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id,fv.gravadas,fv.gratuitas,fv.inafectas,fv.exoneradas,fv.descuento_global,fv.monto_detraccion,';
+                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.correlativos_ID,';
+                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id from factura_venta fv
+                    inner join correlativos c on fv.correlativos_ID=c.ID
+                    inner join tipo_comprobante_empresa tce on tce.ID=c.tipo_comprobante_empresa_ID
+                    inner join tipo_comprobante tc on tc.ID=tce.tipo_comprobante_ID ';
+                    $q.=' where fv.del=0 and fv.empresa_ID='.$_SESSION['empresa_ID'];
 
                         if($filtro!=''){
 				$q.=' and '.$filtro;
