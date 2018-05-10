@@ -213,7 +213,18 @@ class orden_ingreso {
             throw new Exception($q);
         }
     }
-
+    static function getGrid1($filtro = '', $inicio = -1, $fin = -1, $orden = 'oc.ID asc') {
+        $cn = new connect();
+        try {
+            $q = "call getTabla_Orden_Compra('".$filtro."',".$inicio.",".$fin.",'".$orden."');";
+            
+            //echo $q;
+            $dt = $cn->getGrid($q);
+            return $dt;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
     function verificarDuplicado() {
         $cn = new connect();
         $retornar = -1;

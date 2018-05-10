@@ -130,7 +130,7 @@ function fncPage() { ?>
                 <div class="form-group" style="height: 97px;">
                     <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Comentario:</label>
                     <div id="tdComentario" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                        <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 50px;"><?php echo FormatTextViewHtml($GLOBALS['oOrden_Compra']->descripcion);?></textarea>
+                        <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 50px;"><?php echo FormatTextViewHtml($GLOBALS['oOrden_Compra']->comentario);?></textarea>
                     </div>
                 </div>
             </div>

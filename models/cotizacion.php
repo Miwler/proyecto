@@ -280,6 +280,20 @@ class cotizacion {
                     throw new Exception($q);
             }
 	} 
+        static function getGrid1($filtro='',$desde=-1,$hasta=-1,$orden='co.ID asc')
+	{
+            $cn =new connect();
+            try 
+            {
+                $q="call getTabla_Cotizacion('".$filtro."',".$desde.",".$hasta.",'".$orden."');";
+                
+                $dt=$cn->getGrid($q);									
+                return $dt;												
+            }catch(Exception $ex)
+            {
+                    throw new Exception($q);
+            }
+	} 
     function verificarDuplicado(){
 		$cn =new connect();
 		$retornar=-1;
