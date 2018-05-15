@@ -3760,7 +3760,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
             $resultado.='<td class="text-center"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></td>';
             $resultado.='<td class="text-center"><i class="fa fa-file-code-o" style="font-size:30px;color:#007BE8"></i></td>';
-            $resultado.='<td class="text-center"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></td>';
+            $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].');"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></a></td>';
             $resultado.='<td class="text-center">';
 
             if (trim($item['sunat_codigo_estado'])=='-1') {
@@ -10846,6 +10846,7 @@ function post_ajaxGuia_Venta_Numero_Ultimo() {
     $retornar = Array('resultado' => $resultado, 'numero' => $numero);
     echo json_encode($retornar);
 }
+
 function post_ajaxEnviarSUNAT() {
 
   require ROOT_PATH.'models/factura_venta_sunat.php';
@@ -11097,6 +11098,54 @@ function post_ajaxEnviarSUNAT() {
     } catch (Exception $ex) {
         $retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
         echo json_encode($retornar);
+
+        //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+    }
+
+    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+
+    //echo json_encode($retornar);
+}
+
+function post_ajaxDownloadXML($id) {
+
+  require ROOT_PATH.'models/factura_venta_sunat.php';
+
+  require_once('include/URL_API.php');
+
+  //$new = new api_SUNAT();
+  //$id=$_POST['id'];
+
+  try {
+    //$oSalida=salida::getByID($id);
+
+
+    //VALIDAR SI ESISTE
+    //var_dump($oFactura_venta);
+    //var_dump($oSalida);
+
+    $ruta = 'files/SUNAT/XML/10474911085-01-F001-0000001.xml';
+    //$archivo_XML = file_get_contents($ruta);
+    //echo $archivo_XML;
+
+    header("Content-Disposition: attachment; filename=".$ruta);
+    header('Content-type: text/xml');
+    header("Content-Length: ".filesize($ruta));
+    readfile($ruta);
+
+
+
+
+    //header('Content-type: text/xml');
+    //header('Content-Disposition: attachment; filename="10474911085-01-F001-0000001.xml"');
+
+
+
+
+    } catch (Exception $ex) {
+        //$retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
+        //echo json_encode($retornar);
 
         //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
     }
