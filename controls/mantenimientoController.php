@@ -338,7 +338,7 @@ function post_ajaxProveedor_Mantenimiento() {
     }
     
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">R.u.c.' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Razon social' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Dirección' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';

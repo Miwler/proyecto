@@ -101,8 +101,9 @@
                 f.enviar();
         }
 
-        var fncNuevo=function(){			
-                window_float_open('/Mantenimiento/Proveedor_mantenimiento_Nuevo','','',f);
+        var fncNuevo=function(){
+            window_float_open_modal('REGISTRAR NUEVO PROVEEDOR','/Mantenimiento/Proveedor_mantenimiento_Nuevo','','',f,800,500);
+              
         }
 
         var fncEditar=function(id){			

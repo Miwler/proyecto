@@ -168,7 +168,7 @@
             <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
             <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
 
-<iframe id="iframeID"></iframe>
+
         </div>
     </div>
 

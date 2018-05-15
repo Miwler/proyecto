@@ -7,7 +7,9 @@
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
-    <link rel="stylesheet" type="text/css" href="include/css/grid.css" />   
+    <link rel="stylesheet" type="text/css" href="include/css/grid.css" />  
+    
+
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -29,7 +31,7 @@
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fngetData();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
         </div>
         <div class="panel-body">
@@ -132,7 +134,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
+                <!--<div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>-->
+                <table id="grid_contenedor" class="table table-theme table-middle table-striped table-bordered table-condensed dt-responsive nowrap dataTable no-footer" role="grid">
+                    <thead><tr><th>N°</th><th>Nombre</th><th>fecha</th><th>Acción</th></tr></thead>
+                    <tbody id="items">
+
+                    </tbody>
+                </table>
             </div>
 
             <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
@@ -146,6 +154,46 @@
  </form>
 	
     <script type="text/javascript">
+        var myTable;
+        $(document).ready(function () {
+            ///fnAnioAcademico();
+            //fnGridCSS();
+            fngetData();
+            //fnTutoras();
+            //myfunction();
+        });
+        /*function fnGridCSS() {
+            var shadows =
+                [
+
+                    { "width": "10%", "targets": 1 },
+                    { "width": "60%", "targets": 2 },
+                   
+                    { 'targets': [3], 'orderable': false, 'searchable': false, "width": "10%" }
+                ];
+            myTable = build_data_table($('#grid_contenedor'), shadows, [[0, "asc"]]);
+        }*/
+        function fngetData() {
+            var myObject = new Object();
+            cargarValores('/Ingreso/ajaxOrden_Compra_Mantenimiento1', 'frm1',function (resultado) {
+               
+                //var jsonObject = $.parseJSON(res);
+                var result = jsonObject.map(function (resultado) {
+                    alert(result.ID);
+                    var result = [];
+                    /*result.push(item.td1);
+                    result.push(item.td2);
+                    result.push(item.td3);
+                    result.push(item.td4);*/
+                   
+                  /*  return result;*/
+                });
+                myTable.rows().remove();
+                myTable.rows.add(result);
+                myTable.draw();
+            });
+        }
+        
         $("#checkbox-checked1").click(function(){
             if($(this).is(":checked")){
                 $("#txtFechaInicio").prop("disabled", true);
@@ -179,7 +227,7 @@
             $('[data-toggle="tooltip"]').tooltip(); 
             $('#websendeos').stacktable();			
         }
-        f.enviar();
+        //f.enviar();
 
         var fncOrden=function(col){
                 var col_old=$('#txtOrden').val();
