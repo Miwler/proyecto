@@ -2447,9 +2447,23 @@ function get_Orden_Compra_Mantenimiento(){
     $dtProveedor=proveedor::getGrid('ID<>0',-1,-1,"razon_social asc");
     $dtEstado=estado::getGrid('tabla="orden_ingreso" and ID in (55,56)');
     $dtMoneda=moneda::getGrid();
+   
+   
     $GLOBALS['dtProveedor']=$dtProveedor;
     $GLOBALS['dtEstado']=$dtEstado;
     $GLOBALS['dtMoneda']=$dtMoneda;
+    
+    
+}
+function post_ajaxOrden_Compra_Mantenimiento1() {
+    require ROOT_PATH . 'models/orden_ingreso.php';
+    
+    $dt=orden_ingreso::getGrid("",-1,-1,"oc.ID desc");
+
+    
+    //$retorn="<h1>Hola</h1>";
+
+    echo json_encode($dt);
 }
 
     

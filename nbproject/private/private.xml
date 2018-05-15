@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/cotizacion.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/orden_compra_mantenimiento.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/orden_ingreso.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/orden_compra_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/ingresoController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jForm.js</file>
         </group>
     </open-files>
 </project-private>
