@@ -7179,7 +7179,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $html.="<tr>";
                     $html.="<td class='tdCenter'>".$valor."</td>";
                     $html.="<td class='tdCenter'>".$serie."</td>";
-                    $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])+$i)."</td>";
+                    $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])->ultimo_numero+$i)."</td>";
                     $observacion="Sin Generar";
 
                     $html.="<td class='tdCenter'>".$array[$i]."</td>";
@@ -10862,11 +10862,12 @@ function post_ajaxEnviarSUNAT() {
   $id=$_POST['id'];
 
   $oSalida=salida::getByID($id);
-  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
+  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);  
   $oSalidaDetalle=factura_venta_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
   $oEmpresa=empresa::getByID($oSalida->empresa_ID);
   $oCliente=cliente::getByID($oSalida->cliente_ID);
   $oMoneda=moneda::getByID($oSalida->moneda_ID);
+ 
 
   //var_dump($oFactura_venta);
 
