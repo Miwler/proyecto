@@ -256,4 +256,18 @@ class persona {
                 throw new Exception($q);
         }
     }
+    static function geListaPersonas($buscar='')
+    {
+        $cn =new connect();
+        try 
+        {
+            $q='call getListaPersonas("'.$buscar.'");';
+            //echo $q;
+            $dt=$cn->getGrid($q);									
+            return $dt;												
+        }catch(Exception $ex)
+        {
+                throw new Exception($q);
+        }
+    }
 }

@@ -2447,9 +2447,23 @@ function get_Orden_Compra_Mantenimiento(){
     $dtProveedor=proveedor::getGrid('ID<>0',-1,-1,"razon_social asc");
     $dtEstado=estado::getGrid('tabla="orden_ingreso" and ID in (55,56)');
     $dtMoneda=moneda::getGrid();
+   
+   
     $GLOBALS['dtProveedor']=$dtProveedor;
     $GLOBALS['dtEstado']=$dtEstado;
     $GLOBALS['dtMoneda']=$dtMoneda;
+    
+    
+}
+function post_ajaxOrden_Compra_Mantenimiento1() {
+    require ROOT_PATH . 'models/orden_ingreso.php';
+    
+    $dt=orden_ingreso::getGrid("",-1,-1,"oc.ID desc");
+
+    
+    //$retorn="<h1>Hola</h1>";
+
+    echo json_encode($dt);
 }
 
     
@@ -2542,7 +2556,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
     $colspanFooter = 7;
     try {
         $cantidadMaxima = orden_ingreso::getCount($filtro);
-        $dtOrden_Compra = orden_ingreso::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $dtOrden_Compra = orden_ingreso::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtOrden_Compra);
         $i=(($paginaActual-1) * $cantidadMostrar)+1;
         foreach ($dtOrden_Compra as $item) {
@@ -2771,7 +2785,7 @@ function post_Orden_Compra_Mantenimiento_Nuevo(){
         $oOrden_Compra->vigv=$vigv;
         $oOrden_Compra->comentario=$comentario;
         $oOrden_Compra->usuario_id=$_SESSION['usuario_ID'];
-
+        $oOrden_Compra->comentario=$comentario;
         /*if($oOrden_Compra->verificarDuplicado()>0){
                 throw new Exception($oOrden_Compra->getMessage);
         }*/

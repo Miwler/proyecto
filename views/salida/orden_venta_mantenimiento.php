@@ -270,6 +270,89 @@
 
 		}
 
+		function fncDOWNLOAD_XML(id) {
+			try {
+					block_ui(function () {
+
+
+						$.ajax({
+					    type: "POST",
+					    url: 'Salida/ajaxDownloadXML',
+					    data: {},
+					    cache: false,
+					    success: function(response)
+					    {
+					        alert('got response');
+									console.log(response);
+					        //$("#iframeID").attr('src', response);
+
+									location.href='data:application/download,' + encodeURIComponent(response)
+									$.unblockUI();
+
+								// 	var link = document.createElement("a");
+							  // link.download = thefilename;
+							  // // Construct the uri
+							  // var uri = 'data:text/csv;charset=utf-8;base64,' + response
+							  // link.href = uri;
+							  // document.body.appendChild(link);
+							  // link.click();
+							  // // Cleanup the DOM
+							  // document.body.removeChild(link);
+
+								var blob = new Blob([response], { type: 'application/xml' });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "report.xml";
+            link.click();
+
+					    },
+					    error: function (XMLHttpRequest, textStatus, errorThrown)
+					    {
+					        alert('Error occurred while opening fax template'
+					              + getAjaxErrorString(textStatus, errorThrown));
+					    }
+					});
+
+					// 	cargarValores('Salida/ajaxDownloadXML',id,function(resultado){
+					// 		console.log(resultado)
+					// 		$.unblockUI();
+					// 		var dlif = $('<iframe/>',{'src':resultado}).hide();
+          //   //Append the iFrame to the context
+          //   this.append(dlif);
+					//
+					// 		//var obj = $.parseJSON(resultado);
+					// 		//console.log(obj.MensajeRespuesta);
+					// 	//	if (obj.Exito==true) {
+					// 			//	alert(obj.MensajeRespuesta);
+					// 		//}
+					// });
+				});
+			} catch (e) {
+				$.unblockUI();
+				console.log(e);
+			} finally {
+
+			}
+
+		}
+
+		function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+		    var reader = new FileReader();
+		    reader.onload = function (event) {
+		        var save = document.createElement('a');
+		        save.href = event.target.result;
+		        save.target = '_blank';
+		        save.download = nombreArchivo || 'archivo.dat';
+		        var clicEvent = new MouseEvent('click', {
+		            'view': window,
+		                'bubbles': true,
+		                'cancelable': true
+		        });
+		        save.dispatchEvent(clicEvent);
+		        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+		    };
+		    reader.readAsDataURL(contenidoEnBlob);
+		};
     var fncEliminar=function(id){
 
             gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');

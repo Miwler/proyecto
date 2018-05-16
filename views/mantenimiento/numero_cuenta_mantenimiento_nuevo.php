@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
@@ -8,7 +8,7 @@ function fncTitle() { ?>Nuevo Numero de Cuenta<?php } ?>
 <?php
 
 function fncHead() { ?>
-
+    <script type="text/javascript" src="include/js/jForm.js"></script>
     
 <?php } ?>
 
@@ -25,58 +25,59 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
-<form id="form"  method="POST" action="/Mantenimiento/Numero_Cuenta_Mantenimiento_Nuevo" style="width:600px; padding-top:15px;" onsubmit="return validar();" >
-    <div class="row">
+<form id="form"  method="POST" action="/Mantenimiento/Numero_Cuenta_Mantenimiento_Nuevo" class="form-horizontal" onsubmit="return validar();" >
+    <div class="form-body">
+        <div class="form-group">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <label>Banco: </label>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <input type="text" id="txtNombre_Banco" name="txtNombre_Banco" value="<?php echo $GLOBALS['oNumero_Cuenta']->nombre_banco;?>" autocomplete="off" class="form-control form-requerido text-uppercase">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <label>Numero Cuenta: </label>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <input type="text" id="txtNumero" name="txtNumero" value="<?php echo $GLOBALS['oNumero_Cuenta']->numero;?>" autocomplete="off" class="form-control form-requerido bfh-number int">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <label>N&uacute;mero Cuenta Interbancaria: </label>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <input type="text" id="txtCci" name="txtCci" value="<?php echo $GLOBALS['oNumero_Cuenta']->cci;?>" autocomplete="off" class="form-control bfh-number int">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <label>Moneda: </label>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <select id="selMoneda_ID" name="selMoneda_ID" class="form-control form-requerido text-uppercase">
+                    <?php foreach($GLOBALS['oNumero_Cuenta']->dtMoneda as $item){ ?>
+                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['descripcion']));?></option>
+                    <?php } ?>
+                </select>
 
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <label>Banco: </label>
-        </div>
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <input type="text" id="txtNombre_Banco" name="txtNombre_Banco" value="<?php echo $GLOBALS['oNumero_Cuenta']->nombre_banco;?>" autocomplete="off" class="form-control form-requerido text-uppercase">
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <label>Numero Cuenta: </label>
-        </div>
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <input type="text" id="txtNumero" name="txtNumero" value="<?php echo $GLOBALS['oNumero_Cuenta']->numero;?>" autocomplete="off" class="form-control form-requerido bfh-number int">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <label>N&uacute;mero Cuenta Interbancaria: </label>
-        </div>
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <input type="text" id="txtCci" name="txtCci" value="<?php echo $GLOBALS['oNumero_Cuenta']->cci;?>" autocomplete="off" class="form-control bfh-number int">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <label>Moneda: </label>
-        </div>
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <select id="selMoneda_ID" name="selMoneda_ID" class="form-control form-requerido text-uppercase">
-                <?php foreach($GLOBALS['oNumero_Cuenta']->dtMoneda as $item){ ?>
-                <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['descripcion']));?></option>
-                <?php } ?>
-            </select>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    
+    <div class="form-footer">
+        <div class="pull-left">
             <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
                 <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                 Guardar
             </button>
-            <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="window_float_close();" >
+            <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="window_float_close_modal();" >
                 <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
                 Cancelar
             </button>   
         </div>
+        <div class="clearfix"></div>
     </div>
 </form>
 <?php } ?>
@@ -101,7 +102,7 @@ function fncPage() { ?>
     <script type="text/javascript">
         $(document).ready(function(){
             toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
-            setTimeout('window_float_save();', 1000);
+            setTimeout('window_float_save_modal();', 1000);
         });       
        
        

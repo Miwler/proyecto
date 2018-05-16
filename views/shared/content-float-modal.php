@@ -109,7 +109,7 @@
        
     <script type="text/javascript">
         
-
+       
         var ocultarClose=function(){
             $('#btn-close').css('display','none');
         }   

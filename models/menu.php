@@ -247,6 +247,22 @@ class menu
 			throw new Exception($q);
 		}
 	}
+        static function getMenuxUsuarioIDHtml($usuario_id,$ruta)
+	{		
+		$cn =new connect();
+		try 
+		{
+			$q='call getMenu(0,'.$_SESSION['empresa_ID'].',"'.$ruta.'")';
+					
+			//echo $q;
+			$retorna=$cn->getData($q);									
+			return $retorna;												
+		}catch(Exception $ex)
+		{
+			throw new Exception($q);
+		}
+	}
+        
         
         
 }

@@ -6,7 +6,7 @@
 <?php } ?>
 <?php function fncHead(){?>   
     <script type="text/javascript" src="include/js/jForm.js"></script>
-    <script type="text/javascript" src="include/js/jGrid.js"></script>
+   <script type="text/javascript" src="include/js/jGrid.js"></script>
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncMenu(){?>
@@ -101,12 +101,12 @@
                 f.enviar();
         }
 
-        var fncNuevo=function(){			
-                window_float_open('/Mantenimiento/Cliente_Mantenimiento_Nuevo','','',f);
+        var fncNuevo=function(){
+            window_float_open_modal('REGISTRAR NUEVO CLIENTE','/Mantenimiento/Cliente_Mantenimiento_Nuevo','','',f,800,500);
         }
 
-        var fncEditar=function(id){			
-                window_float_open('/Mantenimiento/Cliente_Mantenimiento_Editar',id,'',f);
+        var fncEditar=function(id){
+            window_float_open_modal('EDITAR CLIENTE','/Mantenimiento/Cliente_Mantenimiento_Editar',id,'',f,800,500);   
         }
 
         var fncEliminar=function(id){			

@@ -1,14 +1,18 @@
 <?php
-	require ROOT_PATH."models/modulo.php";
+	require ROOT_PATH."models/menu.php";
+        $menu=menu::getMenuxUsuarioIDHtml($_SESSION['usuario_ID'],$_SERVER["REQUEST_URI"]);
+        echo utf8_encode($menu);
 	//require ROOT_PATH."models/menu_perfil.php";
 	//require ROOT_PATH."models/modulo.php";
 	
 	//$dtModulo=modulo::getModulosxUsuarioID($_SESSION['usuario_ID']);
-	$dtModulo=modulo::getModulosxUsuarioID($_SESSION['usuario_ID']);
+	
+        
+        //$dtModulo=modulo::getModulosxUsuarioID($_SESSION['usuario_ID']);
 	//$dtMenu=menu::getGrid("mu.usuario_ID=".$_SESSION['usuario_ID']." and mn.modulo_ID=".$_SESSION['modulo_ID']." and mn.menu_ID=0",-1,-1,"mn.orden asc");
-	obtenerMenuxModulo($dtModulo);
+	//obtenerMenuxModulo($dtModulo);
 
-	function obtenerMenuxModulo($dtModulo){
+	/*function obtenerMenuxModulo($dtModulo){
            require ROOT_PATH."models/menu.php";
 		global $controlador;
 		global $vista;

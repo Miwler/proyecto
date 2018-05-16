@@ -8,7 +8,7 @@ class factura_venta {
     private $forma_pago_ID;
     private $estado_ID;
     private $observacion;
-    
+
     private $fecha_emision;
     private $plazo_factura;
     private $fecha_vencimiento;
@@ -50,15 +50,25 @@ class factura_venta {
     private $ver_vista_previa;
     private $ver_imprimir;
     private $dtSerie;
+
+    private $gravadas;
+    private $gratuitas;
+  	private $inafectas;
+  	private $exoneradas;
+  	private $descuento_global;
+  	private $monto_detraccion;
+
+
+
     private $correlativos_ID;
-   
-   
+
+
   public function __set($var, $valor)
     {
 // convierte a minúsculas toda una cadena la función strtolower
           $temporal = $var;
 
-          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
+          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
           if (property_exists('factura_venta',$temporal))
            {
                   $this->$temporal = $valor;
@@ -105,12 +115,12 @@ class factura_venta {
             $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.','.$this->correlativos_ID.')';
 
             $retornar=$cn->transa($q);
-            
+
             $this->ID=$ID;
             $this->message='Se guardó correctamente';
-            
+
             return $retornar;
-            
+
         } catch (Exception $ex) {
 
             throw new Exception($q);
@@ -145,12 +155,12 @@ class factura_venta {
             throw new Exception($q);
         }
     }
-    
+
     function actualizarCostos(){
         $cn =new connect();
 	$retornar=-1;
         try{
-            
+
             $q='UPDATE factura_venta set monto_total_neto='.$this->monto_total_neto.',monto_total_igv='.$this->monto_total_igv.',monto_total='.$this->monto_total;
             $q.=',monto_pendiente='.$this->monto_pendiente.' where ID='.$this->ID;
             //echo $q;
@@ -166,7 +176,7 @@ class factura_venta {
         $cn =new connect();
 	$retornar=-1;
         try{
-            
+
             $q='UPDATE factura_venta set estado_ID='.$this->estado_ID.',observacion="'.$this->observacion.'",impresion='.$this->impresion.', usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
@@ -189,7 +199,7 @@ class factura_venta {
         } catch (Exception $ex) {
             throw new Exception($q);
         }
-              
+
     }
     function actualizarPago(){
       $cn =new connect();
@@ -203,7 +213,7 @@ class factura_venta {
         } catch (Exception $ex) {
             throw new Exception($q);
         }
-              
+
     }
     function actualizarAnulacion(){
       $cn =new connect();
@@ -219,12 +229,12 @@ class factura_venta {
             $numero=$cn->transa($q);
            // echo $q;
             return $numero;
-            
+
             $this->message="Se anuló correctamente.";
         } catch (Exception $ex) {
             throw new Exception($q);
         }
-              
+
     }
     function eliminar(){
             $cn =new connect();
@@ -242,35 +252,35 @@ class factura_venta {
             catch(Exception $ex){
                     throw new Exception("Ocurrio un error en la consulta");
             }
-    }    
+    }
     static function getCount($filtro='')
 	{
 		$cn =new connect();
-		try 
+		try
 		{
 			$q='select count(ID) ';
 			$q.=' FROM factura_venta ';
 			$q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
-			
+
 			if ($filtro!='')
 			{
 				$q.=' and '.$filtro;
 			}
 			//echo $q;
-			$resultado=$cn->getData($q);									
-		
-			return $resultado;					
+			$resultado=$cn->getData($q);
+
+			return $resultado;
 		}catch(Exception $ex)
 		{
 			throw new Exception("Ocurrio un error en la consulta");
 		}
-	} 
+	}
 
         //modificado por ortega-agregar todos los datos y cargar en el modelo
    static function getByID($ID)
 	{
             $cn =new connect();
-            try 
+            try
             {
                 $q='select ID,salida_ID,serie,numero,numero_concatenado,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,forma_pago_ID,plazo_factura,DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,';
                 $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
@@ -278,7 +288,7 @@ class factura_venta {
                 $q.='usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
                 $q.=' where del=0 and ID='.$ID;
                     //echo $q;
-                    $dt=$cn->getGrid($q);			
+                    $dt=$cn->getGrid($q);
                     $oFactura_Venta=null;
 
                     foreach($dt as $item)
@@ -312,7 +322,7 @@ class factura_venta {
                         $oFactura_Venta->correlativos_ID=$item['correlativos_ID'];
                         $oFactura_Venta->usuario_id=$item['usuario_id'];
                         $oFactura_Venta->usuario_mod_id=$item['usuario_mod_id'];
-                    }			
+                    }
                     return $oFactura_Venta;
 
             }catch(Exeption $ex)
@@ -323,62 +333,67 @@ class factura_venta {
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
 		$cn =new connect();
-		try 
+		try
 		{
-                    $q='select ID,salida_ID,serie,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,';
-                    $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,usuario_id,fecha_anulacion,';
-                    $q.='operador_ID_anulacion,motivo_anulacion_ID,opcion,numero_producto,';
-                    $q.='monto_total_neto,monto_total_igv,monto_total,correlativos_ID,';
-                    $q.='ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
-                    $q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
-			
+                    $q='select fv.ID,tc.codigo,fv.salida_ID,fv.serie,fv.numero,fv.numero_concatenado,fv.fecha_emision,fv.forma_pago_ID,fv.plazo_factura,fv.fecha_vencimiento,';
+                    $q.='fv.estado_ID,fv.moneda_ID,fv.orden_pedido,fv.orden_ingreso,fv.impresion,fv.con_guia,fv.pago,fv.usuario_id,fv.fecha_anulacion,';
+                    $q.='fv.operador_ID_anulacion,fv.motivo_anulacion_ID,fv.opcion,fv.numero_producto,';
+                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,';
+                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id,fv.gravadas,fv.gratuitas,fv.inafectas,fv.exoneradas,fv.descuento_global,fv.monto_detraccion,';
+                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.correlativos_ID,';
+                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id from factura_venta fv
+                    inner join correlativos c on fv.correlativos_ID=c.ID
+                    inner join tipo_comprobante_empresa tce on tce.ID=c.tipo_comprobante_empresa_ID
+                    inner join tipo_comprobante tc on tc.ID=tce.tipo_comprobante_ID ';
+                    $q.=' where fv.del=0 and fv.empresa_ID='.$_SESSION['empresa_ID'];
+
                         if($filtro!=''){
 				$q.=' and '.$filtro;
 			}
-			
+
 			$q.=' Order By '.$order;
-			
+
 			if($desde!=-1&&$hasta!=-1){
 				$q.=' Limit '.$desde.','.$hasta;
 			}
                         //echo $q;
-			$dt=$cn->getGrid($q);									
-			return $dt;												
+			$dt=$cn->getGrid($q);
+			return $dt;
 		}catch(Exception $ex)
 		{
 			throw new Exception($q);
 		}
-	} 
+	}
         static function getGrid2($filtro='',$desde=-1,$hasta=-1,$order='fv.fecha_emision asc')
 	{
 		$cn =new connect();
-		try 
+		try
 		{
                     $q='select fv.ID,ov.numero as salida,fv.fecha_emision,fv.fecha_vencimiento,fv.numero_concatenado,ov.moneda_ID,cl.razon_social as cliente,fv.pago,fv.forma_pago_ID,fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.estado_ID';
                      $q.=' ,es.nombre as estado, fv.monto_pendiente';
                     $q.=' from factura_venta fv, salida ov,cliente cl, estado es';
                     $q.=' where ov.empresa_ID='.$_SESSION['empresa_ID'].' and fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID ';
-			
+
                         if($filtro!=''){
 				$q.=' and '.$filtro;
 			}
-			
+
 			$q.=' Order By '.$order;
-			
+
 			if($desde!=-1&&$hasta!=-1){
 				$q.=' Limit '.$desde.','.$hasta;
 			}
                         //echo $q;
-			$dt=$cn->getGrid($q);									
-			return $dt;												
+			$dt=$cn->getGrid($q);
+			return $dt;
 		}catch(Exception $ex)
 		{
 			throw new Exception($q);
 		}
-	} 
-        
-        
-        
+	}
+
+
+
         /*static function getGrid_CuentaXCobrar($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
         $cn = new connect();
         try {
@@ -404,7 +419,7 @@ class factura_venta {
         }
     }
         */
-       
+
     function verificarDuplicado(){
 		$cn =new connect();
 		$retornar=-1;
@@ -426,7 +441,7 @@ class factura_venta {
         } catch (Exception $ex) {
             throw new Exception("Ocurrio un error en la consulta");
         }
-              
+
     }
     static function getImpresion(){
       $cn =new connect();
@@ -439,10 +454,10 @@ class factura_venta {
         } catch (Exception $ex) {
             throw new Exception("Ocurrio un error en la consulta");
         }
-              
+
     }
 
   }
- 
+
 
 ?>

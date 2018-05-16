@@ -107,9 +107,9 @@ var enviar = function (obj,btn)
         datatype: "json",
 
         success: function (respuesta) {
-
+          console.log(respuesta);
            //alert(respuesta);
-            var respuesta = $.parseJSON(respuesta);
+            respuesta = $.parseJSON(respuesta);
 
             $(obj.Div).html(respuesta.resultado);
             if (respuesta.funcion != '') {
@@ -975,7 +975,46 @@ function block_ui(eo_function) {
         });
     //$.unblockUI();
 }
+function lista(url,contenedor,id_txt,funcion){
+    $("#"+contenedor).autocomplete({
+        source: function (request, response) {
+            //clear_data();
 
+            $.ajax({
+                url: url,
+                data: {buscar:request.term},
+                dataType: "json",
+                type: "POST",
+                //contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+
+                        return item;
+                    }))
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        },
+        select: function (e, i) {
+            var ID = i.item.val;
+            if(funcion){
+                funcion(ID);
+            }
+            
+            $('#'+id_txt).val(ID);
+            //alert(persona_ID);
+            //$("#hfALUMNAS").val(alumna_ID);
+            //fnDatosAlumna(alumna_ID);
+        },
+        minLength: 1
+    });
+}
 
 
 

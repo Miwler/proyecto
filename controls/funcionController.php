@@ -638,4 +638,12 @@
 
         echo json_encode($retornar);
     }
+    function post_ajaxListarPersonas($texto){
+        require ROOT_PATH.'models/persona.php';
+        $buscar=$_POST['buscar'];
+        $dtPersona=persona::geListaPersonas($buscar);
+       
+        //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
+        echo json_encode($dtPersona);
+    }
 ?>

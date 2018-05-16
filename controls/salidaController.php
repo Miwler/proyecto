@@ -159,7 +159,7 @@ function post_ajaxCotizacion_Mantenimiento() {
     $colspanFooter = 9;
     try {
         $cantidadMaxima = cotizacion::getCount($filtro);
-        $dtCotizacion = cotizacion::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $dtCotizacion = cotizacion::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCotizacion);
 
         $clase="";
@@ -1460,7 +1460,7 @@ function post_ajaxCotizacion_Mantenimiento_Registro_Adicional(){
                     $subtotal=$item['precio_venta_subtotal_dolares'];
                 }
                 $oProducto=producto::getByID($item['producto_ID']);
-                $html.="<tr class='item-tr' id='".$item['ID']."' onclick='fncActivar(".$item['ID'].",this)'>";
+                $html.="<tr class='item-tr' id='".$item['ID']."'>";
                 $html.="<td class='tdCenter'>".  sprintf("%',05d",$item['producto_ID'])."</td>";
                 $html.="<td class='tdLeft'>".  FormatTextView(strtoupper($oProducto->nombre))."</td>";
                 $html.="<td class='tdCenter'>".$item['cantidad']."</td>";
@@ -2488,7 +2488,7 @@ function get_cotizacion_mantenimiento_registro_Adicional_editar($id){
     $oCotizacion_Detalle->cotizacion_detalle_padre_ID=$id;
     $oCotizacion_Detalle->stock=$stock;
     $oCotizacion_Detalle->oProducto=$oProducto;
-
+    $GLOBALS['dtProducto']=$dtProducto;
     $GLOBALS['oCotizacion_Detalle']=$oCotizacion_Detalle;
     $GLOBALS['oCotizacion']=$oCotizacion;
     $GLOBALS['oInventario']=$oInventario;
@@ -2503,7 +2503,7 @@ function post_cotizacion_mantenimiento_registro_Adicional_editar($id){
     global  $returnView_float;
     $returnView_float=true;
     $tipo=4;
-    $producto_ID=$_POST['txtProducto_ID'];
+    $producto_ID=$_POST['selProducto'];
     $descripcion=  FormatTextSave($_POST['txtDescripcion']);
     $cantidad=$_POST['txtCantidad'];
      if(isset($_POST['cbVer_Precio'])){
@@ -3760,7 +3760,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
             $resultado.='<td class="text-center"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></td>';
             $resultado.='<td class="text-center"><i class="fa fa-file-code-o" style="font-size:30px;color:#007BE8"></i></td>';
-            $resultado.='<td class="text-center"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></td>';
+            $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].');"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></a></td>';
             $resultado.='<td class="text-center">';
 
             if (trim($item['sunat_codigo_estado'])=='-1') {
@@ -6817,7 +6817,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/factura_venta.php';
         if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
         require ROOT_PATH . 'models/moneda.php';
-        
+
         require ROOT_PATH . 'models/usuario.php';
         require ROOT_PATH . 'models/estado.php';
         require ROOT_PATH . 'models/correlativos.php';
@@ -6825,14 +6825,14 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
-        
+
         $dtConfiguracion_Empresa=configuracion_empresa::getGrid();
         $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
         $osalida=salida::getByID($salida_ID);
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
         $listaproducto=mostrar_productos($salida_ID,3);
         $ContarFactura_Venta=factura_venta::getCount('salida_ID='.$id);
-        
+
         $mensaje="";
         $informacion="";
         $dtGridCorrelativo=correlativos::getGridCorrelativos("factura_venta");
@@ -6872,7 +6872,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             //$oFactura_Venta->ver_cambios=0;
             switch($oFactura_Venta->estado_ID){
                 case 35:
-                    
+
                     $numero_temporal=correlativos::getNumero("factura_venta",$oFactura_Venta->correlativos_ID);
                     $numero_concatenado=sprintf("%'.07d",$numero_temporal);
                     $oFactura_Venta->numero_concatenado=$numero_concatenado;
@@ -10846,11 +10846,13 @@ function post_ajaxGuia_Venta_Numero_Ultimo() {
     $retornar = Array('resultado' => $resultado, 'numero' => $numero);
     echo json_encode($retornar);
 }
+
 function post_ajaxEnviarSUNAT() {
 
   require ROOT_PATH.'models/factura_venta_sunat.php';
   require ROOT_PATH.'models/salida.php';
   require ROOT_PATH.'models/factura_venta.php';
+  require ROOT_PATH.'models/factura_venta_detalle.php';
   require ROOT_PATH.'models/salida_detalle.php';
   require ROOT_PATH.'models/moneda.php';
   require ROOT_PATH.'models/cliente.php';
@@ -10861,6 +10863,7 @@ function post_ajaxEnviarSUNAT() {
   $new = new api_SUNAT();
   $id=$_POST['id'];
 
+<<<<<<< HEAD
   $oSalida=salida::getByID($id);
   $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);  
   $oSalidaDetalle=factura_venta_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
@@ -10868,12 +10871,23 @@ function post_ajaxEnviarSUNAT() {
   $oCliente=cliente::getByID($oSalida->cliente_ID);
   $oMoneda=moneda::getByID($oSalida->moneda_ID);
  
+=======
+  try {
+    $oSalida=salida::getByID($id);
+>>>>>>> 09141923e2238c7f891732903e740746b33f99d3
 
-  //var_dump($oFactura_venta);
+    $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
 
-  //var_dump($oSalida);
+    $oSalidaDetalle=factura_venta_detalle::getGrid2($id);
 
-    try {
+    $oEmpresa=empresa::getByID($oSalida->empresa_ID);
+    $oCliente=cliente::getByID($oSalida->cliente_ID);
+    $oMoneda=moneda::getByID($oSalida->moneda_ID);
+
+    //VALIDAR SI ESISTE
+    //var_dump($oFactura_venta);
+    //var_dump($oSalida);
+
 
       $DocumentoDetalle = array();
       $Discrepancias = array();
@@ -10882,55 +10896,55 @@ function post_ajaxEnviarSUNAT() {
       for ($i=0; $i < count($oSalidaDetalle); $i++) {
       $DocumentoDetalle[] = array (
         'Id' => $i+1,
-        'Cantidad' => 10,
+        'Cantidad' => $oSalidaDetalle[$i]['cantidad'],
         'UnidadMedida' => 'NIU',
-        'CodigoItem' => '2435675',
-        'Descripcion' => $oSalidaDetalle[$i]['producto'],
-        'PrecioUnitario' => 10,
-        'PrecioReferencial' => 10,
+        'CodigoItem' => $oSalidaDetalle[$i]['producto_ID'],
+        'Descripcion' => $oSalidaDetalle[$i]['producto_nombre'],
+        'PrecioUnitario' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
+        'PrecioReferencial' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
         'TipoPrecio' => '01',
         'TipoImpuesto' => '10',
         'Impuesto' => 18,
         'ImpuestoSelectivo' => 0,
         'OtroImpuesto' => 0,
         'Descuento' => 0,
-        'PlacaVehiculo' => 'string',
-        'TotalVenta' => 100,
-        'Suma' => 100,
+        'PlacaVehiculo' => '',
+        'TotalVenta' => $oSalidaDetalle[$i]['precio_venta_soles'],
+        'Suma' => $oSalidaDetalle[$i]['precio_venta_soles'],
       );
     }
 
       if (count($oFactura_venta)==0) {
-        throw new Exception("");
+        throw new Exception("Falta generar la facura");
       }
 
 
       $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
       $data = array (
-        'IdDocumento' => 'B010-'.$oFactura_venta[0]['numero_concatenado'],
-        'TipoDocumento' => '03',
+        'IdDocumento' => $oFactura_venta[0]['serie'].'-'.$oFactura_venta[0]['numero_concatenado'],
+        'TipoDocumento' => $oFactura_venta[0]['codigo'],
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
           'NroDocumento' => $oCliente->ruc,
-          'TipoDocumento' => '1',
+          'TipoDocumento' => '6',//SOLO FACTURA
           'NombreLegal' => $oCliente->razon_social,
         ),
         'FechaEmision' => $oSalida->fecha,
         'Moneda' => $oMoneda->codigo,
         'TipoOperacion' => '',
-        'Gravadas' => 100,
-        'Gratuitas' => 0,
-        'Inafectas' => 0,
-        'Exoneradas' => 0,
-        'DescuentoGlobal' => 0,
-        'TotalVenta' => 118,
-        'TotalIgv' => 18,
+        'Gravadas' => $oFactura_venta[0]['monto_total_neto'],//$oFactura_venta[0]['gravadas']
+        'Gratuitas' => $oFactura_venta[0]['gratuitas'],
+        'Inafectas' => $oFactura_venta[0]['inafectas'],
+        'Exoneradas' => $oFactura_venta[0]['exoneradas'],
+        'DescuentoGlobal' => $oFactura_venta[0]['descuento_global'],
+        'TotalVenta' => $oFactura_venta[0]['monto_total'],
+        'TotalIgv' => $oFactura_venta[0]['monto_total_igv'],
         'TotalIsc' => 0,
         'TotalOtrosTributos' => 0,
         'MontoEnLetras' => 'SON CIENTO DIECIOCHO SOLES CON 0/100',
         'PlacaVehiculo' => '',
         'MontoPercepcion' => 0,
-        'MontoDetraccion' => 0,
+        'MontoDetraccion' => $oFactura_venta[0]['monto_detraccion'],
         'TipoDocAnticipo' => '',
         'DocAnticipo' => '',
         'MonedaAnticipo' => '',
@@ -11094,6 +11108,54 @@ function post_ajaxEnviarSUNAT() {
     } catch (Exception $ex) {
         $retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
         echo json_encode($retornar);
+
+        //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+    }
+
+    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+
+    //echo json_encode($retornar);
+}
+
+function post_ajaxDownloadXML($id) {
+
+  require ROOT_PATH.'models/factura_venta_sunat.php';
+
+  require_once('include/URL_API.php');
+
+  //$new = new api_SUNAT();
+  //$id=$_POST['id'];
+
+  try {
+    //$oSalida=salida::getByID($id);
+
+
+    //VALIDAR SI ESISTE
+    //var_dump($oFactura_venta);
+    //var_dump($oSalida);
+
+    $ruta = 'files/SUNAT/XML/10474911085-01-F001-0000001.xml';
+    //$archivo_XML = file_get_contents($ruta);
+    //echo $archivo_XML;
+
+    header("Content-Disposition: attachment; filename=".$ruta);
+    header('Content-type: text/xml');
+    header("Content-Length: ".filesize($ruta));
+    readfile($ruta);
+
+
+
+
+    //header('Content-type: text/xml');
+    //header('Content-Disposition: attachment; filename="10474911085-01-F001-0000001.xml"');
+
+
+
+
+    } catch (Exception $ex) {
+        //$retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
+        //echo json_encode($retornar);
 
         //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
     }

@@ -4,7 +4,7 @@ var BlankonTableAdvanced = function () {
     // =========================================================================
     // SETTINGS APP
     // =========================================================================
-    var getBaseURL = BlankonApp.handleBaseURL();
+    var getBaseURL = "http://localhost:8081";
 
     return {
 

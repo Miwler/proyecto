@@ -309,9 +309,6 @@
 
             gridEliminar(f,id,'/Mantenimiento/ajaxProducto_mantenimiento_Eliminar');
     }
-
-    
-
     var fncLinea=function(linea_ID){
             ajaxSelect('selCategoria', '/Mantenimiento/ajaxSelect_Categoria/' + linea_ID, '',fncCategoria(0));
             //f.enviar();

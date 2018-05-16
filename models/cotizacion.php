@@ -261,10 +261,8 @@ class cotizacion {
                 $q.='cl.razon_social,es.nombre as estado, mo.descripcion as moneda, mo.simbolo,co.numero_pagina,ifnull(co.producto_pagina,"") as producto_pagina ';
                 $q.=' from cotizacion co, cliente cl, estado es, moneda mo ';
                 $q.=' where co.cliente_ID=cl.ID and co.estado_ID=es.ID  and co.moneda_ID=mo.ID and co.del=0 ';
-
-
                 if($filtro!=''){
-                        $q.=' and '.$filtro;
+                    $q.=' and '.$filtro;
                 }
 
                 $q.=' Order By '.$order;
@@ -273,6 +271,20 @@ class cotizacion {
                         $q.=' Limit '.$desde.','.$hasta;
                 }
                 //echo $q;
+                $dt=$cn->getGrid($q);									
+                return $dt;												
+            }catch(Exception $ex)
+            {
+                    throw new Exception($q);
+            }
+	} 
+        static function getGrid1($filtro='',$desde=-1,$hasta=-1,$orden='co.ID asc')
+	{
+            $cn =new connect();
+            try 
+            {
+                $q="call getTabla_Cotizacion('".$filtro."',".$desde.",".$hasta.",'".$orden."');";
+                
                 $dt=$cn->getGrid($q);									
                 return $dt;												
             }catch(Exception $ex)

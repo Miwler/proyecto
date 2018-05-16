@@ -434,7 +434,7 @@
         $('#txtStock').val('');
     }
     var fncCargarPrecioCompra=function(producto_ID){
-          cargarValores('/Ingreso/ajaxPrecio_Compra',producto_ID,function(resultado){
+          cargarValores('/Ingreso/ajaxPrecio_Ingreso',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
             $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
             
