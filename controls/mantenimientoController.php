@@ -514,7 +514,7 @@ function post_ajaxProveedor_Mantenimiento_Eliminar($id) {
 }
 
 // muestra la lista deplegable/*
-/*
+
 function post_ajaxCbo_ProveedorRuc(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
@@ -539,7 +539,7 @@ function post_ajaxCbo_ProveedorRuc(){
     $mensaje='';
     $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje);
     echo json_encode($retornar);
-}*/
+}
 function post_ajaxCbo_ProveedorRazonSocial(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
@@ -1601,7 +1601,7 @@ function post_ajaxCliente_Mantenimiento() {
        $filtro = 'clt.empresa_ID='.$_SESSION['empresa_ID'].' and upper(clt.razon_social) like "%' . strtoupper(FormatTextSave($razon_social)) . '%"';
     }
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">R.u.c.' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Razon social' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Dirección' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -2176,10 +2176,10 @@ function get_Producto_Mantenimiento() {
 
     $oLinea=new linea();
     $oCategoria=new categoria();
-    $dtCategoria=$oCategoria->getGrid();
-    $dtLinea=$oLinea->getGrid();
+    $dtCategoria=$oCategoria->getGrid("",-1,-1,"ca.nombre asc");
+    $dtLinea=$oLinea->getGrid("",-1,-1,"li.nombre asc");
     $GLOBALS['dtCategoria']=$dtCategoria;
-   
+    $GLOBALS['dtLinea']=$dtLinea;
 }
 
 //muestra la ventana para agregar nuevo producto
@@ -2198,8 +2198,8 @@ function get_Producto_Mantenimiento_Nuevo($id) {
     $IDs=explode('_',$id);
     $linea_ID=$IDs[0];
     $categoria_ID=$IDs[1];
-    $dtLinea=linea::getGrid("",-1,-1,"nombre asc");
-    $dtCategoria=categoria::getGrid('ca.linea_ID='.$linea_ID,-1,-1,"nombre asc");
+    $dtLinea=linea::getGrid("",-1,-1,"li.nombre asc");
+    $dtCategoria=categoria::getGrid('ca.linea_ID='.$linea_ID,-1,-1,"ca.nombre asc");
     $dtUnidad_Medida=unidad_medida::getGrid();
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oProducto->dtMoneda=$dtMoneda;
@@ -2662,7 +2662,7 @@ function post_ajaxProducto_Mantenimiento() {
         $filtro='pr.ID='.$_POST['txtCodigo'];
     }
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
     
     $resultado.='<th class="thOrden" onclick="fncOrden(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Nombre de Producto' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -5337,7 +5337,7 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
     $filtro = '(numero) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Banco' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">numero cuenta' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Cuenta Interbancaria' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';

@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/persona.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/producto_mantenimiento_padre.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/cliente_mantenimiento_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/mantenimientoController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/proveedor_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/funcionController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/proveedor_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/cliente_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/producto_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/producto_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/vehiculo_mantenimiento.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jForm.js</file>
         </group>

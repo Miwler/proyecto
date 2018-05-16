@@ -243,6 +243,12 @@ function fncPage() { ?>
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                 <input type="hidden" id="txtPersona_ID" name="txtPersona_ID">
                                 <input type="text" id="listaPersonas" class="form-control form-requerido">
+                                <script>
+                                    $(document).ready(function(){
+                                        lista('/funcion/ajaxListarPersonas','listaPersonas','txtPersona_ID',mostrar_informacion_persona);
+                                    });
+                                    
+                                </script>
                             </div>
                         </div>
 
@@ -293,9 +299,9 @@ function fncPage() { ?>
                 <span class="glyphicon glyphicon-floppy-disk"></span>
                 Guardar
             </button>
-            <button  id="btnCancelar" name="btnCancelar" class="btn btn-warning" type="button" onclick="window_float_close();" >
+            <button  id="btnCancelar" name="btnCancelar" class="btn btn-warning" type="button" onclick="window_float_close_modal();" >
                 <span class="glyphicon glyphicon-arrow-left"></span>
-                Salir
+                Cerrar
             </button> 
         </div>
         <div class="clerafix"></div>
@@ -303,6 +309,12 @@ function fncPage() { ?>
    
 
 </form>
+<style>
+    .divBuscador{
+    position:absolute!important;
+    z-index: 10;background:#7FFFD4;
+}
+</style>
 <script type="text/javascript">
     $('.nav-tabs a').on('shown.bs.tab', function(event){
         var x = $(event.target).text();         // active tab
@@ -326,10 +338,17 @@ function fncPage() { ?>
         ajaxSelect('selDistrito', '/Mantenimiento/ajaxSelect_Distrito/' + obj.val(), '',null);
     }
     var fncAgregar_Persona=function(){
-        window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
+         parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
+        
+       
     } 
-    var fncCargarPersona=function(id,nombres){
-        cboPersona.seleccionar(id, nombres);
+   var fncCargarPersona=function(id){
+        
+        cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtPersona_ID').val(id);
+            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
+            mostrar_informacion_persona(id);
+        });
         
     }
     
@@ -415,41 +434,7 @@ function fncPage() { ?>
         //alert(id);
     }
     
-    $("#listaPersonas").autocomplete({
-                    source: function (request, response) {
-                        //clear_data();
-
-                        $.ajax({
-                            url: '/funcion/ajaxListarPersonas',
-                            data: {buscar:request.term},
-                            dataType: "json",
-                            type: "POST",
-                            //contentType: "application/json; charset=utf-8",
-                            success: function (data) {
-                                
-                                response($.map(data, function (item) {
-                                    
-                                    return item;
-                                }))
-                            },
-                            error: function (response) {
-                                alert(response.responseText);
-                            },
-                            failure: function (response) {
-                                alert(response.responseText);
-                            }
-                        });
-                    },
-                    select: function (e, i) {
-                        var persona_ID = i.item.val;
-                        mostrar_informacion_persona(persona_ID);
-                        $('#txtPersona_ID').val(persona_ID);
-                        //alert(persona_ID);
-                        //$("#hfALUMNAS").val(alumna_ID);
-                        //fnDatosAlumna(alumna_ID);
-                    },
-                    minLength: 1
-                });
+    
 
     </script>   
 
@@ -463,7 +448,7 @@ function fncPage() { ?>
         <script type="text/javascript">
             $(document).ready(function(){
                 toastem.success("<?php echo $GLOBALS['mensaje'];?>");
-                setTimeout('window_float_save();', 1000);
+                setTimeout('window_float_save_modal();', 1000);
             });
            
         </script>

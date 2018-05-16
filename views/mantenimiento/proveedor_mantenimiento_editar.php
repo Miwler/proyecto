@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
@@ -8,8 +8,7 @@ function fncTitle() { ?>Editar Proveedor<?php } ?>
 <?php
 
 function fncHead() { ?>
-    <script type="text/javascript" src="include/js/jGrid.js"></script>
-    <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
+ 
     <script type="text/javascript" src="include/js/jForm.js"></script>
   
 <?php } ?>
@@ -27,8 +26,9 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado'])|| $GLOBALS['resultado'] == -1) { ?>
-<form id="form1" method="POST" action="/Mantenimiento/Proveedor_Mantenimiento_Editar/<?php echo $GLOBALS['oProveedor']->ID?>" style="width:920px; height: 550px;" onsubmit="return validar();">
-    <ul class="nav nav-tabs">
+<form id="form1" method="POST" action="/Mantenimiento/Proveedor_Mantenimiento_Editar/<?php echo $GLOBALS['oProveedor']->ID?>" class="form-horizontal" onsubmit="return validar();">
+    <div class="form-body" style="height: 450px;overflow: auto;">
+        <ul class="nav nav-tabs">
         <li class="active"><a href="#proveedor" data-toggle="tab"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Empresa</a></li>
         <li><a href="#proveedor_contacto" data-toggle="tab"><i class="fa fa-users" aria-hidden="true"></i> Persona contacto</a></li>
     </ul>
@@ -39,7 +39,7 @@ function fncPage() { ?>
                       <div class="panel panel-default">
                         <div class="panel-heading">Información SUNAT</div>
                         <div class="panel-body">
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>RUC: </label>
                                 </div>
@@ -48,7 +48,7 @@ function fncPage() { ?>
                                     <div id="divRuc" class="divBuscador"></div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Razon Social: </label>
                                 </div>
@@ -57,7 +57,7 @@ function fncPage() { ?>
                                     <div id="divRazonSocial" class="divBuscador"></div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Dirección fiscal: </label>
                                 </div>
@@ -70,7 +70,7 @@ function fncPage() { ?>
                     <div class="panel panel-default">
                         <div class="panel-heading">Datos de contacto</div>
                         <div class="panel-body">
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Nombre comercial: </label>
                                 </div>
@@ -79,7 +79,7 @@ function fncPage() { ?>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Teléfono: </label>
                                 </div>
@@ -87,7 +87,7 @@ function fncPage() { ?>
                                     <input type="text"  id="txtTelefono" name="txtTelefono" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProveedor']->telefono); ?>"  class="form-control int-text"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Celular: </label>
                                 </div>
@@ -95,7 +95,7 @@ function fncPage() { ?>
                                     <input type="text"  id="txtCelular" name="txtCelular" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProveedor']->celular); ?>"  class="form-control int"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Fax: </label>
                                 </div>
@@ -103,7 +103,7 @@ function fncPage() { ?>
                                     <input type="text"  id="txtFax" name="txtFax" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProveedor']->fax); ?>"  class="form-control"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Correo: </label>
                                 </div>
@@ -118,7 +118,7 @@ function fncPage() { ?>
                     <div class="panel panel-default">
                         <div class="panel-heading">Ubicación</div>
                         <div class="panel-body">
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Departamento: </label>
                                 </div>
@@ -133,7 +133,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Provincia: </label>
                                 </div>
@@ -148,7 +148,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Distrito: </label>
                                 </div>
@@ -163,7 +163,7 @@ function fncPage() { ?>
                                     </script>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Dirección: </label>
                                 </div>
@@ -176,7 +176,7 @@ function fncPage() { ?>
                     <div class="panel panel-default">
                         <div class="panel-heading">Datos de Pagos</div>
                         <div class="panel-body">
-                             <div class="row">
+                             <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Banco: </label>
                                 </div>
@@ -184,7 +184,7 @@ function fncPage() { ?>
                                     <input type="text"  id="txtBanco" name="txtBanco" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProveedor']->banco); ?>"  class="form-control text-uppercase"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Nro. Cuenta (S/.): </label>
                                 </div>
@@ -192,7 +192,7 @@ function fncPage() { ?>
                                     <input type="text"  id="txtNumero_Cuenta_Soles" name="txtNumero_Cuenta_Soles" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProveedor']->numero_cuenta_soles); ?>" class="form-control int-text"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Nro. Cuenta(US$): </label>
                                 </div>
@@ -206,7 +206,7 @@ function fncPage() { ?>
                     <div class="panel panel-default">
                         <div class="panel-heading">Otros datos</div>
                         <div class="panel-body">
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Parne: </label>
                                 </div>
@@ -214,7 +214,7 @@ function fncPage() { ?>
                                     <input type="text"  id="txtParne" name="txtParne" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProveedor']->parne); ?>"  class="form-control text-uppercase"/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <label>Estado: </label>
                                 </div>
@@ -235,21 +235,25 @@ function fncPage() { ?>
              <div class="panel panel-default">
                 <div class="panel-heading">Persona contacto</div>
                 <div class="panel-body" id="divFormulario">
-                    <div class="row">
+                    <div class="form-group">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <input id="txtID" name="txtID" value="0" style="display:none;">
                             <input id="txtproveedor_ID" name="txtproveedor_ID" value="<?php echo $GLOBALS['oProveedor']->ID;?>" style="display:none;">
                             <label>Persona: </label>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" title="Agregar persona nueva" onclick="fncAgregar_Persona();"><img src="/include/img/boton/add_user-20.png"></a>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="text" id="txtPersona_ID" class="form-control form-requerido" >
-                            <script type="text/javascript">
-                                var cboPersona = newCbo('divPersona', 'txtPersona_ID', '/funcion/ajaxCbo_Persona', true,500);
+                            <input type="hidden" id="txtPersona_ID" name="txtPersona_ID">
+                            <input type="text" id="listaPersonas" class="form-control form-requerido">
+                            <script>
+                                $(document).ready(function(){
+                                    lista('/funcion/ajaxListarPersonas','listaPersonas','txtPersona_ID',mostrar_informacion_persona);
+                                });
+
                             </script>
                         </div>
                     </div>
                  
-                    <div class="row">
+                    <div class="form-group">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <label>Teléfono: </label>
                         </div>
@@ -257,7 +261,7 @@ function fncPage() { ?>
                             <input type="text" id="txtTelefono1" name="txtTelefono1" autocomplete="off" class="form-control text-uppercase int-text">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="form-group">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <label>Celular: </label>
                         </div>
@@ -265,7 +269,7 @@ function fncPage() { ?>
                             <input type="text" id="txtCelular1" name="txtCelular1" autocomplete="off" class="form-control text-uppercase int-text">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="form-group">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <label>Correo: </label>
                         </div>
@@ -273,7 +277,7 @@ function fncPage() { ?>
                             <input type="text" id="txtCorreo1" name="txtCorreo1" autocomplete="off" class="form-control">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="form-group">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <label>Estado: </label>
                         </div>
@@ -307,17 +311,22 @@ function fncPage() { ?>
             </div>
         </div>
     </div>
+    </div>
+    <div class="form-footer">
+        
+    </div>
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="pull-left">
             <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
                 <span class="glyphicon glyphicon-floppy-disk"></span>
                 Guardar
             </button>
-            <button  id="btnSalir" name="btnSalir" class="btn btn-warning" type="button" onclick="window_float_close();" >
+            <button  id="btnCancelar" name="btnCancelar" class="btn btn-warning" type="button" onclick="window_float_close_modal();" >
                 <span class="glyphicon glyphicon-arrow-left"></span>
-                Salir
-            </button>   
+                Cerrar
+            </button> 
         </div>
+        <div class="clerafix"></div>
     </div>
 
 </form>
@@ -329,7 +338,7 @@ function fncPage() { ?>
        
         mostrar_lista_contacto();
     });
-    cboPersona.seleccionado=function(){
+    /*cboPersona.seleccionado=function(){
         var id=$('#sendtxtPersona_ID').val();
         mostrar_informacion_persona(id);
         $('#btnAccion').prop('disabled', false);
@@ -340,7 +349,7 @@ function fncPage() { ?>
         if(ID==0){
            //limpiar(); 
         }
-    }
+    }*/
     var fncDepartamento=function(){
         var obj = $('#selDepartamento');
         ajaxSelect('selProvincia', '/Mantenimiento/ajaxSelect_Provincia/' + obj.val(), '',fncProvincia);
@@ -353,10 +362,10 @@ function fncPage() { ?>
     var fncAgregar_Persona=function(){
         window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
     } 
-    var fncCargarPersona=function(id,nombres){
+   /* var fncCargarPersona=function(id,nombres){
         cboPersona.seleccionar(id, nombres);
         
-    }
+    }*/
 
     var mostrar_informacion_persona=function(id){
         cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
@@ -455,7 +464,9 @@ function fncPage() { ?>
         $('#txtCelular1').val(celular);
         $('#txtCorreo1').val(correo);
         $('#selEstado1').val(estado_ID);
-        cboPersona.seleccionar1(persona_ID, persona);
+        $("#txtPersona_ID").val(persona_ID);
+        $("#listaPersonas").val(persona);
+        //cboPersona.seleccionar1(persona_ID, persona);
         $('#btnAccion').html('<span class="glyphicon glyphicon-floppy-disk"></span>');
         $('#btnAccion').prop('disabled', false);
         $('#btnAccion').attr('title', 'Grabar');

@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
@@ -23,193 +23,195 @@ function fncMenu() { ?>
 
 <?php function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
-<div class="container">
-    <form id="form" method="POST" style="width: 600px;"  action="/Mantenimiento/Producto_Mantenimiento_Nuevo" enctype="multipart/form-data"  onsubmit="return validar();">
-        <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
-            <div class="panel-heading">
-                <h4>Información General</h4>
+
+    <form id="form" method="POST" action="/Mantenimiento/Producto_Mantenimiento_Nuevo" enctype="multipart/form-data" class="form-horizontal"  onsubmit="return validar();">
+        <div class="panel panel-tab rounded shadow">
+            <div class="panel-heading no-padding">
+                <ul class="nav nav-tabs responsive-tabs">
+                    <li class="nav-item active"><a data-toggle="tab" href="#divDatos" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i><span> Datos generales</span></a></li>
+                    <li class="nav-item"><a data-toggle="tab" href="#divWeb" class="nav-link"><i class="fa fa-internet-explorer" aria-hidden="true"></i><span> Información para la web</span></a></li>
+                </ul>
             </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Línea: </label>
-                    </div>
-                    <div id="tdLinea" class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control form-requerido">
-                            <option value="0">SELECCIONAR</option>
-                            <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                                    <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
-                            <?php } ?>
+            <div class="panel-body no-padding rounded-bottom">
+                <div class="tab-content" style="height: 350px;overflow:auto;">
+                    <div id="divDatos" class="tab-pane fade in active inner-all">
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Línea: </label>
+                            </div>
+                            <div id="tdLinea" class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control form-requerido">
+                                    <option value="0">SELECCIONAR</option>
+                                    <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
+                                            <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                                    <?php } ?>
 
-                        </select>
+                                </select>
 
-                        <script type="text/javascript">
-                            $('#selLinea').val(<?php echo $GLOBALS['linea_ID'];?>);
-                         </script>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Categoría: </label>
-                    </div>
-                    <div id="tdCategoria" class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <select id="selCategoria" name="selCategoria" required  class="form-control form-requerido">
-                            <option value="0" >--</option>
-                            <?php if (isset($GLOBALS['dtCategoria'])){?>
-                            <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                                      <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
-                              <?php } ?>
-                            <?php } ?>
-                        </select>
+                                <script type="text/javascript">
+                                    $('#selLinea').val(<?php echo $GLOBALS['linea_ID'];?>);
+                                 </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Categoría: </label>
+                            </div>
+                            <div id="tdCategoria" class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <select id="selCategoria" name="selCategoria" required  class="form-control form-requerido">
+                                    <option value="0" >--</option>
+                                    <?php if (isset($GLOBALS['dtCategoria'])){?>
+                                    <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
+                                              <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                                      <?php } ?>
+                                    <?php } ?>
+                                </select>
 
-                        <script type="text/javascript">
-                           $('#selCategoria').val(<?php echo $GLOBALS['categoria_ID'];?>);
-                        </script>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Nombre: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <input id="txtNombre" name="txtNombre"  onkeyup="MostrarLista(this.id,'divProducto');" type="text"  autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProducto']->nombre); ?>" class="form-control text-uppercase form-requerido" />
-                        <div id="divProducto" style="position:absolute;width:350px;z-index: 10;top:35;"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Descripción: </label>
-                    </div>
-                    <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <textarea id="txtDescripcion" name="txtDescripcion" style="height:60px;" class="form-control text-uppercase"/><?php echo FormatTextView($GLOBALS['oProducto']->descripcion);?></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Precio inicial: </label>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                       <select id="selMoneda_ID" name="selMoneda_ID"  class="form-control" onchange='fncTipo_Cambio(this.value);'>
-                            <?php foreach($GLOBALS['oProducto']->dtMoneda as $item){?>
-                            <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['descripcion']));?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Valor de cambio:</label>
+                                <script type="text/javascript">
+                                   $('#selCategoria').val(<?php echo $GLOBALS['categoria_ID'];?>);
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Nombre: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <input id="txtNombre" name="txtNombre"  onkeyup="MostrarLista(this.id,'divProducto');" type="text"  autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProducto']->nombre); ?>" class="form-control text-uppercase form-requerido" />
+                                <div id="divProducto" style="position:absolute;width:350px;z-index: 10;top:35;background:#7FFFD4;"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Descripción: </label>
+                            </div>
+                            <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <textarea id="txtDescripcion" name="txtDescripcion" style="height:60px;" class="form-control text-uppercase"/><?php echo FormatTextView($GLOBALS['oProducto']->descripcion);?></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Precio inicial: </label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                               <select id="selMoneda_ID" name="selMoneda_ID"  class="form-control" onchange='fncTipo_Cambio(this.value);'>
+                                    <?php foreach($GLOBALS['oProducto']->dtMoneda as $item){?>
+                                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['descripcion']));?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Valor de cambio:</label>
 
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
 
-                        <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio" value="<?php echo $GLOBALS['oProducto']->tipo_cambio;?>" autocomplete="off" class="form-control" style="width:50px;" onchange="calcularTipoCambio('3');">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>US$: </label>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                       <input type="text" id="txtPrecio_Inicial_Dolares" name="txtPrecio_Inicial_Dolares" class="decimal form-control form-requerido" autocomplete="off"  placeholder="U$S."  value="<?php echo $GLOBALS['oProducto']->precio_inicial_dolares;?>" onchange="calcularTipoCambio('2');">
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>S/.: </label>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                       <input type="text" id="txtPrecio_Inicial_soles" name="txtPrecio_Inicial_soles" class="decimal form-control form-requerido" autocomplete="off"   placeholder="S/." disabled value="<?php echo $GLOBALS['oProducto']->precio_inicial_soles;?>" onchange="calcularTipoCambio('1');">
-                    </div>
-                    
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Unidad de medida: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                       <select id="selUnidad_Medida" name="selUnidad_Medida" class="form-control form-requerido">
-                            <option value="0">--</option>
-                            <?php foreach($GLOBALS['dtUnidad_Medida'] as $item){ ?>
-                            <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['nombre']))?></option>
-                            <?php } ?>
-                        </select>
+                                <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio" value="<?php echo $GLOBALS['oProducto']->tipo_cambio;?>" autocomplete="off" class="form-control" style="width:50px;" onchange="calcularTipoCambio('3');">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>US$: </label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                               <input type="text" id="txtPrecio_Inicial_Dolares" name="txtPrecio_Inicial_Dolares" class="decimal form-control form-requerido" autocomplete="off"  placeholder="U$S."  value="<?php echo $GLOBALS['oProducto']->precio_inicial_dolares;?>" onchange="calcularTipoCambio('2');">
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>S/.: </label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                               <input type="text" id="txtPrecio_Inicial_soles" name="txtPrecio_Inicial_soles" class="decimal form-control form-requerido" autocomplete="off"   placeholder="S/." disabled value="<?php echo $GLOBALS['oProducto']->precio_inicial_soles;?>" onchange="calcularTipoCambio('1');">
+                            </div>
 
-                         <script>
-                            $('#selUnidad_Medida').val(<?php echo $GLOBALS['oProducto']->unidad_medida_ID;?>);
-                        </script>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Marca: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                       <input id="txtMarca" name="txtMarca" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->marca; ?>" class="form-control text-uppercase"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Modelo: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                       <input id="txtModelo" name="txtModelo" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->modelo; ?>" class="form-control text-uppercase"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Color: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                      <input id="txtColor" name="txtColor" type="text" autocomplete="off"  value="<?php echo $GLOBALS['oProducto']->color; ?>" class="form-control text-uppercase"/>        
-                    </div>
-                </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Unidad de medida: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                               <select id="selUnidad_Medida" name="selUnidad_Medida" class="form-control form-requerido">
+                                    <option value="0">--</option>
+                                    <?php foreach($GLOBALS['dtUnidad_Medida'] as $item){ ?>
+                                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['nombre']))?></option>
+                                    <?php } ?>
+                                </select>
 
+                                 <script>
+                                    $('#selUnidad_Medida').val(<?php echo $GLOBALS['oProducto']->unidad_medida_ID;?>);
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Marca: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                               <input id="txtMarca" name="txtMarca" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->marca; ?>" class="form-control text-uppercase"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Modelo: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                               <input id="txtModelo" name="txtModelo" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->modelo; ?>" class="form-control text-uppercase"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Color: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                              <input id="txtColor" name="txtColor" type="text" autocomplete="off"  value="<?php echo $GLOBALS['oProducto']->color; ?>" class="form-control text-uppercase"/>        
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divWeb" class="tab-pane fade inner-all">
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Habilitar: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <input type="checkbox" id="ckVer_Web" name="ckVer_Web" value="1" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Características: </label>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <textarea id="txtCaracteristicas"  name="txtCaracteristicas" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                                <label>Especificaciones: </label>
+                            </div>
+                            <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                                <textarea id="txtEspecificaciones"  name="txtEspecificaciones" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
-            <div class="panel-heading">
-                <h4>Información para la web</h4>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Habilitar: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <input type="checkbox" id="ckVer_Web" name="ckVer_Web" value="1" >
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Características: </label>
-                    </div>
-                    <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <textarea id="txtCaracteristicas"  name="txtCaracteristicas" class="form-control text-uppercase"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                        <label>Especificaciones: </label>
-                    </div>
-                    <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                        <textarea id="txtEspecificaciones"  name="txtEspecificaciones" class="form-control text-uppercase"></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                <button  id="btnEnviar" name="btnEnviar" title="Guardar" class="btn btn-success">
+        <div class="panel-footer">
+            <button  id="btnEnviar" name="btnEnviar" title="Guardar" class="btn btn-success">
                 <img  alt=""  src="/include/img/boton/save_14x14.png" >
                 Guardar
-                </button>&nbsp;
-                <button type="button" title="Cancelar" id="btnCancelar" name="btnCancelar" class="btn btn-danger"  onclick="window_float_close();" >
-                    <img  alt="" src="/include/img/boton/cancel_14x14.png">
-                    Cancelar
-                </button> 
-            </div>
-            
+            </button>&nbsp;
+            <button type="button" title="Cancelar" id="btnCancelar" name="btnCancelar" class="btn btn-danger"  onclick="window_float_close();" >
+                <img  alt="" src="/include/img/boton/cancel_14x14.png">
+                Cancelar
+            </button> 
         </div>
     </form>
-</div>
+<style>
+    .divBuscador{
+    position:absolute!important;
+    z-index: 10;background:#7FFFD4;
+}
+</style>
        
     <?php } ?>
   <script>

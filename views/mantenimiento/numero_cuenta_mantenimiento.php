@@ -5,9 +5,9 @@
 		Numero de cuenta
 <?php } ?>
 <?php function fncHead(){?>
-		<script type="text/javascript" src="include/js/jForm.js"></script>
-		<script type="text/javascript" src="include/js/jGrid.js"></script>
-		<link rel="stylesheet" type="text/css" href="include/css/grid.css" />
+    <script type="text/javascript" src="include/js/jForm.js"></script>
+    <script type="text/javascript" src="include/js/jGrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncTituloCabecera(){?>
         <i class="fa fa-credit-card" aria-hidden="true"></i>Registro de número de cuenta
@@ -92,16 +92,17 @@
                 f.enviar();
         }
 
-        var fncNuevo=function(){			
-                window_float_open('/Mantenimiento/Numero_Cuenta_Mantenimiento_Nuevo','','',f);
+        var fncNuevo=function(){
+            window_float_open_modal('REGISTRAR NUEVO NÚMERO DE CUENTA','/Mantenimiento/Numero_Cuenta_Mantenimiento_Nuevo','','',f,700,270);
+
         }
 
-        var fncEditar=function(id){			
-                window_float_open('/Mantenimiento/Numero_Cuenta_Mantenimiento_Editar',id,'',f);
+        var fncEditar=function(id){
+           window_float_open_modal('EDITAR NÚMERO DE CUENTA','/Mantenimiento/Numero_Cuenta_Mantenimiento_Editar',id,'',f,700,270);
         }
 
         var fncEliminar=function(id){			
-                gridEliminar(f,id,'/Mantenimiento/ajaxNumero_Cuenta_Mantenimiento_Eliminar','divMensaje');
+            gridEliminar(f,id,'/Mantenimiento/ajaxNumero_Cuenta_Mantenimiento_Eliminar','divMensaje');
         }
 
         $('#txtBuscar,#txtMostrar').keypress(function(e){			
