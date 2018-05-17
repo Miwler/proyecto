@@ -163,6 +163,17 @@ class factura_venta_sunat {
         }
     }
 
+    public function getGrid2($salida_ID) {
+        $cn = new connect();
+        try {
+            $q = 'SELECT * FROM factura_venta_sunat WHERE salida_ID='.$salida_ID.' ORDER BY ID DESC LIMIT 1 ';
+            $dt = $cn->getGrid($q);
+            return $dt;
+        } catch (Exception $ex) {
+            throw new Exception('Ocurrio un error en la consulta');
+        }
+    }
+
     function verificarDuplicado() {
         $cn = new connect();
         $retornar = -1;

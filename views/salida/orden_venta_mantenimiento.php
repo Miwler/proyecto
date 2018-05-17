@@ -247,13 +247,14 @@
          window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
     }
 
+
+
 		function fncSUNAT(id) {
 			try {
 					block_ui(function () {
 						cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
 							console.log(resultado);
 							$.unblockUI();
-
 							var obj = $.parseJSON(resultado);
 							//console.log(obj.MensajeRespuesta);
 							if (obj.Exito==true) {
@@ -270,7 +271,57 @@
 
 		}
 
-		function fncDOWNLOAD_XML(id) {
+		function formatXml(xml) {
+		    var formatted = '';
+		    var reg = /(>)(<)(\/*)/g;
+		    xml = xml.replace(reg, '$1\r\n$2$3');
+		    var pad = 0;
+		    jQuery.each(xml.split('\r\n'), function(index, node) {
+		        var indent = 0;
+		        if (node.match( /.+<\/\w[^>]*>$/ )) {
+		            indent = 0;
+		        } else if (node.match( /^<\/\w/ )) {
+		            if (pad != 0) {
+		                pad -= 1;
+		            }
+		        } else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+		            indent = 1;
+		        } else {
+		            indent = 0;
+		        }
+
+		        var padding = '';
+		        for (var i = 0; i < pad; i++) {
+		            padding += '  ';
+		        }
+
+		        formatted += padding + node + '\r\n';
+		        pad += indent;
+		    });
+
+		    return formatted;
+		}
+
+		function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+			console.log("Ingreso");
+				var reader = new FileReader();
+				reader.onload = function (event) {
+						var save = document.createElement('a');
+						save.href = event.target.result;
+						save.target = '_blank';
+						save.download = nombreArchivo || 'archivo.dat';
+						var clicEvent = new MouseEvent('click', {
+								'view': window,
+										'bubbles': true,
+										'cancelable': true
+						});
+						save.dispatchEvent(clicEvent);
+						(window.URL || window.webkitURL).revokeObjectURL(save.href);
+				};
+				reader.readAsDataURL(contenidoEnBlob);
+		};
+
+		function fncDOWNLOAD_XML(id,tipo) {
 			try {
 					block_ui(function () {
 
@@ -278,32 +329,21 @@
 						$.ajax({
 					    type: "POST",
 					    url: 'Salida/ajaxDownloadXML',
-					    data: {},
+					    data: {'id': id,'tipo': tipo},							
 					    cache: false,
-					    success: function(response)
+					    success: function(resultado)
 					    {
-					        alert('got response');
-									console.log(response);
-					        //$("#iframeID").attr('src', response);
-
-									location.href='data:application/download,' + encodeURIComponent(response)
 									$.unblockUI();
-
-								// 	var link = document.createElement("a");
-							  // link.download = thefilename;
-							  // // Construct the uri
-							  // var uri = 'data:text/csv;charset=utf-8;base64,' + response
-							  // link.href = uri;
-							  // document.body.appendChild(link);
-							  // link.click();
-							  // // Cleanup the DOM
-							  // document.body.removeChild(link);
-
-								var blob = new Blob([response], { type: 'application/xml' });
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = "report.xml";
-            link.click();
+									console.log(resultado);
+									var obj = $.parseJSON(resultado);
+									var xmlText = formatXml(obj.xml_firmado);
+									var blob = new Blob([xmlText], { type: 'application/xml' });
+        					var link = document.createElement('a');
+        					link.href = window.URL.createObjectURL(blob);
+        					link.download = obj.nombre_archivo;
+        					document.body.appendChild(link);
+        					link.click();
+        					document.body.removeChild(link);
 
 					    },
 					    error: function (XMLHttpRequest, textStatus, errorThrown)

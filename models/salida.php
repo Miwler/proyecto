@@ -196,6 +196,7 @@ class salida {
                     throw new Exception("Ocurrio un error en la consulta");
             }
     }
+    
     static function getCount($filtro='')
     {
         $cn =new connect();
