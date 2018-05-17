@@ -95,7 +95,7 @@ class categoria {
         try {
             $q = 'select count(ca.ID) ';
             $q.=' FROM categoria as ca, linea li ';
-            $q.=' where ca.linea_ID=li.ID and ca.del=0 ';
+            $q.=' where ca.linea_ID=li.ID and ca.del=0 and ca.empresa_ID='.$_SESSION['empresa_ID'];
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;

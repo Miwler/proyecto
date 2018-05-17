@@ -1,5 +1,5 @@
 <?php		
-	require ROOT_PATH . "views/shared/content-float.php";
+	require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php function fncTitle(){?>
 		Asignar Cliente

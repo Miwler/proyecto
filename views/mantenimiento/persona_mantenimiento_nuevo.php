@@ -260,7 +260,7 @@ function fncPage() { ?>
 <script type="text/javascript">
     $(document).ready(function(){
         toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
-        //window.parent.fncCargarPersona(<?php echo $GLOBALS['oPersona']->ID?>,'<?php echo $GLOBALS['oPersona']->apellido_paterno.' '.$GLOBALS['oPersona']->apellido_materno.','.$GLOBALS['oPersona']->nombres;?>');
+       
         setTimeout('parent.windos_float_save_modal_hijo(<?php echo $GLOBALS['oPersona']->ID?>);', 1000);
     });       
 </script>

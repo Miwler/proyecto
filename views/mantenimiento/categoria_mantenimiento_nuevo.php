@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
@@ -24,8 +24,9 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
     <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
-        <form id="form" method="POST" style="width:600px;padding-top:10px;" action="/Mantenimiento/Categoria_Mantenimiento_Nuevo" enctype="multipart/form-data" onsubmit="return validar();">
-            <div class="row">
+    <form id="form" method="POST"  action="/Mantenimiento/Categoria_Mantenimiento_Nuevo" enctype="multipart/form-data" class="form-horizontal" onsubmit="return validar();">
+        <div class="form-body">
+            <div class="form-group">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                     <label>Línea: </label>
                 </div>
@@ -41,7 +42,7 @@ function fncPage() { ?>
                     </script>
                 </div>
             </div>
-            <div class="row" style="margin-bottom: 15px;">
+            <div class="form-group">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                     <label>Nombre: </label>
                 </div>
@@ -50,7 +51,7 @@ function fncPage() { ?>
                     <div id="divCategoria" style="position:absolute;width:100%;z-index: 10;"></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                     <label>Descripción: </label>
                 </div>
@@ -58,7 +59,7 @@ function fncPage() { ?>
                     <input type="text" id="txtDescripcion" name="txtDescripcion"  autocomplete="off" value="<?php echo $GLOBALS['oCategoria']->descripcion; ?>" class="form-control text-uppercase form-requerido"/>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
                         <div class="panel-heading">
@@ -70,21 +71,22 @@ function fncPage() { ?>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" title="Guardar"  class="btn btn-success" >
+        </div>
+        <div class="form-footer">
+            <div class="pull-left">
+                <button  id="btnEnviar" name="btnEnviar" title="Guardar"  class="btn btn-success" >
                     <img alt="" src="/include/img/boton/save_14x14.png">
                     Guardar
-                    </button>&nbsp;&nbsp;
-                    <button  type="button" id="btnCancelar" name="btnCancelar" title="Cancelar"  class="btn btn-danger" onclick="window_float_close();" >
-                        <img  alt="" src="/include/img/boton/cancel_14x14.png" >
-                        Cancelar
-                    </button>  
-                </div>
+                </button>&nbsp;&nbsp;
+                <button  type="button" id="btnCancelar" name="btnCancelar" title="Cancelar"  class="btn btn-danger" onclick="window_float_close_modal();" >
+                    <img  alt="" src="/include/img/boton/cancel_14x14.png" >
+                    Cancelar
+                </button>  
             </div>
-
-        </form>
-    <?php } ?>
+            <div class="clearfix"></div>
+        </div>
+    </form>
+<?php } ?>
 <script type="text/javascript">
         //ingreso de datos obligatorios
         var validar = function () {
@@ -145,7 +147,7 @@ function fncPage() { ?>
         <script type="text/javascript">
             $(document).ready(function(){
                 toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
-                 setTimeout('window_float_save();', 1000);
+                 setTimeout('window_float_save_modal();', 1000);
             });
            
         </script>

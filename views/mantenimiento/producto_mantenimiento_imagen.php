@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
@@ -24,58 +24,57 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
     
-        <form id="form" method="POST" style="width:600px;padding-top:10px;" action="/Mantenimiento/Producto_Mantenimiento_Imagen/<?php echo $GLOBALS['oProducto']->ID; ?>" enctype="multipart/form-data" onsubmit="return validar();">
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <label>Nombre: </label>
-                </div>
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <input type="text" id="txtNombre" name="txtNombre"   autocomplete="off"  class="form-control text-uppercase form-requerido" />
-                </div>
+    <form id="form" method="POST"  action="/Mantenimiento/Producto_Mantenimiento_Imagen/<?php echo $GLOBALS['oProducto']->ID; ?>" enctype="multipart/form-data" class="form-horizontal" onsubmit="return validar();">
+        <div class="form-group">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label>Nombre: </label>
             </div>
-            <div class="row" style="margin-bottom: 15px;">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <label>Orden: </label>
-                </div>
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <input type="number" id="txtOrden" name="txtOrden"  autocomplete="off" value="0" class="form-control text-uppercase form-requerido"/>
-                </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input type="text" id="txtNombre" name="txtNombre"   autocomplete="off"  class="form-control text-uppercase form-requerido" />
             </div>
-            <div class="row" style="margin-bottom: 15px;">
-                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <input type="file" id="imagen" name="imagen"  class="form-control" onchange="fileValidation();"/>
-                </div>
-                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                    <img id="imagen_previa"  alt="" src="/include/img/boton/camara_128x128.png" style="height: 90px;">
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label>Orden: </label>
             </div>
-            
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" title="Agregar"  class="btn btn-success" >
-                    <img alt="" src="/include/img/boton/add_16x16.png">
-                    Agregar
-                    </button>&nbsp;&nbsp;
-                    <button  type="button" id="btnCancelar" name="btnCancelar" title="Cerrar"  class="btn btn-danger" onclick="window_float_close();" >
-                        <img  alt="" src="/include/img/boton/cancel_14x14.png" >
-                        Cerrar
-                    </button>  
-                </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input type="number" id="txtOrden" name="txtOrden"  autocomplete="off" value="0" class="form-control text-uppercase form-requerido"/>
             </div>
-            <div class="row" style="margin-top:15px;">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
-                        <div class="panel-heading">
-                            <h4>Fotos</h4> 
-                        </div>
-                        <div id="contenedor_imagen" class="panel-body" style="text-align:center;height: 250px; overflow-y:auto;">
-                            
-                           
-                        </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                <input type="file" id="imagen" name="imagen"  class="form-control" onchange="fileValidation();"/>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                <img id="imagen_previa"  alt="" src="/include/img/boton/camara_128x128.png" style="height: 90px;">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button  id="btnEnviar" name="btnEnviar" title="Agregar"  class="btn btn-success" >
+                <img alt="" src="/include/img/boton/add_16x16.png">
+                Agregar
+                </button>&nbsp;&nbsp;
+                <button  type="button" id="btnCancelar" name="btnCancelar" title="Cerrar"  class="btn btn-danger" onclick="window_float_close_modal();" >
+                    <img  alt="" src="/include/img/boton/cancel_14x14.png" >
+                    Cerrar
+                </button>  
+            </div>
+        </div>
+        <div class="form-group" style="margin-top:15px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Fotos</h4> 
+                    </div>
+                    <div id="contenedor_imagen" class="panel-body" style="text-align:center;height: 150px; overflow-y:auto;">
+
+
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
     
 <script type="text/javascript">
     $(document).ready(function(){

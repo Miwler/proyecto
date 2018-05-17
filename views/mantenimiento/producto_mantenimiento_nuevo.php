@@ -32,8 +32,8 @@ function fncMenu() { ?>
                     <li class="nav-item"><a data-toggle="tab" href="#divWeb" class="nav-link"><i class="fa fa-internet-explorer" aria-hidden="true"></i><span> Información para la web</span></a></li>
                 </ul>
             </div>
-            <div class="panel-body no-padding rounded-bottom">
-                <div class="tab-content" style="height: 350px;overflow:auto;">
+            <div class="panel-body no-padding rounded-bottom" style="height: 350px;overflow:auto;">
+                <div class="tab-content" >
                     <div id="divDatos" class="tab-pane fade in active inner-all">
                         <div class="form-group">
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
@@ -200,7 +200,7 @@ function fncMenu() { ?>
                 <img  alt=""  src="/include/img/boton/save_14x14.png" >
                 Guardar
             </button>&nbsp;
-            <button type="button" title="Cancelar" id="btnCancelar" name="btnCancelar" class="btn btn-danger"  onclick="window_float_close();" >
+            <button type="button" title="Cancelar" id="btnCancelar" name="btnCancelar" class="btn btn-danger"  onclick="window_float_close_modal();" >
                 <img  alt="" src="/include/img/boton/cancel_14x14.png">
                 Cancelar
             </button> 
@@ -301,7 +301,7 @@ function fncMenu() { ?>
         <script type="text/javascript">
             $(document).ready(function(){
                 toastem.success("<?php echo $GLOBALS['mensaje']; ?>"); 
-                setTimeout('window_float_save();', 1000);
+                setTimeout('window_float_save_modal();', 1000);
             });
                  
             

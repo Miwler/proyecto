@@ -37,7 +37,7 @@
             </div>
             <div class="panel-body">
                 <div class="tab-content">
-                    <div class="ttab-pane active" id="vista_filtrar">
+                    <div class="tab-pane active" id="vista_filtrar">
                         <div class="form-group">
                             <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6">
                                 <label>Línea: </label>
@@ -93,6 +93,7 @@
         <div class="row">
             <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
         </div>
+        <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
         <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
         <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
         <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
@@ -101,7 +102,19 @@
                 
 
 <script type="text/javascript">
-   
+   $('.nav  a').on('show.bs.tab', function(event){
+       
+        var x = $.trim($(event.target).text());   
+      
+        switch(x){
+            case "Filtro":
+                $('#rbOpcion').val('filtrar');
+                break;
+            case "Búsqueda":
+                $('#rbOpcion').val('buscar');
+                break;
+        }
+     });
 
     var f=new form('frm','div1');
 
@@ -152,11 +165,14 @@
 
     }
 
-    var fncEditar=function(id){			
-        window_float_open('/Mantenimiento/Producto_mantenimiento_Editar',id,'',f);
+    var fncEditar=function(id){	
+        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> EDITAR PRODUCTO','/Mantenimiento/Producto_mantenimiento_Editar',id,'',f,800,500);
+
     }
     var fncImagen=function(id){
-        window_float_open('/Mantenimiento/Producto_mantenimiento_Imagen',id,'',f);
+        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> REGISTRAR FOTOS DEL PRODUCTO','/Mantenimiento/Producto_mantenimiento_Imagen',id,'',f,800,500);
+
+        //window_float_open('/Mantenimiento/Producto_mantenimiento_Imagen',id,'',f);
     }
     var fncEliminar=function(id){	
 
