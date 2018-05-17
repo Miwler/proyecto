@@ -10863,8 +10863,18 @@ function post_ajaxEnviarSUNAT() {
   $new = new api_SUNAT();
   $id=$_POST['id'];
 
+<<<<<<< HEAD
+  $oSalida=salida::getByID($id);
+  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);  
+  $oSalidaDetalle=factura_venta_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
+  $oEmpresa=empresa::getByID($oSalida->empresa_ID);
+  $oCliente=cliente::getByID($oSalida->cliente_ID);
+  $oMoneda=moneda::getByID($oSalida->moneda_ID);
+ 
+=======
   try {
     $oSalida=salida::getByID($id);
+>>>>>>> 09141923e2238c7f891732903e740746b33f99d3
 
     $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
 
