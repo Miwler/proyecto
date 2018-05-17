@@ -127,7 +127,7 @@ class producto {
         try {
             $q = 'select count(pr.ID) ';
             $q.=' FROM producto pr, categoria ca, linea li ';
-            $q.=' where ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and pr.del=0 and li.del=0 ';
+            $q.=' where ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and pr.del=0 and li.del=0 and pr.empresa_ID='.$_SESSION['empresa_ID'];
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;

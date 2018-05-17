@@ -60,9 +60,9 @@ class operador {
             $ID=$cn->getData($q);
             
             $q = 'insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)';
-            $q.='values('.$ID.','.$this->persona_ID.','.$_SESSION["empresa_ID"].',"'.$this->telefono.'","'.$this->celular.'","'.$this->mail.'","'.$this->fecha_contrato.'",';
+            $q.='values('.$ID.','.$this->persona_ID.','.$_SESSION["empresa_ID"].',"'.$this->telefono.'","'.$this->celular.'","'.$this->mail.'",'.$fecha_contrato_save.',';
             $q.=$this->comision.','.$this->cargo_ID.','.$this->usuario_id.');';
-                         //   echo $q;"
+            //echo $q;
             $retorna = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
@@ -134,7 +134,7 @@ class operador {
     static function getByID($ID) {
         $cn = new connect();
         try {
-             $q = 'Select ID,persona_ID,telefono, celular, mail,ifnull(fecha_contrato,-1) as fecha_contrato ,comision,cargo_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
+             $q = 'Select ID,persona_ID,telefono, celular, mail,ifnull(fecha_contrato,"0000-00-00") as fecha_contrato ,comision,cargo_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from operador ';
             $q.=' where del=0 and ID=' . $ID;
              //echo $q;
@@ -210,6 +210,19 @@ class operador {
             $q.=' from operador op, usuario us,persona pe ';
             $q.=' where us.persona_ID=pe.ID and op.persona_ID=pe.ID and us.del=0 and us.ID='.$usuario_ID;
 
+            $retorna = $cn->getData($q);
+            return $retorna;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
+    function verificar_duplicado() {
+        $cn = new connect();
+        try {
+            $q = 'select count(ID) from operador where del=0 and persona_ID='.$this->persona_ID;
+            if($this->ID!=""){
+                $q.=' and ID<>'.$this->ID;
+            }
             $retorna = $cn->getData($q);
             return $retorna;
         } catch (Exception $ex) {

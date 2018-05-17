@@ -15,7 +15,7 @@
         <i class="fa fa-user" aria-hidden="true"></i> Mantenimiento de Operadores
 <?php } ?>
 <?php function fncPage(){?>
- <form id="frm1" name="frm1" method="post" action="/Mantenimiento/ajaxOperador_Mantenimiento" class="form-horizontal">
+ <form id="frm1" method="post" action="/Mantenimiento/ajaxOperador_Mantenimiento" class="form-horizontal">
  <div class="panel panel-tab panel-tab-double shadow">
     <div class="panel-heading no-padding">
         <ul class="nav nav-tabs">
@@ -89,11 +89,11 @@
 		}
 		
 		var fncNuevo=function(){			
-			window_float_open('/Mantenimiento/Operador_mantenimiento_Nuevo','','',f);
+			window_float_open_modal('NUEVO OPERADOR','/Mantenimiento/Operador_mantenimiento_Nuevo','','',f,700,430);
 		}
 		
 		var fncEditar=function(id){			
-			window_float_open('/Mantenimiento/Operador_mantenimiento_Editar',id,'',f);
+			window_float_open_modal('EDITAR OPERADOR','/Mantenimiento/Operador_mantenimiento_Editar',id,'',f,700,430);
 		}
 		
 		var fncEliminar=function(id){			
@@ -101,11 +101,11 @@
 		}
 		
 		var fncCliente=function(id){			
-			window_float_open('/Mantenimiento/Operador_Mantenimiento_Asignar_Cliente',id,'',f);
+			window_float_open_modal('ASIGNAR CLIENTES','/Mantenimiento/Operador_Mantenimiento_Asignar_Cliente',id,'',f,700,650);
 		}
 		
 		var fncUsuario=function(id){			
-			window_float_open('/Mantenimiento/Usuario_Mantenimiento_Nuevo',id,'',f);
+			window_float_open_modal('REGISTRAR USUARIO','/Mantenimiento/Usuario_Mantenimiento_Nuevo',id,'',f,700,650);
 		}
 		
 		$('#txtBuscar,#txtMostrar').keypress(function(e){

@@ -612,8 +612,12 @@ function post_ajaxProveedor_Mantenimiento_Contacto_Eliminar()
 //inicio mantenimiento categoria
 //muestra la ventana para agregar nueva categoria
 function get_Categoria_Mantenimiento() {
+    require ROOT_PATH . 'models/categoria.php';
+    require ROOT_PATH . 'models/linea.php';
     global $returnView;
     $returnView = true;
+    $GLOBALS['dtLinea']=linea::getGrid("",-1,-1,"li.nombre asc");
+    $GLOBALS['dtCategoria']=categoria::getGrid("",-1,-1,"ca.nombre asc");
 }
 
 //muestra la ventana para agregar nueva categoria
@@ -780,13 +784,15 @@ function post_ajaxCategoria_Mantenimiento() {
     require ROOT_PATH . 'models/categoria.php';
     //require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'controls/funcionController.php';
-    $buscar = $_POST['txtBuscar2'];
-    $paginaActual = $_POST['num_page2'] == 0 ? 1 : $_POST['num_page2'];
-    $cantidadMostrar = ($_POST['txtMostrar2'] == ''||$_POST['txtMostrar2'] ==0) ? 30 : $_POST['txtMostrar2'];
-    $txtOrden = $_POST['txtOrden2'];
+    $buscar = $_POST['txtBuscar'];
+    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
+    $opcion_tipo=$_POST['rbOpcion'];
+    $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar'] ==0) ? 30 : $_POST['txtMostrar'];
+    
+    $txtOrden = $_POST['txtOrden'];
     $orden_tipo = 'DESC';
     $orden_class = 'imgOrden-desc';
-    if (isset($_POST['chkOrdenASC2'])) {
+    if (isset($_POST['chkOrdenASC'])) {
         $orden_class = 'imgOrden-asc';
         $orden_tipo = 'ASC';
     }
@@ -804,23 +810,28 @@ function post_ajaxCategoria_Mantenimiento() {
             $orden = 'ca.ID ' . $orden_tipo;
             break;
     }
-    $linea_ID=$_POST['selLinea2'];
-    $categoria_ID=$_POST['selCategoria2'];
-    $filtro="ca.empresa_ID=".$_SESSION['empresa_ID'];
-    if($linea_ID!="0"){
-       $filtro.=((trim($filtro!=""))?" and ":"").'ca.linea_ID='.$linea_ID;
+    $filtro="";
+    if($opcion_tipo=="buscar"){
+        $filtro.=((trim($filtro!=""))?" and ":""). 'upper(ca.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+
+    }else{
+        $linea_ID=$_POST['selLinea'];
+        $categoria_ID=$_POST['selCategoria'];
+        $filtro="ca.empresa_ID=".$_SESSION['empresa_ID'];
+        if($linea_ID!="0"){
+           $filtro.=((trim($filtro!=""))?" and ":"").'ca.linea_ID='.$linea_ID;
+        }
+        if($categoria_ID!="0"){
+            $filtro.=((trim($filtro!=""))?" and ":"").'ca.ID='.$categoria_ID;
+        }
     }
-    if($categoria_ID!="0"){
-        $filtro.=((trim($filtro!=""))?" and ":"").'ca.ID='.$categoria_ID.' and ';
-    }
-    
-    $filtro.=((trim($filtro!=""))?" and ":""). 'upper(ca.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    //$filtro.=((trim($filtro!=""))?" and ":""). 'upper(ca.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid  table table-hover"><tr>';
-    $resultado.='<th class="thOrden" onclick="fncOrden2(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden2(1);">Categoría' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden2(2);">Línea' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered "><tr>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Categoría' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Línea' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th></th>';
     $resultado.='</tr>';
 
@@ -834,12 +845,12 @@ function post_ajaxCategoria_Mantenimiento() {
         foreach ($dtCategoria as $item) {
             //sprintf("%'.07d"
             $resultado.='<tr class="tr-item">';
-            $resultado.='<td class="tdCenter">' . sprintf("%'.05d",$item['ID']) . '</td>';
+            $resultado.='<td class="text-center">' . sprintf("%'.05d",$item['ID']) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['nombre']))) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['linea']))) . '</td>';
             $botones=array();
-            array_push($botones,'<a onclick="fncEditar2(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
-            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Categoría&#39;,fncEliminar2,&#39;' . $item['ID'] . '&#39;);" title="Eliminar categoría"><span class="glyphicon glyphicon-trash">Eliminar</a>');
+            array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
+            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Categoría&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar categoría"><span class="glyphicon glyphicon-trash">Eliminar</a>');
             $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
             $resultado.='</tr>';
             $i=$i+1;
@@ -2597,6 +2608,7 @@ function post_ajaxProducto_Mantenimiento() {
    require ROOT_PATH . 'models/producto.php';
    require ROOT_PATH . 'controls/funcionController.php';
     $buscar = $_POST['txtBuscar'];
+    $opcion_tipo=$_POST['rbOpcion'];
     $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
     $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar'] ==0) ? 30 : $_POST['txtMostrar'];
     $txtOrden = $_POST['txtOrden'];
@@ -2643,24 +2655,29 @@ function post_ajaxProducto_Mantenimiento() {
             $orden = 'pr.ID ' . $orden_tipo;
             break;
     }
-   $filtro='pr.empresa_ID='.$_SESSION['empresa_ID'];
-    if($linea_ID>0){
+   $filtro='';
+   if($opcion_tipo=="buscar"){
+       $filtro.=((trim($filtro)!="")?" and ":""). ' upper(pr.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+        if($_POST['txtCodigo']!=""){
+            $filtro='pr.ID='.$_POST['tcxtCodigo'];
+        }
+   }else{
+       if($linea_ID>0){
         $filtro.=((trim($filtro)!="")?" and ":"").' ca.linea_ID='.$linea_ID ;
        
-    }
-    if($categoria_ID>0){
-      
-        $filtro.=((trim($filtro)!="")?" and ":"").' pr.categoria_ID='.$categoria_ID;
-    }
-    if($producto_ID>0){
-     
-        $filtro.=((trim($filtro)!="")?" and ":"").' pr.ID='.$producto_ID;
-    }
+        }
+        if($categoria_ID>0){
 
-    $filtro.=((trim($filtro)!="")?" and ":""). ' upper(pr.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
-    if($_POST['txtCodigo']!=""){
-        $filtro='pr.ID='.$_POST['txtCodigo'];
-    }
+            $filtro.=((trim($filtro)!="")?" and ":"").' pr.categoria_ID='.$categoria_ID;
+        }
+        if($producto_ID>0){
+
+            $filtro.=((trim($filtro)!="")?" and ":"").' pr.ID='.$producto_ID;
+        }
+   }
+    
+
+    
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
     
@@ -2996,7 +3013,7 @@ function get_Operador_Mantenimiento_Nuevo() {
     
     $dtCargo = cargo::getGrid("",-1,-1,"nombre asc");
     $oOperador = new operador;
-    
+    $oOperador->comision=0;
     $oOperador->dtCargo=$dtCargo;
     
     $GLOBALS['oOperador'] = $oOperador;
@@ -3024,6 +3041,9 @@ function post_Operador_Mantenimiento_Nuevo() {
 
     try {
         $oOperador->persona_ID = $persona_ID;
+        if($oOperador->verificar_duplicado()>0){
+            throw new Exception("El operador ya se encuentra registrado.");
+        }
         $oOperador->telefono = $telefono;
         $oOperador->celular = $celular;
         $oOperador->mail = $mail;
@@ -3038,6 +3058,8 @@ function post_Operador_Mantenimiento_Nuevo() {
         $GLOBALS['resultado'] = -1;
         $GLOBALS['mensaje'] = $ex->getMessage();
     }
+    $dtCargo = cargo::getGrid("",-1,-1,"nombre asc");
+    $oOperador->dtCargo=$dtCargo;
     $GLOBALS['oOperador'] = $oOperador;
 }
 
@@ -3059,7 +3081,7 @@ function get_Operador_Mantenimiento_Editar($id) {
     }
     $oOperador->dtCargo=$dtCargo;
     if($oOperador->fecha_contrato=="0000-00-00"){
-        $oOperador->fecha_contrato="__/__/____";
+        $oOperador->fecha_contrato="";
     }
     
     $oOperador->nombres_completo=FormatTextView($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
@@ -3113,7 +3135,7 @@ function post_Operador_Mantenimiento_Editar($id) {
     }
     $oOperador->dtCargo=$dtCargo;
     if($oOperador->fecha_contrato=="0000-00-00"){
-        $oOperador->fecha_contrato="__/__/____";
+        $oOperador->fecha_contrato="";
     }
     
     $oOperador->nombres_completo=FormatTextView($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
@@ -3159,7 +3181,7 @@ function post_ajaxOperador_Mantenimiento() {
     $filtro = 'upper(concat(pe.apellido_paterno," ",pe.nombres)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-bordered"><thead><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
     
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Apellido Paterno' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Apellido Materno' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -4430,6 +4452,13 @@ function post_ajaxRepresentanteProveedor_mantenimiento_Eliminar() {
 //----------------------fin representanteproveedor----------------------------------------------------------------------------
 
 /* linea*/
+function get_Linea_Mantenimiento() {
+    
+    global $returnView;
+    $returnView = true;
+    
+    
+}
 function get_Linea_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/linea.php';
     global $returnView_float;
@@ -4573,13 +4602,13 @@ function post_Linea_Mantenimiento_Editar($id) {
 function post_ajaxLinea_Mantenimiento() {
     require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'controls/funcionController.php';
-    $buscar = $_POST['txtBuscar3'];
-    $paginaActual = $_POST['num_page3'] == 0 ? 1 : $_POST['num_page3'];
-    $cantidadMostrar = ($_POST['txtMostrar3'] == ''||$_POST['txtMostrar3'] ==0) ? 30 : $_POST['txtMostrar3'];
-    $txtOrden = $_POST['txtOrden3'];
+    $buscar = $_POST['txtBuscar'];
+    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
+    $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar'] ==0) ? 30 : $_POST['txtMostrar'];
+    $txtOrden = $_POST['txtOrden'];
     $orden_tipo = 'DESC';
     $orden_class = 'imgOrden-desc';
-    if (isset($_POST['chkOrdenASC3'])) {
+    if (isset($_POST['chkOrdenASC'])) {
         $orden_class = 'imgOrden-asc';
         $orden_tipo = 'ASC';
     }
@@ -4597,13 +4626,13 @@ function post_ajaxLinea_Mantenimiento() {
             $orden = 'li.ID' . $orden_tipo;
             break;
     }
-    $filtro = 'empresa_ID='.$_SESSION['empresa_ID'].' and upper(li.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    $filtro = ' upper(li.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><tr>';
-    $resultado.='<th class="thOrden" onclick="fncOrden3(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden3(1);">Nombres' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden3(2);">Desccripcion' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Nombres' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Desccripcion' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th></th>';
     $resultado.='</tr>';
 
@@ -4615,12 +4644,12 @@ function post_ajaxLinea_Mantenimiento() {
         //$i=(($paginaActual-1) * $cantidadMostrar)+1;
         foreach ($dtLineaProducto as $item) {
             $resultado.='<tr class="tr-item">';
-            $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['ID']) . '</td>';
+            $resultado.='<td class="text-center">' . sprintf("%'.06d",$item['ID']) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['nombre']))) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['descripcion']))) . '</td>';     
             $botones=array();
-            array_push($botones,'<a onclick="fncEditar3(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
-            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Línea&#39;,fncEliminar3,&#39;' . $item['ID'] . '&#39;);" title="Eliminar línea"><span class="glyphicon glyphicon-trash">Eliminar</a>');
+            array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
+            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Línea&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar línea"><span class="glyphicon glyphicon-trash">Eliminar</a>');
             $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
             
             $resultado.='</tr>';
