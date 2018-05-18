@@ -7,6 +7,10 @@
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
+		<script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
+		<script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
+		<script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
+
 
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 		<style media="screen">
@@ -39,6 +43,8 @@
 
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+						<br>
+						<a onclick="fnzip();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">ZIP &nbsp;<i class="fa fa-plus"></i></a>
         </div>
         <div class="panel-body">
             <div class="tab-content">
@@ -321,29 +327,74 @@
 				reader.readAsDataURL(contenidoEnBlob);
 		};
 
+function fnzip() {
+
+	var zip = new JSZip();
+
+// 	zip.file("smile.zip", "UEsDBBQAAgAIACmesUwAAAAAAgAAAAAAAAAGAAAAZHVtbXkvAwBQSwMEFAACAAgAKZ6xTC+fbhnKAwAApgsAACEAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWy1lt9z2jgQx9/7V3jMQ2facyQTQ8Bj6JBwYWjaJA0QOvcmbMWoZ0seSQS4v76Sf2FTZwqdOeBBXu1+dvXVSsb7tIsj4xVzQRgdmPYFNA1MfRYQGg7MxfzW6pmfhu88xN1RkkTER1I5PmGRMCqwoYKpcBEfmBtOXYYEES5FMRauSLBPXnJ/d7OKXOGvcYzcnQiaUFbbzGl4J8/E3bA4ZvTvncRUL0M9KiSmUhyg/sr/I+i1cvcbgejPgKMw5DhEEjdBAzEw11ImLgDb7fZie3nBeAjaEEIA+0D5BIKErcJbMJSU/lkicaGmtD0N1AOA6SuOWIKBOfSUtO7i+kuplPjVlFkqWlI1kkNvRkKK5Ibne35SnapvdBgOpvSFDd8ZhneDKKNKn4j8l2r0Fcs1C4xRFDJO5Dp+A2sDG2qshXe+5dsObS2VtxZU62eClF1WeDIUOkWtVsw4bnGBLLFGHbudI5/wC+bqOGBj8TQdmKY2KvOcIypeGI9FZqiafpu2JlGxOYEliuqz1GdCTxFIAcFx5d6YhFjIMxVTirSqOpWcZxRt8BA+/Jh+xGRGnPE8HCfb527wzyJ6eP6+/xHck8ndMp4E33arMUpuZu3wIYo+r5bidpt8+xhswmXQc2hI1sG1uFvSiVw9TyeT+CUIBwMPVLPo/QHlBqlWA/Veq3ZEFvHhkZNXdfKMf/HeeH+NJXpUR1Qdb8zle4MyaWySDxmmEuXd4X3K9L53YH+MJMpGOio764p8r45/YPgHU87PEipChX8cnNKmQmwwn2FOUFS1aPD5+Epsysq495t4hfn5tFp0NUFRLjgoA0q1DjqqcfOdAn69fEDDFaXubnc6HtqddrcLYb/Tu+pDD+TWbFaXM9ZitqHds2DHgr05hG76y11Ll0PEnCiBGtxSe+pWvJ1qbPsq861N1txTgN13nb5r9+rOORv5bkWffC3aMlvcj+aV1ZWOjO8fEZf7zJYOp4GSsXzflBhV56X6tvudzgEE3o4qJrJ+0QHpqFJJNgOOPMFbxaljSiSKygWOpET+Ok73XM/rzeUURYfTm2ZVd+ywdaSBtmWJGoLA75KBY531I6YB5v+PlKAxwRP2MXk9OacNnSunb9uwd3rOhhRj5m+0CkXjFbWUT2lT5lqqFLfqfrdg+rGLlj3M1tr7hgXq3NT7OrWlXmMsfE6StLovyLhFvhIfGVRVw5lRTfOXsUaGIAEzkI8TiQKUMauEYn3VRRyWVuufxkWU4jUFZcqRhCj7ibvTtdqwAx2na185l+fsTy0LaN4h0Pw3e/gTUEsBAgAAFAACAAgAKZ6xTAAAAAACAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAGR1bW15L1BLAQIAABQAAgAIACmesUwvn24ZygMAAKYLAAAhAAAAAAAAAAEAAAAAACYAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWxQSwUGAAAAAAIAAgCDAAAALwQAAAAA", {base64: true});
+//
+//
+// zip.generateAsync({type: "base64"}).then(function (base64) {
+// 		location.href = "data:application/zip;base64," + base64;
+// });
+
+
+
+
+			zip.generateAsync({type:"base64",name:"aaa.zip"}).then(function (base64) {
+					data = "";
+					location.href="data:application/zip;base64," + data;
+			});
+
+
+	// zip.file("smile.zip", "UEsDBBQAAgAIACmesUwAAAAAAgAAAAAAAAAGAAAAZHVtbXkvAwBQSwMEFAACAAgAKZ6xTC+fbhnKAwAApgsAACEAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWy1lt9z2jgQx9/7V3jMQ2facyQTQ8Bj6JBwYWjaJA0QOvcmbMWoZ0seSQS4v76Sf2FTZwqdOeBBXu1+dvXVSsb7tIsj4xVzQRgdmPYFNA1MfRYQGg7MxfzW6pmfhu88xN1RkkTER1I5PmGRMCqwoYKpcBEfmBtOXYYEES5FMRauSLBPXnJ/d7OKXOGvcYzcnQiaUFbbzGl4J8/E3bA4ZvTvncRUL0M9KiSmUhyg/sr/I+i1cvcbgejPgKMw5DhEEjdBAzEw11ImLgDb7fZie3nBeAjaEEIA+0D5BIKErcJbMJSU/lkicaGmtD0N1AOA6SuOWIKBOfSUtO7i+kuplPjVlFkqWlI1kkNvRkKK5Ibne35SnapvdBgOpvSFDd8ZhneDKKNKn4j8l2r0Fcs1C4xRFDJO5Dp+A2sDG2qshXe+5dsObS2VtxZU62eClF1WeDIUOkWtVsw4bnGBLLFGHbudI5/wC+bqOGBj8TQdmKY2KvOcIypeGI9FZqiafpu2JlGxOYEliuqz1GdCTxFIAcFx5d6YhFjIMxVTirSqOpWcZxRt8BA+/Jh+xGRGnPE8HCfb527wzyJ6eP6+/xHck8ndMp4E33arMUpuZu3wIYo+r5bidpt8+xhswmXQc2hI1sG1uFvSiVw9TyeT+CUIBwMPVLPo/QHlBqlWA/Veq3ZEFvHhkZNXdfKMf/HeeH+NJXpUR1Qdb8zle4MyaWySDxmmEuXd4X3K9L53YH+MJMpGOio764p8r45/YPgHU87PEipChX8cnNKmQmwwn2FOUFS1aPD5+Epsysq495t4hfn5tFp0NUFRLjgoA0q1DjqqcfOdAn69fEDDFaXubnc6HtqddrcLYb/Tu+pDD+TWbFaXM9ZitqHds2DHgr05hG76y11Ll0PEnCiBGtxSe+pWvJ1qbPsq861N1txTgN13nb5r9+rOORv5bkWffC3aMlvcj+aV1ZWOjO8fEZf7zJYOp4GSsXzflBhV56X6tvudzgEE3o4qJrJ+0QHpqFJJNgOOPMFbxaljSiSKygWOpET+Ok73XM/rzeUURYfTm2ZVd+ywdaSBtmWJGoLA75KBY531I6YB5v+PlKAxwRP2MXk9OacNnSunb9uwd3rOhhRj5m+0CkXjFbWUT2lT5lqqFLfqfrdg+rGLlj3M1tr7hgXq3NT7OrWlXmMsfE6StLovyLhFvhIfGVRVw5lRTfOXsUaGIAEzkI8TiQKUMauEYn3VRRyWVuufxkWU4jUFZcqRhCj7ibvTtdqwAx2na185l+fsTy0LaN4h0Pw3e/gTUEsBAgAAFAACAAgAKZ6xTAAAAAACAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAGR1bW15L1BLAQIAABQAAgAIACmesUwvn24ZygMAAKYLAAAhAAAAAAAAAAEAAAAAACYAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWxQSwUGAAAAAAIAAgCDAAAALwQAAAAA", {base64: true});
+	//
+	// zip.generateAsync({type:"blob"}).then(function(content) {
+	//     // see FileSaver.js
+	//     //saveAs(content, "example.zip");
+	// });
+
+
+
+
+	}
+
 		function fncDOWNLOAD_XML(id,tipo) {
 			try {
 					block_ui(function () {
+
+					var zip = new JSZip();
 
 
 						$.ajax({
 					    type: "POST",
 					    url: 'Salida/ajaxDownloadXML',
-					    data: {'id': id,'tipo': tipo},							
+					    data: {'id': id,'tipo': tipo},
 					    cache: false,
 					    success: function(resultado)
 					    {
 									$.unblockUI();
 									console.log(resultado);
 									var obj = $.parseJSON(resultado);
-									var xmlText = formatXml(obj.xml_firmado);
-									var blob = new Blob([xmlText], { type: 'application/xml' });
-        					var link = document.createElement('a');
-        					link.href = window.URL.createObjectURL(blob);
-        					link.download = obj.nombre_archivo;
-        					document.body.appendChild(link);
-        					link.click();
-        					document.body.removeChild(link);
+
+										if (tipo=='XML') {
+											var xmlText = formatXml(obj.xml_firmado);
+											var blob = new Blob([xmlText], { type: 'application/xml' });
+											var link = document.createElement('a');
+											link.href = window.URL.createObjectURL(blob);
+											link.download = obj.nombre_archivo;
+											document.body.appendChild(link);
+											link.click();
+											document.body.removeChild(link);
+									}
+
+									if (tipo=='CDR') {
+										zip.generateAsync({type:"base64",name:"aaa.zip"}).then(function (base64) {
+												data = obj.xml_firmado;
+												location.href="data:application/zip;base64," + data;
+										});
+									}
+
 
 					    },
 					    error: function (XMLHttpRequest, textStatus, errorThrown)
