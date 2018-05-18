@@ -12,8 +12,8 @@ class api_SUNAT {
             "Cache-Control: no-cache",
             "Pragma: no-cache"
         );
-        $ch = curl_init("http://192.168.10.151:8085/api/".$metodo);
-        //$ch = curl_init("http://192.168.0.15/OpenInvoicePeru/api/".$metodo);
+        //$ch = curl_init("http://192.168.10.151:8085/api/".$metodo);
+        $ch = curl_init("http://192.168.0.15/OpenInvoicePeru/api/".$metodo);
         //$ch = curl_init("http://192.168.43.242/OpenInvoicePeru/api/".$metodo);
         //$ch = curl_init("http://localhost:5649/OpenInvoicePeru/api/".$metodo);
 
@@ -96,7 +96,7 @@ class api_SUNAT {
 
       public function EscribirArchivoCDR($NombreArchivo,$TramaXmlFirmado)
       {
-        $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$NombreArchivo.'.xml';
+        $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$NombreArchivo;
       	//$bin = base64_decode($TramaXmlFirmado);
         $bin = ($TramaXmlFirmado);
       	file_put_contents($OUTPUT, $bin);

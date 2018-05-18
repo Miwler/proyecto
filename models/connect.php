@@ -10,10 +10,10 @@ class connect
 	function __construct()
 	{
 
-            //$this->host='200.4.228.195';
-						$this->host='192.168.8.240';
+            $this->host='200.4.228.195';
+						//$this->host='192.168.8.240';
             //$this->host='localhost';
-            $this->db='bdsystemsales';
+            //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
             $this->db='bd_jjsoluciones_test' ;
             $this->db_user='root';

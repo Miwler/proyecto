@@ -11146,6 +11146,12 @@ function post_ajaxDownloadXML() {
     if ($tipo == 'CDR') {
       $xml_firmado_new = base64_decode($ofactura_venta_sunat[0]['cdr_sunat']);
       $nombre_archivo = $nombre_archivo.'.zip';
+
+      $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".'JAFS'.$nombre_archivo;
+      //$bin = base64_decode($TramaXmlFirmado);
+      $bin = ($xml_firmado_new);
+      file_put_contents($OUTPUT, $bin);
+
     }
     if ($tipo == 'XML') {
       $xml_firmado_new = base64_decode($ofactura_venta_sunat[0]['xml_firmado']);
