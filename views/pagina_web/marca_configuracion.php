@@ -15,7 +15,7 @@
      <i class="fa fa-bookmark-o" aria-hidden="true"></i> Marcas
 <?php } ?>
 <?php function fncPage(){?>
-    <form id="frm1" name="frm1" method="post" action="pagina_web/ajaxMarca_Configuracion" class="form-horizontal">
+    <form id="frm1"  method="post" action="pagina_web/ajaxMarca_Configuracion" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -68,8 +68,8 @@
         </div>
     </div>
         <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-        <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
-        <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox" checked style="display:none;">           
+        <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
+        <input id="chkOrdenASC" name="chkOrdenDESC" type="checkbox" checked style="display:none;">           
     </form>
     
    <script type="text/javascript">
@@ -105,11 +105,11 @@
         }
 
         var fncNuevo=function(){			
-            window_float_open('/Pagina_Web/Marca_Configuracion_Nuevo','','',f);
+            window_float_open_modal('NUEVA MARCA','/Pagina_Web/Marca_Configuracion_Nuevo','','',f,700,340);
         }
 
         var fncEditar=function(id){			
-            window_float_open('/Pagina_Web/Marca_Configuracion_Editar',id,'',f);
+            window_float_open_modal('EDITAR MARCA','/Pagina_Web/Marca_Configuracion_Editar',id,'',f,700,340);
         }
         
         var fncEliminar=function(id){

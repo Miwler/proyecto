@@ -15,7 +15,7 @@
         <i class="fa fa-wechat" aria-hidden="true"></i> Chat
 <?php } ?>
 <?php function fncPage(){?>
-    <form id="frm1" name="frm1" method="post" action="/pagina_web/ajaxWeb_Chat_Session_Configuracion" class="form-horizontal">
+    <form id="frm1" method="post" action="/pagina_web/ajaxWeb_Chat_Session_Configuracion" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
              <ul class="nav nav-tabs">
@@ -95,7 +95,7 @@
         
 
         var fncEditar=function(id){			
-            window_float_open('/Pagina_Web/Web_Chat_Session_Configuracion_Editar',id,'',f);
+            window_float_open_modal('<span class="glyphicon glyphicon-comment"></span> CHAT ','/Pagina_Web/Web_Chat_Session_Configuracion_Editar',id,'',f,700,600);
         }
         
         

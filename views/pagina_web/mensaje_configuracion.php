@@ -16,7 +16,7 @@
         <i class="fa fa-envelope" aria-hidden="true"></i> Correos recibidos
 <?php } ?>
 <?php function fncPage(){?>
-    <form id="frm1" name="frm1" method="post" action="/pagina_web/ajaxMensaje_Configuracion" class="form-horizontal">
+<form id="frm1" method="post" action="/pagina_web/ajaxMensaje_Configuracion" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -30,7 +30,7 @@
             </div>
             
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+            <!--<a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>-->
         </div>
         <div class="panel-body">
             <div class="tab-content">
@@ -40,7 +40,7 @@
                                 <label>Buscar</label>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                <input type="text" id="txtBuscar" name="txtBuscar" class="form-control" placeholder="Nombre de banner">
+                                <input type="text" id="txtBuscar" name="txtBuscar" class="form-control" placeholder="Nombre del visitante">
 
                             </div>
                     </div>
@@ -93,7 +93,7 @@
         
 
         var fncEditar=function(id){			
-            window_float_open('/Pagina_Web/Mensaje_Configuracion_Editar',id,'',f);
+            window_float_open_modal('<span class="glyphicon glyphicon-envelope"></span> DETALLE DEL MENSAJE','/Pagina_Web/Mensaje_Configuracion_Editar',id,'',f,600,400);
         }
         
         

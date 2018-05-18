@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 
 ?>	
 <?php
@@ -31,8 +31,9 @@ function fncMenu() { ?>
 function fncPage() { ?>
 
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
-    <form id="form"  method="POST" style="width:500px;padding-top:10px; overflow:auto;"  action="/Pagina_Web/Mensaje_Configuracion_Editar/<?php echo $GLOBALS['oMensaje']->ID;?>" >
-        <div class="row">
+<form id="form"  method="POST" style="overflow:auto;height:410px;" class="form-horizontal"  action="/Pagina_Web/Mensaje_Configuracion_Editar/<?php echo $GLOBALS['oMensaje']->ID;?>" >
+    <div class="form-body">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Usuario :</label>
             </div>
@@ -40,15 +41,15 @@ function fncPage() { ?>
                 <input type="text" class="form-control" autocomplete="off" disabled value="<?php echo FormatTextView($GLOBALS['oMensaje']->remitente);?>" >
             </div>
         </div>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Nombres :</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                <input type="text"  class="form-control" autocomplete="off" disabled value="<?php echo FormatTextView($GLOBALS['oMensaje']->nombre);?>">
+                <input type="text"  class="form-control" autocomplete="off" disabled class="form-control" value="<?php echo FormatTextView($GLOBALS['oMensaje']->nombre);?>">
             </div>
         </div>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Email :</label>
             </div>
@@ -56,7 +57,7 @@ function fncPage() { ?>
                 <input type="text"  class="form-control" autocomplete="off" disabled value="<?php echo FormatTextView($GLOBALS['oMensaje']->email);?>">
             </div>
         </div>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Asunto :</label>
             </div>
@@ -64,17 +65,17 @@ function fncPage() { ?>
                 <input type="text"  class="form-control" autocomplete="off" disabled value="<?php echo FormatTextView($GLOBALS['oMensaje']->asunto);?>">
             </div>
         </div>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Mensaje :</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                <textarea disabled style="width:300px;height: 50px;" ><?php echo FormatTextView($GLOBALS['oMensaje']->mensaje);?></textarea>
+                <textarea disabled style="height: 50px;" class="form-control"><?php echo FormatTextView($GLOBALS['oMensaje']->mensaje);?></textarea>
                
             </div>
         </div>
         <?php if(trim($GLOBALS['oMensaje']->archivo)!=""){ ?>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Archivo :</label>
             </div>
@@ -83,17 +84,17 @@ function fncPage() { ?>
             </div>
         </div>
         <?php } ?>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Email destinatario :</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                 
-               <input type="text"  class="form-control" autocomplete="off" disabled value="<?php echo FormatTextView($GLOBALS['oMensaje']->email_destinatario);?>">
+               <input type="text"  class="form-control" autocomplete="off" disabled  value="<?php echo FormatTextView($GLOBALS['oMensaje']->email_destinatario);?>">
             </div>
         </div>
         <?php if(trim($GLOBALS['oMensaje']->nombre_amigo)!=""){ ?>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Nombre amigo :</label>
             </div>
@@ -101,27 +102,26 @@ function fncPage() { ?>
                 <input type="text"  class="form-control" disabled autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oMensaje']->nombre_amigo);?>">
             </div>
         </div>
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Email amigo :</label>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                <input type="text"  class="form-control" disabled autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oMensaje']->email_amigo);?>">
+                <input type="text"  class="form-control" disabled autocomplete="off"  value="<?php echo FormatTextView($GLOBALS['oMensaje']->email_amigo);?>">
             </div>
         </div>
         <?php } ?>
-        
-        <div class="row botones" style="margin-top:15px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                
-                 <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" title="Guardar" type="button" onclick="window_float_close();" >
-                    <img  alt="" src="/include/img/boton/cancel_14x14.png">
-                Cerrar
-                </button>
-            </div>  
+    </div>
+    <div class="form-footer">
+        <div class="pull-left">
+            <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" title="Guardar" type="button" onclick="window_float_close_modal();" >
+               <img  alt="" src="/include/img/boton/cancel_14x14.png">
+           Cerrar
+           </button>
         </div>
-  
-    </form>
+        <div class="clearfix"></div>
+    </div>    
+</form>
 <?php } ?>
 <script type="text/javascript">
   

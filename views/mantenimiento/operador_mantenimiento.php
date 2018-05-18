@@ -104,9 +104,9 @@
 			window_float_open_modal('ASIGNAR CLIENTES','/Mantenimiento/Operador_Mantenimiento_Asignar_Cliente',id,'',f,700,650);
 		}
 		
-		var fncUsuario=function(id){			
+		/*var fncUsuario=function(id){			
 			window_float_open_modal('REGISTRAR USUARIO','/Mantenimiento/Usuario_Mantenimiento_Nuevo',id,'',f,700,650);
-		}
+		}*/
 		
 		$('#txtBuscar,#txtMostrar').keypress(function(e){
                     

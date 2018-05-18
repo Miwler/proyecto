@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 
 ?>	
 <?php
@@ -9,12 +9,7 @@ function fncTitle() { ?>Nuevo Banner<?php } ?>
 <?php
 
 function fncHead() { ?>
-    
-  
     <script src="../../include/js/jForm.js" type="text/javascript"></script>
-   
-    
-    
 <?php } ?>
 
 <?php
@@ -38,91 +33,87 @@ function fncPage() { ?>
 </style>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
 
-    <div class="container" >
-        <form id='frm1' style='min-width:750px;width:80%; height: 700px;padding: 10px;overflow:auto;' method='post' action='pagina_web/Web_Banner_Configuracion_Imagen/<?php echo $GLOBALS['oWeb_Banner']->ID;?>' >
-            <div class="row">
-                <div class="col-md-12 ">
-                  <div class="panel panel-default">
-                    <div class="panel-heading" id="divContenedor">
-                        <div class="row">
-                            <div class="col-xs-12 col-md-12"><h4>Información de la imagén</h4></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <label>Nombre: </label><input id="txtWeb_Banner_ID"  name="txtWeb_Banner_ID" value="<?php echo $GLOBALS['oWeb_Banner']->ID;?>" style="display:none;">
-                                <input id="txtID"  name="txtID"  style="display:none;">
-                            </div>
-                            <div class="col-md-8 col-md-8 col-xs-8"  class="form-group has-error">
-                                <input type='text' id='txtNombre' name='txtNombre' autocomplete="off" class="form-control" style='width:170px;'>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <label>Título: </label>
-                            </div>
-                            <div class="col-md-8 col-md-8 col-xs-8">
-                                <input type='text' id='txtTitulo' name='txtTitulo' autocomplete="off" class="form-control" style='width:170px;'>
-                            </div>
-                         </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <label>Resumen: </label>
-                            </div>
-                            <div class="col-md-8 col-md-8 col-xs-8">
-                                <textarea id='txtResumen' name='txtResumen' dropzone="true"  class="form-control" style='width:170px;height: 40px;'></textarea>
-                            </div>
-                         </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <label>Link ver más: </label>
-                            </div>
-                            <div class="col-md-8 col-md-8 col-xs-8">
-                                <input type='text' id='txtRuta_Ver_Mas' name='txtRuta_Ver_Mas' autocomplete="off" class="form-control" style='width:170px;'>
-                            </div>
-                         </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <label>Orden: </label>
-                            </div>
-                            <div class="col-md-8 col-md-8 col-xs-8">
-                                <input type='number' id='txtOrden' name='txtOrden' style='width:170px;' class="form-control" value="0">
-                            </div>
-                         </div>
-                        <div class="row">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <label>Estado: </label>
-                            </div>
-                            <div class="col-md-8 col-md-8 col-xs-8">
-                                <select id="selEstado_ID" name="selEstado_ID" class="form-control" style='width:170px;'>
-                                    <?php foreach($GLOBALS['dtEstado'] as $item){?>
-                                    <option value="<?php echo $item['ID']?>"><?php echo $item['nombre']?></option>
-                                    <?php } ?>
-                                </select>
-                                <script type="text/javascript">
-                                    $('#selEstado_ID').val(63);
-                                </script>
-                                
-                            </div>
-                         </div>
-                        <div class="row" style="margin-top:10px;">
-                            <div class="col-md-4 col-md-4 col-xs-4">
-                                <button class="btn btn-success noedicion" type='button' title='Subi imagenes' onclick="fncGrabarImagen();" ><span class='glyphicon glyphicon-plus'></span> Agregar imagenes</button>
-                            </div>
-                            <div class="col-md-2 col-md-2 col-xs-2">
-                                <button class="btn btn-success edicion" type='button' title='Grabar cambios' onclick="fncGrabarInformacion();" style="display:none;"><span class='glyphicon glyphicon-floppy-disk'></span> Grabar</button>
-                            </div>
-                            <div class="col-md-6 col-md-6 col-xs-6">
-                                <button class="btn btn-danger edicion" type='button' title='Cancelar edicicón' onclick="fncCancelar();" style="display:none;" ><span class='glyphicon glyphicon-remove'></span> Cancelar</button>
-                            </div>
-                        </div>
-                        
+    <div class="container" style="height:400px;overflow:auto;">
+        <form id='frm1'  method='post' action='pagina_web/Web_Banner_Configuracion_Imagen/<?php echo $GLOBALS['oWeb_Banner']->ID;?>' class="form-horizontal" >
+            <div class="panel panel-default" >
+                <div class="panel-heading" id="divContenedor">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-md-12"><h4>Información de la imagén</h4></div>
                     </div>
-                    <div class="panel-body text-center" >
-                        <div class="row" id="divMostrarArchivos"></div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <label>Nombre: </label><input id="txtWeb_Banner_ID"  name="txtWeb_Banner_ID" value="<?php echo $GLOBALS['oWeb_Banner']->ID;?>" style="display:none;">
+                            <input id="txtID"  name="txtID"  style="display:none;">
+                        </div>
+                        <div class="col-md-8 col-md-8 col-xs-8"  class="form-group has-error">
+                            <input type='text' id='txtNombre' name='txtNombre' autocomplete="off" class="form-control">
+                        </div>
                     </div>
-                  </div> <!-- Fin del panel panel-default -->
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <label>Título: </label>
+                        </div>
+                        <div class="col-md-8 col-md-8 col-xs-8">
+                            <input type='text' id='txtTitulo' name='txtTitulo' autocomplete="off" class="form-control" >
+                        </div>
+                     </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <label>Resumen: </label>
+                        </div>
+                        <div class="col-md-8 col-md-8 col-xs-8">
+                            <textarea id='txtResumen' name='txtResumen' dropzone="true"  class="form-control" style='height: 40px;'></textarea>
+                        </div>
+                     </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <label>Link ver más: </label>
+                        </div>
+                        <div class="col-md-8 col-md-8 col-xs-8">
+                            <input type='text' id='txtRuta_Ver_Mas' name='txtRuta_Ver_Mas' autocomplete="off" class="form-control">
+                        </div>
+                     </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <label>Orden: </label>
+                        </div>
+                        <div class="col-md-8 col-md-8 col-xs-8">
+                            <input type='number' id='txtOrden' name='txtOrden' class="form-control" value="0">
+                        </div>
+                     </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <label>Estado: </label>
+                        </div>
+                        <div class="col-md-8 col-md-8 col-xs-8">
+                            <select id="selEstado_ID" name="selEstado_ID" class="form-control">
+                                <?php foreach($GLOBALS['dtEstado'] as $item){?>
+                                <option value="<?php echo $item['ID']?>"><?php echo $item['nombre']?></option>
+                                <?php } ?>
+                            </select>
+                            <script type="text/javascript">
+                                $('#selEstado_ID').val(63);
+                            </script>
+
+                        </div>
+                     </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-md-4 col-md-4 col-xs-4">
+                            <button class="btn btn-success noedicion" type='button' title='Subi imagenes' onclick="fncGrabarImagen();" ><span class='glyphicon glyphicon-plus'></span> Agregar imagenes</button>
+                        </div>
+                        <div class="col-md-2 col-md-2 col-xs-2">
+                            <button class="btn btn-success edicion" type='button' title='Grabar cambios' onclick="fncGrabarInformacion();" style="display:none;"><span class='glyphicon glyphicon-floppy-disk'></span> Grabar</button>
+                        </div>
+                        <div class="col-md-6 col-md-6 col-xs-6">
+                            <button class="btn btn-danger edicion" type='button' title='Cancelar edicicón' onclick="fncCancelar();" style="display:none;" ><span class='glyphicon glyphicon-remove'></span> Cancelar</button>
+                        </div>
+                    </div>
+
                 </div>
-              </div>
+                <div class="panel-body text-center" >
+                    <div class="row" id="divMostrarArchivos"></div>
+                </div>
+              </div> <!-- Fin del panel panel-default -->
         </form>
      
        
@@ -131,21 +122,21 @@ function fncPage() { ?>
         <div id="mdlArchivos" class="modal fade" data-backdrop="static">
             <div class="modal-dialog" style="width: 96%;">
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Subir Archivos</h4>
-                  </div>
-                  <div class="modal-body" id="divInformación">
-                      <div class="row">
-                         <div class="col-md-12" id="formDropZone"></div>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                  </div>
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Subir Archivos</h4>
+                    </div>
+                    <div class="modal-body" id="divInformación">
+                        <div class="row">
+                           <div class="col-md-12" id="formDropZone"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->      
+        </div><!-- /.modal -->      
      </div> <!-- Fin del Container -->
      
 <?php } ?>

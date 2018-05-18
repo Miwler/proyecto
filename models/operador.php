@@ -136,7 +136,7 @@ class operador {
         try {
              $q = 'Select ID,persona_ID,telefono, celular, mail,ifnull(fecha_contrato,"0000-00-00") as fecha_contrato ,comision,cargo_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from operador ';
-            $q.=' where del=0 and ID=' . $ID;
+            $q.=' where del=0 and ID='.$ID;
              //echo $q;
             $dt = $cn->getGrid($q);
 
@@ -216,6 +216,7 @@ class operador {
             throw new Exception($q);
         }
     }
+   
     function verificar_duplicado() {
         $cn = new connect();
         try {

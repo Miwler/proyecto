@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 
 ?>	
 <?php
@@ -32,8 +32,8 @@ function fncPage() { ?>
 
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
     
-    <form id="form"  method="POST" style="width:600px;padding:10px; overflow:auto;"   >    
-        <div class="panel panel-default" style="margin:0 auto;">
+    <form id="form"  method="POST" style="overflow:auto;" class="form-horizontal"  >    
+        <div class="panel panel-default" >
             <div class="panel-heading" id="divForm">
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">

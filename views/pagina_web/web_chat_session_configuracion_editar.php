@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 
 ?>	
 <?php
@@ -31,8 +31,8 @@ function fncMenu() { ?>
 function fncPage() { ?>
 
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
-    <form id="form"  method="POST" style="width:700px;padding-top:10px; overflow:auto;"  action="/Pagina_Web/Mensaje_Configuracion_Editar/<?php echo $GLOBALS['oWeb_chat_Session']->ID;?>" >
-        <div class="row">
+    <form id="form"  method="POST"  class="form-horizontal"  action="/Pagina_Web/Mensaje_Configuracion_Editar/<?php echo $GLOBALS['oWeb_chat_Session']->ID;?>" >
+        <div class="form-group">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Invitado :</label>
             </div>
@@ -57,7 +57,7 @@ function fncPage() { ?>
         
                     <div id="chat_header" class="panel-heading">
 
-                        <h3 style="margin:5px 0;"><span class="glyphicon glyphicon-comment"></span> Chat online </h3>
+                        <span class="glyphicon glyphicon-comment"></span> Chat online 
                     </div>
                     <div id="chat_body" class="panel-body">
 
@@ -79,10 +79,10 @@ function fncPage() { ?>
             </div>
             
         </div>
-        <div class="row botones" style="margin-top:15px;">
+        <div class="row botones">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 
-                 <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" title="Guardar" type="button" onclick="window_float_save();" >
+                 <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" title="Guardar" type="button" onclick="window_float_save_modal();" >
                     <img  alt="" src="/include/img/boton/cancel_14x14.png">
                 Cerrar
                 </button>
@@ -149,7 +149,7 @@ function fncPage() { ?>
         fnvMostrarChat();
         
     });
-    setInterval(fnvMostrarChat, 1000);
+    //setInterval(fnvMostrarChat, 1000);
 </script>
 <style>
     
@@ -186,17 +186,34 @@ function fncPage() { ?>
     margin-left: 0;
 }
 .text_chat_invitado{
+    text-align:left;
+    width: 100%;
+    display: inline-block;
+}
+.text_chat_invitado p{
+    float:right;
     background: #f0ad4e;
     border: 1px solid #eea236;
-    border-radius: 5px 5px 5px 0;
+    border-radius: 5px 5px 0 0;
     padding: 3px 2px;
 }
 .text_chat_operador{
-    background: #449d44;
-    border: 1px solid #398439;
+    
+    text-align:right;
+}
+#chat_body{
+    text-align:right;
+}
+.text_chat_operador p{
+    background: #FFF;
+    -webkit-box-shadow: 2px 2px 2px 1px rgba(176,173,173,1);
+-moz-box-shadow: 2px 2px 2px 1px rgba(176,173,173,1);
+box-shadow: 2px 2px 2px 1px rgba(176,173,173,1);
     border-radius: 5px 5px 0 5px;
     padding: 3px 2px;
-    color: #fff; 
+    color: #000; 
+    display:inline-block;
+    float:left;
 }
 .usuario_chat{
     font-weight: bold;

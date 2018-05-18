@@ -66,10 +66,19 @@
 
         <script src="../../include/stacktable/stacktable.js" type="text/javascript"></script>
 	<link href="../../include/stacktable/stacktable.css" rel="stylesheet" type="text/css"/>
+        
         <!--PLUGIN PROPIOS-->
+        <script src="include/jquery-ui-1.12.0/jquery-ui.js"></script>
+        
+        <link href="../../include/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../../include/bootstrap-dialog/js/bootstrap-dialog.min.js" type="text/javascript"></script>
+         <link href="../../include/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" type="text/css"/>
+         <script type="text/javascript" src="include/js/jModal.js"></script>
+         <script type="text/javascript" src="include/js/toastem.js" ></script>
         <script type="text/javascript" src="include/js/jscript.js" ></script>
         <script type="text/javascript" src="include/js/logincerrar.js" ></script>
         <script src="../../include/js/jNotificacion.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="include/css/toastem.css" />   
         <?php  fncHead();	?>
 </head>
 <body class="page-sound page-header-fixed page-sidebar-fixed page-footer-fixed" >

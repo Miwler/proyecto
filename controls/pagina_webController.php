@@ -147,12 +147,13 @@
 
 
         //---------------------------------------					 
-        $resultado = '<table id="websendeos" class="grid table table-hover" ><tr>';
+        $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
         $resultado.='<th> Acción</th>';
+        $resultado.='<th  class="thOrden" onclick="fncOrden(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(1);">Nombre' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Descripción' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='</tr>';
-
+        $resultado.='</tr><thead>';
+        $resultado.='<tbody>';
         $colspanFooter = 4;
         try {
             $cantidadMaxima = web_banner::getCount($filtro);
@@ -168,6 +169,7 @@
                         . '<a onclick="fncImagen(&#39;' . $item['ID'] . '&#39;);" class="btn btn-info" data-toggle="tooltip" data-placement="right" title="Subir imagenes del banner."><span class="glyphicon glyphicon-picture"> Imagen</span></a>'
                         . '<a onclick="fncUbicacion(&#39;' . $item['ID'] . '&#39;);" class="btn btn-info" data-toggle="tooltip" data-placement="right" title="Registrar ubicación"><span class="glyphicon glyphicon-align-left"> Ubicación</span></a>'
                         . '<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Banner&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Eliminar banner" ><span class="glyphicon glyphicon-trash"> Eliminar</a></td>';
+                $resultado.='<td class="text-center">' . $item['ID']. '</td>';
                 $resultado.='<td>' . FormatTextViewHtml($item['nombre']) . '</td>';
                 $resultado.='<td>' . FormatTextView($item['descripcion']). '</td>';
                 $resultado.='</tr>';
@@ -181,7 +183,7 @@
         } catch (Exception $ex) {
             $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
         }
-
+        $resultado.='</tbody>';
         $resultado.='</table>';
 
         $mensaje = '';
@@ -292,6 +294,7 @@
     function post_ajaxWeb_Banner_Configuracion_Imagen(){
         require ROOT_PATH . 'models/web_banner_imagen.php';
         require ROOT_PATH . 'models/estado.php';
+        require ROOT_PATH . 'controls/funcionController.php';
         $ID=$_POST['id'];
         
         $dtWeb_Banner_Imagen=web_banner_imagen::getGrid("web_banner_ID=".$ID,-1,-1,'orden asc');
@@ -306,9 +309,15 @@
             $html.='<h4>Estado: '.FormatTextView($oEstado->nombre).'</h4>';
             $html.='</div>';
             $html.='<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">';
-            $html.='<a class="btn btn-info" data-toggle="tooltip" data-placement="right" title="Editar imagen" onclick="fncEditar(&#39;'.$item['ID'].'&#39;);"><span class="glyphicon glyphicon-pencil"></span> Editar</a>&nbsp;&nbsp;&nbsp;';
-            $html.='<a class="btn btn-warning"   title="Desactivar imagen" onclick="fncDesactivar(&#39;'.$item['ID'].'&#39;);">'.$texto.'</a>&nbsp;&nbsp;&nbsp;';
-             $html.='<a class="btn btn-danger"   title="Eliminar imagen" onclick="modal.confirmacion(&#39;¿Esta seguro de eliminar la imagen?&#39;,&#39;Eliminar imagen&#39;,fncEliminar,&#39;'.$item['ID'].'&#39;);"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>';
+            $botones=array();
+            
+            
+            //array_push($botones,'<a onclick="fncUsuario(' . $item['ID'] . ');"><img title="Usuario" src="/include/img/boton/usuario.png" />&nbsp;Usuario</a>');
+            array_push($botones,'<a  data-toggle="tooltip" data-placement="right" title="Editar imagen" onclick="fncEditar(&#39;'.$item['ID'].'&#39;);"><span class="glyphicon glyphicon-pencil"></span> Editar</a>');
+            array_push($botones,'<a  title="Desactivar imagen" onclick="fncDesactivar(&#39;'.$item['ID'].'&#39;);">'.$texto.'</a>');
+            array_push($botones,'<a title="Eliminar imagen" onclick="modal.confirmacion(&#39;¿Esta seguro de eliminar la imagen?&#39;,&#39;Eliminar imagen&#39;,fncEliminar,&#39;'.$item['ID'].'&#39;);"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>');
+        
+             $html.=extraerOpcion($botones);
             $html.='</div>';
             $html.='</div>';
             $html.='<img src="../../files/imagenes/banner/'.$item['ruta'].'" class="img-thumbnail"  alt="...">';
@@ -625,6 +634,9 @@
             $orden_tipo = 'ASC';
         }
         switch ($txtOrden) {
+            case 0:
+                $orden = 'ID ' . $orden_tipo;
+                break;
             case 1:
                 $orden = 'nombre ' . $orden_tipo;
                 break;
@@ -645,20 +657,21 @@
        
         if($buscar!=''){
             
-            $filtro= " and  upper(nombre) like '%" . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . "%'";
+            $filtro.= " and  upper(nombre) like '%" . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . "%'";
         }
 
 
         //---------------------------------------					 
-        $resultado = '<table id="websendeos" class="grid table table-hover" ><tr>';
+        $resultado = '<table id="websendeos" class="grid table table-hover table-bordered" ><tr>';
         $resultado.='<th> Acción</th>';
+        $resultado.='<th  class="thOrden" onclick="fncOrden(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(1);">Nombre' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Imagen' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(3);">Url' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(4);">Orden' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='</tr>';
 
-        $colspanFooter = 5;
+        $colspanFooter = 6;
         try {
             $cantidadMaxima = marca::getCount($filtro);
             $dtMarca = marca::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
@@ -671,6 +684,7 @@
                 $resultado.='<td class="btnAction" style="width:250px;">'
                         . '<a onclick="fncEditar(&#39;' . $item['ID'] . '&#39;);"class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Editar marca" ><span class="glyphicon glyphicon-pencil"> Editar</a>'
                         . '<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Banner&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);"class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Eliminar marca" ><span class="glyphicon glyphicon-trash"> Eliminar</a></td>';
+                $resultado.='<td class="text-center">' . $item['ID'] . '</td>';
                 $resultado.='<td>' . FormatTextViewHtml($item['nombre']) . '</td>';
                 $resultado.='<td class="text-center"><img src="../../files/imagenes/marca/'.$item['imagen'].'" alt="No existe" class="img-thumbnail" width="80" height="40"/></td>';
                 $resultado.='<td>' . $item['url'] . '</td>';
@@ -894,7 +908,7 @@
 
 
         //---------------------------------------					 
-        $resultado = '<table id="websendeos" class="grid table table-hover" ><tr>';
+        $resultado = '<table id="websendeos" class="grid table table-hover table-bordered" ><thead><tr>';
         $resultado.='<th> Acción</th>';
         $resultado.='<th  style="display:none;" class="thOrden" onclick="fncOrden(1);">ID' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(0);">Usuario' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -903,8 +917,8 @@
         $resultado.='<th  class="thOrden" onclick="fncOrden(4);">Asunto' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(5);">Mensaje' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(6);">Archivo' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='</tr>';
-
+        $resultado.='</tr></thead>';
+        $resultado.='<tbody>';
         $colspanFooter = 8;
         try {
             $cantidadMaxima = mensaje::getCount($filtro);
@@ -937,7 +951,7 @@
         } catch (Exception $ex) {
             $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
         }
-
+        $resultado.='</tbody>';
         $resultado.='</table>';
 
         $mensaje = '';
@@ -1016,7 +1030,7 @@
 
 
         //---------------------------------------					 
-        $resultado = '<table id="websendeos" class="grid table table-hover" ><tr>';
+        $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
         $resultado.='<th> Acción</th>';
         $resultado.='<th  style="display:none;" class="thOrden" onclick="fncOrden(1);">ID' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Visitante' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -1025,8 +1039,8 @@
         $resultado.='<th  class="thOrden" onclick="fncOrden(5);">Usuario aten.' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(6);">Fecha' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(7);">Estado' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='</tr>';
-
+        $resultado.='</tr><t/head>';
+        $resultado.='<tbody>';
         $colspanFooter = 8;
         try {
             $cantidadMaxima = web_chat_session::getCount($filtro);
@@ -1060,7 +1074,7 @@
         } catch (Exception $ex) {
             $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
         }
-
+        $resultado.='</tbody>';
         $resultado.='</table>';
 
         $mensaje = '';
@@ -1076,12 +1090,14 @@
         require ROOT_PATH . 'models/web_chat_session_mensaje.php';
         require ROOT_PATH . 'models/usuario.php';
         require ROOT_PATH . 'models/operador.php';
+        require ROOT_PATH . 'models/persona.php';
         global $returnView_float;
         $returnView_float = true;
         $oWeb_chat_Session=web_chat_session::getByID($id);
-        $oOperador=operador::getByID(usuario::getByID($_SESSION['usuario_ID'])->operador_ID);
+        $oPersona=persona::getByID(usuario::getByID($_SESSION['usuario_ID'])->persona_ID);
+        
         $oWeb_chat_Session->usuario_receptor_ID=$_SESSION['usuario_ID'];
-        $usuario_receptor=$oOperador->nombres.' '.$oOperador->apellido_paterno;
+        $usuario_receptor=$oPersona->nombres.' '.$oPersona->apellido_paterno;
         $oWeb_chat_Session->usuario_receptor=$usuario_receptor;
         $dtWeb_Chat_Session_Mensaje=web_chat_session_mensaje::getGrid("web_chat_session_ID=".$id);
         $oWeb_chat_Session->estado_ID=66;
@@ -1121,7 +1137,7 @@
     function post_ajaxMostrarChat(){
         require ROOT_PATH . 'models/web_chat_session.php';
         require ROOT_PATH . 'models/web_chat_session_mensaje.php';
-        require ROOT_PATH . 'models/operador.php';
+        require ROOT_PATH . 'models/persona.php';
         require ROOT_PATH . 'models/usuario.php';
         $web_chat_session_ID=$_POST['id'];
         $resultado=0;
@@ -1130,22 +1146,22 @@
             $oWeb_Chat_Session=web_chat_session::getByID($web_chat_session_ID);
             $usuario_receptor="Atendiendo";
             if($oWeb_Chat_Session->usuario_receptor_ID!=-1){
-                $oOperador=operador::getByID(usuario::getByID($oWeb_Chat_Session->usuario_receptor_ID)->operador_ID);
-                $usuario_receptor=  FormatTextView($oOperador->nombres." ".$oOperador->apellido_paterno);
+                $oPersona=persona::getByID(usuario::getByID($oWeb_Chat_Session->usuario_receptor_ID)->persona_ID);
+                $usuario_receptor=  FormatTextView($oPersona->nombres." ".$oPersona->apellido_paterno);
             }
             
             $dtWebChatMensaje=web_chat_session_mensaje::getGrid("web_chat_session_ID=".$web_chat_session_ID,-1,-1,"fdc asc");
-            $html="<p class='text_chat_operador'><span class='glyphicon glyphicon-headphones'></span> Espere un momento por favor, en breve un ejecutivo lo atenderá</p>";
+            $html="<div class='text_chat_operador'><p><span class='glyphicon glyphicon-headphones'></span> Espere un momento por favor, en breve un ejecutivo lo atenderá</p></div>";
             foreach($dtWebChatMensaje as $item){
                 if($oWeb_Chat_Session->usuario_remitente_ID==$item['usuario_ID_chat']){
-                    $html.="<p class='text_chat_invitado'><span class='usuario_chat'>".$oWeb_Chat_Session->nombre_visitante.": </span>";
+                    $html.="<div  class='text_chat_invitado'><p><span>".$oWeb_Chat_Session->nombre_visitante.": </span>";
                     $html.=str_replace("--n","<br/>",FormatTextViewHtml($item['mensaje']));
                 }else if($oWeb_Chat_Session->usuario_receptor_ID==$item['usuario_ID_chat']){
-                    $html.="<p class='text_chat_operador'><span class='usuario_chat'>".$usuario_receptor.": </span>";
+                    $html.="<div class='text_chat_operador'><p><span class='usuario_chat'>".$usuario_receptor.": </span>";
                     $html.=str_replace("--n","<br/>",FormatTextViewHtml($item['mensaje']));
                 }
                 $html.="<br/><span class='fecha'>".$item['fdc']."</span>";
-                $html.="</p>";
+                $html.="</p></div>";
 
             }
 

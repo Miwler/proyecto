@@ -5,9 +5,9 @@
 		Mantenimiento de banner
 <?php } ?>
 <?php function fncHead(){?>
-		<script type="text/javascript" src="include/js/jForm.js"></script>
-		<script type="text/javascript" src="include/js/jGrid.js"></script>
-		<link rel="stylesheet" type="text/css" href="include/css/grid.css" />
+    <script type="text/javascript" src="include/js/jForm.js"></script>
+    <script type="text/javascript" src="include/js/jGrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -15,7 +15,7 @@
      <i class="fa fa-image" aria-hidden="true"></i> Banner de la página web
 <?php } ?>
 <?php function fncPage(){?>
-    <form id="frm1" name="frm1" method="post" action="/pagina_web/ajaxWeb_Banner_Configuracion" class="form-horizontal">
+    <form id="frm1" method="post" action="/pagina_web/ajaxWeb_Banner_Configuracion" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
              <ul class="nav nav-tabs">
@@ -63,8 +63,8 @@
       
     </div>
         <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-        <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
-        <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox" checked style="display:none;">           
+        <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
+        <input id="chkOrdenASC" name="chkOrdenDESC" type="checkbox" checked style="display:none;">           
     </form>
     
    <script type="text/javascript">
@@ -101,17 +101,17 @@
         }
 
         var fncNuevo=function(){			
-            window_float_open('/Pagina_Web/Web_Banner_Configuracion_Nuevo','','',f);
+            window_float_open_modal('NUEVO BANNER','/Pagina_Web/Web_Banner_Configuracion_Nuevo','','',f,400,190);
         }
 
         var fncEditar=function(id){			
-            window_float_open('/Pagina_Web/Web_Banner_Configuracion_Editar',id,'',f);
+            window_float_open_modal('EDITAR BANNER','/Pagina_Web/Web_Banner_Configuracion_Editar',id,'',f,400,190);
         }
         var fncImagen=function(id){
-            window_float_open('/Pagina_Web/Web_Banner_Configuracion_Imagen',id,'',f);
+            window_float_open_modal('SUBIR IMAGEN BANNER','/Pagina_Web/Web_Banner_Configuracion_Imagen',id,'',f,400,500);
         }
         var fncUbicacion=function(id){
-             window_float_open('/Pagina_Web/Web_Banner_Configuracion_Ubicacion',id,'',f);
+             window_float_open_modal('UBICACIÓN DEL BANNER','/Pagina_Web/Web_Banner_Configuracion_Ubicacion',id,'',f,500,500);
         }
         var fncEliminar=function(id){
             cargarValores('/Pagina_Web/ajaxWeb_Banner_Configuracion_Eliminar',id,function(resultado){

@@ -4,16 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/producto_mantenimiento_padre.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/operador_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/pagina_webController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/usuario.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/operador.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/mantenimientoController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/operador_mantenimiento_asignar_cliente.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/operador_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/producto_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/operador_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/proveedor_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/producto_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/ingresoController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/pagina_web/web_banner_configuracion.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/pagina_web/web_chat_session_configuracion_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/web_chat_session.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/pagina_web/web_chat_session_configuracion.php</file>
         </group>
     </open-files>
 </project-private>

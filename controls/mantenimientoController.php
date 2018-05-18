@@ -3208,7 +3208,7 @@ function post_ajaxOperador_Mantenimiento() {
             $botones=array();
             
             array_push($botones,'<a onclick="fncCliente(' . $item['ID'] . ');"><img title="Cliente" src="/include/img/boton/cliente.png" />&nbsp;Cliente</a>');
-            array_push($botones,'<a onclick="fncUsuario(' . $item['ID'] . ');"><img title="Usuario" src="/include/img/boton/usuario.png" />&nbsp;Usuario</a>');
+            //array_push($botones,'<a onclick="fncUsuario(' . $item['ID'] . ');"><img title="Usuario" src="/include/img/boton/usuario.png" />&nbsp;Usuario</a>');
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');"><img title="Editar" src="/include/img/boton/edit_14x14.png" />&nbsp;Editar</a>');
             array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');"><img title="Eliminar" src="/include/img/boton/delete_14x14.png" />&nbsp;Eliminar</a>');
             $resultado.='<td class="btnAction">'.extraerOpcion($botones).'</td>';
