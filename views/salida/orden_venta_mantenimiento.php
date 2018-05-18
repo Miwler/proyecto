@@ -15,8 +15,7 @@
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 		<style media="screen">
 		.tooltip-inner {
-	max-width: 350px;
-	/* If max-width does not work, try using width instead */
+			max-width: 350px;
 	width: 350px;
 }
 		</style>
@@ -34,17 +33,13 @@
             <ul class="nav nav-tabs">
                 <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
-
             </ul>
             <div style="position: absolute;right: 260px;top: 12px;display: block;">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
-
             </div>
 
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-						<br>
-						<a onclick="fnzip();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">ZIP &nbsp;<i class="fa fa-plus"></i></a>
         </div>
         <div class="panel-body">
             <div class="tab-content">
@@ -196,6 +191,7 @@
 
 
      });
+
     $("#checkbox-checked1").click(function(){
         if($(this).is(":checked")){
             $("#txtFechaInicio").prop("disabled", true);
@@ -206,6 +202,7 @@
             $("#txtFechaFin").prop("disabled", false);
         }
     });
+
     var f=new form('frm1','div1');
     f.terminado = function () {
             var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
@@ -235,11 +232,10 @@
         f.enviar();
     }
 
-
     var fncNuevo=function(){
         window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,550);
-
     }
+
     var fncMantenimiento=function(){
         $('#frm1').css('display','block');
         $('#iframe2').attr('src','');
@@ -249,21 +245,22 @@
     var fncEditar=function(id){
          window_float_open_modal('EDITAR ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
     }
+
     var fncVer=function(id){
          window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
     }
-
-
 
 		function fncSUNAT(id) {
 			try {
 					block_ui(function () {
 						cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
 							console.log(resultado);
+
 							$.unblockUI();
 							var obj = $.parseJSON(resultado);
+							console.log(obj.Exito);
 							//console.log(obj.MensajeRespuesta);
-							if (obj.Exito==true) {
+							if (obj.Exito == true) {
 									alert(obj.MensajeRespuesta);
 							}
 					});
@@ -274,7 +271,6 @@
 			} finally {
 
 			}
-
 		}
 
 		function formatXml(xml) {
@@ -308,64 +304,12 @@
 		    return formatted;
 		}
 
-		function descargarArchivo(contenidoEnBlob, nombreArchivo) {
-			console.log("Ingreso");
-				var reader = new FileReader();
-				reader.onload = function (event) {
-						var save = document.createElement('a');
-						save.href = event.target.result;
-						save.target = '_blank';
-						save.download = nombreArchivo || 'archivo.dat';
-						var clicEvent = new MouseEvent('click', {
-								'view': window,
-										'bubbles': true,
-										'cancelable': true
-						});
-						save.dispatchEvent(clicEvent);
-						(window.URL || window.webkitURL).revokeObjectURL(save.href);
-				};
-				reader.readAsDataURL(contenidoEnBlob);
-		};
 
-function fnzip() {
-
-	var zip = new JSZip();
-
-// 	zip.file("smile.zip", "UEsDBBQAAgAIACmesUwAAAAAAgAAAAAAAAAGAAAAZHVtbXkvAwBQSwMEFAACAAgAKZ6xTC+fbhnKAwAApgsAACEAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWy1lt9z2jgQx9/7V3jMQ2facyQTQ8Bj6JBwYWjaJA0QOvcmbMWoZ0seSQS4v76Sf2FTZwqdOeBBXu1+dvXVSsb7tIsj4xVzQRgdmPYFNA1MfRYQGg7MxfzW6pmfhu88xN1RkkTER1I5PmGRMCqwoYKpcBEfmBtOXYYEES5FMRauSLBPXnJ/d7OKXOGvcYzcnQiaUFbbzGl4J8/E3bA4ZvTvncRUL0M9KiSmUhyg/sr/I+i1cvcbgejPgKMw5DhEEjdBAzEw11ImLgDb7fZie3nBeAjaEEIA+0D5BIKErcJbMJSU/lkicaGmtD0N1AOA6SuOWIKBOfSUtO7i+kuplPjVlFkqWlI1kkNvRkKK5Ibne35SnapvdBgOpvSFDd8ZhneDKKNKn4j8l2r0Fcs1C4xRFDJO5Dp+A2sDG2qshXe+5dsObS2VtxZU62eClF1WeDIUOkWtVsw4bnGBLLFGHbudI5/wC+bqOGBj8TQdmKY2KvOcIypeGI9FZqiafpu2JlGxOYEliuqz1GdCTxFIAcFx5d6YhFjIMxVTirSqOpWcZxRt8BA+/Jh+xGRGnPE8HCfb527wzyJ6eP6+/xHck8ndMp4E33arMUpuZu3wIYo+r5bidpt8+xhswmXQc2hI1sG1uFvSiVw9TyeT+CUIBwMPVLPo/QHlBqlWA/Veq3ZEFvHhkZNXdfKMf/HeeH+NJXpUR1Qdb8zle4MyaWySDxmmEuXd4X3K9L53YH+MJMpGOio764p8r45/YPgHU87PEipChX8cnNKmQmwwn2FOUFS1aPD5+Epsysq495t4hfn5tFp0NUFRLjgoA0q1DjqqcfOdAn69fEDDFaXubnc6HtqddrcLYb/Tu+pDD+TWbFaXM9ZitqHds2DHgr05hG76y11Ll0PEnCiBGtxSe+pWvJ1qbPsq861N1txTgN13nb5r9+rOORv5bkWffC3aMlvcj+aV1ZWOjO8fEZf7zJYOp4GSsXzflBhV56X6tvudzgEE3o4qJrJ+0QHpqFJJNgOOPMFbxaljSiSKygWOpET+Ok73XM/rzeUURYfTm2ZVd+ywdaSBtmWJGoLA75KBY531I6YB5v+PlKAxwRP2MXk9OacNnSunb9uwd3rOhhRj5m+0CkXjFbWUT2lT5lqqFLfqfrdg+rGLlj3M1tr7hgXq3NT7OrWlXmMsfE6StLovyLhFvhIfGVRVw5lRTfOXsUaGIAEzkI8TiQKUMauEYn3VRRyWVuufxkWU4jUFZcqRhCj7ibvTtdqwAx2na185l+fsTy0LaN4h0Pw3e/gTUEsBAgAAFAACAAgAKZ6xTAAAAAACAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAGR1bW15L1BLAQIAABQAAgAIACmesUwvn24ZygMAAKYLAAAhAAAAAAAAAAEAAAAAACYAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWxQSwUGAAAAAAIAAgCDAAAALwQAAAAA", {base64: true});
-//
-//
-// zip.generateAsync({type: "base64"}).then(function (base64) {
-// 		location.href = "data:application/zip;base64," + base64;
-// });
-
-
-
-
-			zip.generateAsync({type:"base64",name:"aaa.zip"}).then(function (base64) {
-					data = "";
-					location.href="data:application/zip;base64," + data;
-			});
-
-
-	// zip.file("smile.zip", "UEsDBBQAAgAIACmesUwAAAAAAgAAAAAAAAAGAAAAZHVtbXkvAwBQSwMEFAACAAgAKZ6xTC+fbhnKAwAApgsAACEAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWy1lt9z2jgQx9/7V3jMQ2facyQTQ8Bj6JBwYWjaJA0QOvcmbMWoZ0seSQS4v76Sf2FTZwqdOeBBXu1+dvXVSsb7tIsj4xVzQRgdmPYFNA1MfRYQGg7MxfzW6pmfhu88xN1RkkTER1I5PmGRMCqwoYKpcBEfmBtOXYYEES5FMRauSLBPXnJ/d7OKXOGvcYzcnQiaUFbbzGl4J8/E3bA4ZvTvncRUL0M9KiSmUhyg/sr/I+i1cvcbgejPgKMw5DhEEjdBAzEw11ImLgDb7fZie3nBeAjaEEIA+0D5BIKErcJbMJSU/lkicaGmtD0N1AOA6SuOWIKBOfSUtO7i+kuplPjVlFkqWlI1kkNvRkKK5Ibne35SnapvdBgOpvSFDd8ZhneDKKNKn4j8l2r0Fcs1C4xRFDJO5Dp+A2sDG2qshXe+5dsObS2VtxZU62eClF1WeDIUOkWtVsw4bnGBLLFGHbudI5/wC+bqOGBj8TQdmKY2KvOcIypeGI9FZqiafpu2JlGxOYEliuqz1GdCTxFIAcFx5d6YhFjIMxVTirSqOpWcZxRt8BA+/Jh+xGRGnPE8HCfb527wzyJ6eP6+/xHck8ndMp4E33arMUpuZu3wIYo+r5bidpt8+xhswmXQc2hI1sG1uFvSiVw9TyeT+CUIBwMPVLPo/QHlBqlWA/Veq3ZEFvHhkZNXdfKMf/HeeH+NJXpUR1Qdb8zle4MyaWySDxmmEuXd4X3K9L53YH+MJMpGOio764p8r45/YPgHU87PEipChX8cnNKmQmwwn2FOUFS1aPD5+Epsysq495t4hfn5tFp0NUFRLjgoA0q1DjqqcfOdAn69fEDDFaXubnc6HtqddrcLYb/Tu+pDD+TWbFaXM9ZitqHds2DHgr05hG76y11Ll0PEnCiBGtxSe+pWvJ1qbPsq861N1txTgN13nb5r9+rOORv5bkWffC3aMlvcj+aV1ZWOjO8fEZf7zJYOp4GSsXzflBhV56X6tvudzgEE3o4qJrJ+0QHpqFJJNgOOPMFbxaljSiSKygWOpET+Ok73XM/rzeUURYfTm2ZVd+ywdaSBtmWJGoLA75KBY531I6YB5v+PlKAxwRP2MXk9OacNnSunb9uwd3rOhhRj5m+0CkXjFbWUT2lT5lqqFLfqfrdg+rGLlj3M1tr7hgXq3NT7OrWlXmMsfE6StLovyLhFvhIfGVRVw5lRTfOXsUaGIAEzkI8TiQKUMauEYn3VRRyWVuufxkWU4jUFZcqRhCj7ibvTtdqwAx2na185l+fsTy0LaN4h0Pw3e/gTUEsBAgAAFAACAAgAKZ6xTAAAAAACAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAGR1bW15L1BLAQIAABQAAgAIACmesUwvn24ZygMAAKYLAAAhAAAAAAAAAAEAAAAAACYAAABSLTEwNDc0OTExMDg1LTAxLUYwMDEtMDAwMDAwMS54bWxQSwUGAAAAAAIAAgCDAAAALwQAAAAA", {base64: true});
-	//
-	// zip.generateAsync({type:"blob"}).then(function(content) {
-	//     // see FileSaver.js
-	//     //saveAs(content, "example.zip");
-	// });
-
-
-
-
-	}
-
-		function fncDOWNLOAD_XML(id,tipo) {
+	function fncDOWNLOAD_XML(id,tipo) {
 			try {
 					block_ui(function () {
 
 					var zip = new JSZip();
-
-
 						$.ajax({
 					    type: "POST",
 					    url: 'Salida/ajaxDownloadXML',
@@ -377,25 +321,27 @@ function fnzip() {
 									console.log(resultado);
 									var obj = $.parseJSON(resultado);
 
-										if (tipo=='XML') {
-											var xmlText = formatXml(obj.xml_firmado);
-											var blob = new Blob([xmlText], { type: 'application/xml' });
-											var link = document.createElement('a');
-											link.href = window.URL.createObjectURL(blob);
-											link.download = obj.nombre_archivo;
-											document.body.appendChild(link);
-											link.click();
-											document.body.removeChild(link);
-									}
+										if (obj.exito == 'true') {
+											if (tipo=='XML') {
+												var xmlText = formatXml(obj.xml_firmado);
+												var blob = new Blob([xmlText], { type: 'application/xml' });
+												var link = document.createElement('a');
+												link.href = window.URL.createObjectURL(blob);
+												link.download = obj.nombre_archivo;
+												document.body.appendChild(link);
+												link.click();
+												document.body.removeChild(link);
+											}
 
-									if (tipo=='CDR') {
-										zip.generateAsync({type:"base64",name:"aaa.zip"}).then(function (base64) {
-												data = obj.xml_firmado;
-												location.href="data:application/zip;base64," + data;
-										});
-									}
-
-
+											if (tipo=='CDR') {
+											zip.generateAsync({type:"base64"}).then(function (base64) {
+													data = obj.xml_firmado;
+													location.href="data:application/zip;base64," + data;
+											});
+											}
+										}else{
+											alert(obj.mensaje);
+										}
 					    },
 					    error: function (XMLHttpRequest, textStatus, errorThrown)
 					    {

@@ -10872,11 +10872,8 @@ function post_ajaxEnviarSUNAT() {
 
   try {
     $oSalida=salida::getByID($id);
-
     $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
-
     $oSalidaDetalle=factura_venta_detalle::getGrid2($id);
-
     $oEmpresa=empresa::getByID($oSalida->empresa_ID);
     $oCliente=cliente::getByID($oSalida->cliente_ID);
     $oMoneda=moneda::getByID($oSalida->moneda_ID);
@@ -10884,7 +10881,6 @@ function post_ajaxEnviarSUNAT() {
     //VALIDAR SI ESISTE
     //var_dump($oFactura_venta);
     //var_dump($oSalida);
-
 
       $DocumentoDetalle = array();
       $Discrepancias = array();
@@ -11056,7 +11052,6 @@ function post_ajaxEnviarSUNAT() {
             echo json_encode($resultado_sunat);
           }
 
-          var_dump(base64_decode($data_sunat->TramaZipCdr));
           $oFactura_Venta_Sunat=new factura_venta_sunat();
           $oFactura_Venta_Sunat->salida_ID=$id;
           $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
@@ -11071,8 +11066,6 @@ function post_ajaxEnviarSUNAT() {
           $oFactura_Venta_Sunat->cdr_sunat = $data_sunat->TramaZipCdr;
           $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
           $oFactura_Venta_Sunat->insertar();
-
-
 
         }else {
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
@@ -11144,43 +11137,20 @@ function post_ajaxDownloadXML() {
     //var_dump($xml_firmado);
     $nombre_archivo = $ofactura_venta_sunat[0]['nombre_archivo'];
     if ($tipo == 'CDR') {
-      $xml_firmado_new = base64_decode($ofactura_venta_sunat[0]['cdr_sunat']);
-      $nombre_archivo = $nombre_archivo.'.zip';
-
-      $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".'JAFS'.$nombre_archivo;
-      //$bin = base64_decode($TramaXmlFirmado);
-      $bin = ($xml_firmado_new);
-      file_put_contents($OUTPUT, $bin);
-
+      $xml_firmado_new = $ofactura_venta_sunat[0]['cdr_sunat'];
+      $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$nombre_archivo.'_NEW.zip';
+      file_put_contents($OUTPUT, base64_decode($ofactura_venta_sunat[0]['cdr_sunat']));
     }
     if ($tipo == 'XML') {
       $xml_firmado_new = base64_decode($ofactura_venta_sunat[0]['xml_firmado']);
       $nombre_archivo = $nombre_archivo.'.xml';
     }
 
-    //var_dump(utf8_decode($xml_firmado_new));
-
-    // $ruta = 'files/SUNAT/XML/10474911085-01-F001-0000001.xml';
-    // //$archivo_XML = file_get_contents($ruta);
-    // //echo $archivo_XML;
-    //
-    // header("Content-Disposition: attachment; filename=".$ruta);
-    // header('Content-type: text/xml');
-    // header("Content-Length: ".filesize($ruta));
-    // readfile($ruta);
-
-    $retornar = Array('tipo' => $tipo,'nombre_archivo' => $nombre_archivo,'xml_firmado' => $xml_firmado_new, 'mensaje' => '', 'Exito' => '');
+    $retornar = Array('tipo' => $tipo,'nombre_archivo' => $nombre_archivo,'xml_firmado' => $xml_firmado_new, 'mensaje' => '', 'exito' => 'true');
     echo json_encode($retornar);
 
     } catch (Exception $ex) {
-        //$retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
-        //echo json_encode($retornar);
-
-        //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+        $retornar = Array('mensaje' => $ex->getMessage(), 'exito' => 'false');
+        echo json_encode($retornar);
     }
-
-    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
-    //$retorn="<h1>Hola</h1>";
-
-    //echo json_encode($retornar);
 }

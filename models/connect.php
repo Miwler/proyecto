@@ -11,11 +11,8 @@ class connect
 	{
 
             $this->host='200.4.228.195';
-<<<<<<< HEAD
             //$this->host='192.168.8.240';
-=======
 						//$this->host='192.168.8.240';
->>>>>>> 87a9348e7ac97a8f51c683f66f9216a4011c04db
             //$this->host='localhost';
             //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
