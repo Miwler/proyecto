@@ -10,6 +10,10 @@
 		<script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
 		<script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
 		<script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
+		<script type="text/javascript" src="include/jsPDF/dist/jspdf.debug.js"></script>
+    <script type="text/javascript" src="include/jsPDF/dist/jspdf.min.js"></script>
+    <script type="text/javascript" src="include/jsPDF/dist/jspdf.plugin.autotable.js"></script>
+		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>
 
 
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
@@ -17,6 +21,15 @@
 		.tooltip-inner {
 			max-width: 350px;
 	width: 350px;
+}
+#qrcode {
+  width:160px;
+  height:160px;
+  margin-top:15px;
+}
+#text {
+  display: block;
+  width: 80%;
 }
 		</style>
 
@@ -27,7 +40,8 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
+<!-- <form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal"> -->
+	<form id="frm1" name="frm1" method="post" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -169,6 +183,12 @@
             <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
             <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
 
+						<iframe id="iPDF" style="height: 600px; width: 100%;"></iframe>
+						<input id="text" type="text" value="kylespice.com?cumin" />
+						<div id="dvContent">
+							<div id="qrcode" crossOrigin="anonymous"></div>
+						</div>
+
 
         </div>
     </div>
@@ -213,7 +233,7 @@
             $('[data-toggle="tooltip"]').tooltip();
             $('#websendeos').stacktable();
     }
-    f.enviar();
+    //f.enviar();
 
     var fncOrden=function(col){
 
@@ -304,10 +324,203 @@
 		    return formatted;
 		}
 
+		var faker = window.faker;
+		var base64Img = null;
+		var getColumns = function () {
+		            return [
+		                { title: "CÓDIGO", dataKey: "codigo" },
+		                { title: "DESCRIPCIÓN", dataKey: "descripcion" },
+		                { title: "UM", dataKey: "unidad_medida" },
+		                { title: "CANTIDAD", dataKey: "cantidad" },
+		                { title: "P. UNIT", dataKey: "p_unit" },
+										{ title: "TOTAL", dataKey: "total" }
+		            ];
+		        };
+						// Uses the faker.js library to get random data.
+			        function getData(rowCount) {
+			            rowCount = rowCount || 4;
+			            //var sentence = "Minima quis totam nobis nihil et molestiae architecto accusantium qui necessitatibus sit ducimus cupiditate qui ullam et aspernatur esse et dolores ut voluptatem odit quasi ea sit ad sint voluptatem est dignissimos voluptatem vel adipisci facere consequuntur et reprehenderit cum unde debitis ab cumque sint quo ut officiis rerum aut quia quia expedita ut consectetur animiqui voluptas suscipit Monsequatur";
+			            var data = [];
+			            for (var j = 1; j <= rowCount; j++) {
+			                data.push({
+			                    codigo: j,
+			                    descripcion: "faker.name.findName()",
+			                    email: "faker.internet.email()",
+			                    unidad_medida: "NIU",
+			                    cantidad: "1",
+			                    expenses: "0.00",
+			                    p_unit: "0.00",
+			                    total: "0.00"
+			                });
+			            }
+			            return data;
+			        }
+
+							function getBase64Image(img) {
+							  img.setAttribute('crossOrigin', 'anonymous');
+							  var canvas = document.createElement("canvas");
+							  canvas.width = img.width;
+							  canvas.height = img.height;
+							  var ctx = canvas.getContext("2d");
+							  ctx.drawImage(img, 0, 0);
+							  var dataURL = canvas.toDataURL("image/png");
+							  return dataURL;
+							}
 
 	function fncDOWNLOAD_XML(id,tipo) {
 			try {
 					block_ui(function () {
+
+					source = '<html><body>';
+					source = source + '<table style="width: 100%;">';
+					source = source + '<tbody>';
+					source = source + '<tr style="height: 23px;">';
+					source = source + '<tr style="height: 23px;">';
+					source = source + '<td colspan="2" rowspan="2">SON:&nbsp;&nbsp;&nbsp;</td>';
+					source = source + '<td style="height: 23px; width: 11%;">OP. GRAVADA</td>';
+					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
+					source = source + '<td style="height: 23px; width: 10%;">0</td>';
+					source = source + '</tr>';
+					source = source + '<tr style="height: 23px;">';
+					source = source + '<td style="height: 23px; width: 11%;">OP. INAFECTA</td>';
+					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
+					source = source + '<td style="height: 23px; width: 10%;">0</td>';
+					source = source + '</tr>';
+					source = source + '<tr style="height: 23px;">';
+					source = source + '<td style="width: 20.0916%;" rowspan="7">IMG</td>';
+					source = source + '<td style="width: 29%;" rowspan="7">DETALLE</td>';
+					source = source + '<td style="height: 23px; width: 11%;">OP. EXONERADA</td>';
+					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
+					source = source + '<td style="height: 23px; width: 10%;">0</td>';
+					source = source + '</tr>';
+					source = source + '<tr style="height: 23px;">';
+					source = source + '<td style="height: 23px; width: 11%;">OP. GRATUITA</td>';
+					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
+					source = source + '<td style="height: 23px; width: 10%;">0</td>';
+					source = source + '</tr>';
+					source = source + '<tr style="height: 23px;">';
+					source = source + '<td style="height: 23px; width: 11%;">DDCTO TOTAL</td>';
+					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
+					source = source + '<td style="height: 23px; width: 10%;">0</td>';
+					source = source + '</tr>';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '';
+					source = source + '</tbody>';
+					source = source + '</table>';
+					source = source + '</body></html>';
+					source = $('#TBTOTALES')[0];
+					var iframe = document.getElementById("iPDF");
+					if (tipo == 'PDF') {
+						var doc = new jsPDF();
+
+						// Black sqaure with rounded corners
+						doc.setDrawColor(0)
+						doc.setFillColor(255, 255, 255)
+						doc.roundedRect(137, 10, 60, 25, 3, 3, 'FD')
+						doc.setFontSize(15);
+						doc.setFontType('bold')
+						doc.text(143, 15, 'R.U.C.10452318348', { align: 'center' });
+						doc.text(155, 24, 'FACTURA', { align: 'center' });
+						doc.text(147, 33, 'F001 - N°0000001', { align: 'center' });
+
+						doc.autoTable(getColumns(), getData(10),{
+							startY: 50,
+							theme: 'grid', // 'striped', 'grid' or 'plain'
+							margin: {top: 60, right: 13, bottom: 0, left: 13},
+							styles: {fontSize: 8,fontStyle: 'normal',overflow: 'ellipsize'},// left, center, right /// normal, bold, italic, bolditalic
+							columnStyles: {codigo: {columnWidth: 15, halign: 'center',fontStyle: 'normal', textColor: [0, 0, 0]},
+														 unidad_medida: {columnWidth: 15, halign: 'center',fontStyle: 'normal', textColor: [0, 0, 0]},
+													 	 cantidad: {columnWidth: 18, halign: 'center',fontStyle: 'normal', textColor: [0, 0, 0]},
+													 	 p_unit: {columnWidth: 18, halign: 'right',fontStyle: 'normal', textColor: [0, 0, 0]},
+												  	 total: {columnWidth: 18, halign: 'right',fontStyle: 'normal', textColor: [0, 0, 0]}},
+							headerStyles: {
+                lineColor: [0, 0, 0],
+                valign: 'middle',
+                halign: 'center',
+                fontStyle: 'bold'
+              },
+							showHeader: 'everyPage', // 'everyPage', 'firstPage', 'never',
+
+						});
+						let first = doc.autoTable.previous;
+						doc.text(20, first.finalY + 10, 'Hola mundo!');
+						doc.line(20, 20, 60, 20); // horizontal line
+
+
+
+
+
+						doc.setDrawColor(255,0,0); // draw red lines
+						doc.setLineWidth(0.1);
+						doc.line(13, 100, 13, first.finalY + 20); // vertical line
+						doc.rect(13, first.finalY + 20, 185, 10);
+						doc.rect(13, first.finalY + 20, 185, 5*9);
+						doc.rect(13, first.finalY + 30, 45, 5*7);
+
+						doc.rect(145, first.finalY + 20, 53, 5);
+						doc.rect(145, first.finalY + 20, 53, 5*2);
+						doc.rect(145, first.finalY + 20, 53, 5*3);
+						doc.rect(145, first.finalY + 20, 53, 5*4);
+						doc.rect(145, first.finalY + 20, 53, 5*5);
+						doc.rect(145, first.finalY + 20, 53, 5*6);
+						doc.rect(145, first.finalY + 20, 53, 5*7);
+						doc.rect(145, first.finalY + 20, 53, 5*8);
+						doc.rect(145, first.finalY + 20, 53, 5*9);
+
+						doc.setDrawColor(0,0,255); // draw red lines
+						doc.rect(145+30, first.finalY + 20, 53-30, 5*9);
+
+						var qrcode = new QRCode("qrcode");
+						qrcode.makeCode("ajoi");
+  					console.log(qrcode);
+						var x = document.getElementById("qrcode").lastChild;
+						console.log(x);
+						console.log( 'aaa' + x.alt);
+
+						var image = x.src;
+    				doc.addImage(image, 'PNG', 15, 40, 180, 160);
+						//doc.addImage(btoa($("#qrcode").innerHTML), 'PNG', 15, 40, 175, 75);
+					 	//doc.fromHTML(($('#qrcode').get(0)), 10, 10, {'width': 180});
+
+            iframe.src = doc.output('datauristring');
+
+            //doc.save('table.pdf');
+            console.log(doc);
+
+
+
+						$.unblockUI();
+						return false;
+					}
 
 					var zip = new JSZip();
 						$.ajax({
@@ -322,7 +535,7 @@
 									var obj = $.parseJSON(resultado);
 
 										if (obj.exito == 'true') {
-											if (tipo=='XML') {
+											if (tipo == 'XML') {
 												var xmlText = formatXml(obj.xml_firmado);
 												var blob = new Blob([xmlText], { type: 'application/xml' });
 												var link = document.createElement('a');
@@ -349,21 +562,8 @@
 					              + getAjaxErrorString(textStatus, errorThrown));
 					    }
 					});
-
-					// 	cargarValores('Salida/ajaxDownloadXML',id,function(resultado){
-					// 		console.log(resultado)
-					// 		$.unblockUI();
-					// 		var dlif = $('<iframe/>',{'src':resultado}).hide();
-          //   //Append the iFrame to the context
-          //   this.append(dlif);
-					//
-					// 		//var obj = $.parseJSON(resultado);
-					// 		//console.log(obj.MensajeRespuesta);
-					// 	//	if (obj.Exito==true) {
-					// 			//	alert(obj.MensajeRespuesta);
-					// 		//}
-					// });
 				});
+
 			} catch (e) {
 				$.unblockUI();
 				console.log(e);
@@ -373,27 +573,9 @@
 
 		}
 
-		function descargarArchivo(contenidoEnBlob, nombreArchivo) {
-		    var reader = new FileReader();
-		    reader.onload = function (event) {
-		        var save = document.createElement('a');
-		        save.href = event.target.result;
-		        save.target = '_blank';
-		        save.download = nombreArchivo || 'archivo.dat';
-		        var clicEvent = new MouseEvent('click', {
-		            'view': window,
-		                'bubbles': true,
-		                'cancelable': true
-		        });
-		        save.dispatchEvent(clicEvent);
-		        (window.URL || window.webkitURL).revokeObjectURL(save.href);
-		    };
-		    reader.readAsDataURL(contenidoEnBlob);
-		};
     var fncEliminar=function(id){
-
             gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
-    }
+				    }
 
     $('#txtBuscar,#txtMostrar,#txtPeriodo,#txtNumero').keypress(function(e){
             if (e.which==13){
@@ -440,9 +622,14 @@
 
 		$(document).ready(function(){
 
+			// var qrcode = new QRCode("qrcode");
+			// qrcode.makeCode("ajoi");
+			//
+			// $("#text").on("keyup", function () {
+			//     qrcode.makeCode("ajoi");
+			// }).keyup().focus();
 
-
-
+			fncDOWNLOAD_XML(0,'PDF');
 
 			});
 
