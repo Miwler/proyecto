@@ -1241,14 +1241,14 @@
 
 
         //---------------------------------------					 
-        $resultado = '<table id="websendeos" class="grid table table-hover" ><tr>';
+        $resultado = '<table id="websendeos" class="grid table table-hover table-bordered" ><thead><tr>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(1);">Código' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Nombre' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(3);">Tipo' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th  class="thOrden" onclick="fncOrden(4);">Descripción' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
         $resultado.='<th> Acción</th>';
-        $resultado.='</tr>';
-
+        $resultado.='</tr></thead>';
+        $resultado.='<tbody>';
         $colspanFooter = 5;
         try {
             $cantidadMaxima = web_menu::getCount($filtro);
@@ -1279,7 +1279,7 @@
         } catch (Exception $ex) {
             $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
         }
-
+        $resultado.='</tbody>';
         $resultado.='</table>';
 
         $mensaje = '';
@@ -1494,10 +1494,10 @@
             return;
         }
         
-        $oWeb_Menu_Lista=web_menu_lista::getByID($ID);
+        //$oWeb_Menu_Lista=web_menu_lista::getByID($ID);
         try{
             $oWeb_Menu_Lista->nombre=$nombre;
-            $oWeb_Menu_Lista->web_menu_ID=$ID;
+            //$oWeb_Menu_Lista->web_menu_ID=$ID;
             $oWeb_Menu_Lista->ruta=$ruta;
             $oWeb_Menu_Lista->web_menu_lista_ID=$web_menu_lista_ID;
             $oWeb_Menu_Lista->orden=$orden;

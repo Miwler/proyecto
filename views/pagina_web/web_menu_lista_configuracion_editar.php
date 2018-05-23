@@ -1,5 +1,5 @@
 <?php		
-	require ROOT_PATH."views/shared/content-float-hijo.php";	
+	require ROOT_PATH."views/shared/content-float-modal-hijo.php";	
 ?>	
 <?php function fncTitle(){?>Lista de menú<?php } ?>
 
@@ -14,10 +14,10 @@
 
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm1"  method="post" action="pagina_web/web_menu_lista_configuracion_editar/<?php echo $GLOBALS['oWeb_Menu_Lista']->ID; ?>" onsubmit="return validar();">
+<form id="frm1"  method="post" action="pagina_web/web_menu_lista_configuracion_editar/<?php echo $GLOBALS['oWeb_Menu_Lista']->ID; ?>" class="form-horizontal" onsubmit="return validar();">
     <div class="panel panel-info">
         <div class="panel-body">
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                     <label class="text-right">Nombre:</label>
                 </div>
@@ -25,7 +25,7 @@
                     <input type="text" id="txtNombre" name="txtNombre" autocomplete="off" class="form-control form-requerido" value="<?php  echo FormatTextView($GLOBALS['oWeb_Menu_Lista']->nombre)?>" > 
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                     <label class="text-right">Ruta:</label>
                 </div>
@@ -33,7 +33,7 @@
                     <input type="text" id="txtRuta" name="txtRuta" autocomplete="off"  class="form-control form-requerido" value="<?php  echo FormatTextView($GLOBALS['oWeb_Menu_Lista']->ruta)?>" > 
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                     <label class="text-right">Padre:</label>
                 </div>
@@ -49,7 +49,7 @@
                     </script>
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                     <label class="text-right">Orden:</label>
                 </div>
@@ -57,7 +57,7 @@
                     <input type="number" id="txtOrden" name="txtOrden" value="<?php echo $GLOBALS['oWeb_Menu_Lista']->orden;?>" class="form-control" > 
                 </div>
             </div>
-            <div class="row">
+            <div class="form-group">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
                     <label class="text-right">Tabla:</label>
                 </div>
@@ -74,7 +74,7 @@
                         Guardar
                     </button>
                   
-                    <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Cancelar" onclick="window_deslizar_save();" >
+                    <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Cancelar" onclick="parent.windos_float_save_modal_hijo();" >
                         <span class="glyphicon glyphicon-ban-circle"></span>
                         Cancelar
                     </button>
@@ -126,7 +126,7 @@
             
         toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
     });
-      setTimeout('window_deslizar_save();', 1000);
+      setTimeout('parent.windos_float_save_modal_hijo();', 1000);
     </script>
     <?php } ?>
 

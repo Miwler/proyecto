@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 
 ?>	
 <?php
@@ -31,7 +31,7 @@ function fncMenu() { ?>
 function fncPage() { ?>
 
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1|| $GLOBALS['resultado'] == 1) { ?>
-    <form id="form"  method="POST" style="overflow:auto;"  action="/Pagina_Web/Web_Menu_Configuracion_Nuevo" onsubmit="return validar();">
+    <form id="form"  method="POST" style="overflow:auto;"  action="/Pagina_Web/Web_Menu_Configuracion_Nuevo" class="form-horizontal" onsubmit="return validar();">
         <div class="panel panel-info">
             <div class="panel-body">
                 <ul class="nav nav-tabs">
@@ -45,7 +45,7 @@ function fncPage() { ?>
                 </ul>
                 <div class="tab-content" style="padding-top:10px;">
                     <div id="datos_generales" class="tab-pane fade in active">
-                        <div class="row">
+                        <div class="form-group">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <label>Nombre</label>
                                 <input type="hidden" id="txtID" name="txtID" value="<?php echo $GLOBALS['oWeb_Menu']->ID;?>">
@@ -54,7 +54,7 @@ function fncPage() { ?>
                                 <input type="text" id="txtNombre" name="txtNombre" autocomplete="off" class="form-control form-requerido" value="<?php echo FormatTextView($GLOBALS['oWeb_Menu']->nombre);?>">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <label>Tipo</label>
 
@@ -68,7 +68,7 @@ function fncPage() { ?>
 
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <label>Descripción</label>
                             </div>
@@ -89,18 +89,19 @@ function fncPage() { ?>
                 </div>
             </div>
             <div class="panel-footer">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar" >
-                            <img  alt="" src="/include/img/boton/save_14x14.png">
-                        Guardar
-                        </button>
-                        &nbsp;
-                         <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" title="Guardar" type="button" onclick="window_float_close();" >
-                            <img  alt="" src="/include/img/boton/cancel_14x14.png">
-                        Cerrar
-                        </button>
-                    </div> 
+                <div class="pull-left">
+                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar" >
+                        <img  alt="" src="/include/img/boton/save_14x14.png">
+                    Guardar
+                    </button>
+                    &nbsp;
+                     <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" title="Guardar" type="button" onclick="window_float_close_modal();" >
+                        <img  alt="" src="/include/img/boton/cancel_14x14.png">
+                    Cerrar
+                    </button>
+                </div> 
+                <div class="clearfix">
+                    
                 </div>
                  
             </div>
@@ -129,17 +130,18 @@ function fncPage() { ?>
     var fncCargarLista=function(){
         var web_menu_ID=$("#txtID").val();
         cargarValores("/pagina_web/ajaxWeb_Menu_Lista",web_menu_ID,function(resultado){
-            alert(resultado.resultado);
+            //alert(resultado.resultado);
             $("#divLista").html(resultado.resultado);
         });
     }
     var fncAgregarLista=function(){
         var web_menu_ID=$("#txtID").val();
-        window_float_deslizar('form','pagina_web/web_menu_lista_configuracion_nuevo',web_menu_ID,'',fncCargarLista);
+        parent.window_float_open_modal_hijo('AGREGAR LISTA','pagina_web/web_menu_lista_configuracion_nuevo',web_menu_ID,'',fncCargarLista,400,350);
+        //window_float_deslizar('form','pagina_web/web_menu_lista_configuracion_nuevo',web_menu_ID,'',fncCargarLista);
     }
     var fncEditar=function(id){
-        
-        window_float_deslizar('form','pagina_web/web_menu_lista_configuracion_editar',id,'',fncCargarLista);
+        parent.window_float_open_modal_hijo('EDITAR LISTA','pagina_web/web_menu_lista_configuracion_editar',id,'',fncCargarLista,400,350);
+        //window_float_deslizar('form','pagina_web/web_menu_lista_configuracion_editar',id,'',fncCargarLista);
     }
 </script>
 <?php } ?>

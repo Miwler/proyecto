@@ -149,7 +149,7 @@ function fncPage() { ?>
         fnvMostrarChat();
         
     });
-    //setInterval(fnvMostrarChat, 1000);
+    setInterval(fnvMostrarChat, 1000);
 </script>
 <style>
     
@@ -192,8 +192,11 @@ function fncPage() { ?>
 }
 .text_chat_invitado p{
     float:right;
-    background: #f0ad4e;
-    border: 1px solid #eea236;
+    -webkit-box-shadow: 2px 2px 2px 1px rgba(176,173,173,1);
+-moz-box-shadow: 2px 2px 2px 1px rgba(176,173,173,1);
+box-shadow: 2px 2px 2px 1px rgba(176,173,173,1);
+    background: rgba(102, 255, 255,0.8);
+    
     border-radius: 5px 5px 0 0;
     padding: 3px 2px;
 }

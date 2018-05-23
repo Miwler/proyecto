@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float.php";
+require ROOT_PATH . "views/shared/content-float-modal.php";
 
 ?>	
 <?php
@@ -31,7 +31,7 @@ function fncMenu() { ?>
 function fncPage() { ?>
 
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1|| $GLOBALS['resultado'] == 1) { ?>
-    <form id="form"  method="POST" style="overflow:auto;"  action="/Pagina_Web/Web_Menu_Configuracion_Editar/<?php echo $GLOBALS['oWeb_Menu']->ID;?>" onsubmit="return validar();">
+    <form id="form"  method="POST" style="overflow:auto;"  action="/Pagina_Web/Web_Menu_Configuracion_Editar/<?php echo $GLOBALS['oWeb_Menu']->ID;?>" class="form-horizontal" onsubmit="return validar();">
         <div class="panel panel-info">
             <div class="panel-body">
                 <ul class="nav nav-tabs">
@@ -43,7 +43,7 @@ function fncPage() { ?>
                 </ul>
                 <div class="tab-content" style="padding-top:10px;">
                     <div id="datos_generales" class="tab-pane fade in active">
-                        <div class="row">
+                        <div class="form-group">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <label>Nombre</label>
                                 <input type="hidden" id="txtID" name="txtID" value="<?php echo $GLOBALS['oWeb_Menu']->ID;?>">
@@ -52,7 +52,7 @@ function fncPage() { ?>
                                 <input type="text" id="txtNombre" name="txtNombre" autocomplete="off" class="form-control form-requerido" value="<?php echo FormatTextView($GLOBALS['oWeb_Menu']->nombre);?>">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <label>Tipo</label>
 
@@ -68,7 +68,7 @@ function fncPage() { ?>
                                 </script>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <label>Descripción</label>
                             </div>

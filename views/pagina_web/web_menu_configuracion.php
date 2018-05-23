@@ -91,18 +91,18 @@
         }
 
         var fncNuevo=function(){			
-            window_float_open('/Pagina_Web/Web_Menu_Configuracion_Nuevo','','',f);
+            window_float_open_modal('NUEVO MENU','/Pagina_Web/Web_Menu_Configuracion_Nuevo','','',f,700,450);
         }
 
         var fncEditar=function(id){			
-            window_float_open('/Pagina_Web/Web_Menu_Configuracion_Editar',id,'',f);
+            window_float_open_modal('EDITAR MENU','/Pagina_Web/Web_Menu_Configuracion_Editar',id,'',f,700,450);
         }
-        var fncImagen=function(id){
-            window_float_open('/Pagina_Web/Web_Banner_Configuracion_Imagen',id,'',f);
+        /*var fncImagen=function(id){
+            window_float_open_menu('/Pagina_Web/Web_Banner_Configuracion_Imagen',id,'',f);
         }
         var fncUbicacion=function(id){
              window_float_open('/Pagina_Web/Web_Banner_Configuracion_Ubicacion',id,'',f);
-        }
+        }*/
         var fncEliminar=function(id){
             cargarValores('/Pagina_Web/ajaxWeb_Banner_Configuracion_Eliminar',id,function(resultado){
                 if(resultado.resultado==1){
