@@ -7,13 +7,14 @@
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
-		<script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
-		<script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
-		<script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
-		<script type="text/javascript" src="include/jsPDF/dist/jspdf.debug.js"></script>
+    <!--
+    <script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
+    <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
+    <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
+    <script type="text/javascript" src="include/jsPDF/dist/jspdf.debug.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.min.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.plugin.autotable.js"></script>
-		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>
+		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>-->
 
 
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
@@ -40,8 +41,8 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
 <?php } ?>
 <?php function fncPage(){?>
-<!-- <form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal"> -->
-	<form id="frm1" name="frm1" method="post" class="form-horizontal">
+<form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal"> 
+	<!--<form id="frm1" name="frm1" method="post" class="form-horizontal">-->
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -233,7 +234,7 @@
             $('[data-toggle="tooltip"]').tooltip();
             $('#websendeos').stacktable();
     }
-    //f.enviar();
+    f.enviar();
 
     var fncOrden=function(col){
 
@@ -326,7 +327,7 @@
 
 		var faker = window.faker;
 		var base64Img = null;
-		var getColumns = function () {
+		/*var getColumns = function () {
 		            return [
 		                { title: "CÓDIGO", dataKey: "codigo" },
 		                { title: "DESCRIPCIÓN", dataKey: "descripcion" },
@@ -337,7 +338,7 @@
 		            ];
 		        };
 						// Uses the faker.js library to get random data.
-			        function getData(rowCount) {
+			        /*function getData(rowCount) {
 			            rowCount = rowCount || 4;
 			            //var sentence = "Minima quis totam nobis nihil et molestiae architecto accusantium qui necessitatibus sit ducimus cupiditate qui ullam et aspernatur esse et dolores ut voluptatem odit quasi ea sit ad sint voluptatem est dignissimos voluptatem vel adipisci facere consequuntur et reprehenderit cum unde debitis ab cumque sint quo ut officiis rerum aut quia quia expedita ut consectetur animiqui voluptas suscipit Monsequatur";
 			            var data = [];
@@ -365,9 +366,9 @@
 							  ctx.drawImage(img, 0, 0);
 							  var dataURL = canvas.toDataURL("image/png");
 							  return dataURL;
-							}
+							}*/
 
-	function fncDOWNLOAD_XML(id,tipo) {
+	/*function fncDOWNLOAD_XML(id,tipo) {
 			try {
 					block_ui(function () {
 
@@ -571,7 +572,7 @@
 
 			}
 
-		}
+		}*/
 
     var fncEliminar=function(id){
             gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
@@ -603,7 +604,7 @@
         }
     });
 
-		function fnModalPopover() {
+		/*function fnModalPopover() {
 
 			$('[rel="popover"]').popover({
 					container: 'body',
@@ -615,7 +616,7 @@
 							return clone;
 					}
 			}).on("show.bs.popover", function () { $(this).data("bs.popover").tip().css("max-width", "650px"); });
-		}
+		}*/
 
 
 
@@ -629,7 +630,7 @@
 			//     qrcode.makeCode("ajoi");
 			// }).keyup().focus();
 
-			fncDOWNLOAD_XML(0,'PDF');
+			//fncDOWNLOAD_XML(0,'PDF');
 
 			});
 
