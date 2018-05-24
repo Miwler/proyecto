@@ -3,7 +3,7 @@
 ?>
 
 <?php function fncTitle(){?>
-		Cobranza de facturas
+		Notas de créditos
 <?php } ?>
 <?php function fncHead(){?>
         <script type="text/javascript" src="include/js/jForm.js"></script>
@@ -16,22 +16,19 @@
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncTituloCabecera(){?>
-     <i class="fa fa-file-text" aria-hidden="true"></i> Registro de cobranzas de facturas
+     <i class="fa fa-file-text" aria-hidden="true"></i> Registro de Notas de créditos
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1"  method="post" action="/Salida/ajaxCobranza_Mantenimiento" class="form-horizontal">
+<form id="frm1"  method="post" action="/Salida/ajaxNota_Credito_Mantenimiento" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding"> 
            <ul class="nav nav-tabs">
                 <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
-               
             </ul>
             <div style="position: absolute;right: 260px;top: 12px;display: block;">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
-
             </div>
-            
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
         </div>
         <div class="panel-body">
@@ -122,25 +119,11 @@
                 </div>
                 <div class="tab-pane" id="vista_buscar">
                     <div class="form-group">
+                        
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
                             <div class="row">
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>Periodo: </label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <select id="selPeriodo" name="selPeriodo" class="form-control">
-                                        <option value="0">--</option>
-                                        <?php for ($i=0;$i<count($GLOBALS['dtPerido']);$i++) { ?>
-                                        <option value="<?php echo $GLOBALS['dtPerido'][$i]?>"><?php echo $GLOBALS['dtPerido'][$i]?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <div class="row">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>Serie factura: </label>
+                                     <label>Serie: </label>
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                     <input type='text' id='txtSerie' name='txtSerie' class="form-control" autocomplete="off">
@@ -150,7 +133,7 @@
                         <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
                             <div class="row">
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>N&uacute;mero de factura: </label>
+                                     <label>N&uacute;mero: </label>
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                      <input  type="text" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off">
