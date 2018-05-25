@@ -11153,7 +11153,7 @@ function post_ajaxDownloadXML() {
         $retornar = Array('mensaje' => $ex->getMessage(), 'exito' => 'false');
         echo json_encode($retornar);
     }
-    
+
 }
 
 //Nota de crédito
@@ -11187,10 +11187,10 @@ function post_ajaxNota_Credito_Mantenimiento() {
     $estado_ID=$_POST['selEstado'];
     $fecha_inicio=$_POST['txtFechaInicio'];
     $fecha_fin=$_POST['txtFechaFin'];
-    
+
     $serie=trim($_POST['txtSerie']);
     $numero=Ltrim($_POST['txtNumero'],'0');
-    
+
     $moneda=$_POST['selMoneda'];
 
     if (isset($_POST['chkOrdenASC'])) {
@@ -11230,7 +11230,7 @@ function post_ajaxNota_Credito_Mantenimiento() {
     }
     $filtro="co.empresa_ID=".$_SESSION['empresa_ID'];
     if($opcion_tipo=="buscar"){
-        
+
         if(trim($numero)!=""){
             if($filtro!=""){
                 $filtro.=" and ";
@@ -11372,3 +11372,34 @@ function post_ajaxNota_Credito_Mantenimiento() {
 
     echo json_encode($retornar);
 }
+
+function get_Factura_Vista_PreviaPDF($id){
+
+            require ROOT_PATH.'models/factura_venta.php';
+
+            require ROOT_PATH.'formatos_pdf/factura_venta_pdf.php';
+            global $returnView_float;
+            $returnView_float=true;
+            $pdf= new PDF2('P','mm',array(216,279));
+            try{
+                $dtCabecera=factura_venta::getComprobante_Electronico($id,"cabecera");
+                $dtDetalle=factura_venta::getComprobante_Electronico($id,"detalle");
+                $numero_cuenta=factura_venta::getComprobante_Electronico($id,"numero_cuenta");
+
+
+                $pdf->AddPage();
+                $pdf->cabecera=$dtCabecera;
+                $pdf->numero_cuenta=$numero_cuenta;
+                $pdf->cabecera_header();
+                $pdf->contenedor_detalle(130);
+                //$dtFactura_Venta_Detalle1=factura_venta_detalle::getGrid1('fvd.factura_venta_ID='.$item['ID'],-1,-1,'ovd.ID asc');
+                $pdf->SetWidths(array(20,15,15,100,25,25));
+                $pdf->SetAligns(array('C','C','C','L','R','R'));
+                $pdf->contenido_detalle($dtDetalle);
+
+            }catch(Exception $ex){
+                $GLOBALS['error']=$ex->getMessage();
+            }
+           //$GLOBALS['detalle']=$dtCabecera;
+        $pdf->Output('I','Factura Nro'.sprintf("%'.07d",'5').'.pdf',true);
+    }

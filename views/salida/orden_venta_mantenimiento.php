@@ -7,14 +7,14 @@
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
-    <!--
+
     <script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
     <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
     <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.debug.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.min.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.plugin.autotable.js"></script>
-		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>-->
+		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>
 
 
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
@@ -41,7 +41,7 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal"> 
+<form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
 	<!--<form id="frm1" name="frm1" method="post" class="form-horizontal">-->
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
@@ -52,7 +52,7 @@
             <div style="position: absolute;right: 260px;top: 12px;display: block;">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
             </div>
-
+						<a onclick="fncVerPDF(600);"  class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">verPDF</a>
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
         </div>
@@ -256,6 +256,9 @@
     var fncNuevo=function(){
         window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,550);
     }
+		var fncVerPDF=function(id){
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Factura_Vista_PreviaPDF',id,'',f,800,550);
+    }
 
     var fncMantenimiento=function(){
         $('#frm1').css('display','block');
@@ -368,156 +371,17 @@
 							  return dataURL;
 							}*/
 
-	/*function fncDOWNLOAD_XML(id,tipo) {
+
+
+	function fncDOWNLOAD_XML(id,tipo) {
 			try {
 					block_ui(function () {
 
-					source = '<html><body>';
-					source = source + '<table style="width: 100%;">';
-					source = source + '<tbody>';
-					source = source + '<tr style="height: 23px;">';
-					source = source + '<tr style="height: 23px;">';
-					source = source + '<td colspan="2" rowspan="2">SON:&nbsp;&nbsp;&nbsp;</td>';
-					source = source + '<td style="height: 23px; width: 11%;">OP. GRAVADA</td>';
-					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
-					source = source + '<td style="height: 23px; width: 10%;">0</td>';
-					source = source + '</tr>';
-					source = source + '<tr style="height: 23px;">';
-					source = source + '<td style="height: 23px; width: 11%;">OP. INAFECTA</td>';
-					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
-					source = source + '<td style="height: 23px; width: 10%;">0</td>';
-					source = source + '</tr>';
-					source = source + '<tr style="height: 23px;">';
-					source = source + '<td style="width: 20.0916%;" rowspan="7">IMG</td>';
-					source = source + '<td style="width: 29%;" rowspan="7">DETALLE</td>';
-					source = source + '<td style="height: 23px; width: 11%;">OP. EXONERADA</td>';
-					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
-					source = source + '<td style="height: 23px; width: 10%;">0</td>';
-					source = source + '</tr>';
-					source = source + '<tr style="height: 23px;">';
-					source = source + '<td style="height: 23px; width: 11%;">OP. GRATUITA</td>';
-					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
-					source = source + '<td style="height: 23px; width: 10%;">0</td>';
-					source = source + '</tr>';
-					source = source + '<tr style="height: 23px;">';
-					source = source + '<td style="height: 23px; width: 11%;">DDCTO TOTAL</td>';
-					source = source + '<td style="height: 23px; width: 10%;">S/.</td>';
-					source = source + '<td style="height: 23px; width: 10%;">0</td>';
-					source = source + '</tr>';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '';
-					source = source + '</tbody>';
-					source = source + '</table>';
-					source = source + '</body></html>';
-					source = $('#TBTOTALES')[0];
+
 					var iframe = document.getElementById("iPDF");
 					if (tipo == 'PDF') {
-						var doc = new jsPDF();
 
-						// Black sqaure with rounded corners
-						doc.setDrawColor(0)
-						doc.setFillColor(255, 255, 255)
-						doc.roundedRect(137, 10, 60, 25, 3, 3, 'FD')
-						doc.setFontSize(15);
-						doc.setFontType('bold')
-						doc.text(143, 15, 'R.U.C.10452318348', { align: 'center' });
-						doc.text(155, 24, 'FACTURA', { align: 'center' });
-						doc.text(147, 33, 'F001 - N°0000001', { align: 'center' });
-
-						doc.autoTable(getColumns(), getData(10),{
-							startY: 50,
-							theme: 'grid', // 'striped', 'grid' or 'plain'
-							margin: {top: 60, right: 13, bottom: 0, left: 13},
-							styles: {fontSize: 8,fontStyle: 'normal',overflow: 'ellipsize'},// left, center, right /// normal, bold, italic, bolditalic
-							columnStyles: {codigo: {columnWidth: 15, halign: 'center',fontStyle: 'normal', textColor: [0, 0, 0]},
-														 unidad_medida: {columnWidth: 15, halign: 'center',fontStyle: 'normal', textColor: [0, 0, 0]},
-													 	 cantidad: {columnWidth: 18, halign: 'center',fontStyle: 'normal', textColor: [0, 0, 0]},
-													 	 p_unit: {columnWidth: 18, halign: 'right',fontStyle: 'normal', textColor: [0, 0, 0]},
-												  	 total: {columnWidth: 18, halign: 'right',fontStyle: 'normal', textColor: [0, 0, 0]}},
-							headerStyles: {
-                lineColor: [0, 0, 0],
-                valign: 'middle',
-                halign: 'center',
-                fontStyle: 'bold'
-              },
-							showHeader: 'everyPage', // 'everyPage', 'firstPage', 'never',
-
-						});
-						let first = doc.autoTable.previous;
-						doc.text(20, first.finalY + 10, 'Hola mundo!');
-						doc.line(20, 20, 60, 20); // horizontal line
-
-
-
-
-
-						doc.setDrawColor(255,0,0); // draw red lines
-						doc.setLineWidth(0.1);
-						doc.line(13, 100, 13, first.finalY + 20); // vertical line
-						doc.rect(13, first.finalY + 20, 185, 10);
-						doc.rect(13, first.finalY + 20, 185, 5*9);
-						doc.rect(13, first.finalY + 30, 45, 5*7);
-
-						doc.rect(145, first.finalY + 20, 53, 5);
-						doc.rect(145, first.finalY + 20, 53, 5*2);
-						doc.rect(145, first.finalY + 20, 53, 5*3);
-						doc.rect(145, first.finalY + 20, 53, 5*4);
-						doc.rect(145, first.finalY + 20, 53, 5*5);
-						doc.rect(145, first.finalY + 20, 53, 5*6);
-						doc.rect(145, first.finalY + 20, 53, 5*7);
-						doc.rect(145, first.finalY + 20, 53, 5*8);
-						doc.rect(145, first.finalY + 20, 53, 5*9);
-
-						doc.setDrawColor(0,0,255); // draw red lines
-						doc.rect(145+30, first.finalY + 20, 53-30, 5*9);
-
-						var qrcode = new QRCode("qrcode");
-						qrcode.makeCode("ajoi");
-  					console.log(qrcode);
-						var x = document.getElementById("qrcode").lastChild;
-						console.log(x);
-						console.log( 'aaa' + x.alt);
-
-						var image = x.src;
-    				doc.addImage(image, 'PNG', 15, 40, 180, 160);
-						//doc.addImage(btoa($("#qrcode").innerHTML), 'PNG', 15, 40, 175, 75);
-					 	//doc.fromHTML(($('#qrcode').get(0)), 10, 10, {'width': 180});
-
-            iframe.src = doc.output('datauristring');
-
-            //doc.save('table.pdf');
-            console.log(doc);
-
-
+					fncVerPDF(600);
 
 						$.unblockUI();
 						return false;
@@ -572,7 +436,7 @@
 
 			}
 
-		}*/
+		}
 
     var fncEliminar=function(id){
             gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
