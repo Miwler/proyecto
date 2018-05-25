@@ -11187,6 +11187,186 @@ function post_ajaxNota_Credito_Mantenimiento() {
     $estado_ID=$_POST['selEstado'];
     $fecha_inicio=$_POST['txtFechaInicio'];
     $fecha_fin=$_POST['txtFechaFin'];
+    
+    $serie=trim($_POST['txtSerie']);
+    $numero=Ltrim($_POST['txtNumero'],'0');
+    
+    $moneda=$_POST['selMoneda'];
+    $serie=$_POST['txtSerie'];
+    if (isset($_POST['chkOrdenASC'])) {
+        $orden_class = 'imgOrden-asc';
+        $orden_tipo = 'ASC';
+    }
+    $todos=0;
+    if(isset($_POST['ckTodos'])){
+        $todos=$_POST['ckTodos'];
+    }
+    switch ($txtOrden) {
+        case 1:
+            $orden = 'cr.serie ' . $orden_tipo;
+            break;
+        case 2:
+            $orden = 'cr.numero ' . $orden_tipo;
+            break;
+        case 3:
+            $orden = 'cr.fecha_emision ' . $orden_tipo;
+            break;
+        case 4:
+            $orden = 'fv.serie ' . $orden_tipo.', fv.numero '.$orden_tipo;
+            break;
+        case 5:
+            $orden = 'mo.simbolo ' . $orden_tipo;
+            break;
+        case 6:
+            $orden = 'cr.monto_total ' . $orden_tipo;
+            break;
+        case 7:
+            $orden = 'es.nombre ' . $orden_tipo;
+            break;
+
+        default:
+            $orden = 'cr.ID ' . $orden_tipo;
+            break;
+    }
+    
+    $filtro="";
+    if($opcion_tipo=="buscar"){
+        if(trim($serie)!=""){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro="cr.numero=".$numero;
+        }
+        if(trim($numero)!=""){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro="cr.numero=".$numero;
+        }
+
+    }else {
+
+        if($estado_ID!=0){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro.="cr.estado_ID=".$estado_ID;
+        }
+        if($todos==0){
+            if($fecha_inicio!="" &&$fecha_fin!="" ){
+                if($filtro!=""){
+                    $filtro.=" and ";
+                }
+                $filtro.=" cr.fecha between '".FormatTextToDate($fecha_inicio,'Y-m-d')."' and '".FormatTextToDate($fecha_fin,'Y-m-d')."'" ;
+
+
+            }
+        }
+
+        if($moneda>0){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro.="cr.moneda_ID=".$moneda;
+        }
+    }
+
+    // $filtro.= 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+
+    //---------------------------------------
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Serie' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Número' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(3);">Tipo' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(4);">Fecha' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Factura' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(7);">Moneda.' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(7);">Monto' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(8);">Estado' . (($txtOrden == 8 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th></th>';
+    $resultado.='</tr></thead><tbody>';
+
+    $colspanFooter = 9;
+    try {
+        $cantidadMaxima = comprobante_regula::getCount($filtro);
+        $dt = comprobante_regula::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $rows=count($dt);
+        foreach ($dt as $item) {
+            $resultado.='<tr class="tr-item" >';
+            $resultado.='<td class="text-center">' . $item['serie'] . '</td>';
+            $resultado.='<td class="text-center">' . $item['numero_concatenado']. '</td>';
+            $resultado.='<td class="text-center">' . $item['tipo']. '</td>';
+            $resultado.='<td class="tdLeft">' . $item['fecha_emision'] . '</td>';
+            $resultado.='<td class="text-center">' . $item['serie_factura'].'-'.$item['numero_factura']. '</td>';
+            $resultado.='<td class="text-right">' . $item['moneda'] . '</td>';
+            $resultado.='<td class="text-right">' . $item['monto_total'] . '</td>';
+            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['estado'])) . '</td>';
+ 
+            $botones=array();
+            $boton='<a onclick="fncEditar(' . $item['ID'] . ');"><img title="Editar" src="/include/img/boton/edit_14x14.png" />Editar</a>';
+           /* if($item['estado_ID']==25){
+                 $boton='<a onclick="fncEditar(' . $item['ID'] . ');"><img title="Editar" width="14px" src="/include/img/boton/preview-16.png" />Ver detalle</a>';
+            }*/
+            
+            array_push($botones,$boton);
+           
+            if($item['estado_ID']!=25){
+                array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');"><img title="Eliminar" src="/include/img/boton/delete_14x14.png" />&nbsp;Eliminar</a>');
+            }
+
+            $resultado.='<td class="text-center" >'.extraerOpcion($botones)."</td>";
+            $resultado.='</tr>';
+            
+        }
+
+        $cantidadPaginas = '';
+        $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
+        $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
+    } catch (Exception $ex) {
+        $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+    }
+    $resultado.='</tbody>';
+    $resultado.='</table>';
+
+    $mensaje = '';
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+
+    echo json_encode($retornar);
+}
+function get_Nota_Credito_Mantenimiento_Nuevo(){
+    require ROOT_PATH.'models/salida.php';
+    require ROOT_PATH.'models/factura_venta.php';
+    require ROOT_PATH.'models/operador.php';
+    require ROOT_PATH.'models/moneda.php';
+    require ROOT_PATH.'models/motivo_anulacion.php';
+    global  $returnView_float;
+    $returnView_float=true;
+    
+    //$GLOBALS['oFactura_Venta']=$oFactura_Venta;
+   
+}
+function get_Nota_Credito_Detalle(){
+    
+    global  $returnView_float;
+    $returnView_float=true;
+    
+    //$GLOBALS['oFactura_Venta']=$oFactura_Venta;
+   
+}
+    require ROOT_PATH . 'models/comprobante_regula.php';
+    require ROOT_PATH . 'controls/funcionController.php';
+    //$buscar = $_POST['txtBuscar'];
+    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
+    $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
+    $opcion_tipo=$_POST['rbOpcion'];
+    $txtOrden = $_POST['txtOrden'];
+    $orden_tipo = 'DESC';
+    $orden_class = 'imgOrden-desc';
+    $cliente_ID=$_POST['selCliente'];
+    $estado_ID=$_POST['selEstado'];
+    $fecha_inicio=$_POST['txtFechaInicio'];
+    $fecha_fin=$_POST['txtFechaFin'];
 
     $serie=trim($_POST['txtSerie']);
     $numero=Ltrim($_POST['txtNumero'],'0');
