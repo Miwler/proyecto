@@ -457,6 +457,18 @@ class factura_venta {
 
     }
 
+    static function getComprobante_Electronico($factura_venta_ID,$opcion) {
+       $cn = new connect();
+       try {
+           $q = 'call getComprobante_Electronico('.$factura_venta_ID.',"'.$opcion.'");';
+           //ECHO $q;
+           $dt = $cn->getGrid($q);
+           return $dt;
+       } catch (Exception $ex) {
+           throw new Exception('Ocurrio un error en la consulta');
+       }
+   }
+
   }
 
 

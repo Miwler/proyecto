@@ -3758,7 +3758,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             $resultado.='<td class="tdRight">' . $item['precio_venta_total_soles'] . '</td>';
             $resultado.='<td class="tdRight">' . $item['precio_venta_total_dolares'] . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
-            $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].','. "'PDF'" .');"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></a></td>';
+            $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['factura_venta_ID'].','. "'PDF'" .');"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></a></td>';
             $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].','. "'XML'" .');"><i class="fa fa-file-code-o" style="font-size:30px;color:#007BE8"></i></a></td>';
             $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].','. "'CDR'" .');"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></a></td>';
             $resultado.='<td class="text-center">';
@@ -11153,7 +11153,7 @@ function post_ajaxDownloadXML() {
         $retornar = Array('mensaje' => $ex->getMessage(), 'exito' => 'false');
         echo json_encode($retornar);
     }
-    
+
 }
 
 //Nota de crédito
@@ -11187,10 +11187,10 @@ function post_ajaxNota_Credito_Mantenimiento() {
     $estado_ID=$_POST['selEstado'];
     $fecha_inicio=$_POST['txtFechaInicio'];
     $fecha_fin=$_POST['txtFechaFin'];
-    
+
     $serie=trim($_POST['txtSerie']);
     $numero=Ltrim($_POST['txtNumero'],'0');
-    
+
     $moneda=$_POST['selMoneda'];
     $serie=$_POST['txtSerie'];
     if (isset($_POST['chkOrdenASC'])) {
@@ -11231,7 +11231,12 @@ function post_ajaxNota_Credito_Mantenimiento() {
     
     $filtro="";
     if($opcion_tipo=="buscar"){
+<<<<<<< HEAD
         if(trim($serie)!=""){
+=======
+
+        if(trim($numero)!=""){
+>>>>>>> a8297fdf17436db0af214d6bda5f2871c0c0aa19
             if($filtro!=""){
                 $filtro.=" and ";
             }
@@ -11334,6 +11339,7 @@ function post_ajaxNota_Credito_Mantenimiento() {
 
     echo json_encode($retornar);
 }
+<<<<<<< HEAD
 function get_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/salida.php';
     require ROOT_PATH.'models/factura_venta.php';
@@ -11353,4 +11359,5 @@ function get_Nota_Credito_Detalle(){
     
     //$GLOBALS['oFactura_Venta']=$oFactura_Venta;
    
-}
+            require ROOT_PATH.'models/factura_venta.php';
+
