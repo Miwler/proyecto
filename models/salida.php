@@ -196,7 +196,7 @@ class salida {
                     throw new Exception("Ocurrio un error en la consulta");
             }
     }
-    
+
     static function getCount($filtro='')
     {
         $cn =new connect();
@@ -287,13 +287,14 @@ class salida {
 		$cn =new connect();
 		try
 		{
-        $q='SELECT ifnull(fvs.codigo_estado,-1) as sunat_codigo_estado,fvs.codigo_estado,fvs.descripcion_estado,ov.ID,ov.empresa_ID,ifNull(ov.cotizacion_ID,-1) as cotizacion_ID,ov.cliente_ID,ov.cliente_contacto_ID,ov.operador_ID,ov.periodo,ov.numero,ov.';
+        $q='SELECT ifnull(fvs.codigo_estado,-1) as sunat_codigo_estado,fv.ID as factura_venta_ID,fvs.codigo_estado,fvs.descripcion_estado,ov.ID,ov.empresa_ID,ifNull(ov.cotizacion_ID,-1) as cotizacion_ID,ov.cliente_ID,ov.cliente_contacto_ID,ov.operador_ID,ov.periodo,ov.numero,ov.';
         $q.='numero_concatenado,ov.numero_orden_ingreso,ov.moneda_ID,date_format(ov.fecha,"%d/%m/%Y") as fecha,ov.igv,ov.vigv_soles,ov.vigv_dolares,ov.precio_venta_neto_soles,ov.';
         $q.='precio_venta_total_soles,ov.precio_venta_neto_dolares,ov.precio_venta_total_dolares,ov.forma_pago_ID,ov.';
         $q.='tiempo_credito,ov.descuento_soles,ov.descuento_dolares,ov.estado_ID,ov.tipo_cambio,ov.plazo_entrega,ov.lugar_entrega,ov.validez_oferta,ov.garantia,ov.observacion,ov.usuario_id,ov.usuario_mod_id,ov.impresion, ';
         $q.='cl.razon_social ,es.nombre as estado,';
         $q.=' fvs.descripcion_estado as estado_sunat';
         $q.=' FROM salida ov ';
+        $q.=' inner join factura_venta fv on ov.ID = fv.salida_ID';
         $q.=' inner join cliente cl on ov.cliente_ID=cl.ID';
         $q.=' inner join estado es on ov.estado_ID=es.ID';
         $q.=' left join (';

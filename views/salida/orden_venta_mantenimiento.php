@@ -381,7 +381,7 @@
 					var iframe = document.getElementById("iPDF");
 					if (tipo == 'PDF') {
 
-					fncVerPDF(600);
+					fncVerPDF(id);
 
 						$.unblockUI();
 						return false;

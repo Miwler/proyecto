@@ -3758,7 +3758,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             $resultado.='<td class="tdRight">' . $item['precio_venta_total_soles'] . '</td>';
             $resultado.='<td class="tdRight">' . $item['precio_venta_total_dolares'] . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
-            $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].','. "'PDF'" .');"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></a></td>';
+            $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['factura_venta_ID'].','. "'PDF'" .');"><i class="fa fa-file-pdf-o" style="font-size:30px;color:#e64328"></i></a></td>';
             $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].','. "'XML'" .');"><i class="fa fa-file-code-o" style="font-size:30px;color:#007BE8"></i></a></td>';
             $resultado.='<td class="text-center"><a onclick="fncDOWNLOAD_XML('.$item['ID'].','. "'CDR'" .');"><i class="fa fa-file-text-o" style="font-size:30px;color:#8CC152"></i></a></td>';
             $resultado.='<td class="text-center">';
