@@ -11359,5 +11359,37 @@ function get_Nota_Credito_Detalle(){
     
     //$GLOBALS['oFactura_Venta']=$oFactura_Venta;
    
+}
+=======
+
+function get_Factura_Vista_PreviaPDF($id){
+
             require ROOT_PATH.'models/factura_venta.php';
 
+            require ROOT_PATH.'formatos_pdf/factura_venta_pdf.php';
+            global $returnView_float;
+            $returnView_float=true;
+            $pdf= new PDF2('P','mm',array(216,279));
+            try{
+                $dtCabecera=factura_venta::getComprobante_Electronico($id,"cabecera");
+                $dtDetalle=factura_venta::getComprobante_Electronico($id,"detalle");
+                $numero_cuenta=factura_venta::getComprobante_Electronico($id,"numero_cuenta");
+
+
+                $pdf->AddPage();
+                $pdf->cabecera=$dtCabecera;
+                $pdf->numero_cuenta=$numero_cuenta;
+                $pdf->cabecera_header();
+                $pdf->contenedor_detalle(130);
+                //$dtFactura_Venta_Detalle1=factura_venta_detalle::getGrid1('fvd.factura_venta_ID='.$item['ID'],-1,-1,'ovd.ID asc');
+                $pdf->SetWidths(array(20,15,15,100,25,25));
+                $pdf->SetAligns(array('C','C','C','L','R','R'));
+                $pdf->contenido_detalle($dtDetalle);
+
+            }catch(Exception $ex){
+                $GLOBALS['error']=$ex->getMessage();
+            }
+           //$GLOBALS['detalle']=$dtCabecera;
+        $pdf->Output('I','Factura Nro'.sprintf("%'.07d",'5').'.pdf',true);
+    }
+>>>>>>> a8297fdf17436db0af214d6bda5f2871c0c0aa19
