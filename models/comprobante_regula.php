@@ -228,21 +228,21 @@ class comprobante_regula {
 		$cn =new connect();
 		try
 		{
-			$q='select count(ID) ';
-			$q.=' FROM factura_venta ';
-			$q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
+                    $q='select count(cr.ID) ';
+                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
+                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];;
 
-			if ($filtro!='')
-			{
-				$q.=' and '.$filtro;
-			}
-			//echo $q;
-			$resultado=$cn->getData($q);
+                    if ($filtro!='')
+                    {
+                        $q.=' and '.$filtro;
+                    }
+                    //echo $q;
+                    $resultado=$cn->getData($q);
 
-			return $resultado;
+                    return $resultado;
 		}catch(Exception $ex)
 		{
-			throw new Exception("Ocurrio un error en la consulta");
+                    throw new Exception("Ocurrio un error en la consulta");
 		}
 	}
 
@@ -300,23 +300,15 @@ class comprobante_regula {
                     throw new Exception($q);
             }
 	}
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
+    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='cr.ID asc')
 	{
 		$cn =new connect();
 		try
 		{
-                    $q='select fv.ID,tc.codigo,fv.salida_ID,fv.serie,fv.numero,fv.numero_concatenado,fv.fecha_emision,fv.forma_pago_ID,fv.plazo_factura,fv.fecha_vencimiento,';
-                    $q.='fv.estado_ID,fv.moneda_ID,fv.orden_pedido,fv.orden_ingreso,fv.impresion,fv.con_guia,fv.pago,fv.usuario_id,fv.fecha_anulacion,';
-                    $q.='fv.operador_ID_anulacion,fv.motivo_anulacion_ID,fv.opcion,fv.numero_producto,';
-                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,';
-                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id,fv.gravadas,fv.gratuitas,fv.inafectas,fv.exoneradas,fv.descuento_global,fv.monto_detraccion,';
-                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.correlativos_ID,';
-                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id from factura_venta fv
-                    inner join correlativos c on fv.correlativos_ID=c.ID
-                    inner join tipo_comprobante_empresa tce on tce.ID=c.tipo_comprobante_empresa_ID
-                    inner join tipo_comprobante tc on tc.ID=tce.tipo_comprobante_ID ';
-                    $q.=' where fv.del=0 and fv.empresa_ID='.$_SESSION['empresa_ID'];
-
+                    $q='select cr.ID,cr.serie,cr.numero_concatenado,ti.nombre as tipo,cr.fecha_emision,fv.serie as serie_factura,fv.numero as numero_factura,es.nombre as estado,cr.estado_ID,mo.simbolo as moneda,cr.monto_total';
+                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
+                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];
+                  
                         if($filtro!=''){
 				$q.=' and '.$filtro;
 			}

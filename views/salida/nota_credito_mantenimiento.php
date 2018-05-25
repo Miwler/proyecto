@@ -29,7 +29,9 @@
             <div style="position: absolute;right: 260px;top: 12px;display: block;">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
             </div>
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        
         </div>
         <div class="panel-body">
             <div class="tab-content">
@@ -209,8 +211,8 @@
             }		
             f.enviar();
         }
-        var fncCobrar=function(id){
-            window_float_open_modal('REGISTRO DE COBRANZA','Salida/cobranza_mantenimiento_registro',id,'',f,800,650); 
+        var fncNuevo=function(){
+            window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,400); 
             //window_float_open('/Ventas/cobranza_mantenimiento_registro',id,'',f);
         }
         var fncCargarVista=function(valor){

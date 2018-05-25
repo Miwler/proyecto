@@ -215,7 +215,7 @@
             f.enviar();
     }
     var fncNuevo=function(){
-        window_float_open_modal('REGISTRAR NUEVA COTIZACIÓN','Salida/Cotizacion_Mantenimiento_Nuevo','','',f,800,550);
+        window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,550);
       
     }
    
