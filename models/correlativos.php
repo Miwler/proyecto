@@ -140,16 +140,17 @@ class correlativos {
                     throw new Exception("Ocurrio un error en la consulta.");
             }
     }
-    static function getByNumero($comprobante_tipo_ID,$serie)
+    static function getByNumero($tipo_comprobante_ID,$serie)
     {
         $cn =new connect();
         try 
         {
             
-            $q='Select ifnull(ultimo_numero,0)+1';
-            $q.=' from correlativos ';
-            $q.='where del=0 and empresa_ID='.$_SESSION['empresa_ID'].' and comprobante_tipo_ID='.$comprobante_tipo_ID.' and serie="'.$serie.'"';
-            //echo $q;
+            $q='Select ifnull(co.ultimo_numero,0)+1';
+            $q.=' from correlativos co,tipo_comprobante_empresa tce,tipo_comprobante tc ';
+            $q.=' where co.tipo_comprobante_empresa_ID=tce.ID and tce.tipo_comprobante_ID=tc.ID and co.del=0';
+            $q.=' and co.empresa_ID='.$_SESSION['empresa_ID'].' and tc.ID='.$tipo_comprobante_ID.' and serie="'.$serie.'"';
+           
             $retorna=$cn->getData($q);			
             		
             return $retorna;

@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_detalle.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/tipo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/correlativos.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/factura_venta_emitidas.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/cliente.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/producto.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta_detalle.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento.php</file>
         </group>
     </open-files>

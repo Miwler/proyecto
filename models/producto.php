@@ -277,5 +277,19 @@ function verificarHijos($categoria_ID){
             throw new Exception($q);
         }
     }
+    static function geLista1($buscar='')
+    {
+        $cn =new connect();
+        try 
+        {
+            $q='call getListaProductos1('.$_SESSION['empresa_ID'].',"'.$buscar.'");';
+            //echo $q;
+            $dt=$cn->getGrid($q);									
+            return $dt;												
+        }catch(Exception $ex)
+        {
+                throw new Exception($q);
+        }
+    }
     
 }

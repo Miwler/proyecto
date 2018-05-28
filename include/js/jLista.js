@@ -3,7 +3,7 @@ var position= new Array();
 var n = 0;
 var Buscando;
 var filtros;
-var lista = function (objContent,element_Send, url, width, activarClik,filtroClase,widthContenedor,cantidad){
+var lista1 = function (objContent,element_Send, url, width, activarClik,filtroClase,widthContenedor,cantidad){
     
     this.objContent = objContent;
     this.element_Send = element_Send;

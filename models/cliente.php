@@ -259,7 +259,7 @@ class cliente {
     }
     
     
-            static function MostrarGraficoCliente_Exclusivo() {
+    static function MostrarGraficoCliente_Exclusivo() {
         $cn = new connect();
         try {
             $q = 'select clt.ID, clt.razon_social as razon_social, clt.ruc, sum(ovd.precio_venta_soles) as precio_venta_soles, sum(ovd.precio_venta_dolares) as precio_venta_dolares  ';
@@ -275,5 +275,18 @@ class cliente {
             throw new Exception($q);
         }
     }
-
+    static function geLista($buscar='')
+    {
+        $cn =new connect();
+        try 
+        {
+            $q='call getListaClientes('.$_SESSION['empresa_ID'].',"'.$buscar.'");';
+            //echo $q;
+            $dt=$cn->getGrid($q);									
+            return $dt;												
+        }catch(Exception $ex)
+        {
+                throw new Exception($q);
+        }
+    }
 }

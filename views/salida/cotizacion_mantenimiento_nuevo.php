@@ -345,13 +345,10 @@ $(document).ready(function(){
     }
     var fncRegistrar_Productos=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);
-       
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);   
     }
      var fncEditarProducto=function(id){
          parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,700,600);
-       
-        
     }
     var fncEliminarProducto=function(id){
         cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){

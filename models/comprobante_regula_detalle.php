@@ -1,66 +1,23 @@
 <?php
 
-class factura_venta {
-    private $ID;
-    private $serie;
-    private $numero;
-    private $numero_concatenado;
-    private $forma_pago_ID;
-    private $estado_ID;
-    private $observacion;
-
-    private $fecha_emision;
-    private $plazo_factura;
-    private $fecha_vencimiento;
-    private $moneda_ID;
-    private $salida_ID;
-    private $orden_pedido;
-    private $orden_ingreso;
-    private $usuario_id;
-    private $usuario_mod_id;
-    private $opcion;
-    private $message;
-    private $fecha_texto;
-    private $fecha_cancelacion_texto;
-    private $operador;
-    private $numero_cuenta;
-    private $subtotal;
-    private $igv;
-    private $vigv;
-    private $total;
-    private $totaltexto;
-    private $con_guia;
-    private $decimal;
-    private $facturas_informacion;
-    private $impresion;
-    private $numero_producto;
-    private $pago;
-    private $monto_total_neto;
-    private $monto_total_igv;
-    private $monto_total;
-    private $monto_pendiente;
-    private $moneda;
-    private $fecha_anulacion;
-    private $motivo_anulacion_ID;
-    private $operador_ID_anulacion;
-    private $dtOperador;
-    private $dtMotivo_Anulacion;
-    private $estado;
-    private $ver_cambios;
-    private $ver_vista_previa;
-    private $ver_imprimir;
-    private $dtSerie;
-
-    private $gravadas;
-    private $gratuitas;
-  	private $inafectas;
-  	private $exoneradas;
-  	private $descuento_global;
-  	private $monto_detraccion;
-
-
-
-    private $correlativos_ID;
+class comprobante_regula_detalle {
+    public $ID;
+    public $producto_ID;
+    public $comprobante_regula_ID;
+    public $descripcion;
+    public $cantidad;
+    public $precio_unitario;
+    public $subtotal;
+    public $total;
+    public $igv;
+    public $vigv;
+    public $tipo_impuestos_ID;
+    public $porcentaje_descuento;
+    public $otros_cargos;
+    public $usuario_id;
+    public $usuario_mod_id;
+    private $getMessage;
+    public $producto;
 
 
   public function __set($var, $valor)
@@ -69,7 +26,7 @@ class factura_venta {
           $temporal = $var;
 
           // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
-          if (property_exists('factura_venta',$temporal))
+          if (property_exists('comprobante_regula_detalle',$temporal))
            {
                   $this->$temporal = $valor;
            }
@@ -83,7 +40,7 @@ class factura_venta {
         $temporal = $var;
 
         // Verifica que exista
-        if (property_exists('factura_venta', $temporal))
+        if (property_exists('comprobante_regula_detalle', $temporal))
          {
                 return $this->$temporal;
          }
@@ -258,21 +215,21 @@ class factura_venta {
 		$cn =new connect();
 		try
 		{
-			$q='select count(ID) ';
-			$q.=' FROM factura_venta ';
-			$q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
+                    $q='select count(cr.ID) ';
+                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
+                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];;
 
-			if ($filtro!='')
-			{
-				$q.=' and '.$filtro;
-			}
-			//echo $q;
-			$resultado=$cn->getData($q);
+                    if ($filtro!='')
+                    {
+                        $q.=' and '.$filtro;
+                    }
+                    //echo $q;
+                    $resultado=$cn->getData($q);
 
-			return $resultado;
+                    return $resultado;
 		}catch(Exception $ex)
 		{
-			throw new Exception("Ocurrio un error en la consulta");
+                    throw new Exception("Ocurrio un error en la consulta");
 		}
 	}
 
@@ -330,23 +287,15 @@ class factura_venta {
                     throw new Exception($q);
             }
 	}
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
+    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='cr.ID asc')
 	{
 		$cn =new connect();
 		try
 		{
-                    $q='select fv.ID,tc.codigo,fv.salida_ID,fv.serie,fv.numero,fv.numero_concatenado, date_format(fv.fecha_emision,"%d/%m/%Y") as fecha_emision,fv.forma_pago_ID,fv.plazo_factura,fv.fecha_vencimiento,';
-                    $q.='fv.estado_ID,fv.moneda_ID,fv.orden_pedido,fv.orden_ingreso,fv.impresion,fv.con_guia,fv.pago,fv.usuario_id,fv.fecha_anulacion,';
-                    $q.='fv.operador_ID_anulacion,fv.motivo_anulacion_ID,fv.opcion,fv.numero_producto,';
-                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,';
-                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id,fv.gravadas,fv.gratuitas,fv.inafectas,fv.exoneradas,fv.descuento_global,fv.monto_detraccion,';
-                    $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.correlativos_ID,';
-                    $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id from factura_venta fv
-                    inner join correlativos c on fv.correlativos_ID=c.ID
-                    inner join tipo_comprobante_empresa tce on tce.ID=c.tipo_comprobante_empresa_ID
-                    inner join tipo_comprobante tc on tc.ID=tce.tipo_comprobante_ID ';
-                    $q.=' where fv.del=0 and fv.empresa_ID='.$_SESSION['empresa_ID'];
-
+                    $q='select cr.ID,cr.serie,cr.numero_concatenado,ti.nombre as tipo,cr.fecha_emision,fv.serie as serie_factura,fv.numero as numero_factura,es.nombre as estado,cr.estado_ID,mo.simbolo as moneda,cr.monto_total';
+                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
+                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];
+                  
                         if($filtro!=''){
 				$q.=' and '.$filtro;
 			}
@@ -456,18 +405,6 @@ class factura_venta {
         }
 
     }
-
-    static function getComprobante_Electronico($factura_venta_ID,$opcion) {
-       $cn = new connect();
-       try {
-           $q = 'call getComprobante_Electronico('.$factura_venta_ID.',"'.$opcion.'");';
-           //ECHO $q;
-           $dt = $cn->getGrid($q);
-           return $dt;
-       } catch (Exception $ex) {
-           throw new Exception('Ocurrio un error en la consulta');
-       }
-   }
 
   }
 

@@ -408,4 +408,9 @@ function cargarInformacion($empresa_ID){
         return $ruta;
  
     }
+    function console_log( $data ){
+        echo '<script>';
+        echo 'console.log('.  $data .')';
+        echo '</script>';
+      }
 ?>

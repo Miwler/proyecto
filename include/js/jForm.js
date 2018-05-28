@@ -987,14 +987,15 @@ function lista(url,contenedor,id_txt,funcion){
                 type: "POST",
                 //contentType: "application/json; charset=utf-8",
                 success: function (data) {
-
+                    //alert(data);
                     response($.map(data, function (item) {
-
+                        
                         return item;
                     }))
                 },
                 error: function (response) {
-                    alert(response.responseText);
+                    //alert("Error");
+                    //alert(response.responseText);
                 },
                 failure: function (response) {
                     alert(response.responseText);
@@ -1003,6 +1004,7 @@ function lista(url,contenedor,id_txt,funcion){
         },
         select: function (e, i) {
             var ID = i.item.val;
+            //alert(ID);
             if(funcion){
                 funcion(ID);
             }

@@ -646,4 +646,20 @@
         //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
         echo json_encode($dtPersona);
     }
+    function post_ajaxListarProductos($texto){
+        require ROOT_PATH.'models/producto.php';
+        $buscar=$_POST['buscar'];
+        $dtProducto=producto::geLista1($buscar);
+       
+        //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
+        echo json_encode($dtProducto);
+    }
+    function post_ajaxListarClientes(){
+        require ROOT_PATH.'models/cliente.php';
+        $buscar=$_POST['buscar'];
+        $dtCliente=cliente::geLista($buscar);
+       
+        //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
+        echo json_encode($dtCliente);
+    }
 ?>
