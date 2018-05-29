@@ -66,28 +66,20 @@ class comprobante_regula {
         $cn =new connect();
         $retornar=-1;
         try{
-            $fecha_save='NULL';
-            if($this->fecha_emision!=null){
-                $fecha_save='"'.FormatTextToDate($this->fecha_emision,'Y-m-d').'"';
-            }
-            $fecha_save_vencimiento='NULL';
-            if($this->fecha_vencimiento!=null){
-                $fecha_save_vencimiento='"'.FormatTextToDate($this->fecha_vencimiento,'Y-m-d').'"';
-            }
-            $con_guia='NULL';
-            if($this->con_guia!=null){
-                $con_guia=$this->con_guia;
-            }
-            $q='select ifnull(max(ID),0)+1 as ID from factura_venta;';
+            
+            $q='select ifnull(max(ID),0)+1 as ID from comprobante_regula;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO factura_venta (ID,empresa_ID,serie,salida_ID,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,estado_ID,moneda_ID,orden_pedido,orden_ingreso,con_guia,usuario_id,opcion,numero_producto,correlativos_ID) ';
-            $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].',"'.$this->serie.'",'.$this->salida_ID.','.$this->numero.',"'.$this->numero_concatenado.'",'.$fecha_save.','.$this->forma_pago_ID.','.$this->plazo_factura.','.$fecha_save_vencimiento;
-            $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.','.$this->correlativos_ID.')';
-
+            $q='INSERT INTO comprobante_regula (ID,factura_venta_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,';
+            $q.='estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,';
+            $q.='anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,usuario_id) ';
+            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'",'.$this->fecha_emision.','.$this->fecha_vencimiento;
+            $q.=','.$this->estado_ID.','.$this->moneda_ID.','.$this->monto_total_neto.','.$this->monto_total_igv.','.$this->monto_total.','.$this->monto_pendiente.','.$this->empresa_ID.','.$this->correlativos_ID.','.$this->porcentaje_descuento.',';
+            $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.','.$this->usuario_id.');';
+            
             $retornar=$cn->transa($q);
 
             $this->ID=$ID;
-            $this->message='Se guardó correctamente';
+            $this->$getMessage='Se guardó correctamente';
 
             return $retornar;
 
@@ -126,86 +118,7 @@ class comprobante_regula {
         }
     }
 
-    function actualizarCostos(){
-        $cn =new connect();
-	$retornar=-1;
-        try{
-
-            $q='UPDATE factura_venta set monto_total_neto='.$this->monto_total_neto.',monto_total_igv='.$this->monto_total_igv.',monto_total='.$this->monto_total;
-            $q.=',monto_pendiente='.$this->monto_pendiente.' where ID='.$this->ID;
-            //echo $q;
-            $retornar=$cn->transa($q);
-            $this->message='Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-    }
-    //codigo ortega-aprobar cotizacion
-     function actualizarEstado(){
-        $cn =new connect();
-	$retornar=-1;
-        try{
-
-            $q='UPDATE factura_venta set estado_ID='.$this->estado_ID.',observacion="'.$this->observacion.'",impresion='.$this->impresion.', usuario_mod_id='.$this->usuario_mod_id;
-            $q.=', fdm=now() where del=0 and ID='.$this->ID;
-            //echo $q;
-            $retornar=$cn->transa($q);
-            $this->message='Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-    }
-    function actualizarMontoPendiente(){
-      $cn =new connect();
-      $numero=0;
-        try{
-            $q='update factura_venta set monto_pendiente='.$this->monto_pendiente;
-            $q.=',usuario_mod_id='.$this->usuario_mod_id.', fdm=now() where ID='.$this->ID;
-            $numero=$cn->transa($q);
-           // echo $q;
-            return $numero;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-
-    }
-    function actualizarPago(){
-      $cn =new connect();
-      $numero=0;
-        try{
-            $q='update factura_venta set pago='.$this->pago.', estado_ID='.$this->estado_ID;
-            $q.=' where ID='.$this->ID;
-            $numero=$cn->transa($q);
-           // echo $q;
-            return $numero;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-
-    }
-    function actualizarAnulacion(){
-      $cn =new connect();
-      $numero=0;
-        try{
-            $fecha_save='NULL';
-            if($this->fecha_anulacion!=null){
-                $fecha_save='"'.FormatTextToDate($this->fecha_anulacion,'Y-m-d').'"';
-            }
-            $q='update factura_venta set fecha_anulacion ='.$fecha_save.',motivo_anulacion_ID='.$this->motivo_anulacion_ID;
-            $q.=',operador_ID_anulacion='.$this->operador_ID_anulacion.', estado_ID=53 where ID='.$this->ID;
-            //echo $q;
-            $numero=$cn->transa($q);
-           // echo $q;
-            return $numero;
-
-            $this->message="Se anuló correctamente.";
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-
-    }
+    
     function eliminar(){
             $cn =new connect();
             $retornar=-1;
@@ -326,98 +239,21 @@ class comprobante_regula {
 			throw new Exception($q);
 		}
 	}
-        static function getGrid2($filtro='',$desde=-1,$hasta=-1,$order='fv.fecha_emision asc')
-	{
-		$cn =new connect();
-		try
-		{
-                    $q='select fv.ID,ov.numero as salida,fv.fecha_emision,fv.fecha_vencimiento,fv.numero_concatenado,ov.moneda_ID,cl.razon_social as cliente,fv.pago,fv.forma_pago_ID,fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.estado_ID';
-                     $q.=' ,es.nombre as estado, fv.monto_pendiente';
-                    $q.=' from factura_venta fv, salida ov,cliente cl, estado es';
-                    $q.=' where ov.empresa_ID='.$_SESSION['empresa_ID'].' and fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID ';
+        
 
-                        if($filtro!=''){
-				$q.=' and '.$filtro;
-			}
-
-			$q.=' Order By '.$order;
-
-			if($desde!=-1&&$hasta!=-1){
-				$q.=' Limit '.$desde.','.$hasta;
-			}
-                        //echo $q;
-			$dt=$cn->getGrid($q);
-			return $dt;
-		}catch(Exception $ex)
-		{
-			throw new Exception($q);
-		}
-	}
-
-
-
-        /*static function getGrid_CuentaXCobrar($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
-        try {
-            $q = 'select fv.ID,fv.numero_concatenado as numero,ov.cliente_ID,cl.razon_social as cliente,fv.fecha_emision,fv.fecha_vencimiento,';
-            $q.='fv.moneda_ID,mo.descripcion as moneda, mo.simbolo, fv.forma_pago_ID,fv.monto_total,fv.monto_pendiente,fv.estado_ID,es.nombre as estado ';
-            $q.=' from factura_venta fv, salida ov,cliente cl, estado es, moneda mo';
-            $q.=' where fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID and fv.moneda_ID=mo.ID and fv.forma_pago_ID=1 and fv.estado_ID=41';
-
-            if ($filtro != '') {
-                $q.=' and ' . $filtro;
-            }
-
-            $q.=' Order By ' . $order;
-
-            if ($desde != -1 && $hasta != -1) {
-                $q.=' Limit ' . $desde . ',' . $hasta;
-            }
-            //echo $q;
-            $dt = $cn->getGrid($q);
-            return $dt;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-    }
-        */
-
-    function verificarDuplicado(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un error en la consulta");
-		}
-	}
-    static function getNumero(){
-      $cn =new connect();
-      $numero=0;
+    function verificarFactura(){
+        $cn =new connect();
+        $retornar=-1;
         try{
-            $q='select ifnull(max(numero),0) as numero from factura_venta';
-            $numero=$cn->getData($q);
-           // echo $q;
-            return $numero;
-        } catch (Exception $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
+            $q="select count(ID) from factura_venta where del=0 and  estado_ID=53 and ID=".$this->factura_venta_ID;
+            $retornar=$cn->getData($q);
+            return $retornar;
         }
-
-    }
-    static function getImpresion(){
-      $cn =new connect();
-      $numero=0;
-        try{
-            $q='select ifnull(max(numero),0) as numero from factura_venta where del=0';
-            $numero=$cn->getData($q);
-           // echo $q;
-            return $numero;
-        } catch (Exception $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
+        catch(Exception $ex){
+                throw new Exception("Ocurrio un error en la consulta");
         }
-
     }
+   
 
   }
 

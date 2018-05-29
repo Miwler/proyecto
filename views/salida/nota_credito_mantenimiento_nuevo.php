@@ -45,7 +45,7 @@
         <!--/ End tabs heading -->
 
         <!-- Start tabs content -->
-        <div class="panel-body" style="height:280px;overflow:auto; ">
+        <div class="panel-body">
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="tab1-1">
                     <div class="row">
@@ -63,6 +63,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">Factura:</label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <input type="hidden" id="txtFactura_Venta_ID" name="txtFactura_Venta_ID">
                                     <div class="input-group mb-15">
                                         <input type="text" id="txtFactura" name="txtFactura" class="form-control no-border-right">
                                         <a class="input-group-addon bg-primary glyphicon btn" onclick="fncBuscarFacturas();"><span class="glyphicon-search"></span></a>
@@ -77,11 +78,11 @@
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">F. Emisión:</label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <input type="text" class="date-range-picker-single form-control">
+                                    <input type="text" id="txtFecha_Emision" name="txtFecha_Emision" class="date-range-picker-single form-control">
                                 </div>
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">F. Vence:</label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <input type="text" class="date-range-picker-single form-control">
+                                    <input type="text" id="txtFecha_vencimiento" name="txtFecha_vencimiento" class="date-range-picker-single form-control">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -123,7 +124,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-5">% Descuento:</label>
                                 <div class="col-sm-7">
-                                    <input type="text"  id="txtPorcentaje" name="txtPorcentaje" autocomplete="off" class="form-control decimal">
+                                    <input type="text"  id="txtPorcentaje" name="txtPorcentaje" onkeyup="calcular();" autocomplete="off" class="form-control decimal">
                                 </div>
                             </div>
                             
@@ -141,7 +142,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-5">Descuento Total:</label>
+                                <label class="control-label col-sm-5">Otros cargos:</label>
+                                <div class="col-sm-7">
+                                    <input type="text"  id="txtOtros_Cargos" name="txtOtros_Cargos" autocomplete="off" onkeyup="calcular();" class="form-control decimal">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Descuento Total(-):</label>
                                 <div class="col-sm-7">
                                     <input type="text" id="txtDescuentoTotal" name="txtDescuentoTotal" autocomplete="off"  class="form-control decimal">
                                 </div>
@@ -154,7 +161,6 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
                 <div class="tab-pane fade" id="tab1-2">
                     <div class="row">
@@ -162,7 +168,7 @@
                             <button type="button" onclick="fncAgregar_Detalle();" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span>Detalle</button>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="height:270px;overflow:auto; ">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -225,16 +231,54 @@
 
     }
     var cargarInformacion=function(factura_venta_ID){
+        
         cargarValores('Salida/ajaxExtraerInformacionFacturas_Emitidas',factura_venta_ID,function(resultado){
             $("#txtFactura").val(resultado.numero);
             $("#selMoneda").val(resultado.moneda_ID);
-            
+            $("#txtSubTotal").val(resultado.subtotal);
+            subtotal=parseFloat(resultado.subtotal);
+            $("#txtTotal").val(resultado.total);
+            $("#txtIGV").val(resultado.igv);
             $("#txtCliente_ID").val(resultado.cliente_ID);
             $("#listaCliente").val(resultado.cliente);
             $("#cuerpo").append(resultado.tabla);
+            $("#txtFactura_Venta_ID").val(factura_venta_ID);
         });
     }
-   
+    var subtotal=0;
+    function calcular(){   
+        var porcentaje=$('#txtPorcentaje').val();
+        var otros_cargos=$("#txtOtros_Cargos").val();
+        //var subtotal=$("#txtSubTotal").val();
+        var total=$().val("#txtTotal");
+        if($.trim(porcentaje)==""){
+            porcentaje=0;
+        } else {porcentaje=parseFloat(porcentaje);}
+        
+        if($.trim(otros_cargos)==""){
+            otros_cargos=0;
+        }else {
+            otros_cargos=parseFloat(otros_cargos);
+
+        }
+        /*if($.trim(subtotal)==""){
+            subtotal=0;
+        }else {
+            subtotal=parseFloat(subtotal);
+
+        }*/
+        var subtotal_temp=0;
+        var descuento=redondear(subtotal*(porcentaje/100),2);
+       
+        subtotal_temp=redondear(subtotal*(100-porcentaje)/100,2);
+        
+        var igv=redondear(subtotal_temp*0.18,2);
+        total=redondear(subtotal_temp+igv+otros_cargos,2);
+        $("#txtSubTotal").val(subtotal_temp);
+        $('#txtIGV').val(igv);  
+        $("#txtDescuentoTotal").val(descuento);
+        $('#txtTotal').val(total);
+    }
 </script>       
 <?php }?>
             

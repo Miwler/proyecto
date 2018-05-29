@@ -11379,6 +11379,105 @@ function get_Nota_Credito_Mantenimiento_Nuevo(){
     $GLOBALS['numero']=$numero;
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
 }
+function post_Nota_Credito_Mantenimiento_Nuevo(){
+    require ROOT_PATH.'models/tipo.php';
+    require ROOT_PATH.'models/moneda.php';
+    require ROOT_PATH.'models/correlativos.php';
+    require ROOT_PATH.'models/datos_generales.php';
+    require ROOT_PATH.'models/comprobante_regula.php';
+    require ROOT_PATH.'models/comprobante_regula_detalle.php';
+    require ROOT_PATH.'models/usuario.php';
+    require ROOT_PATH.'models/factura_venta.php';
+    require ROOT_PATH.'models/factura_venta_detalle.php';
+    require ROOT_PATH.'models/salida_detalle.php';
+    global  $returnView_float;
+    $returnView_float=true;
+    $factura_venta_ID=$_POST['txtFactura_Venta_ID'];
+    $tipo_ID=$_POST['selTipo'];
+    $fecha_emision=$_POST['txtFecha_Emision'];
+    $fecha_vencimiento=$_POST['txtFecha_vencimiento'];
+    $moneda_ID=$_POST['selMoneda'];
+    $monto_total_neto=$_POST['txtSubTotal'];
+    $monto_total_igv=$_POST['txtIGV'];
+    $monto_total=$_POST['txtTotal'];
+    $monto_pendiente=0;
+    
+    $correlativos_ID=6;
+    $porcentaje_descuento=$_POST['txtPorcentaje'];
+    $anticipo=0;
+    $exoneradas=0;
+    $inafectas=0;
+    $gravadas=$monto_total_neto;
+    $gratuitas=0;
+    $otros_cargos=$_POST['txtOtros_Cargos'];
+    $descuento_global=$_POST['txtDescuentoTotal'];
+    $monto_detraccion=0;
+
+    
+    $oComprobante_Regula=new comprobante_regula();
+    try{
+        $oComprobante_Regula->factura_venta_ID=$factura_venta_ID;
+        $oComprobante_Regula->tipo_ID=$tipo_ID;
+        $oComprobante_Regula->serie="F001";
+        $oComprobante_Regula->numero=correlativos::getByNumero(4,'F001');
+        $oComprobante_Regula->numero_concatenado= sprintf("%',06d",$oComprobante_Regula->numero);
+        $oComprobante_Regula->fecha_emision=$fecha_emision;
+        $oComprobante_Regula->fecha_vencimiento=$fecha_vencimiento;
+        $oComprobante_Regula->estado_ID=90;//Lo guardamos con el estado borrador
+        $oComprobante_Regula->moneda_ID=$moneda_ID;
+        $oComprobante_Regula->monto_total_neto=$monto_total_neto;
+        $oComprobante_Regula->monto_total_igv=$monto_total_igv;
+        $oComprobante_Regula->monto_total=$monto_total;
+        $oComprobante_Regula->monto_pendiente=$monto_pendiente;
+        $oComprobante_Regula->empresa_ID=$_SESSION['empresa_ID'];
+        $oComprobante_Regula->correlativos_ID=$correlativos_ID;
+        $oComprobante_Regula->porcentaje_descuento=$porcentaje_descuento;
+        $oComprobante_Regula->anticipo=$anticipo;
+        $oComprobante_Regula->exoneradas=$exoneradas;
+        $oComprobante_Regula->inafectas=$inafectas;
+        $oComprobante_Regula->gravadas=$gravadas;
+        $oComprobante_Regula->gratuitas=$gratuitas;
+        $oComprobante_Regula->otros_cargos=$otros_cargos;
+        $oComprobante_Regula->descuento_global=$descuento_global;
+        $oComprobante_Regula->monto_detraccion=$monto_detraccion;
+        $oComprobante_Regula->usuario_ID=$_SESSION['usuario_ID'];
+        if($oComprobante_Regula->verificarFactura()==0){
+            if($oComprobante_Regula->insertar()>0){
+                $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
+                $oFactura_Venta->estado_ID=53;//Estado anulado
+                $oFactura_Venta->usuario_id_mod=$_SESSION['usuario_ID'];
+                $oFactura_Venta->actualizar();
+                $resultado=1;
+                $mensaje=$oComprobante_Regula->getMessage;
+                $dt=factura_venta_detalle::getGrid1("fv.factura_venta_ID=".$factura_venta_ID,-1,-1);
+                foreach($dt as $valor){
+                    if(isset($_POST['txt'.$valor['factura_venta_detalle_ID']])){
+                        $oSalida_Detalle=salida_detalle::getByID($valor['ID']);
+                        $oComprobante_regula_detalle=new comprobante_regula_detalle();
+                        $factura_venta_detalle_ID=$_POST['txt'.$valor['factura_venta_detalle_ID']];
+                    }
+                }
+            }
+
+        }else{
+            throw new Exception("La factura no se encuentra disponible.");
+        }
+        
+    }catch(Exception $ex){
+       $mensaje= $ex->getMessage();
+       $resultado=-1;
+    }
+    
+    
+    $dtTipo=tipo::getGrid("tabla='nota_credito'",-1,-1,"orden asc");
+    $dtMoneda=moneda::getGrid("",-1,-1,"descripcion asc");
+    $numero=correlativos::getByNumero(4,'F001');
+    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $GLOBALS['dtTipo']=$dtTipo;
+    $GLOBALS['dtMoneda']=$dtMoneda;
+    $GLOBALS['numero']=$numero;
+    $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
+}
 function get_Nota_Credito_Detalle(){
     require ROOT_PATH.'models/tipo_impuestos.php';
     global  $returnView_float;
@@ -11490,11 +11589,14 @@ function post_ajaxExtraerInformacionFacturas_Emitidas() {
         $moneda_ID=$oFactura_Venta->moneda_ID;
         $cliente=FormatTextView($oCliente->ruc.' '.$oCliente->razon_social);
         $cliente_ID=$oCliente->ID;
+        $subtotal=$oFactura_Venta->monto_total_neto;
+        $igv=$oFactura_Venta->monto_total_igv;
+        $total=$oFactura_Venta->monto_total;
         $dtFactura_Venta_Detalle=factura_venta::getComprobante_Electronico($factura_venta_ID,'detalle');
         $i=0;
         foreach($dtFactura_Venta_Detalle as $valor){
             $val=$i+1;
-            $tabla.='<tr id="tr'.$i.'"><td class="text-center">'.$val.'</td><td>'.FormatTextView($valor['producto']).'</td><td class="text-center">'.$valor['cantidad'].'</td><td>'.$valor['precio_unitario'].'</td><td>'.$valor['sub_total'].'</td><td>'.$valor['total'].'</td><td class="text-center"><a class="btn btn-danger" title="Eliminar" onclick="fncEliminar('.$i.');"><i class="fa fa-trash"></i></a></td></tr>';
+            $tabla.='<tr id="tr'.$i.'"><td class="text-center">'.$val.'<input name="txt'.$valor['ID'].'" type="hidden" value="'.$valor['ID'].'"></td><td>'.FormatTextView($valor['producto']).'</td><td class="text-center">'.$valor['cantidad'].'</td><td>'.$valor['precio_unitario'].'</td><td>'.$valor['sub_total'].'</td><td>'.$valor['total'].'</td><td class="text-center"><a class="btn btn-danger" title="Eliminar" onclick="fncEliminar('.$i.');"><i class="fa fa-trash"></i></a></td></tr>';
             $i++;
         }
         $resultado=1;
@@ -11503,6 +11605,7 @@ function post_ajaxExtraerInformacionFacturas_Emitidas() {
     }
     
    
-    $retornar = Array('numero' => $numero,'moneda_ID'=>$moneda_ID,'cliente'=>$cliente,'cliente_ID'=>$cliente_ID,'tabla'=>$tabla);
+    $retornar = Array('numero' => $numero,'moneda_ID'=>$moneda_ID,'cliente'=>$cliente,'cliente_ID'=>$cliente_ID,
+        'subtotal'=>$subtotal,'igv'=>$igv,'total'=>$total,'tabla'=>$tabla);
     echo json_encode($retornar);
 }
