@@ -11323,11 +11323,11 @@ function post_ajaxNota_Credito_Mantenimiento() {
         foreach ($dt as $item) {
             $resultado.='<tr class="tr-item" >';
             $resultado.='<td class="text-center">' . $item['serie'] . '</td>';
-            $resultado.='<td class="text-center">' . $item['numero_concatenado']. '</td>';
-            $resultado.='<td class="text-center">' . $item['tipo']. '</td>';
-            $resultado.='<td class="tdLeft">' . $item['fecha_emision'] . '</td>';
+            $resultado.='<td class="text-center">' . FormatTextView($item['numero_concatenado']). '</td>';
+            $resultado.='<td class="text-center">' . FormatTextView($item['tipo']). '</td>';
+            $resultado.='<td class="tdLeft">' . FormatTextView($item['fecha_emision']) . '</td>';
             $resultado.='<td class="text-center">' . $item['serie_factura'].'-'.$item['numero_factura']. '</td>';
-            $resultado.='<td class="text-right">' . $item['moneda'] . '</td>';
+            $resultado.='<td class="text-right">' . FormatTextView($item['moneda']) . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_total'] . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['estado'])) . '</td>';
  
@@ -11394,8 +11394,8 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $returnView_float=true;
     $factura_venta_ID=$_POST['txtFactura_Venta_ID'];
     $tipo_ID=$_POST['selTipo'];
-    $fecha_emision=$_POST['txtFecha_Emision'];
-    $fecha_vencimiento=$_POST['txtFecha_vencimiento'];
+    $fecha_emision=FormatTextToDate($_POST['txtFecha_Emision'],'Y-m-d');
+    $fecha_vencimiento=FormatTextToDate($_POST['txtFecha_vencimiento'],'Y-m-d');
     $moneda_ID=$_POST['selMoneda'];
     $monto_total_neto=$_POST['txtSubTotal'];
     $monto_total_igv=$_POST['txtIGV'];
@@ -11403,14 +11403,15 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $monto_pendiente=0;
     
     $correlativos_ID=6;
-    $porcentaje_descuento=$_POST['txtPorcentaje'];
+    $porcentaje_descuento=($_POST['txtPorcentaje']=="")? 0:$_POST['txtPorcentaje'];
     $anticipo=0;
     $exoneradas=0;
     $inafectas=0;
     $gravadas=$monto_total_neto;
     $gratuitas=0;
-    $otros_cargos=$_POST['txtOtros_Cargos'];
-    $descuento_global=$_POST['txtDescuentoTotal'];
+    $otros_cargos=($_POST['txtOtros_Cargos']=="")? 0:$_POST['txtOtros_Cargos'];
+    $descuento_global=($_POST['txtDescuentoTotal']=="")? 0:$_POST['txtDescuentoTotal'];
+    $observacion=FormatTextSave($_POST['txtObservacion']);
     $monto_detraccion=0;
 
     
@@ -11440,21 +11441,52 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
         $oComprobante_Regula->otros_cargos=$otros_cargos;
         $oComprobante_Regula->descuento_global=$descuento_global;
         $oComprobante_Regula->monto_detraccion=$monto_detraccion;
-        $oComprobante_Regula->usuario_ID=$_SESSION['usuario_ID'];
+        $oComprobante_Regula->observacion=$observacion;
+        $oComprobante_Regula->usuario_id=$_SESSION['usuario_ID'];
         if($oComprobante_Regula->verificarFactura()==0){
             if($oComprobante_Regula->insertar()>0){
-                $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
+                /*$oFactura_Venta=factura_venta::getByID($factura_venta_ID);
                 $oFactura_Venta->estado_ID=53;//Estado anulado
                 $oFactura_Venta->usuario_id_mod=$_SESSION['usuario_ID'];
-                $oFactura_Venta->actualizar();
+                $oFactura_Venta->actualizar();*/
                 $resultado=1;
                 $mensaje=$oComprobante_Regula->getMessage;
-                $dt=factura_venta_detalle::getGrid1("fv.factura_venta_ID=".$factura_venta_ID,-1,-1);
+                $dt=factura_venta_detalle::getGrid1("fvd.factura_venta_ID=".$factura_venta_ID,-1,-1);
                 foreach($dt as $valor){
                     if(isset($_POST['txt'.$valor['factura_venta_detalle_ID']])){
                         $oSalida_Detalle=salida_detalle::getByID($valor['ID']);
                         $oComprobante_regula_detalle=new comprobante_regula_detalle();
                         $factura_venta_detalle_ID=$_POST['txt'.$valor['factura_venta_detalle_ID']];
+                        $oComprobante_Regula_Detalle=new comprobante_regula_detalle();
+                        $oComprobante_Regula_Detalle->producto_ID=$oSalida_Detalle->producto_ID;
+                        $oComprobante_Regula_Detalle->comprobante_regula_ID=$oComprobante_Regula->ID;
+                        $oComprobante_Regula_Detalle->descripcion='';
+                        $oComprobante_Regula_Detalle->cantidad=$oSalida_Detalle->cantidad;
+                        $precio_unitario=0;
+                        $subtotal=0;
+                        $total=0;
+                        $vigv=0;
+                        
+                        if($oComprobante_Regula->moneda_ID==1){
+                            $precio_unitario=$oSalida_Detalle->precio_venta_unitario_soles;
+                            $subtotal=$oSalida_Detalle->precio_venta_subtotal_soles;
+                            $total=$oSalida_Detalle->precio_venta_soles;
+                            $vigv=$oSalida_Detalle->vigv_soles;
+                        }else{
+                            $precio_unitario=$oSalida_Detalle->precio_venta_unitario_dolares;
+                            $subtotal=$oSalida_Detalle->precio_venta_subtotal_dolares;
+                            $total=$oSalida_Detalle->precio_venta_dolares;
+                            $vigv=$oSalida_Detalle->vigv_dolares;
+                        }
+                        $oComprobante_Regula_Detalle->precio_unitario=$precio_unitario;
+                        $oComprobante_Regula_Detalle->subtotal=$subtotal;
+                        $oComprobante_Regula_Detalle->total=$total;
+                        $oComprobante_Regula_Detalle->vigv=$vigv;
+                        $oComprobante_Regula_Detalle->igv=$oSalida_Detalle->igv;
+                        $oComprobante_Regula_Detalle->factura_venta_detalle_ID=$oSalida_Detalle->ID;
+                        $oComprobante_Regula_Detalle->tipo_impuestos_ID=1;
+                        $oComprobante_Regula_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                        $oComprobante_Regula_Detalle->insertar();
                     }
                 }
             }
@@ -11477,6 +11509,8 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $GLOBALS['dtMoneda']=$dtMoneda;
     $GLOBALS['numero']=$numero;
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
+    $GLOBALS['resultado']=$resultado;
+    $GLOBALS['mensaje']=$mensaje;
 }
 function get_Nota_Credito_Detalle(){
     require ROOT_PATH.'models/tipo_impuestos.php';

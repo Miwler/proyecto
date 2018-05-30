@@ -201,7 +201,7 @@ class factura_venta_detalle {
         {
         $q='select ovd.ID, ov.moneda_ID,ovd.cantidad,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,';
         $q.='ovd.vigv_soles,ovd.vigv_dolares,ovd.precio_venta_subtotal_soles,precio_venta_subtotal_dolares,ovd.precio_venta_soles';
-        $q.=',ovd.precio_venta_dolares,pro.nombre as producto,ovd.descripcion,fv.ID as factura_venta_detalle_ID';
+        $q.=',ovd.precio_venta_dolares,pro.nombre as producto,ovd.descripcion,fvd.ID as factura_venta_detalle_ID';
         $q.=' from salida ov,salida_detalle ovd,factura_venta_detalle fvd, producto pro';
         $q.=' where fvd.del=0 and ov.del=0 and ovd.del=0 and  ov.ID=ovd.salida_ID and';
         $q.=' fvd.salida_detalle_ID =ovd.ID and ovd.producto_ID=pro.ID';

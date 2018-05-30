@@ -21,7 +21,7 @@
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal" >
+<form id="form" method="POST" action="/Salida/Nota_Credito_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal" >
     <!-- Start default tabs -->
     <div class="panel panel-tab rounded shadow">
         <!-- Start tabs heading -->
@@ -41,6 +41,7 @@
                 </li>
                 
             </ul>
+            <button type="button" onclick="fncAgregar_Detalle();" class="btn btn-info" style="float:right;top:10px;"><span class="glyphicon glyphicon-plus"></span>Detalle</button>
         </div><!-- /.panel-heading -->
         <!--/ End tabs heading -->
 
@@ -119,6 +120,13 @@
                                 </div>
 
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Observacion:</label>
+                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                    <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height: 50px;"></textarea>
+                                </div>
+
+                            </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
@@ -165,11 +173,11 @@
                 <div class="tab-pane fade" id="tab1-2">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                            <button type="button" onclick="fncAgregar_Detalle();" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span>Detalle</button>
+                            
                         </div>
                     </div>
                     <div class="row" style="height:270px;overflow:auto; ">
-                        <table class="table table-bordered">
+                        <table id="tbDetalle" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Nro</th>
@@ -194,8 +202,8 @@
         </div><!-- /.panel-body -->
         <div class="panel-footer">
             <div class="pull-left">
-                <button type="button" class="btn btn-success">Guardar</button>
-                <button type="button" class="btn btn-danger">Cancelar</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-danger" onclick="window_float_save_modal();">Cancelar</button>
                 
             </div>
             <div class="clearfix"></div>
@@ -205,7 +213,31 @@
     <!--/ End default tabs -->
 </form>
 <script type="text/javascript">
-    
+    var validar=function(){
+        var factura_venta_ID=$.trim($("#txtFactura").val());
+        var cliente_ID=$("#txtCliente_ID").val();
+        var total=$.trim($("#txtTotal").val());
+        var subtotal=$.trim($("#txtSubTotal").val());
+        if(factura_venta_ID==""){
+            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar una factura.","txtFactura");
+            return false;
+        }
+        if(cliente_ID==""){
+            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar un cliente.","listaCliente");
+            return false;
+        }
+        if(parseFloat(total)==0){
+            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe registrar un total.","txtTotal");
+            return false;
+        }
+        var nFilas=$("#tbDetalle tbody tr").length;
+        if(nFilas==0){
+            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe registrar detalle de la nota de crédito.");
+            $(".nav-tabs a[href='#tab1-2']").tab("show");
+            return false; 
+        }
+        $("#fondo_espera").css('display','');
+    }
     var fncAgregar_Detalle=function(){
 
         parent.window_float_open_modal_hijo("AGREGAR DETALLE","Salida/nota_credito_detalle",'',"",cargar_tabla,700,330);
@@ -294,6 +326,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
+       setTimeout('window_float_save_modal();', 1000);
+       
     });
    //ampliarVentanaVertical(750,'form');
     //fncCargar_Detalle_Cotizacion();

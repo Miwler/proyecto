@@ -212,7 +212,7 @@
             f.enviar();
         }
         var fncNuevo=function(){
-            window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,450); 
+            window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,480); 
             //window_float_open('/Ventas/cobranza_mantenimiento_registro',id,'',f);
         }
         var fncCargarVista=function(valor){

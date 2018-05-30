@@ -14,6 +14,7 @@ class comprobante_regula_detalle {
     public $tipo_impuestos_ID;
     public $porcentaje_descuento;
     public $otros_cargos;
+    private $factura_venta_detalle_ID ;
     public $usuario_id;
     public $usuario_mod_id;
     private $getMessage;
@@ -53,28 +54,17 @@ class comprobante_regula_detalle {
         $cn =new connect();
         $retornar=-1;
         try{
-            $fecha_save='NULL';
-            if($this->fecha_emision!=null){
-                $fecha_save='"'.FormatTextToDate($this->fecha_emision,'Y-m-d').'"';
-            }
-            $fecha_save_vencimiento='NULL';
-            if($this->fecha_vencimiento!=null){
-                $fecha_save_vencimiento='"'.FormatTextToDate($this->fecha_vencimiento,'Y-m-d').'"';
-            }
-            $con_guia='NULL';
-            if($this->con_guia!=null){
-                $con_guia=$this->con_guia;
-            }
-            $q='select ifnull(max(ID),0)+1 as ID from factura_venta;';
+            
+            $q='select ifnull(max(ID),0)+1 as ID from comprobante_regula_detalle;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO factura_venta (ID,empresa_ID,serie,salida_ID,numero,numero_concatenado,fecha_emision,forma_pago_ID,plazo_factura,fecha_vencimiento,estado_ID,moneda_ID,orden_pedido,orden_ingreso,con_guia,usuario_id,opcion,numero_producto,correlativos_ID) ';
-            $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].',"'.$this->serie.'",'.$this->salida_ID.','.$this->numero.',"'.$this->numero_concatenado.'",'.$fecha_save.','.$this->forma_pago_ID.','.$this->plazo_factura.','.$fecha_save_vencimiento;
-            $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.','.$this->correlativos_ID.')';
-
+            $q='INSERT INTO comprobante_regula_detalle(ID,producto_ID,comprobante_regula_ID,descripcion,cantidad,precio_unitario,subtotal,total,igv,vigv,tipo_impuestos_ID,factura_venta_detalle_ID,usuario_id) ';
+            $q.='VALUES ('.$ID.','.$this->producto_ID.','.$this->comprobante_regula_ID.',"'.$this->descripcion.'",'.$this->cantidad.','.$this->precio_unitario.','.$this->subtotal.','.$this->total.','.$this->igv;
+            $q.=','.$this->vigv.','.$this->tipo_impuestos_ID.','.$this->factura_venta_detalle_ID.','.$this->usuario_id.');';
+            //echo $q;
             $retornar=$cn->transa($q);
 
             $this->ID=$ID;
-            $this->message='Se guardó correctamente';
+            $this->getMessage='Se guardó correctamente';
 
             return $retornar;
 
