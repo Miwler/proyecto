@@ -277,32 +277,19 @@ class comprobante_regula_detalle {
                     throw new Exception($q);
             }
 	}
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='cr.ID asc')
-	{
-		$cn =new connect();
-		try
-		{
-                    $q='select cr.ID,cr.serie,cr.numero_concatenado,ti.nombre as tipo,cr.fecha_emision,fv.serie as serie_factura,fv.numero as numero_factura,es.nombre as estado,cr.estado_ID,mo.simbolo as moneda,cr.monto_total';
-                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
-                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];
-                  
-                        if($filtro!=''){
-				$q.=' and '.$filtro;
-			}
-
-			$q.=' Order By '.$order;
-
-			if($desde!=-1&&$hasta!=-1){
-				$q.=' Limit '.$desde.','.$hasta;
-			}
-                        //echo $q;
-			$dt=$cn->getGrid($q);
-			return $dt;
-		}catch(Exception $ex)
-		{
-			throw new Exception($q);
-		}
-	}
+    static function getGrid($comprobante_regula_ID)
+    {
+        $cn =new connect();
+        try
+        {
+            $q='call comprobante_regula_detalle_getGrid('.$comprobante_regula_ID.')';
+            $dt=$cn->getGrid($q);
+            return $dt;
+        }catch(Exception $ex)
+        {
+                throw new Exception($q);
+        }
+    }
         static function getGrid2($filtro='',$desde=-1,$hasta=-1,$order='fv.fecha_emision asc')
 	{
 		$cn =new connect();

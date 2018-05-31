@@ -184,13 +184,6 @@
             <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
             <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
 
-						<iframe id="iPDF" style="height: 600px; width: 100%;"></iframe>
-						<input id="text" type="text" value="kylespice.com?cumin" />
-						<div id="dvContent">
-							<div id="qrcode" crossOrigin="anonymous"></div>
-						</div>
-
-
         </div>
     </div>
 
@@ -274,28 +267,28 @@
          window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
     }
 
-		function fncSUNAT(id) {
-			try {
-					block_ui(function () {
-						cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
-							console.log(resultado);
+    function fncSUNAT(id) {
+        try {
+            block_ui(function () {
+                cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
+                console.log(resultado);
 
-							$.unblockUI();
-							var obj = $.parseJSON(resultado);
-							console.log(obj.Exito);
-							//console.log(obj.MensajeRespuesta);
-							if (obj.Exito == true) {
-									alert(obj.MensajeRespuesta);
-							}
-					});
-				});
-			} catch (e) {
-				$.unblockUI();
-				console.log(e);
-			} finally {
+                $.unblockUI();
+                var obj = $.parseJSON(resultado);
+                console.log(obj.Exito);
+                //console.log(obj.MensajeRespuesta);
+                if (obj.Exito == true) {
+                                alert(obj.MensajeRespuesta);
+                }
+            });
+            });
+        } catch (e) {
+                $.unblockUI();
+                console.log(e);
+        } finally {
 
-			}
-		}
+        }
+    }
 
 		function formatXml(xml) {
 		    var formatted = '';

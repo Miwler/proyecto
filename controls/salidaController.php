@@ -11643,3 +11643,255 @@ function post_ajaxExtraerInformacionFacturas_Emitidas() {
         'subtotal'=>$subtotal,'igv'=>$igv,'total'=>$total,'tabla'=>$tabla);
     echo json_encode($retornar);
 }
+
+function post_ajaxEnviarNota_CreditoSUNAT() {
+
+  require ROOT_PATH.'models/factura_venta_sunat.php';
+  require ROOT_PATH.'models/salida.php';
+  require ROOT_PATH.'models/factura_venta.php';
+  require ROOT_PATH.'models/factura_venta_detalle.php';
+  require ROOT_PATH.'models/salida_detalle.php';
+  require ROOT_PATH.'models/moneda.php';
+  require ROOT_PATH.'models/cliente.php';
+  require ROOT_PATH.'models/empresa.php';
+
+ 
+  $id=$_POST['id'];
+
+  $oSalida=salida::getByID($id);
+  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
+  $oSalidaDetalle=salida_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
+  $oEmpresa=empresa::getByID($oSalida->empresa_ID);
+  $oCliente=cliente::getByID($oSalida->cliente_ID);
+  $oMoneda=moneda::getByID($oSalida->moneda_ID);
+
+
+    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+
+    //echo json_encode($retornar);
+}
+function enviarComprobanteSUNAT($ID){
+    require_once('include/URL_API.php');
+    $new = new api_SUNAT();
+    require ROOT_PATH.'models/comprobante_regula.php';
+    require ROOT_PATH.'models/comprobante_regula_detalle.php';
+    try{
+        $oComprobante_Regula=comprobante_regula::getByID($ID);
+        $dt=comprobante_regula_detalle::getGrid($ID);
+        $DocumentoDetalle = array();
+        $Discrepancias = array();
+        $DocumentoRelacionado = array();
+        $i=0;
+        foreach($dt as $valor){
+            $DocumentoDetalle[] = array (
+                'Id' => $i+1,
+                'Cantidad' =>$valor['cantidad'],
+                'UnidadMedida' => $valor['unidad_medida'],
+                'CodigoItem' => $valor['codigo_producto'],
+                'Descripcion' => $valor['producto'],
+                'PrecioUnitario' => $valor['precio_unitario'],
+                'PrecioReferencial' =>$valor['precio_unitario'],
+                'TipoPrecio' => '01',
+                'TipoImpuesto' => $valor['tipo_impuesto'],
+                'Impuesto' => 18,
+                'ImpuestoSelectivo' => 0,
+                'OtroImpuesto' => 0,
+                'Descuento' => 0,
+                'PlacaVehiculo' => $valor['vehiculo'],
+                'TotalVenta' => $item['total'],
+                'Suma' => $item['total']
+              );
+            
+        }
+
+      $param_emisor = $new->getParamEmisor($oComprobante_Regula->empresa_ID);
+      $data = array (
+        'IdDocumento' => $oComprobante_Regula->serie.'-'.$oComprobante_Regula->numero_concatenado,
+        'TipoDocumento' => $oComprobante_Regula->codigo_comprobante,
+        'Emisor' => $param_emisor["Emisor"],
+        'Receptor' =>  array (
+        'NroDocumento' => $oCliente->ruc,
+        'TipoDocumento' => '6',//SOLO FACTURA
+        'NombreLegal' => $oCliente->razon_social,
+        ),
+        'FechaEmision' => $oSalida->fecha,
+        'Moneda' => $oMoneda->codigo,
+        'TipoOperacion' => '',
+        'Gravadas' => $oFactura_venta[0]['monto_total_neto'],//$oFactura_venta[0]['gravadas']
+        'Gratuitas' => $oFactura_venta[0]['gratuitas'],
+        'Inafectas' => $oFactura_venta[0]['inafectas'],
+        'Exoneradas' => $oFactura_venta[0]['exoneradas'],
+        'DescuentoGlobal' => $oFactura_venta[0]['descuento_global'],
+        'TotalVenta' => $oFactura_venta[0]['monto_total'],
+        'TotalIgv' => $oFactura_venta[0]['monto_total_igv'],
+        'TotalIsc' => 0,
+        'TotalOtrosTributos' => 0,
+        'MontoEnLetras' => 'SON CIENTO DIECIOCHO SOLES CON 0/100',
+        'PlacaVehiculo' => '',
+        'MontoPercepcion' => 0,
+        'MontoDetraccion' => $oFactura_venta[0]['monto_detraccion'],
+        'TipoDocAnticipo' => '',
+        'DocAnticipo' => '',
+        'MonedaAnticipo' => '',
+        'MontoAnticipo' => 0,
+        'CalculoIgv' => 0.18,
+        'CalculoIsc' => 0.10,
+        'CalculoDetraccion' => 0.04,
+        'Items' => $DocumentoDetalle,
+      );
+
+      $metodo = '';
+      switch ($data['TipoDocumento']) {
+          case '01':
+              $metodo = 'GenerarFactura';
+              break;
+          case '03':
+              $metodo = 'GenerarFactura';
+              break;
+          case '07':
+      				$metodo = 'GenerarNotaCredito';
+      				break;
+      		case '08':
+      					$metodo = 'GenerarNotaDebito';
+      			break;
+      		default:
+              $metodo = 'GenerarFactura';
+              break;
+      }
+
+      $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
+      $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
+      $data_GFactura = json_decode($resultado_GFactura);
+
+      //{
+      //  "TramaXmlSinFirma": "string",
+      //  "Exito": true,
+      //  "MensajeError": "string",
+      //  "Pila": "string"
+      //}
+      //echo ($resultado_GFactura);
+      if ($data_GFactura->Exito==true) {
+
+        $firma=array (
+                      'CertificadoDigital' => $param_emisor["Certificado"],
+                      'PasswordCertificado' => $param_emisor["PasswordCertificado"],
+                      'TramaXmlSinFirma' => $data_GFactura->TramaXmlSinFirma,
+                      'UnSoloNodoExtension' => false,
+                    );
+
+        $resultado_firma = $new->sendPostCPE(json_encode($firma),'Firmar');
+        $data_firma = json_decode($resultado_firma);
+
+        //echo json_encode($resultado_firma);
+        if ($data_firma->Exito==true) {
+          // {
+          //   "TramaXmlFirmado": "string",
+          //   "ResumenFirma": "string",
+          //   "ValorFirma": "string",
+          //   "Exito": true,
+          //   "MensajeError": "string",
+          //   "Pila": "string"
+          // }
+
+          $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'].'.xml';
+
+          $new->EscribirArchivoXML($nombreArchivo,$data_firma->TramaXmlFirmado);
+
+          //echo $resultado_firma;
+
+
+
+          $enviar_sunat=array (
+                                'TramaXmlFirmado' => $data_firma->TramaXmlFirmado,
+                                'Ruc' => $param_emisor["RUC"],
+                                'UsuarioSol' => $param_emisor["UsuarioSol"],
+                                'ClaveSol' => $param_emisor["ClaveSol"],
+                                'IdDocumento' => $data['IdDocumento'],
+                                'TipoDocumento' => $data['TipoDocumento'],
+                                'EndPointUrl' => $param_emisor["UrlSunat"],
+                              );
+
+
+          //echo json_encode($enviar_sunat);
+
+          $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
+          $data_sunat = json_decode($resultado_sunat);
+          // {
+          //   "CodigoRespuesta": "string",
+          //   "MensajeRespuesta": "string",
+          //   "TramaZipCdr": "string",
+          //   "NombreArchivo": "string",
+          //   "Exito": true,
+          //   "MensajeError": "string",
+          //   "Pila": "string"
+          // }
+
+          $sunat_respuesta='';
+          if ($data_sunat->Exito==true) {
+            // echo 'CodigoRespuesta : '.$data_sunat->CodigoRespuesta.'<br>';
+            // echo 'MensajeRespuesta : '.$data_sunat->MensajeRespuesta.'<br>';
+            // echo 'NombreArchivo : '.$data_sunat->NombreArchivo.'<br>';
+            // echo 'TramaZipCdr : '.$data_sunat->TramaZipCdr.'<br>';
+
+            $sunat_respuesta = $data_sunat->MensajeRespuesta;
+            if ($data_sunat->CodigoRespuesta==0) {
+              $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr);
+            }
+
+            echo json_encode($resultado_sunat);
+          }else{
+            $sunat_respuesta = $data_sunat->MensajeError;
+            echo json_encode($resultado_sunat);
+          }
+
+          $oFactura_Venta_Sunat=new factura_venta_sunat();
+          $oFactura_Venta_Sunat->salida_ID=$id;
+          $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
+          $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
+          $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
+          $oFactura_Venta_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
+          $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
+          $oFactura_Venta_Sunat->representacion_impresa='';
+          $oFactura_Venta_Sunat->estado_envio=1;
+          $oFactura_Venta_Sunat->codigo_estado=$data_sunat->CodigoRespuesta;
+          $oFactura_Venta_Sunat->descripcion_estado=FormatTextSave($sunat_respuesta);
+          $oFactura_Venta_Sunat->cdr_sunat = $data_sunat->TramaZipCdr;
+          $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
+          $oFactura_Venta_Sunat->insertar();
+
+        }else {
+          $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
+          $oFactura_Venta_Sunat=new factura_venta_sunat();
+          $oFactura_Venta_Sunat->salida_ID=$id;
+          $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
+          $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
+          $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
+          $oFactura_Venta_Sunat->nombre_archivo=$nombreArchivo;
+          $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
+          $oFactura_Venta_Sunat->representacion_impresa='';
+          $oFactura_Venta_Sunat->estado_envio=0;
+          $oFactura_Venta_Sunat->codigo_estado="";
+          $oFactura_Venta_Sunat->descripcion_estado="Ocurrió un error al firmar la trama xml";
+          $oFactura_Venta_Sunat->cdr_sunat="";
+          $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
+          $oFactura_Venta_Sunat->insertar();
+          echo json_encode($resultado_firma);
+        }
+
+
+
+      }else {
+        echo json_encode($resultado_GFactura);
+      }
+
+
+
+
+    } catch (Exception $ex) {
+        $retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
+        echo json_encode($retornar);
+
+        //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+    }
+}

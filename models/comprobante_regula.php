@@ -31,8 +31,10 @@ class comprobante_regula {
     private $usuario_id;
     private $usuario_mod_id;
     private $getMessage;
-
-
+    private $moneda;
+    private $estado;
+    private $tipo;
+    private $codigo_comprobante;
 
   public function __set($var, $valor)
     {
@@ -166,48 +168,47 @@ class comprobante_regula {
             $cn =new connect();
             try
             {
-                $q='select ID,salida_ID,serie,numero,numero_concatenado,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,forma_pago_ID,plazo_factura,DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,';
-                $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
-                $q.='ifnull(monto_pendiente,0) as monto_pendiente,DATE_FORMAT(fecha_anulacion,"%d/%m/%Y") as fecha_anulacion,operador_ID_anulacion,motivo_anulacion_ID ,opcion,numero_producto,correlativos_ID,';
-                $q.='usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
-                $q.=' where del=0 and ID='.$ID;
+                $q.='call comprobante_regula_getByID('.$ID.')';
                     //echo $q;
                     $dt=$cn->getGrid($q);
-                    $oFactura_Venta=null;
+                    $oComprobante_Regula=null;
 
                     foreach($dt as $item)
                     {
-                        $oFactura_Venta = new factura_venta();
-                        $oFactura_Venta->ID=$item['ID'];
-                        $oFactura_Venta->salida_ID=$item['salida_ID'];
-                        $oFactura_Venta->serie=$item['serie'];
-                        $oFactura_Venta->numero=$item['numero'];
-                        $oFactura_Venta->numero_concatenado=$item['numero_concatenado'];
-                        $oFactura_Venta->fecha_emision=$item['fecha_emision'];
-                        $oFactura_Venta->forma_pago_ID=$item['forma_pago_ID'];
-                        $oFactura_Venta->plazo_factura=$item['plazo_factura'];
-                        $oFactura_Venta->fecha_vencimiento=$item['fecha_vencimiento'];
-                        $oFactura_Venta->estado_ID=$item['estado_ID'];
-                        $oFactura_Venta->moneda_ID=$item['moneda_ID'];
-                        $oFactura_Venta->orden_pedido=$item['orden_pedido'];
-                        $oFactura_Venta->orden_ingreso=$item['orden_ingreso'];
-                        $oFactura_Venta->impresion=$item['impresion'];
-                        $oFactura_Venta->con_guia=$item['con_guia'];
-                        $oFactura_Venta->pago=$item['pago'];
-                        $oFactura_Venta->monto_total_neto=$item['monto_total_neto'];
-                        $oFactura_Venta->monto_total_igv=$item['monto_total_igv'];
-                        $oFactura_Venta->monto_total=$item['monto_total'];
-                        $oFactura_Venta->monto_pendiente=$item['monto_pendiente'];
-                        $oFactura_Venta->fecha_anulacion=$item['fecha_anulacion'];
-                        $oFactura_Venta->operador_ID_anulacion=$item['operador_ID_anulacion'];
-                        $oFactura_Venta->motivo_anulacion_ID=$item['motivo_anulacion_ID'];
-                        $oFactura_Venta->opcion=$item['opcion'];
-                        $oFactura_Venta->numero_producto=$item['numero_producto'];
-                        $oFactura_Venta->correlativos_ID=$item['correlativos_ID'];
-                        $oFactura_Venta->usuario_id=$item['usuario_id'];
-                        $oFactura_Venta->usuario_mod_id=$item['usuario_mod_id'];
+                        $oComprobante_Regula->ID=$item['ID'];
+                        $oComprobante_Regula->factura_venta_ID=$item['factura_venta_ID'];
+                        $oComprobante_Regula->tipo_ID=$item['tipo_ID'];
+                        $oComprobante_Regula->serie=$item['serie'];
+                        $oComprobante_Regula->numero=$item['numero'];
+                        $oComprobante_Regula->numero_concatenado=$item['numero_concatenado'];
+                        $oComprobante_Regula->fecha_emision=$item['fecha_emision'];
+                        $oComprobante_Regula->fecha_vencimiento=$item['fecha_vencimiento'];
+                        $oComprobante_Regula->estado_ID=$item['estado_ID'];
+                        $oComprobante_Regula->moneda_ID=$item['moneda_ID'];
+                        $oComprobante_Regula->monto_total_neto=$item['monto_total_neto'];
+                        $oComprobante_Regula->monto_total_igv=$item['monto_total_igv'];
+                        $oComprobante_Regula->monto_total=$item['monto_total'];
+                        $oComprobante_Regula->monto_pendiente=$item['monto_pendiente'];
+                        $oComprobante_Regula->empresa_ID=$item['empresa_ID'];
+                        $oComprobante_Regula->correlativos_ID=$item['correlativos_ID'];
+                        $oComprobante_Regula->porcentaje_descuento=$item['porcentaje_descuento'];
+                        $oComprobante_Regula->anticipo=$item['anticipo'];
+                        $oComprobante_Regula->exoneradas=$item['exoneradas'];
+                        $oComprobante_Regula->inafectas=$item['inafectas'];
+                        $oComprobante_Regula->gravadas=$item['gravadas'];
+                        $oComprobante_Regula->gratuitas=$item['gratuitas'];
+                        $oComprobante_Regula->otros_cargos=$item['otros_cargos'];
+                        $oComprobante_Regula->descuento_global=$item['descuento_global'];
+                        $oComprobante_Regula->monto_detraccion=$item['monto_detraccion'];
+                        $oComprobante_Regula->operador_ID_creador=$item['operador_ID_creador'];
+                        $oComprobante_Regula->usuario_id=$item['usuario_id'];
+                        $oComprobante_Regula->usuario_mod_id=$item['usuario_mod_id'];
+                        $oComprobante_Regula->estado=$item['estado'];
+                        $oComprobante_Regula->moneda=$item['moneda'];
+                        $oComprobante_Regula->tipo=$item['tipo'];
+                        $oComprobante_Regula->codigo_comprobante=$item['codigo_comprobante'];
                     }
-                    return $oFactura_Venta;
+                    return $oComprobante_Regula;
 
             }catch(Exeption $ex)
             {
