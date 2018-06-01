@@ -15,7 +15,7 @@ class api_SUNAT {
         //$ch = curl_init("http://192.168.10.151:8085/api/".$metodo);
         //$ch = curl_init("http://192.168.0.15/OpenInvoicePeru/api/".$metodo);
         //$ch = curl_init("http://192.168.43.242/OpenInvoicePeru/api/".$metodo);
-        $ch = curl_init("http://localhost/api/".$metodo);
+        $ch = curl_init("http://192.168.1.2/api/".$metodo);
         //$ch = curl_init("http://localhost:5649/OpenInvoicePeru/api/".$metodo);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -50,14 +50,14 @@ class api_SUNAT {
 
         require ROOT_PATH.'models/datos_generales.php';
 
-        $oDatos_generales=datos_generales::getByID($empresa_ID);
+        $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
 
         $certificateCAcer = ROOT_PATH.'files/SUNAT/CERTIFICADO/'.$oDatos_generales->ruc.'.pfx';
         $certificateCAcerContent = file_get_contents($certificateCAcer);
         $certificadostring =  PHP_EOL.chunk_split(base64_encode($certificateCAcerContent), 64, PHP_EOL).PHP_EOL;
 
         $Emisor = array (
-          'NroDocumento' => $oDatos_generales->ruc,
+          'NroDocumento' =>$oDatos_generales->ruc,
           'TipoDocumento' => '6',
           'NombreLegal' => $oDatos_generales->razon_social,
           'NombreComercial' => $oDatos_generales->alias,

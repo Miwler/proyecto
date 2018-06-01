@@ -10864,23 +10864,23 @@ function post_ajaxEnviarSUNAT() {
   $id=$_POST['id'];
 
   $oSalida=salida::getByID($id);
-  $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
-  $oSalidaDetalle=salida_detalle::getGridLista('ovd.salida_ID='.$id .' and ovd.tipo in (1,2,5,6)');
-  $oEmpresa=empresa::getByID($oSalida->empresa_ID);
-  $oCliente=cliente::getByID($oSalida->cliente_ID);
-  $oMoneda=moneda::getByID($oSalida->moneda_ID);
-
+  
   try {
-    $oSalida=salida::getByID($id);
-    $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
-    $oSalidaDetalle=factura_venta_detalle::getGrid2($id);
-    $oEmpresa=empresa::getByID($oSalida->empresa_ID);
-    $oCliente=cliente::getByID($oSalida->cliente_ID);
-    $oMoneda=moneda::getByID($oSalida->moneda_ID);
-
-    //VALIDAR SI ESISTE
-    //var_dump($oFactura_venta);
-    //var_dump($oSalida);
+      
+        $oFactura_venta=factura_venta::getFactura_SUNAT($id,"cabecera");
+        //$oSalida=salida::getByID($id);
+        $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
+        if (count($oFactura_venta)==0) {
+            throw new Exception("No existe la factura.");
+        }
+        $oSalidaDetalle=factura_venta::getFactura_SUNAT($id,"detalle");
+        if(count($oSalidaDetalle)==0){
+            throw new Exception("La factura no tiene detalle.");
+        }
+        /*$oSalidaDetalle=factura_venta_detalle::getGrid2($id);
+        $oEmpresa=empresa::getByID($oSalida->empresa_ID);
+        $oCliente=cliente::getByID($oSalida->cliente_ID);
+        $oMoneda=moneda::getByID($oSalida->moneda_ID);*/
 
       $DocumentoDetalle = array();
       $Discrepancias = array();
@@ -10890,7 +10890,7 @@ function post_ajaxEnviarSUNAT() {
       $DocumentoDetalle[] = array (
         'Id' => $i+1,
         'Cantidad' => $oSalidaDetalle[$i]['cantidad'],
-        'UnidadMedida' => 'NIU',
+        'UnidadMedida' => $oSalidaDetalle[$i]['unidad_medida'],
         'CodigoItem' => $oSalidaDetalle[$i]['producto_ID'],
         'Descripcion' => $oSalidaDetalle[$i]['producto_nombre'],
         'PrecioUnitario' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
@@ -10907,9 +10907,7 @@ function post_ajaxEnviarSUNAT() {
       );
     }
 
-      if (count($oFactura_venta)==0) {
-        throw new Exception("Falta generar la facura");
-      }
+      
 
 
       $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
@@ -11024,6 +11022,7 @@ function post_ajaxEnviarSUNAT() {
 
           $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
           $data_sunat = json_decode($resultado_sunat);
+          var_dump($data_sunat);
           // {
           //   "CodigoRespuesta": "string",
           //   "MensajeRespuesta": "string",
@@ -11676,6 +11675,7 @@ function enviarComprobanteSUNAT($ID){
     $new = new api_SUNAT();
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
+    require ROOT_PATH.'include/lib_fecha_texto.php';
     try{
         $oComprobante_Regula=comprobante_regula::getByID($ID);
         $dt=comprobante_regula_detalle::getGrid($ID);
@@ -11704,9 +11704,19 @@ function enviarComprobanteSUNAT($ID){
               );
             
         }
+        $total_facturado=explode(".",$oComprobante_Regula->monto_total);
+        $decimal="00";
+        if(isset($total_facturado[1])){
+            if(strlen($total_facturado[1])==1){
+                $decimal=$total_facturado[1].'0';
+            }else {
+                $decimal=$total_facturado[1];
+            }
 
-      $param_emisor = $new->getParamEmisor($oComprobante_Regula->empresa_ID);
-      $data = array (
+        }
+        $total_letra="SON ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper(FormatTextView($oComprobante_Regula->moneda))).".";
+        $param_emisor = $new->getParamEmisor($oComprobante_Regula->empresa_ID);
+        $data = array (
         'IdDocumento' => $oComprobante_Regula->serie.'-'.$oComprobante_Regula->numero_concatenado,
         'TipoDocumento' => $oComprobante_Regula->codigo_comprobante,
         'Emisor' => $param_emisor["Emisor"],
@@ -11718,19 +11728,19 @@ function enviarComprobanteSUNAT($ID){
         'FechaEmision' => $oSalida->fecha,
         'Moneda' => $oMoneda->codigo,
         'TipoOperacion' => '',
-        'Gravadas' => $oFactura_venta[0]['monto_total_neto'],//$oFactura_venta[0]['gravadas']
-        'Gratuitas' => $oFactura_venta[0]['gratuitas'],
-        'Inafectas' => $oFactura_venta[0]['inafectas'],
-        'Exoneradas' => $oFactura_venta[0]['exoneradas'],
-        'DescuentoGlobal' => $oFactura_venta[0]['descuento_global'],
-        'TotalVenta' => $oFactura_venta[0]['monto_total'],
-        'TotalIgv' => $oFactura_venta[0]['monto_total_igv'],
+        'Gravadas' => $oComprobante_Regula->monto_total_neto,
+        'Gratuitas' => $oComprobante_Regula->gratuitas,
+        'Inafectas' => $oComprobante_Regula->inafectas,
+        'Exoneradas' => $oComprobante_Regula->exoneradas,
+        'DescuentoGlobal' => $oComprobante_Regula->descuento_global,
+        'TotalVenta' => $oComprobante_Regula->monto_total,
+        'TotalIgv' => $oComprobante_Regula->monto_total_igv,
         'TotalIsc' => 0,
         'TotalOtrosTributos' => 0,
-        'MontoEnLetras' => 'SON CIENTO DIECIOCHO SOLES CON 0/100',
+        'MontoEnLetras' => $total_letra,
         'PlacaVehiculo' => '',
         'MontoPercepcion' => 0,
-        'MontoDetraccion' => $oFactura_venta[0]['monto_detraccion'],
+        'MontoDetraccion' => $oComprobante_Regula->monto_detraccion,
         'TipoDocAnticipo' => '',
         'DocAnticipo' => '',
         'MonedaAnticipo' => '',

@@ -392,7 +392,19 @@ class factura_venta {
 		}
 	}
 
-
+        static function getFactura_SUNAT($salida_ID,$tipo)
+	{
+            $cn =new connect();
+            try
+            {
+                $q='call factura_venta_SUNAT('.$salida_ID.',"'.$tipo.'")';
+                $dt=$cn->getGrid($q);
+                return $dt;
+            }catch(Exception $ex)
+            {
+                throw new Exception($q);
+            }
+	}
 
         /*static function getGrid_CuentaXCobrar($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
         $cn = new connect();

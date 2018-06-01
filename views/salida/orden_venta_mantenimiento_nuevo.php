@@ -184,7 +184,7 @@
                             </script>
                         </div>
                         
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                             <input type='text' id='txtAdicional' name='txtAdicional' maxlength="40"  value='<?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->adicional);?>' class="form-control text-uppercase">
                         </div>
                     </div>
@@ -685,7 +685,7 @@
         }
         $('#txtTiempo_Avance').removeAttr("disabled");
         $('#txtNumero').removeAttr('disabled');
-        //$('#fondo_espera').css('display','block');
+        $('#fondo_espera').css('display','block');
     }
     var mostrarInformacion=function(orden_venta_ID){
         cargarValores('Salida/ajaxMostrarInformacion',orden_venta_ID,function(resultado){
