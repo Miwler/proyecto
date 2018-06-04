@@ -8,7 +8,8 @@ class distrito
 	private $usuario_id;	
 	private $usuario_mod_id;	
 	private $getMessage;
-		
+	private $provincia;
+        private $departamento;
 	public function __set($var, $valor)
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
@@ -44,10 +45,11 @@ class distrito
 		$cn =new connect();
 		try 
 		{
-			$q='Select ID,provincia_ID,codigo_ubigeo,nombre,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-			$q.=' from distrito ';
-			$q.=' where ID='.$ID;
-			
+			$q='Select di.ID,di.provincia_ID,concat(de.codigo_ubigeo,pr.codigo_ubigeo,di.codigo_ubigeo) as codigo_ubigeo,di.nombre,di.usuario_id,ifnull(di.usuario_mod_id,-1) as usuario_mod_id,';
+			$q.='de.nombre as departamento,pr.nombre as provincia';
+                        $q.=' from distrito di,provincia pr,departamento de ';
+			$q.=' where di.provincia_ID=pr.ID and pr.departamento_ID=de.ID and di.ID='.$ID;
+			//echo $q;
 			$dt=$cn->getGrid($q);			
 			$oDistrito=null;
 			
@@ -61,6 +63,8 @@ class distrito
 				$oDistrito->nombre=$item['nombre'];
 				$oDistrito->usuario_id=$item['usuario_id'];
 				$oDistrito->usuario_mod_id=$item['usuario_mod_id'];
+                                $oDistrito->departamento=$item['departamento'];
+                                $oDistrito->provincia=$item['provincia'];
 			}			
 			return $oDistrito;
 				

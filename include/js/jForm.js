@@ -566,7 +566,7 @@ var cargarValores=function(url,id,resultado){
       datatype: "json",
       success: function (respuesta) {
         try {
-          console.log(respuesta);
+          //console.log(respuesta);
           resultado($.parseJSON(respuesta));
         } catch (e) {
             $.unblockUI();

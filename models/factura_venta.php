@@ -49,6 +49,7 @@ class factura_venta {
     private $ver_cambios;
     private $ver_vista_previa;
     private $ver_imprimir;
+    private $ver_enviar_SUNAT;
     private $dtSerie;
 
     private $gravadas;
@@ -115,7 +116,8 @@ class factura_venta {
             $q.=','.$this->estado_ID.','.$this->moneda_ID.',"'.$this->orden_pedido.'","'.$this->orden_ingreso.'",'.$con_guia.','.$this->usuario_id.','.$this->opcion.','.$this->numero_producto.','.$this->correlativos_ID.')';
 
             $retornar=$cn->transa($q);
-
+            $q="call sp_tabla_movimiento_Insertar(".$ID.",'factura_venta',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_id.",".$_SESSION['empresa_ID'].",".$this->usuario_id.")";
+            $cn->transa($q);
             $this->ID=$ID;
             $this->message='Se guardó correctamente';
 
@@ -149,6 +151,8 @@ class factura_venta {
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
             $retornar=$cn->transa($q);
+            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'factura_venta',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_id.",".$_SESSION['empresa_ID'].",".$this->usuario_id.")";
+            $cn->transa($q);
             $this->message='Se guardó correctamente';
             return $retornar;
         } catch (Exception $ex) {
@@ -397,7 +401,8 @@ class factura_venta {
             $cn =new connect();
             try
             {
-                $q='call factura_venta_SUNAT('.$salida_ID.',"'.$tipo.'")';
+                $q='call factura_venta_SUNAT('.$salida_ID.',"'.$tipo.'");';
+                //echo $q;
                 $dt=$cn->getGrid($q);
                 return $dt;
             }catch(Exception $ex)

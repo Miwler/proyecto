@@ -8,7 +8,7 @@ class datos_generales
 	private $alias;
 	private $direccion;
 	private $direccion_fiscal;
-
+        private $urbanizacion;
 	private $distrito_ID;
         private $favicon;
 	private $logo_extension;
@@ -43,6 +43,12 @@ class datos_generales
         private $departamento_ID;
         private $nombre;
         private $ruta;
+        private $usuariosol;
+        private $clavesol;
+        private $certificado;
+        private $passwordcertificado;
+        private $visc;
+        private $tasadetraccion;
 	public function __set($var, $valor)
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
@@ -223,7 +229,7 @@ static function getByID($ID)
         $cn =new connect();
         try
         {
-            $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,distrito_ID,favicon,logo_extension,imagen,';
+            $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,urbanizacion,distrito_ID,favicon,logo_extension,imagen,';
             $q.='correo,pagina_web,telefono,celular,tipo_cambio,vigv,observacion,quienes_somos,mision,vision,skype,persona_contacto';
             $q.=',cargo_contacto,mail_webmaster,password_webmaster,servidorSMTP,puertoSMTP,sitio_web,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from datos_generales ';
@@ -243,6 +249,7 @@ static function getByID($ID)
                 $oDatos_generales->alias=$item['alias'];
                 $oDatos_generales->direccion=$item['direccion'];
                 $oDatos_generales->direccion_fiscal=$item['direccion_fiscal'];
+                $oDatos_generales->urbanizacion=$item['urbanizacion'];
                 $oDatos_generales->distrito_ID=$item['distrito_ID'];
                 $oDatos_generales->favicon=$item['favicon'];
                 $oDatos_generales->logo_extension=$item['logo_extension'];
@@ -310,8 +317,9 @@ static function getByID1($empresa_ID)
     try
     {
         $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,distrito_ID,favicon,ifnull(logo_extension,"") as logo_extension,imagen,';
-        $q.='correo,pagina_web,telefono,celular,tipo_cambio,vigv,observacion,quienes_somos,mision,vision,skype,persona_contacto';
+        $q.='correo,pagina_web,telefono,celular,tipo_cambio,vigv,ifnull(visc,0) as visc,ifnull(tasadetraccion,0) as tasadetraccion,observacion,quienes_somos,mision,vision,skype,persona_contacto';
         $q.=',cargo_contacto,mail_webmaster,password_webmaster,servidorSMTP,puertoSMTP,sitio_web,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
+        $q.=',usuariosol,clavesol,certificado,passwordcertificado';
         $q.=' from datos_generales ';
         $q.=' where del=0 and empresa_ID='.$empresa_ID;
         //echo $q;
@@ -320,9 +328,8 @@ static function getByID1($empresa_ID)
 
         foreach($dt as $item)
         {
-                $oDatos_generales=new datos_generales();
-
-                $oDatos_generales->ID=$item['ID'];
+            $oDatos_generales=new datos_generales();
+            $oDatos_generales->ID=$item['ID'];
             $oDatos_generales->empresa_ID=$item['empresa_ID'];
             $oDatos_generales->ruc=$item['ruc'];
             $oDatos_generales->razon_social=$item['razon_social'];
@@ -339,6 +346,8 @@ static function getByID1($empresa_ID)
             $oDatos_generales->celular=$item['celular'];
             $oDatos_generales->tipo_cambio=$item['tipo_cambio'];
             $oDatos_generales->vigv=$item['vigv'];
+            $oDatos_generales->visc=$item['visc'];
+            $oDatos_generales->tasadetraccion=$item['tasadetraccion'];
             $oDatos_generales->observacion=$item['observacion'];
             $oDatos_generales->quienes_somos=$item['quienes_somos'];
             $oDatos_generales->mision=$item['mision'];
@@ -351,6 +360,10 @@ static function getByID1($empresa_ID)
             $oDatos_generales->servidorSMTP=$item['servidorSMTP'];
             $oDatos_generales->puertoSMTP=$item['puertoSMTP'];
             $oDatos_generales->sitio_web=$item['sitio_web'];
+            $oDatos_generales->usuariosol=$item['usuariosol'];
+            $oDatos_generales->clavesol=$item['clavesol'];
+            $oDatos_generales->certificado=$item['certificado'];
+            $oDatos_generales->passwordcertificado=$item['passwordcertificado'];
             $oDatos_generales->usuario_id=$item['usuario_id'];
             $oDatos_generales->usuario_mod_id=$item['usuario_mod_id'];
         }

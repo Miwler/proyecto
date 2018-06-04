@@ -6832,7 +6832,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
         $listaproducto=mostrar_productos($salida_ID,3);
         $ContarFactura_Venta=factura_venta::getCount('salida_ID='.$id);
-
+        //$electronico=factura_venta::getE
+        
         $mensaje="";
         $informacion="";
         $dtGridCorrelativo=correlativos::getGridCorrelativos("factura_venta");
@@ -6848,7 +6849,6 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $oFactura_Venta->numero_concatenado=$numero_concatenado;
             //$informacion=extraer_informacion_factura($salida_ID,1);
             $oFactura_Venta->plazo_factura=0;
-
             $oFactura_Venta->ver_vista_previa=0;
             $oFactura_Venta->ver_imprimir=0;
             $oFactura_Venta->ver_cambios=0;
@@ -6868,14 +6868,17 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $i= $i+1;*/
             }
             $oFactura_Venta=factura_venta::getByID($factura_ID);
+            $electronico=correlativos::verificar_electronico($oFactura_Venta->correlativos_ID);
             $oEstado=estado::getByID($oFactura_Venta->estado_ID);
             //$oFactura_Venta->ver_cambios=0;
             switch($oFactura_Venta->estado_ID){
                 case 35:
-
-                    $numero_temporal=correlativos::getNumero("factura_venta",$oFactura_Venta->correlativos_ID);
-                    $numero_concatenado=sprintf("%'.07d",$numero_temporal);
-                    $oFactura_Venta->numero_concatenado=$numero_concatenado;
+                    if($electronico==0){
+                        $numero_temporal=correlativos::getNumero("factura_venta",$oFactura_Venta->correlativos_ID);
+                        $numero_concatenado=sprintf("%'.07d",$numero_temporal);
+                        $oFactura_Venta->numero_concatenado=$numero_concatenado;
+                    }
+                    
 
                     $oFactura_Venta->ver_vista_previa=1;
                     $oFactura_Venta->ver_imprimir=1;
@@ -6896,10 +6899,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta->ver_vista_previa=0;
                     $oFactura_Venta->ver_imprimir=0;
                     break;
-
             }
-
-
         }
         $oFactura_Venta->estado=$oEstado->nombre;
         $oFactura_Venta->dtSerie=$dtGridCorrelativo;
@@ -6914,7 +6914,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
     }
 
-    function post_Orden_Venta_Mantenimiento_Factura($id){
+    function post_Orden_Venta_Mantenimiento_Factura($ID){
         require ROOT_PATH . 'models/salida.php';
         require ROOT_PATH . 'models/salida_detalle.php';
         require ROOT_PATH . 'models/producto.php';
@@ -6927,8 +6927,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/correlativos.php';
         global  $returnView_float;
         $returnView_float=true;
-        $salida_ID=$id;
-        $ID=$_POST['txtID'];
+        $salida_ID=$ID;
+        $factura_venta_ID=$_POST['txtID'];
         $opcion=0;
         if(isset($_POST['ckOpcion'])){
             $opcion=$_POST['ckOpcion'];
@@ -6942,23 +6942,39 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $Moneda_ID=$_POST['selMoneda'];
         $orden_pedido=FormatTextSave($_POST['txtOrden_Pedido']);
         $orden_compra= FormatTextSave($_POST['txtOrden_Compra']);
+        
         //$con_guia=$_POST['selGuia_Venta'];
         try{
             /* Estraemos el número*/
             //$oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
-            $osalida=salida::getByID($id);
-            $contador_facturas=factura_venta::getCount('salida_ID='.$id);
+            $electronico=correlativos::verificar_electronico($correlativos_ID);
+            $osalida=salida::getByID($ID);
+            $contador_facturas=factura_venta::getCount('salida_ID='.$ID);
             //Creamos nueva factura para los anulados
             if($contador_facturas==0||$osalida->estado_ID==58){
                 $arrayProductoFactura=explode("/",$osalida->nproducto_pagina);
                 $n=0;
-                for ($i=0;$i<$osalida->numero_pagina;$i++){
+                
+                if($electronico>0){
+                  $numero_pagina=1;  
+                 
+                }else{
+                    $numero_pagina=$osalida->numero_pagina;
+                   
+                }
+                
+                for ($i=0;$i<$numero_pagina;$i++){
                     $oFactura_Venta=new factura_venta();
+                    if($electronico>0){
+                        $nproductos_pagina=salida_detalle::getCount("salida_ID=".$ID.' and tipo_ID in (1,2,5,6)');
+                    }else{
 
+                        $nproductos_pagina=$arrayProductoFactura[$i];
+                    }
                     $oFactura_Venta->salida_ID=$salida_ID;
                     $oFactura_Venta->correlativos_ID=$correlativos_ID;
                     $oFactura_Venta->serie=$serie;
-                    $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
+                    $numero_temporal=correlativos::getNumero("factura_venta",$correlativos_ID);
                     $numero_concatenado=sprintf("%'.07d",$numero_temporal);
                     $oFactura_Venta->numero=$numero_temporal;
                     $oFactura_Venta->numero_concatenado=$numero_concatenado;
@@ -6972,7 +6988,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta->orden_pedido=$orden_pedido;
                     $oFactura_Venta->orden_ingreso=$orden_compra;
                     $oFactura_Venta->opcion=$opcion;
-                    $oFactura_Venta->numero_producto=$arrayProductoFactura[$i];
+                    $oFactura_Venta->numero_producto=$nproductos_pagina;
                     //$oFactura_Venta->con_guia=$con_guia;
                     $oFactura_Venta->usuario_id=$_SESSION['usuario_ID'];
                     $oFactura_Venta->insertar();
@@ -6985,7 +7001,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta_Detalle=new factura_venta_detalle();
                     $oFactura_Venta_Detalle->factura_venta_ID=$oFactura_Venta->ID;
                     $oFactura_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
-                    $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo in (1,2,5,6) ',$n,$arrayProductoFactura[$i],"ovd.ID asc");
+                    $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$ID. ' and ovd.tipo_ID in (1,2,5,6) ',$n,$nproductos_pagina,"ovd.ID asc");
                     foreach($dtsalida_Detalle as $value){
                         $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
                         $oFactura_Venta_Detalle->insertar();
@@ -6993,72 +7009,104 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     }
                     //Actualizamos los montos totales
                     actualizarCostosFactura($oFactura_Venta);
-                    $n=$n+$arrayProductoFactura[$i];
+                    $n=$n+$nproductos_pagina;
                     $oFactura_Venta->ver_vista_previa=1;
                     $oFactura_Venta->ver_imprimir=1;
+                    if($electronico>0){
+                        $oFactura_Venta->ver_enviar_SUNAT=1;
+                        /*=================Actualizamos el correlativo*/
+                        $oCorrelativos=correlativos::getByID($correlativos_ID);
+                        $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
+                        $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                        $oCorrelativos->actualizar();
+                    }
+                   
                 }
+                
             }else {
-                $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$id,-1,-1,'ID asc');
-                $arrayProductoFactura=explode("/",$osalida->nproducto_pagina);
+                //Si ya existe factura
+                $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$ID,-1,-1,'ID asc');
+                //var_dump($dtFactura_Venta);
                 $n=0;
-                for ($i=0;$i<$osalida->numero_pagina;$i++){
-                    $arrayFactura=array();
-                foreach ($dtFactura_Venta as $item) {
-                    array_push($arrayFactura,$item['ID']);
+                if($electronico>0){
+                    $numero_pagina=1;  
+                    
+                }else{
+                    $numero_pagina=$osalida->numero_pagina;
+                    
                 }
-                if(isset($arrayFactura[$i])){
-                    $factura_venta_ID=$arrayFactura[$i];
-                    $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
-                        if($oFactura_Venta->estado_ID==35){
-                            $oFactura_Venta->serie=$serie;
-                            $oFactura_Venta->correlativos_ID=$correlativos_ID;
-                            $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
-                            $numero_concatenado=sprintf("%'.07d",$numero_temporal);
-
-
-                            $oFactura_Venta->salida_ID=$salida_ID;
-                            $oFactura_Venta->numero=$numero_temporal;
-                            $oFactura_Venta->numero_concatenado=$numero_concatenado;
-                            $oFactura_Venta->fecha_emision=$Fecha_Emision;
-                            $oFactura_Venta->forma_pago_ID=$osalida->forma_pago_ID;
-                            $oFactura_Venta->plazo_factura=$Plazo_Factura;
-                            $oFactura_Venta->fecha_vencimiento=$Fecha_Vencimiento;
-                            //$oFactura_Venta->estado_ID=34;
-                            $oFactura_Venta->moneda_ID=$Moneda_ID;
-                            $oFactura_Venta->orden_pedido=$orden_pedido;
-                            $oFactura_Venta->orden_ingreso=$orden_compra;
-                            $oFactura_Venta->opcion=$opcion;
-                            $oFactura_Venta->numero_producto=$arrayProductoFactura[$i];
-                            $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
-                            //$oFactura_Venta->con_guia=$con_guia;
-                            $oFactura_Venta->actualizar();
-
-                            /*=====Actualizacion la factura_venta_detalle*/
-                            $dtFactura_Venta_Detalle=factura_venta_detalle::getGrid('factura_venta_ID='.$oFactura_Venta->ID);
-                            foreach($dtFactura_Venta_Detalle as $valor){
-                                $oFactura_Venta_Detalle=factura_venta_detalle::getByID($valor['ID']);
-                                $oFactura_Venta_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
-                                $oFactura_Venta_Detalle->eliminar();
-                            }
-                            $oFactura_Venta_Detalle=new factura_venta_detalle();
-                            $oFactura_Venta_Detalle->factura_venta_ID=$factura_venta_ID;
-                            $oFactura_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
-                            $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo in (1,2,5,6)',$n,$arrayProductoFactura[$i],"ovd.ID asc");
-                            foreach($dtsalida_Detalle as $value){
-                                $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
-                                $oFactura_Venta_Detalle->insertar();
-                            }
-                            actualizarCostosFactura($oFactura_Venta);
-                            $oFactura_Venta->ver_vista_previa =1;
-                            $oFactura_Venta->ver_imprimir=1;
+                $arrayProductoFactura=explode("/",$osalida->nproducto_pagina);
+                for ($i=0;$i<$numero_pagina;$i++){
+                    $arrayFactura=array();
+                    foreach ($dtFactura_Venta as $item) {
+                        array_push($arrayFactura,$item['ID']);
+                    }
+                    if(isset($arrayFactura[$i])){
+                        $factura_venta_ID=$arrayFactura[$i];
+                        $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
+                        if($electronico>0){
+                            
+                            $nproducto_pagina=salida_detalle::getcount("salida_ID=".$ID." and ovd.tipo_ID in (1,2,5,6)");
+                        }else{
+                           $nproducto_pagina=$arrayProductoFactura[$i];
 
                         }
+                            if($oFactura_Venta->estado_ID==35){
+                                $oFactura_Venta->serie=$serie;
+                                $oFactura_Venta->correlativos_ID=$correlativos_ID;
+                                $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
+                                $numero_concatenado=sprintf("%'.07d",$numero_temporal);
+
+
+                                $oFactura_Venta->salida_ID=$salida_ID;
+                                $oFactura_Venta->numero=$numero_temporal;
+                                $oFactura_Venta->numero_concatenado=$numero_concatenado;
+                                $oFactura_Venta->fecha_emision=$Fecha_Emision;
+                                $oFactura_Venta->forma_pago_ID=$osalida->forma_pago_ID;
+                                $oFactura_Venta->plazo_factura=$Plazo_Factura;
+                                $oFactura_Venta->fecha_vencimiento=$Fecha_Vencimiento;
+                                //$oFactura_Venta->estado_ID=34;
+                                $oFactura_Venta->moneda_ID=$Moneda_ID;
+                                $oFactura_Venta->orden_pedido=$orden_pedido;
+                                $oFactura_Venta->orden_ingreso=$orden_compra;
+                                $oFactura_Venta->opcion=$opcion;
+                                $oFactura_Venta->numero_producto=$nproducto_pagina;
+                                $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                                //$oFactura_Venta->con_guia=$con_guia;
+                                
+                                $oFactura_Venta->actualizar();
+
+                                /*=====Actualizacion la factura_venta_detalle*/
+                                $dtFactura_Venta_Detalle=factura_venta_detalle::getGrid('factura_venta_ID='.$oFactura_Venta->ID);
+                                foreach($dtFactura_Venta_Detalle as $valor){
+                                    $oFactura_Venta_Detalle=factura_venta_detalle::getByID($valor['ID']);
+                                    $oFactura_Venta_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
+                                    $oFactura_Venta_Detalle->eliminar();
+                                }
+                                $oFactura_Venta_Detalle=new factura_venta_detalle();
+                                $oFactura_Venta_Detalle->factura_venta_ID=$factura_venta_ID;
+                                $oFactura_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                                $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo in (1,2,5,6)',$n,$arrayProductoFactura[$i],"ovd.ID asc");
+                                foreach($dtsalida_Detalle as $value){
+                                    $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
+                                    $oFactura_Venta_Detalle->insertar();
+                                }
+                                actualizarCostosFactura($oFactura_Venta);
+                                $oFactura_Venta->ver_vista_previa =1;
+                                $oFactura_Venta->ver_imprimir=1;
+                                if($electronio>0){
+                                    $oFactura_Venta->ver_enviar_SUNAT=1;
+                                    $oCorrelativos=correlativos::getByID($correlativos_ID);
+                                    $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
+                                    $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                                    $oCorrelativos->actualizar();
+                                }
+
+                            }
                     }
                     $n=$n+$arrayProductoFactura[$i];
                 }
-
             }
-
         $resultado=1;
         $mensaje="Se generó correctamente.";
         }catch(Exception $ex){
@@ -10849,79 +10897,80 @@ function post_ajaxGuia_Venta_Numero_Ultimo() {
 
 function post_ajaxEnviarSUNAT() {
 
-  require ROOT_PATH.'models/factura_venta_sunat.php';
-  require ROOT_PATH.'models/salida.php';
-  require ROOT_PATH.'models/factura_venta.php';
-  require ROOT_PATH.'models/factura_venta_detalle.php';
-  require ROOT_PATH.'models/salida_detalle.php';
-  require ROOT_PATH.'models/moneda.php';
-  require ROOT_PATH.'models/cliente.php';
-  require ROOT_PATH.'models/empresa.php';
+    require ROOT_PATH.'models/factura_venta_sunat.php';
+    require ROOT_PATH.'models/salida.php';
+    require ROOT_PATH.'models/factura_venta.php';
+    require ROOT_PATH.'models/correlativos.php';
+    require ROOT_PATH.'include/lib_fecha_texto.php';
+    require_once('include/URL_API.php');
 
-  require_once('include/URL_API.php');
+    $new = new api_SUNAT();
+    $id=$_POST['id'];
 
-  $new = new api_SUNAT();
-  $id=$_POST['id'];
-
-  $oSalida=salida::getByID($id);
+    //$oSalida=salida::getByID($id);
   
-  try {
-      
+    try {
         $oFactura_venta=factura_venta::getFactura_SUNAT($id,"cabecera");
-        //$oSalida=salida::getByID($id);
-        $oFactura_venta=factura_venta::getGrid('salida_ID='.$id);
         if (count($oFactura_venta)==0) {
             throw new Exception("No existe la factura.");
         }
-        $oSalidaDetalle=factura_venta::getFactura_SUNAT($id,"detalle");
-        if(count($oSalidaDetalle)==0){
+        $oFactura_Detalle=factura_venta::getFactura_SUNAT($id,"detalle");
+        if(count($oFactura_Detalle)==0){
             throw new Exception("La factura no tiene detalle.");
         }
-        /*$oSalidaDetalle=factura_venta_detalle::getGrid2($id);
-        $oEmpresa=empresa::getByID($oSalida->empresa_ID);
-        $oCliente=cliente::getByID($oSalida->cliente_ID);
-        $oMoneda=moneda::getByID($oSalida->moneda_ID);*/
 
-      $DocumentoDetalle = array();
-      $Discrepancias = array();
-      $DocumentoRelacionado = array();
+        $DocumentoDetalle = array();
+        $Discrepancias = array();
+        $DocumentoRelacionado = array();
+        $i=0;
+        $total_venta=0;
+        foreach($oFactura_Detalle as $item){
+            $DocumentoDetalle[] = array (
+                'Id' => $i+1,
+                'Cantidad' => $item['cantidad'],
+                'UnidadMedida' => $item['unidad_medida'],
+                'CodigoItem' => $item['producto_ID'],
+                'Descripcion' => $item['producto_nombre'],
+                'PrecioUnitario' =>$item['precio_unitario'],
+                'PrecioReferencial' => $item['precio_unitario'],
+                'TipoPrecio' => '01',
+                'TipoImpuesto' => '10',
+                'Impuesto' => 18,
+                'ImpuestoSelectivo' => 0,
+                'OtroImpuesto' => 0,
+                'Descuento' => 0,
+                'PlacaVehiculo' => '',
+                'TotalVenta' => $item['totalventa'],
+                'Suma' => $item['totalventa'],
+            );
+            
+            $i++;
+        }
+        $total_facturado=explode(".",$oFactura_venta[0]['monto_total']);
+        //$oMoneda=moneda::getByID($oFactura_Venta->moneda_ID);
+        $decimal="00";
+        if(isset($total_facturado[1])){
+            if(strlen($total_facturado[1])==1){
+                $decimal=$total_facturado[1].'0';
+            }else {
+                $decimal=$total_facturado[1];
+            }
 
-      for ($i=0; $i < count($oSalidaDetalle); $i++) {
-      $DocumentoDetalle[] = array (
-        'Id' => $i+1,
-        'Cantidad' => $oSalidaDetalle[$i]['cantidad'],
-        'UnidadMedida' => $oSalidaDetalle[$i]['unidad_medida'],
-        'CodigoItem' => $oSalidaDetalle[$i]['producto_ID'],
-        'Descripcion' => $oSalidaDetalle[$i]['producto_nombre'],
-        'PrecioUnitario' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
-        'PrecioReferencial' => $oSalidaDetalle[$i]['precio_venta_unitario_soles'],
-        'TipoPrecio' => '01',
-        'TipoImpuesto' => '10',
-        'Impuesto' => 18,
-        'ImpuestoSelectivo' => 0,
-        'OtroImpuesto' => 0,
-        'Descuento' => 0,
-        'PlacaVehiculo' => '',
-        'TotalVenta' => $oSalidaDetalle[$i]['precio_venta_soles'],
-        'Suma' => $oSalidaDetalle[$i]['precio_venta_soles'],
-      );
-    }
-
-      
-
-
-      $param_emisor = $new->getParamEmisor($oSalida->empresa_ID);
-      $data = array (
+        }
+        $total_texto="SON: ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper(FormatTextView($oFactura_venta[0]['moneda']))).".";
+    
+        $param_emisor = $new->getParamEmisor($oFactura_venta[0]['empresa_ID']);
+        $data = array (
         'IdDocumento' => $oFactura_venta[0]['serie'].'-'.$oFactura_venta[0]['numero_concatenado'],
-        'TipoDocumento' => $oFactura_venta[0]['codigo'],
+        'TipoDocumento' =>$oFactura_venta[0]['codigo_documento'],
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
-          'NroDocumento' => $oCliente->ruc,
-          'TipoDocumento' => '6',//SOLO FACTURA
-          'NombreLegal' => $oCliente->razon_social,
+          'NroDocumento' => $oFactura_venta[0]['ruc'],
+          'TipoDocumento' => '6',//SOLO FACTURA  06
+          'NombreLegal' => $oFactura_venta[0]['cliente'],
         ),
-        'FechaEmision' => $oSalida->fecha,
-        'Moneda' => $oMoneda->codigo,
+        'FechaEmision' => $oFactura_venta[0]['fecha_emision'],
+        'Moneda' => $oFactura_venta[0]['codigo_moneda'],
         'TipoOperacion' => '',
         'Gravadas' => $oFactura_venta[0]['monto_total_neto'],//$oFactura_venta[0]['gravadas']
         'Gratuitas' => $oFactura_venta[0]['gratuitas'],
@@ -10932,7 +10981,7 @@ function post_ajaxEnviarSUNAT() {
         'TotalIgv' => $oFactura_venta[0]['monto_total_igv'],
         'TotalIsc' => 0,
         'TotalOtrosTributos' => 0,
-        'MontoEnLetras' => 'SON CIENTO DIECIOCHO SOLES CON 0/100',
+        'MontoEnLetras' => $total_texto,
         'PlacaVehiculo' => '',
         'MontoPercepcion' => 0,
         'MontoDetraccion' => $oFactura_venta[0]['monto_detraccion'],
@@ -10944,30 +10993,30 @@ function post_ajaxEnviarSUNAT() {
         'CalculoIsc' => 0.10,
         'CalculoDetraccion' => 0.04,
         'Items' => $DocumentoDetalle,
-      );
+        );
+      
+        $metodo = '';
+        switch ($data['TipoDocumento']) {
+            case '01':
+                $metodo = 'GenerarFactura';
+                break;
+            case '03':
+                $metodo = 'GenerarFactura';
+                break;
+            case '07':
+                $metodo = 'GenerarNotaCredito';
+                break;
+            case '08':
+                $metodo = 'GenerarNotaDebito';
+                break;
+            default:
+              $metodo = 'GenerarFactura';
+              break;
+        }
 
-      $metodo = '';
-      switch ($data['TipoDocumento']) {
-          case '01':
-              $metodo = 'GenerarFactura';
-              break;
-          case '03':
-              $metodo = 'GenerarFactura';
-              break;
-          case '07':
-      				$metodo = 'GenerarNotaCredito';
-      				break;
-      		case '08':
-      					$metodo = 'GenerarNotaDebito';
-      			break;
-      		default:
-              $metodo = 'GenerarFactura';
-              break;
-      }
-
-      $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
-      $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
-      $data_GFactura = json_decode($resultado_GFactura);
+        $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
+        $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
+        $data_GFactura = json_decode($resultado_GFactura);
 
       //{
       //  "TramaXmlSinFirma": "string",
@@ -10976,15 +11025,17 @@ function post_ajaxEnviarSUNAT() {
       //  "Pila": "string"
       //}
       //echo ($resultado_GFactura);
+        $array_sunat=array();
       if ($data_GFactura->Exito==true) {
 
         $firma=array (
-                      'CertificadoDigital' => $param_emisor["Certificado"],
-                      'PasswordCertificado' => $param_emisor["PasswordCertificado"],
-                      'TramaXmlSinFirma' => $data_GFactura->TramaXmlSinFirma,
-                      'UnSoloNodoExtension' => false,
-                    );
-
+            'CertificadoDigital' => $param_emisor["Certificado"],
+            'PasswordCertificado' => $param_emisor["PasswordCertificado"],
+            'TramaXmlSinFirma' => $data_GFactura->TramaXmlSinFirma,
+            'UnSoloNodoExtension' => false,
+        );
+        
+        
         $resultado_firma = $new->sendPostCPE(json_encode($firma),'Firmar');
         $data_firma = json_decode($resultado_firma);
 
@@ -11002,53 +11053,49 @@ function post_ajaxEnviarSUNAT() {
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'].'.xml';
 
           $new->EscribirArchivoXML($nombreArchivo,$data_firma->TramaXmlFirmado);
+            $enviar_sunat=array (
+                'TramaXmlFirmado' => $data_firma->TramaXmlFirmado,
+                'Ruc' => $param_emisor["RUC"],
+                'UsuarioSol' => $param_emisor["UsuarioSol"],
+                'ClaveSol' => $param_emisor["ClaveSol"],
+                'IdDocumento' => $data['IdDocumento'],
+                'TipoDocumento' => $data['TipoDocumento'],
+                'EndPointUrl' => $param_emisor["UrlSunat"],
+            );
 
-          //echo $resultado_firma;
-
-
-
-          $enviar_sunat=array (
-                                'TramaXmlFirmado' => $data_firma->TramaXmlFirmado,
-                                'Ruc' => $param_emisor["RUC"],
-                                'UsuarioSol' => $param_emisor["UsuarioSol"],
-                                'ClaveSol' => $param_emisor["ClaveSol"],
-                                'IdDocumento' => $data['IdDocumento'],
-                                'TipoDocumento' => $data['TipoDocumento'],
-                                'EndPointUrl' => $param_emisor["UrlSunat"],
-                              );
-
-
+            //var_dump($enviar_sunat);
           //echo json_encode($enviar_sunat);
 
           $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
           $data_sunat = json_decode($resultado_sunat);
-          var_dump($data_sunat);
-          // {
-          //   "CodigoRespuesta": "string",
-          //   "MensajeRespuesta": "string",
-          //   "TramaZipCdr": "string",
-          //   "NombreArchivo": "string",
-          //   "Exito": true,
-          //   "MensajeError": "string",
-          //   "Pila": "string"
-          // }
 
+          
           $sunat_respuesta='';
           if ($data_sunat->Exito==true) {
             // echo 'CodigoRespuesta : '.$data_sunat->CodigoRespuesta.'<br>';
             // echo 'MensajeRespuesta : '.$data_sunat->MensajeRespuesta.'<br>';
             // echo 'NombreArchivo : '.$data_sunat->NombreArchivo.'<br>';
             // echo 'TramaZipCdr : '.$data_sunat->TramaZipCdr.'<br>';
-
+                            
+            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
+            $oFactura_Venta1->estado_ID=93;//Estado emitido electronico;
+            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
+            $oFactura_Venta1->actualizar();
             $sunat_respuesta = $data_sunat->MensajeRespuesta;
             if ($data_sunat->CodigoRespuesta==0) {
               $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr);
+              
             }
-
-            echo json_encode($resultado_sunat);
+            $mensaje="La factura se envió a la SUNAT.";
+            $resultado=1;
+            $array_sunat=json_encode($resultado_sunat);
+            //echo json_encode($resultado_sunat);
           }else{
-            $sunat_respuesta = $data_sunat->MensajeError;
-            echo json_encode($resultado_sunat);
+              $mensaje="La factura no se envió correctamente, no se creó el archivo CDR.";
+              $resultado=-1;
+              $array_sunat=json_encode($resultado_sunat);
+                //$sunat_respuesta = $data_sunat->MensajeError;
+               // echo json_encode($resultado_sunat);
           }
 
           $oFactura_Venta_Sunat=new factura_venta_sunat();
@@ -11066,7 +11113,7 @@ function post_ajaxEnviarSUNAT() {
           $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
           $oFactura_Venta_Sunat->insertar();
 
-        }else {
+        } else {
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
           $oFactura_Venta_Sunat=new factura_venta_sunat();
           $oFactura_Venta_Sunat->salida_ID=$id;
@@ -11082,29 +11129,34 @@ function post_ajaxEnviarSUNAT() {
           $oFactura_Venta_Sunat->cdr_sunat="";
           $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
           $oFactura_Venta_Sunat->insertar();
-          echo json_encode($resultado_firma);
+          //echo json_encode($resultado_firma);
+          $resultado=-1;
+          $mensaje="La factura no se envió a la SUNAT, hubo un error al firmar la trama xml.";
+          $array_sunat=json_encode($resultado_firma);
         }
 
 
 
       }else {
-        echo json_encode($resultado_GFactura);
+          $mensaje="La factura no se envió a la SUNAT, hubo un error en el servicio";
+          $resultado=-1;
+        //echo json_encode($resultado_GFactura);
       }
 
-
-
-
     } catch (Exception $ex) {
-        $retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
-        echo json_encode($retornar);
+        $resultado=-1;
+        $mensaje=$ex->getMessage();
+        
+        //$retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
+        //echo json_encode($retornar);
 
         //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
     }
 
-    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
-    //$retorn="<h1>Hola</h1>";
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje,'array_sunat'=>$array_sunat);
+   
 
-    //echo json_encode($retornar);
+    echo json_encode($retornar);
 }
 
 function post_ajaxDownloadXML() {

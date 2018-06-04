@@ -70,7 +70,7 @@ class correlativos {
 	$retornar=-1;
         try{
            
-            $q='UPDATE correlativos set comprobante_tipo_ID='.$this->comprobante_tipo_ID.',serie="'.$this->serie.'",ultimo_numero='.$this->ultimo_numero.', usuario_mod_id='.$this->usuario_mod_id;
+            $q='UPDATE correlativos set serie="'.$this->serie.'",ultimo_numero='.$this->ultimo_numero.', usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
             $retornar=$cn->transa($q);
@@ -266,6 +266,22 @@ class correlativos {
                    //echo $q;
                     $dt=$cn->getGrid($q);									
                     return $dt;												
+            }catch(Exception $ex)
+            {
+                    throw new Exception('Ocurrio un error en la consulta');
+            }
+    }
+    
+    static function verificar_electronico($correlativos_ID)
+    {
+            $cn =new connect();
+            try 
+            {
+                    $q='select count(ID) from correlativos where del=0 and electronico=1 and ID='.$correlativos_ID;
+                    
+                   //echo $q;
+                    $retorna=$cn->getData($q);									
+                    return $retorna;												
             }catch(Exception $ex)
             {
                     throw new Exception('Ocurrio un error en la consulta');

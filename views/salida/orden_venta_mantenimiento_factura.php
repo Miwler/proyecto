@@ -4,12 +4,7 @@
 <?php function fncTitle(){?>FACTURA<?php } ?>
 
 <?php function fncHead(){?>
-    
-    
     <script type="text/javascript" src="include/js/jForm.js"></script>
-    
-  
-
     <script type='text/javascript'>
     $(document).ready(function(){
        <?php if($GLOBALS['oFactura_Venta']->opcion==1){?>
@@ -42,7 +37,6 @@
             </ul>
         </div>
         <div class="panel-body no-padding rounded-bottom" style="height:400px;overflow:auto; ">
-            
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
                     <div class="form-group">
@@ -63,7 +57,7 @@
                              </script>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?php echo  $GLOBALS['oFactura_Venta']->numero_concatenado;?>" disabled onchange="fncNumero();">
+                            <input type="text" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off" value="<?php echo  $GLOBALS['oFactura_Venta']->numero_concatenado;?>" disabled onchange="fncNumero();">
                             
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -228,6 +222,12 @@
                       Imprimir
                    </button>
                <?php } ?>
+                <?php  if($GLOBALS['oFactura_Venta']->ver_enviar_SUNAT==1){?>
+                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Enviar SUNAT" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de enviar a la SUNAT la factura?','Enviar SUNAT',fncSUNAT,<?php echo $GLOBALS['oFactura_Venta']->ID;?>);">
+                       <i class="fa fa-angle-double-right"></i>
+                      Enviar SUNAT
+                   </button>
+               <?php } ?>
                     <button id="btnRegresar" type="button" onclick="parent.float_close_modal_hijo();" class="btn btn-danger">
                            <span class="glyphicon glyphicon-arrow-left"></span>
                            Regresar
@@ -250,9 +250,38 @@
 
         $('#txtNumero').val(nNumero.substring(nNumero.length-9,nNumero.length));
     }
-    $('#txtNumero').focus(function(){
+    function fncSUNAT(id) {
+        try {
+            block_ui(function () {
+                cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
+                //console.log(resultado);
+
+                $.unblockUI();
+                //var obj = $.parseJSON(resultado);
+                //console.log(obj.Exito);
+                //console.log(obj.MensajeRespuesta);
+                if (resultado.resultado == 1) {
+                    toastem.success(resultado.mensaje);
+                    $('#txtEstado').val('Enviado a SUNAT');
+                    $('#tdfacturas_detalle').html(resultado.facturas_detalle);
+                    bloquear_factura();
+                    
+                    //alert(obj.MensajeRespuesta);
+                }else{
+                    mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
+                }
+            });
+            });
+        } catch (e) {
+                //$.unblockUI();
+                console.log(e);
+        } finally {
+
+        }
+    }
+    /*$('#txtNumero').focus(function(){
         $('#txtNumero').val('');
-    });
+    });*/
     /*
    var fncVerGuiaVenta=function(valor){
       window.parent.ocultarBotonGuia(valor);

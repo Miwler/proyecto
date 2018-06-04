@@ -15,7 +15,7 @@ class api_SUNAT {
         //$ch = curl_init("http://192.168.10.151:8085/api/".$metodo);
         //$ch = curl_init("http://192.168.0.15/OpenInvoicePeru/api/".$metodo);
         //$ch = curl_init("http://192.168.43.242/OpenInvoicePeru/api/".$metodo);
-        $ch = curl_init("http://192.168.1.2/api/".$metodo);
+        $ch = curl_init("http://192.168.1.5/api/".$metodo);
         //$ch = curl_init("http://localhost:5649/OpenInvoicePeru/api/".$metodo);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -49,34 +49,38 @@ class api_SUNAT {
       public function getParamEmisor($empresa_ID){
 
         require ROOT_PATH.'models/datos_generales.php';
-
-        $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
-
-        $certificateCAcer = ROOT_PATH.'files/SUNAT/CERTIFICADO/'.$oDatos_generales->ruc.'.pfx';
+        require ROOT_PATH.'models/distrito.php';
+        if(!class_exists("configuracion")){
+            require ROOT_PATH.'models/configuracion.php';
+        }
+        $oDatos_generales=datos_generales::getByID1($empresa_ID);
+        $configuracion=configuracion::getGrid();
+        $oDistrito=distrito::getByID($oDatos_generales->distrito_ID);
+        $certificateCAcer = ROOT_PATH.$configuracion[3]['valores'].'/SUNAT/CERTIFICADO/'.$oDatos_generales->certificado;
         $certificateCAcerContent = file_get_contents($certificateCAcer);
         $certificadostring =  PHP_EOL.chunk_split(base64_encode($certificateCAcerContent), 64, PHP_EOL).PHP_EOL;
 
         $Emisor = array (
           'NroDocumento' =>$oDatos_generales->ruc,
-          'TipoDocumento' => '6',
+          'TipoDocumento' => '6',//Antes 6
           'NombreLegal' => $oDatos_generales->razon_social,
           'NombreComercial' => $oDatos_generales->alias,
-          'Ubigeo' => '140101',
+          'Ubigeo' => $oDistrito->codigo_ubigeo,
           'Direccion' => $oDatos_generales->direccion_fiscal,
-          'Urbanizacion' => '',
-          'Departamento' => 'LIMA',
-          'Provincia' => 'LIMA',
-          'Distrito' => 'SAN BORJA'
+          'Urbanizacion' => $oDatos_generales->urbanizacion,
+          'Departamento' =>$oDistrito->departamento,
+          'Provincia' =>$oDistrito->provincia,
+          'Distrito' =>$oDistrito->nombre
         );
 
         $data = array( "RUC"=>$oDatos_generales->ruc,
-                      "UsuarioSol"=>"MODDATOS",
-                      "ClaveSol"=>"MODDATOS",
+                      "UsuarioSol"=>$oDatos_generales->usuariosol,
+                      "ClaveSol"=>$oDatos_generales->clavesol,
                       "Certificado"=>$certificadostring,
-                      "PasswordCertificado"=>"FloresSalas",
-                      "TasaIgv"=>0.18,
-                      "TasaIsc"=>0.10,
-                      "TasaDetraccion"=>0.04,
+                      "PasswordCertificado"=>$oDatos_generales->passwordcertificado,
+                      "TasaIgv"=>$oDatos_generales->vigv,
+                      "TasaIsc"=>$oDatos_generales->visc,
+                      "TasaDetraccion"=>$oDatos_generales->tasadetraccion,
                       "UrlSunat"=>"https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService",
                       "UrlOtroCpe"=>"https://e-beta.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService",
                       "Emisor"=>$Emisor
@@ -88,16 +92,27 @@ class api_SUNAT {
       //Escribir una trama Base64 en un archivo fisico en disco
       //<param name="nombreArchivo">Ruta de Destino (incluir extension)</param>
       //<param name="trama">Trama del Archivo</param>
-      public function EscribirArchivoXML($NombreArchivo,$TramaXmlFirmado)
-      {
-        $OUTPUT = ROOT_PATH."files/SUNAT/XML/".$NombreArchivo;
-      	$bin = base64_decode($TramaXmlFirmado);
-      	file_put_contents($OUTPUT, $bin);
-      }
+    public function EscribirArchivoXML($NombreArchivo,$TramaXmlFirmado)
+
+    {
+        if(!class_exists("configuracion")){
+            require ROOT_PATH.'models/configuracion.php';
+        }
+
+        $configuracion=configuracion::getGrid();
+        $OUTPUT = ROOT_PATH.$configuracion[3]['valores']."/SUNAT/XML/".$NombreArchivo;
+        $bin = base64_decode($TramaXmlFirmado);
+        file_put_contents($OUTPUT, $bin);
+    }
 
       public function EscribirArchivoCDR($NombreArchivo,$TramaXmlFirmado)
       {
-        $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$NombreArchivo;
+        if(!class_exists("configuracion")){
+            require ROOT_PATH.'models/configuracion.php';
+        }
+        
+        $configuracion=configuracion::getGrid();
+        $OUTPUT =  ROOT_PATH.$configuracion[3]['valores']."/SUNAT/CDR/".$NombreArchivo;
       	//$bin = base64_decode($TramaXmlFirmado);
         $bin = ($TramaXmlFirmado);
       	file_put_contents($OUTPUT, $bin);
