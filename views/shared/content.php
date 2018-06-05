@@ -74,6 +74,7 @@
         <script src="../../include/bootstrap-dialog/js/bootstrap-dialog.min.js" type="text/javascript"></script>
          <link href="../../include/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" type="text/css"/>
          <script type="text/javascript" src="include/js/jModal.js"></script>
+          <script type="text/javascript" src="include/js/jMensajes.js"></script>
          <script type="text/javascript" src="include/js/toastem.js" ></script>
         <script type="text/javascript" src="include/js/jscript.js" ></script>
         <script type="text/javascript" src="include/js/logincerrar.js" ></script>

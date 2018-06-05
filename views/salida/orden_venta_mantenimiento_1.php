@@ -1,6 +1,6 @@
 <?php
 	require ROOT_PATH."views/shared/content.php";
-?><
+?>
 <?php function fncTitle(){?>
 		Registro de ventas
 <?php } ?>
@@ -8,13 +8,13 @@
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
 
-    <!--<script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
+    <script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
     <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
     <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.debug.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.min.js"></script>
     <script type="text/javascript" src="include/jsPDF/dist/jspdf.plugin.autotable.js"></script>
-		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>-->
+		<script type="text/javascript" src="include/qrcode/qrcode.js"></script>
 
 
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
@@ -176,19 +176,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <table id="grid" class="table table-theme table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
-                    <thead>
-                        <tr>
-                            <th>Nro</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="items">
-                    </tbody>
-                </table>
+                <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
             </div>
 
-           
+            <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
+            <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
+            <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
+            <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
+
         </div>
     </div>
 
@@ -221,61 +216,282 @@
             $("#txtFechaFin").prop("disabled", false);
         }
     });
-var myTable;
 
-        function runScript(e) {
-            if (e.keyCode == 13) {
-                fngetData()
-                return false;
-            }
+    var f=new form('frm1','div1');
+    f.terminado = function () {
+            var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
+
+            grids = new grid(tb);
+            grids.nuevoEvento();
+            grids.fncPaginacion1(f);
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#websendeos').stacktable();
+    }
+    f.enviar();
+
+    var fncOrden=function(col){
+
+        var col_old=$('#txtOrden').val();
+
+        if(col_old==col){
+                if($('#chkOrdenASC').is(':checked')){
+                        $('#chkOrdenASC').prop('checked',false);
+                }else{
+                        $('#chkOrdenASC').prop('checked',true);
+                }
+        }else{
+                $('#txtOrden').val(col);
+                $('#chkOrdenASC').prop('checked',true);
         }
-    function fngetData() {
-            var myObject = new Object();
-           
-            enviarAjax('Salida/ajaxOrden_Venta_Mantenimiento1', 'frm1', myObject, function (res) {
-                alert(res);
-                var jsonObject = $.parseJSON(res);
-                
-                var result = jsonObject.map(function (item) {
+        f.enviar();
+    }
 
-                    var result = [];
-                    result.push(item.ID);
-                    result.push("");
-                    return result;
-                });
-                myTable.rows().remove();
-                myTable.rows.add(result);
-                myTable.draw();
+    var fncNuevo=function(){
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,550);
+    }
+    var fncVerPDF=function(id){
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Factura_Vista_PreviaPDF',id,'',f,800,550);
+    }
+
+    var fncMantenimiento=function(){
+        $('#frm1').css('display','block');
+        $('#iframe2').attr('src','');
+        $('#iframe2').css('display','none');
+        f.enviar();
+    }
+    var fncEditar=function(id){
+         window_float_open_modal('EDITAR ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
+    }
+
+    var fncVer=function(id){
+         window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
+    }
+
+    function fncSUNAT(id) {
+        try {
+            block_ui(function () {
+                cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
+                console.log(resultado);
+
+                $.unblockUI();
+                var obj = $.parseJSON(resultado);
+                console.log(obj.Exito);
+                //console.log(obj.MensajeRespuesta);
+                if (obj.Exito == true) {
+                                alert(obj.MensajeRespuesta);
+                }
             });
+            });
+        } catch (e) {
+                $.unblockUI();
+                console.log(e);
+        } finally {
+
         }
-        function fnGridCSS() {
-            try {
-                var shadows =
-                    [
+    }
 
-                        { "width": "10%", "targets": 0 },
-                        { 'targets': [1], 'orderable': false, 'searchable': false, "width": "10%" }
-                    ];
+		function formatXml(xml) {
+		    var formatted = '';
+		    var reg = /(>)(<)(\/*)/g;
+		    xml = xml.replace(reg, '$1\r\n$2$3');
+		    var pad = 0;
+		    jQuery.each(xml.split('\r\n'), function(index, node) {
+		        var indent = 0;
+		        if (node.match( /.+<\/\w[^>]*>$/ )) {
+		            indent = 0;
+		        } else if (node.match( /^<\/\w/ )) {
+		            if (pad != 0) {
+		                pad -= 1;
+		            }
+		        } else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+		            indent = 1;
+		        } else {
+		            indent = 0;
+		        }
 
-                //myTable = build_data_table($('#grid'), shadows, [[0, "asc"]]);
+		        var padding = '';
+		        for (var i = 0; i < pad; i++) {
+		            padding += '  ';
+		        }
 
-            } catch (e) {
-                mensaje.error('Error',e.message);
-                
+		        formatted += padding + node + '\r\n';
+		        pad += indent;
+		    });
+
+		    return formatted;
+		}
+
+		var faker = window.faker;
+		var base64Img = null;
+		/*var getColumns = function () {
+		            return [
+		                { title: "CÓDIGO", dataKey: "codigo" },
+		                { title: "DESCRIPCIÓN", dataKey: "descripcion" },
+		                { title: "UM", dataKey: "unidad_medida" },
+		                { title: "CANTIDAD", dataKey: "cantidad" },
+		                { title: "P. UNIT", dataKey: "p_unit" },
+										{ title: "TOTAL", dataKey: "total" }
+		            ];
+		        };
+						// Uses the faker.js library to get random data.
+			        /*function getData(rowCount) {
+			            rowCount = rowCount || 4;
+			            //var sentence = "Minima quis totam nobis nihil et molestiae architecto accusantium qui necessitatibus sit ducimus cupiditate qui ullam et aspernatur esse et dolores ut voluptatem odit quasi ea sit ad sint voluptatem est dignissimos voluptatem vel adipisci facere consequuntur et reprehenderit cum unde debitis ab cumque sint quo ut officiis rerum aut quia quia expedita ut consectetur animiqui voluptas suscipit Monsequatur";
+			            var data = [];
+			            for (var j = 1; j <= rowCount; j++) {
+			                data.push({
+			                    codigo: j,
+			                    descripcion: "faker.name.findName()",
+			                    email: "faker.internet.email()",
+			                    unidad_medida: "NIU",
+			                    cantidad: "1",
+			                    expenses: "0.00",
+			                    p_unit: "0.00",
+			                    total: "0.00"
+			                });
+			            }
+			            return data;
+			        }
+
+							function getBase64Image(img) {
+							  img.setAttribute('crossOrigin', 'anonymous');
+							  var canvas = document.createElement("canvas");
+							  canvas.width = img.width;
+							  canvas.height = img.height;
+							  var ctx = canvas.getContext("2d");
+							  ctx.drawImage(img, 0, 0);
+							  var dataURL = canvas.toDataURL("image/png");
+							  return dataURL;
+							}*/
+
+
+
+	function fncDOWNLOAD_XML(id,tipo) {
+			try {
+					block_ui(function () {
+
+
+					var iframe = document.getElementById("iPDF");
+					if (tipo == 'PDF') {
+
+					fncVerPDF(id);
+
+						$.unblockUI();
+						return false;
+					}
+
+					var zip = new JSZip();
+						$.ajax({
+					    type: "POST",
+					    url: 'Salida/ajaxDownloadXML',
+					    data: {'id': id,'tipo': tipo},
+					    cache: false,
+					    success: function(resultado)
+					    {
+									$.unblockUI();
+									console.log(resultado);
+									var obj = $.parseJSON(resultado);
+
+										if (obj.exito == 'true') {
+											if (tipo == 'XML') {
+												var xmlText = formatXml(obj.xml_firmado);
+												var blob = new Blob([xmlText], { type: 'application/xml' });
+												var link = document.createElement('a');
+												link.href = window.URL.createObjectURL(blob);
+												link.download = obj.nombre_archivo;
+												document.body.appendChild(link);
+												link.click();
+												document.body.removeChild(link);
+											}
+
+											if (tipo=='CDR') {
+											zip.generateAsync({type:"base64"}).then(function (base64) {
+													data = obj.xml_firmado;
+													location.href="data:application/zip;base64," + data;
+											});
+											}
+										}else{
+											alert(obj.mensaje);
+										}
+					    },
+					    error: function (XMLHttpRequest, textStatus, errorThrown)
+					    {
+					        alert('Error occurred while opening fax template'
+					              + getAjaxErrorString(textStatus, errorThrown));
+					    }
+					});
+				});
+
+			} catch (e) {
+				$.unblockUI();
+				console.log(e);
+			} finally {
+
+			}
+
+		}
+
+    var fncEliminar=function(id){
+            gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
+				    }
+
+    $('#txtBuscar,#txtMostrar,#txtPeriodo,#txtNumero').keypress(function(e){
+            if (e.which==13){
+                    $('#num_page').val(1);
+                    f.enviar();
+                    return false;
             }
+    });
+
+    function fncNumero(){
+        var numero=$('#txtNumero').val();
+        var nNumero=('0000000'+numero);
+
+        $('#txtNumero').val(nNumero.substring(nNumero.length-9,nNumero.length));
+    }
+
+    $('#txtBuscar').focus();
+    $('#ckTodos').click(function(){
+        if($(this).prop('checked')){
+            $('#txtFechaInicio').prop('disabled', true);
+            $('#txtFechaFin').prop('disabled', true);
+        }else {
+            $('#txtFechaInicio').prop('disabled', false);
+            $('#txtFechaFin').prop('disabled', false);
         }
+    });
 
- $(document).ready(function () {
-            try {
-               
-                fnGridCSS();
-                fngetData();
+		/*fussnction fnModalPopover() {
 
-            }
-            catch (err) {
-                mensaje.error('Error',err.message);
-            }
-        });
+			$('[rel="popover"]').popover({
+					container: 'body',
+					html: true,
+					trigger: 'focus',
+					placement: "left",
+					content: function () {
+							var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
+							return clone;
+					}
+			}).on("show.bs.popover", function () { $(this).data("bs.popover").tip().css("max-width", "650px"); });
+		}*/
+
+
+
+
+		$(document).ready(function(){
+
+			// var qrcode = new QRCode("qrcode");
+			// qrcode.makeCode("ajoi");
+			//
+			// $("#text").on("keyup", function () {
+			//     qrcode.makeCode("ajoi");
+			// }).keyup().focus();
+
+			//fncDOWNLOAD_XML(0,'PDF');
+
+			});
+
+
 </script>
 
 <?php } ?>

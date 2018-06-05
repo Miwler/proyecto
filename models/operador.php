@@ -18,6 +18,9 @@ class operador {
     private $dtCargo;
     private $tipo_documento_ID;
     private $nombres_completo;
+    private $apellido_paterno;
+    private $apellido_materno;
+    private $nombres;
 
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -134,9 +137,10 @@ class operador {
     static function getByID($ID) {
         $cn = new connect();
         try {
-             $q = 'Select ID,persona_ID,telefono, celular, mail,ifnull(fecha_contrato,"0000-00-00") as fecha_contrato ,comision,cargo_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-            $q.=' from operador ';
-            $q.=' where del=0 and ID='.$ID;
+            $q = 'Select op.ID,op.persona_ID,op.telefono, op.celular, op.mail,ifnull(op.fecha_contrato,"0000-00-00") as fecha_contrato ,op.comision,op.cargo_ID,op.usuario_id,ifnull(op.usuario_mod_id,-1) as usuario_mod_id';
+            $q.=',pe.apellido_paterno,pe.apellido_materno,pe.nombres';
+            $q.=' from operador op,persona pe ';
+            $q.=' where op.persona_ID=pe.ID and op.del=0 and op.ID='.$ID;
              //echo $q;
             $dt = $cn->getGrid($q);
 

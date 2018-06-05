@@ -1,7 +1,7 @@
 <?php
 require('include/fpdf/fpdf.php');
 
-class PDF2 extends FPDF
+class PDF3 extends FPDF
 {
     var $widths;
     var $aligns;
@@ -122,7 +122,7 @@ class PDF2 extends FPDF
     }
     function cabecera($oFactura_Venta){
         //require ROOT_PATH . 'include/lib_fecha_texto.php';
-        $this->Image("./include/img/logopdf.jpg" , 8 ,8, 70, 20 , "JPG" );
+        $this->Image("./files/imagenes/logo_comprobantes/".$_SESSION['empresa_ID'].".jpg" , 8 ,8, 70, 20 , "JPG" );
         $this->SetFont('Arial','',10);
         $this->SetTextColor(0);
         $this->SetXY(8,8);
@@ -137,9 +137,7 @@ class PDF2 extends FPDF
         
         $this->Ln();
         $this->Ln();
-       // $this->Cell(155,5,'FECHA',1,0,'R');
-        //$this->Ln();$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'R');
-        //$this->SetXY(8,50);
+     
         $this->SetFont('Arial','',10);
         $this->Cell(120,5,utf8_decode('Lima, '.fechaATexto($this->oOrden_Venta->fecha)),0,0,'L');
         $this->SetFont('Arial','B',10);

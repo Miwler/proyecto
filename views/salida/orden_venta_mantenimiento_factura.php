@@ -12,7 +12,7 @@
        <?php } else { ?>
            $('#ckOpcion').prop('checked', false);
        <?php } ?>
-        <?php if($GLOBALS['oFactura_Venta']->estado_ID==41){?>  
+        <?php if($GLOBALS['oFactura_Venta']->estado_ID==41||$GLOBALS['oFactura_Venta']->estado_ID==93){?>  
             bloquear_factura();
         <?php } ?>   
 
@@ -327,7 +327,7 @@
     }
     var bloquear_factura=function(){
         $('#btnActualizar').css('display', 'none');
-        $('#ckOpcion').css('display', 'none');
+        $('.ckbox-theme').css('display', 'none');
         $('#txtFecha_Emision').prop('disabled', true);
         $('#txtPlazo_Factura').prop('disabled', true);
         $('#txtFecha_Vencimiento').prop('disabled', true);

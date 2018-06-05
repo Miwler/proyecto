@@ -9,8 +9,13 @@
         <script src="../../include/js/jPdf.js" type="text/javascript"></script>
         <script type="text/javascript">
         $(document).ready(function(){
+        <?php if($GLOBALS['electronico']>0){?>
+              pdf.mostrar('Salida/Factura_Vista_Electronico/<?php echo $GLOBALS['factura_venta_ID'];?>');  
+        <?php }else { ?>
           pdf.mostrar('Salida/Factura_Vista_Previa/<?php echo $GLOBALS['oOrden_Venta']->ID;?>');
+        <?php } ?>
         });
+        
         </script>
 <?php } ?>
 

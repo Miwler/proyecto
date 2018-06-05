@@ -33,6 +33,7 @@
                 iframe.src =url;
                 $('#pdf').html(iframe);
             }else {
+                
                 $('#pdf').prop('src',url);
             }
          

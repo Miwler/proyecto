@@ -3859,6 +3859,17 @@ function post_ajaxOrden_Venta_Mantenimiento() {
 
     echo json_encode($retornar);
 }
+function post_ajaxOrden_Venta_Mantenimiento1() {
+    require ROOT_PATH.'models/salida.php';
+    require ROOT_PATH.'include/serializable.php';
+    $dtSalida=salida::getGrid();
+    
+    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+    //var_dump($dtSalida);
+    echo json_encode(new ArrayValue($dtSalida), JSON_PRETTY_PRINT);
+}
+
 function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -6899,6 +6910,16 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta->ver_vista_previa=0;
                     $oFactura_Venta->ver_imprimir=0;
                     break;
+                case 93:
+                    $oFactura_Venta->ver_vista_previa=1;
+                    $oFactura_Venta->ver_imprimir=0;
+                    $oFactura_Venta->ver_enviar_SUNAT=1;
+                    break;
+                case 94:
+                    $oFactura_Venta->ver_vista_previa=1;
+                    $oFactura_Venta->ver_imprimir=0;
+                    $oFactura_Venta->ver_enviar_SUNAT=0;
+                    break;
             }
         }
         $oFactura_Venta->estado=$oEstado->nombre;
@@ -6945,7 +6966,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         
         //$con_guia=$_POST['selGuia_Venta'];
         try{
-            /* Estraemos el número*/
+            /* Extraemos el número*/
             //$oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
             $electronico=correlativos::verificar_electronico($correlativos_ID);
             $osalida=salida::getByID($ID);
@@ -7019,6 +7040,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
                         $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
                         $oCorrelativos->actualizar();
+                        /*=================Actualizamos la factura a generado */
+                        $oFactura_Venta->estado_ID=93;
+                        $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                        $oFactura_Venta->actualizar();
                     }
                    
                 }
@@ -7046,63 +7071,68 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
                         if($electronico>0){
                             
-                            $nproducto_pagina=salida_detalle::getcount("salida_ID=".$ID." and ovd.tipo_ID in (1,2,5,6)");
+                            $nproducto_pagina=salida_detalle::getcount("salida_ID=".$ID." and tipo_ID in (1,2,5,6)");
                         }else{
                            $nproducto_pagina=$arrayProductoFactura[$i];
 
                         }
-                            if($oFactura_Venta->estado_ID==35){
-                                $oFactura_Venta->serie=$serie;
-                                $oFactura_Venta->correlativos_ID=$correlativos_ID;
-                                $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
-                                $numero_concatenado=sprintf("%'.07d",$numero_temporal);
+                     
+                        if($oFactura_Venta->estado_ID==35){
+                            $oFactura_Venta->serie=$serie;
+                            $oFactura_Venta->correlativos_ID=$correlativos_ID;
+                            $numero_temporal=correlativos::getByID($correlativos_ID)->ultimo_numero+$i;
+                            $numero_concatenado=sprintf("%'.07d",$numero_temporal);
 
 
-                                $oFactura_Venta->salida_ID=$salida_ID;
-                                $oFactura_Venta->numero=$numero_temporal;
-                                $oFactura_Venta->numero_concatenado=$numero_concatenado;
-                                $oFactura_Venta->fecha_emision=$Fecha_Emision;
-                                $oFactura_Venta->forma_pago_ID=$osalida->forma_pago_ID;
-                                $oFactura_Venta->plazo_factura=$Plazo_Factura;
-                                $oFactura_Venta->fecha_vencimiento=$Fecha_Vencimiento;
-                                //$oFactura_Venta->estado_ID=34;
-                                $oFactura_Venta->moneda_ID=$Moneda_ID;
-                                $oFactura_Venta->orden_pedido=$orden_pedido;
-                                $oFactura_Venta->orden_ingreso=$orden_compra;
-                                $oFactura_Venta->opcion=$opcion;
-                                $oFactura_Venta->numero_producto=$nproducto_pagina;
-                                $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
-                                //$oFactura_Venta->con_guia=$con_guia;
-                                
-                                $oFactura_Venta->actualizar();
+                            $oFactura_Venta->salida_ID=$salida_ID;
+                            $oFactura_Venta->numero=$numero_temporal;
+                            $oFactura_Venta->numero_concatenado=$numero_concatenado;
+                            $oFactura_Venta->fecha_emision=$Fecha_Emision;
+                            $oFactura_Venta->forma_pago_ID=$osalida->forma_pago_ID;
+                            $oFactura_Venta->plazo_factura=$Plazo_Factura;
+                            $oFactura_Venta->fecha_vencimiento=$Fecha_Vencimiento;
+                            //$oFactura_Venta->estado_ID=34;
+                            $oFactura_Venta->moneda_ID=$Moneda_ID;
+                            $oFactura_Venta->orden_pedido=$orden_pedido;
+                            $oFactura_Venta->orden_ingreso=$orden_compra;
+                            $oFactura_Venta->opcion=$opcion;
+                            $oFactura_Venta->numero_producto=$nproducto_pagina;
+                            $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                            //$oFactura_Venta->con_guia=$con_guia;
 
-                                /*=====Actualizacion la factura_venta_detalle*/
-                                $dtFactura_Venta_Detalle=factura_venta_detalle::getGrid('factura_venta_ID='.$oFactura_Venta->ID);
-                                foreach($dtFactura_Venta_Detalle as $valor){
-                                    $oFactura_Venta_Detalle=factura_venta_detalle::getByID($valor['ID']);
-                                    $oFactura_Venta_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
-                                    $oFactura_Venta_Detalle->eliminar();
-                                }
-                                $oFactura_Venta_Detalle=new factura_venta_detalle();
-                                $oFactura_Venta_Detalle->factura_venta_ID=$factura_venta_ID;
-                                $oFactura_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
-                                $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo in (1,2,5,6)',$n,$arrayProductoFactura[$i],"ovd.ID asc");
-                                foreach($dtsalida_Detalle as $value){
-                                    $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
-                                    $oFactura_Venta_Detalle->insertar();
-                                }
-                                actualizarCostosFactura($oFactura_Venta);
-                                $oFactura_Venta->ver_vista_previa =1;
-                                $oFactura_Venta->ver_imprimir=1;
-                                if($electronio>0){
-                                    $oFactura_Venta->ver_enviar_SUNAT=1;
-                                    $oCorrelativos=correlativos::getByID($correlativos_ID);
-                                    $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
-                                    $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
-                                    $oCorrelativos->actualizar();
-                                }
+                            $oFactura_Venta->actualizar();
 
+                            /*=====Actualizacion la factura_venta_detalle*/
+                            $dtFactura_Venta_Detalle=factura_venta_detalle::getGrid('factura_venta_ID='.$oFactura_Venta->ID);
+                            foreach($dtFactura_Venta_Detalle as $valor){
+                                $oFactura_Venta_Detalle=factura_venta_detalle::getByID($valor['ID']);
+                                $oFactura_Venta_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
+                                $oFactura_Venta_Detalle->eliminar();
                             }
+                            $oFactura_Venta_Detalle=new factura_venta_detalle();
+                            $oFactura_Venta_Detalle->factura_venta_ID=$factura_venta_ID;
+                            $oFactura_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                            $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo in (1,2,5,6)',$n,$arrayProductoFactura[$i],"ovd.ID asc");
+                            foreach($dtsalida_Detalle as $value){
+                                $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
+                                $oFactura_Venta_Detalle->insertar();
+                            }
+                            actualizarCostosFactura($oFactura_Venta);
+                            $oFactura_Venta->ver_vista_previa =1;
+                            $oFactura_Venta->ver_imprimir=1;
+                            if($electronico>0){
+                                $oFactura_Venta->ver_enviar_SUNAT=1;
+                                $oCorrelativos=correlativos::getByID($correlativos_ID);
+                                $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
+                                $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                                $oCorrelativos->actualizar();
+                                //Actualzimos el estado de la factura
+                                $oFactura_Venta->estado_ID=93;
+                                $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                                $oFactura_Venta->actualizar();
+                            }
+
+                        }
                     }
                     $n=$n+$arrayProductoFactura[$i];
                 }
@@ -7257,37 +7287,69 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $n=$n+$array[$i];
                 }
             }else {
-                $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$osalida->ID.' and estado_ID in (41,53)');
+                $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$osalida->ID.' and estado_ID in (41,53,93,94)');
 
                 $num=1;
                 foreach ($dtFactura_Venta as $item) {
-
-                    if($item['estado_ID']==53){
-                        $html.="<tr>";
-                        $html.="<td class='tdCenter'>".$num."</td>";
-                        $html.="<td class='tdCenter'>".$item['serie']."</td>";
-                        $html.="<td class='tdCenter'>".$item['numero_concatenado']."</td>";
-                        $html.="<td class='tdCenter'>".$item['numero_producto']."</td>";
-                        $html.="<td class='tdCenter'>".number_format($item['monto_total_neto'],2,'.',',')."</td>";
-                        $html.="<td class='tdCenter'>".number_format($item['monto_total_igv'],2,'.',',')."</td>";
-                        $html.="<td class='tdCenter'>".number_format($item['monto_total'],2,'.',',')."</td>";
-                        $html.="<td class='tdCenter'>Anulado</td>";
-                        $html.="</tr>";
-                        $num++;
-                    }else if($item['estado_ID']==41){
-                        $html.="<tr>";
-                        $html.="<td class='tdCenter'>".$num."</td>";
-                        $html.="<td class='tdCenter'>".$item['serie']."</td>";
-                        $html.="<td class='tdCenter'>".$item['numero_concatenado']."</td>";
-                        $html.="<td class='tdCenter'>".$item['numero_producto']."</td>";
-                        $html.="<td class='tdCenter'>".number_format($item['monto_total_neto'],2,'.',',')."</td>";
-                        $html.="<td class='tdCenter'>".number_format($item['monto_total_igv'],2,'.',',')."</td>";
-                        $html.="<td class='tdCenter'>".number_format($item['monto_total'],2,'.',',')."</td>";
-                        $html.="<td class='tdCenter'>Emitido</td>";
-                        $html.="</tr>";
-                        $num++;
-                        $emitidos++;
+                    switch($item['estado_ID']){
+                        case 53:
+                            $html.="<tr>";
+                            $html.="<td class='tdCenter'>".$num."</td>";
+                            $html.="<td class='tdCenter'>".$item['serie']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_concatenado']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_producto']."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_neto'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_igv'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>Anulado</td>";
+                            $html.="</tr>";
+                            $num++;
+                            break;
+                        case 41:
+                            $html.="<tr>";
+                            $html.="<td class='tdCenter'>".$num."</td>";
+                            $html.="<td class='tdCenter'>".$item['serie']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_concatenado']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_producto']."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_neto'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_igv'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>Emitido</td>";
+                            $html.="</tr>";
+                            $num++;
+                            $emitidos++;
+                            break;
+                        case 93:
+                            $html.="<tr>";
+                            $html.="<td class='tdCenter'>".$num."</td>";
+                            $html.="<td class='tdCenter'>".$item['serie']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_concatenado']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_producto']."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_neto'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_igv'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>Generado electrónico</td>";
+                            $html.="</tr>";
+                            $num++;
+                            $emitidos++;
+                            break;
+                        case 94:
+                            $html.="<tr>";
+                            $html.="<td class='tdCenter'>".$num."</td>";
+                            $html.="<td class='tdCenter'>".$item['serie']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_concatenado']."</td>";
+                            $html.="<td class='tdCenter'>".$item['numero_producto']."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_neto'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total_igv'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>".number_format($item['monto_total'],2,'.',',')."</td>";
+                            $html.="<td class='tdCenter'>Emitido SUNAT</td>";
+                            $html.="</tr>";
+                            $num++;
+                            $emitidos++;
+                            break;
+                        
                     }
+                    
                 }
                 $dtFactura_Venta1=factura_venta::getGrid('salida_ID='.$osalida->ID.' and estado_ID=35');
                 $arrayFactura=array();
@@ -7896,10 +7958,20 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
     }
     function get_Orden_Venta_Mantenimiento_Factura_Vista_Previa($id){
         require ROOT_PATH.'models/salida.php';
+        require ROOT_PATH.'models/factura_venta.php';
+        require ROOT_PATH.'models/correlativos.php';
         global $returnView_float;
         $returnView_float=true;
         $osalida=salida::getByID($id);
+        $dtFactura_Venta=factura_venta::getGrid("fv.salida_ID=".$id);
+        $electronico=0;
+        if(count($dtFactura_Venta)>0){
+           $electronico=correlativos::verificar_electronico($dtFactura_Venta[0]['correlativos_ID']);
+            $GLOBALS['factura_venta_ID']=$dtFactura_Venta[0]['ID'];
+        }
         $GLOBALS['oOrden_Venta']=$osalida;
+        $GLOBALS['electronico']=$electronico;
+        
     }
 
     function get_Factura_Vista_Previa($id){
@@ -7919,7 +7991,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/salida_numero_cuenta.php';
         require ROOT_PATH.'formatos_pdf/factura_venta.php';
         //global $returnView_float;
-       $pdf= new PDF2('P','mm',array(216,279));
+        $pdf= new PDF3('P','mm',array(216,279));
         try{
             $osalida=salida::getByID($id);
             $oMoneda=moneda::getByID($osalida->moneda_ID);
@@ -7939,7 +8011,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $oOperador=new operador();
             }
             $dtsalida_Numero_Cuenta=salida_numero_cuenta::getGrid1('ovnc.salida_ID='.$id,-1,-1);
-            $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$id.' and estado_ID in (35,41)',-1,-1);
+            $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$id.' and estado_ID in (35,41,93,94)',-1,-1);
 
             $pdf->oOrden_Venta=$osalida;
             $pdf->oDatos_Generales=$oDatos_Generales;
@@ -7960,6 +8032,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $pdf->contenido_detalle($dtFactura_Venta_Detalle1);
 
             }
+            
 
         }catch(Exception $ex){
 
@@ -7967,7 +8040,34 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
     $pdf->Output('I','Factura Nro'.sprintf("%'.07d",'5').'.pdf',true);
 }
-    function mesATexto($mes_numero){
+    function get_Factura_Vista_Electronico($id){
+        require ROOT_PATH.'models/factura_venta.php';
+        require ROOT_PATH.'formatos_pdf/factura_venta_pdf.php';
+        //global $returnView_float;
+        $pdf= new PDF2('P','mm',array(216,279));
+        try{
+            $dtCabecera=factura_venta::getComprobante_Electronico($id,"cabecera");
+                $dtDetalle=factura_venta::getComprobante_Electronico($id,"detalle");
+                $numero_cuenta=factura_venta::getComprobante_Electronico($id,"numero_cuenta");
+
+
+                $pdf->AddPage();
+                $pdf->cabecera=$dtCabecera;
+                $pdf->numero_cuenta=$numero_cuenta;
+                $pdf->cabecera_header();
+                $pdf->contenedor_detalle(130);
+                //$dtFactura_Venta_Detalle1=factura_venta_detalle::getGrid1('fvd.factura_venta_ID='.$item['ID'],-1,-1,'ovd.ID asc');
+                $pdf->SetWidths(array(20,15,15,100,25,25));
+                $pdf->SetAligns(array('C','C','C','L','R','R'));
+                $pdf->contenido_detalle($dtDetalle);
+
+        }catch(Exception $ex){
+            $GLOBALS['error']=$ex->getMessage();
+        }
+
+    $pdf->Output('I','Factura Nro'.sprintf("%'.07d",'5').'.pdf',true);
+}
+function mesATexto($mes_numero){
 
       $mes='';
       switch ($mes_numero) {

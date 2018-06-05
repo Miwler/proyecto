@@ -1017,6 +1017,77 @@ function lista(url,contenedor,id_txt,funcion){
         minLength: 1
     });
 }
+var enviarAjax = function (url, divForm, myObject1, resultado) {
+
+    var data = null;
+    var myObject = new Object();
+
+    $('#' + divForm).find('input,textarea,button,select').each(function (key, ob) {
+
+        if (ob.name != '' && ob.name != undefined) {
+            if (myObject[ob.name] == undefined) {
+                switch (ob.type) {
+                    case 'radio':
+                        if (ob.checked) {
+                            myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    case 'checkbox':
+                        if (ob.checked) {
+                            myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    default:
+                        myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        break;
+                }
+            } else {
+                switch (ob.type) {
+                    case 'radio':
+                        if (ob.checked) {
+                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    case 'checkbox':
+                        if (ob.checked) {
+                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    default:
+                        myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        break;
+                }
+            }
+        }
+    });
+
+
+    var aleatorio = Math.random();
+    myObject['aleatorio'] = aleatorio;
+
+    /*Se convierte en json para enviarlo*/
+    var nuevo_objeto = $.extend(myObject1, myObject);
+
+    data = JSON.stringify(nuevo_objeto);
+    data = $.parseJSON(data);
+
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: data,
+        cache: false,                
+        datatype: "json",
+
+        success: function (respuesta) {
+            resultado(respuesta);
+        },
+        complete: function () {
+        },
+        error: function () {
+            $("#" + divForm).html('Ocurrió un Error al intentar conectarse');
+        }
+    });
+}
 
 
 
