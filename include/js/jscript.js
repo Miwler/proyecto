@@ -759,3 +759,314 @@ $(window).resize(function(){
 });
 
 
+function build_data_table0(table, data, columnDefs) {
+    var responsiveHelperAjax = undefined;
+    var breakpointDefinition =
+        {
+            tablet: 1024,
+            phone: 480
+        };
+
+    columnDefs = (typeof columnDefs === 'undefined') ? [] : columnDefs;
+    $(table).DataTable
+        ({
+            destroy: true,
+            paging: true,
+            autoWidth: false,
+            responsive: true,
+            //scrollY: 500,
+            //scrollCollapse: true,
+            pageLength: 20,
+            pagingType: 'full_numbers',
+            dom: '<"pull-left"f><"pull-right"l>tip',
+            bInfo: false,
+            bLengthChange: false,
+            orderMulti: false,
+            orderClasses: false,
+            data: data,
+            columnDefs: columnDefs,
+            language:
+            {
+                search: '_INPUT_',
+                searchPlaceholder: 'Buscar...',
+                emptyTable: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+                zeroRecords: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+                processing: 'Procesando',
+                loadingRecords: 'Cargando datos',
+                lengthMenu: 'Mostrando _MENU_ entradas',
+                infoFiltered: '(Filtrado de _MAX_ entradas totales)',
+                info: 'Mostrando _START_ de _END_ de las _TOTAL_ entradas totales',
+                infoEmpty: 'mostrando 0 de 0 de las 0 entradas totales',
+                paginate:
+                {
+                    'first': 'Primera',
+                    'last': 'Ultima',
+                    'next': 'Siguiente',
+                    'previous': 'Anterior'
+                }
+            },
+            preDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelperAjax) {
+                    responsiveHelperAjax = new ResponsiveDatatablesHelper(table, breakpointDefinition);
+                }
+            },
+            rowCallback: function (nRow, data) {
+                responsiveHelperAjax.createExpandIcon(nRow);
+            },
+            drawCallback: function (oSettings) {
+                responsiveHelperAjax.respond();
+            }
+
+        });
+    var id = table.attr('id');
+    var padreInput = document.getElementById(id + '_filter');
+    var input = padreInput.getElementsByTagName('input')[0];
+    $(input).attr('placeholder', 'Buscar...');
+    $(input).attr('id', id + '_input');
+}
+
+function build_data_table(table) {
+    var responsiveHelperAjax = undefined;
+    var breakpointDefinition =
+        {
+            tablet: 1024,
+            phone: 480
+        };
+
+    $(table).DataTable
+        ({
+            destroy: true,
+            autoWidth: false,
+            responsive: true,
+            pagingType: 'full_numbers',
+            bInfo: false,
+            bFilter: false,
+            bLengthChange: false,
+            orderMulti: false,
+            orderClasses: false,
+            pageLength: 20,
+            paging: true,
+            bFilter: false,
+            ordering: false,
+            searching: true,
+            dom: '<"pull-left"f><"pull-right"l>tip',
+            language:
+            {
+                emptyTable: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+                zeroRecords: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+                processing: 'Procesando',
+                loadingRecords: 'Cargando datos',
+                lengthMenu: 'Mostrando _MENU_ entradas',
+                infoFiltered: '(Filtrado de _MAX_ entradas totales)',
+                info: 'Mostrando _START_ de _END_ de las _TOTAL_ entradas totales',
+                infoEmpty: 'mostrando 0 de 0 de las 0 entradas totales',
+                paginate:
+                {
+                    'first': 'Primera',
+                    'last': 'Ultima',
+                    'next': 'Siguiente',
+                    'previous': 'Anterior'
+                }
+            },
+            preDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelperAjax) {
+                    responsiveHelperAjax = new ResponsiveDatatablesHelper(table, breakpointDefinition);
+                }
+            },
+            rowCallback: function (nRow, data) {
+                responsiveHelperAjax.createExpandIcon(nRow);
+            },
+            drawCallback: function (oSettings) {
+                responsiveHelperAjax.respond();
+            }
+        });
+}
+
+
+
+
+function build_data_table_dom(table, columnDefs, order, npageLength) {
+    var responsiveHelperAjax = undefined;
+    var responsiveHelperDom = undefined;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone: 480
+    };
+
+    columnDefs = (typeof columnDefs === 'undefined') ? [] : columnDefs;
+    order = (typeof order === 'undefined') ? [[0, "asc"]] : order;
+    npageLength = (typeof npageLength === 'undefined') ? 10 : npageLength;
+
+    var tableDom = table;
+
+
+    tableDom.dataTable({
+        destroy: true,
+        autoWidth: false,
+        responsive: true,
+        pagingType: 'full_numbers',
+        bInfo: false,
+        bFilter: false,
+        bLengthChange: true,
+        orderMulti: false,
+        orderClasses: true,
+        "pageLength": npageLength,
+        dom: '<"top"i>rt<"bottom"flp><"clear">',
+        columnDefs: columnDefs,
+        order: order,
+        bFilter: false,
+        ordering: true,
+        searching: true,
+        stateSave: false,
+        paging: true,
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        language:
+        {
+            emptyTable: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            zeroRecords: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            processing: 'Procesando',
+            loadingRecords: 'Cargando datos',
+            lengthMenu: 'Mostrando _MENU_ entradas',
+            infoFiltered: '(Filtrado de _MAX_ entradas totales)',
+            info: 'Mostrando _START_ de _END_ de las _TOTAL_ entradas totales',
+            infoEmpty: 'mostrando 0 de 0 de las 0 entradas totales',
+            paginate:
+            {
+                'first': 'Primera',
+                'last': 'Ultima',
+                'next': 'Siguiente',
+                'previous': 'Anterior'
+            }
+        },
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelperDom) {
+                responsiveHelperDom = new ResponsiveDatatablesHelper(tableDom, breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelperDom.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelperDom.respond();
+        }
+    });
+
+    //order : [[$('th.sort').index(), 'asc']],
+}
+
+function build_data_table(table, columnDefs, order, npageLength) {
+
+    columnDefs = (typeof columnDefs === 'undefined') ? [] : columnDefs;
+    order = (typeof order === 'undefined') ? [[0, "asc"]] : order;
+    npageLength = (typeof npageLength === 'undefined') ? 10 : npageLength;
+
+    return table.DataTable({
+        "deferRender": true,
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": false,
+        "autoWidth": false,
+        "pageLength": npageLength,
+        "sDom": '<"top"i>rt<"bottom"flp><"clear">',
+        columnDefs: columnDefs,
+        order: order,
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        language:
+        {
+            emptyTable: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            zeroRecords: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            processing: 'Procesando',
+            loadingRecords: 'Cargando datos',
+            lengthMenu: 'Mostrando _MENU_ entradas',
+            infoFiltered: '(Filtrado de _MAX_ entradas totales)',
+            info: 'Mostrando _START_ de _END_ de las _TOTAL_ entradas totales',
+            infoEmpty: 'mostrando 0 de 0 de las 0 entradas totales',
+            paginate:
+            {
+                'first': 'Primera',
+                'last': 'Ultima',
+                'next': 'Siguiente',
+                'previous': 'Anterior'
+            }
+        }
+    });
+
+}
+
+
+function build_data_table_dom_bloqueo_temporal(table, columnDefs, order) {
+    var responsiveHelperAjax = undefined;
+    var responsiveHelperDom = undefined;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone: 480
+    };
+
+    columnDefs = (typeof columnDefs === 'undefined') ? [] : columnDefs;
+    order = (typeof order === 'undefined') ? [[0, "asc"]] : order;
+
+    var tableDom = table;
+
+
+    tableDom.dataTable({
+        destroy: true,
+        autoWidth: false,
+        responsive: true,
+        pagingType: 'full_numbers',
+        bInfo: false,
+        bFilter: false,
+        bLengthChange: true,
+        orderMulti: false,
+        orderClasses: true,
+        pageLength: 10,
+        paging: false,
+        bFilter: false,
+        ordering: true,
+        searching: false,
+        dom: '<"top"i>rt<"bottom"flp><"clear">',
+        columnDefs: columnDefs,
+        order: order,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        language:
+        {
+            emptyTable: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            zeroRecords: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            processing: 'Procesando',
+            loadingRecords: 'Cargando datos',
+            lengthMenu: 'Mostrando _MENU_ entradas',
+            infoFiltered: '(Filtrado de _MAX_ entradas totales)',
+            info: 'Mostrando _START_ de _END_ de las _TOTAL_ entradas totales',
+            infoEmpty: 'mostrando 0 de 0 de las 0 entradas totales',
+            paginate:
+            {
+                'first': 'Primera',
+                'last': 'Ultima',
+                'next': 'Siguiente',
+                'previous': 'Anterior'
+            }
+        },
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelperDom) {
+                responsiveHelperDom = new ResponsiveDatatablesHelper(tableDom, breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelperDom.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelperDom.respond();
+        }
+    });
+}
+function search_filter(table_id) {
+    $(table_id).DataTable().search
+        (
+        jQuery.fn.DataTable.ext.type.search.string(this.value)
+        ).draw();
+}

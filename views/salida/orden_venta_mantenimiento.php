@@ -6,8 +6,11 @@
 <?php } ?>
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
-    <script type="text/javascript" src="include/js/jGrid.js"></script>
+    <!--<script type="text/javascript" src="include/js/jGrid.js"></script>-->
 
+       
+        
+  
     <!--<script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>
     <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
     <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
@@ -41,7 +44,7 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1" name="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
+<form id="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
 	<!--<form id="frm1" name="frm1" method="post" class="form-horizontal">-->
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
@@ -49,11 +52,9 @@
                 <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
-                <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
-            </div>
-						<a onclick="fncVerPDF(600);"  class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">verPDF</a>
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            
+            <a onclick="fncVerPDF(600);"  class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">verPDF</a>
+            <a onclick="fngetData();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
         </div>
         <div class="panel-body">
@@ -176,16 +177,37 @@
                 </div>
             </div>
             <div class="form-group">
-                <table id="grid" class="table table-theme table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
+                
+
+                <!-- Start datatable -->
+                <table id="datatable-ajax" class="table table-teal table-teal table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th>Nro</th>
+                            <th>Numero</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Factura</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="items">
-                    </tbody>
+                    <!--tbody section is required-->
+                    <tbody></tbody>
+                    <!--tfoot section is optional-->
+                    <tfoot>
+                        <tr>
+                            <th>Numero</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Factura</th>
+                            <th>Acción</th>
+                        </tr>
+                    </tfoot>
                 </table>
+                                    <!--/ End datatable -->
             </div>
 
            
@@ -194,6 +216,9 @@
 
 
 </form>
+    <style>
+        
+    </style>
 <script type="text/javascript">
     $('.nav-tabs a').on('show.bs.tab', function(event){
 
@@ -221,60 +246,70 @@
             $("#txtFechaFin").prop("disabled", false);
         }
     });
-var myTable;
-
-        function runScript(e) {
-            if (e.keyCode == 13) {
-                fngetData()
-                return false;
-            }
-        }
+  var myTable;
     function fngetData() {
-            var myObject = new Object();
-           
-            enviarAjax('Salida/ajaxOrden_Venta_Mantenimiento1', 'frm1', myObject, function (res) {
-                alert(res);
-                var jsonObject = $.parseJSON(res);
-                
-                var result = jsonObject.map(function (item) {
+        var myObject = new Object();
 
-                    var result = [];
-                    result.push(item.ID);
-                    result.push("");
-                    return result;
-                });
-                myTable.rows().remove();
-                myTable.rows.add(result);
-                myTable.draw();
+        enviarAjax('Salida/ajaxOrden_Venta_Mantenimiento1', 'frm1', myObject, function (res) {
+
+            var jsonObject = $.parseJSON(res);
+            var result = jsonObject.map(function (item) {
+
+                var result = [];
+                result.push(item.numero_concatenado);
+                result.push(item.fecha);
+                result.push(item.cliente);
+                result.push(item.moneda+' '+item.total);
+                result.push(item.estado);
+                result.push(item.factura);
+                result.push(item.accion);
+                result.push("");
+                return result;
             });
+            myTable.rows().remove();
+            myTable.rows.add(result);
+            myTable.draw();
+        });
+    }
+    function fnGridCSS() {
+        try {
+            var shadows =
+                [
+
+                    { "width": "5%", "targets": 0 },
+                    { "width": "5%", "targets": 1 },
+                    { "width": "20%", "targets": 2 },
+                    { "width": "10%", "targets": 3,"className":"text-right" },
+                    { "width": "20%", "targets": 4 },
+                    { "width": "20%", "targets": 5 },
+                    { 'targets': [6], 'orderable': false, 'searchable': false, "width": "10%","className":"text-center" }
+                ];
+
+            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "asc"]]);
+
+        } catch (e) {
+            //alert(e.message);
+            mensaje.error('Error', e.message);
         }
-        function fnGridCSS() {
-            try {
-                var shadows =
-                    [
+    }
+    $(document).ready(function () {
+        try {
 
-                        { "width": "10%", "targets": 0 },
-                        { 'targets': [1], 'orderable': false, 'searchable': false, "width": "10%" }
-                    ];
+            fnGridCSS();
+            fngetData();
 
-                //myTable = build_data_table($('#grid'), shadows, [[0, "asc"]]);
-
-            } catch (e) {
-                mensaje.error('Error',e.message);
-                
-            }
         }
+        catch (err) {
+            mensaje.error('Error', err.message);
+        }
+    });
+    $('#txtBuscar,#txtMostrar,#txtCodigo').keypress(function(e){
 
- $(document).ready(function () {
-            try {
-               
-                fnGridCSS();
-                fngetData();
-
-            }
-            catch (err) {
-                mensaje.error('Error',err.message);
-            }
+                if (e.which==13){
+                        $('#num_page').val(1);
+                        fngetData();
+                        return false;
+                }
         });
 </script>
 

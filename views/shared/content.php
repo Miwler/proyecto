@@ -61,8 +61,15 @@
         <script src="../../assets/global/plugins/bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
         
         <script src="../../assets/global/plugins/bower_components/blockui/jquery.blockUI.js" type="text/javascript"></script>
-
-
+         <link href="../../../assets/global/plugins/bower_components/datatables/css/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="../../../assets/global/plugins/bower_components/datatables/css/datatables.responsive.css" rel="stylesheet">
+        <link href="../../../assets/global/plugins/bower_components/fuelux/dist/css/fuelux.min.css" rel="stylesheet">
+        
+        <script src="../../../assets/global/plugins/bower_components/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="../../../assets/global/plugins/bower_components/datatables/js/dataTables.bootstrap.js"></script>
+        <script src="../../../assets/global/plugins/bower_components/datatables/js/datatables.responsive.js"></script>
+        <script src="../../../assets/global/plugins/bower_components/fuelux/dist/js/fuelux.min.js"></script>
+        
 
         <script src="../../include/stacktable/stacktable.js" type="text/javascript"></script>
 	<link href="../../include/stacktable/stacktable.css" rel="stylesheet" type="text/css"/>
@@ -79,6 +86,7 @@
         <script type="text/javascript" src="include/js/jscript.js" ></script>
         <script type="text/javascript" src="include/js/logincerrar.js" ></script>
         <script src="../../include/js/jNotificacion.js" type="text/javascript"></script>
+        <link href="../../include/css/estilos.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="include/css/toastem.css" />   
         <?php  fncHead();	?>
 </head>
@@ -403,8 +411,8 @@
                 <div class="body-content animated fadeIn">
 
                    <?php
-                                    fncPage();
-                                ?>
+                        fncPage();
+                    ?>
 
                 </div><!-- /.body-content -->
                 <!--/ End body content -->

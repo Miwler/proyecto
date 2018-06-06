@@ -77,6 +77,27 @@ class connect
 			throw new Exception($ex->getMessage());
 		}
 	}
+         function getTabla($q)
+	{
+             $mysqli = new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
+		try
+		{
+                    $result = $mysqli->query($q);
+			//$result=$this->connect->query($q);
+			//$dt=$result->fetchAll();
+                        while($row = mysqli_fetch_assoc($result)) 
+                        {
+                                $rows[] = array_map("utf8_encode",$row);
+                        }
+			$result->close();
+			return $rows;
+		}catch(PDOException $ex)
+		{
+			$result->close();
+			throw new Exception($ex->getMessage());
+		}
+                
+	}
 
 	function transa($q)
 	{

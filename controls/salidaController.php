@@ -3587,6 +3587,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         $GLOBALS['dtMoneda']=$dtMoneda;
         $GLOBALS['dtPerido']=salida::getPeriodos();
         $GLOBALS['dtCliente']=$dtCliente;
+        
     }
 function post_ajaxOrden_Venta_Mantenimiento() {
     require ROOT_PATH . 'models/salida.php';
@@ -3861,13 +3862,15 @@ function post_ajaxOrden_Venta_Mantenimiento() {
 }
 function post_ajaxOrden_Venta_Mantenimiento1() {
     require ROOT_PATH.'models/salida.php';
-    require ROOT_PATH.'include/serializable.php';
-    $dtSalida=salida::getGrid();
-    
-    //$retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
-    //$retorn="<h1>Hola</h1>";
-    //var_dump($dtSalida);
-    echo json_encode(new ArrayValue($dtSalida), JSON_PRETTY_PRINT);
+    $cliente=$_POST['selCliente'];
+    $todos=(isset($_POST['ckTodos']))?1:0;
+    $fecha_inicio=$_POST['txtFechaInicio'];
+    $fecha_fin=$_POST['txtFechaFin'];
+    $estado_ID=$_POST['selEstado'];
+    $moneda_ID=$_POST['selMoneda'];
+    $dtSalida=salida::getTabla($cliente,$todos,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID);
+    echo(json_encode($dtSalida, JSON_NUMERIC_CHECK));
+  
 }
 
 function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
