@@ -329,7 +329,7 @@ class salida {
         try
         {
         $q='call getTabla_Orden_Venta('.$_SESSION['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.');';
-
+        //echo $q;
         $dt=$cn->getTabla($q);
         return $dt;
         }catch(Exception $ex)

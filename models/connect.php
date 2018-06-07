@@ -83,14 +83,16 @@ class connect
 		try
 		{
                     $result = $mysqli->query($q);
-			//$result=$this->connect->query($q);
-			//$dt=$result->fetchAll();
-                        while($row = mysqli_fetch_assoc($result)) 
-                        {
-                                $rows[] = array_map("utf8_encode",$row);
-                        }
-			$result->close();
-			return $rows;
+                    
+                    $rows=array();
+                    while($row = mysqli_fetch_assoc($result)) 
+                    {
+                            $rows[] = array_map("utf8_encode",$row);
+                    }  
+
+
+                    $result->close();
+                    return $rows;
 		}catch(PDOException $ex)
 		{
 			$result->close();

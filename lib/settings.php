@@ -1,12 +1,20 @@
 <?php
     
    
-    define('periodo_inicio',2015);
+    //define('periodo_inicio',2015);
     //define('empresa_ID',2);
+    if(isset($_SESSION['empresa_ID'])){
+       if(!class_exists('configuracion_empresa')){
+            require ROOT_PATH.'models/configuracion_empresa.php';
+        }
+
+        $dtConfiguracion_empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+        foreach($dtConfiguracion_empresa as $valor){
+            define($valor['nombre'],$valor['valor']);
+        } 
+    }
     
     
-   
-   
     //define('sitio_web',$oDatos_Generales->sitio_web);
     //define('pagina_web',$oDatos_Generales->pagina_web);
     //Cuentas donde llega las alertas

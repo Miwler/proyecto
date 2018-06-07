@@ -74,19 +74,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group col-md-1 col-lg-1 col-sm-1 col-xs-12">
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
-                                     <label>Todos: </label>
+                                    <label>Periodo: </label>
                                 </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="ckbox ckbox-theme">
-                                        <input  type="checkbox" id="checkbox-checked1" checked="checked" name="ckTodos" value="1" >
-                                        <label for="checkbox-checked1"></label>
-                                    </div>
-                                </div>
+                                <select id="selPeriodo" name="selPeriodo" class="form-control">
+                                    <option value="0">Por fecha</option>
+                                    <?php for($i=periodo_inicio;$i<=date("Y");$i++){?>
+                                    <option value="<?php echo $i;?>" <?php echo ($i==date("Y"))?"selected":"";?>><?php echo $i;?></option>
+                                    <?php }?>
+                                </select>
                             </div>
                         </div>
+                        
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
@@ -122,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 col-lg-2 col-sm-2 col-xs-12">
+                        <div class="col-md-1 col-lg-1 col-sm-1 col-xs-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
                                      <label>Moneda: </label>
@@ -149,14 +150,14 @@
                                      <label>Periodo: </label>
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <input type="text" id="txtPeriodo" name="txtPeriodo" class="form-control int"  autocomplete="off">
+                                    <input type="text" id="txtPeriodo" name="txtPeriodo" class="form-control int" value="<?php echo date("Y");?>" autocomplete="off">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
                             <div class="row">
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>Número: </label>
+                                     <label>Número orde de venta: </label>
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                      <input  type="text" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off">
@@ -220,6 +221,8 @@
         
     </style>
 <script type="text/javascript">
+    
+    
     $('.nav-tabs a').on('show.bs.tab', function(event){
 
         var x = $.trim($(event.target).text());
@@ -235,17 +238,18 @@
 
 
      });
-
-    $("#checkbox-checked1").click(function(){
-        if($(this).is(":checked")){
-            $("#txtFechaInicio").prop("disabled", true);
-            $("#txtFechaFin").prop("disabled", true);
-            $("#txtFechaInicio").focus();
-        }else{
-            $("#txtFechaInicio").prop("disabled", false);
+     $("#selPeriodo").change(function(){
+         if(this.value==0){
+             $("#txtFechaInicio").prop("disabled", false);
             $("#txtFechaFin").prop("disabled", false);
-        }
-    });
+             
+            $("#txtFechaInicio").focus();
+         }else{
+            $("#txtFechaInicio").prop("disabled", true);
+            $("#txtFechaFin").prop("disabled", true); 
+         }
+     });
+    
   var myTable;
     function fngetData() {
         var myObject = new Object();
@@ -292,11 +296,18 @@
             mensaje.error('Error', e.message);
         }
     }
+    var form1 = function(){
+        this.enviar=function(){
+           fngetData(); 
+           
+        }
+    }
+    var f=new form1();
     $(document).ready(function () {
         try {
 
             fnGridCSS();
-            fngetData();
+            f.enviar();
 
         }
         catch (err) {
@@ -305,12 +316,96 @@
     });
     $('#txtBuscar,#txtMostrar,#txtCodigo').keypress(function(e){
 
-                if (e.which==13){
-                        $('#num_page').val(1);
-                        fngetData();
-                        return false;
-                }
-        });
+            if (e.which==13){
+                    $('#num_page').val(1);
+                    fngetData();
+                    return false;
+            }
+    });
+    
+    var fncNuevo=function(){
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,550);
+    }
+    var fncVerPDF=function(id){
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Factura_Vista_PreviaPDF',id,'',f,800,550);
+    }
+    var fncEditar=function(id){
+         window_float_open_modal('EDITAR ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
+    }
+
+    var fncVer=function(id){
+         window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,550);
+    }
+    var fncDOWNLOAD_XML=function(id,tipo) {
+        try {
+                    block_ui(function () {
+
+
+                    var iframe = document.getElementById("iPDF");
+                    if (tipo == 'PDF') {
+
+                    fncVerPDF(id);
+
+                            $.unblockUI();
+                            return false;
+                    }
+
+                    var zip = new JSZip();
+                            $.ajax({
+                        type: "POST",
+                        url: 'Salida/ajaxDownloadXML',
+                        data: {'id': id,'tipo': tipo},
+                        cache: false,
+                        success: function(resultado)
+                        {
+                        $.unblockUI();
+                        console.log(resultado);
+                        var obj = $.parseJSON(resultado);
+
+                            if (obj.exito == 'true') {
+                                    if (tipo == 'XML') {
+                                            var xmlText = formatXml(obj.xml_firmado);
+                                            var blob = new Blob([xmlText], { type: 'application/xml' });
+                                            var link = document.createElement('a');
+                                            link.href = window.URL.createObjectURL(blob);
+                                            link.download = obj.nombre_archivo;
+                                            document.body.appendChild(link);
+                                            link.click();
+                                            document.body.removeChild(link);
+                                    }
+
+                                    if (tipo=='CDR') {
+                                    zip.generateAsync({type:"base64"}).then(function (base64) {
+                                                    data = obj.xml_firmado;
+                                                    location.href="data:application/zip;base64," + data;
+                                    });
+                                    }
+                            }else{
+                                    alert(obj.mensaje);
+                            }
+                    },
+                        error: function (XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            alert('Error occurred while opening fax template'
+                                  + getAjaxErrorString(textStatus, errorThrown));
+                        }
+                    });
+            });
+
+        } catch (e) {
+                $.unblockUI();
+                console_log(e);
+        } finally {
+
+        }
+
+    }
+
+    var fncEliminar=function(id){
+            gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
+				    
+    }
+        
 </script>
 
 <?php } ?>

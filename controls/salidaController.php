@@ -3575,14 +3575,14 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         require ROOT_PATH.'models/moneda.php';
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/cliente.php';
+        
         global $returnView;
         $returnView=true;
-
+        
         $dtEstado=estado::getGrid('tabla="salida"');
         $dtMoneda=moneda::getGrid();
         $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
-
-
+        
         $GLOBALS['dtEstado']=$dtEstado;
         $GLOBALS['dtMoneda']=$dtMoneda;
         $GLOBALS['dtPerido']=salida::getPeriodos();
@@ -3604,6 +3604,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
     $orden_class = 'imgOrden-desc';
     $cliente_ID=$_POST['selCliente'];
     $estado_ID=$_POST['selEstado'];
+    $periodo=$_POST['selPeriodo'];
     $fecha_inicio=$_POST['txtFechaInicio'];
     $fecha_fin=$_POST['txtFechaFin'];
     $numero=Ltrim($_POST['txtNumero'],'0');
@@ -3693,7 +3694,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
             }
             $filtro.="ov.estado_ID=".$estado_ID;
         }
-        if($todos==0){
+        if($periodo==0){
             if($fecha_inicio!="" &&$fecha_fin!="" ){
                 if($filtro!=""){
                     $filtro.=" and ";
@@ -3701,8 +3702,10 @@ function post_ajaxOrden_Venta_Mantenimiento() {
                 //$filtro.=" ov.fecha between '".FormatTextToDate($fecha_inicio,'Y-m-d')."' and '".FormatTextToDate($fecha_fin,'Y-m-d')."'" ;
                 $filtro.=" ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'" ;
             }
+        }else{
+            
         }
-
+        
         if($moneda>0){
             if($filtro!=""){
                 $filtro.=" and ";
@@ -3863,13 +3866,18 @@ function post_ajaxOrden_Venta_Mantenimiento() {
 function post_ajaxOrden_Venta_Mantenimiento1() {
     require ROOT_PATH.'models/salida.php';
     $cliente=$_POST['selCliente'];
-    $todos=(isset($_POST['ckTodos']))?1:0;
-    $fecha_inicio=$_POST['txtFechaInicio'];
-    $fecha_fin=$_POST['txtFechaFin'];
+    $periodo=$_POST['selPeriodo'];
+    $fecha_inicio=FormatTextToDate($_POST['txtFechaInicio'],'Y-m-d');
+    $fecha_fin=FormatTextToDate($_POST['txtFechaFin'],'Y-m-d');
     $estado_ID=$_POST['selEstado'];
     $moneda_ID=$_POST['selMoneda'];
-    $dtSalida=salida::getTabla($cliente,$todos,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID);
-    echo(json_encode($dtSalida, JSON_NUMERIC_CHECK));
+    try{
+       $dtSalida=salida::getTabla($cliente,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID);
+        echo(json_encode($dtSalida, JSON_NUMERIC_CHECK)); 
+    }catch(Exception $ex){
+        consolo_log($ex);
+    }
+    
   
 }
 
