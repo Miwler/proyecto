@@ -413,7 +413,7 @@
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,600);
+            parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,550);
             //window_float_deslizar('form','Ventas/Orden_Venta_Mantenimiento_Factura',orden_venta_ID,'');
         
         }else {

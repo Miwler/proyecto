@@ -287,7 +287,7 @@ class factura_venta {
             try
             {
                 $q='select ID,salida_ID,serie,numero,numero_concatenado,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,forma_pago_ID,plazo_factura,DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,';
-                $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
+                $q.='estado_ID,moneda_ID,orden_pedido,orden_ingreso,ifnull(impresion,0) as impresion,con_guia,pago,ifnull(monto_total_neto,0) as monto_total_neto,ifnull(monto_total_igv,0) as monto_total_igv,ifnull(monto_total,0) as monto_total,';
                 $q.='ifnull(monto_pendiente,0) as monto_pendiente,DATE_FORMAT(fecha_anulacion,"%d/%m/%Y") as fecha_anulacion,operador_ID_anulacion,motivo_anulacion_ID ,opcion,numero_producto,correlativos_ID,';
                 $q.='usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta';
                 $q.=' where del=0 and ID='.$ID;

@@ -6843,12 +6843,12 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH . 'models/usuario.php';
         require ROOT_PATH . 'models/estado.php';
         require ROOT_PATH . 'models/correlativos.php';
-        require ROOT_PATH . 'models/configuracion_empresa.php';
+        
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
 
-        $dtConfiguracion_Empresa=configuracion_empresa::getGrid();
+        
         $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
         $osalida=salida::getByID($salida_ID);
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
@@ -6864,8 +6864,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $oFactura_Venta->ID=0;
             $oFactura_Venta->fecha_emision=date("d/m/Y");
             $oFactura_Venta->moneda_ID=$osalida->moneda_ID;
-            $numero_temporal=correlativos::getNumero('factura_venta',$dtConfiguracion_Empresa[4]['valor']);
-            $oFactura_Venta->serie=correlativos::getByID($dtConfiguracion_Empresa[4]['valor'])->serie;
+            $numero_temporal=correlativos::getNumero('factura_venta',correlativos_ID);
+            $oFactura_Venta->serie=correlativos::getByID(correlativos_ID)->serie;
             $oFactura_Venta->numero=$numero_temporal;
             $numero_concatenado=sprintf("%'.07d",$numero_temporal);
             $oFactura_Venta->numero_concatenado=$numero_concatenado;
@@ -6874,7 +6874,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $oFactura_Venta->ver_vista_previa=0;
             $oFactura_Venta->ver_imprimir=0;
             $oFactura_Venta->ver_cambios=0;
-            $oFactura_Venta->correlativos_ID=$dtConfiguracion_Empresa[4]['valor'];
+            $oFactura_Venta->correlativos_ID=correlativos_ID;
             //generamos una factura en estado registrado
             $oEstado=estado::getByID(35);
 
