@@ -12,7 +12,7 @@
        <?php } else { ?>
            $('#ckOpcion').prop('checked', false);
        <?php } ?>
-        <?php if($GLOBALS['oFactura_Venta']->estado_ID==41||$GLOBALS['oFactura_Venta']->estado_ID==93){?>  
+        <?php if($GLOBALS['oFactura_Venta']->estado_ID==41||$GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94){?>  
             bloquear_factura();
         <?php } ?>   
 
@@ -223,7 +223,7 @@
                    </button>
                <?php } ?>
                 <?php  if($GLOBALS['oFactura_Venta']->ver_enviar_SUNAT==1){?>
-                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Enviar SUNAT" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de enviar a la SUNAT la factura?','Enviar SUNAT',fncSUNAT,<?php echo $GLOBALS['oFactura_Venta']->ID;?>);">
+                   <button  type="button" id="btnEnviarFactura" name="btnEnviarFactura" title="Enviar SUNAT" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de enviar a la SUNAT la factura?','Enviar SUNAT',fncSUNAT,<?php echo $GLOBALS['oFactura_Venta']->ID;?>);">
                        <i class="fa fa-angle-double-right"></i>
                       Enviar SUNAT
                    </button>
@@ -255,13 +255,13 @@
             block_ui(function () {
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
                 //console.log(resultado);
-
                 $.unblockUI();
                 //var obj = $.parseJSON(resultado);
                 //console.log(obj.Exito);
                 //console.log(obj.MensajeRespuesta);
                 if (resultado.resultado == 1) {
                     toastem.success(resultado.mensaje);
+                    $("#btnEnviarFactura").remove();
                     $('#txtEstado').val('Enviado a SUNAT');
                     $('#tdfacturas_detalle').html(resultado.facturas_detalle);
                     bloquear_factura();
@@ -343,7 +343,7 @@
     }
     var validar=function(){
       
-       var fecha_emision=$('#txtFecha_Emision').val();
+          var fecha_emision=$('#txtFecha_Emision').val();
        var fecha_vencimiento=$('#txtFecha_Vencimiento').val();
        if(fecha_emision==""){
            toastem.error('Seleccione la fecha de emisión.');
@@ -351,8 +351,8 @@
            return false;
        }
         if(fecha_vencimiento==""){
-           toastem.error('Seleccione fecha de vencimiento.');
-           $('#txtFecha_Vencimiento').focus();
+           mensaje.advertencia('VALIDACIÓN DE DATOS','Seleccione fecha de vencimiento.','txtFecha_Vencimiento');
+           
            return false;
        }
         $('#selSerie').prop('disabled',false);
@@ -372,7 +372,9 @@
             return false;
          }
          $('#selMoneda').prop('disabled',false);
-         $('#fondo_espera').css('display', 'block');
+      block_ui(function () {});
+       
+         //$('#fondo_espera').css('display', 'block');
    }
     /*var bloqueo_padre=function(){
        window.parent.bloqueo_orden_venta();
@@ -464,6 +466,7 @@
 <script type="text/javascript">
  //alert('hola');
  $(document).ready(function () {
+     $.unblockUI();
      parent.fParent1.call(this,1);
     //window.parent.crear_boton_guia();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');

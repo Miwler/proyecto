@@ -396,12 +396,12 @@ class factura_venta {
 		}
 	}
 
-        static function getFactura_SUNAT($salida_ID,$tipo)
+        static function getFactura_SUNAT($ID,$tipo)
 	{
             $cn =new connect();
             try
             {
-                $q='call factura_venta_SUNAT('.$salida_ID.',"'.$tipo.'");';
+                $q='call factura_venta_SUNAT('.$ID.',"'.$tipo.'");';
                 //echo $q;
                 $dt=$cn->getGrid($q);
                 return $dt;

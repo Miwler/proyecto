@@ -3589,7 +3589,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         $GLOBALS['dtCliente']=$dtCliente;
         
     }
-function post_ajaxOrden_Venta_Mantenimiento() {
+/*function post_ajaxOrden_Venta_Mantenimiento() {
     require ROOT_PATH . 'models/salida.php';
     require ROOT_PATH . 'models/moneda.php';
     require ROOT_PATH . 'models/estado.php';
@@ -3862,8 +3862,8 @@ function post_ajaxOrden_Venta_Mantenimiento() {
     //$retorn="<h1>Hola</h1>";
 
     echo json_encode($retornar);
-}
-function post_ajaxOrden_Venta_Mantenimiento1() {
+}*/
+function post_ajaxOrden_Venta_Mantenimiento() {
     require ROOT_PATH.'models/salida.php';
     $cliente=$_POST['selCliente'];
     $periodo=$_POST['selPeriodo'];
@@ -3871,8 +3871,12 @@ function post_ajaxOrden_Venta_Mantenimiento1() {
     $fecha_fin=FormatTextToDate($_POST['txtFechaFin'],'Y-m-d');
     $estado_ID=$_POST['selEstado'];
     $moneda_ID=$_POST['selMoneda'];
+    $periodo_texto=(trim($_POST['txtPeriodo'])=="")?0:trim($_POST['txtPeriodo']);
+    $numero=(trim($_POST['txtNumero'])=="")?0:trim($_POST['txtNumero']);
+    $numero_factura=(trim($_POST['txtNumero_Factura'])=="")?0:trim($_POST['txtNumero_Factura']);
+    $opcion=$_POST['rbOpcion'];
     try{
-       $dtSalida=salida::getTabla($cliente,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID);
+       $dtSalida=salida::getTabla($opcion,$cliente,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$periodo_texto,$numero,$numero_factura);
         echo(json_encode($dtSalida, JSON_NUMERIC_CHECK)); 
     }catch(Exception $ex){
         consolo_log($ex);
@@ -4214,7 +4218,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $oNumero_Cuenta=numero_cuenta::getByID(1);
         $dtEstado=estado::getGrid('est.tabla="salida"');
         $osalida->dtRepresentante_Cliente=cliente_contacto::getGrid('clic.cliente_ID='.$osalida->cliente_ID,-1,-1,'pe.apellido_paterno asc,pe.apellido_paterno asc, pe.nombres asc');
-        $osalida->bloquear_edicion=factura_venta::getCount('salida_ID='.$id.' and estado_ID=41');
+        $osalida->bloquear_edicion=factura_venta::getCount('salida_ID='.$id.' and estado_ID in (41,93,94)');
         $GLOBALS['oOrden_Venta']=$osalida;
         $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $GLOBALS['oCliente']=$oCliente;
@@ -5943,8 +5947,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $GLOBALS['dtLinea']=$dtLinea;
         $GLOBALS['linea_ID']=$oLinea->ID;
         $GLOBALS['dtProducto']=$dtProducto;
-        $GLOBALS['osalida_Detalle']=$osalida_Detalle;
-        $GLOBALS['osalida']=$osalida;
+        $GLOBALS['oSalida_Detalle']=$osalida_Detalle;
+        $GLOBALS['oSalida']=$osalida;
         $GLOBALS['oInventario']=$oInventario;
     }
     function post_Orden_Venta_Mantenimiento_Producto_Editar($id){
@@ -7015,6 +7019,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta->plazo_factura=$Plazo_Factura;
                     $oFactura_Venta->fecha_vencimiento=$Fecha_Vencimiento;
                     //Generamos la factura en estado registrado
+                    $oFactura_Venta->impresion=0;
                     $oFactura_Venta->estado_ID=35;
                     $oFactura_Venta->moneda_ID=$Moneda_ID;
                     $oFactura_Venta->orden_pedido=$orden_pedido;
@@ -7024,11 +7029,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     //$oFactura_Venta->con_guia=$con_guia;
                     $oFactura_Venta->usuario_id=$_SESSION['usuario_ID'];
                     $oFactura_Venta->insertar();
-                    if($osalida->estado_ID==58){
-                        $osalida->estado_ID=30;
-                        $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
-                        $osalida->actualizar();
-                    }
+                    
                     /*=====Insertamos la factura_venta_detalle*/
                     $oFactura_Venta_Detalle=new factura_venta_detalle();
                     $oFactura_Venta_Detalle->factura_venta_ID=$oFactura_Venta->ID;
@@ -7046,6 +7047,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $oFactura_Venta->ver_imprimir=1;
                     if($electronico>0){
                         $oFactura_Venta->ver_enviar_SUNAT=1;
+                        $oFactura_Venta->ver_imprimir=0;
                         /*=================Actualizamos el correlativo*/
                         $oCorrelativos=correlativos::getByID($correlativos_ID);
                         $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
@@ -7055,6 +7057,17 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         $oFactura_Venta->estado_ID=93;
                         $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
                         $oFactura_Venta->actualizar();
+                        
+                        /*=====Actualizamos el estado de la salida al estado facturado=======*/
+                        $osalida->estado_ID=40;
+                        $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
+                        $osalida->actualizar();
+                    }else{
+                        if($osalida->estado_ID==58){
+                            $osalida->estado_ID=30;
+                            $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
+                            $osalida->actualizar();
+                        }
                     }
                    
                 }
@@ -7132,6 +7145,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                             $oFactura_Venta->ver_vista_previa =1;
                             $oFactura_Venta->ver_imprimir=1;
                             if($electronico>0){
+                                
+                                $oFactura_Venta->ver_imprimir=0;
                                 $oFactura_Venta->ver_enviar_SUNAT=1;
                                 $oCorrelativos=correlativos::getByID($correlativos_ID);
                                 $oCorrelativos->ultimo_numero=$oCorrelativos->ultimo_numero+1;
@@ -7141,6 +7156,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                                 $oFactura_Venta->estado_ID=93;
                                 $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
                                 $oFactura_Venta->actualizar();
+                                $osalida->estado_ID=40;
+                                $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
+                                $osalida->actualizar();
                             }
 
                         }
@@ -11189,7 +11207,7 @@ function post_ajaxEnviarSUNAT() {
             // echo 'TramaZipCdr : '.$data_sunat->TramaZipCdr.'<br>';
                             
             $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
-            $oFactura_Venta1->estado_ID=93;//Estado emitido electronico;
+            $oFactura_Venta1->estado_ID=94;//Estado emitido electronico;
             $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
             $oFactura_Venta1->actualizar();
             $sunat_respuesta = $data_sunat->MensajeRespuesta;
@@ -11202,45 +11220,50 @@ function post_ajaxEnviarSUNAT() {
             $array_sunat=json_encode($resultado_sunat);
             //echo json_encode($resultado_sunat);
           }else{
-              $mensaje="La factura no se envió correctamente, no se creó el archivo CDR.";
-              $resultado=-1;
-              $array_sunat=json_encode($resultado_sunat);
-                //$sunat_respuesta = $data_sunat->MensajeError;
-               // echo json_encode($resultado_sunat);
+            $mensaje="La factura no se envió correctamente, no se creó el archivo CDR.";
+            $resultado=-1;
+            $array_sunat=json_encode($resultado_sunat);
+            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
+            $oFactura_Venta1->estado_ID=96;//Estado error de envío electronico;
+            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
+            $oFactura_Venta1->actualizar();
           }
-
-          $oFactura_Venta_Sunat=new factura_venta_sunat();
-          $oFactura_Venta_Sunat->salida_ID=$id;
-          $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
-          $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
-          $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
-          $oFactura_Venta_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
-          $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
-          $oFactura_Venta_Sunat->representacion_impresa='';
-          $oFactura_Venta_Sunat->estado_envio=1;
-          $oFactura_Venta_Sunat->codigo_estado=$data_sunat->CodigoRespuesta;
-          $oFactura_Venta_Sunat->descripcion_estado=FormatTextSave($sunat_respuesta);
-          $oFactura_Venta_Sunat->cdr_sunat = $data_sunat->TramaZipCdr;
-          $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
-          $oFactura_Venta_Sunat->insertar();
+          
+            $oFactura_Venta_Sunat=new factura_venta_sunat();
+            $oFactura_Venta_Sunat->salida_ID=$oFactura_venta[0]['salida_ID'];
+            $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
+            $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
+            $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
+            $oFactura_Venta_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
+            $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
+            $oFactura_Venta_Sunat->representacion_impresa='';
+            $oFactura_Venta_Sunat->estado_envio=1;
+            $oFactura_Venta_Sunat->codigo_estado=$data_sunat->CodigoRespuesta;
+            $oFactura_Venta_Sunat->descripcion_estado=FormatTextSave($sunat_respuesta);
+            $oFactura_Venta_Sunat->cdr_sunat = $data_sunat->TramaZipCdr;
+            $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
+            $oFactura_Venta_Sunat->insertar();
 
         } else {
-          $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
-          $oFactura_Venta_Sunat=new factura_venta_sunat();
-          $oFactura_Venta_Sunat->salida_ID=$id;
-          $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
-          $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
-          $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
-          $oFactura_Venta_Sunat->nombre_archivo=$nombreArchivo;
-          $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
-          $oFactura_Venta_Sunat->representacion_impresa='';
-          $oFactura_Venta_Sunat->estado_envio=0;
-          $oFactura_Venta_Sunat->codigo_estado="";
-          $oFactura_Venta_Sunat->descripcion_estado="Ocurrió un error al firmar la trama xml";
-          $oFactura_Venta_Sunat->cdr_sunat="";
-          $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
-          $oFactura_Venta_Sunat->insertar();
-          //echo json_encode($resultado_firma);
+            $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
+            $oFactura_Venta_Sunat=new factura_venta_sunat();
+            $oFactura_Venta_Sunat->salida_ID=$oFactura_venta[0]['salida_ID'];
+            $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
+            $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
+            $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
+            $oFactura_Venta_Sunat->nombre_archivo=$nombreArchivo;
+            $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
+            $oFactura_Venta_Sunat->representacion_impresa='';
+            $oFactura_Venta_Sunat->estado_envio=0;
+            $oFactura_Venta_Sunat->codigo_estado="";
+            $oFactura_Venta_Sunat->descripcion_estado="Ocurrió un error al firmar la trama xml";
+            $oFactura_Venta_Sunat->cdr_sunat="";
+            $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
+            $oFactura_Venta_Sunat->insertar();
+            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
+            $oFactura_Venta1->estado_ID=96;//Estado error de envío electronico;
+            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
+            $oFactura_Venta1->actualizar();
           $resultado=-1;
           $mensaje="La factura no se envió a la SUNAT, hubo un error al firmar la trama xml.";
           $array_sunat=json_encode($resultado_firma);

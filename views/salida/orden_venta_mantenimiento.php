@@ -6,6 +6,9 @@
 <?php } ?>
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
+    <!--<script type="text/javascript" src="include/FileSaver.js/src/FileSaver.js"></script>-->
+    <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
+    <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>
     <!--<script type="text/javascript" src="include/js/jGrid.js"></script>-->
 
        
@@ -44,7 +47,7 @@
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
 <?php } ?>
 <?php function fncPage(){?>
-<form id="frm1" method="post" action="/Salida/ajaxOrden_Venta_Mantenimiento" class="form-horizontal">
+<form id="frm1" method="post" action="#" class="form-horizontal">
 	<!--<form id="frm1" name="frm1" method="post" class="form-horizontal">-->
     <div class="panel panel-tab panel-tab-double shadow">
         <div class="panel-heading no-padding">
@@ -214,12 +217,9 @@
            
         </div>
     </div>
-
-
+        <input type="hidden" id="rbOpcion" name="rbOpcion" value="filtrar"> 
 </form>
-    <style>
-        
-    </style>
+
 <script type="text/javascript">
     
     
@@ -254,7 +254,7 @@
     function fngetData() {
         var myObject = new Object();
 
-        enviarAjax('Salida/ajaxOrden_Venta_Mantenimiento1', 'frm1', myObject, function (res) {
+        enviarAjax('Salida/ajaxOrden_Venta_Mantenimiento', 'frm1', myObject, function (res) {
 
             var jsonObject = $.parseJSON(res);
             var result = jsonObject.map(function (item) {
@@ -280,7 +280,7 @@
             var shadows =
                 [
 
-                    { "width": "5%", "targets": 0 },
+                    { "width": "5%", "targets": 0,"className":"text-center" },
                     { "width": "5%", "targets": 1 },
                     { "width": "20%", "targets": 2 },
                     { "width": "10%", "targets": 3,"className":"text-right" },
@@ -289,7 +289,7 @@
                     { 'targets': [6], 'orderable': false, 'searchable': false, "width": "10%","className":"text-center" }
                 ];
 
-            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "asc"]]);
+            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "desc"]]);
 
         } catch (e) {
             //alert(e.message);
@@ -338,59 +338,59 @@
     }
     var fncDOWNLOAD_XML=function(id,tipo) {
         try {
-                    block_ui(function () {
+            block_ui(function () {
 
 
-                    var iframe = document.getElementById("iPDF");
-                    if (tipo == 'PDF') {
+            var iframe = document.getElementById("iPDF");
+            if (tipo == 'PDF') {
 
-                    fncVerPDF(id);
+            fncVerPDF(id);
 
-                            $.unblockUI();
-                            return false;
-                    }
+                $.unblockUI();
+                return false;
+            }
 
-                    var zip = new JSZip();
-                            $.ajax({
-                        type: "POST",
-                        url: 'Salida/ajaxDownloadXML',
-                        data: {'id': id,'tipo': tipo},
-                        cache: false,
-                        success: function(resultado)
-                        {
-                        $.unblockUI();
-                        console.log(resultado);
-                        var obj = $.parseJSON(resultado);
+            var zip = new JSZip();
+                    $.ajax({
+                type: "POST",
+                url: 'Salida/ajaxDownloadXML',
+                data: {'id': id,'tipo': tipo},
+                cache: false,
+                success: function(resultado)
+                {
+                $.unblockUI();
+                console.log(resultado);
+                var obj = $.parseJSON(resultado);
 
-                            if (obj.exito == 'true') {
-                                    if (tipo == 'XML') {
-                                            var xmlText = formatXml(obj.xml_firmado);
-                                            var blob = new Blob([xmlText], { type: 'application/xml' });
-                                            var link = document.createElement('a');
-                                            link.href = window.URL.createObjectURL(blob);
-                                            link.download = obj.nombre_archivo;
-                                            document.body.appendChild(link);
-                                            link.click();
-                                            document.body.removeChild(link);
-                                    }
-
-                                    if (tipo=='CDR') {
-                                    zip.generateAsync({type:"base64"}).then(function (base64) {
-                                                    data = obj.xml_firmado;
-                                                    location.href="data:application/zip;base64," + data;
-                                    });
-                                    }
-                            }else{
-                                    alert(obj.mensaje);
-                            }
-                    },
-                        error: function (XMLHttpRequest, textStatus, errorThrown)
-                        {
-                            alert('Error occurred while opening fax template'
-                                  + getAjaxErrorString(textStatus, errorThrown));
+                    if (obj.exito == 'true') {
+                        if (tipo == 'XML') {
+                            var xmlText = formatXml(obj.xml_firmado);
+                            var blob = new Blob([xmlText], { type: 'application/xml' });
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = obj.nombre_archivo;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
                         }
-                    });
+
+                        if (tipo=='CDR') {
+                        zip.generateAsync({type:"base64"}).then(function (base64) {
+                            data = obj.xml_firmado;
+                            location.href="data:application/zip;base64," + data;
+                        });
+                        }
+                    }else{
+                            alert(obj.mensaje);
+                    }
+            },
+                error: function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert('Error occurred while opening fax template'
+                          + getAjaxErrorString(textStatus, errorThrown));
+                }
             });
+        });
 
         } catch (e) {
                 $.unblockUI();
@@ -400,7 +400,36 @@
         }
 
     }
+    function formatXml(xml){
+        var formatted = '';
+        var reg = /(>)(<)(\/*)/g;
+        xml = xml.replace(reg, '$1\r\n$2$3');
+        var pad = 0;
+        jQuery.each(xml.split('\r\n'), function(index, node) {
+            var indent = 0;
+            if (node.match( /.+<\/\w[^>]*>$/ )) {
+                indent = 0;
+            } else if (node.match( /^<\/\w/ )) {
+                if (pad != 0) {
+                    pad -= 1;
+                }
+            } else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+                indent = 1;
+            } else {
+                indent = 0;
+            }
 
+            var padding = '';
+            for (var i = 0; i < pad; i++) {
+                padding += '  ';
+            }
+
+            formatted += padding + node + '\r\n';
+            pad += indent;
+        });
+
+        return formatted;
+    }
     var fncEliminar=function(id){
             gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
 				    

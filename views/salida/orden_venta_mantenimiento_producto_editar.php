@@ -14,19 +14,19 @@
     $(document).ready(function(){
         
       
-        <?php if($GLOBALS['oOrden_Venta_Detalle']->componente==1){?>
+        <?php if($GLOBALS['oSalida_Detalle']->componente==1){?>
              
              fncCargar_Orden_Venta_Componente();
             $('#ckComponente').prop('checked',true);
             $('#txtPrecioUnitarioDolares').prop('disabled', true);
             $('#txtPrecioUnitarioSoles').prop('disabled', true);
         <?php } ?>
-        <?php if($GLOBALS['oOrden_Venta_Detalle']->adicional==1){?>
+        <?php if($GLOBALS['oSalida_Detalle']->adicional==1){?>
             $('#ckAdicional').prop('checked',true);
              
              fncCargar_Orden_Venta_Adicional();
         <?php } ?>
-         <?php if($GLOBALS['oOrden_Venta_Detalle']->bloquear_edicion>0){?>
+         <?php if($GLOBALS['oSalida_Detalle']->bloquear_edicion>0){?>
              bloquear_edicion();
          <?php }?>
             
@@ -41,8 +41,8 @@
 <?php } ?>
 
 <?php function fncPage(){?>
-<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['oOrden_Venta_Detalle']->tipo==2||$GLOBALS['oOrden_Venta_Detalle']->tipo==5||$GLOBALS['oOrden_Venta_Detalle']->tipo==6){ ?>
-<form id="frm1"  method="post"  action="Ventas/Orden_Venta_Mantenimiento_Producto_Editar/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['oSalida_Detalle']->tipo==2||$GLOBALS['oSalida_Detalle']->tipo==5||$GLOBALS['oSalida_Detalle']->tipo==6){ ?>
+<form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Producto_Editar/<?php echo $GLOBALS['oSalida_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
@@ -50,10 +50,10 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divCostos" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costo</span></a></li>
                 <li class="nav-item"><a href="#separaciones" data-toggle="tab"><i class="fa fa-clone"></i> <span>Separaciones</span></a></li>
                 <li class="nav-item"><a href="#historial" data-toggle="tab"><i class="fa fa-calendar-o"></i> <span>Historial</span></a></li>
-                <?php if($GLOBALS['oOrden_Venta_Detalle']->componente==1){?>
+                <?php if($GLOBALS['oSalida_Detalle']->componente==1){?>
                 <li class="nav-item"><a href="#componentes" data-toggle="tab"><i class="fa fa-cogs"></i> <span>Componentes</span></a></li>
                 <?php } ?>
-                <?php if($GLOBALS['oOrden_Venta_Detalle']->adicional==1){?>
+                <?php if($GLOBALS['oSalida_Detalle']->adicional==1){?>
                 <li class="nav-item"><a href="#adicionales" data-toggle="tab"><i class="fa fa-cubes"></i> <span>Adicionales</span></a></li>
                 <?php } ?>
             </ul>
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Línea: </label>
-                            <input id='txtID' name='txtcotizacion_detalle_ID' value='<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>' style='display:none;' >
+                            <input id='txtID' name='txtcotizacion_detalle_ID' value='<?php echo $GLOBALS['oSalida_Detalle']->ID;?>' style='display:none;' >
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" id="tdLinea">
                             <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control filtroLista" >
@@ -75,7 +75,7 @@
                             <?php } ?>
                             </select>
                             <script type="text/javascript">
-                                $('#selLinea').val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->linea_ID;?>);
+                                $('#selLinea').val(<?php echo $GLOBALS['oSalida_Detalle']->linea_ID;?>);
                             </script> 
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                 <?php } ?>
                             </select> 
                             <script type="text/javascript">
-                                $('#selCategoria').val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->categoria_ID;?>);
+                                $('#selCategoria').val(<?php echo $GLOBALS['oSalida_Detalle']->categoria_ID;?>);
                             </script>
                         </div>
                     </div>
@@ -107,8 +107,8 @@
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
-                                <?php if($GLOBALS['oOrden_Venta_Detalle']->ID>0){ ?>
-                                   $("#selProducto").val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
+                                <?php if($GLOBALS['oSalida_Detalle']->ID>0){ ?>
+                                   $("#selProducto").val(<?php echo $GLOBALS['oSalida_Detalle']->producto_ID;?>);
                                 <?php }?>
                             </script>
                         </div>
@@ -118,7 +118,7 @@
                             <label>Descripción: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" id="tdComentario">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:100px;"><?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:100px;"><?php echo FormatTextView($GLOBALS['oSalida_Detalle']->descripcion);?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -143,7 +143,7 @@
                             <label>Stock: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                             <input type="text" id="txtStock" name="txtStock" class="form-control desactivado" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->stock; ?>" disabled>
+                             <input type="text" id="txtStock" name="txtStock" class="form-control desactivado" value="<?php echo $GLOBALS['oSalida_Detalle']->stock; ?>" disabled>
                         </div>
                     </div>
                 </div>
@@ -153,16 +153,16 @@
                            <label>Cantidad: </label>
                        </div>
                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                           <input type="text" id="txtCantidad" name="txtCantidad" class="form-control form-requerido text-right int" autocomplete="off" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->cantidad;?>" onkeyup="ProductoValores();">
+                           <input type="text" id="txtCantidad" name="txtCantidad" class="form-control form-requerido text-right int" autocomplete="off" value="<?php echo $GLOBALS['oSalida_Detalle']->cantidad;?>" onkeyup="ProductoValores();">
                        </div>
                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                           <label>Precio Unitario: </label>
                        </div>
                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                           <input  type="text" id="txtPrecioUnitarioDolares" class="form-control moneda" autocomplete="off" name="txtPrecioUnitarioDolares" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_dolares;?>" onkeyup="calcularTipoCambio('2');" placeholder="US$." >
+                           <input  type="text" id="txtPrecioUnitarioDolares" class="form-control moneda" autocomplete="off" name="txtPrecioUnitarioDolares" value="<?php echo $GLOBALS['oSalida_Detalle']->precio_venta_unitario_dolares;?>" onkeyup="calcularTipoCambio('2');" placeholder="US$." >
                        </div>
                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                           <input type="text" id="txtPrecioUnitarioSoles" class="form-control moneda" autocomplete="off" name="txtPrecioUnitarioSoles" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_soles;?>" onkeyup="calcularTipoCambio('1');" placeholder="S/.">
+                           <input type="text" id="txtPrecioUnitarioSoles" class="form-control moneda" autocomplete="off" name="txtPrecioUnitarioSoles" value="<?php echo $GLOBALS['oSalida_Detalle']->precio_venta_unitario_soles;?>" onkeyup="calcularTipoCambio('1');" placeholder="S/.">
                        </div>
                    </div>
                    <div class="form-group">
@@ -192,10 +192,10 @@
                            <label>Sub Total: </label>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtSubTotalDolares" name="txtSubTotalDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_subtotal_dolares;?>" disabled>
+                           <input type="text" id="txtSubTotalDolares" name="txtSubTotalDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oSalida_Detalle']->precio_venta_subtotal_dolares;?>" disabled>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtSubTotalSoles" name="txtSubTotalSoles" class="form-control moneda"  value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_subtotal_soles;?>" disabled>
+                           <input type="text" id="txtSubTotalSoles" name="txtSubTotalSoles" class="form-control moneda"  value="<?php echo $GLOBALS['oSalida_Detalle']->precio_venta_subtotal_soles;?>" disabled>
                        </div>
                    </div>
                    <div class="form-group">
@@ -203,10 +203,10 @@
                            <label>Adicional: </label>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtAdicionalDolares" name="txtAdicionalDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->adicional_dolares;?>" disabled>
+                           <input type="text" id="txtAdicionalDolares" name="txtAdicionalDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oSalida_Detalle']->adicional_dolares;?>" disabled>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtAdicionalSoles" name="txtAdicionalSoles" class="form-control moneda" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->adicional_solares;?>" disabled>
+                           <input type="text" id="txtAdicionalSoles" name="txtAdicionalSoles" class="form-control moneda" value="<?php echo $GLOBALS['oSalida_Detalle']->adicional_solares;?>" disabled>
                        </div>
                    </div>
                    <div class="form-group">
@@ -214,22 +214,22 @@
                            <label>Sub Total+: </label>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtSubTotalDolares1" name="txtSubTotalDolares1" class="form-control moneda" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->subtotal_dolares1;?>" disabled>
+                           <input type="text" id="txtSubTotalDolares1" name="txtSubTotalDolares1" class="form-control moneda" value="<?php echo $GLOBALS['oSalida_Detalle']->subtotal_dolares1;?>" disabled>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtSubTotalSoles1" name="txtSubTotalSoles1" class="form-control moneda" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->subtotal_soles1;?>" disabled>
+                           <input type="text" id="txtSubTotalSoles1" name="txtSubTotalSoles1" class="form-control moneda" value="<?php echo $GLOBALS['oSalida_Detalle']->subtotal_soles1;?>" disabled>
                        </div>
                    </div>
                    <div class="form-group">
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <label>I.G.V. <?php echo $GLOBALS['oOrden_Venta']->igv*100;?>%: </label>
-                           <input id="txtValIgv" name="txtValIgv" value="<?php echo $GLOBALS['oOrden_Venta']->igv;?>" style="display:none;">
+                           <label>I.G.V. <?php echo $GLOBALS['oSalida']->igv*100;?>%: </label>
+                           <input id="txtValIgv" name="txtValIgv" value="<?php echo $GLOBALS['oSalida']->igv;?>" style="display:none;">
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtIgvDolares" name="txtIgvDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->vigv_dolares;?>" disabled>
+                           <input type="text" id="txtIgvDolares" name="txtIgvDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oSalida_Detalle']->vigv_dolares;?>" disabled>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtIgvSoles" name="txtIgvSoles" class="form-control moneda" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->vigv_soles;?>" disabled>
+                           <input type="text" id="txtIgvSoles" name="txtIgvSoles" class="form-control moneda" value="<?php echo $GLOBALS['oSalida_Detalle']->vigv_soles;?>" disabled>
                        </div>
                    </div>
                    <div class="form-group">
@@ -237,10 +237,10 @@
                            <label>Total: </label>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtTotalDolares" name="txtTotalDolares" class="form-control moneda" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_dolares;?>" disabled>
+                           <input type="text" id="txtTotalDolares" name="txtTotalDolares" class="form-control moneda" value="<?php echo $GLOBALS['oSalida_Detalle']->precio_venta_dolares;?>" disabled>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtTotalSoles" name="txtTotalSoles" class="form-control moneda" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_soles;?>" disabled>
+                           <input type="text" id="txtTotalSoles" name="txtTotalSoles" class="form-control moneda" value="<?php echo $GLOBALS['oSalida_Detalle']->precio_venta_soles;?>" disabled>
                        </div>
                    </div>
                 </div>
@@ -249,7 +249,7 @@
                 <div class="tab-pane fade inner-all divCuerpo" id="historial">
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="componentes">
-                    <?php if($GLOBALS['oOrden_Venta_Detalle']->componente==1){?>
+                    <?php if($GLOBALS['oSalida_Detalle']->componente==1){?>
                     <button  id="btnComponente" name="btnComponente" type="button" title="Agregar Componentes" onclick="fncNuevoComponente();"  class="btn btn-info" >
                         <span class="glyphicon glyphicon-plus"></span> Agregar
                      </button>  
@@ -259,7 +259,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="adicionales">
-                    <?php if($GLOBALS['oOrden_Venta_Detalle']->adicional==1){?>
+                    <?php if($GLOBALS['oSalida_Detalle']->adicional==1){?>
                     <button  id="btnAdicional" name="btnAdicional" type="button" title="Agregar Adicionales" onclick="fncNuevoAdicional();"  class="btn btn-info" >
                         <span class="glyphicon glyphicon-plus"></span> Agregar
                      </button>  
@@ -291,7 +291,7 @@
 <script type="text/javascript">
     
     $(document).ready(function(){
-        fncCargarPrecioCompra(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
+        fncCargarPrecioCompra(<?php echo $GLOBALS['oSalida_Detalle']->producto_ID;?>);
     });
     var mensaje_validacion=function(){
         var ventana_validacion= new  BootstrapDialog({
@@ -383,7 +383,7 @@
    }
     var llenarCajas=function(){
        var orden_venta_detalle_ID=$('#txtID').val();
-       cargarValores('Ventas/ajaxLlenarCajas',orden_venta_detalle_ID, function(resultado){
+       cargarValores('Salida/ajaxLlenarCajas',orden_venta_detalle_ID, function(resultado){
            if(resultado.resultado==1){
 
                $('#txtPrecioUnitarioDolares').val(resultado.precio_venta_unitario_dolares);
@@ -407,25 +407,25 @@
 
    var fncNuevoComponente=function(){
         var id=$('#txtID').val();
-        parent.window_float_open_modal_hijo_hijo("AGREGAR NUEVO COMPONENTE","/Ventas/Orden_Venta_Mantenimiento_Registro_Componente_Nuevo",id,"",fncCargar_Orden_Venta_Componente,700,600);
+        parent.window_float_open_modal_hijo_hijo("AGREGAR NUEVO COMPONENTE","/Salida/Orden_Venta_Mantenimiento_Registro_Componente_Nuevo",id,"",fncCargar_Orden_Venta_Componente,700,600);
         
 
     }
     var fncEditarComponente=function(id){
-        parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Ventas/Orden_Venta_Mantenimiento_Registro_Componente_Editar",id,"",fncCargar_Orden_Venta_Componente,700,600);
+        parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Salida/Orden_Venta_Mantenimiento_Registro_Componente_Editar",id,"",fncCargar_Orden_Venta_Componente,700,600);
         
     }
     var fncVerComponente=function(id){
-        parent.window_float_open_modal_hijo_hijo("VER COMPONENTE","/Ventas/Orden_Venta_Mantenimiento_Registro_Componente_Editar",id,"",fncCargar_Orden_Venta_Componente,700,600);
+        parent.window_float_open_modal_hijo_hijo("VER COMPONENTE","/Salida/Orden_Venta_Mantenimiento_Registro_Componente_Editar",id,"",fncCargar_Orden_Venta_Componente,700,600);
         
     }
     var fncSeriesComponente=function(id){
-         parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Ventas/Orden_Venta_Mantenimiento_Producto_Serie_hijo",id,"",fncCargar_Orden_Venta_Componente,700,600);
+         parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Salida/Orden_Venta_Mantenimiento_Producto_Serie_hijo",id,"",fncCargar_Orden_Venta_Componente,700,600);
         
 
     }
     var fncEliminarComponente=function(id){
-        cargarValores('/Ventas/ajaxOrden_Venta_Mantenimiento_Registro_Componente_Eliminar',id,function(resultado){
+        cargarValores('/Salida/ajaxOrden_Venta_Mantenimiento_Registro_Componente_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 fncCargar_Orden_Venta_Componente("llenarCajas();");
                 toastem.info(resultado.mensaje);
@@ -439,7 +439,7 @@
         
         var orden_venta_detalle_ID=$('#txtID').val();
         $('#divComponentes').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-        cargarValores('Ventas/ajaxOrden_Venta_Mantenimiento_Registro_Componente',orden_venta_detalle_ID,function(resultado){
+        cargarValores('Salida/ajaxOrden_Venta_Mantenimiento_Registro_Componente',orden_venta_detalle_ID,function(resultado){
            $('#divComponentes').html(resultado.html);
            
            
@@ -452,21 +452,21 @@
     var fncNuevoAdicional=function(){
         var orden_venta_detalle_ID=$('#txtID').val();
        
-        parent.window_float_open_modal_hijo_hijo("NUEVO PRODUCTO ADICIONAL","/Ventas/Orden_Venta_Mantenimiento_Registro_Adicional_Nuevo",orden_venta_detalle_ID,"",fncCargar_Orden_Venta_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("NUEVO PRODUCTO ADICIONAL","/Salida/Orden_Venta_Mantenimiento_Registro_Adicional_Nuevo",orden_venta_detalle_ID,"",fncCargar_Orden_Venta_Adicional,700,600);
         
     }
     var fncEditarAdicional=function(id){
-        parent.window_float_open_modal_hijo_hijo("EDITAR PRODUCTO ADICIONAL","/Ventas/Orden_Venta_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Orden_Venta_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("EDITAR PRODUCTO ADICIONAL","/Salida/Orden_Venta_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Orden_Venta_Adicional,700,600);
     }
     var fncVerAdicional=function(id){
-        parent.window_float_open_modal_hijo_hijo("VER PRODUCTO ADICIONAL","/Ventas/Orden_Venta_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Orden_Venta_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("VER PRODUCTO ADICIONAL","/Salida/Orden_Venta_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Orden_Venta_Adicional,700,600);
     }
     var fncSeriesAdicional=function(id){
-        parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Ventas/Orden_Venta_Mantenimiento_Producto_Serie_hijo",id,"",fncCargar_Orden_Venta_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Salida/Orden_Venta_Mantenimiento_Producto_Serie_hijo",id,"",fncCargar_Orden_Venta_Adicional,700,600);
 
     } 
     var fncEliminarAdicional=function(id){
-        cargarValores('/Ventas/ajaxOrden_Venta_Mantenimiento_Registro_Adicional_Eliminar',id,function(resultado){
+        cargarValores('/Salida/ajaxOrden_Venta_Mantenimiento_Registro_Adicional_Eliminar',id,function(resultado){
                 if(resultado.resultado==1){
                     fncCargar_Orden_Venta_Adicional(llenarCajas);
                     //fncDesactivarBtnDetalle();
@@ -479,7 +479,7 @@
      var fncCargar_Orden_Venta_Adicional=function(callbackfunction){
         var orden_venta_detalle_ID=$('#txtID').val();
         $('#divAdicionales').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-        cargarValores('Ventas/ajaxOrden_Venta_Mantenimiento_Registro_Adicional',orden_venta_detalle_ID,function(resultado){
+        cargarValores('Salida/ajaxOrden_Venta_Mantenimiento_Registro_Adicional',orden_venta_detalle_ID,function(resultado){
             $('#divAdicionales').html(resultado.html);
             //fncSeleccionarDetalle();
         });
@@ -491,7 +491,7 @@
    var fncValidarAutorizacion=function(){
        var resultado=0;
        var valor=$('#txtContrasena').val();
-       cargarValores('/Ventas/ajaxValidarCostoCompraMenor',valor,function(resultado){
+       cargarValores('/Salida/ajaxValidarCostoCompraMenor',valor,function(resultado){
            Resultado_verificar=resultado.resultado;
 
            if(resultado.resultado==-1){
@@ -514,7 +514,7 @@
     }
 
     var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Ventas/ajaxHistorial_Producto',producto_ID,function(resultado){
+        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
             $('#historial').html(resultado.html); 
         });
     }
@@ -595,7 +595,7 @@
     }
 
    var fncCargarPrecioCompra=function(producto_ID){
-         cargarValores('/Compra/ajaxPrecio_Compra',producto_ID,function(resultado){
+         cargarValores('/Ingreso/ajaxPrecio_ingreso',producto_ID,function(resultado){
            $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
            $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
 
@@ -610,7 +610,7 @@
 
 
    function calcularTipoCambio(tipo){
-       var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>;
+       var tipo_cambio=<?php echo $GLOBALS['oSalida']->tipo_cambio; ?>;
        if(tipo=="1"){
            var valorSoles=$('#txtPrecioUnitarioSoles').val().split(',').join('')*1;
            var valorDolares=redondear(parseFloat(valorSoles)/tipo_cambio,2);
@@ -681,7 +681,7 @@
 
    }
    function VerSeparaciones(producto_ID){
-       cargarValores('/Ventas/ajaxVerSeparaciones',producto_ID,function(resultado){
+       cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
            $('#separaciones').html(resultado.html); 
            if(resultado.resultado==-1){
               $('#separaciones').html(resultado.mensaje); 
@@ -796,7 +796,7 @@
 
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
 });
-<?php if($GLOBALS['oOrden_Venta_Detalle']->tipo==1){ ?>
+<?php if($GLOBALS['oSalida_Detalle']->tipo==1){ ?>
 setTimeout('parent.windos_float_save_modal_hijo("crear_boton_factura();");', 1000);
 <?php } ?>
  

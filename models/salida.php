@@ -323,13 +323,13 @@ class salida {
 			throw new Exception($q);
 		}
 	}
-    static function getTabla($cliente_ID,$todos,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID)
+    static function getTabla($opcion,$cliente_ID,$todos,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$periodo_texto,$numero,$numero_factura)
     {
         $cn =new connect();
         try
         {
-        $q='call getTabla_Orden_Venta('.$_SESSION['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.');';
-        //echo $q;
+        $q='call getTabla_Orden_Venta("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
+        //console_log($q);
         $dt=$cn->getTabla($q);
         return $dt;
         }catch(Exception $ex)
