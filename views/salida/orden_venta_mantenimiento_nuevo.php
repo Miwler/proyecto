@@ -51,7 +51,7 @@
             </ul>
         </div>
        
-        <div class="panel-body no-padding rounded-bottom" style="height: 420px;overflow:auto;">
+        <div class="panel-body no-padding rounded-bottom" style="height: 380px;overflow:auto;">
             
             <div class="tab-content">
                 <div id="divCliente" class="tab-pane fade in active inner-all">
@@ -60,14 +60,14 @@
                             <label>Cliente: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <select id="selCliente" name="selCliente" class="chosen-select">
-                                <option value="0">--Seleccionar--</option>
-                                 <?php foreach($GLOBALS['dtCliente'] as $cliente){?>
-                                <option value="<?php echo $cliente['ID']?>"><?php echo FormatTextView($cliente['ruc'].' - '.strtoupper($cliente['razon_social']));?></option>
-                                 <?php }?>
-                            </select>
+                            <input type="hidden" id="selCliente" name="selCliente" value="<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>">
+                            <input type="text" id="listaCliente" class="form-control" value="<?php echo FormatTextView($GLOBALS['oCliente']->ruc.' '.$GLOBALS['oCliente']->razon_social);?>">
+                            
                             <script type="text/javascript">
-                            $("#selCliente").val(<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>);
+                                $(document).ready(function(){
+                                    lista('/funcion/ajaxListarClientes','listaCliente','selCliente',fncCargaValores);
+                                });
+                           
                             </script>
                         </div>
                     </div>
@@ -266,7 +266,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Celular: </label>Plazo
+                            <label>Celular: </label>
                         </div>
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                             <input type="text" id="txtCelular1" name="txtCelular1"    disabled value="<?php echo $GLOBALS['oOperador']->celular; ?>" class="form-control"/> 
@@ -352,7 +352,7 @@
          
         
      });
-    $("#selCliente").change(function(){
+    /*$("#selCliente").change(function(){
         var id=this.value;
         if(id==0){
             limpiarPadre();
@@ -361,7 +361,7 @@
         }
         
         
-    });
+    });*/
     var fncOrden = function (col) {
 
         var col_old = $('#txtOrden').val();
@@ -430,7 +430,7 @@
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,600);
+            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,500);
             //window_float_deslizar('form','Ventas/Orden_Venta_Mantenimiento_Guia',orden_venta_ID,'');
         }else {
             toastem.error('Debe registrar productos.');
@@ -591,18 +591,29 @@
         }
     }
     var fncCargaValores=function(id){
-        cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){ 
-            $('#txtDireccion').val(resultado.Direccion);
-            $('#txtLugar_Entrega').val(resultado.Direccion);
-            $('#txtTelefono').val(resultado.Telefono);
-            $('#selRepresentante').html(resultado.lista_representante); 
-            $('#selForma_Pago').val(resultado.Forma_pago);
-            $('#selTiempo_Credito').val(resultado.Tiempo_Credito);
-            $('#txtOperador_ID').val(resultado.operador_ID);
-            $('#txtNombres_Vendedor').val(resultado.operador);
-            $('#txtTelefono_Vendedor').val(resultado.operador_telefono);
-            $('#txtCelular1').val(resultado.operador_celular1);
-        });
+        try{
+            block_ui(function () {
+                cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){ 
+                    console.log(resultado.operador_ID);
+                    $('#txtDireccion').val(resultado.Direccion);
+                    $('#txtLugar_Entrega').val(resultado.Direccion);
+                    $('#txtTelefono').val(resultado.Telefono);
+                    $('#selRepresentante').html(resultado.lista_representante); 
+                    $('#selForma_Pago').val(resultado.Forma_pago);
+                    $('#selTiempo_Credito').val(resultado.Tiempo_Credito);
+                    $('#txtOperador_ID').val(resultado.operador_ID);
+                    $('#txtNombres_Vendedor').val(resultado.operador);
+                    $('#txtTelefono_Vendedor').val(resultado.operador_telefono);
+                    $('#txtCelular1').val(resultado.operador_celular1);
+                    $.unblockUI();
+                });
+                
+            });
+        }catch (e){
+            $.unblockUI();
+            console.log(e);
+        }
+        
 
     }
     
@@ -635,7 +646,7 @@
     var validar=function(){
         //$('#txtSubTotalSoles').removeAttr('disabled');
         var cliente_ID=$('#selCliente').val();
-
+        
         var Plazo_Entrega=$.trim($('#txtPlazo_Entrega').val());
         var Validez_Oferta=$('#txtValidez_Oferta').val();
         var Garantia=$.trim($('#txtGarantia').val());
@@ -685,14 +696,15 @@
         }
         $('#txtTiempo_Avance').removeAttr("disabled");
         $('#txtNumero').removeAttr('disabled');
-        $('#fondo_espera').css('display','block');
+         block_ui();
+        //$('#fondo_espera').css('display','block');
     }
     var mostrarInformacion=function(orden_venta_ID){
         cargarValores('Salida/ajaxMostrarInformacion',orden_venta_ID,function(resultado){
             $('#txtID').val(resultado.salida_ID);
             $('#txtCotizacion_ID').val(resultado.cotizacion_ID);
             $("#selCliente").val(resultado.cliente_ID);
-            $("#selCliente").trigger("chosen:updated");
+            //$("#selCliente").trigger("chosen:updated");
             //cboCliente.seleccionar(resultado.cliente_ID,resultado.Ruc+'-'+resultado.Razon_Social);
              $('#txtDireccion').val(resultado.Direccion);
              $('#txtTelefono').val(resultado.Telefono);
@@ -873,6 +885,7 @@
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
         mostrarBotones();
         fncCargar_Detalle_Orden_Venta();
+         $.unblockUI();
     });
    
    //ampliarVentanaVertical(750,'form');

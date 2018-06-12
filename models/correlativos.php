@@ -150,7 +150,7 @@ class correlativos {
             $q.=' from correlativos co,tipo_comprobante_empresa tce,tipo_comprobante tc ';
             $q.=' where co.tipo_comprobante_empresa_ID=tce.ID and tce.tipo_comprobante_ID=tc.ID and co.del=0';
             $q.=' and co.empresa_ID='.$_SESSION['empresa_ID'].' and tc.ID='.$tipo_comprobante_ID.' and serie="'.$serie.'"';
-           
+            //echo $q;
             $retorna=$cn->getData($q);			
             		
             return $retorna;

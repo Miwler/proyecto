@@ -3957,7 +3957,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $osalida->ver_guia=0;
         $osalida->impresion=0;
         $oCliente=new cliente();
-        $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
+        //$dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $oOperador=new operador();
         $dtForma_Pago=forma_pago::getGrid();
         $dtCredito=credito::getGrid('id<>0');
@@ -3966,7 +3966,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $oCotizacion=new cotizacion();
         $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['oCliente']=$oCliente;
-        $GLOBALS['dtCliente']=$dtCliente;
+        
         $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(1,$osalida->moneda_ID,null,null);
         $GLOBALS['dtCredito']=$dtCredito;
         $GLOBALS['oOperador']=$oOperador;
@@ -4146,7 +4146,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $dtCliente_Contacto=cliente_contacto::getGrid('clic.cliente_ID='.$cliente_ID);
         $GLOBALS['dtCliente_Contacto']=$dtCliente_Contacto;
         $oCliente=cliente::getByID($cliente_ID);
-        $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
+        //$dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $oOperador=operador::getByID($osalida->operador_ID);
         $dtForma_Pago=forma_pago::getGrid();
         $dtCredito=credito::getGrid('id<>0');
@@ -4162,7 +4162,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(2,$osalida->moneda_ID,null,$osalida);
         $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
-        $GLOBALS['dtCliente']=$dtCliente;
+        //$GLOBALS['dtCliente']=$dtCliente;
         $GLOBALS['oCliente']=$oCliente;
         $GLOBALS['oCotizacion']=$oCotizacion;
         $GLOBALS['dtCredito']=$dtCredito;
@@ -7478,13 +7478,12 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $array=explode("/",$osalida->nproducto_pagina);
             $emitidos=0;
             $anulados=0;
-            $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$osalida->ID.' and estado_ID in (35,41)',-1,-1,'ID asc');
+            $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$osalida->ID.' and estado_ID in (35,41,93,94)',-1,-1,'ID asc');
             $array_facturas=array();
             foreach($dtFactura_Venta as $valor){
                 array_push($array_facturas,$valor['ID']);
             }
             if($contar_guia==0){
-
                 $n=0;
                 for($i=0;$i<$osalida->numero_pagina;$i++){
                     $valor=$i+1;
@@ -7682,7 +7681,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
-        $comprobante_tipo_ID=4;
+        $comprobante_tipo_ID=5;
         $osalida=salida::getByID($salida_ID);
 
         $listaproducto=mostrar_productos($salida_ID,3);
@@ -7821,18 +7820,18 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         try{
 
-            $comprobante_tipo_ID=4;
+            $comprobante_tipo_ID=5;
             $osalida=salida::getByID($id);
 
-            $contador_factura_emitido=factura_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in (35,41)');
+            $contador_factura_emitido=factura_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in (35,41,93,94)');
             if($contador_factura_emitido>0){
-                $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$salida_ID.' and estado_ID in (35,41)',-1,-1,'ID asc');
+                $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$salida_ID.' and estado_ID in (35,41,93,94)',-1,-1,'ID asc');
                 $contador_guia=guia_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in(37)');
                 $dtGuia_Venta=guia_venta::getGrid('salida_ID='.$salida_ID.' and estado_ID in (37)');
                 $array_guia= array();
                 foreach($dtGuia_Venta as $item){
                     array_push($array_guia,$item['ID']);
-
+                    
                 }
                 $i=0;
                 foreach($dtFactura_Venta as $value){

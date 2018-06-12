@@ -15,7 +15,7 @@ class api_SUNAT {
         //$ch = curl_init("http://192.168.10.151:8085/api/".$metodo);
         //$ch = curl_init("http://192.168.0.15/OpenInvoicePeru/api/".$metodo);
         //$ch = curl_init("http://192.168.43.242/OpenInvoicePeru/api/".$metodo);
-        $ch = curl_init("http://192.168.1.6/api/".$metodo);
+        $ch = curl_init("http://192.168.1.4/api/".$metodo);
         //$ch = curl_init("http://localhost:5649/OpenInvoicePeru/api/".$metodo);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -46,7 +46,7 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costos</span></a></li>
             </ul>
         </div>
-        <div class="panel-body no-padding rounded-bottom" style="height:460px;overflow:auto; ">
+        <div class="panel-body no-padding rounded-bottom" style="height:400px;overflow:auto; ">
            
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
@@ -115,7 +115,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Vehículo:</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selVehiculo_ID" name="selVehiculo_ID" class="form-control">
                                 <?php foreach($GLOBALS['oGuia_Venta']->dtVehiculo as $item){ ?>
                                 <option value="<?php echo $item["ID"]?>"><?php echo $item["placa"]?> - <?php echo FormatTextView($item["marca"])?></option>
@@ -125,12 +125,10 @@
                                $('#selVehiculo_ID').val('<?php echo $GLOBALS['oGuia_Venta']->vehiculo_ID;?>'); 
                             </script>
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Chofer:</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selChofer_ID" name="selChofer_ID" class="form-control">
                                 <?php foreach($GLOBALS['oGuia_Venta']->dtChofer as $item1){ ?>
                                 <option value="<?php echo $item1["ID"]?>"><?php echo FormatTextViewHtml($item1["nombres"]);?>, <?php echo FormatTextViewHtml($item1["apellido_paterno"]);?></option>
@@ -141,22 +139,22 @@
                             </script>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Empresa de transporte:</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtEmpresa_Transporte" name="txtEmpresa_Transporte" autocomplete="off" class="form-control" value="<?php echo FormatTextViewHtml($GLOBALS['oGuia_Venta']->empresa_transporte);?>">
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Estado:</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtEstado" name="txtEstado" class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->estado;?>" disabled>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>N° Orden de compra</label>
