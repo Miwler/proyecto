@@ -46,7 +46,7 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costos</span></a></li>
             </ul>
         </div>
-        <div class="panel-body no-padding rounded-bottom" style="height:400px;overflow:auto; ">
+        <div class="panel-body no-padding rounded-bottom" style="height:370px;overflow:auto; ">
            
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
@@ -213,7 +213,7 @@
                     </div>
                     <div class="tab-content">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>I.G.V.<?php echo $GLOBALS['oOrden_Venta']->igv*100?> %:</label>
+                            <label>Total</label>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <input type="text" id="txtTotal_Dolares" name="txtTotal_Dolares" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_total_dolares;?>">
@@ -293,41 +293,62 @@
    }
 
     var fncImprimirGuia=function(){
-        $('#fondo_espera').css('display','block');
+        //$('#fondo_espera').css('display','block');
         var orden_venta_ID=$('#txtorden_ventaID').val();
-        
-        cargarValores('Salida/ajaxImprimir_Guia',orden_venta_ID,function(resultado){
-             //alert(resultado.mensaje);
-            if(resultado.resultado==1){
-                $('#txtEstado').val('Emitido');
+        try{
+            
+            block_ui(function(){
+                cargarValores('/Salida/ajaxImprimir_Guia',orden_venta_ID,function(resultado){
+                //alert(resultado.resultado);
+                if(resultado.resultado==1){
+                    $('#txtEstado').val('Emitido');
+                    $('#tdguia_detalle').html(resultado.guia_detalle);
+                    bloquear_guia();
+                    $('#btnAnular').css('display','');
+                    //parent.fParent1.call(this,2);
+                    $.unblockUI();
+                    toastem.success(resultado.mensaje);
+
+                }else {
+                     $.unblockUI();
+                    mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
+                        //modal.advertencia('ERROR DE IMPRESIÓN',resultado.mensaje);
+                }
                
-                $('#tdguia_detalle').html(resultado.guia_detalle);
-                bloquear_guia();
-                $('#btnAnular').css('display','');
-                parent.fParent1.call(this,2);
-              
-                toastem.success(resultado.mensaje);
-                
-            }else {
-                    modal.advertencia('ERROR DE IMPRESIÓN',resultado.mensaje);
-            }
-            $('#fondo_espera').css('display','none');
+                //$('#fondo_espera').css('display','none');
+            });
         });
+        }catch(e){
+            $.unblockUI();
+            console.log(e);
+        }
+        
         
     }
     var fncAnularGuia=function(){
         var orden_venta_ID=$('#txtorden_ventaID').val();
-        cargarValores('Salida/ajaxAnular_Guia',orden_venta_ID,function(resultado){
-            if(resultado.resultado==1){
-                toastem.success(resultado.mensaje);
-                desbloquear_guia();
-                $('#tdguia_detalle').html(resultado.guia_detalle);
-                $('#btnAnular').css('display','none');
-                $('#btn_flotante_hijo').prepend('<button  id="btnEnviar" name="btnEnviar" class="botones_formulario" title="Generar Guía"> <img  alt="" src="/include/img/boton/generar_48x48.png">Generar</button>');
-            }else {
-                toastem.error(resultado.mensaje);
-            }
-        });
+         try{
+             block_ui(function(){
+                 cargarValores('Salida/ajaxAnular_Guia',orden_venta_ID,function(resultado){
+                    if(resultado.resultado==1){
+                        $.unblockUI();
+                        toastem.success(resultado.mensaje);
+                        desbloquear_guia();
+                        $('#tdguia_detalle').html(resultado.guia_detalle);
+                        $('#btnAnular').css('display','none');
+                        $('#btn_flotante_hijo').prepend('<button  id="btnEnviar" name="btnEnviar" class="botones_formulario" title="Generar Guía"> <img  alt="" src="/include/img/boton/generar_48x48.png">Generar</button>');
+                        
+                    }else {
+                        $.unblockUI();
+                        toastem.error(resultado.mensaje);
+                    }
+                });
+             });
+            
+        }catch(e){
+            $.unblockUI();
+            console.log(e);
+        }
     }
     var bloquear_guia=function(){
         $('#btnActualizar').css('display', 'none');
@@ -387,7 +408,7 @@
        
        $('#txtNumero ').prop('disabled', false);
        
-       
+       block_ui();
        
    }
    /*
@@ -455,7 +476,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $.unblockUI();
             toastem.error('<?php echo $GLOBALS['mensaje'];?>');
         });
     </script>
@@ -465,7 +486,7 @@
 <script type="text/javascript">
  //alert('hola');
  $(document).ready(function () {
-
+     $.unblockUI();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
 });
 

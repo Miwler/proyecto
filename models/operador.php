@@ -159,6 +159,9 @@ class operador {
                 $oOperador->cargo_ID = $item['cargo_ID'];
                 $oOperador->usuario_id = $item['usuario_id'];
                 $oOperador->usuario_mod_id = $item['usuario_mod_id'];
+                $oOperador->apellido_paterno = $item['apellido_paterno'];
+                $oOperador->apellido_materno = $item['apellido_materno'];
+                $oOperador->nombres = $item['nombres'];
             }
             return $oOperador;
         } catch (Exeption $ex) {

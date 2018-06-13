@@ -169,7 +169,8 @@ class salida {
 	      $retornar=-1;
         try{
             $q='update salida set impresion='.$valor.', usuario_mod_id='.$this->usuario_mod_id;
-            $q.=' where del=0 and id='.$this->ID;
+            $q.=' where del=0 and ID='.$this->ID;
+            //echo $q;
             $retornar=$cn->transa($q);
             $this->getMessage='Se guardó correctamente';
             //echo $q;
@@ -221,64 +222,64 @@ class salida {
         //modificado por ortega-agregar todos los datos y cargar en el modelo
    static function getByID($ID)
 	{
-		$cn =new connect();
-		try
-		{
-                    $q='SELECT  ID,empresa_ID,ifNull(cotizacion_ID,-1) as cotizacion_ID ,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
-                    $q.='numero_concatenado,numero_orden_ingreso,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
-                    $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
-                    $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,validez_oferta,garantia,observacion,numero_pagina,nproducto_pagina,impresion,ver_adicional,adicional,usuario_id ';
-                    $q.=' FROM salida ';
-                    $q.=' where del=0 and ID='.$ID;
-			//echo $q;
-			$dt=$cn->getGrid($q);
-			$osalida=null;
+            $cn =new connect();
+            try
+            {
+                $q='SELECT  ID,empresa_ID,ifNull(cotizacion_ID,-1) as cotizacion_ID ,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,';
+                $q.='numero_concatenado,numero_orden_ingreso,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,';
+                $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
+                $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,validez_oferta,garantia,observacion,numero_pagina,nproducto_pagina,impresion,ver_adicional,adicional,usuario_id ';
+                $q.=' FROM salida ';
+                $q.=' where del=0 and ID='.$ID;
+                    //echo $q;
+                $dt=$cn->getGrid($q);
+                $osalida=null;
 
-			foreach($dt as $item)
-			{
-        $osalida=new salida();
-        $osalida->ID=$item['ID'];
-        $osalida->empresa_ID=$item['empresa_ID'];
-        $osalida->cotizacion_ID=$item['cotizacion_ID'];
-        $osalida->cliente_ID=$item['cliente_ID'];
-        $osalida->cliente_contacto_ID=$item['cliente_contacto_ID'];
-        $osalida->operador_ID=$item['operador_ID'];
-        $osalida->periodo=$item['periodo'];
-        $osalida->numero=$item['numero'];
-        $osalida->numero_concatenado=$item['numero_concatenado'];
-        $osalida->numero_orden_ingreso=$item['numero_orden_ingreso'];
-        $osalida->moneda_ID=$item['moneda_ID'];
-        $osalida->fecha=$item['fecha'];
-        $osalida->igv=$item['igv'];
-        $osalida->vigv_soles=$item['vigv_soles'];
-        $osalida->vigv_dolares=$item['vigv_dolares'];
-        $osalida->precio_venta_neto_soles=$item['precio_venta_neto_soles'];
-        $osalida->precio_venta_total_soles=$item['precio_venta_total_soles'];
-        $osalida->precio_venta_neto_dolares=$item['precio_venta_neto_dolares'];
-        $osalida->precio_venta_total_dolares=$item['precio_venta_total_dolares'];
-        $osalida->forma_pago_ID=$item['forma_pago_ID'];
-        $osalida->tiempo_credito=$item['tiempo_credito'];
-        $osalida->descuento_soles=$item['descuento_soles'];
-        $osalida->descuento_dolares=$item['descuento_dolares'];
-        $osalida->estado_ID=$item['estado_ID'];
-        $osalida->tipo_cambio=$item['tipo_cambio'];
-        $osalida->plazo_entrega=$item['plazo_entrega'];
-        $osalida->lugar_entrega=$item['lugar_entrega'];
-        $osalida->validez_oferta=$item['validez_oferta'];
-        $osalida->garantia=$item['garantia'];
-        $osalida->observacion=$item['observacion'];
-        $osalida->numero_pagina=$item['numero_pagina'];
-        $osalida->nproducto_pagina=$item['nproducto_pagina'];
-        $osalida->impresion=$item['impresion'];
-        $osalida->usuario_id=$item['usuario_id'];
-        $osalida->ver_adicional=$item['ver_adicional'];
-        $osalida->adicional=$item['adicional'];
-			}
-			return $osalida;
+                foreach($dt as $item)
+                {
+                    $osalida=new salida();
+                    $osalida->ID=$item['ID'];
+                    $osalida->empresa_ID=$item['empresa_ID'];
+                    $osalida->cotizacion_ID=$item['cotizacion_ID'];
+                    $osalida->cliente_ID=$item['cliente_ID'];
+                    $osalida->cliente_contacto_ID=$item['cliente_contacto_ID'];
+                    $osalida->operador_ID=$item['operador_ID'];
+                    $osalida->periodo=$item['periodo'];
+                    $osalida->numero=$item['numero'];
+                    $osalida->numero_concatenado=$item['numero_concatenado'];
+                    $osalida->numero_orden_ingreso=$item['numero_orden_ingreso'];
+                    $osalida->moneda_ID=$item['moneda_ID'];
+                    $osalida->fecha=$item['fecha'];
+                    $osalida->igv=$item['igv'];
+                    $osalida->vigv_soles=$item['vigv_soles'];
+                    $osalida->vigv_dolares=$item['vigv_dolares'];
+                    $osalida->precio_venta_neto_soles=$item['precio_venta_neto_soles'];
+                    $osalida->precio_venta_total_soles=$item['precio_venta_total_soles'];
+                    $osalida->precio_venta_neto_dolares=$item['precio_venta_neto_dolares'];
+                    $osalida->precio_venta_total_dolares=$item['precio_venta_total_dolares'];
+                    $osalida->forma_pago_ID=$item['forma_pago_ID'];
+                    $osalida->tiempo_credito=$item['tiempo_credito'];
+                    $osalida->descuento_soles=$item['descuento_soles'];
+                    $osalida->descuento_dolares=$item['descuento_dolares'];
+                    $osalida->estado_ID=$item['estado_ID'];
+                    $osalida->tipo_cambio=$item['tipo_cambio'];
+                    $osalida->plazo_entrega=$item['plazo_entrega'];
+                    $osalida->lugar_entrega=$item['lugar_entrega'];
+                    $osalida->validez_oferta=$item['validez_oferta'];
+                    $osalida->garantia=$item['garantia'];
+                    $osalida->observacion=$item['observacion'];
+                    $osalida->numero_pagina=$item['numero_pagina'];
+                    $osalida->nproducto_pagina=$item['nproducto_pagina'];
+                    $osalida->impresion=$item['impresion'];
+                    $osalida->usuario_id=$item['usuario_id'];
+                    $osalida->ver_adicional=$item['ver_adicional'];
+                    $osalida->adicional=$item['adicional'];
+                }
+                return $osalida;
 
 		}catch(Exeption $ex)
 		{
-			throw new Exception($q);
+                    throw new Exception($q);
 		}
 	}
 

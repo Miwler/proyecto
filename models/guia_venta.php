@@ -29,6 +29,7 @@ class guia_venta {
     private $imprimir_factura;
     private $imprimir_guia;
     private $vista_previa;
+    private $correlativos_ID;
     Private $message;
     
     Private $moneda_ID;
@@ -200,7 +201,7 @@ class guia_venta {
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
             }
-            //echo $q;
+            
             $resultado = $cn->getData($q);
 
             return $resultado;
@@ -214,7 +215,7 @@ class guia_venta {
         try {
             $q = 'Select ID,factura_venta_ID,numero,numero_concatenado,serie,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,orden_pedido,orden_ingreso,vehiculo_ID,';
             $q.= 'chofer_ID,estado_ID,ifnull(numero_pagina,-1) as numero_pagina,DATE_FORMAT(fecha_inicio_traslado,"%d/%m/%Y") as fecha_inicio_traslado,punto_partida,';
-            $q.='numero_producto,punto_llegada,empresa_transporte,impresion,usuario_id,opcion,ifnull(usuario_mod_id,-1) as usuario_mod_id' ;
+            $q.='numero_producto,punto_llegada,empresa_transporte,impresion,correlativos_ID,usuario_id,opcion,ifnull(usuario_mod_id,-1) as usuario_mod_id' ;
             $q.=' from guia_venta ';
             $q.=' where del=0 and ID=' . $ID;
 //echo $q;
@@ -243,6 +244,7 @@ class guia_venta {
                 $oGuia_Venta->impresion=$item['impresion'];
                 $oGuia_Venta->numero_producto=$item['numero_producto'];
                 $oGuia_Venta->opcion=$item['opcion'];
+                $oGuia_Venta->correlativos_ID=$item['correlativos_ID'];
                 $oGuia_Venta->usuario_id= $item['usuario_id'];
                 $oGuia_Venta->usuario_mod_id= $item['usuario_mod_id'];
 

@@ -36,7 +36,7 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costos</span></a></li>
             </ul>
         </div>
-        <div class="panel-body no-padding rounded-bottom" style="height:400px;overflow:auto; ">
+        <div class="panel-body no-padding rounded-bottom" style="height:300px;overflow:auto; ">
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
                     <div class="form-group">
@@ -81,46 +81,43 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Fecha emisión</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtFecha_Emision" name="txtFecha_Emision" required class="date-range-picker-single form-control" value="<?php echo $GLOBALS['oFactura_Venta']->fecha_emision;?>">
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Plazo de facturación</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtPlazo_Factura" name="txtPlazo_Factura" required autocomplete="off" class="form-control int" style="width:50px;" onkeyup="fncVerFecha(this.value,$('#txtFecha_Emision').val());" value="<?php echo $GLOBALS['oFactura_Venta']->plazo_factura;?>">
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Fecha vencimiento:</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtFecha_Vencimiento" name="txtFecha_Vencimiento" required class="form-control date-range-picker-single" value="<?php echo $GLOBALS['oFactura_Venta']->fecha_vencimiento;?>">
                         </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->orden_ingreso; ?>" >
                         </div>
+                    </div>
+                    <div class="form-group">
+                        
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>N° orden de pedido</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->orden_pedido; ?>" >
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Moneda</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selMoneda" name="selMoneda" disabled class="form-control" >
                                 <option value="1">Soles</option>
                                 <option value="2">Dolares</option>
@@ -130,11 +127,12 @@
                             </script>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Estado</label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtEstado" name="txtEstado" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->estado;?>" disabled>
                         </div>
                     </div>
@@ -181,7 +179,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>I.G.V.<?php echo $GLOBALS['oOrden_Venta']->igv*100?> %:</label>
+                            <label>Total</label>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <input type="text" id="txtTotal_Dolares" name="txtTotal_Dolares" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_total_dolares;?>">

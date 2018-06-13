@@ -51,7 +51,7 @@ $(document).ready(function(){
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" ><i class="fa fa-cubes"></i> <span>Obsequios</span></a></li>
             </ul>
         </div>
-        <div class="panel-body no-padding rounded-bottom" style="height: 420px;overflow:auto;">
+        <div class="panel-body no-padding rounded-bottom" style="height: 350px;overflow:auto;">
             
             <div class="tab-content">
                 <div id="divCliente" class="tab-pane fade in active inner-all">
@@ -60,14 +60,14 @@ $(document).ready(function(){
                             <label>Cliente: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <select id="selCliente" name="selCliente" class="chosen-select">
-                                <option value="0">--Seleccionar--</option>
-                                 <?php foreach($GLOBALS['dtCliente'] as $cliente){?>
-                                <option value="<?php echo $cliente['ID']?>"><?php echo FormatTextView($cliente['ruc'].' - '.strtoupper($cliente['razon_social']));?></option>
-                                 <?php }?>
-                            </select>
+                            <input type="hidden" id="selCliente" name="selCliente" value="<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>">
+                            <input type="text" id="listaCliente" class="form-control" value="<?php echo FormatTextView($GLOBALS['oCliente']->ruc.' - '.$GLOBALS['oCliente']->razon_social);?>">
+                            
                             <script type="text/javascript">
-                            $("#selCliente").val(<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>);
+                                $(document).ready(function(){
+                                    lista('/funcion/ajaxListarClientes','listaCliente','selCliente',fncCargaValores);
+                                });
+                           
                             </script>
                         </div>
                     </div>
@@ -172,7 +172,6 @@ $(document).ready(function(){
                         </div>
                     </div>
                     <div class="form-group">
-                        
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <div class="ckbox ckbox-theme">
                                 <input  type="checkbox" id="ckVer_Adicional" checked="checked" name="ckVer_Adicional" value="1" >
@@ -184,17 +183,17 @@ $(document).ready(function(){
                                 <?php } ?>
                             </script>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                             <input type='text' id='txtAdicional' name='txtAdicional' maxlength="40"  value='<?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->adicional);?>' class="form-control text-uppercase">
                         </div>
                     </div>
                 </div>
                 <div id="divDatos_Economicos" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Moneda: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
                                 <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
@@ -204,20 +203,19 @@ $(document).ready(function(){
                                 $('#cboMoneda').val('<?php echo $GLOBALS['oOrden_Venta']->moneda_ID;?>');
                             </script>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Tipo de cambio: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio"  class="decimal form-control text-left" value="<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>" />
                         </div>
                     </div>
+                   
                     <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Forma de pago: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
                                 <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo FormatTextView($iForma_Pago['nombre']);?></option>
@@ -227,12 +225,10 @@ $(document).ready(function(){
                                    $('#selForma_Pago').val('<?php echo $GLOBALS['oOrden_Venta']->forma_pago_ID;?>')
                             </script> 
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Tiempo de crédito: </label>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selTiempo_Credito" name="selTiempo_Credito" class="form-control">
                                 <option value="0">--</option>
                                 <?php foreach($GLOBALS['dtCredito'] as $idtCredito){ ?>
@@ -244,6 +240,7 @@ $(document).ready(function(){
                             </script>
                         </div>
                     </div>
+               
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <label>Nro. Cuentas: </label>
@@ -268,7 +265,7 @@ $(document).ready(function(){
                     </div>
                     <div class="form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Celular: </label>Plazo
+                            <label>Celular: </label>
                         </div>
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                             <input type="text" id="txtCelular1" name="txtCelular1"    disabled value="<?php echo $GLOBALS['oOperador']->celular; ?>" class="form-control"/> 
@@ -393,7 +390,7 @@ $(document).ready(function(){
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-             parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,600);
+             parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,450);
         
         }else {
             toastem.error('Debe registrar productos.');
@@ -407,7 +404,7 @@ $(document).ready(function(){
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,600);
+            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,500);
         }else {
             toastem.error('Debe registrar productos.');
         }

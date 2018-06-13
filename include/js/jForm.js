@@ -565,18 +565,19 @@ var cargarValores=function(url,id,resultado){
       },
       datatype: "json",
       success: function (respuesta) {
-        try {
+          resultado($.parseJSON(respuesta));
+        /*try {
           //console.log(respuesta);
           resultado($.parseJSON(respuesta));
         } catch (e) {
             $.unblockUI();
             console.log(e);
-            alert(e.message);
-        }
+            //alert(e.message);
+        }*/
       },
       error: function (ex) {
         console.log(ex);
-          alert(ex);
+          //alert(ex);
           //$('#' + objContent).html('Error al conectarse con el servidor');
       }
   });

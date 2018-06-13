@@ -4199,7 +4199,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $contar_hijo=salida_detalle::getCount('salida_ID='.$id);
         if($contar_hijo>0){
             $osalida->ver_factura=1;
-            $contador_factura=factura_venta::getCount('salida_ID='.$id.' and estado_ID in (35,41,53,60)');
+            $contador_factura=factura_venta::getCount('salida_ID='.$id.' and estado_ID in (35,41,53,60,93,94,95,96)');
             if($contador_factura>0){
                 $osalida->ver_guia=1;
             }else {
@@ -7472,7 +7472,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $html="<table class='table table-hover table-bordered'>";
         $html.="<thead><th>Nro</th><th>Serie</th><th>Nro.Guía</th><th>Factura</th><th>Items x Guia </th><th>Observación</th></tr></thead>";
         $html.="<tbody>";
-        $comprobante_tipo_ID=4;
+        $comprobante_tipo_ID=5;
         try{
             $contar_guia=guia_venta::getCount("salida_ID=".$osalida->ID);
             $array=explode("/",$osalida->nproducto_pagina);
@@ -7513,7 +7513,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
                 $num=1;
                 foreach ($dtGuia_Venta as $item) {
-                    $oGuia_Venta=factura_venta::getByID($item['ID']);
+                    $oGuia_Venta=guia_venta::getByID($item['ID']);
                     $oFactura_Venta=factura_venta::getByID($item['factura_venta_ID']);
                     $observacion="";
                     if($item['estado_ID']==38){
@@ -7609,7 +7609,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                                 $html.="<tr>";
                                 $html.="<td class='tdCenter'>".$valor."</td>";
                                 $html.="<td class='tdCenter'>".$serie."</td>";
-                                $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByNumero(4,$serie)+$i)."</td>";
+                                $html.="<td class='tdCenter'>". sprintf("%'.07d",correlativos::getByNumero(5,$serie)+$i)."</td>";
 
                                 $html.="<td class='tdCenter'>".$oFactura_Venta->serie.' N° '. $oFactura_Venta->numero_concatenado."</td>";
                                 $observacion="Por generar";
@@ -8509,181 +8509,178 @@ function mesATexto($mes_numero){
         if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
         $salida_ID=$_POST['id'];
         try{
-
             $guia_emitidos=0;
             $oDatos_Genetales=datos_generales::getByID1($_SESSION['empresa_ID']);
             $osalida=salida::getByID($salida_ID);
             $numero_orden_imprimiendo=verificarImpresora($salida_ID);
             if($numero_orden_imprimiendo==""){
-                $contar_factura_imitida=factura_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in (41,60)');
+                //$contar_factura_imitida=0;
+                $contar_factura_imitida=factura_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in (41,60,93,94)');
                 if($contar_factura_imitida>0){
                     $dtGuia_Venta=guia_venta::getGrid('salida_ID='.$salida_ID.' and estado_ID in (37,38)',-1,-1,'ID asc');
+                    foreach($dtGuia_Venta as $valor){
+                        $oGuia_Venta=guia_venta::getByID($valor['ID']);
+                        $oCliente=cliente::getByID($osalida->cliente_ID);
+                        $oOperador=operador::getByID($osalida->operador_ID);
+                        $oVehiculo=vehiculo::getByID($oGuia_Venta->vehiculo_ID);
+                        if($oVehiculo==null){
+                            $oVehiculo=new vehiculo();
+                        }
+                        $oChofer=chofer::getByID($oGuia_Venta->chofer_ID);
+                        if($oChofer==null){
+                            $oChofer=new chofer();
+                        }
+                        $oFactura_Venta=factura_venta::getByID($oGuia_Venta->factura_venta_ID);
+                        if($oFactura_Venta==null){
+                            $oFactura_Venta=new factura_venta();
+                        }
+                        
+                        if($oGuia_Venta->estado_ID==37){
+                           //Actualizamos el número de la guia
+                        $serie=$valor['serie'];
+                        $numero=correlativos::getByNumero(5,$serie);
+                        $oGuia_Venta->numero=$numero;
+                        $oGuia_Venta->numero_concatenado=sprintf("%'.07d",$numero);
+                        $oGuia_Venta->estado_ID=38;
+                        $oGuia_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                        $oGuia_Venta->actualizarEstadoandNumero();
+                         //Actualizamos el estado de la factura a estado emitido
 
-                foreach($dtGuia_Venta as $valor){
+                       //direccion ip local-nombre de impresora
+                        //===========================================
+                            //$handle = printer_open("Guia");
+                        $handle = printer_open("PDFCreator");
+                                                //$handle = printer_open("TASKalfa 306ci");
+                                        //========
+                        printer_set_option($handle, PRINTER_PAPER_LENGTH, 200 );
+                        printer_set_option($handle, PRINTER_PAPER_WIDTH , 279 );
+                        printer_set_option($handle, PRINTER_SCALE , 100 );
+                        printer_set_option($handle, PRINTER_TITLE , 'Guia' );
+                        printer_start_doc($handle, "Guia");
+                        printer_start_page($handle);
+                        //Estilos para el contenido
+                        $font = printer_create_font("Arial",20,10,300,false,false, false,0);
+                        $font_negrita=printer_create_font("Arial",20,10,700,false,false, false,0);
+                        $font_moneda=printer_create_font("Arial",20,10,700,false,false, false,0);
 
-                    $oGuia_Venta=guia_venta::getByID($valor['ID']);
-                    $oCliente=cliente::getByID($osalida->cliente_ID);
-                    $oOperador=operador::getByID($osalida->operador_ID);
-                    $oVehiculo=vehiculo::getByID($oGuia_Venta->vehiculo_ID);
-                    if($oVehiculo==null){
-                        $oVehiculo=new vehiculo();
-                    }
-                    $oChofer=chofer::getByID($oGuia_Venta->chofer_ID);
-                    if($oChofer==null){
-                        $oChofer=new chofer();
-                    }
-                    $oFactura_Venta=factura_venta::getByID($oGuia_Venta->factura_venta_ID);
-                    if($oFactura_Venta==null){
-                        $oFactura_Venta=new factura_venta();
-                    }
-                    //direccion ip local-nombre de impresora
-                    //===========================================
-                        //$handle = printer_open("Guia");
-                    $handle = printer_open("PDFCreator");
-                                            //$handle = printer_open("TASKalfa 306ci");
-                                    //========
-                    printer_set_option($handle, PRINTER_PAPER_LENGTH, 200 );
-                    printer_set_option($handle, PRINTER_PAPER_WIDTH , 279 );
-                    printer_set_option($handle, PRINTER_SCALE , 100 );
-                    printer_set_option($handle, PRINTER_TITLE , 'Guia' );
-                    printer_start_doc($handle, "Guia");
-                    printer_start_page($handle);
-                    //Estilos para el contenido
-                    $font = printer_create_font("Arial",20,10,300,false,false, false,0);
-                    $font_negrita=printer_create_font("Arial",20,10,700,false,false, false,0);
-                    $font_moneda=printer_create_font("Arial",20,10,700,false,false, false,0);
-
-                    printer_select_font($handle, $font);
-
-                    //Imprimimos la cabecera
-
-                    //fila1
-                    printer_draw_text($handle,$oGuia_Venta->fecha_emision,150,375);
-                    printer_draw_text($handle,$oGuia_Venta->fecha_inicio_traslado,580,375);
-                    printer_draw_text($handle,$oGuia_Venta->orden_pedido,1350,345);
-                    printer_draw_text($handle,$oGuia_Venta->orden_ingreso,1350,375);
-                    //fila2
-                    printer_draw_text($handle,$oGuia_Venta->punto_partida,80,455);
-                    printer_draw_text($handle,$oGuia_Venta->punto_llegada,800,455);
-                    //DESTINATARIO
-                    printer_draw_text($handle,$oCliente->razon_social,255,550);
-                    printer_draw_text($handle,$oCliente->ruc,100,610);
-
-                    //DATOS DEL TRANSPORTISTA/CONDUTOR
-                    printer_draw_text($handle,$oVehiculo->marca.' - '.$oVehiculo->placa,1100,550);
-                    printer_draw_text($handle,$oVehiculo->certificado_inscripcion,1100,580);
-                    printer_draw_text($handle,$oChofer->licencia_conducir,1100,610);
-
-                    //Detalle
-                    //=============================================================
-                    $alto=735;
-                    $dtGuia_Venta_Detalle=guia_venta_detalle::getGrid1('gvd.guia_venta_ID='.$valor['ID'],-1,-1,'ovd.ID asc');
-                    foreach($dtGuia_Venta_Detalle as $item){
-
-                        printer_select_font($handle, $font_negrita);
-                        printer_draw_text($handle,$item['cantidad'],80,$alto);
-                        printer_draw_text($handle,strtoupper($item['producto']),185,$alto);
-                        printer_draw_text($handle,$item['unidad_medida'],1150,$alto);
-                        printer_draw_text($handle,$item['peso'],1350,$alto);
                         printer_select_font($handle, $font);
-                        if(trim($item['descripcion'])!=''){
-                            $alto=$alto+10;
-                            //verificamos todos los salto de linea
-                            $descripcion_convertido=eregi_replace("[\n|\r|\n\r]","<br />",$item['descripcion']);
-                            $array=explode('<br />',$descripcion_convertido);
 
-                            $cantidad_maximo=80;
-                            if(count($array)>0){
-                                for($i=0;$i<count($array);$i++){
-                                    if(strlen($array[$i])>$cantidad_maximo){
-                                        $descripcion1=wordwrap($array[$i],$cantidad_maximo,"<br />",true);
-                                        $array1=explode('<br />',$descripcion1);
-                                        for($a=0;$a<count($array1);$a++){
-                                            if(isset($array1[$a])){
-                                                $alto=$alto+20;
-                                                printer_draw_text($handle,$array1[$a],185,$alto);
+                        //Imprimimos la cabecera
+
+                        //fila1
+                        printer_draw_text($handle,$oGuia_Venta->fecha_emision,150,375);
+                        printer_draw_text($handle,$oGuia_Venta->fecha_inicio_traslado,580,375);
+                        printer_draw_text($handle,$oGuia_Venta->orden_pedido,1350,345);
+                        printer_draw_text($handle,$oGuia_Venta->orden_ingreso,1350,375);
+                        //fila2
+                        printer_draw_text($handle,$oGuia_Venta->punto_partida,80,455);
+                        printer_draw_text($handle,$oGuia_Venta->punto_llegada,800,455);
+                        //DESTINATARIO
+                        printer_draw_text($handle,$oCliente->razon_social,255,550);
+                        printer_draw_text($handle,$oCliente->ruc,100,610);
+
+                        //DATOS DEL TRANSPORTISTA/CONDUTOR
+                        printer_draw_text($handle,$oVehiculo->marca.' - '.$oVehiculo->placa,1100,550);
+                        printer_draw_text($handle,$oVehiculo->certificado_inscripcion,1100,580);
+                        printer_draw_text($handle,$oChofer->licencia_conducir,1100,610);
+
+                        //Detalle
+                        //=============================================================
+                        $alto=735;
+                        $dtGuia_Venta_Detalle=guia_venta_detalle::getGrid1('gvd.guia_venta_ID='.$valor['ID'],-1,-1,'ovd.ID asc');
+                        foreach($dtGuia_Venta_Detalle as $item){
+
+                            printer_select_font($handle, $font_negrita);
+                            printer_draw_text($handle,$item['cantidad'],80,$alto);
+                            printer_draw_text($handle,strtoupper($item['producto']),185,$alto);
+                            printer_draw_text($handle,$item['unidad_medida'],1150,$alto);
+                            printer_draw_text($handle,$item['peso'],1350,$alto);
+                            printer_select_font($handle, $font);
+                            if(trim($item['descripcion'])!=''){
+                                $alto=$alto+10;
+                                //verificamos todos los salto de linea
+                                $descripcion_convertido=eregi_replace("[\n|\r|\n\r]","<br />",$item['descripcion']);
+                                $array=explode('<br />',$descripcion_convertido);
+
+                                $cantidad_maximo=80;
+                                if(count($array)>0){
+                                    for($i=0;$i<count($array);$i++){
+                                        if(strlen($array[$i])>$cantidad_maximo){
+                                            $descripcion1=wordwrap($array[$i],$cantidad_maximo,"<br />",true);
+                                            $array1=explode('<br />',$descripcion1);
+                                            for($a=0;$a<count($array1);$a++){
+                                                if(isset($array1[$a])){
+                                                    $alto=$alto+20;
+                                                    printer_draw_text($handle,$array1[$a],185,$alto);
+                                                }
+
                                             }
 
+                                        }else {
+                                            $alto=$alto+10;
+                                            printer_draw_text($handle,$array[$i],185,$alto);
                                         }
 
-                                    }else {
-                                        $alto=$alto+10;
-                                        printer_draw_text($handle,$array[$i],185,$alto);
-                                    }
-
-                                }
-                            }else {
-
-                                if(strlen($item['descripcion'])>$cantidad_maximo){
-
-                                    $texo=wordwrap($item['descripcion'],$cantidad_maximo,"<br />",true);
-                                    $array=explode('<br />',$texo);
-                                    for($a=0;$a<count($array);$a++){
-                                        $alto=$alto+20;
-                                        printer_draw_text($handle,$array1[$a],185,$alto);
                                     }
                                 }else {
-                                    $alto=$alto+10;
-                                    printer_draw_text($handle,$item['descripcion'],185,$alto);
+
+                                    if(strlen($item['descripcion'])>$cantidad_maximo){
+
+                                        $texo=wordwrap($item['descripcion'],$cantidad_maximo,"<br />",true);
+                                        $array=explode('<br />',$texo);
+                                        for($a=0;$a<count($array);$a++){
+                                            $alto=$alto+20;
+                                            printer_draw_text($handle,$array1[$a],185,$alto);
+                                        }
+                                    }else {
+                                        $alto=$alto+10;
+                                        printer_draw_text($handle,$item['descripcion'],185,$alto);
+                                    }
+
                                 }
 
+                             $alto=$alto+30;
                             }
 
-                         $alto=$alto+30;
+                            $alto=$alto+30;
                         }
+                        //==============================================================
+                        //Pie
 
-                        $alto=$alto+30;
+
+                        //TRANSPORTISTA
+                        printer_draw_text($handle,$oGuia_Venta->empresa_transporte,150,1703);
+                        printer_draw_text($handle,$oDatos_Genetales->ruc,170,1760);
+                        //printer_draw_text($handle,$oVehiculo->marca.' - '.$oVehiculo->placa,40,1720);
+                       //COMPROBANTE DE PAGO
+                        printer_draw_text($handle,'FACTURA  '.$oFactura_Venta->numero_concatenado.'  '.$oFactura_Venta->fecha_emision,120,1870);
+                        printer_delete_font($font_moneda);
+                        printer_delete_font($font_negrita);
+
+                        printer_delete_font($font);
+                        printer_end_page($handle);
+                        printer_end_doc($handle);
+                        printer_close($handle);
+                        //Actualizamos el correlativo
+                        //$oCorrelativos=correlativos::getBySerie(4,$serie);
+                        $oCorrelativos=correlativos::getByID($oGuia_Venta->correlativos_ID);
+                        $oCorrelativos->ultimo_numero=$numero;
+                        $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                        $oCorrelativos->actualizar();
+                       }elseif($oGuia_Venta->estado_ID==38){
+                           $guia_emitidos++;
+                       }
+                       //Actualizamos la OC a impresion
+                        $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
+                        $osalida->actualizarImpresion(1);
+
+
                     }
-                    //==============================================================
-                    //Pie
+                    //$guia_detalle="";
+                    $guia_detalle=extraer_estructura_guias($osalida);
 
-
-                    //TRANSPORTISTA
-                    printer_draw_text($handle,$oGuia_Venta->empresa_transporte,150,1703);
-                    printer_draw_text($handle,$oDatos_Genetales->ruc,170,1760);
-                    //printer_draw_text($handle,$oVehiculo->marca.' - '.$oVehiculo->placa,40,1720);
-                   //COMPROBANTE DE PAGO
-                    printer_draw_text($handle,'FACTURA  '.$oFactura_Venta->numero_concatenado.'  '.$oFactura_Venta->fecha_emision,120,1870);
-
-
-                    printer_delete_font($font_moneda);
-                    printer_delete_font($font_negrita);
-
-                    printer_delete_font($font);
-                    printer_end_page($handle);
-                    printer_end_doc($handle);
-                    printer_close($handle);
-                    if($oGuia_Venta->estado_ID==37){
-                       //Actualizamos el número de la guia
-                    $serie=$valor['serie'];
-                    $numero=correlativos::getByNumero(4,$serie);
-                    $oGuia_Venta->numero=$numero;
-                    $oGuia_Venta->numero_concatenado=sprintf("%'.07d",$numero);
-                    $oGuia_Venta->estado_ID=38;
-                    $oGuia_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
-                    $oGuia_Venta->actualizarEstadoandNumero();
-                     //Actualizamos el estado de la factura a estado emitido
-
-
-                    //Actualizamos el correlativo
-                    $oCorrelativos=correlativos::getBySerie(4,$serie);
-                    $oCorrelativos->ultimo_numero=$numero;
-                    $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
-                    $oCorrelativos->actualizar();
-                   }elseif($oGuia_Venta->estado_ID==38){
-                       $guia_emitidos++;
-                   }
-                   //Actualizamos la OC a impresion
-                    $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
-                    $osalida->actualizarImpresion(1);
-
-
-                }
-
-                $guia_detalle=extraer_estructura_guias($osalida);
-
-                $mensaje='La guía se emitió correctamente.';
-                $resultado=1;
+                    $mensaje='La guía se emitió correctamente.';
+                    $resultado=1;
                 }else {
                     $guia_detalle=extraer_estructura_guias($osalida);
                     $mensaje='No puede emitir la guia, primero tiene que emitir la factura';
@@ -8695,11 +8692,14 @@ function mesATexto($mes_numero){
                 $mensaje='No se puede imprimir, la impresora esta ocupada por la Orden de venta N'.$numero_orden_imprimiendo;
                 $resultado=-1;
             }
-
+            
         }catch(Exeption $ex){
              $resultado=-1;
              $mensaje=$ex->getMessage();
+             
+             $guia_detalle="";
         }
+        
         $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje,'guia_detalle'=>$guia_detalle);
 
         echo json_encode($retornar);
