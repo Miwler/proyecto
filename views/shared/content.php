@@ -524,16 +524,16 @@
 
     <div id="toastem"></div>
    <div id="fondo_espera" style="background:#000;opacity:0.7;width:100%;height:100%;z-index: 56;text-align:center;top:0;position:absolute; display:none;" ><img width="80px" src="/include/img/loader-Login.gif"></div>
-    <div id="float_modal" class="modal fade modal-success" data-backdrop="static" data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
+    <div id="float_modal" class="modal fade modal-success bs-example-modal-table in" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog modal-lg">
 
            <!-- Modal content-->
-            <div class="modal-content">
+            <div class="modal-content" style="heigth:100%;">
                 <div class="modal-header">
                   <button type="button" class="close" onclick="float_close_modal();">&times;</button>
                   <h4 class="modal-title">Modal Header</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body embed-responsive-16by9">
 
                 </div>
 
@@ -542,16 +542,15 @@
         </div>
    </div>
 
-   <div id="float_modal_hijo" class="modal fade modal-info" data-backdrop="static"  data-keyboard="false" role="dialog">
-        <div class="modal-dialog">
-
+   <div id="float_modal_hijo" class="modal fade modal-info bs-example-modal-table in" tabindex="-1" aria-hidden="true" data-backdrop="static"  data-keyboard="false" role="dialog">
+        <div class="modal-dialog modal-lg">
            <!-- Modal content-->
            <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" onclick="float_close_modal_hijo();">&times;</button>
                   <h4 class="modal-title">Modal Header</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body embed-responsive-16by9">
 
                 </div>
            </div>

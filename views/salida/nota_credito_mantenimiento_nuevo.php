@@ -21,7 +21,7 @@
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Salida/Nota_Credito_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal" >
+<form id="form" method="POST" action="/Salida/Nota_Credito_Mantenimiento_Nuevo"  class="form-horizontal" >
     <!-- Start default tabs -->
     <div class="panel panel-tab rounded shadow">
         <!-- Start tabs heading -->
@@ -53,8 +53,27 @@
                         <div class="col-md-8 col-sm-8">
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">Serie:</label>
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <input type="text" id="txtSerie" name="txtSerie" autocomplete="off" disabled value="F001" class="form-control">
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                    <select id="selSerie" name="selSerie" class="form-control" disabled  onchange="fncActualizarNumero();" >
+                                        <?php foreach($GLOBALS['ob']->dtSerie as $value){ ?>
+                                        <option value="<?php echo $value['ID'];?>"><?php echo $value['serie'];?></option>
+                                        <?php } ?>
+                                    </select>
+                                    
+                                    <input type="hidden" id="txtSerie" name="txtSerie" autocomplete="off" disabled value="<?php echo $GLOBALS['ob']->serie?>" class="form-control">
+                                    <script type="text/javascript">
+                                    $('#selSerie').val('<?php echo $GLOBALS['ob']->correlativos_ID;?>');
+                                    </script>
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1">
+                                    <button type="button" id="btnActualizar" style="vertical-align: bottom; border: none;" onclick="fncActualizarNumero();"><img src="/include/img/boton/refresh32x32.png" width="22px"/></button>
+                           
+                                </div>
+                                <div class="col-md-1 col-sm-1 col-xs-1">
+                                    <div class="ckbox ckbox-theme">
+                                        <input type="checkbox" id="ckOpcion" name="ckOpcion" value="1">
+                                        <label for="ckOpcion"></label>
+                                    </div>
                                 </div>
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">Número:</label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
@@ -202,7 +221,7 @@
         </div><!-- /.panel-body -->
         <div class="panel-footer">
             <div class="pull-left">
-                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-success" onclick="modal.confirmacion('El proceso es irreversible, esta seguro de generar la nota de crédito.','Generación de nota de crédito',generar);">Guardar</button>
                 <button type="button" class="btn btn-danger" onclick="window_float_save_modal();">Cancelar</button>
                 
             </div>
@@ -213,6 +232,11 @@
     <!--/ End default tabs -->
 </form>
 <script type="text/javascript">
+    var generar=function(){
+        if(validar()==true){
+            $("#form").submit();
+        }
+    }
     var validar=function(){
         var factura_venta_ID=$.trim($("#txtFactura").val());
         var cliente_ID=$("#txtCliente_ID").val();
@@ -236,13 +260,30 @@
             $(".nav-tabs a[href='#tab1-2']").tab("show");
             return false; 
         }
-        $("#fondo_espera").css('display','');
+        block_ui();
+        return true
+        //modal.confirmacion('El proceso es irreversible, esta seguro de eliminar el registro.','Generar',funcion);
+        
     }
+   
     var fncAgregar_Detalle=function(){
 
         parent.window_float_open_modal_hijo("AGREGAR DETALLE","Salida/nota_credito_detalle",'',"",cargar_tabla,700,330);
 
     } 
+    var fncActualizarNumero=function(){
+       var correlativos_ID=$('#selSerie').val();
+        cargarValores('/Salida/ajaxExtraer_Numero_Ultimo',correlativos_ID,function(resultado){
+            if(resultado.resultado==1){
+                $('#txtNumero').val(resultado.numero); 
+                $("#txtSerie").val(resultado.serie);
+            }else{
+                mensaje.error("OCURRIÓ UN ERROR","Ocurrió un error, comuniquese con el área de sistemas.");
+            }
+            
+
+        });
+    }
     var myarray=[];
     var i=0;
     var cargar_tabla=function(obj){
@@ -311,6 +352,17 @@
         $("#txtDescuentoTotal").val(descuento);
         $('#txtTotal').val(total);
     }
+    $('#ckOpcion').click(function(){
+        if($(this).prop('checked')){
+
+            $('#selSerie').prop('disabled', false);
+            $('#txtNumero').prop('disabled', false);
+        }else {
+            $('#selSerie').prop('disabled', true);
+            $('#txtNumero').prop('disabled', true);
+            $('#txtNumero').focus();
+        }
+    });
 </script>       
 <?php }?>
             
@@ -324,9 +376,12 @@
 <?php } ?>
 <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==1){ ?>
 <script type="text/javascript">
+     $.unblockUI();
     $(document).ready(function () {
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
-       setTimeout('window_float_save_modal();', 1000);
+       setTimeout(function(){
+           window_float_save_modal();
+       }, 1000);
        
     });
    //ampliarVentanaVertical(750,'form');

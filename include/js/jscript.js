@@ -300,7 +300,7 @@ function window_float_open_modal(titulo,url,id,q,f0,ancho,alto)
         $("#float_modal .modal-title").html(titulo);
         window_float.html(iframe);
         var alto_minimo="400px";
-        //var ancho_minimo="500px";
+        var ancho_minimo="500px";
         if(alto){
             alto_minimo=alto+"px";
             $(iframe).css('min-height',alto_minimo);
@@ -312,7 +312,15 @@ function window_float_open_modal(titulo,url,id,q,f0,ancho,alto)
             $("#float_modal .modal-content").css('min-width',ancho_minimo);
         }
         $(iframe).css('width',"100%");
+        $(iframe).addClass("embed-responsive-item");
+        /*$("#float_modal").on('show.bs.modal', function () {
+            alert('The modal is about to be shown.');
+        });*/
 	$('#float_modal').modal('show');
+        $('#float_modal').on('shown.bs.modal', function () {
+            
+        })
+       
         //var altoContenedor=0;
   
 }
@@ -381,6 +389,7 @@ function window_float_open_modal_hijo(titulo,url,id,q,f0,ancho,alto)
             $("#float_modal_hijo .modal-content").css('min-width',ancho_minimo);
         }
         $(iframe).css('width',"100%");
+        $(iframe).addClass("embed-responsive-item");
         $("#float_modal").modal('hide');
 	$('#float_modal_hijo').modal('show');
         //var altoContenedor=0;

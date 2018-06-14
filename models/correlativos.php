@@ -160,7 +160,7 @@ class correlativos {
                 throw new Exception("Ocurrio un error en la consulta.");
         }
     }
-    static function getNumero($tabla,$correlativo_ID)
+    static function getNumero($correlativo_ID)
     {
         $cn =new connect();
         try 
@@ -168,8 +168,8 @@ class correlativos {
             
             $q='select ifnull(cor.ultimo_numero,0)+1';
             $q.=' from correlativos cor,tipo_comprobante_empresa tce';
-            $q.=' where cor.tipo_comprobante_empresa_ID=tce.ID and tce.del=0 and cor.del=0 and tce.tabla="'.$tabla.'" and tce.empresa_ID='.$_SESSION['empresa_ID']." and cor.ID=".$correlativo_ID;
-
+            $q.=' where cor.tipo_comprobante_empresa_ID=tce.ID and tce.del=0 and cor.del=0 and tce.empresa_ID='.$_SESSION['empresa_ID']." and cor.ID=".$correlativo_ID;
+            //echo $q;
             $retorna=$cn->getData($q);			
             		
             return $retorna;

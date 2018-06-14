@@ -250,7 +250,7 @@
          }
      });
     
-  var myTable;
+    var myTable;
     function fngetData() {
         var myObject = new Object();
 
@@ -324,7 +324,7 @@
     });
     
     var fncNuevo=function(){
-        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,500);
+        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,480);
     }
     var fncVerPDF=function(id){
         window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Factura_Vista_PreviaPDF',id,'',f,800,550);

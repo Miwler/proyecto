@@ -51,7 +51,7 @@
             </ul>
         </div>
        
-        <div class="panel-body no-padding rounded-bottom" style="height: 380px;overflow:auto;">
+        <div class="panel-body no-padding rounded-bottom" style="height: 350px;overflow:auto;">
             
             <div class="tab-content">
                 <div id="divCliente" class="tab-pane fade in active inner-all">
@@ -389,7 +389,7 @@
     var fncRegistrar_Productos=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,450);
     }
     var fncEditarProducto=function(id){
         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);

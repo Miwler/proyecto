@@ -792,8 +792,8 @@ $(document).ready(function(){
       // $('#').prop('disabled',true);
    }
     var bloquear_edicion_emitido=function(){
-       $('#selCliente').prop('disabled', true);
-       $('#selCliente').trigger('chosen:updated');
+       $('#listaCliente').prop('disabled', true);
+       
        $('#selRepresentante').prop('disabled',true);
        $('#selForma_Pago').prop('disabled',true);
        

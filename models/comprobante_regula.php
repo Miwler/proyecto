@@ -3,6 +3,7 @@
 class comprobante_regula {
     private $ID;
     private $factura_venta_ID;
+    private $cliente_ID;
     private $tipo_ID;
     private $serie;
     private $numero;
@@ -35,7 +36,7 @@ class comprobante_regula {
     private $estado;
     private $tipo;
     private $codigo_comprobante;
-
+    private $dtSerie;
   public function __set($var, $valor)
     {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -72,10 +73,10 @@ class comprobante_regula {
             
             $q='select ifnull(max(ID),0)+1 as ID from comprobante_regula;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO comprobante_regula (ID,factura_venta_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,';
+            $q='INSERT INTO comprobante_regula (ID,factura_venta_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,';
             $q.='estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,';
             $q.='anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,usuario_id) ';
-            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'","'.$this->fecha_emision.'","'.$this->fecha_vencimiento.'"';
+            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->cliente_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'","'.$this->fecha_emision.'","'.$this->fecha_vencimiento.'"';
             $q.=','.$this->estado_ID.','.$this->moneda_ID.','.$this->monto_total_neto.','.$this->monto_total_igv.','.$this->monto_total.','.$this->monto_pendiente.','.$this->empresa_ID.','.$this->correlativos_ID.','.$this->porcentaje_descuento.',';
             $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.',"'.$this->observacion.'",'.$this->usuario_id.');';
             //echo $q;
@@ -242,7 +243,20 @@ class comprobante_regula {
 		}
 	}
         
-
+    static function getTabla($opcion,$cliente_ID,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$serie,$numero)
+    {
+        $cn =new connect();
+        try
+        {
+        $q='call getTabla_Comprobante_Regula("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$periodo.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$serie.'",'.$numero.');';
+        //console_log($q);
+        $dt=$cn->getTabla($q);
+        return $dt;
+        }catch(Exception $ex)
+        {
+            throw new Exception($q);
+        }
+    }
     function verificarFactura(){
         $cn =new connect();
         $retornar=-1;

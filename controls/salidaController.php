@@ -10991,16 +10991,16 @@ function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
     $GLOBALS['resultado']=$resultado;
     $GLOBALS['mensaje']=$mensaje;
 }
-function post_ajaxFactura_Venta_Numero_Ultimo() {
+function post_ajaxExtraer_Numero_Ultimo() {
     require ROOT_PATH . 'models/correlativos.php';
 
     $correlativos_ID=$_POST['id'];
     $numero="";
     $serie="";
     try {
-       $numero=sprintf("%'.07d",correlativos::getNumero("factura_venta",$correlativos_ID));
-       $oCoreelatvos=correlativos::getByID($correlativos_ID);
-       $serie=$oCoreelatvos->serie;
+       $numero=sprintf("%'.07d",correlativos::getNumero($correlativos_ID));
+       $oCorrelativos=correlativos::getByID($correlativos_ID);
+       $serie=$oCorrelativos->serie;
        $resultado=1;
     } catch (Exception $ex) {
         $resultado=-1;
@@ -11388,180 +11388,48 @@ function get_Nota_Credito_Mantenimiento(){
 }
 function post_ajaxNota_Credito_Mantenimiento() {
     require ROOT_PATH . 'models/comprobante_regula.php';
-    require ROOT_PATH . 'controls/funcionController.php';
-    //$buscar = $_POST['txtBuscar'];
-    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
-    $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
-    $opcion_tipo=$_POST['rbOpcion'];
-    $txtOrden = $_POST['txtOrden'];
-    $orden_tipo = 'DESC';
-    $orden_class = 'imgOrden-desc';
-    $cliente_ID=$_POST['selCliente'];
+    
+    $cliente=$_POST['selCliente'];
+    $periodo=$_POST['selPeriodo'];
+    $fecha_inicio=FormatTextToDate($_POST['txtFechaInicio'],'Y-m-d');
+    $fecha_fin=FormatTextToDate($_POST['txtFechaFin'],'Y-m-d');
     $estado_ID=$_POST['selEstado'];
-    $fecha_inicio=$_POST['txtFechaInicio'];
-    $fecha_fin=$_POST['txtFechaFin'];
-    
-    $serie=trim($_POST['txtSerie']);
-    $numero=Ltrim($_POST['txtNumero'],'0');
-    
-    $moneda=$_POST['selMoneda'];
-    $serie=$_POST['txtSerie'];
-    if (isset($_POST['chkOrdenASC'])) {
-        $orden_class = 'imgOrden-asc';
-        $orden_tipo = 'ASC';
-    }
-    $todos=0;
-    if(isset($_POST['ckTodos'])){
-        $todos=$_POST['ckTodos'];
-    }
-    switch ($txtOrden) {
-        case 1:
-            $orden = 'cr.serie ' . $orden_tipo;
-            break;
-        case 2:
-            $orden = 'cr.numero ' . $orden_tipo;
-            break;
-        case 3:
-            $orden = 'cr.fecha_emision ' . $orden_tipo;
-            break;
-        case 4:
-            $orden = 'fv.serie ' . $orden_tipo.', fv.numero '.$orden_tipo;
-            break;
-        case 5:
-            $orden = 'mo.simbolo ' . $orden_tipo;
-            break;
-        case 6:
-            $orden = 'cr.monto_total ' . $orden_tipo;
-            break;
-        case 7:
-            $orden = 'es.nombre ' . $orden_tipo;
-            break;
-
-        default:
-            $orden = 'cr.ID ' . $orden_tipo;
-            break;
+    $moneda_ID=$_POST['selMoneda'];
+    $serie=(trim($_POST['txtSerie'])=="")?0:trim($_POST['txtSerie']);
+    $numero=(trim($_POST['txtNumero'])=="")?0:trim($_POST['txtNumero']);
+   
+    $opcion=$_POST['rbOpcion'];
+    try{
+         //$dt = comprobante_regula::getTabla($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+       $dt=comprobante_regula::getTabla($opcion,$cliente,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$serie,$numero);
+        echo(json_encode($dt, JSON_NUMERIC_CHECK)); 
+    }catch(Exception $ex){
+        consolo_log($ex);
     }
     
-    $filtro="";
-    if($opcion_tipo=="buscar"){
-        if(trim($serie)!=""){
-            if($filtro!=""){
-                $filtro.=" and ";
-            }
-            $filtro="cr.numero=".$numero;
-        }
-        if(trim($numero)!=""){
-            if($filtro!=""){
-                $filtro.=" and ";
-            }
-            $filtro="cr.numero=".$numero;
-        }
-
-    }else {
-
-        if($estado_ID!=0){
-            if($filtro!=""){
-                $filtro.=" and ";
-            }
-            $filtro.="cr.estado_ID=".$estado_ID;
-        }
-        if($todos==0){
-            if($fecha_inicio!="" &&$fecha_fin!="" ){
-                if($filtro!=""){
-                    $filtro.=" and ";
-                }
-                $filtro.=" cr.fecha between '".FormatTextToDate($fecha_inicio,'Y-m-d')."' and '".FormatTextToDate($fecha_fin,'Y-m-d')."'" ;
-
-
-            }
-        }
-
-        if($moneda>0){
-            if($filtro!=""){
-                $filtro.=" and ";
-            }
-            $filtro.="cr.moneda_ID=".$moneda;
-        }
-    }
-
-    // $filtro.= 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
-
-    //---------------------------------------
-    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Serie' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Número' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(3);">Tipo' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(4);">Fecha' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Factura' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(7);">Moneda.' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(7);">Monto' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(8);">Estado' . (($txtOrden == 8 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th></th>';
-    $resultado.='</tr></thead><tbody>';
-
-    $colspanFooter = 9;
-    try {
-        $cantidadMaxima = comprobante_regula::getCount($filtro);
-        $dt = comprobante_regula::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
-        $rows=count($dt);
-        foreach ($dt as $item) {
-            $resultado.='<tr class="tr-item" >';
-            $resultado.='<td class="text-center">' . $item['serie'] . '</td>';
-            $resultado.='<td class="text-center">' . FormatTextView($item['numero_concatenado']). '</td>';
-            $resultado.='<td class="text-center">' . FormatTextView($item['tipo']). '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView($item['fecha_emision']) . '</td>';
-            $resultado.='<td class="text-center">' . $item['serie_factura'].'-'.$item['numero_factura']. '</td>';
-            $resultado.='<td class="text-right">' . FormatTextView($item['moneda']) . '</td>';
-            $resultado.='<td class="text-right">' . $item['monto_total'] . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['estado'])) . '</td>';
- 
-            $botones=array();
-            $boton='<a onclick="fncEditar(' . $item['ID'] . ');"><img title="Editar" src="/include/img/boton/edit_14x14.png" />Editar</a>';
-           /* if($item['estado_ID']==25){
-                 $boton='<a onclick="fncEditar(' . $item['ID'] . ');"><img title="Editar" width="14px" src="/include/img/boton/preview-16.png" />Ver detalle</a>';
-            }*/
-            
-            array_push($botones,$boton);
-           
-            if($item['estado_ID']!=25){
-                array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');"><img title="Eliminar" src="/include/img/boton/delete_14x14.png" />&nbsp;Eliminar</a>');
-            }
-
-            $resultado.='<td class="text-center" >'.extraerOpcion($botones)."</td>";
-            $resultado.='</tr>';
-            
-        }
-
-        $cantidadPaginas = '';
-        $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
-        $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
-    } catch (Exception $ex) {
-        $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
-    }
-    $resultado.='</tbody>';
-    $resultado.='</table>';
-
-    $mensaje = '';
-    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
-    //$retorn="<h1>Hola</h1>";
-
-    echo json_encode($retornar);
 }
 function get_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
     require ROOT_PATH.'models/datos_generales.php';
+    require ROOT_PATH.'models/comprobante_regula.php';
     global  $returnView_float;
     $returnView_float=true;
     $dtTipo=tipo::getGrid("tabla='nota_credito'",-1,-1,"orden asc");
     $dtMoneda=moneda::getGrid("",-1,-1,"descripcion asc");
     $numero=correlativos::getByNumero(4,'F001');
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oComprobante_Regula=new comprobante_regula();
+    $oComprobante_Regula->correlativos_ID=correlativos_ID_nota_credito;
+    $oComprobante_Regula->serie=correlativos::getByID(correlativos_ID_nota_credito)->serie;
+    $oComprobante_Regula->dtSerie=correlativos::getGridCorrelativos("nota_credito");
     $GLOBALS['dtTipo']=$dtTipo;
     $GLOBALS['dtMoneda']=$dtMoneda;
     $GLOBALS['numero']=$numero;
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
+    $GLOBALS['ob']=$oComprobante_Regula;
+  
 }
 function post_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/tipo.php';
@@ -11574,6 +11442,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/factura_venta.php';
     require ROOT_PATH.'models/factura_venta_detalle.php';
     require ROOT_PATH.'models/salida_detalle.php';
+    require ROOT_PATH.'models/correlativos.php';
     global  $returnView_float;
     $returnView_float=true;
     $factura_venta_ID=$_POST['txtFactura_Venta_ID'];
@@ -11586,7 +11455,8 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $monto_total=$_POST['txtTotal'];
     $monto_pendiente=0;
     
-    $correlativos_ID=6;
+    $correlativos_ID=$_POST['selSerie'];
+    $serie=
     $porcentaje_descuento=($_POST['txtPorcentaje']=="")? 0:$_POST['txtPorcentaje'];
     $anticipo=0;
     $exoneradas=0;
@@ -11597,14 +11467,15 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $descuento_global=($_POST['txtDescuentoTotal']=="")? 0:$_POST['txtDescuentoTotal'];
     $observacion=FormatTextSave($_POST['txtObservacion']);
     $monto_detraccion=0;
-
+    $cliente_ID=$_POST['txtCliente_ID'];
     
     $oComprobante_Regula=new comprobante_regula();
     try{
         $oComprobante_Regula->factura_venta_ID=$factura_venta_ID;
+        $oComprobante_Regula->cliente_ID=$cliente_ID;
         $oComprobante_Regula->tipo_ID=$tipo_ID;
         $oComprobante_Regula->serie="F001";
-        $oComprobante_Regula->numero=correlativos::getByNumero(4,'F001');
+        $oComprobante_Regula->numero=correlativos::getByNumero(3,'F001');
         $oComprobante_Regula->numero_concatenado= sprintf("%',06d",$oComprobante_Regula->numero);
         $oComprobante_Regula->fecha_emision=$fecha_emision;
         $oComprobante_Regula->fecha_vencimiento=$fecha_vencimiento;
@@ -11674,6 +11545,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
                     }
                 }
             }
+            $oCorrelativos=correlativos::getByID($oComprobante_Regula->correlativos_ID);
 
         }else{
             throw new Exception("La factura no se encuentra disponible.");

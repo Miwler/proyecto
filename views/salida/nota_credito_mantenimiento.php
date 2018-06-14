@@ -7,9 +7,9 @@
 <?php } ?>
 <?php function fncHead(){?>
         <script type="text/javascript" src="include/js/jForm.js"></script>
-        <script type="text/javascript" src="include/js/jGrid.js"></script>
+        <!--<script type="text/javascript" src="include/js/jGrid.js"></script>
         
-        <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
+        <link rel="stylesheet" type="text/css" href="include/css/grid.css" />-->
        
                 
 <?php } ?>
@@ -54,15 +54,15 @@
                         </div>
                         <div class="form-group col-md-1 col-lg-1 col-sm-1 col-xs-12">
                             <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6 text-left">
-                                     <label>Todos: </label>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                                    <label>Periodo: </label>
                                 </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-6">
-                                    <div class="ckbox ckbox-theme">
-                                        <input  type="checkbox" id="checkbox-checked1" checked="checked" name="ckTodos" value="1" >
-                                        <label for="checkbox-checked1"></label>
-                                    </div>
-                                </div>
+                                <select id="selPeriodo" name="selPeriodo" class="form-control">
+                                    <option value="0">Por fecha</option>
+                                    <?php for($i=periodo_inicio;$i<=date("Y");$i++){?>
+                                    <option value="<?php echo $i;?>" <?php echo ($i==date("Y"))?"selected":"";?>><?php echo $i;?></option>
+                                    <?php }?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-12">
@@ -146,16 +146,41 @@
                 </div>
             </div>
             <div class="form-group">
-                <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
+                <table id="datatable-ajax" class="table table-teal table-teal table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th>Número</th>
+                            <th>Tipo</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Factura</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <!--tbody section is required-->
+                    <tbody></tbody>
+                    <!--tfoot section is optional-->
+                    <tfoot>
+                        <tr>
+                            <th>Número</th>
+                            <th>Tipo</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Factura</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-            <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
-            <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-            <input id="txtOrden" name="txtOrden" type="text" style="display:none;" >
-            <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox" checked style="display:none;">
-
+            
 
         </div>
-    </div>	
+    </div>
+    <input type="hidden" id="rbOpcion" name="rbOpcion" value="filtrar"> 
 </form>
 <script type="text/javascript">
      $('.nav-tabs a').on('show.bs.tab', function(event){
@@ -173,59 +198,100 @@
          
         
      });
-    $("#checkbox-checked1").click(function(){
-        if($(this).is(":checked")){
-            $("#txtFechaInicio").prop("disabled", true);
-            $("#txtFechaFin").prop("disabled", true);
-            $("#txtFechaInicio").focus();
-        }else{
-            $("#txtFechaInicio").prop("disabled", false);
+     $("#selPeriodo").change(function(){
+         if(this.value==0){
+             $("#txtFechaInicio").prop("disabled", false);
             $("#txtFechaFin").prop("disabled", false);
+             
+            $("#txtFechaInicio").focus();
+         }else{
+            $("#txtFechaInicio").prop("disabled", true);
+            $("#txtFechaFin").prop("disabled", true); 
+         }
+     });
+    var myTable;
+    function fngetData() {
+        var myObject = new Object();
+
+        enviarAjax('Salida/ajaxNota_Credito_Mantenimiento', 'frm1', myObject, function (res) {
+
+            var jsonObject = $.parseJSON(res);
+            var result = jsonObject.map(function (item) {
+                
+                var result = [];
+                result.push(item.codigo);
+                result.push(item.tipo);
+                result.push(item.fecha_emision);
+                result.push(item.cliente);
+                result.push(item.numero_factura);
+                result.push(item.total);
+                result.push(item.estado);
+                result.push(item.accion);
+                result.push("");
+                return result;
+            });
+            myTable.rows().remove();
+            myTable.rows.add(result);
+            myTable.draw();
+        });
+    }
+    function fnGridCSS() {
+        try {
+            var shadows =
+                [
+
+                    { "width": "5%", "targets": 0,"className":"text-center" },
+                    { "width": "20%", "targets": 1},
+                    { "width": "10%", "targets": 2,"className":"text-center" },
+                    { "width": "20%", "targets": 3 },
+                    { "width": "10%", "targets": 4,"className":"text-center" },
+                    { "width": "10%", "targets": 5,"className":"text-right" },
+                    { "width": "10%", "targets": 6},
+                    { 'targets': [7], 'orderable': false, 'searchable': false, "width": "10%","className":"text-center" }
+                ];
+
+            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "desc"]]);
+
+        } catch (e) {
+            //alert(e.message);
+            mensaje.error('Error', e.message);
+        }
+    }
+    var form1 = function(){
+        this.enviar=function(){
+           fngetData(); 
+           
+        }
+    }
+    var f=new form1(); 
+     $(document).ready(function () {
+        try {
+
+            fnGridCSS();
+            f.enviar();
+
+        }
+        catch (err) {
+            mensaje.error('Error', err.message);
         }
     });
-        var f=new form('frm1','div1');
-        f.terminado = function () {
-                var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
+    $('#txtBuscar,#txtMostrar,#txtCodigo').keypress(function(e){
 
-                grids = new grid(tb);
-                grids.nuevoEvento();
-                grids.fncPaginacion1(f);
-                $('[data-toggle="tooltip"]').tooltip(); 
-                $('#websendeos').stacktable();
+        if (e.which==13){
+            $('#num_page').val(1);
+            fngetData();
+            return false;
         }
-        f.enviar();
-        var fncCargaValores=function(){
-            f.enviar();
-        }
-        var fncOrden=function(col){
-            var col_old=$('#txtOrden').val();
-            if(col_old==col){
-                if($('#chkOrdenASC').is(':checked')){
-                        $('#chkOrdenASC').prop('checked',false);
-                }else{
-                        $('#chkOrdenASC').prop('checked',true);
-                }
-            }else{
-                $('#txtOrden').val(col);
-                $('#chkOrdenASC').prop('checked',true);
-            }		
-            f.enviar();
-        }
-        var fncNuevo=function(){
-            window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,480); 
-            //window_float_open('/Ventas/cobranza_mantenimiento_registro',id,'',f);
-        }
-        var fncCargarVista=function(valor){
-            $('#rbOpcion').val(valor);
-        }
-        $('#txtBuscar,#txtMostrar').keypress(function(e){			
-            if (e.which==13){
-                $('#num_page').val(1);
-                f.enviar();
-                return false;
-            }
-        });
-        $('#txtBuscar').focus();
+    });
+    var fncNuevo=function(){
+        window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,480); 
+        //window_float_open('/Ventas/cobranza_mantenimiento_registro',id,'',f);
+    }
+    var fncCargarVista=function(valor){
+        $('#rbOpcion').val(valor);
+    }
+    
+    $('#txtBuscar').focus();
 </script>
         <!--<iframe id="iframe2" src="" style="width:1100px; height: 800px; display:none; border:none;">
             

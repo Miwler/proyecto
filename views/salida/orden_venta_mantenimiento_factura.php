@@ -286,7 +286,7 @@
    }*/
     var fncActualizarNumero=function(){
        var correlativos_ID=$('#selSerie').val();
-        cargarValores('/Salida/ajaxFactura_Venta_Numero_Ultimo',correlativos_ID,function(resultado){
+        cargarValores('/Salida/ajaxExtraer_Numero_Ultimo',correlativos_ID,function(resultado){
             if(resultado.resultado==1){
                 $('#txtNumero').val(resultado.numero); 
                 $("#txtSerie").val(resultado.serie);
