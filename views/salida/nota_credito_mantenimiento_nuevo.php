@@ -41,7 +41,7 @@
                 </li>
                 
             </ul>
-            <button type="button" onclick="fncAgregar_Detalle();" class="btn btn-info" style="float:right;top:10px;"><span class="glyphicon glyphicon-plus"></span>Detalle</button>
+            <button type="button" onclick="fncAgregar_Detalle();" class="btn btn-info active" style="float:right;top:10px;"><span class="glyphicon glyphicon-plus"></span>Detalle</button>
         </div><!-- /.panel-heading -->
         <!--/ End tabs heading -->
 
@@ -52,32 +52,32 @@
                     <div class="row">
                         <div class="col-md-8 col-sm-8">
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Serie:</label>
-                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div  class="col-md-1 col-sm-1 col-xs-1">
+                                    
+                                    <div class="ckbox ckbox-theme">
+                                        <input type="checkbox" id="ckOpcion" name="ckOpcion" value="1">
+                                        <label for="ckOpcion"></label>
+                                    </div>
+                                </div>
+                                <div  class="col-md-1 col-sm-1 col-xs-1">
+                                    <button type="button" id="btnActualizar" style="vertical-align: bottom; border: none;" onclick="fncActualizarNumero();"><img src="/include/img/boton/refresh32x32.png" width="22px"/></button>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4">
                                     <select id="selSerie" name="selSerie" class="form-control" disabled  onchange="fncActualizarNumero();" >
                                         <?php foreach($GLOBALS['ob']->dtSerie as $value){ ?>
                                         <option value="<?php echo $value['ID'];?>"><?php echo $value['serie'];?></option>
                                         <?php } ?>
                                     </select>
                                     
-                                    <input type="hidden" id="txtSerie" name="txtSerie" autocomplete="off" disabled value="<?php echo $GLOBALS['ob']->serie?>" class="form-control">
+                                    <input type="hidden" id="txtSerie" name="txtSerie" value="<?php echo $GLOBALS['ob']->serie?>">
                                     <script type="text/javascript">
                                     $('#selSerie').val('<?php echo $GLOBALS['ob']->correlativos_ID;?>');
                                     </script>
                                 </div>
-                                <div class="col-md-1 col-sm-1 col-xs-1">
-                                    <button type="button" id="btnActualizar" style="vertical-align: bottom; border: none;" onclick="fncActualizarNumero();"><img src="/include/img/boton/refresh32x32.png" width="22px"/></button>
-                           
-                                </div>
-                                <div class="col-md-1 col-sm-1 col-xs-1">
-                                    <div class="ckbox ckbox-theme">
-                                        <input type="checkbox" id="ckOpcion" name="ckOpcion" value="1">
-                                        <label for="ckOpcion"></label>
-                                    </div>
-                                </div>
+                                
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">Número:</label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <input type="text" id="txtNumero" name="txtNumero" autocomplete="off" value="<?php echo $GLOBALS['numero'];?>" disabled class="int form-control">
+                                    <input type="text" id="txtNumero" name="txtNumero" autocomplete="off" value="<?php echo $GLOBALS['ob']->numero;?>" disabled class="int form-control">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -86,7 +86,8 @@
                                     <input type="hidden" id="txtFactura_Venta_ID" name="txtFactura_Venta_ID">
                                     <div class="input-group mb-15">
                                         <input type="text" id="txtFactura" name="txtFactura" class="form-control no-border-right">
-                                        <a class="input-group-addon bg-primary glyphicon btn" onclick="fncBuscarFacturas();"><span class="glyphicon-search"></span></a>
+                                        <span class="input-group-btn"><button type="button" title="Buscar factura" class="btn btn-theme" onclick="fncBuscarFacturas();"><i class="fa fa-search-plus"></i></button></span>
+                                        
                                     </div>
 
                                 </div>
@@ -260,6 +261,7 @@
             $(".nav-tabs a[href='#tab1-2']").tab("show");
             return false; 
         }
+        $("#selSerie").prop("disabled", false);
         block_ui();
         return true
         //modal.confirmacion('El proceso es irreversible, esta seguro de eliminar el registro.','Generar',funcion);
@@ -380,7 +382,7 @@
     $(document).ready(function () {
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
        setTimeout(function(){
-           window_float_save_modal();
+           //window_float_save_modal();
        }, 1000);
        
     });

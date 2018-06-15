@@ -47,8 +47,10 @@ class api_SUNAT {
       }
 
       public function getParamEmisor($empresa_ID){
-
-        require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists("datos_generales")){
+            require ROOT_PATH.'models/datos_generales.php';
+        }
+        
         require ROOT_PATH.'models/distrito.php';
         if(!class_exists("configuracion")){
             require ROOT_PATH.'models/configuracion.php';

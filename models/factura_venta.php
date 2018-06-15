@@ -151,7 +151,7 @@ class factura_venta {
             $q.=', fdm=now() where del=0 and ID='.$this->ID;
             //echo $q;
             $retornar=$cn->transa($q);
-            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'factura_venta',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_id.",".$_SESSION['empresa_ID'].",".$this->usuario_id.")";
+            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'factura_venta',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_mod_id.",".$_SESSION['empresa_ID'].",".$this->usuario_mod_id.")";
             $cn->transa($q);
             $this->message='Se guardó correctamente';
             return $retornar;
