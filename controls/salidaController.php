@@ -11798,13 +11798,13 @@ function enviarComprobante_RegulaSUNAT($ID){
         $total_letra="SON ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper(FormatTextView($oComprobante_Regula->moneda))).".";
         $param_emisor = $new->getParamEmisor($oComprobante_Regula->empresa_ID);
         $data = array (
-        'IdDocumento' => $oComprobante_Regula->serie.'-'.$oComprobante_Regula->numero_concatenado,
+        'IdDocumento' => 'F001-0000001',
         'TipoDocumento' => $oComprobante_Regula->codigo_comprobante,
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
         'NroDocumento' => $oComprobante_Regula->ruc,
         'TipoDocumento' => '6',//RUC
-        'NombreLegal' => $oComprobante_Regula->razon_social,
+        'NombreLegal' => $oComprobante_Regula->razon_social
         ),
         'FechaEmision' => $oComprobante_Regula->fecha_emision,
         'Moneda' => $oComprobante_Regula->codigo_moneda,
@@ -11830,10 +11830,50 @@ function enviarComprobante_RegulaSUNAT($ID){
         'CalculoIsc' => 0.10,
         'CalculoDetraccion' => 0.04,
         'Items' => $DocumentoDetalle,
+        'Relacionados'=>array('NroDocumento'=>'F001-0000008','6'),
+        'OtrosDocumentosRelacionados'=>array('NroDocumento'=>'',''),
+        'Discrepancias'=>array('NroReferencia'=>'F001-0000008','Tipo'=>'6','Descripcion'=>'Se eliminó por error'),
+       "DatosGuiaTransportista"=>array(
+        "DireccionDestino"=>array(
+          "NroDocumento"=> "",
+          "TipoDocumento"=> "",
+          "NombreLegal"=> "",
+          "NombreComercial"=> "",
+          "Ubigeo"=> "",
+          "Direccion"=> "",
+          "Urbanizacion"=> "",
+          "Departamento"=> "",
+          "Provincia"=> "",
+          "Distrito"=> ""
+        ),
+        "DireccionOrigen"=>array(
+          "NroDocumento"=> "",
+          "TipoDocumento"=> "",
+          "NombreLegal"=> "",
+          "NombreComercial"=> "",
+          "Ubigeo"=> "",
+          "Direccion"=> "",
+          "Urbanizacion"=> "",
+          "Departamento"=> "",
+          "Provincia"=> "",
+          "Distrito"=> ""
+        ),
+        "RucTransportista"=> "",
+        "TipoDocTransportista"=> "",
+        "NombreTransportista"=> "",
+        "NroLicenciaConducir"=> "",
+        "PlacaVehiculo"=> "",
+        "CodigoAutorizacion"=> "",
+        "MarcaVehiculo"=> "",
+        "ModoTransporte"=> "",
+        "UnidadMedida"=> "",
+        "PesoBruto"=> 0
+      )
       );
-
-      $metodo = '';
-      switch ($data['TipoDocumento']) {
+        //var_dump($data);
+       
+      $metodo = 'GenerarNotaCredito';
+      /*switch ($data['TipoDocumento']) {
         case '01':
             $metodo = 'GenerarFactura';
             break;
@@ -11844,13 +11884,13 @@ function enviarComprobante_RegulaSUNAT($ID){
               $metodo = 'GenerarNotaCredito';
               break;
         case '08':
-                                $metodo = 'GenerarNotaDebito';
+                $metodo = 'GenerarNotaDebito';
                 break;
         default:
               $metodo = 'GenerarFactura';
               break;
-      }
-
+      }*/
+      //var_dump($data);
       $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
       $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
       $data_GComprobante = json_decode($resultado_GFactura);
@@ -11860,7 +11900,7 @@ function enviarComprobante_RegulaSUNAT($ID){
         $firma=array (
                       'CertificadoDigital' => $param_emisor["Certificado"],
                       'PasswordCertificado' => $param_emisor["PasswordCertificado"],
-                      'TramaXmlSinFirma' => $data_GFactura->TramaXmlSinFirma,
+                      'TramaXmlSinFirma' => $data_GComprobante->TramaXmlSinFirma,
                       'UnSoloNodoExtension' => false,
                     );
 
@@ -11896,7 +11936,8 @@ function enviarComprobante_RegulaSUNAT($ID){
             $mensaje="La factura no se envió correctamente, no se creó el archivo CDR.";
             $resultado=-1;
             $sunat_respuesta = $data_sunat->MensajeError;
-            $array_resultado=array_merge($array_resultado,$resultado_sunat);
+            var_dump($data_sunat);
+            $array_resultado=array_merge($array_resultado,$data_sunat);
             //echo json_encode($resultado_sunat);
           }
 
@@ -11938,9 +11979,6 @@ function enviarComprobante_RegulaSUNAT($ID){
          // $resultado=-1;
           //$mensaje="La factura no se envió a la SUNAT, hubo un error al firmar la trama xml.";
         }
-
-
-
       }else {
         //echo json_encode($data_GComprobante);
         $array_resultado=array_merge($array_resultado,$data_GComprobante);

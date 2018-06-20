@@ -129,7 +129,7 @@ class comprobante_regula {
             $q.='"'.$this->observacion.'",';
             $q.=$this->cliente_ID.',';
             $q.=$this->usuario_mod_id.');';
-            console_log($q);
+            //console_log($q);
             $retornar=$cn->transa($q);
             $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'factura_venta',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_mod_id.",".$_SESSION['empresa_ID'].",".$this->usuario_mod_id.")";
             $cn->transa($q);
