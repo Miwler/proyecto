@@ -11745,6 +11745,7 @@ function post_ajaxEnviarNota_CreditoSUNAT() {
 function enviarComprobante_RegulaSUNAT($ID){
     require_once('include/URL_API.php');
     $new = new api_SUNAT();
+    
     if(!class_exists("comprobante_regula")){
         require ROOT_PATH.'models/comprobante_regula.php';
     }
@@ -11763,10 +11764,15 @@ function enviarComprobante_RegulaSUNAT($ID){
         $DocumentoDetalle = array();
         $Discrepancias = array();
         $DocumentoRelacionado = array();
-        $i=0;
+        $i=1;
+        
+        $Discrepancias[]= array (
+            'NroReferencia'=>'F001-8','Tipo'=>'01','Descripcion'=>'Anulación de la operación');
+
+                
         foreach($dt as $valor){
             $DocumentoDetalle[] = array (
-                'Id' => $i+1,
+                'Id' => $i,
                 'Cantidad' =>$valor['cantidad'],
                 'UnidadMedida' => $valor['unidad_medida'],
                 'CodigoItem' => $valor['codigo_producto'],
@@ -11774,7 +11780,7 @@ function enviarComprobante_RegulaSUNAT($ID){
                 'PrecioUnitario' => $valor['precio_unitario'],
                 'PrecioReferencial' =>$valor['precio_unitario'],
                 'TipoPrecio' => '01',
-                'TipoImpuesto' => $valor['tipo_impuesto'],
+                'TipoImpuesto' =>'10', //$valor['tipo_impuesto'],
                 'Impuesto' => 18,
                 'ImpuestoSelectivo' => 0,
                 'OtroImpuesto' => 0,
@@ -11783,7 +11789,7 @@ function enviarComprobante_RegulaSUNAT($ID){
                 'TotalVenta' => $valor['total'],
                 'Suma' => $valor['total']
               );
-            
+            $i++;
         }
         $total_facturado=explode(".",$oComprobante_Regula->monto_total);
         $decimal="00";
@@ -11798,15 +11804,15 @@ function enviarComprobante_RegulaSUNAT($ID){
         $total_letra="SON ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper(FormatTextView($oComprobante_Regula->moneda))).".";
         $param_emisor = $new->getParamEmisor($oComprobante_Regula->empresa_ID);
         $data = array (
-        'IdDocumento' => 'F001-0000001',
-        'TipoDocumento' => $oComprobante_Regula->codigo_comprobante,
+        'IdDocumento' => 'FC02-1',
+        'TipoDocumento' => '07',
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
         'NroDocumento' => $oComprobante_Regula->ruc,
         'TipoDocumento' => '6',//RUC
         'NombreLegal' => $oComprobante_Regula->razon_social
         ),
-        'FechaEmision' => $oComprobante_Regula->fecha_emision,
+        'FechaEmision' => '2018-06-20',//$oComprobante_Regula->fecha_emision
         'Moneda' => $oComprobante_Regula->codigo_moneda,
         'TipoOperacion' => '',
         'Gravadas' => $oComprobante_Regula->monto_total_neto,
@@ -11829,11 +11835,11 @@ function enviarComprobante_RegulaSUNAT($ID){
         'CalculoIgv' => 0.18,
         'CalculoIsc' => 0.10,
         'CalculoDetraccion' => 0.04,
+        'Relacionados'=>array('NroDocumento'=>'F001-8','01'),
+        'OtrosDocumentosRelacionados'=>array('NroDocumento'=>''),
+        'Discrepancias'=>$Discrepancias,
         'Items' => $DocumentoDetalle,
-        'Relacionados'=>array('NroDocumento'=>'F001-0000008','6'),
-        'OtrosDocumentosRelacionados'=>array('NroDocumento'=>'',''),
-        'Discrepancias'=>array('NroReferencia'=>'F001-0000008','Tipo'=>'6','Descripcion'=>'Se eliminó por error'),
-       "DatosGuiaTransportista"=>array(
+        "DatosGuiaTransportista"=>array(
         "DireccionDestino"=>array(
           "NroDocumento"=> "",
           "TipoDocumento"=> "",
@@ -11908,6 +11914,8 @@ function enviarComprobante_RegulaSUNAT($ID){
         $data_firma = json_decode($resultado_firma);
 
         //echo json_encode($resultado_firma);
+        //var_dump($resultado_firma);
+        
         if ($data_firma->Exito==true) {
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'].'.xml';
           $new->EscribirArchivoXML($nombreArchivo,$data_firma->TramaXmlFirmado);
@@ -11916,8 +11924,8 @@ function enviarComprobante_RegulaSUNAT($ID){
                                 'Ruc' => $param_emisor["RUC"],
                                 'UsuarioSol' => $param_emisor["UsuarioSol"],
                                 'ClaveSol' => $param_emisor["ClaveSol"],
-                                'IdDocumento' => $data['IdDocumento'],
-                                'TipoDocumento' => $data['TipoDocumento'],
+                                'IdDocumento' => 'FC02-1',
+                                'TipoDocumento' => '07',
                                 'EndPointUrl' => $param_emisor["UrlSunat"],
                               );
           $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
@@ -11926,9 +11934,11 @@ function enviarComprobante_RegulaSUNAT($ID){
           if ($data_sunat->Exito==true) {
             $sunat_respuesta = $data_sunat->MensajeRespuesta;
             if ($data_sunat->CodigoRespuesta==0) {
+              $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
               $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr);
             }
-            $array_resultado=array_merge($array_resultado,$resultado_sunat);
+            //var_dump($data_sunat);
+            $array_resultado=array_merge($array_resultado,json_decode($resultado_sunat, true));
             $mensaje="La factura se envió a la SUNAT.";
             $resultado=1;
             //echo json_encode($resultado_sunat);
@@ -11936,13 +11946,13 @@ function enviarComprobante_RegulaSUNAT($ID){
             $mensaje="La factura no se envió correctamente, no se creó el archivo CDR.";
             $resultado=-1;
             $sunat_respuesta = $data_sunat->MensajeError;
-            var_dump($data_sunat);
-            $array_resultado=array_merge($array_resultado,$data_sunat);
+           
+            $array_resultado=array_merge($array_resultado,json_decode($resultado_sunat, true));
             //echo json_encode($resultado_sunat);
           }
 
           $oComprobante_Regula_Sunat=new comprobante_regula_sunat();
-          $oComprobante_Regula_Sunat->comprobante_regula_ID=$id;
+          $oComprobante_Regula_Sunat->comprobante_regula_ID=$ID;
           $oComprobante_Regula_Sunat->fecha_generacion=$FechaRespuesta;
           $oComprobante_Regula_Sunat->fecha_respuesta=$FechaRespuesta;
           $oComprobante_Regula_Sunat->hash=$data_firma->ResumenFirma;
@@ -11959,7 +11969,7 @@ function enviarComprobante_RegulaSUNAT($ID){
         }else {
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
           $oComprobante_Regula_Sunat=new comprobante_regula_sunat();
-          $oComprobante_Regula_Sunat->comprobante_regula_ID=$id;
+          $oComprobante_Regula_Sunat->comprobante_regula_ID=$ID;
           $oComprobante_Regula_Sunat->fecha_generacion=$FechaRespuesta;
           $oComprobante_Regula_Sunat->fecha_respuesta=$FechaRespuesta;
           $oComprobante_Regula_Sunat->hash=$data_firma->ResumenFirma;
@@ -11986,7 +11996,7 @@ function enviarComprobante_RegulaSUNAT($ID){
         $resultado=-1;
         }
     } catch (Exception $ex) {
-        $mensaje=$ex->Message();
+        $mensaje=$ex->getMessage();
         $resultado=-1;
         //$retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
         //echo json_encode($retornar);
