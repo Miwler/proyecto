@@ -11941,8 +11941,8 @@ function enviarComprobante_RegulaSUNAT($ID){
 
           $oComprobante_Regula_Sunat=new comprobante_regula_sunat();
           $oComprobante_Regula_Sunat->comprobante_regula_ID=$ID;
-          $oComprobante_Regula_Sunat->fecha_generacion=$FechaRespuesta;
-          $oComprobante_Regula_Sunat->fecha_respuesta=$FechaRespuesta;
+          $oComprobante_Regula_Sunat->fecha_generacion=date("Y-m-d");
+          $oComprobante_Regula_Sunat->fecha_respuesta=date("Y-m-d");
           $oComprobante_Regula_Sunat->hash=$data_firma->ResumenFirma;
           $oComprobante_Regula_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
           $oComprobante_Regula_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
@@ -11958,8 +11958,8 @@ function enviarComprobante_RegulaSUNAT($ID){
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
           $oComprobante_Regula_Sunat=new comprobante_regula_sunat();
           $oComprobante_Regula_Sunat->comprobante_regula_ID=$ID;
-          $oComprobante_Regula_Sunat->fecha_generacion=$FechaRespuesta;
-          $oComprobante_Regula_Sunat->fecha_respuesta=$FechaRespuesta;
+           $oComprobante_Regula_Sunat->fecha_generacion=date("Y-m-d");
+          $oComprobante_Regula_Sunat->fecha_respuesta=date("Y-m-d");
           $oComprobante_Regula_Sunat->hash=$data_firma->ResumenFirma;
           $oComprobante_Regula_Sunat->nombre_archivo=$nombreArchivo;
           $oComprobante_Regula_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
