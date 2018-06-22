@@ -2,7 +2,7 @@
 
 class comprobante_regula {
     private $ID;
-    private $factura_venta_ID;
+    private $documento_relacionado_ID;
     private $cliente_ID;
     private $tipo_ID;
     private $serie;
@@ -35,11 +35,13 @@ class comprobante_regula {
     private $moneda;
     private $estado;
     private $tipo;
+    private $motivo_descripcion;
     private $codigo_comprobante;
     private $dtSerie;
     private $ruc;
     private $razon_social;
     private $codigo_moneda;
+    private $factura;
   public function __set($var, $valor)
     {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -76,10 +78,10 @@ class comprobante_regula {
             
             $q='select ifnull(max(ID),0)+1 as ID from comprobante_regula;';
             $ID=$cn->getData($q);
-            $q='INSERT INTO comprobante_regula (ID,factura_venta_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,';
+            $q='INSERT INTO comprobante_regula (ID,documento_relacionado_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,';
             $q.='estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,';
             $q.='anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,usuario_id) ';
-            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->cliente_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'","'.$this->fecha_emision.'","'.$this->fecha_vencimiento.'"';
+            $q.='VALUES ('.$ID.','.$this->documento_relacionado_ID.','.$this->cliente_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'","'.$this->fecha_emision.'","'.$this->fecha_vencimiento.'"';
             $q.=','.$this->estado_ID.','.$this->moneda_ID.','.$this->monto_total_neto.','.$this->monto_total_igv.','.$this->monto_total.','.$this->monto_pendiente.','.$this->empresa_ID.','.$this->correlativos_ID.','.$this->porcentaje_descuento.',';
             $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.',"'.$this->observacion.'",'.$this->usuario_id.');';
             //echo $q;
@@ -102,7 +104,7 @@ class comprobante_regula {
         try{
             $q="call comprobante_regula_Update(";
             $q.=$this->ID.',';
-            $q.=$this->factura_venta_ID.',';
+            $q.=$this->documento_relacionado_ID.',';
             $q.=$this->tipo_ID.',';
             $q.='"'.$this->serie.'",';
             $q.=$this->numero.',';
@@ -164,7 +166,7 @@ class comprobante_regula {
 		try
 		{
                     $q='select count(cr.ID) ';
-                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
+                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.documento_relacionado_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
                     $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];;
 
                     if ($filtro!='')
@@ -195,7 +197,7 @@ class comprobante_regula {
                     foreach($dt as $item)
                     {
                         $oComprobante_Regula->ID=$item['ID'];
-                        $oComprobante_Regula->factura_venta_ID=$item['factura_venta_ID'];
+                        $oComprobante_Regula->documento_relacionado_ID=$item['documento_relacionado_ID'];
                         $oComprobante_Regula->cliente_ID=$item['cliente_ID'];
                         $oComprobante_Regula->tipo_ID=$item['tipo_ID'];
                         $oComprobante_Regula->serie=$item['serie'];
@@ -225,11 +227,12 @@ class comprobante_regula {
                         $oComprobante_Regula->estado=$item['estado'];
                         $oComprobante_Regula->moneda=$item['moneda'];
                         $oComprobante_Regula->tipo=$item['tipo'];
+                        $oComprobante_Regula->motivo_descripcion=$item['motivo_descripcion'];
                         $oComprobante_Regula->codigo_comprobante=$item['codigo_comprobante'];
                         $oComprobante_Regula->ruc=$item['ruc'];
                         $oComprobante_Regula->razon_social=$item['razon_social'];
                         $oComprobante_Regula->codigo_moneda=$item['codigo_moneda'];
-                         
+                        $oComprobante_Regula->factura=$item['factura'];
                     }
                     return $oComprobante_Regula;
 
@@ -244,7 +247,7 @@ class comprobante_regula {
 		try
 		{
                     $q='select cr.ID,cr.serie,cr.numero_concatenado,ti.nombre as tipo,ifnull(cr.fecha_emision,"") as fecha_emision,fv.serie as serie_factura,fv.numero as numero_factura,es.nombre as estado,cr.estado_ID,mo.simbolo as moneda,cr.monto_total';
-                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.factura_venta_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
+                    $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.documento_relacionado_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
                     $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];
                   
                         if($filtro!=''){
@@ -283,7 +286,7 @@ class comprobante_regula {
         $cn =new connect();
         $retornar=-1;
         try{
-            $q="select count(ID) from factura_venta where del=0 and  estado_ID=53 and ID=".$this->factura_venta_ID;
+            $q="select count(ID) from factura_venta where del=0 and  estado_ID=53 and ID=".$this->documento_relacionado_ID;
             //echo $q;
             $retornar=$cn->getData($q);
             return $retornar;

@@ -11447,7 +11447,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
  
     global  $returnView_float;
     $returnView_float=true;
-    $factura_venta_ID=$_POST['txtFactura_Venta_ID'];
+    $documento_relacionado_ID=$_POST['txtFactura_Venta_ID'];
     $tipo_ID=$_POST['selTipo'];
     $fecha_emision=FormatTextToDate($_POST['txtFecha_Emision'],'Y-m-d');
     $fecha_vencimiento=FormatTextToDate($_POST['txtFecha_vencimiento'],'Y-m-d');
@@ -11474,7 +11474,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $oComprobante_Regula=new comprobante_regula();
     try{
         $oCorrelativos=correlativos::getByID($correlativos_ID);
-        $oComprobante_Regula->factura_venta_ID=$factura_venta_ID;
+        $oComprobante_Regula->documento_relacionado_ID=$documento_relacionado_ID;
         $oComprobante_Regula->cliente_ID=$cliente_ID;
         $oComprobante_Regula->tipo_ID=$tipo_ID;
         $oComprobante_Regula->serie=$oCorrelativos->serie;
@@ -11506,7 +11506,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
                
                 $resultado=1;
                 $mensaje=$oComprobante_Regula->getMessage;
-                $dt=factura_venta_detalle::getGrid1("fvd.factura_venta_ID=".$factura_venta_ID,-1,-1);
+                $dt=factura_venta_detalle::getGrid1("fvd.factura_venta_ID=".$documento_relacionado_ID,-1,-1);
                 foreach($dt as $valor){
                     if(isset($_POST['txt'.$valor['factura_venta_detalle_ID']])){
                         $oSalida_Detalle=salida_detalle::getByID($valor['ID']);
@@ -11554,11 +11554,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
             $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
             $oComprobante_Regula->actualizar();
             $array_resultado_sunat=enviarComprobante_RegulaSUNAT($oComprobante_Regula->ID);
-            if($array_resultado_sunat['resultado_final']==1){
-                $oComprobante_Regula->estado_ID=92;//Estado enviado
-                $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
-                $oComprobante_Regula->actualizar();
-            }
+            
             
         }else{
             throw new Exception("La factura no se encuentra disponible.");
@@ -11767,9 +11763,10 @@ function enviarComprobante_RegulaSUNAT($ID){
         $i=1;
         
         $Discrepancias[]= array (
-            'NroReferencia'=>'F001-8','Tipo'=>'01','Descripcion'=>'Anulación de la operación');
+            'NroReferencia'=>"F001-1",'Tipo'=>'01','Descripcion'=>'Anulación de la operación');//utf8_decode($oComprobante_Regula->motivo_descripcion)
 
-                
+              //'NroReferencia'=>$oComprobante_Regula->factura,'Tipo'=>$oComprobante_Regula->tipo,'Descripcion'=>'Anulación de la operación');//utf8_decode($oComprobante_Regula->motivo_descripcion)
+  
         foreach($dt as $valor){
             $DocumentoDetalle[] = array (
                 'Id' => $i,
@@ -11804,15 +11801,15 @@ function enviarComprobante_RegulaSUNAT($ID){
         $total_letra="SON ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper(FormatTextView($oComprobante_Regula->moneda))).".";
         $param_emisor = $new->getParamEmisor($oComprobante_Regula->empresa_ID);
         $data = array (
-        'IdDocumento' => 'FC02-1',
-        'TipoDocumento' => '07',
+        'IdDocumento' =>$oComprobante_Regula->serie.'-'.$oComprobante_Regula->numero,//FC02-1',
+        'TipoDocumento' => $oComprobante_Regula->codigo_comprobante,
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
         'NroDocumento' => $oComprobante_Regula->ruc,
         'TipoDocumento' => '6',//RUC
         'NombreLegal' => $oComprobante_Regula->razon_social
         ),
-        'FechaEmision' => '2018-06-20',//$oComprobante_Regula->fecha_emision
+        'FechaEmision' =>$oComprobante_Regula->fecha_emision,// '2018-06-20',//$oComprobante_Regula->fecha_emision
         'Moneda' => $oComprobante_Regula->codigo_moneda,
         'TipoOperacion' => '',
         'Gravadas' => $oComprobante_Regula->monto_total_neto,
@@ -11835,7 +11832,7 @@ function enviarComprobante_RegulaSUNAT($ID){
         'CalculoIgv' => 0.18,
         'CalculoIsc' => 0.10,
         'CalculoDetraccion' => 0.04,
-        'Relacionados'=>array('NroDocumento'=>'F001-8','01'),
+        'Relacionados'=>array('NroDocumento'=>$oComprobante_Regula->factura,'01'),
         'OtrosDocumentosRelacionados'=>array('NroDocumento'=>''),
         'Discrepancias'=>$Discrepancias,
         'Items' => $DocumentoDetalle,
@@ -11879,25 +11876,10 @@ function enviarComprobante_RegulaSUNAT($ID){
         //var_dump($data);
        
       $metodo = 'GenerarNotaCredito';
-      /*switch ($data['TipoDocumento']) {
-        case '01':
-            $metodo = 'GenerarFactura';
-            break;
-        case '03':
-            $metodo = 'GenerarFactura';
-            break;
-        case '07':
-              $metodo = 'GenerarNotaCredito';
-              break;
-        case '08':
-                $metodo = 'GenerarNotaDebito';
-                break;
-        default:
-              $metodo = 'GenerarFactura';
-              break;
-      }*/
+     
       //var_dump($data);
       $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
+      
       $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
       $data_GComprobante = json_decode($resultado_GFactura);
       
@@ -11907,14 +11889,14 @@ function enviarComprobante_RegulaSUNAT($ID){
                       'CertificadoDigital' => $param_emisor["Certificado"],
                       'PasswordCertificado' => $param_emisor["PasswordCertificado"],
                       'TramaXmlSinFirma' => $data_GComprobante->TramaXmlSinFirma,
-                      'UnSoloNodoExtension' => false,
+                      'UnSoloNodoExtension' => true,
                     );
 
         $resultado_firma = $new->sendPostCPE(json_encode($firma),'Firmar');
         $data_firma = json_decode($resultado_firma);
 
         //echo json_encode($resultado_firma);
-        //var_dump($resultado_firma);
+        
         
         if ($data_firma->Exito==true) {
           $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'].'.xml';
@@ -11924,23 +11906,29 @@ function enviarComprobante_RegulaSUNAT($ID){
                                 'Ruc' => $param_emisor["RUC"],
                                 'UsuarioSol' => $param_emisor["UsuarioSol"],
                                 'ClaveSol' => $param_emisor["ClaveSol"],
-                                'IdDocumento' => 'FC02-1',
-                                'TipoDocumento' => '07',
+                                'IdDocumento' => $data['IdDocumento'],
+                                'TipoDocumento' => $data['TipoDocumento'],
                                 'EndPointUrl' => $param_emisor["UrlSunat"],
                               );
           $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
+          //var_dump($resultado_sunat);
           $data_sunat = json_decode($resultado_sunat);
           $sunat_respuesta='';
           if ($data_sunat->Exito==true) {
             $sunat_respuesta = $data_sunat->MensajeRespuesta;
             if ($data_sunat->CodigoRespuesta==0) {
               $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
-              $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr);
+              $resultado_cdr=$new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr);
+              
             }
             //var_dump($data_sunat);
             $array_resultado=array_merge($array_resultado,json_decode($resultado_sunat, true));
             $mensaje="La factura se envió a la SUNAT.";
+            
             $resultado=1;
+            $oComprobante_Regula->estado_ID=92;//Estado enviado
+                    $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oComprobante_Regula->actualizar();
             //echo json_encode($resultado_sunat);
           }else{
             $mensaje="La factura no se envió correctamente, no se creó el archivo CDR.";
