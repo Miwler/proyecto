@@ -8,7 +8,7 @@ function getData($sql){
     $retornar = Array('resultado' => $resultado);
     return json_encode($retornar, true);
 }
-
+//Web service
 function getGrid($sql){
     require_once ('../models/connect_new.php');
     $cn = new connect_new();
