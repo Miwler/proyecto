@@ -1051,3 +1051,13 @@ FECHA Y HORA: 01 02 2019 20:02:07
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
 METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
 ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 02 02 2019 21:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: La venta ya tiene una factura generada.
+============================ERROR====================================
+FECHA Y HORA: 02 02 2019 21:02:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: La venta ya tiene una factura generada.

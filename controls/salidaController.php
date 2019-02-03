@@ -14961,7 +14961,7 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $GLOBALS["mensaje"]="No ha registrado ningún producto.";
                 throw new Exception("No ha registrado ningún producto.");
             }
-            $Facturas_Generadas=factura_venta::getCount("salida_ID=".$id." and estado_ID<>95");
+            $Facturas_Generadas=factura_venta::getCount("salida_ID=".$id." and estado_ID not in(95,107) and ID in (select max(ID) from factura_venta where salida_ID=".$id."))");
             
             if($Facturas_Generadas>0){
                 $GLOBALS["resultado"]=-2;
