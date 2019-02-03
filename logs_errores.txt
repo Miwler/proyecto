@@ -1061,3 +1061,34 @@ FECHA Y HORA: 02 02 2019 21:02:35
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
 METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
 ERROR: La venta ya tiene una factura generada.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 00:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iFechaEmision = '2019-02-03';
+SET @_iFechaReferencia = '2019-02-01';
+SET @_iestado_ID = '109';
+SET @_iempresa_ID = '2';
+SET @_iusuario_id = '0';
+SET @_iMotivoBaja = 'Error de digitación';
+SET @_idocumentos = 'factura_venta|1617|01|F001|6';
+CALL `sp_comunicacion_baja_Insert`( @_iID, @_iFechaEmision, @_iFechaReferencia, @_iestado_ID, @_iempresa_ID, @_iusuario_id, @_iMotivoBaja, @_idocumentos)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 00:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: post_Comunicacion_Baja_Mantenimiento_Nuevo
+ERROR: exception 'Exception' with message 'Falló la preparación: (0)' in C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php:377
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\models\comunicacion_baja.php(123): connect_new->store_procedure_transa('sp_comunicacion...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(16807): comunicacion_baja->insertar()
+#2 [internal function]: post_Comunicacion_Baja_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(162): call_user_func_array('post_Comunicaci...', Array)
+#4 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#5 {main}
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 01:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.

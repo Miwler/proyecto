@@ -332,7 +332,7 @@
             mensaje.error('Error', err.message);
         }
     });
-    $('#txtBuscar,#txtMostrar,#txtCodigo').keypress(function(e){
+    $('#txtBuscar,#txtMostrar,#txtCodigo,#txtNumero_Factura').keypress(function(e){
 
             if (e.which==13){
                     $('#num_page').val(1);

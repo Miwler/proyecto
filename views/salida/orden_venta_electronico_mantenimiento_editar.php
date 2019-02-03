@@ -350,9 +350,13 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         Agregar
                     </button>
+                    <?php if($GLOBALS['oOrden_Venta']->impresion==1) { ?>
+                        <button id='btnImprimiendo' type="button" class="btn btn-info" onclick='$("#ModalResultadoImpresion").modal("show");'>Imprimiendo</button>
+                        <?php }?>
                     
-                    
-                    <div id="contenedor_imprimir"></div>
+                    <div id="contenedor_imprimir">
+                        
+                    </div>
                     <table id="table_guias" class="table table-hover table-bordered table-teal">
                         <thead>
                             <tr><th class="text-center">N°</th><th class="text-center">Número</th><th class="text-center">Fecha emisión</th><th class="text-center">Vehículo</th><th class="text-center">Chofer</th><th class="text-center">Estado</th><th></th></tr>
@@ -1135,6 +1139,7 @@
                 var respuesta = $.parseJSON(res);
                fncCargar_Guias_Ventas();
                 if(respuesta.resultado=='2'){
+                    $("#btnImprimiendo").css("display","none");
                     limpiar_verificacion();
                     $("#ModalResultadoImpresion").modal("hide");
                     

@@ -16738,8 +16738,8 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $resultado.='<td class="text-center">' . $item['FechaEmision'] . '</td>';
                 $resultado.='<td class="text-center">' . $item['FechaReferencia'] . '</td>';
                 $resultado.='<td class="text-center">' . $item['documento'] . '</td>';
-                $resultado.='<td class="text-center">' . utf8_encode($item['MotivoBaja']) . '</td>';
-                $resultado.='<td class="tdLeft">' . utf8_encode($item['estado']) . '</td>';
+                $resultado.='<td class="text-center">' . $item['MotivoBaja'] . '</td>';
+                $resultado.='<td class="tdLeft">' . $item['estado'] . '</td>';
                 $botones=array();
                // array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar baja"><span class="glyphicon glyphicon-pencil"></span> Editar</a>');	
                 if($item['estado_ID']==109||$item['estado_ID']==111){

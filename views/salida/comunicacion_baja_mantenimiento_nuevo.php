@@ -121,7 +121,7 @@ function fncPage() { ?>
         }
         var i=0;
         var valor="";
-        $("#table_documentos tbody input:checkbox:checked").each(function(){
+        $("#table_documentos tbody input:radio:checked").each(function(){
             if(i==0){
                 valor=this.value;
             }else{
@@ -184,7 +184,7 @@ function fncPage() { ?>
         $(document).ready(function(){
             $("#btnAgregar").css("display","");
             toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
-            //setTimeout('window_float_save_modal();', 1000);
+           setTimeout('window_float_save_modal();', 1000);
         });
         
     </script>
