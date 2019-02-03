@@ -55,17 +55,19 @@ class ingreso_detalle {
     
    
     function insertar(){
-		$cn =new connect();
+		
 		$retornar=-1;
 		try{
                     $ID=0;
 			$q="select ifnull(max(ID),0)+1 as ID from ingreso_detalle;";
+                        $cn =new connect_new();
 			$ID=$cn->getData($q);
 			
 			$q="INSERT INTO ingreso_detalle(ID,ingreso_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,usuario_id,destino) ";
 			$q.="VALUES (".$ID.",".$this->ingreso_ID.",".$this->producto_ID.",'".$this->descripcion."',".$this->cantidad.",'";
-			$q.=number_format($this->precio,2,'.','')."','".number_format($this->subtotal,2,'.','')."','".number_format($this->igv,2,'.','')."','".number_format($this->total,2,'.','')."',".$this->usuario_id.','.$this->destino.');';
+			$q.=round($this->precio,2)."','".round($this->subtotal,2)."','".round($this->igv,2)."','".round($this->total,2)."',".$this->usuario_id.','.$this->destino.');';
 			//echo $q;
+                        $cn =new connect_new();
 			$retornar=$cn->transa($q);
 			
 			
@@ -80,7 +82,7 @@ class ingreso_detalle {
 	}	
 		
     function actualizar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -100,7 +102,7 @@ class ingreso_detalle {
     }
 
     function eliminar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -119,7 +121,7 @@ class ingreso_detalle {
 
     static function getByID($ID)
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='Select ID,ingreso_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,destino,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -154,7 +156,7 @@ class ingreso_detalle {
     }
 
     function verificarDuplicado(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     return $retornar;
@@ -166,7 +168,7 @@ class ingreso_detalle {
 
     static function getCount($filtro='')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='select count(ccd.ID) ';
@@ -189,10 +191,10 @@ class ingreso_detalle {
 
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ccd.ID asc')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
-                    $q='select ccd.ID as codigo,ccd.producto_ID,ccd.ingreso_ID,ccd.descripcion,ccd.cantidad,';
+                    $q='select ccd.ID as codigo,ccd.producto_ID,ccd.ingreso_ID,ccd.descripcion,ccd.cantidad,co.proveedor_ID,';
                     $q.='ccd.precio,ccd.subtotal,ccd.igv,ccd.total,pro.nombre as producto,ccd.destino,ifnull(ccd.usuario_mod_id,-1) as usuario_mod_id, es.nombre as estado';
                     $q.=' FROM ingreso_detalle ccd, producto pro,estado es,ingreso co';
                     $q.=' where ccd.del=0 and co.del=0 and ccd.ingreso_ID=co.ID and ccd.producto_ID=pro.ID and pro.estado_ID=es.ID';
@@ -217,18 +219,26 @@ class ingreso_detalle {
     }
     static function getGridPrecioingreso($producto_ID)
     {
-            $cn =new connect();
+            
             try 
             {
-                $q='create temporary TABLE tbprecio_ingreso  select cd.ID,cd.ingreso_ID,cd.precio,(case when co.moneda_ID=1 then cd.precio else round(cd.precio*co.tipo_cambio,2) end) as precio_soles,(case when co.moneda_ID=2 then cd.precio else round(cd.precio/co.tipo_cambio,2) end) as precio_dolares,co.tipo_cambio,co.fecha_emision';
+                $cn =new connect_new();
+                $dt=$cn->store_procedure_getGrid("sp_producto_getGridPrecioCompra",
+                        array("iproducto_ID"=>$producto_ID));
+                //$q='create temporary TABLE tbprecio_ingreso  select cd.ID,cd.ingreso_ID,cd.precio,(case when co.moneda_ID=1 then cd.precio else round(cd.precio*co.tipo_cambio,2) end) as precio_soles,(case when co.moneda_ID=2 then cd.precio else round(cd.precio/co.tipo_cambio,2) end) as precio_dolares,co.tipo_cambio,co.fecha_emision';
                 
-                $q.=' from ingreso_detalle cd,ingreso co';
-                $q.=' where cd.del=0 and co.del=0 and cd.ingreso_ID=co.ID and cd.producto_ID='.$producto_ID.' order by co.fecha_emision desc limit 0, 20;';
-                $cn->transa($q);
-                $q='select precio_soles,  precio_dolares from tbprecio_ingreso group by precio_soles, precio_dolares order by precio_dolares desc limit 1,1 ;';    
-                $dt=$cn->getGrid($q);
-                $q='drop table tbprecio_ingreso;'   ;
-                 $cn->transa($q);   
+               // $q.=' from ingreso_detalle cd,ingreso co';
+                //$q.=' where cd.del=0 and co.del=0 and cd.ingreso_ID=co.ID and cd.producto_ID='.$producto_ID.' order by co.fecha_emision desc limit 0, 20;';
+                
+                //$cn =new connect_new();
+                //$cn->transa($q);
+                //$q.=' select precio_soles,  precio_dolares from tbprecio_ingreso group by precio_soles, precio_dolares order by precio_dolares desc limit 1,1;';    
+                //$cn =new connect_new();
+                //$dt=$cn->getGrid($q);
+                //$q.='drop table tbprecio_ingreso;';
+                //$cn =new connect_new();
+                //$dt=$cn->getGrid($q);
+                //$cn->transa($q);   
                 return $dt;												
             }catch(Exception $ex)
             {

@@ -50,19 +50,17 @@
         <link href="../../assets/admin/css/components.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/custom.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/layout.css" rel="stylesheet" type="text/css"/>
-        <link href="../../assets/admin/css/material-custom.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="../../assets/admin/css/material-custom.css" rel="stylesheet" type="text/css"/>-->
         <link href="../../assets/admin/css/plugins.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/reset.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/theme.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/yii-custom.css" rel="stylesheet" type="text/css"/>
    
-        <link href="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.min.css" rel="stylesheet" type="text/css"/>
-        <script src="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.jquery.js" type="text/javascript"></script>
-        <!---->
+        <link href="../../assets/global/plugins/bower_components/chosen_v1.8.7/chosen.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../../assets/global/plugins/bower_components/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
+            <!---->
          <!--PERSONALIZADO!-->
-        <link href="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.min.css" rel="stylesheet" type="text/css"/>
-        <script src="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.jquery.js" type="text/javascript"></script>
-        <link href="../../../assets/global/plugins/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+         <link href="../../../assets/global/plugins/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../assets/global/plugins/bower_components/animate.css/animate.min.css" rel="stylesheet">
         <link href="../../../assets/global/plugins/bower_components/bootstrap-datepicker-vitalets/css/datepicker.css" rel="stylesheet">
         <link href="../../../assets/global/plugins/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
@@ -75,7 +73,7 @@
   
         <script src="../../assets/global/plugins/bower_components/blockui/jquery.blockUI.js" type="text/javascript"></script>
         
-        
+        <script src="../../include/js/jBotones.js" type="text/javascript"></script>
         <!--<link rel="stylesheet" type="text/css" href="include/css/estilos-float.css" />
 	<!--<link rel="stylesheet" type="text/css" href="include/css/controles.css" />
 	<link rel="stylesheet" type="text/css" href="include/css/cboDiv.css" />-->
@@ -87,6 +85,11 @@
           
 	</script>
 	<?php  fncHead();	?>
+         <style>
+            .btn-group li a:hover{
+                cursor:pointer;
+            }
+        </style>
 </head>
 <body>
     <div id="main">

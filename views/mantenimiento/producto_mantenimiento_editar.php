@@ -249,8 +249,7 @@ function fncMenu() { ?>
             }
             
             if(unidad_medida==0){
-                $('#divMensaje').html('Seleccione unidad de medida.');
-                $('#selUnidad_Medida').focus();
+                mensaje.error('Mensaje de error','Seleccione unidad de medida.','selUnidad_Medida');
                 return false;
             }
 

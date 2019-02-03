@@ -8,7 +8,8 @@
 	<script type="text/javascript" src="include/js/jForm.js"></script>
 
         <script type="text/javascript" src="include/js/jGrid.js"></script>
-
+   
+        <link href="../../include/css/grid.css" rel="stylesheet" type="text/css"/>
         <script>
             $(document).ready(function(){
                 /*if(typeof($('#txtProducto_ID').val())!="undefined"){
@@ -33,31 +34,26 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-group">
-                <div class="col-md-1 col-lg-1 col-xs-1 col-md-1">
-                    <label>Cliente:</label>
+                <label class="control-label col-sm-1">Cliente:</label>
+                <div class="col-sm-3">
+                    <input type='text' id="txtBuscar" name="txtBuscar"  class="form-control" placeholder="Razon social del cliente">
                 </div>
-                <div class="col-md-3 col-lg-3 col-xs-3 col-md-3">
-                    <input type='text' id="txtBuscar" name="txtBuscar"  class="form-control" placeholder="Ingrese la razon social del cliente">
-                </div>
+               <label class="control-label col-sm-2">N&uacute;mero::</label>
                 <div class="col-md-2 col-lg-2 col-xs-2 col-md-2">
-                    <label>N&uacute;mero::</label>
+                    <input type='text' id='txtNumero' name='txtNumero' autocomplete="off" class='int form-control'>
                 </div>
-                <div class="col-md-2 col-lg-2 col-xs-2 col-md-2">
-                    <input type='text' id='txtNumero' name='txtNumero' class='int form-control'>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xs-1 col-md-1">
-                    <label>Mostrar::</label>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xs-1 col-md-1">
+                <label class="control-label col-sm-1">Mostrar::</label>
+                <div class="col-sm-1">
                     <input id="txtMostrar" name="txtMostrar" type="text"  class="int form-control" value="30" >
                 </div>
-                <div class="col-md-2 col-lg-2 col-xs-2 col-md-2">
+                <div class="col-sd-2">
                     <button id="btnBuscar" name="btnBuscar" type="button" title="Buscar" class="btn btn-primary" onclick="fmC.enviar();">
                         <span class="glyphicon glyphicon-search"></span>Buscar
                     </button>
                 </div>
             </div>
             <div class="form-group">
+                
                 <div id="divCotizaciones" class="col-md-12 col-lg-12 col-xs-12 col-md-12" style='height: 460px; overflow:auto;'>
 
                 </div>
@@ -123,20 +119,26 @@
         parent.float_close_modal_hijo();
     }
     var fncVender=function(id){
-        //alert(id);
-        $('#divCotizaciones').html('<div style="background:#000;opacity:0.7;width:100%;height:100%;text-align:center;" ><img width="100px" src="/include/img/loader-Login.gif"></div>');
-        cargarValores('/Salida/ajaxExtraerCotizacion',id,function(Result){
-          
-          if(Result.resultado==1){
-              toastem.info('La importación se realizó correctamete.');
-             
-              setTimeout('parent.windos_float_save_modal_hijo('+Result.salida_ID+');', 1000);
-          }else {
-              
-                mensaje.error("OCURRIÓ UN ERROR",Result.mensaje);
-                fmC.enviar();
-          }
-       });
+        var tipo_ID=<?php echo $GLOBALS['tipo_ID'];?>;
+        var object=new Object();
+        object['tipo_ID']=tipo_ID;
+        object['cotizacion_ID']=id;
+        block_ui(function(){
+            enviarAjax('/Salida/ajaxExtraerCotizacion','frm1',object,function(res){
+                var Result=$.parseJSON(res);
+                $.unblockUI();
+                if(Result.resultado==1){
+                    toastem.info('La importación se realizó correctamete.');
+
+                    setTimeout('parent.windos_float_save_modal_hijo('+Result.salida_ID+');', 1000);
+                }else {
+
+                      mensaje.error("OCURRIÓ UN ERROR",Result.mensaje);
+                      fmC.enviar();
+                }
+            });
+        });
+        
 
 
     }

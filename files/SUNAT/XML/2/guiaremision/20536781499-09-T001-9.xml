@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<DespatchAdvice xmlns="urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:sac="urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+  <cbc:CustomizationID>1.0</cbc:CustomizationID>
+  <cbc:ID>T001-9</cbc:ID>
+  <cbc:IssueDate>2018-11-10</cbc:IssueDate>
+  <cbc:IssueTime>18:44:52</cbc:IssueTime>
+  <cbc:DespatchAdviceTypeCode>09</cbc:DespatchAdviceTypeCode>
+  <ext:UBLExtensions>
+    <ext:UBLExtension>
+      <ext:ExtensionContent><ds:Signature>
+  <ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+    <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+  <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>nka5QWqjXKh3hVYwlG2z/bll+8E=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>4mPC4vQlHwVSP1WmDtaPTRzY3OIBtFZBuWwsyubOoz+ZXfO2sz9GAWffZvTBPaTrA8rvHF/48B6EUCFFIVH8oE7GMfcz+TqUESefWWlGc6rvlN3OxgFItT7L9iJk7mJ2cfQnltoRogR8mQba8rHUpzZI8B3xqnjcDVkO10bRlza8Bb0qh/uGBNx4KF8DUVG7V9EwxCNorhfhEu1CwUHtDlgLr4sj4HBpqW3/dmNW4wz4X8JiunEnJ+6KhQP6QJRwQ3t3MMTmnLhnI015KEfX6goI6lKtCE/uEXT1fDr2yf4YJIRhOzmVaHW6sWQCS0lZVMolP16X2vmPeEGlUm4U8A==</ds:SignatureValue>
+<ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIE8TCCA9mgAwIBAgICfRcwDQYJKoZIhvcNAQEFBQAwggENMRswGQYKCZImiZPyLGQBGRYLTExBTUEuUEUgU0ExCzAJBgNVBAYTAlBFMQ0wCwYDVQQIDARMSU1BMQ0wCwYDVQQHDARMSU1BMRgwFgYDVQQKDA9UVSBFTVBSRVNBIFMuQS4xRTBDBgNVBAsMPEROSSA5OTk5OTk5IFJVQyAyMDUzNjc4MTQ5OSAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFDScOTTjFEMEIGA1UEAww7Tk9NQlJFIFJFUFJFU0VOVEFOVEUgTEVHQUwgLSBDRVJUSUZJQ0FETyBQQVJBIERFTU9TVFJBQ0nDk04xHDAaBgkqhkiG9w0BCQEWDWRlbW9AbGxhbWEucGUwHhcNMTgxMTEzMjMxOTIyWhcNMjAxMTEyMjMxOTIyWjCCAQ0xGzAZBgoJkiaJk/IsZAEZFgtMTEFNQS5QRSBTQTELMAkGA1UEBhMCUEUxDTALBgNVBAgMBExJTUExDTALBgNVBAcMBExJTUExGDAWBgNVBAoMD1RVIEVNUFJFU0EgUy5BLjFFMEMGA1UECww8RE5JIDk5OTk5OTkgUlVDIDIwNTM2NzgxNDk5IC0gQ0VSVElGSUNBRE8gUEFSQSBERU1PU1RSQUNJw5NOMUQwQgYDVQQDDDtOT01CUkUgUkVQUkVTRU5UQU5URSBMRUdBTCAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFDScOTTjEcMBoGCSqGSIb3DQEJARYNZGVtb0BsbGFtYS5wZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOfoXJa02/xdIze/MnPBCRmCOZfiH/0IyebS1Vo5B+QV+mJSj4jxgGL0YZGgAM+aFOgytCqbyD7iJkKZMIoQzVM08efNXCe8hstzim9/cvwlhhXwXqQuvQKxXIgwyvT0AsbpOyb0rzmnjkB2RHEt8Kj+HdzhuOnB5/MY9WaabEwI1WgB9Eje3497a54aBH1HzICkPV1Lc3mDlrgzobfWqNSr2fldu16btFBC/d8Ir1h1zXwTZ7poDAKyYOij1ezO66ox+kwqzCAMEt3T0ZygO2EjJvvNF6pJN9wJO8oCmxSc9cWsCi6n/LbdHRi74MKxiFIFkql45d/PRZx8olnw+80CAwEAAaNXMFUwHQYDVR0OBBYEFJEr2Y2XE73k+h/XsJWmByj7dgUmMB8GA1UdIwQYMBaAFJEr2Y2XE73k+h/XsJWmByj7dgUmMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBBQUAA4IBAQA4uY3TrUn4M0Y9XFChCL3xpb6hls1wkSJdC6FpQhOo37tZ7rQzNVUszP8645ksERFppk70ERjCC4BERRI+/Z2uNJaLBPHo4G/4vsNIYMWsHu91aGKyfmSyiwMm7c+Jtqt8Pd45GyeyvJFNyi7qgfuowF+8NQw8mDTMXI5gdoteAx7LxjN+JIvCZC+KTNcpR6xFy0oWJwr7Dkwy16YGgXwmfN/vgaN10JIQQn36n4w6dhHuqD0EQJuY+a0VWTHrvIZgUfSH41Mf2pHBm53I23Rpdcw9oQQdN9Ns2pVGrUrQvTQH5o8A3s/pbkJG5LwqdtHHvSh5aGh1pHS5SL2Z99k4</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></ext:ExtensionContent>
+    </ext:UBLExtension>
+  </ext:UBLExtensions>
+  <cac:Signature>
+    <cbc:ID>IDSignKG</cbc:ID>
+    <cac:SignatoryParty>
+      <cac:PartyIdentification>
+        <cbc:ID>20536781499</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:PartyName>
+        <cbc:Name><![CDATA[JJ SOLUCIONES E.I.R.L]]></cbc:Name>
+      </cac:PartyName>
+    </cac:SignatoryParty>
+    <cac:DigitalSignatureAttachment>
+      <cac:ExternalReference>
+        <cbc:URI>#signatureKG</cbc:URI>
+      </cac:ExternalReference>
+    </cac:DigitalSignatureAttachment>
+  </cac:Signature>
+  <cac:DespatchSupplierParty>
+    <cbc:CustomerAssignedAccountID schemeID="6">20536781499</cbc:CustomerAssignedAccountID>
+    <cac:Party>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName><![CDATA[JJ SOLUCIONES E.I.R.L]]></cbc:RegistrationName>
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:DespatchSupplierParty>
+  <cac:DeliveryCustomerParty>
+    <cbc:CustomerAssignedAccountID schemeID="6">20510579454</cbc:CustomerAssignedAccountID>
+    <cac:Party>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName><![CDATA[ELECTROANDINA INDUSTRIAL S.A.C.]]></cbc:RegistrationName>
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:DeliveryCustomerParty>
+  <cac:Shipment>
+    <cbc:HandlingCode>01</cbc:HandlingCode>
+    <cbc:Information>Venta interna de productos</cbc:Information>
+    <cbc:SplitConsignmentIndicator>0</cbc:SplitConsignmentIndicator>
+    <cbc:GrossWeightMeasure unitCode="KGM">1</cbc:GrossWeightMeasure>
+    <cbc:TotalTransportHandlingUnitQuantity>1</cbc:TotalTransportHandlingUnitQuantity>
+    <cac:ShipmentStage>
+      <cbc:TransportModeCode>02</cbc:TransportModeCode>
+      <cac:TransitPeriod>
+        <cbc:StartDate>2018-11-10</cbc:StartDate>
+      </cac:TransitPeriod>
+      <cac:TransportMeans>
+        <cac:RoadTransport>
+          <cbc:LicensePlateID>C1Y143</cbc:LicensePlateID>
+        </cac:RoadTransport>
+      </cac:TransportMeans>
+      <cac:DriverPerson>
+        <cbc:ID schemeID="1">4523834</cbc:ID>
+      </cac:DriverPerson>
+    </cac:ShipmentStage>
+    <cac:TransportHandlingUnit>
+      <cbc:ID>C1Y143</cbc:ID>
+    </cac:TransportHandlingUnit>
+    <cac:Delivery>
+      <cac:DeliveryAddress>
+        <cbc:ID>150131</cbc:ID>
+        <cbc:StreetName><![CDATA[AV. INDUSTRIAL LOTE. 5B-2 URB. LAS PRADERAS DE LURIN (KM 35.5 NUEVA PANAMERICANA SUR) LIMA - LIMA - ]]></cbc:StreetName>
+      </cac:DeliveryAddress>
+    </cac:Delivery>
+    <cac:OriginAddress>
+      <cbc:ID>030101</cbc:ID>
+      <cbc:StreetName><![CDATA[Calle San Simón 121 Urb. San Diego - SMP]]></cbc:StreetName>
+    </cac:OriginAddress>
+  </cac:Shipment>
+  <cac:DespatchLine>
+    <cbc:ID>1</cbc:ID>
+    <cac:OrderLineReference>
+      <cbc:ID>1</cbc:ID>
+    </cac:OrderLineReference>
+    <cbc:DeliveredQuantity unitCode="NIU">1</cbc:DeliveredQuantity>
+    <cac:Item>
+      <cbc:Name><![CDATA[Memoria RAM]]></cbc:Name>
+      <cac:SellersItemIdentification>
+        <cbc:ID>1653</cbc:ID>
+      </cac:SellersItemIdentification>
+    </cac:Item>
+  </cac:DespatchLine>
+</DespatchAdvice>

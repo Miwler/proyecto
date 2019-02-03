@@ -185,5 +185,17 @@ class guia_venta_detalle {
             throw new Exception($q);
         }
     } 
-
+static function getListaGuia_Venta($guia_venta_ID) {
+        $cn = new connect_new();
+        try {
+            $dt=$cn->store_procedure_getGrid("sp_guia_venta_detalle_getLista",
+            array(
+                "iguia_venta_ID"=>$guia_venta_ID
+            ));
+            return $dt;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "guia_venta_detalle.getListaGuia_Venta", $ex->getMessage());
+            throw new Exception("Ocurrió un error en la conexión");
+        }
+    }
 }

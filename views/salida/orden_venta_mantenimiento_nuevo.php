@@ -40,7 +40,7 @@
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Orden_Venta_Mantenimiento_Nuevo" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
-        <div class="panel-heading no-padding">
+        <div class="panel-heading">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divCliente" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Cliente</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos Generales</span></a></li>
@@ -158,7 +158,7 @@
                             <label>Lugar de entrega: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;" class="form-control text-uppercase"><?php echo FormatTextViewHtml(trim($GLOBALS['oOrden_Venta']->lugar_entrega)); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo FormatTextViewHtml(trim($GLOBALS['oOrden_Venta']->lugar_entrega)); ?></textarea>
                         </div>
                     </div>
                     
@@ -167,7 +167,7 @@
                             <label>Observación: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control text-uppercase" rows="1" cols="10" maxlength="150" style="height: 80px;"><?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->observacion); ?></textarea>
+                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control" rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize:none;"><?php echo $GLOBALS['oOrden_Venta']->observacion; ?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -382,17 +382,20 @@
     }
     var fncImportar=function(){
         var orden_venta_ID=$('#txtID').val();
-        parent.window_float_open_modal_hijo("IMPORTAR INFORMACIÓN DE UNA COTIZACIÓN","Salida/Orden_Venta_Mantenimiento_Importar_Cotizacion",'',"",mostrarInformacion,800,600);
+        var tipo_ID=27;//Tipo de venta con factura física
+        parent.window_float_open_modal_hijo("IMPORTAR INFORMACIÓN DE UNA COTIZACIÓN","Salida/Orden_Venta_Mantenimiento_Importar_Cotizacion",tipo_ID,"",mostrarInformacion,900,600);
         //window_float_deslizar('form','/Ventas/Orden_Venta_Mantenimiento_Importar_Cotizacion','','');
 
     }
+    
+    
     var fncRegistrar_Productos=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,450);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,590);
     }
     var fncEditarProducto=function(id){
-        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,590);
        
     }
     var fncRegistrar_Obsequios=function(){
@@ -594,7 +597,7 @@
         try{
             block_ui(function () {
                 cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){ 
-                    console.log(resultado.operador_ID);
+                    //console.log(resultado.operador_ID);
                     $('#txtDireccion').val(resultado.Direccion);
                     $('#txtLugar_Entrega').val(resultado.Direccion);
                     $('#txtTelefono').val(resultado.Telefono);
@@ -632,16 +635,16 @@
     }
     function limpiarPadre(IDimagen){
         //alert(IDimagen);
-        if(IDimagen=="#img_divCliente"){
-                     
-            $('#txtDireccion').val('');
-            $('#txtTelefono').val('');
-            $('#selRepresentante').html('<option value="0">--</option>'); 
-            $('#selForma_Pago').val('0');
-            $('#txtNombres_Vendedor').val('');
-            $('#txtTelefono_Vendedor').val('');
-            $('#txtCelular1').val('');
-        }
+        $("#selCliente").val('');
+        $("#listaCliente").val('');
+        $('#txtDireccion').val('');
+        $('#txtTelefono').val('');
+        $('#selRepresentante').html('<option value="0">--</option>'); 
+        $('#selForma_Pago').val('0');
+        $('#txtNombres_Vendedor').val('');
+        $('#txtTelefono_Vendedor').val('');
+        $('#txtCelular1').val('');
+        $("#txtLugar_Entrega").val('');
     }
     var validar=function(){
         //$('#txtSubTotalSoles').removeAttr('disabled');
@@ -704,6 +707,7 @@
             $('#txtID').val(resultado.salida_ID);
             $('#txtCotizacion_ID').val(resultado.cotizacion_ID);
             $("#selCliente").val(resultado.cliente_ID);
+            $("#listaCliente").val(resultado.Ruc+' - '+resultado.Razon_Social);
             //$("#selCliente").trigger("chosen:updated");
             //cboCliente.seleccionar(resultado.cliente_ID,resultado.Ruc+'-'+resultado.Razon_Social);
              $('#txtDireccion').val(resultado.Direccion);
@@ -725,7 +729,7 @@
              $('#txtDireccion_Vendedor').val(resultado.operador_direccion);
              $('#txtTelefono_Vendedor').val(resultado.operador_telefono);
              $('#txtCelular1').val(resultado.operador_celular1);
-             $('#txtGarantia').val(resultado.Garantia);
+             $('#txtGarantia').val(resultado.garantia);
              $('#btnDescargar').css('display','');
              $('#btnDescargar').prop('src','');
              var arrayID=resultado.numero_cuenta_IDs.split(",");

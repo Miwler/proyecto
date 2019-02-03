@@ -15,6 +15,9 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-cc-diners-club" aria-hidden="true"></i> Facturas por pagar
+     <div class="pull-right">
+         <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+     </div>
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -27,14 +30,11 @@
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
-                <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
+            <div class="pull-right">
+                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-
-
         </div>
          <div class="panel-body">
            

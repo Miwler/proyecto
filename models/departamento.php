@@ -40,7 +40,7 @@ class departamento
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,codigo_ubigeo,nombre,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -70,7 +70,7 @@ class departamento
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(d.ID) ';
@@ -93,7 +93,7 @@ class departamento
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='d.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT d.ID,d.codigo_ubigeo,d.nombre,d.usuario_id,ifnull(d.usuario_mod_id,-1) as usuario_mod_id';
@@ -117,6 +117,23 @@ class departamento
 			throw new Exception('Ocurrio un error en la consulta.');
 		}
 	}
+    static function getOpciones($departamento_ID) {
+       $cn = new connect_new();
+       $opciones="";
+       try {
+           $dt=$cn->store_procedure_getGrid("sp_departamento_getOpciones",
+                   array(
+                       "iID"=>$departamento_ID
+                    ));
+           if(count($dt)>0){
+               $opciones=utf8_encode($dt[0]["opciones"]);
+           }
+           return $opciones;
+       } catch (Exception $ex) {
+           log_error(__FILE__, "departamento.getOpciones", $ex->getMessage());
+           throw new Exception('Ocurrio un error en la consulta');
+       }
+    }
 }
 
 ?>

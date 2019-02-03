@@ -96,7 +96,7 @@ function fncMenu() { ?>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
                                <select id="selMoneda_ID" name="selMoneda_ID"  class="form-control" onchange='fncTipo_Cambio(this.value);'>
                                     <?php foreach($GLOBALS['oProducto']->dtMoneda as $item){?>
-                                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['descripcion']));?></option>
+                                    <option value="<?php echo $item['ID']?>"><?php echo utf8_encode(strtoupper($item['descripcion']));?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -196,7 +196,7 @@ function fncMenu() { ?>
             </div>
         </div>
         <div class="panel-footer">
-            <button  id="btnEnviar" name="btnEnviar" title="Guardar" class="btn btn-success">
+            <button type="submit" id="btnEnviar" name="btnEnviar" title="Guardar" class="btn btn-success">
                 <img  alt=""  src="/include/img/boton/save_14x14.png" >
                 Guardar
             </button>&nbsp;
@@ -241,10 +241,12 @@ function fncMenu() { ?>
             }
             
             if(unidad_medida==0){
-                $('#divMensaje').html('Seleccione unidad de medida.');
-                $('#selUnidad_Medida').focus();
+                mensaje.error('Mensaje de error','Seleccione unidad de medida.','selUnidad_Medida');
+                
+                
                 return false;
             }
+            //block_ui();
 
         }
         var fncLinea=function(){

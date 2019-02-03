@@ -96,7 +96,7 @@
 
     return $tables.each(function() {
       var table_css = $(this).prop('class');
-      var $stacktable = $('<table class="'+ table_css +' stacktable small-only"><tbody></tbody></table>');
+      var $stacktable = $('<table id="table_vista_small" class="'+ table_css +' stacktable small-only"><tbody></tbody></table>');
       if (typeof settings.myClass !== 'undefined') $stacktable.addClass(settings.myClass);
       var markup = '';
       var $table, $caption, $topRow, headMarkup, bodyMarkup, tr_class, displayHeader;
@@ -149,6 +149,8 @@
       $stacktable.prepend($caption);
       $stacktable.append($(markup));
       $table.before($stacktable);
+      
+     
     });
   };
 

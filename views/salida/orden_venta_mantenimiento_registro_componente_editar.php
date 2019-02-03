@@ -15,6 +15,12 @@
                 <?php }?>
             });
         </script>
+        <style>
+            #table_historial_compra tbody td,#table_historial_venta tbody td,#table_separaciones tbody td{
+                font-size:11px;
+            }
+            
+        </style>
 <?php } ?>
 
 <?php function fncTitleHead(){?>EDITAR COMPONENTE<?php } ?>
@@ -28,7 +34,7 @@
 
 <form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Registro_Componente_Editar/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
-        <div class="panel-heading no-padding">
+        <div class="panel-heading">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#Productos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Producto</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divCostos" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costo</span></a></li>
@@ -36,7 +42,7 @@
                 <li class="nav-item"><a href="#historial" data-toggle="tab"><i class="fa fa-calendar-o"></i> <span>Historial</span></a></li>
             </ul>
         </div>
-       <div class="panel-body" style="height: 460px;overflow: auto;">
+       <div class="panel-body" style="height: 370px;overflow: auto;">
           
            <div class="tab-content">
                <div id="Productos" class="tab-pane fade in active inner-all">
@@ -45,7 +51,7 @@
                            <label>Línea: </label>
                        </div>
                        <div id="tdLinea" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                           <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control filtroLista">
+                           <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control filtroLista chosen-select mb-15">
                                <option value="0">TODOS</option>
                            <?php foreach($GLOBALS['oOrden_Venta_Detalle']->dtLinea as $iLinea){ ?>
                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
@@ -61,7 +67,7 @@
                            <label>Categoría: </label>
                        </div>
                        <div id="tdCategoria" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                           <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="form-control filtroLista">
+                           <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="form-control filtroLista chosen-select mb-15">
                            <option value="0" selected>TODOS</option>
                            <?php foreach($GLOBALS['oOrden_Venta_Detalle']->dtCategoria as $iCategoria){ ?>
                            <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
@@ -77,18 +83,13 @@
                            <label>Producto: </label>
                        </div>
                        <div  class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                           <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                <option value='0'>--SELECCIONAR--</option>
-                                <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                <?php } ?>
-                            </select>
-                            
-                            <script type="text/javascript">
-                                <?php if($GLOBALS['oOrden_Venta_Detalle']->ID>0){ ?>
-                                   $("#selProducto").val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
-                                <?php }?>
-                            </script>
+                            <input type="hidden" id="selProducto" name="selProducto" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>">
+                                <input type="text" id="listaProducto" class="form-control" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->oProducto->codigo." - ".$GLOBALS['oOrden_Venta_Detalle']->oProducto->nombre;?>">
+                               <script type="text/javascript">
+                                  $(document).ready(function(){
+                                   listar_productos();
+                                   });
+                               </script>
                        </div>
                    </div>
                    <div class="form-group">
@@ -118,6 +119,7 @@
                    </div>
                </div>
                <div id="divCostos" class="tab-pane fade inner-all">
+                   <input type="hidden" id="valor_unitario" name="valor_unitario" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->valor_unitario;?>">
                    <div class="form-group">
                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                            <label>Cantidad: </label>
@@ -135,6 +137,36 @@
                            <input type="text" id="txtPrecioUnitarioSoles" autocomplete="off"  name="txtPrecioUnitarioSoles"  value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_soles;?>" onkeyup="calcularTipoCambio('1');" class="form-control" placeholder="S/.">
                        </div>
                    </div>
+                    <div class="form-group">
+                        
+                        <div class="col-xs-6">
+                            <div class="ckbox ckbox-theme">
+                                <input id="ckIncluyeIgv" name="ckIncluyeIgv"  type="checkbox" onclick="ProductoValores();" <?php echo (($GLOBALS['oOrden_Venta_Detalle']->pu_incluye_igv==1)?"checked":"");?>>
+                                <label for="ckIncluyeIgv">precio unitario incluye IGV</label>
+                            </div>
+                        </div>
+                        <label class="control-label col-xs-3">% descuento</label>
+                        <div class="col-xs-3">
+                            <input type="text" id="txtPorcentaje_Descuento" name="txtPorcentaje_Descuento" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->descuento_porcentaje;?>">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <span class="input-group-addon bg-danger">Tipo de IGV:</span>
+                                 <select class="form-control no-border-left" id="selImpuestos_Tipo" name="selImpuestos_Tipo" onchange="ProductoValores();" disabled>
+                                    <?php foreach($GLOBALS['dtImpuestos_Tipo'] as $valor){?>
+                                    <option value="<?php echo $valor['ID'];?>"><?php echo utf8_encode($valor['nombre']);?></option>
+                                    <?php } ?>
+                                </select>
+                                <script>
+                                    $("#selImpuestos_Tipo").val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->impuestos_tipo_ID;?>);
+                                </script>
+                            </div>
+                        </div>
+                        
+                    </div>
                    <table class="table table-hover">
                        <thead>
                            <tr>
@@ -166,8 +198,38 @@
                    </table>
                </div>
                <div class="tab-pane fade inner-all divCuerpo" id="separaciones">
+                   <h4>Separaciones de producto</h4>
+                    <table id="table_separaciones" class='table table-hover table-bordered table-teal'><thead>
+                        <tr><th>N°Cotizaci&oacute;n</th><th>Fecha</th><th>Cant. Comprada</th><th>Cant. Separada</th><th >Responsable</th></tr>
+                    </thead>
+                    <tbody>
+                    </table>
                </div>
                <div class="tab-pane fade inner-all divCuerpo" id="historial">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4>Historial de Compras</h4>
+                            <table class='table table-hover  table-responsive table-teal' id="table_historial_compra">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Proveedor</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="title lg-text">Historial de Ventas</h4>
+                            <table class='table table-hover table-responsive table-teal' id="table_historial_venta">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Cliente</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                </div>
            </div>
        </div>
@@ -262,7 +324,8 @@
                 return false;
            }
        }
-        $('#fondo_espera').css('display','block');
+        $('#selImpuestos_Tipo').removeAttr('disabled');
+        block_ui();
         			
     }
     var fncValidarAutorizacion=function(){
@@ -293,8 +356,10 @@
         
     }
     var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
-            $('#historial').html(resultado.html); 
+        cargarValores('/Funcion/ajaxHistorial_Producto',producto_ID,function(resultado){
+            
+            $('#table_historial_compra tbody').html(resultado.filas_compras); 
+            $('#table_historial_venta tbody').html(resultado.filas_ventas); 
         });
     }
     $("#ckSeparacion").click(function(){
@@ -347,22 +412,11 @@
  
     }
 
-    var fncCategoria=function(){
-        var categoria_ID = $('#selCategoria').val();
-        var linea_ID=$('#selLinea').val();
-       
-        cargarValores1("/Funcion/ajaxListar_Productos",linea_ID,categoria_ID,function(resultado){
-           
-            if(resultado.resultado==1){
-                $("#selProducto").html(resultado.html);
-                $("#selProducto").trigger("chosen:updated");
-            }else{
-                mensaje.error("Mensaje de error",resultado.mensaje);
-            }
-        });
-       
-       
-
+     var fncCategoria=function(){
+       listar_productos();
+    }
+    var listar_productos=function(){
+        lista_producto('/funcion/ajaxListarProductos','listaProducto','selProducto',$("#selLinea").val(),$("#selCategoria").val(),fncProducto,fncLimpiar);
     }
 
    var fncProducto=function(){
@@ -381,6 +435,9 @@
                         $('#ckSeparacion').prop('disabled',true);
                     }
                     fncCargarPrecioCompra(producto_ID);
+                    $(".nav-tabs a[href='#divCostos']").tab("show");
+                    
+                    $("#txtCantidad").focus();
                 }else{
                     mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
                 }
@@ -392,14 +449,7 @@
         }
     }
    
-    var fncLimpiar=function(){
-        $('#txtPrecioCompraDolares').val('');
-        $('#txtPrecioCompraSoles').val('');
-        $('#DivSeparaciones').html('');
-        $('#historial').html('');
-        $('#txtDescripcion').val('');
-        $('#txtStock').val('');
-    }
+  
     var fncCargarPrecioCompra=function(producto_ID){
           cargarValores('/Ingreso/ajaxPrecio_Ingreso',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
@@ -407,9 +457,8 @@
             
             if(resultado.resultado==-1){
                 toastem.error(resultado.mensaje);
-               $('#separaciones').html(resultado.mensaje); 
+              
             }
-            $('#separaciones').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
             VerSeparaciones(resultado.producto_ID);
         });
      } 
@@ -429,6 +478,10 @@
     }
     function ProductoValores()
        {   
+            var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>;
+            var incluye_igv=($("#ckIncluyeIgv").is(":checked"))?1:0;
+            var igv=parseFloat(<?php  echo $GLOBALS['oOrden_Venta']->igv;?>);
+            var moneda_ID=<?php  echo $GLOBALS['oOrden_Venta']->moneda_ID?>; 
            var caja1=$('#txtCantidad').val();
            var caja2=$('#txtPrecioUnitarioSoles').val();
            var caja3=$('#txtPrecioUnitarioDolares').val();
@@ -436,34 +489,118 @@
                  var valor1=0;
              } else {valor1=parseInt(caja1);}
              
-             if($.trim(caja3)==""){
-                  var valor3=0;
-             }else {
-                 valor3=parseFloat(caja3);
-                
-                }
+            
              if($.trim(caja2)==""){
              var valor2=0;
                 }else {
                     valor2=parseFloat(caja2);
                    
                 }
-            var resultadoSoles=redondear(valor1*valor2,2);
-            if(isNaN(resultadoSoles)==false){ 
-            $('#txtSubTotalSoles').val(resultadoSoles); 
+            if (incluye_igv==1){
+                valor2=redondear(valor2/(1+igv),2);  
+            }   
+                
+            if($.trim(caja3)==""){
+                  var valor3=0;
+             }else {
+                 valor3=parseFloat(caja3);
+                
+                }
+            if(incluye_igv==1) {
+                valor3=redondear(valor3/(1+igv),2);
+
+            }    
+            var subtotalSoles=redondear(valor1*valor2,2);
+            if(isNaN(subtotalSoles)==false){ 
+            $('#txtSubTotalSoles').val(subtotalSoles); 
             }else{
                 $('#txtSubTotalSoles').val('--');
             }
-             var resultadoDolares=redondear(valor1*valor3,2);
+             var subtotalDolares=redondear(valor1*valor3,2);
              
-             if(isNaN(resultadoDolares)==false){
-                 $('#txtSubTotalDolares').val(resultadoDolares);
+             if(isNaN(subtotalDolares)==false){
+                 $('#txtSubTotalDolares').val(subtotalDolares);
              }else{
                  $('#txtSubTotalDolares').val('--');
              }
              
+           /* var igvSoles=redondear(parseFloat(subtotalSoles)*igv,2);
+            $('#txtIgvSoles').val(igvSoles);
+            var TotalSoles=redondear((igvSoles+subtotalSoles),2);
+            $('#txtTotalSoles').val(TotalSoles);
              
-             calcularIGV();    
+           /* if(subtotalDolares!=0){
+                var igvDolares=redondear(parseFloat(subtotalDolares)*igv,2);
+                $('#txtIgvDolares').val(igvDolares);
+                var TotalDolares=redondear(parseFloat(subtotalDolares)+parseFloat(igvDolares),2);
+                $('#txtTotalDolares').val(TotalDolares);
+            }  */
+            if(moneda_ID==1){
+                $("#valor_unitario").val(valor2);
+            }else{
+                $("#valor_unitario").val(valor3);
+            }
+            
+            var valor_igv_dolares=0;
+            var valor_igv_soles=0;
+            var porcentaje_descuento=parseFloat(($.trim($("#txtPorcentaje_Descuento").val())=="")?0:$.trim($("#txtPorcentaje_Descuento").val()));
+        //calcularPorcentajeDescuento(porcentaje_descuento,"porcentaje");
+            var descuento=0;
+            var descuento_dolares=0;
+            var descuento_soles=0;
+            if(moneda_ID==1){
+                descuento=redondear((subtotalSoles*porcentaje_descuento)/100,2);
+                descuento_soles=descuento;
+                descuento_dolares=redondear(descuento/tipo_cambio,2);
+            }else{
+                descuento=redondear(subtotalDolares*porcentaje_descuento/100,2);
+                descuento_dolares=descuento;
+                descuento_soles=redondear(descuento_dolares*tipo_cambio,2);
+            }
+            //$("#tdDescuentoDolares").text(descuento_dolares);
+            //$("#txtDescuentoDolares").val(descuento_dolares);
+            //$("#tdDescuentoSoles").text(descuento_soles);
+            //$("#txtDescuentoSoles").val(descuento_soles);
+           var valor_venta_soles=0;
+
+            var valor_venta_dolares=0;
+            if(moneda_ID==1){
+                valor_venta_soles=redondear(subtotalSoles-descuento_soles,2);
+                valor_venta_dolares=redondear(valor_venta_soles/tipo_cambio,2);
+            }else{
+                valor_venta_dolares=redondear(subtotalDolares-descuento_dolares,2);
+                valor_venta_soles=redondear(valor_venta_dolares*tipo_cambio,2);
+
+            }
+            var obj=new Object();
+            obj['moneda_ID']=moneda_ID;
+            obj['tipo_cambio']=tipo_cambio;
+            obj['impuesto_tipo_ID']=$("#selImpuestos_Tipo").val();
+            obj['monto']=(moneda_ID==1)?valor_venta_soles:valor_venta_dolares;
+            obj['igv']=igv;
+
+
+            enviarAjax('salida/ajaxExtraerIGV','frm',obj,function(res){
+
+                var resultado=$.parseJSON(res);
+                valor_igv_dolares=parseFloat(resultado.resultado_dolares);
+                valor_igv_soles=parseFloat(resultado.resultado_soles);
+                $('#txtIgvDolares').val(valor_igv_dolares);
+              
+                $('#txtIgvSoles').val(valor_igv_soles);
+               
+                var total_venta_dolares=valor_igv_dolares+valor_venta_dolares;
+                var total_venta_soles=valor_igv_soles+valor_venta_soles;
+               
+                $("#txtTotalDolares").val(redondear(total_venta_dolares,2));
+                
+                $("#txtTotalSoles").val(redondear(total_venta_soles,2)); 
+                if($.trim(resultado.mensaje)!=""){
+                    toastem.info(resultado.mensaje);
+                }
+
+
+            });
              
         }
     function calcularIGV(){
@@ -487,13 +624,10 @@
 
     }
     function VerSeparaciones(producto_ID){
-        cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
-            $('#separaciones').html(resultado.html); 
-            if(resultado.resultado==-1){
-               $('#separaciones').html(resultado.mensaje); 
-            }
-             $('#historial').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-            fncHistoriaProducto(resultado.producto_ID);
+        cargarValores('/Funcion/ajaxVerSeparaciones',producto_ID,function(resultado){
+            $("#table_separaciones tbody").html(resultado.filas);
+             
+                fncHistoriaProducto(producto_ID);
         });
         
     }
@@ -506,9 +640,12 @@
         $('#txtIgvSoles').val('');
         $('#txtTotalDolares').val('');
         $('#txtTotalSoles').val('');
-        $('#separaciones').html('');
-        $('#historial').html('');
-        
+        $("#selProducto").val('');
+        $("#table_historial_compra tbody").html('');
+        $("#table_historial_venta tbody").html('');
+        $("#table_separaciones tbody").html('');
+        $("#txtDescripcion").val("");
+        $("#txtStock").val("");
     }
     var bloquear_edicion=function(){
         $('#selLinea').prop('disabled',true);
@@ -540,7 +677,7 @@
     $(document).ready(function () {
  
         toastem.success('<?php echo $GLOBALS['mensaje'];?>');
-         setTimeout('parent.windos_float_save_modal_hijo_hijo("llenarCajas();");', 1000);
+         //setTimeout('parent.windos_float_save_modal_hijo_hijo("llenarCajas();");', 1000);
     });
    
     </script>

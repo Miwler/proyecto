@@ -37,15 +37,17 @@ class linea {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from linea;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             $q = 'insert into linea(ID,nombre,descripcion,tipo,imagen,empresa_ID,usuario_id)';
             $q.='values('.$ID.',"' . $this->nombre . '","' . $this->descripcion . '","'.$this->tipo.'","'.$this->imagen.'",'.$this->empresa_ID.',' . $this->usuario_id . ');';
             //echo $q;
+			$cn = new connect_new();
             $retornar = $cn->transa($q);
 
            
@@ -59,7 +61,7 @@ class linea {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update linea set descripcion="' .$this->descripcion . '",nombre="' . $this->nombre ;
@@ -74,7 +76,7 @@ class linea {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -91,7 +93,7 @@ class linea {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(li.ID) ';
             $q.=' FROM linea as li ';
@@ -110,7 +112,7 @@ class linea {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombre,descripcion,tipo,ifnull(imagen,"") as imagen,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from linea ';
@@ -138,7 +140,7 @@ class linea {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'li.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT li.ID,upper(li.nombre) as nombre, upper(li.descripcion) as descripcion,ifnull(li.imagen,"") as imagen,li.empresa_ID';
             $q.=' FROM linea as li ';
@@ -165,7 +167,7 @@ class linea {
 
     function verificarDuplicado() {
 		
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
 		//Verifico que no se repita el nombre
@@ -186,7 +188,7 @@ class linea {
     }
     
      static function getByID2($producto_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select li.ID from linea li, categoria ca, producto pr where li.del=0 and ca.del=0 and pr.del=0 and li.ID=ca.linea_ID and ca.ID=pr.categoria_ID and pr.ID='.$producto_ID;
             $linea_ID = $cn->getData($q);
@@ -196,6 +198,20 @@ class linea {
             throw new Exception("Ocurrio un error en la consulta");
         }
     }
-
+ static function getOption($empresa_ID) {
+        $cn = new connect_new();
+        try {
+            $retorna=$cn->store_procedure_getData(
+              "sp_linea_getOption",
+                array(
+                    "iempresa_ID"=>$empresa_ID
+                ));
+  
+            return $retorna;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "linea.getOption", $ex->getMessage());
+            throw new Exception('Ocurrio un error en la consulta');
+        }
+    }
 
 }

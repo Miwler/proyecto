@@ -39,14 +39,16 @@ class proveedor_contacto {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retorna = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 from proveedor_contacto;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             $q = 'insert into proveedor_contacto(ID, persona_ID,telefono, celular, correo,proveedor_ID,estado_ID,usuario_id)';
             $q.='values('.$ID.','.$this->persona_ID. ',"'.$this->telefono.'","' . $this->celular . '","' . $this->correo. '",'.$this->proveedor_ID.','.$this->estado_ID.','.$this->usuario_id.');';
             //echo $q;
+			$cn = new connect_new();
             $retorna = $cn->transa($q);
 
             $this->ID = $ID;
@@ -59,7 +61,7 @@ class proveedor_contacto {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update proveedor_contacto set persona_ID=' . $this->persona_ID ;
@@ -76,7 +78,7 @@ class proveedor_contacto {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -93,7 +95,7 @@ class proveedor_contacto {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(pr.ID) ';
             $q.=' FROM representante_proveedor as pr ';
@@ -112,7 +114,7 @@ class proveedor_contacto {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,persona_ID,telefono,celular,correo,proveedor_ID,estado_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from proveedor_contacto ';
@@ -143,7 +145,7 @@ class proveedor_contacto {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'proc.ID asc') {
-    $cn = new connect();
+    $cn = new connect_new();
         try {
             $q = 'SELECT proc.ID,proc.persona_ID,proc.telefono,proc.celular,proc.correo,proc.proveedor_ID,proc.estado_ID,proc.usuario_ID,ifnull(proc.usuario_mod_id,-1) as usuario_mod_id';
             $q.=',pe.apellido_paterno,pe.apellido_materno,pe.nombres,es.nombre as estado';
@@ -169,7 +171,7 @@ class proveedor_contacto {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select count(ID) from proveedor_contacto where del=0 and proveedor_ID=".$this->proveedor_ID." and persona_ID=".$this->persona_ID;
@@ -185,7 +187,7 @@ class proveedor_contacto {
 	
 	
 	function verificarHijos($proveedor_ID){
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
 		//Verifico que no se repita el nombre

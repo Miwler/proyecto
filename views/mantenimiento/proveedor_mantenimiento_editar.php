@@ -313,9 +313,6 @@ function fncPage() { ?>
     </div>
     </div>
     <div class="form-footer">
-        
-    </div>
-    <div class="row">
         <div class="pull-left">
             <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
                 <span class="glyphicon glyphicon-floppy-disk"></span>
@@ -326,8 +323,9 @@ function fncPage() { ?>
                 Cerrar
             </button> 
         </div>
-        <div class="clerafix"></div>
+        <div class="clearfix"></div>
     </div>
+
 
 </form>
 <script type="text/javascript">

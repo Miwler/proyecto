@@ -252,10 +252,11 @@ class menu
 		$cn =new connect();
 		try 
 		{
-			$q='call getMenu(0,'.$_SESSION['empresa_ID'].',"'.$ruta.'")';
+			$q='call getMenu('.$usuario_id.','.$_SESSION['empresa_ID'].',"'.$ruta.'")';
 					
-			//echo $q;
-			$retorna=$cn->getData($q);									
+			
+			$retorna=$cn->getData($q);
+                        
 			return $retorna;												
 		}catch(Exception $ex)
 		{

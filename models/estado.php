@@ -42,7 +42,7 @@ class estado {
 	
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,orden,nombre,tabla,usuario_id';
@@ -73,7 +73,7 @@ class estado {
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(est.ID) ';
@@ -96,7 +96,7 @@ class estado {
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='est.orden asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT est.ID,est.orden,upper(est.nombre)as nombre,est.tabla,est.usuario_id';

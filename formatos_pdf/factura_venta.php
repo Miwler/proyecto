@@ -161,7 +161,7 @@ class PDF3 extends FPDF
         $this->SetFont('Arial','B',10);
         $this->Cell(40,5,utf8_decode('N° Pedido:'),0,0,'L');
         $this->SetFont('Arial','',10);
-        $this->Cell(40,5,utf8_decode($oFactura_Venta->orden_pedido),0,0,'L');
+        $this->Cell(40,5,utf8_decode($oFactura_Venta->numero_orden_venta),0,0,'L');
         $this->Ln();
         $this->SetFont('Arial','B',10);
         $this->Cell(25,5,utf8_decode('R.U.C.:'),0,0,'L');
@@ -174,7 +174,7 @@ class PDF3 extends FPDF
         $this->SetFont('Arial','B',10);
         $this->Cell(40,5,utf8_decode('N° Orden de Compra:'),0,0,'L');
         $this->SetFont('Arial','',10);
-        $this->Cell(40,5,utf8_decode($oFactura_Venta->orden_compra),0,0,'L');
+        $this->Cell(40,5,utf8_decode($oFactura_Venta->numero_orden_compra),0,0,'L');
         $this->Ln();
         $this->SetFont('Arial','B',10);
         $this->Cell(200,5,utf8_decode('Por lo siguiente:'),0,1,'L');

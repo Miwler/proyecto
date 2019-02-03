@@ -29,6 +29,7 @@ class comprobante_regula {
     private $monto_detraccion;
     private $operador_ID_creador;
     private $observacion;
+    private $tipo_cambio;
     private $usuario_id;
     private $usuario_mod_id;
     private $getMessage;
@@ -42,6 +43,15 @@ class comprobante_regula {
     private $razon_social;
     private $codigo_moneda;
     private $factura;
+    private $cliente_descripcion;
+    private $ubigeo;
+    private $direccion_cliente;
+    private $urbanizacion_cliente;
+    private $departamento_cliente;
+    private $provincia_cliente;
+    private $distrito_cliente;
+    private $igv;
+    private $tipo_comprobante_discrepancia;
   public function __set($var, $valor)
     {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -72,21 +82,24 @@ class comprobante_regula {
     }
     function insertar()
     {
-        $cn =new connect();
+        
         $retornar=-1;
         try{
             
             $q='select ifnull(max(ID),0)+1 as ID from comprobante_regula;';
+            $cn =new connect_new();
             $ID=$cn->getData($q);
             $q='INSERT INTO comprobante_regula (ID,documento_relacionado_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,';
             $q.='estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,';
-            $q.='anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,usuario_id) ';
+            $q.='anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,tipo_cambio,usuario_id) ';
             $q.='VALUES ('.$ID.','.$this->documento_relacionado_ID.','.$this->cliente_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'","'.$this->fecha_emision.'","'.$this->fecha_vencimiento.'"';
             $q.=','.$this->estado_ID.','.$this->moneda_ID.','.$this->monto_total_neto.','.$this->monto_total_igv.','.$this->monto_total.','.$this->monto_pendiente.','.$this->empresa_ID.','.$this->correlativos_ID.','.$this->porcentaje_descuento.',';
-            $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.',"'.$this->observacion.'",'.$this->usuario_id.');';
+            $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.',"'.$this->observacion.'",'.$this->tipo_cambio.','.$this->usuario_id.');';
             //echo $q;
+            $cn =new connect_new();
             $retornar=$cn->transa($q);
             $q="call sp_tabla_movimiento_Insertar(".$ID.",'comprobante_regula',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_id.",".$_SESSION['empresa_ID'].",".$this->usuario_id.")";
+            $cn =new connect_new();
             $cn->transa($q);
             $this->ID=$ID;
             $this->getMessage='Se guardó correctamente';
@@ -99,7 +112,7 @@ class comprobante_regula {
         }
     }
     function actualizar(){
-        $cn =new connect();
+        
 	$retornar=-1;
         try{
             $q="call comprobante_regula_Update(";
@@ -130,10 +143,14 @@ class comprobante_regula {
             $q.=$this->monto_detraccion.',';
             $q.='"'.$this->observacion.'",';
             $q.=$this->cliente_ID.',';
+            $q.=$this->tipo_cambio.',';
             $q.=$this->usuario_mod_id.');';
+            //echo $q;
             //console_log($q);
+            $cn =new connect_new();
             $retornar=$cn->transa($q);
-            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'factura_venta',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_mod_id.",".$_SESSION['empresa_ID'].",".$this->usuario_mod_id.")";
+            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'comprobante_regula',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_mod_id.",".$_SESSION['empresa_ID'].",".$this->usuario_mod_id.")";
+            $cn =new connect_new();
             $cn->transa($q);
             $this->getMessage='Se guardó correctamente';
             return $retornar;
@@ -144,7 +161,7 @@ class comprobante_regula {
 
     
     function eliminar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -162,7 +179,7 @@ class comprobante_regula {
     }
     static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try
 		{
                     $q='select count(cr.ID) ';
@@ -186,12 +203,14 @@ class comprobante_regula {
         //modificado por ortega-agregar todos los datos y cargar en el modelo
    static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try
             {
-                $q='call comprobante_regula_getByID('.$ID.')';
+                $dt=$cn->store_procedure_getGrid("sp_comprobante_regula_getByID", 
+                        array("ID"=>$ID));
+                //$q='call comprobante_regula_getByID('.$ID.')';
                     //echo $q;
-                    $dt=$cn->getGrid($q);
+                    //$dt=$cn->getGrid($q);
                     $oComprobante_Regula=null;
                     $oComprobante_Regula=new comprobante_regula();
                     foreach($dt as $item)
@@ -222,6 +241,8 @@ class comprobante_regula {
                         $oComprobante_Regula->otros_cargos=$item['otros_cargos'];
                         $oComprobante_Regula->descuento_global=$item['descuento_global'];
                         $oComprobante_Regula->monto_detraccion=$item['monto_detraccion'];
+                        $oComprobante_Regula->tipo_cambio=$item['tipo_cambio'];
+                        $oComprobante_Regula->observacion=$item['observacion'];
                         $oComprobante_Regula->usuario_id=$item['usuario_id'];
                         $oComprobante_Regula->usuario_mod_id=$item['usuario_mod_id'];
                         $oComprobante_Regula->estado=$item['estado'];
@@ -233,6 +254,7 @@ class comprobante_regula {
                         $oComprobante_Regula->razon_social=$item['razon_social'];
                         $oComprobante_Regula->codigo_moneda=$item['codigo_moneda'];
                         $oComprobante_Regula->factura=$item['factura'];
+                        $oComprobante_Regula->cliente_descripcion=$item['ruc'].'-'.$item['razon_social'];
                     }
                     return $oComprobante_Regula;
 
@@ -241,9 +263,77 @@ class comprobante_regula {
                     throw new Exception($q);
             }
 	}
+    static function getByIDSUNAT($ID)
+    {
+        $cn =new connect_new();
+        try
+        {
+            //$q='call comprobante_regula_getByIDSUNAT('.$ID.')';
+            
+                //echo $q;
+                $dt=$cn->store_procedure_getGrid("sp_comprobante_regula_getByIDSUNAT",
+                        array("iID"=>$ID));
+                $oComprobante_Regula=null;
+                $oComprobante_Regula=new comprobante_regula();
+                foreach($dt as $item)
+                {
+                    $oComprobante_Regula->ID=$item['ID'];
+                    $oComprobante_Regula->documento_relacionado_ID=$item['documento_relacionado_ID'];
+                    $oComprobante_Regula->cliente_ID=$item['cliente_ID'];
+                    $oComprobante_Regula->tipo_ID=$item['tipo_ID'];
+                    $oComprobante_Regula->serie=$item['serie'];
+                    $oComprobante_Regula->numero=$item['numero'];
+                    $oComprobante_Regula->numero_concatenado=$item['numero_concatenado'];
+                    $oComprobante_Regula->fecha_emision=$item['fecha_emision'];
+                    $oComprobante_Regula->fecha_vencimiento=$item['fecha_vencimiento'];
+                    $oComprobante_Regula->estado_ID=$item['estado_ID'];
+                    $oComprobante_Regula->moneda_ID=$item['moneda_ID'];
+                    $oComprobante_Regula->monto_total_neto=$item['monto_total_neto'];
+                    $oComprobante_Regula->monto_total_igv=$item['monto_total_igv'];
+                    $oComprobante_Regula->monto_total=$item['monto_total'];
+                    $oComprobante_Regula->monto_pendiente=$item['monto_pendiente'];
+                    $oComprobante_Regula->empresa_ID=$item['empresa_ID'];
+                    $oComprobante_Regula->correlativos_ID=$item['correlativos_ID'];
+                    $oComprobante_Regula->porcentaje_descuento=$item['porcentaje_descuento'];
+                    $oComprobante_Regula->anticipo=$item['anticipo'];
+                    $oComprobante_Regula->exoneradas=$item['exoneradas'];
+                    $oComprobante_Regula->inafectas=$item['inafectas'];
+                    $oComprobante_Regula->gravadas=$item['gravadas'];
+                    $oComprobante_Regula->gratuitas=$item['gratuitas'];
+                    $oComprobante_Regula->otros_cargos=$item['otros_cargos'];
+                    $oComprobante_Regula->descuento_global=$item['descuento_global'];
+                    $oComprobante_Regula->monto_detraccion=$item['monto_detraccion'];
+                    $oComprobante_Regula->tipo_cambio=$item['tipo_cambio'];
+                    $oComprobante_Regula->usuario_id=$item['usuario_id'];
+                    $oComprobante_Regula->usuario_mod_id=$item['usuario_mod_id'];
+                    $oComprobante_Regula->estado=$item['estado'];
+                    $oComprobante_Regula->moneda=$item['moneda'];
+                    $oComprobante_Regula->tipo=$item['tipo'];
+                    $oComprobante_Regula->motivo_descripcion=$item['motivo_descripcion'];
+                    $oComprobante_Regula->codigo_comprobante=$item['codigo_comprobante'];
+                    $oComprobante_Regula->ruc=$item['ruc'];
+                    $oComprobante_Regula->razon_social=$item['razon_social'];
+                    $oComprobante_Regula->codigo_moneda=$item['codigo_moneda'];
+                    $oComprobante_Regula->tipo_comprobante_discrepancia=$item['tipo_comprobante_discrepancia'];
+                    $oComprobante_Regula->factura=$item['factura'];
+                    $oComprobante_Regula->ubigeo=$item['ubigeo'];
+                    $oComprobante_Regula->direccion_cliente=$item['direccion_cliente'];
+                    $oComprobante_Regula->urbanizacion_cliente=$item['urbanizacion_cliente'];
+                    $oComprobante_Regula->departamento_cliente=$item['departamento_cliente'];
+                    $oComprobante_Regula->provincia_cliente=$item['provincia_cliente'];
+                    $oComprobante_Regula->distrito_cliente=$item['distrito_cliente'];
+                    $oComprobante_Regula->igv=$item['distrito_cliente'];
+                }
+                return $oComprobante_Regula;
+
+        }catch(Exeption $ex)
+        {
+                throw new Exception($q);
+        }
+    }
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='cr.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try
 		{
                     $q='select cr.ID,cr.serie,cr.numero_concatenado,ti.nombre as tipo,ifnull(cr.fecha_emision,"") as fecha_emision,fv.serie as serie_factura,fv.numero as numero_factura,es.nombre as estado,cr.estado_ID,mo.simbolo as moneda,cr.monto_total';
@@ -267,13 +357,25 @@ class comprobante_regula {
 			throw new Exception($q);
 		}
 	}
-        
-    static function getTabla($opcion,$cliente_ID,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$serie,$numero)
+    static function getGridByID($ID)
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try
         {
-        $q='call getTabla_Comprobante_Regula("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$periodo.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$serie.'",'.$numero.');';
+        $q='call comprobante_regula_getByID('.$ID.')';
+        $dt=$cn->getGrid($q);
+        return $dt;
+        }catch(Exception $ex)
+        {
+            throw new Exception($q);
+        }
+    }    
+    static function getTabla($opcion,$cliente_ID,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$serie,$numero,$documento)
+    {
+        $cn =new connect_new();
+        try
+        {
+        $q='call getTabla_Comprobante_Regula("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$periodo.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$serie.'",'.$numero.',"'.$documento.'");';
         //console_log($q);
         $dt=$cn->getTabla($q);
         return $dt;
@@ -283,7 +385,7 @@ class comprobante_regula {
         }
     }
     function verificarFactura(){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
             $q="select count(ID) from factura_venta where del=0 and  estado_ID=53 and ID=".$this->documento_relacionado_ID;

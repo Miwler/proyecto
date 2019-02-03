@@ -22,7 +22,7 @@ $(document).ready(function(){
             crear_boton_guia();
     <?php } ?> 
     <?php if($GLOBALS['oOrden_Venta']->impresion==1){?>
-        crear_boton_QuitarPrint();
+            crear_boton_QuitarPrint();
     <?php } ?> 
         
 });
@@ -41,7 +41,7 @@ $(document).ready(function(){
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Orden_Venta_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Venta']->ID?>" onsubmit="return validar();" class="form-horizontal">
      <div class="panel panel-tab rounded shadow">
-         <div class="panel-heading no-padding">
+         <div class="panel-heading">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divCliente" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Cliente</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos Generales</span></a></li>
@@ -160,7 +160,7 @@ $(document).ready(function(){
                             <label>Lugar de entrega: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;" class="form-control text-uppercase"><?php echo FormatTextViewHtml(trim($GLOBALS['oOrden_Venta']->lugar_entrega)); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize: none;" class="form-control"><?php echo (trim($GLOBALS['oOrden_Venta']->lugar_entrega)); ?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -168,7 +168,7 @@ $(document).ready(function(){
                             <label>Observación: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control text-uppercase" rows="1" cols="10" maxlength="150" style="height: 80px;"><?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->observacion); ?></textarea>
+                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control" rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize: none;"><?php echo ($GLOBALS['oOrden_Venta']->observacion); ?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -196,7 +196,7 @@ $(document).ready(function(){
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
                             <?php }?>
                             </select>
                             <script type="text/javascript">
@@ -218,7 +218,7 @@ $(document).ready(function(){
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
-                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo FormatTextView($iForma_Pago['nombre']);?></option>
+                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
@@ -240,7 +240,7 @@ $(document).ready(function(){
                             </script>
                         </div>
                     </div>
-               
+                    
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <label>Nro. Cuentas: </label>
@@ -390,7 +390,7 @@ $(document).ready(function(){
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-             parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,450);
+             parent.window_float_open_modal_hijo("COPROBANTE DE PAGO","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,450);
         
         }else {
             toastem.error('Debe registrar productos.');
@@ -434,7 +434,7 @@ $(document).ready(function(){
         if($('#btnFactura').length){
            
         }else{
-            $('#btnDescargar').after(' <button  type="button" id="btnFactura" title="Generar Factura" name="btnFactura" class="btn btn-primary" onclick="fncFactura();" ><span class="glyphicon glyphicon-list-alt"></span> Factura</button>');
+            $('#btnDescargar').after(' <button  type="button" id="btnFactura" title="Generar comprobante" name="btnFactura" class="btn btn-primary" onclick="fncFactura();" ><span class="glyphicon glyphicon-list-alt"></span> Comprobante</button>');
         }
         
     }
@@ -459,14 +459,14 @@ $(document).ready(function(){
    var fncRegistrar_Productos=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/orden_venta_mantenimiento_producto_nuevo",orden_venta_ID,"",fncCargar_Detalle_Orden_Venta,700,590);
     }
     var fncEditarProducto=function(id){
-        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,590);
        
     }
     var fncVerProducto=function(id){
-        parent.window_float_open_modal_hijo("VER PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,600);
+        parent.window_float_open_modal_hijo("VER PRODUCTO","Salida/Orden_Venta_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Orden_Venta,700,590);
        
     }
     var fncRegistrar_Obsequios=function(){
@@ -515,12 +515,13 @@ $(document).ready(function(){
         var tipo=$('#chkOrdenASC').val();
         //$('#divContenedor_Float_Hijo').css('display', 'block');
         cargarValores("Salida/ajaxOrden_Venta_Detalle_Productos",orden_venta_ID,function(resultado){
+            
             $('#productos').html(resultado.resultado);
             $('#subtotal').html(resultado.subtotal);
             $('#vigv').html(resultado.vigv);
             $('#total').html(resultado.total);
             $('#divContenedorDetalle').html(resultado.html);
-            calcularEstructura(orden_venta_ID);
+            //calcularEstructura(orden_venta_ID);
           
         });
     }
@@ -687,7 +688,7 @@ $(document).ready(function(){
     }
     
     var calcularEstructura=function(orden_venta_ID){
-
+        
         $('#divContenedorDetalle').css('display','block');
          var tabla= document.getElementById('tablaproducto');
          var nFilas =tabla.rows.length;

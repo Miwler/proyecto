@@ -71,7 +71,7 @@ class ingreso {
     }
 
    function insertar(){
-        $cn =new connect();
+        
         $retornar=-1;
         try{
             $ID=0;
@@ -93,8 +93,10 @@ class ingreso {
                 $forma_pago=$this->forma_pago_ID!=null;
             }
             $q='select ifnull(max(ID),0)+1 as ID from ingreso;';
+            $cn =new connect_new();
             $ID=$cn->getData($q);
             $q='select ifnull(max(codigo),0)+1 as ID from ingreso where tipo_movimiento_ID='.$this->tipo_movimiento_ID.' and  empresa_ID='.$_SESSION['empresa_ID'].';';
+            $cn =new connect_new();
             $codigo=$cn->getData($q);
             
             $q='INSERT INTO ingreso(ID,codigo,empresa_ID,tipo_movimiento_ID,tipo_comprobante_ID,serie,numero,proveedor_ID,fecha_emision,fecha_vencimiento,tipo_cambio,vigv,';
@@ -104,7 +106,7 @@ class ingreso {
             $q.= number_format($this->vigv,2,'.','').','.$this->con_igv.','.$this->estado_ID.','.number_format($this->descuento,2,'.','').','.number_format($this->recargo,2,'.','').',';
             $q.=number_format($this->subtotal,2,'.','').','.number_format($this->igv,2,'.','').','.number_format($this->total,2,'.','').','.$this->usuario_id.',"'.$this->numero_guia.'",';
             $q.=$this->moneda_ID.','.$orden_ingreso_ID.',"'.$this->descripcion.'",'.$this->periodo.','.number_format($this->monto_pendiente,2,'.','').','.$forma_pago.');';
-            //echo $q;
+            $cn =new connect_new();
             $retornar=$cn->transa($q);
 
             $this->ID=$ID;
@@ -118,30 +120,32 @@ class ingreso {
     }	
 		
     function actualizar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     $fecha_emision_save='NULL';
                     if($this->fecha_emision!=null){
-                            $fecha_emision_save='"'.FormatTextToDate($this->fecha_emision,'Y-m-d').'"';
+                        $fecha_emision_save='"'.FormatTextToDate($this->fecha_emision,'Y-m-d').'"';
+                       // echo $fecha_emision_save;
                     }
 
                     $fecha_vencimiento_save='NULL';
                     if($this->fecha_vencimiento!=null){
                             $fecha_vencimiento_save='"'.FormatTextToDate($this->fecha_vencimiento,'Y-m-d').'"';
+                            
                     }
                     $orden_ingreso_ID='NULL';
                     if($this->orden_ingreso_ID!=null&&$this->orden_ingreso_ID!=-1){
                         $orden_ingreso_ID=$this->orden_ingreso_ID;
                     }
-                    $q="UPDATE ingreso SET orden_ingreso_ID=".$orden_ingreso_ID.", tipo_comprobante_ID=".$this->tipo_comprobante_ID.",serie='".$this->serie."',numero='".$this->numero."',";
+                    $q="UPDATE ingreso SET orden_ingreso_ID=".$orden_ingreso_ID.", tipo_comprobante_ID=".$this->tipo_comprobante_ID.",serie='".$this->serie."',numero='".$this->numero."',numero_guia='".$this->numero_guia."',";
                     $q.="proveedor_ID=".$this->proveedor_ID.",fecha_emision=".$fecha_emision_save.",fecha_vencimiento=".$fecha_vencimiento_save.",";
-                    $q.="tipo_cambio='".number_format($this->tipo_cambio,2,'.','')."',con_igv='".$this->con_igv."',vigv='".number_format($this->vigv,2,'.','')."',estado_ID=".$this->estado_ID;
-                    $q.=",descuento='".number_format($this->descuento,2,'.','')."',recargo='".number_format($this->recargo,2,'.','')."',";
-                    $q.="subtotal='".number_format($this->subtotal,2,'.','')."',igv='".number_format($this->igv,2,'.','')."',total='".number_format($this->total,2,'.','');
-                    $q.="',usuario_mod_id=".$this->usuario_mod_id.",moneda_ID=".$this->moneda_ID.",periodo=".$this->periodo.",monto_pendiente=".number_format($this->monto_pendiente,2,'.','').",descripcion='".$this->descripcion."', fdm=Now()";
+                    $q.="tipo_cambio='".round($this->tipo_cambio,2)."',con_igv='".$this->con_igv."',vigv='".round($this->vigv,2)."',estado_ID=".$this->estado_ID;
+                    $q.=",descuento='".round($this->descuento,2)."',recargo='".round($this->recargo,2)."',";
+                    $q.="subtotal='".round($this->subtotal,2)."',igv='".round($this->igv,2)."',total='".round($this->total,2);
+                    $q.="',usuario_mod_id=".$this->usuario_mod_id.",moneda_ID=".$this->moneda_ID.",periodo=".$this->periodo.",monto_pendiente=".round($this->monto_pendiente,2).",descripcion='".$this->descripcion."', fdm=Now()";
                     $q.=" WHERE ID=".$this->ID;
-
+                    //echo $q;
                     $retornar=$cn->transa($q);
 
                     $this->message='Se guardó correctamente';
@@ -152,7 +156,7 @@ class ingreso {
             }
     }
      function actualizarMontoPendiente(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     
@@ -169,7 +173,7 @@ class ingreso {
             }
     }
     function actualizarEstado(){
-       $cn =new connect();
+       $cn =new connect_new();
        $retornar=-1;
        try{
 
@@ -186,7 +190,7 @@ class ingreso {
        }
     }
 function actualizar2(){
-    $cn =new connect();
+    $cn =new connect_new();
     $retornar=-1;
     try{
 
@@ -205,7 +209,7 @@ function actualizar2(){
     }
 }
     function eliminar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -224,20 +228,21 @@ function actualizar2(){
 
     static function getByID($ID)
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='Select ID,codigo,tipo_comprobante_ID,serie,numero,numero_guia,proveedor_ID,DATE_FORMAT(fecha_emision,"%d/%m/%Y") as fecha_emision,';
-                    $q.='DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,tipo_cambio,vigv,con_igv,estado_ID,forma_pago_ID,descuento,';
+                    $q.='DATE_FORMAT(fecha_vencimiento,"%d/%m/%Y") as fecha_vencimiento,tipo_cambio,vigv,con_igv,estado_ID,ifnull(forma_pago_ID,0) as forma_pago_ID,descuento,';
                     $q.='recargo,subtotal,igv,total,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id,moneda_ID,periodo,monto_pendiente,ifnull(orden_ingreso_ID,-1) as orden_ingreso_ID,descripcion ';
                     $q.=' from ingreso ';
-                    $q.=' where ID='.$ID;
-                    //echo $q;
+                    $q.=' where del=0 and ID='.$ID;
+                   
                     $dt=$cn->getGrid($q);			
                     $oingreso=null;
-
+                    
                     foreach($dt as $item)
                     {
+                        
                             $oingreso=new ingreso();
 
                             $oingreso->ID=$item['ID'];
@@ -276,7 +281,7 @@ function actualizar2(){
     }
 
     function verificarDuplicado(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     //Verifico que no se repita la serie y el número por cada proveedor
@@ -302,7 +307,7 @@ function actualizar2(){
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(co.ID) ';
             $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct';
@@ -322,7 +327,7 @@ function actualizar2(){
     
     
         static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'co.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select co.ID,co.codigo,pr.razon_social as proveedor,pr.ID as proveedor_ID,co.numero,co.numero_guia, co.moneda_ID, ';
             $q.= 'mo.descripcion as moneda,mo.simbolo,est.nombre as estado,co.fecha_emision,co.fecha_vencimiento,co.serie,';
@@ -352,7 +357,7 @@ function actualizar2(){
     
 
     static function getGrid_CuentaXPagar($filtro = '', $desde = -1, $hasta = -1, $order = 'co.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select co.ID,pr.razon_social as proveedor,pr.ID as proveedor_ID,co.numero,co.numero_guia, fp.nombre, co.moneda_ID,';
             $q.= 'mo.descripcion as moneda,mo.simbolo,est.nombre as estado,co.fecha_emision,co.fecha_vencimiento,co.serie,';
@@ -382,7 +387,7 @@ function actualizar2(){
     
         
     function actualizarAnulacion() {
-        $cn = new connect();
+        $cn = new connect_new();
         $numero = 0;
         try {
             $fecha_save = 'NULL';
@@ -408,7 +413,7 @@ function actualizar2(){
 	
 	   
         static function MostrarGrafico_DiarioSoles() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
@@ -429,7 +434,7 @@ function actualizar2(){
     
     
         static function MostrarGrafico_DiarioDolares() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
@@ -450,7 +455,7 @@ function actualizar2(){
     
     
        static function MostrarGrafico_DiarioxMesSoles() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
@@ -471,7 +476,7 @@ function actualizar2(){
     
     
            static function MostrarGrafico_DiarioxMesDolares() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
@@ -493,7 +498,7 @@ function actualizar2(){
     
         
         static function MostrarGrafico_MensualSoles() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
@@ -514,7 +519,7 @@ function actualizar2(){
     
     
             static function MostrarGrafico_MensualDolares() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "SET lc_time_names = 'es_PE';";
             $cn->transa($q);
@@ -535,7 +540,7 @@ function actualizar2(){
     
     
        static function MostrarGrafico_AnualSoles() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select year(co.fecha_emision) as anio, sum(co.total) as total_anio, co.moneda_ID, co.estado_ID ';
             $q.='from ingreso co ';
@@ -553,7 +558,7 @@ function actualizar2(){
     
     
            static function MostrarGrafico_AnualDolares() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select year(co.fecha_emision) as anio, sum(co.total) as total_anio, co.moneda_ID, co.estado_ID ';
             $q.='from ingreso co ';

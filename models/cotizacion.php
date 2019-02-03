@@ -71,7 +71,7 @@ class cotizacion {
     }
     function insertar()
     {
-        $cn =new connect();
+        
         $retornar=-1;
         try{
             $fecha_save='NULL';
@@ -79,6 +79,7 @@ class cotizacion {
                 $fecha_save='"'.FormatTextToDate($this->fecha,'Y-m-d').'"';
             }
            $q='select ifnull(max(ID),0)+1 as ID from cotizacion;';
+           $cn =new connect_new();
            $ID=$cn->getData($q);
             
             $q=" insert into cotizacion (ID,empresa_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,numero_concatenado,moneda_ID,fecha,";
@@ -89,7 +90,7 @@ class cotizacion {
             $q.=$this->igv.",".$this->vigv_soles.",".$this->vigv_dolares.",".$this->precio_venta_neto_soles.",".$this->precio_venta_total_soles.",".$this->precio_venta_neto_dolares.",".$this->precio_venta_total_dolares.",";
             $q.=$this->forma_pago_ID.",".$this->tiempo_credito.",'".$this->tardanza."','".$this->plazo_entrega."',".$this->estado_ID.",".$this->tipo_cambio.",'".$this->lugar_entrega."',";
             $q.="'".$this->validez_oferta."','".$this->garantia."','".$this->observacion."',".$this->usuario_id.");";
-//echo $q;
+            $cn =new connect_new();
             $retornar=$cn->transa($q);
             $this->ID=$ID;
             $this->getMessage='Se guardó correctamente';
@@ -102,7 +103,7 @@ class cotizacion {
         }
     }
     function actualizar(){
-        $cn =new connect();
+        $cn =new connect_new();
 	$retornar=-1;
         try{
             $fecha_save='NULL';
@@ -123,7 +124,7 @@ class cotizacion {
     }
     //codigo ortega-aprobar cotizacion
     function aprobarCotizacion($id){
-        $cn =new connect();
+        $cn =new connect_new();
 	$retornar=-1;
         try{
             $q='update cotizacion set estado_ID=3';
@@ -136,7 +137,7 @@ class cotizacion {
         }
     }
     function actualizarCosto(){
-        $cn =new connect();
+        $cn =new connect_new();
 	$retornar=-1;
         try{
             $q='update cotizacion set precio_venta_total_soles='.$this->precio_venta_total_soles.', igv='.$this->igv.', precio_venta_total_dolares='.$this->precio_venta_total_dolares.', usuario_mod_id='. $this->usuario_mod_id;
@@ -150,7 +151,7 @@ class cotizacion {
         }
     }
     function eliminar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -168,7 +169,7 @@ class cotizacion {
     }    
     static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(co.ID) ';
@@ -191,7 +192,7 @@ class cotizacion {
         //modificado por ortega-agregar todos los datos y cargar en el modelo
    static function getByID($ID)
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q=' select ID,empresa_ID,cliente_ID,cliente_contacto_ID,ifNull(operador_ID,-1) as operador_ID,periodo,numero,numero_concatenado,moneda_ID,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,';
@@ -249,7 +250,7 @@ class cotizacion {
     }
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='co.ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q=' select co.ID,co.cliente_ID,co.cliente_contacto_ID,co.operador_ID,co.periodo,co.numero,';
@@ -280,7 +281,7 @@ class cotizacion {
 	} 
         static function getGrid1($filtro='',$desde=-1,$hasta=-1,$orden='co.ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q="call getTabla_Cotizacion('".$filtro."',".$desde.",".$hasta.",'".$orden."');";
@@ -293,7 +294,7 @@ class cotizacion {
             }
 	} 
     function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			return $retornar;
@@ -303,7 +304,7 @@ class cotizacion {
 		}
 	}
     static function getNumero(){
-      $cn =new connect();
+      $cn =new connect_new();
       $numero=0;
         try{
             $q='select ifnull(max(numero),0) +1 as numero from cotizacion where empresa_ID='.$_SESSION['empresa_ID'];
@@ -316,7 +317,7 @@ class cotizacion {
               
     }
     function actualizar_pagina(){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
 

@@ -10,15 +10,17 @@ class connect
 	function __construct()
 	{
 
-            $this->host='200.4.228.195';
+            //$this->host='200.4.228.195';
             //$this->host='192.168.8.240';
 						//$this->host='192.168.8.240';
-            //$this->host='localhost';
+            $this->host='localhost';
             //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
-            $this->db='bd_jjsoluciones_test' ;
+            //$this->db='bd_jjsoluciones_test' ;
+            $this->db='bd_desarrollo' ;
             $this->db_user='root';
-            $this->db_password='Lima123';
+            //$this->db_password='Lima123';
+            $this->db_password='';
             //$this->db_password='';
             $this->gError='';
             $this->connect();
@@ -29,59 +31,70 @@ class connect
 	{
 		try
 		{
+                    
 			$this->connect=new PDO('mysql:host='.$this->host.';dbname='.$this->db,$this->db_user,$this->db_password);
 			$this->connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		}catch(PDOException $ex)
 		{
-			throw new Exception('Ocurrio un Error al conectarse con la base de datos');
+			throw new Exception($ex->getMessage());
 		}
 	}
 
 	function disconnect()
 	{
+            //$this->connect->close();
 		$this->conexion=null;
 	}
 
 	function getData($q)
 	{
-		try
-		{
-			$result=$this->connect->query($q);
-			$dt=$result->fetchAll();
+            try
+            {
+                //$this->connect();
+                $result=$this->connect->query($q);
+                $dt=$result->fetchAll();
 
-			if(count($dt)==0)
-			{
-			 	$dt[0][0]='';
-			}
+                if(count($dt)==0)
+                {
+                        $dt[0][0]='';
+                }
 
-			$this->disconnect();
-			return $dt[0][0];
-		}catch(PDOException $ex)
-		{
-			$this->disconnect();
-			throw new Exception('Ocurrio un Error en la consulta');
-		}
+                $this->disconnect();
+                return $dt[0][0];
+            }catch(PDOException $ex)
+            {
+                    $this->disconnect();
+                    throw new Exception('Ocurrio un Error en la consulta');
+            }
+                
 	}
 
         function getGrid($q)
 	{
 		try
 		{
-			$result=$this->connect->query($q);
-			$dt=$result->fetchAll();
-			$this->disconnect();
-			return $dt;
+                    //$this->connect();
+                    $result=$this->connect->query($q);
+                    $dt=$result->fetchAll();
+			
+			
+                        
+                    $this->disconnect();
+                     return $dt;
+                        
 		}catch(PDOException $ex)
 		{
 			$this->disconnect();
 			throw new Exception($ex->getMessage());
 		}
+                
 	}
-         function getTabla($q)
+        function getTabla($q)
 	{
              $mysqli = new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
 		try
 		{
+                    
                     $result = $mysqli->query($q);
                     
                     $rows=array();
@@ -100,11 +113,12 @@ class connect
 		}
                 
 	}
-
+        
 	function transa($q)
 	{
 		try
 		{
+                    //$this->connect();
                     $count=$this->connect->exec($q);
                     $this->disconnect();
                     return $count;
@@ -114,5 +128,6 @@ class connect
                     throw new Exception($ex->getMessage());
 		}
 	}
+        
 }
 ?>

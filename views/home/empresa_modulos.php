@@ -9,6 +9,9 @@
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
+ <?php function fncTituloCabecera(){?>
+    
+<?php } ?>
 <?php function fncPage(){?>
     <div class="panel panel-primary">
         <div class="panel-heading">

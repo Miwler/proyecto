@@ -9,11 +9,23 @@
         <script type="text/javascript" src="include/js/jGrid.js"></script>
 
         <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
-                
-               
+        <style>
+            .st-val{
+                text-align:left!important;
+            }
+            .st-key{
+                font-weight: bold;
+            }
+        </style>        
+         
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Registros de compras
+     <div class="pull-right">
+        <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+        <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+          
+     </div>
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -26,15 +38,12 @@
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
            
-
         </div>
          <div class="panel-body">
            
@@ -52,7 +61,7 @@
                                     <select id="selProveedor" name="selProveedor" class="chosen-select">
                                         <option value="0">-TODOS-</option>
                                         <?php foreach($GLOBALS['dtProveedor'] as $proveedor){?>
-                                        <option value="<?php echo $proveedor['ID']?>"><?php echo strtoupper($proveedor['razon_social'])?></option>
+                                        <option value="<?php echo $proveedor['ID']?>"><?php echo strtoupper(utf8_encode($proveedor['razon_social']))?></option>
                                         <?php }?>
                                     </select>
 
@@ -117,7 +126,7 @@
                                     <select id="selMoneda" name="selMoneda" class="form-control text-uppercase" >
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtMoneda'] as $moneda){?>
-                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo FormatTextView($moneda['descripcion']) ;?></option>
+                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo utf8_encode($moneda['descripcion']) ;?></option>
                                         <?php } ?>
                                     </select>
 
@@ -223,13 +232,13 @@
             f.enviar();
     }
     var fncNuevo=function(){	
-        window_float_open_modal('REGISTRAR NUEVA COMPRA','/Ingreso/Compra_Mantenimiento_Nuevo','','',f,800,550);
+        window_float_open_modal('REGISTRAR NUEVA COMPRA','/Ingreso/Compra_Mantenimiento_Nuevo','','',f,800,500);
         
     }
 
  
     var fncEditar=function(id){	
-        window_float_open_modal('EDITAR COMPRA','/Ingreso/Compra_Mantenimiento_Editar',id,'',f,800,580);
+        window_float_open_modal('EDITAR COMPRA','/Ingreso/Compra_Mantenimiento_Editar',id,'',f,800,500);
        
     }
 

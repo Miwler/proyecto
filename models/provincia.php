@@ -41,7 +41,7 @@ class provincia
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,departamento_ID,codigo_ubigeo,nombre,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -72,7 +72,7 @@ class provincia
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(pv.ID) ';
@@ -95,7 +95,7 @@ class provincia
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='pv.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT pv.ID,pv.departamento_ID,pv.codigo_ubigeo,pv.nombre,pv.usuario_id,ifnull(pv.usuario_mod_id,-1) as usuario_mod_id';
@@ -119,6 +119,24 @@ class provincia
 			throw new Exception('Ocurrio un error en la consulta.');
 		}
 	}
+    static function getOpciones($ID,$departamento_ID) {
+       $cn = new connect_new();
+       $opciones="";
+       try {
+           $dt=$cn->store_procedure_getGrid("sp_provincia_getOpciones",
+                   array(
+                       "iID"=>$ID,
+                       "idepartamento_ID"=>$departamento_ID
+                    ));
+           if(count($dt)>0){
+               $opciones= utf8_encode($dt[0]["opciones"]);
+           }
+           return $opciones;
+       } catch (Exception $ex) {
+           log_error(__FILE__, "departamento.getOpciones", $ex->getMessage());
+           throw new Exception('Ocurrio un error en la consulta');
+       }
+    }
 }
 
 ?>

@@ -35,11 +35,12 @@ class ingreso_pagos {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from ingreso_pagos;';
+            $cn = new connect_new();
             $ID=$cn->getData($q);
             $fecha_save='NULL';
             if($this->fecha!=null){
@@ -50,6 +51,7 @@ class ingreso_pagos {
             $q.='monto_pagado,monto_pendiente,usuario_id)';
             $q.='values('.$ID.','.$this->ingreso_ID.','.$fecha_save.',"'.number_format($this->monto_pagado,2,'.','').'","'.number_format($this->monto_pendiente,2,'.','').'",'.$this->usuario_id.')';
             //echo $q;
+            $cn = new connect_new();
             $retornar = $cn->transa($q);
 
            
@@ -63,7 +65,7 @@ class ingreso_pagos {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $fecha_save='NULL';
@@ -84,7 +86,7 @@ class ingreso_pagos {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -101,7 +103,7 @@ class ingreso_pagos {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ca.ID) ';
             $q.=' FROM categoria as ca, linea li ';
@@ -120,7 +122,7 @@ class ingreso_pagos {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,ingreso_ID,fecha,monto_pagado,monto_pendiente,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from ingreso_pagos ';
@@ -146,7 +148,7 @@ class ingreso_pagos {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,ingreso_ID,fecha,monto_pagado,monto_pendiente,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM ingreso_pagos';
@@ -169,7 +171,7 @@ class ingreso_pagos {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             return $retornar;

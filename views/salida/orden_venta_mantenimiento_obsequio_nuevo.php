@@ -38,107 +38,143 @@
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
 <form id="frm1"  method="post"  action="Salida/Orden_Venta_Mantenimiento_Obsequio_Nuevo/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
-        <div class="panel-heading no-padding">
+        <div class="panel-heading">
             <ul class="nav nav-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#Productos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Producto</a></li>
                 <li class="nav-item"><a href="#separaciones" data-toggle="tab"><i class="fa fa-clone"></i> Separaciones</a></li>
                 <li class="nav-item"><a href="#historial" data-toggle="tab"><i class="fa fa-calendar-o"></i> Historial</a></li>
             </ul>
         </div>
-        <div class="panel-body no-padding rounded-bottom" style="height: 460px;overflow: auto;">
+        <div class="panel-body no-padding rounded-bottom" style="height: 300px;overflow: auto;">
             <div class="tab-content">
                 <div id="Productos" class="tab-pane fade in active inner-all">
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Línea</label>
-                            <input id='txtID' name='txtcotizacion_detalle_ID' value='<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>' style='display:none;' >
-                        </div>
-                        <div id="tdLinea" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control text-uppercase filtroLista">
-                                <option value="0">TODOS</option>
-                                <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
-                                <?php } ?>
-                            </select>
-                            <script type="text/javascript">
-                                $('#selLinea').val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->linea_ID;?>);
-                            </script>  
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Categoría</label>
-                        </div>
-                        <div id="tdCategoria" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="form-control text-uppercase filtroLista">
-                                <option value="0" selected>TODOS</option>
-                                <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                                        <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
-                                <?php } ?>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label>Línea</label>
+                                    <input id='txtID' name='txtcotizacion_detalle_ID' value='<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>' style='display:none;' >
+                                </div>
+                                <div id="tdLinea" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control text-uppercase filtroLista chosen-select mb-15">
+                                        <option value="0">TODOS</option>
+                                        <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
+                                        <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $('#selLinea').val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->linea_ID;?>);
+                                    </script>  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label>Categoría</label>
+                                </div>
+                                <div id="tdCategoria" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="form-control text-uppercase filtroLista chosen-select mb-15">
+                                        <option value="0" selected>TODOS</option>
+                                        <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
+                                                <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                                        <?php } ?>
 
-                            </select> 
+                                    </select> 
 
-                            <script type="text/javascript">
-                                $('#selCategoria').val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->categoria_ID;?>);
-                            </script>
+                                    <script type="text/javascript">
+                                        $('#selCategoria').val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->categoria_ID;?>);
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label>Producto</label>
+                                </div>
+                                <div id="tdProducto" class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lista_producto">
+                                    <input type="hidden" id="selProducto" name="selProducto" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>">
+                                            <input type="text" id="listaProducto" class="form-control" value="">
+                                            <script type="text/javascript">
+                                            $(document).ready(function(){
+                                                listar_productos();
+                                            });
+                                            </script>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Producto</label>
-                        </div>
-                        <div id="tdProducto" class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lista_producto">
-                            <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                <option value='0'>--SELECCIONAR--</option>
-                                <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                <?php } ?>
-                            </select>
-                            <script type="text/javascript">
-                                <?php if($GLOBALS['oOrden_Venta_Detalle']->ID>0){ ?>
-                                   $("#selProducto").val(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
-                                <?php }?>
-                            </script>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Descripción</label>
-                        </div>
-                        <div id="tdComentario" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:100px;"><?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->descripcion);?></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Cantidad</label>
-                        </div>
-                        <div  class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtCantidad" name="txtCantidad" class="form-control form-requerido int" autocomplete="off" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->cantidad;?>" >
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Stock</label>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtStock" name="txtStock" class="form-control"  value="<?php echo $GLOBALS['oInventario']->stock; ?>" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Precio de compra</label>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input  type="text" id="txtPrecioCompraDolares" name="txtPrecioCompraDolares" class="form-control moneda" disabled>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="text" id="txtPrecioCompraSoles" name="txtPrecioCompraSoles" class="form-control moneda" disabled>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label>Cantidad</label>
+                                </div>
+                                <div  class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <input type="text" id="txtCantidad" name="txtCantidad" class="form-control form-requerido int" autocomplete="off" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->cantidad;?>" >
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label>Stock</label>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <input type="text" id="txtStock" name="txtStock" class="form-control"  value="<?php echo $GLOBALS['oInventario']->stock; ?>" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <label>Precio de compra</label>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <input  type="text" id="txtPrecioCompraDolares" name="txtPrecioCompraDolares" class="form-control moneda" disabled>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <input type="text" id="txtPrecioCompraSoles" name="txtPrecioCompraSoles" class="form-control moneda" disabled>
+                                </div>
+
+                            </div>
                         </div>
                         
                     </div>
+                    
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <label>Descripción</label>
+                        </div>
+                        <div id="tdComentario" class="col-lg-12 col-md-12 col-sm-12">
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:80px;resize: none;overflow:auto;"><?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->descripcion);?></textarea>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="separaciones">
+                     <h4>Separaciones de producto</h4>
+                    <table id="table_separaciones" class='table table-hover table-bordered table-teal'><thead>
+                        <tr><th>N°Cotizaci&oacute;n</th><th>Fecha</th><th>Cant. Comprada</th><th>Cant. Separada</th><th >Responsable</th></tr>
+                    </thead>
+                    <tbody>
+                    </table>  
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="historial">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4>Historial de Compras</h4>
+                            <table class='table table-hover  table-responsive table-teal' id="table_historial_compra">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Proveedor</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="title lg-text">Historial de Ventas</h4>
+                            <table class='table table-hover table-responsive table-teal' id="table_historial_venta">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Cliente</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -176,15 +212,18 @@
             $('.nav-tabs a[href="#divCostos"]').tab('show');
             return false;   
         }
-        $('#fondo_espera').css('display','block');
+        block_ui();
+        //$('#fondo_espera').css('display','block');
         
     }
    
 
     
-    var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
-            $('#historial').html(resultado.html); 
+   var fncHistoriaProducto=function(producto_ID){
+        cargarValores('/Funcion/ajaxHistorial_Producto',producto_ID,function(resultado){
+            
+            $('#table_historial_compra tbody').html(resultado.filas_compras); 
+            $('#table_historial_venta tbody').html(resultado.filas_ventas); 
         });
     }
 
@@ -217,31 +256,17 @@
     }
 
     var fncCategoria=function(){
-        var categoria_ID = $('#selCategoria').val();
-        var linea_ID=$('#selLinea').val();
-       
-        cargarValores1("/Funcion/ajaxListar_Productos",linea_ID,categoria_ID,function(resultado){
-           
-            if(resultado.resultado==1){
-                $("#selProducto").html(resultado.html);
-                $("#selProducto").trigger("chosen:updated");
-            }else{
-                mensaje.error("Mensaje de error",resultado.mensaje);
-            }
-        });
-       
+        listar_productos();
        
 
     }
-
-   var fncProducto=function(){
-        var producto_ID=$("#selProducto").val();
+    var listar_productos=function(){
+        lista_producto('/funcion/ajaxListarProductos','listaProducto','selProducto',$("#selLinea").val(),$("#selCategoria").val(),fncProducto,fncLimpiar);
+    }
+   var fncProducto=function(producto_ID){
+        
         if(producto_ID>0){
-            //$('#tbdocumentos').html('<div style="background:#000;opacity:0.7;width:100%;height:100%;text-align:center;" ><img width="80px" src="/include/img/loader-Login.gif"></div>');
             cargarValores('/Funcion/ajaxSeleccionar_Producto1',producto_ID,function(resultado){
-                //$('#selLinea').val(resultado.linea_ID); 
-                //$('#selCategoria').val(resultado.categoria_ID);
-                //$('#selProducto').val(resultado.producto_ID);
                 if(resultado.resultado==1){
                     $('#txtStock').val(resultado.stock);
                     $('#txtDescripcion').val(resultado.descripcion);
@@ -271,33 +296,33 @@
             
             if(resultado.resultado==-1){
                 toastem.error(resultado.mensaje);
-               $('#separaciones').html(resultado.mensaje); 
+               
             }
-            $('#separaciones').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+            
             VerSeparaciones(resultado.producto_ID);
         });
      } 
    
     
    
-    function VerSeparaciones(producto_ID){
-        cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
-            $('#separaciones').html(resultado.html); 
-            if(resultado.resultado==-1){
-               $('#separaciones').html(resultado.mensaje); 
-            }
-             $('#historial').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-            fncHistoriaProducto(resultado.producto_ID);
+   function VerSeparaciones(producto_ID){
+        cargarValores('/Funcion/ajaxVerSeparaciones',producto_ID,function(resultado){
+            $("#table_separaciones tbody").html(resultado.html);
+                  fncHistoriaProducto(producto_ID);
         });
         
     }
     var fncLimpiar=function(){
         $('#txtPrecioCompraDolares').val('');
         $('#txtPrecioCompraSoles').val('');
-        $('#DivSeparaciones').html('');
-        $('#historial').html('');
+       
         $('#txtDescripcion').val('');
         $('#txtStock').val('');
+        $("#listaProducto").val("");
+        $("#selProducto").val("");
+        $("#table_historial_compra tbody").html('');
+        $("#table_historial_venta tbody").html('');
+        $("#table_separaciones tbody").html('');
     }
    
     </script>
@@ -315,7 +340,7 @@
     </script>
 <?php } ?>
 <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==1){ ?>
-
+   
 <script type="text/javascript">
  //alert('hola');
  $(document).ready(function () {

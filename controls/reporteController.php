@@ -1262,3 +1262,16 @@
 
         echo json_encode($retornar);
     }
+    
+    /*Reporte de Ulmen*/
+    function get_Reportes_Ulmen(){
+        require ROOT_PATH.'models/reportes_empresa_usuario.php';
+        
+        global $returnView;
+        $returnView=true;
+        
+        $dtReportes=reportes_empresa_usuario::getGrid('re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
+        
+        $GLOBALS['dtReportes']=$dtReportes;
+        
+    }

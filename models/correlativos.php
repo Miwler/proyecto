@@ -1,280 +1,220 @@
 <?php
 
 class correlativos {
-
-    private $ID;
-    private $comprobante_tipo_ID;
-    private $serie;
-    private $ultimo_numero;
-    private $empresa_ID;
-    private $tipo_comprobante_empresa_ID;
-    private $electronico;
-    private $usuario_id;	
-    private $usuario_mod_id;
-    private $message;
-
-    public function __set($var, $valor)
+  private $ID;
+  private $serie;
+  private $ultimo_numero;
+  private $tipo_comprobante_empresa_ID;
+  private $electronico;
+  private $empresa_ID;
+  private $usuario_id;
+  private $usuario_mod_id;
+  private $getMessage;
+  private $tipo_comprobante_ID;
+  private $accion;
+  public function __set($var, $valor)
     {
-            // convierte a minúsculas toda una cadena la función strtolower
-            $temporal = $var;
-
-            // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
-            if (property_exists('correlativos',$temporal))
-             {
-                    $this->$temporal = $valor;
-             }
-             else
-             {
-                    echo $var . " No existe.";
-             }
-     }
-
-     public function __get($var)
-     {
-            $temporal = $var;
-
-            // Verifica que exista
-            if (property_exists('correlativos', $temporal))
-             {
-                    return $this->$temporal;
-             }
-
-            // Retorna nulo si no existe
-            return null;
+      $temporal = $var;
+      if (property_exists("correlativos",$temporal))
+      {
+        $this->$temporal = $valor;
+      }
+      else
+      {
+        echo $var . " No existe.";
+      }
     }
-    function insertar()
+  public function __get($var)
+  {
+    $temporal = $var;
+    if (property_exists("correlativos", $temporal))
     {
-        $cn =new connect();
-        $retornar=-1;
-        try{
-            
-            $q='select ifnull(max(ID),0)+1 as ID from correlativos;';
-            $ID=$cn->getData($q);
-            $q='INSERT INTO correlativos (ID,empresa_ID,comprobante_tipo_ID,serie,ultimo_numero,usuario_id) ';
-            $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].','.$this->comprobante_tipo_ID.',"'.$this->serie.'",'.$this->ultimo_numero.','.$this->usuario_id.')';
+      return $this->$temporal;
+    }
+    return null;
+  }
+  function __construct()
+  {
+        $this->serie="";
+    $this->ultimo_numero=0;
+    $this->electronico=0;
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
-            $retornar=$cn->transa($q);
-            
-            $this->ID=$ID;
-            $this->message='Se guardó correctamente';
-            
-            return $retornar;
-            
-        } catch (Exception $ex) {
+  }
+  function __destruct()
+  {
+    $this->serie;
+    $this->ultimo_numero;
+    $this->electronico;
+    $this->usuario_id;
+    $this->usuario_mod_id;
 
-            throw new Exception($q);
+  }
+  static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_correlativos_getByID",
+          array("iID"=>$ID));
+      $ocorrelativos=null;
+      foreach($dt as $item)
+        {
+            $ocorrelativos= new correlativos();
+            $ocorrelativos->ID=$item["ID"];
+            $ocorrelativos->serie=$item["serie"];
+            $ocorrelativos->ultimo_numero=$item["ultimo_numero"];
+            $ocorrelativos->tipo_comprobante_empresa_ID=$item["tipo_comprobante_empresa_ID"];
+            $ocorrelativos->electronico=$item["electronico"];
+            $ocorrelativos->empresa_ID=$item["empresa_ID"];
+            $ocorrelativos->usuario_id=$item["usuario_id"];
+            $ocorrelativos->usuario_mod_id=$item["usuario_mod_id"];
+            $ocorrelativos->tipo_comprobante_ID=$item["tipo_comprobante_ID"];
+            $ocorrelativos->accion=$item["accion"];
         }
-    }
-    function actualizar(){
-        $cn =new connect();
-	$retornar=-1;
-        try{
-           
-            $q='UPDATE correlativos set serie="'.$this->serie.'",ultimo_numero='.$this->ultimo_numero.', usuario_mod_id='.$this->usuario_mod_id;
-            $q.=', fdm=now() where del=0 and ID='.$this->ID;
-            //echo $q;
-            $retornar=$cn->transa($q);
-            $this->message='Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-    }
-    static function getByID($ID)
+      return $ocorrelativos;
+    }catch(Exeption $ex)
     {
-            $cn =new connect();
-            try 
-            {
-                    $q='Select ID,serie,ultimo_numero,electronico,tipo_comprobante_empresa_ID,usuario_id';
-                    $q.=' from correlativos ';
-                    $q.=' where ID='.$ID;
-
-                    $dt=$cn->getGrid($q);			
-                    $oCorrelativos=null;
-
-                    foreach($dt as $item)
-                    {
-                        $oCorrelativos=new correlativos();
-                        $oCorrelativos->ID=$item['ID'];
-                        $oCorrelativos->serie=FormatTextView($item['serie']);
-                        $oCorrelativos->ultimo_numero=$item['ultimo_numero'];
-                        $oCorrelativos->electronico=$item['electronico'];
-                        $oCorrelativos->tipo_comprobante_empresa_ID=$item['tipo_comprobante_empresa_ID'];
-                        $oCorrelativos->usuario_id=$item['usuario_id'];
-
-                    }			
-                    return $oCorrelativos;
-
-            }catch(Exeption $ex)
-            {
-                    throw new Exception("Ocurrio un error en la consulta.");
-            }
+      log_error(__FILE__, "correlativos.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
-    static function getBySerie($comprobante_tipo_ID,$serie)
+  }
+  function insertar()
     {
-            $cn =new connect();
-            try 
-            {
-                    $q='Select ID,comprobante_tipo_ID,serie,ultimo_numero,usuario_id';
-                    $q.=' from correlativos ';
-                    $q.='where del=0 and empresa_ID='.$_SESSION['empresa_ID'].' and comprobante_tipo_ID='.$comprobante_tipo_ID.' and serie="'.$serie.'"';
-                    //echo $q;
-                    $dt=$cn->getGrid($q);			
-                    $oCorrelativos=null;
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+            "sp_correlativos_Insert",
+            array(
+            "iID"=>0,
+            "iserie"=>$this->serie,
+            "iultimo_numero"=>$this->ultimo_numero,
+            "itipo_comprobante_empresa_ID"=>$this->tipo_comprobante_empresa_ID,
+            "ielectronico"=>$this->electronico,
+            "iempresa_ID"=>$this->empresa_ID,
+            "iusuario_id"=>$this->usuario_id,
 
-                    foreach($dt as $item)
-                    {
-                            $oCorrelativos=new correlativos();
-
-                            $oCorrelativos->ID=$item['ID'];
-                            $oCorrelativos->comprobante_tipo_ID=$item['comprobante_tipo_ID'];
-                            $oCorrelativos->serie=FormatTextView($item['serie']);
-                            $oCorrelativos->ultimo_numero=$item['ultimo_numero'];
-                            $oCorrelativos->usuario_id=$item['usuario_id'];
-
-                    }			
-                    return $oCorrelativos;
-
-            }catch(Exeption $ex)
-            {
-                    throw new Exception("Ocurrio un error en la consulta.");
-            }
+        ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "correlativos.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
-    static function getByNumero($tipo_comprobante_ID,$serie)
+  }
+  function actualizar()
     {
-        $cn =new connect();
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_correlativos_Update",
+            array(
+              "retornar"=>$retornar,
+            "iID"=>$this->ID,
+            "iserie"=>$this->serie,
+            "iultimo_numero"=>$this->ultimo_numero,
+            "itipo_comprobante_empresa_ID"=>$this->tipo_comprobante_empresa_ID,
+            "ielectronico"=>$this->electronico,
+            "iempresa_ID"=>$this->empresa_ID,
+            "iusuario_mod_id"=>$this->usuario_mod_id
+        ),0);
+        return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "correlativos.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getCount($filtro="")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $resultado=$cn->store_procedure_getData(
+          "sp_correlativos_getCount",
+            array(
+              "filtro"=>$filtro));
+      return $resultado;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "correlativos.getCount", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getNumero($correlativo_ID)
+    {
+        $cn =new connect_new();
         try 
         {
-            
-            $q='Select ifnull(co.ultimo_numero,0)+1';
-            $q.=' from correlativos co,tipo_comprobante_empresa tce,tipo_comprobante tc ';
-            $q.=' where co.tipo_comprobante_empresa_ID=tce.ID and tce.tipo_comprobante_ID=tc.ID and co.del=0';
-            $q.=' and co.empresa_ID='.$_SESSION['empresa_ID'].' and tc.ID='.$tipo_comprobante_ID.' and serie="'.$serie.'"';
-            //echo $q;
-            $retorna=$cn->getData($q);			
+            $numero=$cn->store_procedure_getData("sp_correlativos_getNumero",
+                    array(
+                        "iID"=>$correlativo_ID,
+                        "iempresa_ID"=>$_SESSION['empresa_ID']
+                    ));
             		
-            return $retorna;
+            		
+            return $numero;
 
         }catch(Exeption $ex)
         {
-                throw new Exception("Ocurrio un error en la consulta.");
+            log_error(__FILE__, "correlativos.getNumero", $ex->getMessage());
+            throw new Exception("Ocurrio un error en la consulta.");
         }
     }
-    static function getNumero($correlativo_ID)
+    static function getGridCorrelativos($accion,$electronico)
     {
-        $cn =new connect();
-        try 
-        {
-            
-            $q='select ifnull(cor.ultimo_numero,0)+1';
-            $q.=' from correlativos cor,tipo_comprobante_empresa tce';
-            $q.=' where cor.tipo_comprobante_empresa_ID=tce.ID and tce.del=0 and cor.del=0 and tce.empresa_ID='.$_SESSION['empresa_ID']." and cor.ID=".$correlativo_ID;
-            //echo $q;
-            $retorna=$cn->getData($q);			
-            		
-            return $retorna;
-
-        }catch(Exeption $ex)
-        {
-                throw new Exception("Ocurrio un error en la consulta.");
-        }
-    }
-    static function getCount($filtro='')
-    {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
-                    $q='select count(est.ID) ';
-                    $q.=' FROM estado as est';
-                    $q.=' where est.del=0 ';
-
-                    if ($filtro!='')
-                    {
-                            $q.=' and '.$filtro;
-                    }
-
-                    $resultado=$cn->getData($q);									
-
-                    return $resultado;					
+                $dt=$cn->store_procedure_getGrid("sp_correlativos_getGridCorrelativos",
+                        array(
+                           "iaccion"=> $accion,
+                            "ielectronico"=>$electronico,
+                            "iempresa_ID"=>$_SESSION['empresa_ID']
+                        ));
+                    									
+                return $dt;												
             }catch(Exception $ex)
             {
-                    throw new Exception("Ocurrio un error en la consulta");
-            }
-    } 
-
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
-    {
-            $cn =new connect();
-            try 
-            {
-                    $q='SELECT ID,comprobante_tipo_ID,serie,ultimo_numero,usuario_id';
-                    $q.=' FROM correlativos ';
-                    $q.=' where del=0 ';
-
-                    if($filtro!=''){
-                            $q.=' and '.$filtro;
-                    }
-
-                    $q.=' Order By '.$order;
-
-                    if($desde!=-1&&$hasta!=-1){
-                            $q.=' Limit '.$desde.','.$hasta;
-                    }			
-
-                    $dt=$cn->getGrid($q);									
-                    return $dt;												
-            }catch(Exception $ex)
-            {
+                log_error(__FILE__, "correlativos.getGridCorrelativos", $ex->getMessage());
                     throw new Exception('Ocurrio un error en la consulta');
             }
     }
-    static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='co.ID asc')
+    static function getTabla($filtro='',$inicio=-1,$fin=-1,$orden='co.ID asc')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
-                    $q='SELECT co.ID,co.comprobante_tipo_ID,co.serie,co.ultimo_numero,co.usuario_id,ct.nombre';
-                    $q.=' from correlativos co,comprobante_tipo ct ';
-                    $q.=' where co.comprobante_tipo_ID=ct.ID and co.del=0 ';
-
-                    if($filtro!=''){
-                            $q.=' and '.$filtro;
-                    }
-
-                    $q.=' Order By '.$order;
-
-                    if($desde!=-1&&$hasta!=-1){
-                            $q.=' Limit '.$desde.','.$hasta;
-                    }			
-
-                    $dt=$cn->getGrid($q);									
-                    return $dt;												
+                $dt=$cn->store_procedure_getGrid("sp_correlativos_getTabla",
+                        array(
+                           "filtro"=> $filtro,
+                            "inicio"=>$inicio,
+                            "fin"=>$fin,
+                            "orden"=>$orden
+                        ));
+                    									
+                return $dt;												
             }catch(Exception $ex)
             {
+                log_error(__FILE__, "correlativos.getGridCorrelativos", $ex->getMessage());
                     throw new Exception('Ocurrio un error en la consulta');
             }
     }
-    static function getGridCorrelativos($tabla)
+      static function verificar_electronico($correlativos_ID)
     {
-            $cn =new connect();
-            try 
-            {
-                    $q='select cor.ID,cor.serie,cor.ultimo_numero ';
-                    $q.=' from correlativos cor,tipo_comprobante_empresa tce';
-                    $q.=' where cor.tipo_comprobante_empresa_ID=tce.ID and tce.del=0 and cor.del=0 and tce.tabla="'.$tabla.'" and tce.empresa_ID='.$_SESSION['empresa_ID'];
-
-                   //echo $q;
-                    $dt=$cn->getGrid($q);									
-                    return $dt;												
-            }catch(Exception $ex)
-            {
-                    throw new Exception('Ocurrio un error en la consulta');
-            }
-    }
-    
-    static function verificar_electronico($correlativos_ID)
-    {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(ID) from correlativos where del=0 and electronico=1 and ID='.$correlativos_ID;
@@ -287,4 +227,25 @@ class correlativos {
                     throw new Exception('Ocurrio un error en la consulta');
             }
     }
-}
+    function eliminar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_correlativos_Delete",
+            array(
+              "retornar"=>$retornar,
+              "iID"=>$this->ID,
+              "iusuario_mod_id"=>$this->usuario_mod_id ),0
+            );
+      if($retornar>0)$this->getMessage = "Se eliminó correctamente";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "correlativos.eliminar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+}  

@@ -37,7 +37,7 @@ class moneda {
         return null;
     }
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,codigo,descripcion,simbolo,usuario_id';
             $q.=' from moneda ';
@@ -63,7 +63,7 @@ class moneda {
     }
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try
 		{
 			$q='SELECT ID,codigo,descripcion,simbolo';

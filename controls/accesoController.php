@@ -1,13 +1,14 @@
 <?php	
 	function get_Login($id){
 		global $returnView;
-		$returnView=true;		
+		$returnView=true;	
+               $GLOBALS['dtEmpresa_Usuario']="deedededededed";
 	}
 	
 	function post_Login(){
 		require ROOT_PATH."lib/security.php";
 		require ROOT_PATH."models/usuario.php"; 
-                require ROOT_PATH . 'models/configuracion.php';
+                //require ROOT_PATH . 'models/configuracion.php';
 		if(!class_exists('menu_usuario')){
                     require ROOT_PATH . 'models/menu_usuario.php';
                 }
@@ -28,8 +29,8 @@
                                 $_SESSION['usuario_ID']=$oUsuario->ID;
                                 $_SESSION['usuario_nombre']=$oUsuario->nombre;
                                 $_SESSION['foto']=$oUsuario->foto;
-                                $dtConfiguracion=configuracion::getGrid();
-                                $_SESSION['configuracion']=$dtConfiguracion;
+                                //$dtConfiguracion=configuracion::getGrid();
+                                //$_SESSION['configuracion']=$dtConfiguracion;
                         }else{
                                 $mensaje='Usuario o contraseña inválidos';
                         }
@@ -56,4 +57,5 @@
 			$retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje);
 			echo json_encode($retornar);
 	}
+       
 ?>

@@ -48,106 +48,107 @@ var enviar = function (obj,btn)
             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
         }
     });*/
+    block_ui(function(){
+        $(obj.Form).find('input,textarea,button,select').each(function (key, ob) {
+         if (ob.name != '' && ob.name != undefined) {
+             if (myObject[ob.name] == undefined) {
+                // alert(ob.name);
+                 switch (ob.type) {
+                     case 'radio':
+                             if (ob.checked) {
+                                 myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                             }
+                             break;
+                     case 'checkbox':
+                         if (ob.checked) {
+                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                         }
+                         break;
+                     default:
+                             myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                         break;
+                 }
+             } else {
+                 switch (ob.type) {
+                     case 'radio':
+                         if (ob.checked) {
+                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                         }
+                         break;
+                     case 'checkbox':
+                         if (ob.checked) {
+                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                         }
+                         break;
+                     default:
+                             myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                         break;
+                 }
+             }
+         }
+     });
 
-    $(obj.Form).find('input,textarea,button,select').each(function (key, ob) {
-        if (ob.name != '' && ob.name != undefined) {
-            if (myObject[ob.name] == undefined) {
-               // alert(ob.name);
-                switch (ob.type) {
-                    case 'radio':
-                            if (ob.checked) {
-                                myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
-                            }
-                            break;
-                    case 'checkbox':
-                        if (ob.checked) {
-                            myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
-                        }
-                        break;
-                    default:
-                            myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
-                        break;
-                }
-            } else {
-                switch (ob.type) {
-                    case 'radio':
-                        if (ob.checked) {
-                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
-                        }
-                        break;
-                    case 'checkbox':
-                        if (ob.checked) {
-                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
-                        }
-                        break;
-                    default:
-                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
-                        break;
-                }
-            }
-        }
+     var aleatorio = Math.random();
+     myObject['aleatorio'] = aleatorio;
+     myObject['btnEnviar'] = btn;
+     //alert(myObject['btnEnviar']);
+     $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+
+     /*Se convierte en json para enviarlo*/
+
+     data = JSON.stringify(myObject);
+     data = $.parseJSON(data);
+  //alert (data);
+     $.ajax({
+         type: $(obj.Form).attr('method'),
+         url: (obj.url == '') ? $(obj.Form).attr('action') : obj.url,
+         data: data,
+         cache:false,
+         datatype: "json",
+
+         success: function (respuesta) {
+             $.unblockUI();
+             respuesta = $.parseJSON(respuesta);
+             
+             $(obj.Div).html(respuesta.resultado);
+             if (respuesta.funcion != '') {
+                 $('#script').html(respuesta.funcion);
+             }
+
+             if (respuesta.mensaje != '') {
+                 if (document.getElementById('divMensaje') == null) {
+                     if (obj.divMensaje == '') {
+                         alert(respuesta.mensaje);
+                     } else {
+                         obj.Mostrar_Mensaje(respuesta.mensaje);
+                         setTimeout(function () {
+                             frmOcultar_Mensaje(obj);
+                         }, 10000);
+                     }
+                 } else {
+                     /*Muestro el mensaje y lo dejo visible por unos 5 mminutos*/
+                     obj.divMensaje = 'divMensaje';
+                     obj.Mostrar_Mensaje(respuesta.mensaje);
+                     setTimeout(function () {
+                         frmOcultar_Mensaje(obj);
+                     }, 10000);
+                 }
+             }
+
+         },
+         complete: function () {
+             obj.terminado();
+
+         },
+         error: function ()
+         {
+             //alert('error');
+             obj.error();
+             $(obj.Div).html('Ocurrió un Error al intentar conectarse');
+         }
+     }); 
     });
-
-    var aleatorio = Math.random();
-    myObject['aleatorio'] = aleatorio;
-    myObject['btnEnviar'] = btn;
-    //alert(myObject['btnEnviar']);
-    $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-
-    /*Se convierte en json para enviarlo*/
-
-    data = JSON.stringify(myObject);
-    data = $.parseJSON(data);
- //alert (data);
-    $.ajax({
-        type: $(obj.Form).attr('method'),
-        url: (obj.url == '') ? $(obj.Form).attr('action') : obj.url,
-        data: data,
-        cache:false,
-        datatype: "json",
-
-        success: function (respuesta) {
-          console.log(respuesta);
-           //alert(respuesta);
-            respuesta = $.parseJSON(respuesta);
-
-            $(obj.Div).html(respuesta.resultado);
-            if (respuesta.funcion != '') {
-                $('#script').html(respuesta.funcion);
-            }
-
-            if (respuesta.mensaje != '') {
-                if (document.getElementById('divMensaje') == null) {
-                    if (obj.divMensaje == '') {
-                        alert(respuesta.mensaje);
-                    } else {
-                        obj.Mostrar_Mensaje(respuesta.mensaje);
-                        setTimeout(function () {
-                            frmOcultar_Mensaje(obj);
-                        }, 10000);
-                    }
-                } else {
-                    /*Muestro el mensaje y lo dejo visible por unos 5 mminutos*/
-                    obj.divMensaje = 'divMensaje';
-                    obj.Mostrar_Mensaje(respuesta.mensaje);
-                    setTimeout(function () {
-                        frmOcultar_Mensaje(obj);
-                    }, 10000);
-                }
-            }
-
-        },
-        complete: function () {
-            obj.terminado();
-
-        },
-        error: function ()
-        {
-            //alert('error');
-            obj.error();
-            $(obj.Div).html('Ocurrió un Error al intentar conectarse');
-        }
-    });
+    
 }
 
 var ajaxGuardar= function (obj, btn) {
@@ -565,6 +566,7 @@ var cargarValores=function(url,id,resultado){
       },
       datatype: "json",
       success: function (respuesta) {
+          //console.log(respuesta);
           resultado($.parseJSON(respuesta));
         /*try {
           //console.log(respuesta);
@@ -976,8 +978,10 @@ function block_ui(eo_function) {
         });
     //$.unblockUI();
 }
-function lista(url,contenedor,id_txt,funcion){
+function lista(url,contenedor,id_txt,funcion,funcion_limpiar){
     $("#"+contenedor).autocomplete({
+        showNoSuggestionNotice:true,
+        noSuggestionNotice: 'No hay resultados',
         source: function (request, response) {
             //clear_data();
 
@@ -1016,6 +1020,70 @@ function lista(url,contenedor,id_txt,funcion){
             //fnDatosAlumna(alumna_ID);
         },
         minLength: 1
+    });
+    $("#"+contenedor).dblclick(function(){
+        $("#"+contenedor).val('');
+        if(funcion_limpiar){
+            funcion_limpiar();
+        }
+    });
+}
+function lista_producto(url,contenedor,id_txt,ilinea_ID,icategoria_ID,funcion,funcion_limpiar){
+    
+    $("#"+contenedor).autocomplete({
+        showNoSuggestionNotice:true,
+        noSuggestionNotice: 'No hay resultados',
+        source: function (request, response) {
+            //clear_data();
+            var texto=request.term;
+            $.ajax({
+                url: url,
+                data: {
+                    buscar:request.term,
+                    linea_ID:ilinea_ID,
+                    categoria_ID:icategoria_ID
+                },
+                dataType: "json",
+                type: "POST",
+                //contentType: "application/json; charset=utf-8",
+                success: function (texto) {
+                    //alert(data);
+                    response($.map(texto, function (item) {
+                        
+                        return item;
+                    }))
+                },
+                error: function (response) {
+                    console.log(response.responseText);
+                    //alert("Error");
+                    //alert(response.responseText);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        },
+        select: function (e, i) {
+            var ID = i.item.val;
+            //alert(ID);
+            if(funcion){
+                funcion(ID);
+            }
+            
+            $('#'+id_txt).val(ID);
+            //alert(persona_ID);
+            //$("#hfALUMNAS").val(alumna_ID);
+            //fnDatosAlumna(alumna_ID);
+        },
+        minLength: 1,
+        maxHeight:100
+    });
+    
+    $("#"+contenedor).dblclick(function(){
+        $("#"+contenedor).val('');
+        if(funcion_limpiar){
+            funcion_limpiar();
+        }
     });
 }
 var enviarAjax = function (url, divForm, myObject1, resultado) {
@@ -1090,7 +1158,78 @@ var enviarAjax = function (url, divForm, myObject1, resultado) {
     });
 }
 
+var enviarAjaxParse = function (url, divForm, myObject1, resultado) {
 
+    var data = null;
+    var myObject = new Object();
+
+    $('#' + divForm).find('input,textarea,button,select').each(function (key, ob) {
+
+        if (ob.name != '' && ob.name != undefined) {
+            if (myObject[ob.name] == undefined) {
+                switch (ob.type) {
+                    case 'radio':
+                        if (ob.checked) {
+                            myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    case 'checkbox':
+                        if (ob.checked) {
+                            myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    default:
+                        myObject[ob.name] = ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        break;
+                }
+            } else {
+                switch (ob.type) {
+                    case 'radio':
+                        if (ob.checked) {
+                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    case 'checkbox':
+                        if (ob.checked) {
+                            myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        }
+                        break;
+                    default:
+                        myObject[ob.name] = myObject[ob.name] + ',' + ob.value.replace('"', "'").replace(/\r?\n/gi, " --n ");
+                        break;
+                }
+            }
+        }
+    });
+
+
+    var aleatorio = Math.random();
+    myObject['aleatorio'] = aleatorio;
+
+    /*Se convierte en json para enviarlo*/
+    var nuevo_objeto = $.extend(myObject1, myObject);
+
+    data = JSON.stringify(nuevo_objeto);
+    data = $.parseJSON(data);
+
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: data,
+        cache: false,                
+        datatype: "json",
+
+        success: function (respuesta) {
+            var respuesta = $.parseJSON(respuesta);
+            resultado(respuesta);
+        },
+        complete: function () {
+        },
+        error: function () {
+            $("#" + divForm).html('Ocurrió un Error al intentar conectarse');
+        }
+    });
+}
 
 
         //funcion para solo numeros

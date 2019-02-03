@@ -20,6 +20,7 @@
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Nota_Credito_Detalle"  class="form-horizontal" onsubmit="return validar();" >
+    <input type="hidden" id="llave" name="llave" value="<?php echo $GLOBALS['llave'];?>">
     <div class="form-body">
         <div  class="form-group">
             <label class="control-label col-sm-2 col-md-2 col-xs-2">Producto:</label>
@@ -182,8 +183,7 @@
     });
     setTimeout('parent.windos_float_save_modal_hijo(<?php echo json_encode($GLOBALS['obj']);?>);', 1000);
     
-   //ampliarVentanaVertical(750,'form');
-    //fncCargar_Detalle_Cotizacion();
+  
 </script>
 
 <?php } ?>

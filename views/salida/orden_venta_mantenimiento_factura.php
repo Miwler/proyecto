@@ -41,7 +41,14 @@
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Número de Factura</label>
+                            
+                            <select class="form-control" id="selTipoComprobante" name="selTipoComprobante" onchange="fncSelComprobante(this.value);">
+                                <option value="factura_venta">Factura</option>
+                                <option value="boleta_venta">Boleta</option>
+                            </select>
+                            <script type="text/javascript">
+                                $("#selTipoComprobante").val("<?php echo $GLOBALS['oFactura_Venta']->comprobante;?>");
+                            </script>
                             <input type="hidden" id="txtID" name="txtID" value="<?php echo  $GLOBALS['oFactura_Venta']->ID;?>">
                             <input type="hidden" id="txtorden_ventaID" name="txtorden_ventaID" value="<?php echo  $GLOBALS['oOrden_Venta']->ID;?>">
                             <input type="hidden" id="txtSerie" name="txtSerie" value="<?php echo  $GLOBALS['oFactura_Venta']->serie;?>">
@@ -103,7 +110,7 @@
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->orden_ingreso; ?>" >
+                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_compra; ?>" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -112,7 +119,7 @@
                             <label>N° orden de pedido</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->orden_pedido; ?>" >
+                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_venta; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Moneda</label>
@@ -130,12 +137,26 @@
 
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Estado</label>
+                            <label>Estado:</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtEstado" name="txtEstado" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->estado;?>" disabled>
                         </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label>Tipo impuesto:</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <select class="form-control" id="selImpuestos_Tipo" name="selImpuestos_Tipo">
+                                <?php foreach($GLOBALS['oFactura_Venta']->dtImpuestos_Tipo as $valor){?>
+                                <option value="<?php echo $valor['ID'];?>"><?php echo FormatTextView($valor['nombre']);?></option>
+                                <?php } ?>
+                            </select>
+                            <script>
+                                $("#selImpuestos_Tipo").val(<?php echo $GLOBALS['oFactura_Venta']->impuestos_tipoID;?>);
+                            </script>
+                        </div>
                     </div>
+                    
                 </div>
                 <div id="divProductos" class="tab-pane fade inner-all">
                     <div id="divProductos" name="divProductos" class="grid-content-hijo">
@@ -143,6 +164,61 @@
                     </div>
                 </div>
                 <div id="divCosto" class="tab-pane fade inner-all">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h4>Datos SUNAT</h4>
+                                <div class="row">
+                                    <label class="control-label col-sm-4 col-xs-12">%Descuento</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal" id="txtPorcentaje_Descuento" autocomplete="off" name="txtPorcentaje_Descuento" onkeyup="fncCalcularDescuento();" value="<?php echo $GLOBALS['oFactura_Venta']->porcentaje_descuento;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Anticipo(-)</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtAnticipos" name="txtAnticipos" value="<?php echo $GLOBALS['oFactura_Venta']->anticipos;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Exonerada</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtExoneradas" name="txtExoneradas" value="<?php echo $GLOBALS['oFactura_Venta']->exoneradas;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Inafecta</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtInafectas" name="txtInafectas" value="<?php echo $GLOBALS['oFactura_Venta']->inafectas;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Gravada</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtGrvadas" name="txtGrvadas" value="<?php echo $GLOBALS['oFactura_Venta']->gravadas;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">IGV <?php echo $GLOBALS['oOrden_Venta']->igv*100?> %</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtTotal_IGV" name="txtTotal_IGV" value="<?php echo $GLOBALS['oFactura_Venta']->monto_total_igv;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Gratuita</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtGratuitas" name="txtGratuitas" value="<?php echo $GLOBALS['oFactura_Venta']->gratuitas;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Otros Cargos</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  id="txtOtros_Cargos" autocomplete="off" name="txtOtros_Cargos" onkeyup="fncSuma_Otros_Cargos();" value="<?php echo $GLOBALS['oFactura_Venta']->otros_cargos;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Descuento</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled autocomplete="off" id="txtDescuento_Global" name="txtDescuento_Global" value="<?php echo $GLOBALS['oFactura_Venta']->descuento_global;?>">
+                                    </div>
+                                    <label class="control-label col-sm-4 col-xs-12">Total</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <input type="text" class="form-control decimal"  disabled id="txtMonto_Total" name="txtMonto_Total" value="<?php echo $GLOBALS['oFactura_Venta']->monto_total;?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <!--
                     <div class="form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <label></label>
@@ -168,7 +244,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>I.G.V.<?php echo $GLOBALS['oOrden_Venta']->igv*100?> %:</label>
+                            <label>I.G.V.:</label>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <input type="text" id="txtIgv_Dolares" name="txtIgv_Dolares" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->vigv_dolares;?>">
@@ -187,14 +263,15 @@
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <input type="text" id="txtTotal_Soles" name="txtTotal_Soles" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_total_soles;?>">
                         </div>
-                    </div>
+                    </div>-->
+                    <?php if($GLOBALS['electronico']==0){?>
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
                             <?php echo  $GLOBALS['facturas_informacion'];?>
                         </div>
 
                     </div>
-
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -284,6 +361,15 @@
    var fncVerGuiaVenta=function(valor){
       window.parent.ocultarBotonGuia(valor);
    }*/
+    var fncSelComprobante=function(comprobante){
+        
+        cargarValores('/Salida/ajaxExtraerSeries',comprobante,function(resultado){
+            if(resultado.resultado==1){
+                $("#selSerie").html(resultado.html);
+                fncActualizarNumero();
+            }
+        });
+    }
     var fncActualizarNumero=function(){
        var correlativos_ID=$('#selSerie').val();
         cargarValores('/Salida/ajaxExtraer_Numero_Ultimo',correlativos_ID,function(resultado){
@@ -336,31 +422,36 @@
         $('#btnActualizar').css('display', 'none');
         $('#btnEnviar').prop('disabled', true);
         $('#btnEnviar').css('display', 'none');
+        $("#selTipoComprobante").prop('disabled',true);
+        $("#selSerie").prop('disabled',true);
+        $("#txtNumero").prop('disabled',true);
+        $("#selImpuestos_Tipo").prop('disabled',true);
        // $('#btnImprimir').css('display', 'none');
         
     }
+   
     var validar=function(){
       
-          var fecha_emision=$('#txtFecha_Emision').val();
-       var fecha_vencimiento=$('#txtFecha_Vencimiento').val();
-       if(fecha_emision==""){
-           toastem.error('Seleccione la fecha de emisión.');
-           $('#txtFecha_Emision').focus();
-           return false;
-       }
+        var fecha_emision=$('#txtFecha_Emision').val();
+        var fecha_vencimiento=$('#txtFecha_Vencimiento').val();
+        
+        if(fecha_emision==""){
+            toastem.error('Seleccione la fecha de emisión.');
+            $('#txtFecha_Emision').focus();
+            return false;
+        }
         if(fecha_vencimiento==""){
            mensaje.advertencia('VALIDACIÓN DE DATOS','Seleccione fecha de vencimiento.','txtFecha_Vencimiento');
            
            return false;
-       }
+        }
         $('#selSerie').prop('disabled',false);
         
         var serie=$.trim($('#selSerie').val());
        
         if(serie==''){
-            toastem.error('Seleccione una serie.');
-           $('#selSerie').focus();
-           return false;
+            mensaje.advertencia('VALIDACIÓN DE DATOS','Seleccione una serie.','selSerie');
+            return false;
         }
         $('#txtNumero').prop('disabled',false);
          var numero=$.trim($('#txtNumero').val());
@@ -370,6 +461,7 @@
             return false;
          }
          $('#selMoneda').prop('disabled',false);
+         $('#txtDescuento_Global').prop('disabled',false);
       block_ui(function () {});
        
          //$('#fondo_espera').css('display', 'block');
@@ -443,6 +535,64 @@
 
             $('#tdfacturas_detalle').html(resultado.html);
         });
+    }
+        var gravadas=0;
+        var exoneradas=0;
+        var inafectas=0;
+        var igv=0;
+        
+    $(document).ready(function(){
+        
+        gravadas=$.trim($('#txtGrvadas').val());
+        exoneradas=$.trim($('#txtExoneradas').val());
+        inafectas=$.trim($('#txtInafectas').val());
+        igv=$.trim($('#txtTotal_IGV').val());
+        if(gravadas==''){
+            gravadas=0;
+        }
+        if(exoneradas==''){
+            exoneradas=0;
+        }
+        if(inafectas==''){
+            inafectas=0;
+        }
+        if(igv==''){
+            igv=0;
+        }
+    });
+    var fncCalcularDescuento=function(){
+        
+        var porcentaje_descuento=$.trim($('#txtPorcentaje_Descuento').val());
+        if(porcentaje_descuento==''){
+            porcentaje_descuento=0;
+        }
+        var gravadas1=redondear(gravadas*(100-porcentaje_descuento)/100,2);
+        var exoneradas1=redondear(exoneradas*(100-porcentaje_descuento)/100,2);
+        var inafectas1=redondear(inafectas*(100-porcentaje_descuento)/100,2);
+        var igv1=redondear(igv*(100-porcentaje_descuento)/100,2);
+        
+        var gravadas_descuento=redondear(gravadas*(porcentaje_descuento)/100,2);
+        var exoneradas_descuento=redondear(exoneradas*(porcentaje_descuento)/100,2);
+        var inafectas_descuento=redondear(inafectas*(porcentaje_descuento)/100,2);
+        var igv_descuento=redondear(igv*(porcentaje_descuento)/100,2);
+        var descuento_total=gravadas_descuento+exoneradas_descuento+inafectas_descuento+igv_descuento;
+        $('#txtGrvadas').val(gravadas1);
+        $('#txtExoneradas').val(exoneradas1);
+        $('#txtInafectas').val(inafectas1);
+        $('#txtTotal_IGV').val(igv1);
+        $('#txtDescuento_Global').val(descuento_total);
+    }
+    var fncSuma_Otros_Cargos=function(){
+        var otros_cargos=parseFloat($.trim($("#txtOtros_Cargos").val()));
+        if(otros_cargos==''){
+            otros_cargos=0;
+        }
+        var gravadas2=parseFloat($.trim($('#txtGrvadas').val()));
+        var exoneradas2=parseFloat($.trim($('#txtExoneradas').val()));
+        var inafectas2=parseFloat($.trim($('#txtInafectas').val()));
+        var igv2=parseFloat($.trim($('#txtTotal_IGV').val()));
+        var nuevo_total=redondear(otros_cargos+gravadas2+exoneradas2+inafectas2+igv2,2);
+        $('#txtMonto_Total').val(nuevo_total);
     }
 </script>
  

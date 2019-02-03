@@ -16,6 +16,11 @@
     
 <?php function fncTituloCabecera(){?>
         <i class="fa fa-cubes" aria-hidden="true"></i> Registro de Línea
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" >Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+
+        </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm"  method="post" action="/Mantenimiento/ajaxLinea_Mantenimiento" class="form-horizontal">
@@ -23,22 +28,22 @@
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs">
 
-                <li><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> Búsqueda</a></li>
+                <li class="active"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> Búsqueda</a></li>
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
             </div>
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-
+            
         </div>
         <div class="panel-body">
             <div class="tab-content">
                
                 <div class="tab-pane in active" id="vista_buscar">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                            <label>Nombre: </label>
+                    
+                    <div class="form-group">
+                        <label class="form-group col-sm-4">Nombre: </label>
+                        <div class="col-sm-8">
+                            
                             <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" style="width:70%;" autocomplete="off" placeholder="Ingresar nombre de la categoría">
                         </div>
                     </div>
@@ -79,9 +84,10 @@
 
             grids = new grid(tb);
             grids.nuevoEvento();
-            grids.fncPaginacionTabs(f,'num_page');	
+            
             $('[data-toggle="tooltip"]').tooltip(); 
             $('#websendeos').stacktable();
+            grids.fncPaginacionTabs(f,'num_page');	
     }
    
     $('#txtBuscar,#txtMostrar').keypress(function(e){
@@ -114,13 +120,13 @@
     var fncNuevo=function(){
 
         var linea_ID=$('#selLinea').val();				
-        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> REGISTRAR NUEVA LÍNEA','/Mantenimiento/Linea_mantenimiento_Nuevo','','',f,800,500);
+        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> REGISTRAR NUEVA LÍNEA','/Mantenimiento/Linea_mantenimiento_Nuevo','','',f,null,470);
 
     }
 
     var fncEditar=function(id){	
         
-        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> EDITAR LÍNEA','/Mantenimiento/Linea_mantenimiento_Editar',id,'',f,800,500);
+        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> EDITAR LÍNEA','/Mantenimiento/Linea_mantenimiento_Editar',id,'',f,null,470);
 
     }
     

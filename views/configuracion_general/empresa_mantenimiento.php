@@ -9,38 +9,30 @@ Empresas
     <script type="text/javascript" src="include/js/jGrid.js"></script>
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
+<?php function fncTituloCabecera(){?>
+    <span class="glyphicon glyphicon-briefcase"></span> Registro de Empresas
+    <div class="pull-right">
+        <button type="button" onclick="fncNuevo();" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
+        <button type="button" onclick="f.enviar();" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>    
+    </div>
+<?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncPage(){?>
 <div class="panel panel-success">
-        <div class="panel-heading">
-            <div class="row">
-                <h2 class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><span class="glyphicon glyphicon-briefcase"></span> Registro de Empresas</h2>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-                    <button type="button" onclick="fncNuevo();" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
-                    <button type="button" onclick="f.enviar();" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
-                </div>
-            </div>
-        </div>
+       
         <div class="panel-body">
             <center>
                 <form id="frm1"  method="post" action="/Configuracion_General/ajaxEmpresa_Mantenimiento">
                     <ul class="nav nav-tabs">
 
                         <li class="nav-item active"><a href="#vista_buscar" data-toggle="tab" class="nav-link"><i class="fa fa-search-plus" aria-hidden="true"></i> Búsqueda</a></li>
-                        <li class="text-right">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                    <label>Filas</label>
-                                </div>
-                                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                    <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" style="margin-bottom: 0;">
-
-                                </div>
-                            </div>
-
-                        </li>
+                       
                     </ul>
+                    <div class="pull-right">
+                        <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" style="margin-bottom: 0;">
+
+                    </div>
                     <div class="tab-content">
                         
                         <div class="tab-pane fade" id="vista_buscar">
@@ -69,6 +61,7 @@ Empresas
             </center>
         </div>
     </div>
+
     <script type="text/javascript">
         $('.nav-tabs a').on('show.bs.tab', function(event){
        

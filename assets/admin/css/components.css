@@ -7358,7 +7358,7 @@ table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTa
 
 @media (max-width: 800px) {
   .panel .nav-tabs li a {
-    border-right: none !important;
+    /*border-right: none !important;*/
   }
 }
 /* ========================================================================

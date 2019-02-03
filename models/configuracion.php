@@ -3,6 +3,7 @@ class configuracion
 {
 	private $ID;
         private $nombre;
+        private $nombre_identificador;
         private $valores;
 	private $usuario_id;	
 	private $usuario_mod_id;	
@@ -38,64 +39,8 @@ class configuracion
 		return null;
 	}
 	
-	function insertar(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-			$q='SET @maxrow:=(select ifnull(max(ID),0) from perfil);';
-			$cn->transa($q);
-			
-			$q='INSERT INTO perfil (ID,nombre,usuario_id) ';
-			$q.='VALUES ((select @maxrow:=@maxrow+1),"'.FormatTextSave($this->nombre).'",'.$this->usuario_id.');';
-			
-			$retornar=$cn->transa($q);
-			
-			$q='select max(ID) from perfil where usuario_id='.$this->usuario_id;
-			$this->ID=$cn->getData($q);
-			
-			$this->message='Se guardó correctamente.';
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}	
-	
-	function actualizar(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-					
-			$q='UPDATE perfil SET nombre="'.FormatTextSave($this->nombre).'",usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
-			$q.=' WHERE ID='.$this->ID;
-			
-			$retornar=$cn->transa($q);
-			
-			$this->message='Se guardó correctamente.';
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}		
-	
-	function eliminar(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-					
-			$q='UPDATE perfil SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
-			$q.=' WHERE ID='.$this->ID;
-			
-			$retornar=$cn->transa($q);
-			
-			$this->message='Se eliminó correctamente.';
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}
+
+
 	
 	static function getByID($ID)
 	{
@@ -128,35 +73,13 @@ class configuracion
 	
 	
 	
-	static function getCount($filtro='')
-	{
-		$cn =new connect();
-		try 
-		{
-			$q='select count(ID) ';
-			$q.=' FROM configuracion_empresa';
-			$q.=' where del=0 ';
-			
-			if ($filtro!='')
-			{
-				$q.=' and '.$filtro;
-			}
-						
-			$resultado=$cn->getData($q);									
-		
-			return $resultado;					
-		}catch(Exception $ex)
-		{
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	} 
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
-			$q='Select ID,nombre,valores,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
+			$q='Select ID,nombre_identificador,nombre,valores,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
 			$q.=' FROM configuracion';
 			$q.=' where del=0';			
 			

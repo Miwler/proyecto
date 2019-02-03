@@ -21,6 +21,11 @@
 
     });
     </script>
+    <style>
+         #table_historial_compra tbody td,#table_historial_venta tbody td,#table_separaciones tbody td,#table_componente tbody td,#table_adicional tbody td{
+            font-size:11px;
+        }
+    </style>
 <?php } ?>
 
 <?php function fncTitleHead(){?>EDITAR PRODUCTO DE OBSEQUIOS<?php } ?>
@@ -38,6 +43,16 @@
                  <li class="nav-item"><a href="#separaciones" data-toggle="tab"><i class="fa fa-clone"></i> <span>Separaciones</span></a></li>
                 <li class="nav-item"><a href="#historial" data-toggle="tab"><i class="fa fa-calendar-o"></i> <span>Historial</span></a></li>
             </ul>
+            <div class="pull-right">
+                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
+                    <img width="14" alt="" src="/include/img/boton/save_48x48.png">
+                   Guardar
+                </button>
+                <button id="btnRegresar1" type="button" class="btn btn-danger" title="Cancelar" onclick="parent.float_close_modal_hijo();">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    Regresar
+                </button>
+            </div>
         </div>
         <div class="panel-body no-padding rounded-bottom" style="height: 460px;overflow: auto;">
            
@@ -52,7 +67,7 @@
                             <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control text-uppercase filtroLista">
                                 <option value="0">TODOS</option>
                                 <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo utf8_encode($iLinea['nombre']); ?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
@@ -69,7 +84,7 @@
                             <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="form-control text-uppercase filtroLista">
                                 <option value="0" selected>TODOS</option>
                                 <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                                        <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                                        <option value="<?php echo $iCategoria['ID']; ?>"><?php echo utf8_encode($iCategoria['nombre']); ?></option>
                                 <?php } ?>
 
                             </select> 
@@ -81,13 +96,13 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Producto</label>
+                            <label>Producto<span class="asterisk">*</span></label>
                         </div>
                         <div id="tdProducto" class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lista_producto">
                              <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
                                 <option value='0'>--SELECCIONAR--</option>
                                 <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
+                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".utf8_encode($item['producto']);?></option>
                                 <?php } ?>
                             </select>
                             
@@ -103,7 +118,7 @@
                             <label>Descripción</label>
                         </div>
                         <div id="tdComentario" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:50px;"><?php echo FormatTextView($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:100px;overflow:auto;resize:none;"><?php echo FormatTextView($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -148,25 +163,42 @@
                     </div>
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="separaciones">
+                    <h4>Separaciones de producto</h4>
+                    <table id="table_separaciones" class='table table-hover table-bordered table-teal'><thead>
+                        <tr><th>N°Cotizaci&oacute;n</th><th>Fecha</th><th>Cant. Comprada</th><th>Cant. Separada</th><th >Responsable</th></tr>
+                    </thead>
+                    <tbody>
+                    </table>
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="historial">
+                    <div class="row" >
+                        <div class="col-sm-6">
+                            <h4>Historial de Compras</h4>
+                            <table class='table table-hover  table-responsive table-teal' id="table_historial_compra">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Proveedor</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="title lg-text">Historial de Ventas</h4>
+                            <table class='table table-hover table-responsive table-teal' id="table_historial_venta" >
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Cliente</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
-                        <img width="14" alt="" src="/include/img/boton/save_48x48.png">
-                       Guardar
-                    </button>
-                    <button id="btnRegresar1" type="button" class="btn btn-danger" title="Cancelar" onclick="parent.float_close_modal_hijo();">
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Regresar
-                    </button>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <script type="text/javascript">
@@ -194,15 +226,17 @@
             
             return false;   
         }
-        $('#fondo_espera').css('display','');
+       block_ui();
         
     }
    
 
     
-    var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
-            $('#historial').html(resultado.html); 
+   var fncHistoriaProducto=function(producto_ID){
+        cargarValores('/Funcion/ajaxHistorial_Producto',producto_ID,function(resultado){
+            
+            $('#table_historial_compra tbody').html(resultado.filas_compras); 
+            $('#table_historial_venta tbody').html(resultado.filas_ventas); 
         });
     }
 
@@ -290,20 +324,16 @@
                 mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
                $('#separaciones').html(resultado.mensaje); 
             }
-            $('#separaciones').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+            //$('#separaciones').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
             VerSeparaciones(resultado.producto_ID);
         });
      } 
    
    
     function VerSeparaciones(producto_ID){
-        cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
-            $('#separaciones').html(resultado.html); 
-            if(resultado.resultado==-1){
-               $('#separaciones').html(resultado.mensaje); 
-            }
-             $('#historial').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-            fncHistoriaProducto(resultado.producto_ID);
+        cargarValores('/Funcion/ajaxVerSeparaciones',producto_ID,function(resultado){
+            $("#table_separaciones tbody").html(resultado.html);
+                  fncHistoriaProducto(producto_ID);
         });
         
     }

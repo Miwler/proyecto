@@ -1,5 +1,7 @@
 //-----Nuevo objeto Grid-------------------
-
+$(document).click(function(){
+    
+});
 var grid = function (tb) {
     
     this.tb = tb;
@@ -16,9 +18,36 @@ var grid = function (tb) {
     this.trSeleccionado = function (tr) { };
 
     var obj = this;
-    this.tb.onmousedown=function () {
+    this.tb.oncontextmenu=function(){
+        return false;
+    }
+     
+    this.tb.onmousedown=function (event) {
+        /*switch (event.which) {
+            case 1:
+                //alert('Left mouse button pressed');
+                break;
+            case 2:
+               
+                break;
+            case 3:
+                obj.activo = true;
+               $("#contenedor_anticlick li").remove();
+                $(obj.tb.rows[obj.fila_seleccionada]).find(".dropdown-menu li").each(function(){
+                    $(this).clone().appendTo("#contenedor_anticlick");
+                });
+                
+                
+               // $("#contenedor_anticlick .dropdown-menu").css("display",'block');
+                 
+                
+                break;
+            default:
+                alert('You have a strange mouse');
+        }*/
         $('body').unbind('keydown');
         $('body').keydown(function (e) {
+           
             if (obj.activo) {
                 var objContent = $(obj.tb.parentNode);
                 var position;
@@ -66,17 +95,20 @@ var grid = function (tb) {
 
         });
     }
-
+    
    /* $('.Grid').mouseleave(function () {
         $('body').unbind('keydown');
     });*/
             
     this.tb.onclick = function () {
+        
         obj.activo = true;
+        
     };
-
-    document.body.onmousedown = function (e) {
+    
+    document.body.onmousedown = function () {
         obj.activo = false;
+       
     }
 
     document.body.onkeypress = function (e) {
@@ -85,7 +117,14 @@ var grid = function (tb) {
         }        
     }
 }
-
+$("html").click(function() {
+    $("#contenedor_anticlick li").remove();
+    $("#contenedorUL").hide();
+     
+});
+$(".grid").click(function (e) {
+    e.stopPropagation();
+});
 var nuevoEvento = function () {
     var i = 0;
     var obj = this;    
@@ -95,9 +134,26 @@ var nuevoEvento = function () {
     for (i = 0; i < rows; i++) {
         if (items[i].addEventListener) {
            items[i].addEventListener('click', function () {
+                
                 this.rowIndex;                
                 obj.trSeleccionar(this.rowIndex);
-            }, false);   
+                //$("#contenedor_anticlick li").remove();
+               // $("#contenedorUL").hide();
+            }, false); 
+            items[i].addEventListener('contextmenu', function (e) {
+                
+                this.rowIndex;                
+                obj.trSeleccionar(this.rowIndex);
+                
+                $("#contenedor_anticlick li").remove();
+                $(obj.tb.rows[obj.fila_seleccionada]).find(".dropdown-menu li").each(function(){
+                    $(this).clone().appendTo("#contenedor_anticlick");
+                });
+                var x=e.pageX;
+                var y=e.pageY;
+                $("#contenedorUL").css({"top":y+"px","left":x+"px"});
+                $("#contenedorUL").show();
+            }, false);
         } else {
             items[i].attachEvent('onclick', function () {
                 this.rowIndex;
@@ -124,7 +180,7 @@ var fncPaginacion = function (obj)
                     } else {
                         $('#' + obj.txtnum).val(this.id);
                     }
-                    
+                   
                     obj.enviar();
                 }, false);
             } else {
@@ -162,6 +218,7 @@ var fncPaginacion1 = function (obj)
                 }, false);
             } else {
                 pag[i].attachEvent('onclick', function () {
+                   
                     if (obj.txtnum == '' || obj.txtnum == undefined) {
                         $('#num_page').val(this.id);
                     } else {
@@ -173,6 +230,8 @@ var fncPaginacion1 = function (obj)
         }
     }
 }
+
+
 var fncPaginacionTabs = function (obj,num_page)
 {
     //---------------Paginación-------------

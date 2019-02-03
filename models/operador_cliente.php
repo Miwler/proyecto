@@ -37,16 +37,18 @@ class operador_cliente {
     
     
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
             $q = 'Select ifnull(max(ID),0)+1 from operador_cliente;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
 
             $q = 'INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)';
             $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].','.$this->cliente_ID.','.$this->operador_ID.','.$this->estado_ID.','. $this->usuario_id .'); ';
               
            //echo $q;
+		   $cn = new connect_new();
             $retornar = $cn->transa($q);
 
             $this->getMessage = 'Se guardó correctamente.';
@@ -61,7 +63,7 @@ class operador_cliente {
     
     
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -82,7 +84,7 @@ class operador_cliente {
     
     
      static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,descripcion,usuario_id,fecha,operador_ID,cliente_ID,estado_id';
             $q.=' from operador_cliente ';
@@ -110,7 +112,7 @@ class operador_cliente {
     }
 
  static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'opc.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT opc.ID,opc.empresa_ID,opc.operador_ID,opc.cliente_ID,opc.estado_ID,opc.usuario_id,';
             $q.='pe.apellido_paterno,pe.apellido_materno,pe.nombres, cli.ruc,cli.razon_social,es.nombre as estado';
@@ -136,9 +138,9 @@ class operador_cliente {
         }
     }
    static function getByOperador($cliente_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
-            $q = 'SELECT ID,cliente_ID,operador_ID,estado_ID,empresa_ID,usuario_id FROM operador_cliente ';
+            $q = 'SELECT ID,cliente_ID,operador_ID,estado_ID,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id FROM operador_cliente ';
             $q.=' where del=0 and cliente_ID='.$cliente_ID.' and estado_ID=74 order by ID limit 1';
           //echo $q;
             $dt = $cn->getGrid($q);
@@ -150,9 +152,10 @@ class operador_cliente {
                 $oOperador_Cliente->ID = $item['ID'];
                 $oOperador_Cliente->cliente_ID = $item['cliente_ID'];
                  $oOperador_Cliente->operador_ID = $item['operador_ID'];
+                 $oOperador_Cliente->empresa_ID = $item['empresa_ID'];
                 $oOperador_Cliente->estado_ID = $item['estado_ID'];
                 $oOperador_Cliente->usuario_id= $item['usuario_id'];
-                
+                $oOperador_Cliente->usuario_mod_id= $item['usuario_mod_id'];
                
                 
                 
@@ -169,7 +172,7 @@ class operador_cliente {
     
     
     function verificarExistencia(){
-    $cn = new connect();
+    $cn = new connect_new();
         try {
            
             $q='select count(ID) from operador_cliente';
@@ -187,7 +190,7 @@ class operador_cliente {
 
 
    function verificarExistencia_Clientes() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID,descripcion,usuario_id,fecha,operador_ID,cliente_ID,estado_id';
             $q.=' FROM operador_cliente ';

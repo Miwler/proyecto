@@ -128,130 +128,100 @@
                 </div>
                 <div id="divDatos_Generales" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Fecha: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <label class="col-md-3 col-sm-3 control-label">Fecha: </label>
+                        <div class="col-md-3 col-sm-3">
                             <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo date("d/m/Y"); ?>" /> 
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Número: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                         <label class="col-md-3 col-sm-3 control-label">Número: </label>
+                        <div class="col-sm-3">
                             <input type="text" id="txtCotizacion_ID" name="txtCotizacion_ID" value="<?php echo $GLOBALS['oCotizacion']->ID; ?>"style="display:none;">
-                            <input id="txtNumero" name="txtNumero" type="text" class="text-int form-control" style="width:100px;" disabled autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->numero_concatenado; ?>" /> 
+                            <input id="txtNumero" name="txtNumero" type="text" class="text-int form-control" disabled autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->numero_concatenado; ?>" /> 
                         </div>
                     </div>
+                    
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Estado: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <label class="col-md-3 col-sm-3 control-label">Estado: </label>
+                        <div class="col-sm-3">
                             <select id="selEstado" name="selEstado" class="form-control">
                                 <?php foreach($GLOBALS['dtEstado'] as $value){?>
-                                <option value="<?php echo $value['ID'];?>"><?php  echo FormatTextView($value['nombre']);?></option>
+                                <option value="<?php echo $value['ID'];?>"><?php  echo utf8_encode($value['nombre']);?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
                                 $('#selEstado').val(<?php echo $GLOBALS['oCotizacion']->estado_ID;?>);
                             </script>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Tiempo avance: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <label class="col-md-3 col-sm-3 control-label">Tiempo avance: </label>
+                        <div class="col-sm-3">
                             <input type="text" id="txtTiempo_Avance" name="txtTiempo_Avance" disabled class="cronometro form-control" autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->tardanza; ?>" > 
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Plazo de entrega: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <label class="col-md-3 col-sm-3 control-label">Plazo de entrega: </label>
+                        <div class="col-sm-3">
                             <input type="text" id="txtPlazo_Entrega" name="txtPlazo_Entrega" placeholder="Días" class="int form-control" autocomplete="off"  value="<?php echo $GLOBALS['oCotizacion']->plazo_entrega; ?>"/>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Lugar de entrega: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;" class="form-control text-uppercase"><?php echo FormatTextViewHtml(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
+                        <label class="col-md-3 col-sm-3 control-label">Validez: </label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo  $GLOBALS['oCotizacion']->validez_oferta; ?>" >
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Validez: </label>
+                        <label class="col-md-3 col-sm-3 control-label">Lugar de entrega: </label>
+                        
+                        <div class="col-md-9 col-sm-9">
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo utf8_encode(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo  FormatTextView($GLOBALS['oCotizacion']->validez_oferta); ?>" >
+                    </div>
+            
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 control-label">Garantía: </label>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oCotizacion']->garantia; ?>" class="form-control text-uppercase" >
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Garantía: </label>
-                        </div>
+                        <label class="col-md-3 col-sm-3 control-label">Observación: </label>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo FormatTextView($GLOBALS['oCotizacion']->garantia); ?>" class="form-control text-uppercase" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Observación: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control text-uppercase" rows="1" cols="10" maxlength="150" style="height: 80px;"><?php echo FormatTextViewHtml($GLOBALS['oCotizacion']->observacion); ?></textarea>
+                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control text-uppercase" rows="1" cols="10" maxlength="150" style="height: 80px;overflow:aut;resize:none;"><?php echo $GLOBALS['oCotizacion']->observacion; ?></textarea>
                         </div>
                     </div>
                 </div>
                 <div id="divDatos_Economicos" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <label>Moneda: </label>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <label class="col-sm-3 control-label">Moneda: </label>
+                        
+                        <div class="col-sm-3">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
                             <?php }?>
                             </select>
                             <script type="text/javascript">
                                 $('#cboMoneda').val('<?php echo $GLOBALS['oCotizacion']->moneda_ID;?>');
                             </script>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <label>Tipo de cambio: </label>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <label class="col-sm-3 control-label">Tipo de cambio: </label>
+                        <div class="col-sm-3">
                             <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio"  class="decimal form-control text-left" value="<?php echo $GLOBALS['oCotizacion']->tipo_cambio; ?>" />
                         </div>
                     </div>
+                    
                     <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <label>Forma de pago: </label>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <label class="col-sm-3 control-label">Forma de pago: </label>
+                        <div class="col-sm-3">
                             <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
-                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo FormatTextView($iForma_Pago['nombre']);?></option>
+                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
                                    $('#selForma_Pago').val('<?php echo $GLOBALS['oCotizacion']->forma_pago_ID;?>')
                             </script> 
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <label>Tiempo de crédito: </label>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <label class="col-sm-3 control-label">Tiempo de crédito: </label>
+                        <div class="col-sm-3">
                             <select id="selTiempo_Credito" name="selTiempo_Credito" class="form-control">
                                 <option value="0">--</option>
                                 <?php foreach($GLOBALS['dtCredito'] as $idtCredito){ ?>
@@ -263,17 +233,16 @@
                             </script>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <label>Nro. Cuentas: </label>
                         </div>
-
-                    </div>
-                    <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ContenedorCuadro" style="overflow:auto;">
                             <?php echo $GLOBALS['dtNumero_Cuenta'];?>
                         </div>
                     </div>
+                    
                 </div>
                 <div id="divEjecutivo" class="tab-pane fade inner-all">
                     <div class="form-group">
@@ -330,7 +299,7 @@
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Guardar
                     </button>
-                    <button  id="btnDescargar" name="btnDescargar" type="button" class="btn btn-danger" onclick=" pdf.descargar('Ventas/Cotizacion_PDF/<?php echo $GLOBALS['oCotizacion']->ID;?>');" title="Descargar PDF" >
+                    <button  id="btnDescargar" name="btnDescargar" type="button" class="btn btn-danger" onclick=" pdf.descargar('Salida/Cotizacion_PDF/<?php echo $GLOBALS['oCotizacion']->ID;?>');" title="Descargar PDF" >
                         <span class="glyphicon glyphicon-cloud-download"></span>
                         PDF
                    </button> 
@@ -379,17 +348,18 @@
       //Opción para editar los detalles
     var fncRegistrar_Productos=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO","Salida/cotizacion_mantenimiento_producto_nuevo",cotizacion_ID,"",fncCargar_Detalle_Cotizacion,null,520);
        
     }
      var fncEditarProducto=function(id){
-         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,700,600);
+         parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Salida/Cotizacion_Mantenimiento_Producto_Editar",id,"",fncCargar_Detalle_Cotizacion,null,520);
        
         
     }
     var fncEliminarProducto=function(id){
-        cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
-                
+        block_ui(function(){
+            cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+                $.unblockUI();
                 if(resultado.resultado==1){
                     $('#detalle_ID').val('');
                     fncCargar_Detalle_Cotizacion();
@@ -400,17 +370,21 @@
                     toastem.error(resultado.mensaje);
                 }
             });
+        });
+        
     }
     var fncRegistrar_Obsequios=function(){
         var cotizacion_ID=$('#txtCotizacion_ID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/cotizacion_mantenimiento_obsequio_nuevo",cotizacion_ID,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/cotizacion_mantenimiento_obsequio_nuevo",cotizacion_ID,"",fncCargar_Detalle_Obsequios,null,520);
     }
     var fncEditarObsequio=function(id){
-        parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Cotizacion_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Cotizacion_Mantenimiento_Obsequio_Editar",id,"",fncCargar_Detalle_Obsequios,null,520);
 
     }
     var fncEliminarObsequio=function(id){
-        cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+        block_ui(function(){
+            cargarValores('/Salida/ajaxCotizacion_Detalle_Mantenimiento_Eliminar',id,function(resultado){
+                $.unblockUI();
             if(resultado.resultado==1){
                 //$('#detalle_ID').val('');
                 fncCargar_Detalle_Obsequios();
@@ -420,6 +394,8 @@
                 mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
             }
         }); 
+        });
+        
     }
      
 

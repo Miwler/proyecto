@@ -13,6 +13,10 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-cc-visa" aria-hidden="true"></i> Registros de orden de compras
+     <div class="pull-right">
+                 <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+     </div>
 <?php } ?>
 
 <?php function fncPage(){?>
@@ -24,13 +28,11 @@
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
-            
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+    
         </div>
         <div class="panel-body">
            
@@ -112,7 +114,7 @@
                                     <select id="selMoneda" name="selMoneda" class="form-control text-uppercase" >
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtMoneda'] as $moneda){?>
-                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo FormatTextView($moneda['descripcion']) ;?></option>
+                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo utf8_encode($moneda['descripcion']) ;?></option>
                                         <?php } ?>
                                     </select>
 
@@ -144,7 +146,8 @@
        </div>
     </div>
  </form>
-	
+     
+     
     <script type="text/javascript">
         $("#checkbox-checked1").click(function(){
             if($(this).is(":checked")){
@@ -169,18 +172,22 @@
                     break;
             }
          });
+         
         var f=new form('frm1','div1');
+        
         f.terminado = function () {
             var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
 
-            grids = new grid(tb);
+            var grids = new grid(tb);
             grids.nuevoEvento();
-            grids.fncPaginacion1(f);
+            
             $('[data-toggle="tooltip"]').tooltip(); 
-            $('#websendeos').stacktable();			
+            $('#websendeos').stacktable();	
+            grids.fncPaginacion1(f);
         }
         f.enviar();
-
+       
+     
         var fncOrden=function(col){
                 var col_old=$('#txtOrden').val();
 
@@ -197,19 +204,14 @@
 
                 f.enviar();
         }
-            var fncNuevo=function(){			
-                window_float_open_modal('REGISTRAR NUEVA ORDEN COMPRA','/Ingreso/Orden_Compra_Mantenimiento_Nuevo','','',f,null,590);
+        var fncNuevo=function(){			
+            window_float_open_modal('REGISTRAR NUEVA ORDEN COMPRA','/Ingreso/Orden_Compra_Mantenimiento_Nuevo','','',f,null,400);
 
-            }
+        }
+        var fncEditar=function(id){
+            window_float_open_modal("EDITAR ORDEN COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar",id,"",f,null,400);
 
-            /*var fncNuevo=function(){			
-                    window_float_open('/Compra/Compra_Mantenimiento_Padre_Nuevo','','',f);
-            }*/
-            var fncEditar=function(id){
-                //var id=$('#detalle_ID').val();
-                window_float_open_modal("EDITAR ORDEN COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar",id,"",f,null,600);
-
-            }
+        }
   
 
             var fncEliminar=function(id){
@@ -229,7 +231,7 @@
             
             
             var fncVerDetalle=function(id){	
-                window_float_open_modal("VER ORDEN DE COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar",id,"",f,null,560);
+                window_float_open_modal("VER ORDEN DE COMPRA","Ingreso/Orden_Compra_Mantenimiento_Editar",id,"",f,null,400);
                
 
             }

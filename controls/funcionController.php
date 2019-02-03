@@ -354,13 +354,13 @@
                     $resultado.='<li class="active"><a>' . $i . '<span class="sr-only">"Actual"</span></a></li>';
                 } else {
                    // $resultado.='<div id="' . $i . '" class="pagination"><a>' . $i . '</a></div>';
-                    $resultado.='<li ><a id="' . $i . '" >' . $i . '</a></li>';
+                    $resultado.='<li ><a id="' . $i . '">' . $i . '</a></li>';
                 }
             }
             //$resultado.='<div id="' . ($paginaActual < $cantidadPaginas ? $paginaActual + 1 : $paginaActual) . '" class="pagination pagination-next" ><a title="Siguiente">></a></div>';
             //$resultado.='<div id="' . $cantidadPaginas . '" class="pagination pagination-end" ><a title="Último">>></a></div>';
 
-            $resultado.='<li  class="pagination-next" ><a id="' . ($paginaActual < $cantidadPaginas ? $paginaActual + 1 : $paginaActual) . '" title="Siguiente">></a></li>';
+            $resultado.='<li  class="pagination-next"><a id="' . ($paginaActual < $cantidadPaginas ? $paginaActual + 1 : $paginaActual) . '" title="Siguiente">></a></li>';
             $resultado.='<li  class="pagination-end" ><a id="' . $cantidadPaginas . '" title="Último">>></a></li>';
             $resultado.='</ul>';
             $resultado.='</td></tr>';
@@ -528,13 +528,16 @@
         require ROOT_PATH.'models/categoria.php';
        
         $linea_ID=$_POST['id'];
+        
         $html="<option value='-1'>Ningún valor</option>";
         try{
-            $dtCategoria=categoria::getGrid("ca.empresa_ID=".$_SESSION['empresa_ID']." and ca.linea_ID=".$linea_ID,-1,-1,"ca.nombre asc");
-            $html="<option value='0'>--SELECCIONAR--</option>";
-            foreach($dtCategoria as $item){
+            
+            //$dtCategoria=categoria::getGrid("ca.empresa_ID=".$_SESSION['empresa_ID']." and ca.linea_ID=".$linea_ID,-1,-1,"ca.nombre asc");
+            $html="<option value='0'>TODOS</option>";
+            $html.= utf8_encode(categoria::getOption($linea_ID,$_SESSION['empresa_ID']));
+            /*foreach($dtCategoria as $item){
                 $html.="<option value='".$item['ID']."'>".FormatTextView(strtoupper($item['nombre']))."</option>";
-            }
+            }*/
             $mensaje="";
             $resultado=1;
         }  catch (Exception $ex){
@@ -577,29 +580,65 @@
 
         echo json_encode($retornar);
     }
+    function post_ajaxListar_Productos1(){
+        require ROOT_PATH . 'models/producto.php';
+        $linea_ID=$_POST['id'];
+        $categoria_ID=$_POST['id1'];
+        $resultado=0;
+        $mensaje="";
+        $html="";
+        try {
+            
+            $html=producto::getListaProducto($categoria_ID,$linea_ID);
+            $resultado=1;
+            
+        } catch (Exception $ex) {
+           $resultado=-1;
+           $mensaje=$ex->getMessage();
+           
+          
+        }
+        $retornar=Array('resultado'=>$resultado,'html'=> $html,'mensaje'=>$mensaje);
+        echo json_encode($retornar);
+    }
     function post_ajaxSeleccionar_Producto1(){
         require ROOT_PATH . 'models/producto.php';
+        require ROOT_PATH . 'models/categoria.php';
+        require ROOT_PATH . 'models/linea.php';
         require ROOT_PATH . 'models/inventario.php';
         
         $producto_ID=$_POST['id'];
         $html="";
         $mensaje="";
         $stock=0;
-        
+        $categoria_ID=0;
+        $linea_ID=0;
         try {
             $oProducto=producto::getByID($producto_ID);
+            
             if($oProducto==null){
                 throw new Exception("No existe el producto");
             }
+            $codigo=$oProducto->codigo;
+            $categoria_ID=$oProducto->categoria_ID;
+            $oCategoria=categoria::getByID($categoria_ID);
+            $linea_ID=$oCategoria->linea_ID;
             $stock=inventario::getStock($producto_ID);
-            
+            $dtCategoria=categoria::getGrid("ca.linea_ID=".$linea_ID,-1,-1,"ca.nombre");
+            $html="<option value='0'>TODOS</option>";
+            foreach($dtCategoria as $item){
+                $html.="<option value='".$item['ID']."' ".(($categoria_ID==$item['ID'])?'selected':'').">".utf8_encode($item['nombre'])."</option>";
+            }
             $resultado=1;
         } catch (Exception $ex) {
             $resultado=-1;
             $mensaje=$ex->getMessage();
           
         }
-        $retornar = Array('resultado'=>$resultado,'mensaje' => $mensaje,'stock' => $stock,'descripcion'=>FormatTextView($oProducto->descripcion));
+        $retornar = Array('resultado'=>$resultado,
+            'mensaje' => $mensaje,'stock' => $stock,
+            'descripcion'=>FormatTextView($oProducto->descripcion),'codigo'=>$codigo,
+             'linea_ID'=>$linea_ID, 'html'=>$html);
         //$retorn="<h1>Hola</h1>";
 
         echo json_encode($retornar);
@@ -649,10 +688,37 @@
     function post_ajaxListarProductos($texto){
         require ROOT_PATH.'models/producto.php';
         $buscar=$_POST['buscar'];
-        $dtProducto=producto::geLista1($buscar);
+        $linea_ID=$_POST['linea_ID'];
+        $categoria_ID=$_POST['categoria_ID'];
+        //echo $linea_ID;
+        $dtProducto=producto::geLista1($buscar,$linea_ID,$categoria_ID);
        
         //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
         echo json_encode($dtProducto);
+    }
+    function post_ajaxBuscarProductos(){
+        require ROOT_PATH.'models/producto.php';
+        $codigo=$_POST['id'];
+        $producto_ID=0;
+        $producto="";
+        $resultado=0;
+        try{
+            $dt=producto::getProducto_Codigo($codigo);
+            if(count($dt)>0){
+                $producto_ID=$dt[0]['ID'];
+                 $producto=$dt[0]['nombre'];
+                 $resultado=1;
+            }else{
+                $resultado=0;
+            }
+            
+        } catch (Exception $ex){
+            log_error(__FILE__, "funcionController/post_ajaxBuscarProductos", $ex->getMessage());
+            $resultado=-1;
+        }
+        
+       $retornar=Array('resultado'=>$resultado,'producto_ID'=>$producto_ID,'producto'=>$producto);
+        echo json_encode($retornar);
     }
     function post_ajaxListarClientes(){
         require ROOT_PATH.'models/cliente.php';
@@ -662,4 +728,59 @@
         //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
         echo json_encode($dtCliente);
     }
+    function post_ajaxHistorial_Producto(){
+
+        require ROOT_PATH.'models/producto.php';
+        $producto_ID=$_POST['id'];
+        $filas_compras="";
+        $filas_ventas="";
+       try{
+           $dt=producto::getFilasHistorial($producto_ID);
+           $filas_compras=$dt[0]['filas_compras'];
+           $filas_ventas=$dt[0]['filas_ventas'];
+       }catch(Exception $ex){
+       log_error(__FILE__, "funcionController.post_ajaxHistorial_Producto", $ex->getMessage());
+        throw new Exception("Ocurrió un error en el sistema");
+       }
+       
+        $retornar=Array('filas_compras'=>$filas_compras,"filas_ventas"=>$filas_ventas);
+
+        echo json_encode($retornar);
+    }
+    function post_ajaxVerSeparaciones(){
+
+        require ROOT_PATH.'models/producto.php';
+        $producto_ID=$_POST['id'];
+        $filas="";
+       
+       try{
+           $dt=producto::getFilasSeparaciones($producto_ID);
+           $filas=$dt[0]['filas'];
+           
+       }catch(Exception $ex){
+       log_error(__FILE__, "funcionController.post_ajaxVerSeparaciones", $ex->getMessage());
+        throw new Exception("Ocurrió un error en el sistema");
+       }
+       
+        $retornar=Array('filas'=>$filas);
+
+        echo json_encode($retornar);
+    }
+    function post_ajaxOpcionesProvincias(){
+        require ROOT_PATH.'models/provincia.php';
+        $departamento_ID=$_POST['id'];
+        $provincias=utf8_encode(provincia::getOpciones(-1,$departamento_ID));
+        $retornar=Array('provincias'=>$provincias);
+
+        echo json_encode($retornar);
+    }
+    function post_ajaxOpcionesDistritos(){
+        require ROOT_PATH.'models/distrito.php';
+        $provincia_ID=$_POST['id'];
+        $distritos=utf8_encode(distrito::getOpciones(-1,$provincia_ID));
+        $retornar=Array('distritos'=>$distritos);
+
+        echo json_encode($retornar);
+    }
+    
 ?>

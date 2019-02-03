@@ -316,7 +316,7 @@ $(function () {
     $('.email').blur(function () {        
         if (!validarEmail($(this).val()))
         {
-            //mensaje.error("Mensaje de error","No es un correo valido.",this.id);
+            mensaje.error("Mensaje de error","No es un correo valido.",this.id);
             $(this).css('color', 'red');
         }
     });

@@ -53,11 +53,12 @@ class proveedor {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from proveedor;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             $q= 'insert into proveedor(ID,empresa_ID, ruc, razon_social, nombre_comercial, direccion, direccion_fiscal, telefono,fax,';
             $q.= 'celular,correo, banco, numero_cuenta_soles, numero_cuenta_dolares, parne, estado_ID, distrito_ID, usuario_id)';
@@ -66,6 +67,7 @@ class proveedor {
             $q.='"'.$this->correo.'","'.$this->banco.'","'.$this->numero_cuenta_soles.'","'.$this->numero_cuenta_dolares.'",';
             $q.='"'.$this->parne.'",'.$this->estado_ID.','.$this->distrito_ID.','.$this->usuario_id.');';   
             //echo $q;
+			$cn = new connect_new();
             $retornar = $cn->transa($q);
             $this->ID =$ID;
             $this->getMessage = 'Se guardó correctamente ';
@@ -77,7 +79,7 @@ class proveedor {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q='update proveedor set empresa_ID='.$this->empresa_ID.',ruc="'.$this->ruc.'",razon_social="'.$this->razon_social.'",';
@@ -96,7 +98,7 @@ class proveedor {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -113,7 +115,7 @@ class proveedor {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(prv.ID) ';
             $q.=' FROM proveedor as prv ';
@@ -133,7 +135,7 @@ class proveedor {
 
 //modificado por ortega 31-05-2016.Solo traje los datos completos
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,empresa_ID, ruc, razon_social, nombre_comercial, direccion, direccion_fiscal, telefono, fax, celular,correo, banco, numero_cuenta_soles, numero_cuenta_dolares, parne, estado_ID, distrito_ID, usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from proveedor ';
@@ -174,7 +176,7 @@ class proveedor {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'prv.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select prv.ID,prv.empresa_ID, prv.ruc, prv.razon_social, prv.nombre_comercial, prv.direccion,';
             $q.= 'prv.direccion_fiscal, prv.telefono, prv.fax, prv.celular,prv.correo, prv.banco, prv.numero_cuenta_soles,';
@@ -202,7 +204,7 @@ class proveedor {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 

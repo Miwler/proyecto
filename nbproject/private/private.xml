@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/URL_API.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula_detalle.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula_sunat.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_factura.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_guia.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_producto_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/homeController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/login.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/function.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_producto_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/home/index.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/funcionController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/controlPage.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/empresa.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/pathMVC.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_registro_componente_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/login.js</file>
         </group>
     </open-files>
 </project-private>

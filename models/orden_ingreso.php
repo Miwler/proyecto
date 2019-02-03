@@ -50,7 +50,7 @@ class orden_ingreso {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
             $fecha_save = 'NULL';
@@ -58,12 +58,15 @@ class orden_ingreso {
                 $fecha_save = '"' . FormatTextToDate($this->fecha, 'Y-m-d') . '"';
             }
             $q = 'select ifnull(max(ID),0)+1 as ID from orden_ingreso;';
+             $cn = new connect_new();
             $ID = $cn->getData($q);
             $q = 'select ifnull(max(numero_orden),0)+1 as ID from orden_ingreso where  tipo_orden_ID='.$this->tipo_orden_ID.' and empresa_ID='.$_SESSION['empresa_ID'].';';
+            $cn = new connect_new();
             $numero_orden=$cn->getData($q);
             $q = 'INSERT INTO orden_ingreso(ID,empresa_ID,tipo_orden_ID,numero_orden,fecha,proveedor_ID,moneda_ID,estado_ID,tipo_cambio,vigv,subtotal,igv,total,comentario,usuario_id)';
             $q.='values (' . $ID .','.$_SESSION["empresa_ID"].','.$this->tipo_orden_ID.',' . $numero_orden . ',' . $fecha_save . ',' . $this->proveedor_ID . ',' . $this->moneda_ID . ',' . $this->estado_ID . ',"' . number_format($this->tipo_cambio, 2, '.', '') . '","' . number_format($this->vigv, 2, '.', '') . '","' . number_format($this->subtotal, 2, '.', '') . '",' . number_format($this->igv, 2, '.', '') . ',' . number_format($this->total, 2, '.', '') .',"'.$this->comentario.'",' . $this->usuario_id . ')';
-            $retornar = $cn->transa($q);
+            $cn = new connect_new();
+			$retornar = $cn->transa($q);
             //echo $q;
             $this->ID = $ID;
             $this->numero_orden=$numero_orden;
@@ -75,7 +78,7 @@ class orden_ingreso {
     }
 
     function actualizar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     $fecha_emision_save='NULL';
@@ -83,8 +86,8 @@ class orden_ingreso {
                             $fecha_emision_save='"'.FormatTextToDate($this->fecha,'Y-m-d').'"';
                     }
 
-                    $q="UPDATE orden_ingreso SET tipo_orden_ID=".$this->tipo_orden_ID.", numero_orden='".$this->numero_orden."',fecha=".$fecha_emision_save.", proveedor_ID=".$this->proveedor_ID.",moneda_ID=".$this->moneda_ID.",estado_ID=".$this->estado_ID.",tipo_cambio='".number_format($this->tipo_cambio,2,'.',',')."',vigv='".number_format($this->vigv,2,'.',',')."',subtotal='".number_format($this->subtotal,2,'.',',')."',igv='".number_format($this->igv,2,'.',',')."',";
-                    $q.="total='".number_format($this->total,2,'.',',')."',comentario='".$this->comentario."',usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
+                    $q="UPDATE orden_ingreso SET tipo_orden_ID=".$this->tipo_orden_ID.", numero_orden='".$this->numero_orden."',fecha=".$fecha_emision_save.", proveedor_ID=".$this->proveedor_ID.",moneda_ID=".$this->moneda_ID.",estado_ID=".$this->estado_ID.",tipo_cambio='".round($this->tipo_cambio,2)."',vigv='".round($this->vigv,2)."',subtotal='".round($this->subtotal,2)."',igv='".round($this->igv,2)."',";
+                    $q.="total='".round($this->total,2)."',comentario='".$this->comentario."',usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
                     $q.=" WHERE ID=".$this->ID;
                     //echo $q;
                     $retornar=$cn->transa($q);
@@ -98,7 +101,7 @@ class orden_ingreso {
     }
 
     function actualizar2() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -115,7 +118,7 @@ class orden_ingreso {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -132,7 +135,7 @@ class orden_ingreso {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT  count(oc.ID)';
             $q.=' FROM orden_ingreso oc,proveedor prv,estado es,moneda mo ';
@@ -151,7 +154,7 @@ class orden_ingreso {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,tipo_orden_ID,numero_orden,DATE_FORMAT(fecha,"%d/%m/%Y") as fecha,proveedor_ID,moneda_ID,estado_ID,con_igv,tipo_cambio,vigv,subtotal,igv,total,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id, comentario';
             $q.=' from orden_ingreso ';
@@ -187,7 +190,7 @@ class orden_ingreso {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'oc.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT oc.ID, oc.numero_orden,  oc.fecha, prv.razon_social as proveedor, mo.descripcion as moneda,';
             $q.= 'es.nombre as estado, oc.con_igv, oc.tipo_cambio, oc.vigv, oc.subtotal, oc.igv, oc.total, oc.usuario_id';
@@ -214,19 +217,20 @@ class orden_ingreso {
         }
     }
     static function getGrid1($filtro = '', $inicio = -1, $fin = -1, $orden = 'oc.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
-            $q = "call getTabla_Orden_Compra('".$filtro."',".$inicio.",".$fin.",'".$orden."');";
+            $q = 'call getTabla_Orden_Compra("'.$filtro.'",'.$inicio.','.$fin.',"'.$orden.'");';
             
             //echo $q;
             $dt = $cn->getGrid($q);
             return $dt;
         } catch (Exception $ex) {
-            throw new Exception($q);
+            throw new Exception("Ocurrió un error en el la conexión");
+            log_error(__FILE__, "orden_ingreso.getGrid1", $ex->getMessage());
         }
     }
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             return $retornar;

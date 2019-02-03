@@ -60,10 +60,11 @@ class cliente {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 from cliente';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
 
             $q= 'insert into cliente(ID,empresa_ID,codigo,razon_social,nombre_comercial,ruc,direccion,direccion_fiscal,';
@@ -74,6 +75,7 @@ class cliente {
             $q.='"'.$this->correo.'",'.$this->forma_pago_ID.',"'.$this->banco. '","'.$this->numero_cuenta_soles. '","'.$this->numero_cuenta_dolares. '",';
             $q.=$this->estado_ID . ',"'.$this->descuento.'","'.$this->tiempo_credito.'",'.$this->usuario_id.')';
             //echo $q;
+			$cn = new connect_new();
             $retornar = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
@@ -85,7 +87,7 @@ class cliente {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q='update cliente set ';
@@ -119,7 +121,7 @@ class cliente {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -136,7 +138,7 @@ class cliente {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(clt.ID) ';
             $q.=' FROM cliente as clt ';
@@ -154,7 +156,7 @@ class cliente {
         }
     }
     static function getCodigo() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select max(ID)+1';
             $q.=' FROM cliente ';
@@ -166,7 +168,7 @@ class cliente {
         }
     }
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,empresa_ID,codigo,razon_social,nombre_comercial,ruc,direccion, direccion_fiscal,distrito_ID,';
             $q.= 'telefono, celular,correo, forma_pago_ID,banco, numero_cuenta_soles, numero_cuenta_dolares, estado_ID,';
@@ -209,7 +211,7 @@ class cliente {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'clt.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT clt.ID,clt.empresa_ID,clt.codigo,clt.razon_social,clt.nombre_comercial,clt.ruc,';
             $q.='clt.direccion,clt.direccion_fiscal,clt.distrito_ID,clt.telefono,clt.celular,clt.correo,';
@@ -237,7 +239,7 @@ class cliente {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select  count(ID) from cliente ";
@@ -260,7 +262,7 @@ class cliente {
     
     
     static function MostrarGraficoCliente_Exclusivo() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select clt.ID, clt.razon_social as razon_social, clt.ruc, sum(ovd.precio_venta_soles) as precio_venta_soles, sum(ovd.precio_venta_dolares) as precio_venta_dolares  ';
             $q.= 'from cliente clt, producto pr, orden_venta ov, orden_venta_detalle ovd  ';
@@ -277,16 +279,19 @@ class cliente {
     }
     static function geLista($buscar='')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
-            $q='call getListaClientes('.$_SESSION['empresa_ID'].',"'.$buscar.'");';
+            //$q='call getListaClientes('.$_SESSION['empresa_ID'].',"'.$buscar.'");';
             //echo $q;
-            $dt=$cn->getGrid($q);									
+            //$dt=$cn->getGrid($q);
+            $dt=$cn->store_procedure_getGrid('getListaClientes',
+                    array('empresa_ID'=>$_SESSION['empresa_ID'],
+                        'buscar'=>$buscar));
             return $dt;												
         }catch(Exception $ex)
         {
-                throw new Exception($q);
+                throw new Exception($ex->getMessage());
         }
     }
 }

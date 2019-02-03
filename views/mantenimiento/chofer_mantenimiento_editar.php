@@ -24,7 +24,7 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
-    <form id="form"  method="POST" action="/Mantenimiento/Chofer_Mantenimiento_Editar/<?php echo $GLOBALS['oChofer']->ID;?>" style="width:600px;padding-top:15px;" onsubmit="return validar();" >
+    <form id="form"  method="POST" action="/Mantenimiento/Chofer_Mantenimiento_Editar/<?php echo $GLOBALS['oChofer']->ID;?>" onsubmit="return validar();" >
         <div class="panel panel-tab rounded shadow">
             <div class="panel-body no-padding rounded-bottom">
                 <div class="tab-content form-horizontal">

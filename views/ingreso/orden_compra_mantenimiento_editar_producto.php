@@ -64,7 +64,7 @@
         <div class="form-group">
             <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Descripción:</label>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" style="height: 50px;" ><?php echo FormatTextView($GLOBALS['oOrden_Compra_detalle']->descripcion); ?></textarea>
+                <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" style="height: 50px;resize:none;overflow:auto;" ><?php echo $GLOBALS['oOrden_Compra_detalle']->descripcion; ?></textarea>
             </div>
 
         </div>
@@ -101,6 +101,7 @@
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <input type="text" id="txtTotal" name="txtTotal" class="form-control" value="<?php echo $GLOBALS['oOrden_Compra_detalle']->total?>" disabled> 
             </div>
+            <div class="col-sm-12"><label class="label label-danger">El precio unitario no incluye IGV.</label></div>
         </div>
 </div>
     <div class="form-footer">

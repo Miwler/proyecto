@@ -24,6 +24,7 @@ class cotizacion_detalle {
     private $cantidad_separada;
     private $usuario_id;
     private $usuario_mod_id;
+    private $tipo_ID;
     private $tipo;
     private $orden_cotizacion;
     private $pagina_cotizacion;
@@ -81,10 +82,11 @@ class cotizacion_detalle {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retorna = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 as ID from cotizacion_detalle;';
+            $cn = new connect_new();
             $ID=$cn->getData($q);
             $cantidad_separada=0;
             if($this->cantidad_separada!=null){
@@ -92,10 +94,12 @@ class cotizacion_detalle {
             }
             $q = 'insert into cotizacion_detalle (ID,producto_ID,cotizacion_ID,descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
-            $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,usuario_id)';
+            $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,usuario_id)';
             $q.=' values('.$ID.',' .$this->producto_ID. ',' .$this->cotizacion_ID.',"'.$this->descripcion.'",'.$this->cantidad.','.$this->precio_venta_unitario_soles.','.$this->precio_venta_unitario_dolares.','.$this->precio_venta_subtotal_soles.','.$this->precio_venta_subtotal_dolares.',';
             $q.=$this->precio_venta_soles . ',' . $this->precio_venta_dolares . ',' . $this->igv . ',' . $this->vigv_soles.','.$this->vigv_dolares.','.$this->cotizacion_detalle_ID.',';
-            $q.=$this->estado_id.','.$this->ver_precio.','.$this->separacion.','.$this->tiempo_separacion.','.$cantidad_separada.','.$this->tipo.','.$this->usuario_id.')';
+            $q.=$this->estado_id.','.$this->ver_precio.','.$this->separacion.','.$this->tiempo_separacion.','.$cantidad_separada.','.$this->tipo_ID.','.$this->tipo_ID.','.$this->usuario_id.')';
+           //echo $q;
+            $cn = new connect_new();
             $retorna = $cn->transa($q);
 
             $this->ID=$ID;
@@ -108,7 +112,7 @@ class cotizacion_detalle {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update cotizacion_detalle set producto_ID='.$this->producto_ID.',cotizacion_ID='.$this->cotizacion_ID.',descripcion="'.$this->descripcion;
@@ -127,7 +131,7 @@ class cotizacion_detalle {
         }
     }
     function actualizarTipo(){
-        $cn =new connect();
+        $cn =new connect_new();
 	$retornar=-1;
         try{
             $q='update cotizacion_detalle set tipo='.$this->tipo;
@@ -141,7 +145,7 @@ class cotizacion_detalle {
         }
     }
      function actualizarDimension(){
-        $cn =new connect();
+        $cn =new connect_new();
 	$retornar=-1;
         try{
             $q='update cotizacion_detalle set orden_cotizacion='.$this->orden_cotizacion;
@@ -156,7 +160,7 @@ class cotizacion_detalle {
         }
     }
     function actualizarCosto(){
-        $cn =new connect();
+        $cn =new connect_new();
 	$retornar=-1;
         try{
             $q='update cotizacion_detalle set precio_venta_unitario='.$this->precio_venta_unitario.', precio_venta='.$this->precio_venta.', usuario_mod_id='. $this->usuario_mod_id;
@@ -170,7 +174,7 @@ class cotizacion_detalle {
         }
     }
     function actualizarCK() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update cotizacion_detalle set ver_precio=' . $this->ver_precio. ', usuario_mod_id=' . $this->usuario_mod_id;
@@ -184,7 +188,7 @@ class cotizacion_detalle {
         }
     }
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -201,7 +205,7 @@ class cotizacion_detalle {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT COUNT(ID)';
             $q.= ' FROM cotizacion_detalle ';
@@ -220,11 +224,11 @@ class cotizacion_detalle {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID,producto_ID,cotizacion_ID,trim(descripcion) as descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
-            $q.='estado_id,ver_precio,separacion, tiempo_separacion,cantidad_separada,tipo,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
+            $q.='estado_id,ver_precio,separacion, tiempo_separacion,cantidad_separada,tipo,tipo_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
             $q.=' FROM cotizacion_detalle ';
             $q.=' where del=0 and ID=' . $ID;
            // echo $q;
@@ -256,6 +260,7 @@ class cotizacion_detalle {
                 $oCotizacion_Detalle->tiempo_separacion=$item['tiempo_separacion'];
                 $oCotizacion_Detalle->cantidad_separada=$item['cantidad_separada'];
                 $oCotizacion_Detalle->tipo=$item['tipo'];
+                $oCotizacion_Detalle->tipo_ID=$item['tipo_ID'];
                 $oCotizacion_Detalle->usuario_id=$item['usuario_id'];
                 $oCotizacion_Detalle->usuario_mod_id=$item['usuario_mod_id'];
 
@@ -267,12 +272,12 @@ class cotizacion_detalle {
     }
 
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID,producto_ID,cotizacion_ID,trim(descripcion) as descripcion ,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
             $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,orden_cotizacion,pagina_cotizacion,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id, ';
-             $q.="(case when tipo=1 then 'Producto' when tipo=2 then 'Producto componente' when tipo=3 then 'Componente' else 'Obsequio' end) as tipo_descripcion";
+             $q.="ifnull((case when tipo_ID=1 then 'Producto' when tipo_ID=2 then 'Producto componente' when tipo_ID=3 then 'Componente' else 'Obsequio' end),'') as tipo_descripcion,tipo_ID";
             $q.=' FROM cotizacion_detalle ';
             $q.=' where del=0 ';
             
@@ -293,7 +298,7 @@ class cotizacion_detalle {
         }
     }
     static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID,producto_ID,cotizacion_ID,trim(descripcion) as descripcion ,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
@@ -319,7 +324,7 @@ class cotizacion_detalle {
         }
     }
     static function getGridByCotizacion($filtro='',$desde=-1,$hasta=-1,$order='ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID, usuario_id, producto_ID, precio_venta_unitario,cantidad,precio_venta,cotizacion_detalle_ID,descripcion,estado_id,cotizacion_ID,ver_precio';
             $q.=' FROM cotizacion_detalle ';
@@ -342,7 +347,7 @@ class cotizacion_detalle {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             return $retornar;
@@ -351,7 +356,7 @@ class cotizacion_detalle {
         }
     }
      function maxUbicacion($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select max(pagina_cotizacion) from cotizacion_detalle where del=0 and  cotizacion_ID=".$ID;

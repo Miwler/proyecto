@@ -125,23 +125,23 @@ class PDF1 extends FPDF
         $this->SetFont('Arial','B',20);
         //Movernos a la derecha
         $this->Cell(60,20,'',0);
-        $this->SetXY(150,10);
+        $this->SetXY(130,10);
         $this->SetTextColor(117,179,114);
         //Título
-        $this->Cell(50,10,'COTIZACION',0,2,'C');
+        $this->Cell(70,10,'COTIZACION',0,2,'C');
         //$this->Ln();
         $this->SetFont('Arial','B',10);
         $this->SetTextColor(29,30,29);
         //$this->Cell(155,5,'NRO',1,0,'R');
         
-        $this->Cell(50,5,'NRO. '.$this->oCotizacion->numero_concatenado,1,2,'C');
+        $this->Cell(70,5,'NRO. '.$this->oCotizacion->numero_concatenado,1,2,'C');
         //$this->SetXY(155,15);
         
        // $this->Cell(155,5,'FECHA',1,0,'R');
         //$this->Ln();$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'R');
         $this->SetFont('Arial','',10);
-        $this->Cell(50,5,'Lima, '.fechaATexto($this->oCotizacion->fecha),1,2,'C');
-        $this->Cell(50,5,utf8_decode('Página ').$this->PageNo().' de {nb}',1,2,'C');
+        $this->Cell(70,5,'Lima, '.fechaATexto($this->oCotizacion->fecha),1,2,'C');
+        $this->Cell(70,5,utf8_decode('Página ').$this->PageNo().' de {nb}',1,2,'C');
         $this->Ln();
         //$this->SetX(10);
         $this->SetY(25);
@@ -262,7 +262,7 @@ class PDF1 extends FPDF
         $this->SetFont('Arial','B',8);
         $this->Cell(30,5,utf8_decode('Garantía:'),0,0,'L');
         $this->SetFont('Arial','',8);
-        $this->Cell(50,5,$this->oCotizacion->garantia,0,0,'L');
+        $this->Cell(50,5,utf8_decode($this->oCotizacion->garantia),0,0,'L');
         $this->Ln(4);
         $this->SetFont('Arial','B',8);
         $this->Cell(30,5,utf8_decode('Forma pago:'),0,0,'L');
@@ -304,7 +304,7 @@ class PDF1 extends FPDF
         $this->SetFont('Arial','',8);
         /*$this->SetFillColor(255,255,255);*/
 
-        $this->MultiCell(110,5,$this->oCotizacion->observacion,0,'J',false);
+        $this->MultiCell(110,5,utf8_decode($this->oCotizacion->observacion),0,'J',false);
 
         //Firmas
         $this->SetXY(130,$h1);

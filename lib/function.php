@@ -33,7 +33,7 @@ function cargarInformacion($empresa_ID){
             }
             if($ruta=="/home/index"){
                 $retorna=1;
-            }else{
+            }else if(isset($_SESSION['empresa_ID'])){
                 cargarInformacion($_SESSION['empresa_ID']);
                 if($ruta=='/home/main/'.$_SESSION['empresa_ID']){
                 $retorna=1;
@@ -43,7 +43,7 @@ function cargarInformacion($empresa_ID){
                     $dtMenu=seguridad::getGridMenuUsuario($_SESSION['usuario_ID'],$ruta);
                     //echo '<script>window.onload=function(){document.getElementById("mod'.$dtMenu[0]['modulo_ID'].'").className="active";document.getElementById("menu'.$dtMenu[0]['ID'].'").className="active";}</script>';
                 }
-            }
+            }else{$retorna=1;}
             
             
             return $retorna;
@@ -71,13 +71,13 @@ function cargarInformacion($empresa_ID){
 	function FormatTextSave($text){
 		$text=str_replace('"','""',$text);
 		//$text=mysql_real_escape_string(utf8_decode($text));
-                $text=utf8_decode($text);
+                $text=utf8_encode($text);
 		return $text;
 	}
 	
 	function FormatTextView($text){
 		$text=str_replace('"','&quot;',$text);
-		$text=htmlspecialchars(utf8_encode($text));
+		$text=htmlspecialchars(utf8_decode($text));
 		return $text;
 	}
 	function test_input($data) {
@@ -89,15 +89,27 @@ function cargarInformacion($empresa_ID){
 	function FormatTextViewHtml($text){
 		$text=str_replace('"','&quot;',$text);
 		$text=($text=='')?'&nbsp;':$text;
-		$text=utf8_encode($text);
+		$text=utf8_decode($text);
 		return $text;
 	}
-	
-	function FormatTextToDate($text,$format){	
+	function FormatTextViewXML($text){
+		$text=str_replace('<','&lt;',$text);
+		$text=str_replace('>','&gt;',$text);
+                $text=str_replace('"','&quot;',$text);
+                $text=str_replace('ˋ','&apos;',$text);
+                $text=str_replace('&','&amp;',$text);
+		//$text=utf8_decode($text);
+		return $text;
+	}
+	function FormatTextToDate($text,$format){
+           //echo $text;
 		$date = DateTime::createFromFormat('d/m/Y',$text);
+               
 		return $date->format($format);
 	}
-	
+	function saltoLineHtml($str){
+           return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
+	}
 	function nombremes($mes){
 		 setlocale(LC_TIME, 'spanish');  
 		 $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
@@ -150,7 +162,7 @@ function cargarInformacion($empresa_ID){
         }
     function extraerOpcion($dtBotones){
        $html='<div class="btn-group">';
-       $html.='<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+       $html.='<button type="button" class="btn btn-teal dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
        $html.='<i class="fa fa-cogs"></i>';
        $html.='</button>';
        $html.='<ul class="dropdown-menu pull-right">';
@@ -413,4 +425,50 @@ function cargarInformacion($empresa_ID){
         echo 'console.log('.  $data .')';
         echo '</script>';
       }
+    function log_error($ruta,$identificador,$error){
+        $nombre_archivo = "logs_errores.txt"; 
+        
+        file_exists($nombre_archivo);
+        if($archivo = fopen($nombre_archivo, "a"))
+        {
+            $texto="============================ERROR====================================\r\n";
+            $texto.="FECHA Y HORA: ".date("d m Y H:m:s")."\r\n";
+            $texto.="RUTA: ".$ruta."\r\n";
+            $texto.="METODO: ".$identificador."\r\n";
+            $texto.="ERROR: ".$error."\r\n";
+            fwrite($archivo,$texto);
+            fclose($archivo);
+        }
+    }
+    function retornar_filas_registros($parametro,$valores){
+       $html='';
+        switch($parametro){
+           case "configuracion_correo_empresa":
+               $array=explode('|',configuracion_correo_empresa);
+               $array_correo=explode(';',$valores);
+               for($i=0;$i<count($array);$i++){
+                    $html.='<div class="form-group">';
+                    $html.='<label class="control-label col-sm-4">'.utf8_encode($array[$i]).':</label>'; 
+                    $html.='<div class="col-sm-8"><input type="email" class="form-control" onBlur="validar_correo(this);" value="'.((isset($array_correo[$i]))?$array_correo[$i]:"").'"></div>';   
+                    $html.='</div>';
+                    
+               }
+               break;
+           case "configuracion_celular_empresa":
+               $array=explode('|',configuracion_celular_empresa);
+               $array_correo=explode('/',$valores);
+               for($i=0;$i<count($array);$i++){
+                    $html.='<div class="form-group">';
+                    $html.='<label class="control-label col-sm-4">'.utf8_encode($array[$i]).':</label>'; 
+                    $html.='<div class="col-sm-8"><input type="text" class="form-control int" onBlur="validar_celular(this);" value="'.((isset($array_correo[$i]))?$array_correo[$i]:"").'"></div>';   
+                    $html.='</div>';
+                    
+               }
+               break;
+        }
+        
+        
+
+        return $html;
+    }
 ?>

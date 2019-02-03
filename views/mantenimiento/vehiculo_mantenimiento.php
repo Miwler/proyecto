@@ -13,6 +13,11 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
         <i class="fa fa-taxi" aria-hidden="true"></i> Registros de Veh&iacuteculos
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+            
+        </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm1" name="frm1" method="post" action="Mantenimiento/ajaxVehiculo_Mantenimiento" class="form-horizontal">
@@ -23,13 +28,11 @@
                 <li class="active nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
             
         </div>
         <div class="panel-body">
@@ -82,9 +85,10 @@
                 var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
                 grids = new grid(tb);
                 grids.nuevoEvento();
-                grids.fncPaginacion1(f);
+                
                 $('[data-toggle="tooltip"]').tooltip(); 
                 $('#websendeos').stacktable();
+                grids.fncPaginacion1(f);
         }
         f.enviar();
 
@@ -108,11 +112,11 @@
         var fncNuevo=function(){			
                 //window_float_open('/Mantenimiento/Vehiculo_mantenimiento_Nuevo','','',f);
                 //window_float_open_modal('REGISTRAR NUEVA COMPRA','/Ingreso/Compra_Mantenimiento_Nuevo','','',f,800,550);
-                window_float_open_modal('REGISTRAR NUEVO VEHICULO','/Mantenimiento/Vehiculo_Mantenimiento_Nuevo','','',f,600,300);
+                window_float_open_modal('REGISTRAR NUEVO VEHICULO','/Mantenimiento/Vehiculo_Mantenimiento_Nuevo','','',f,600,280);
         }
 
         var fncEditar=function(id){			
-                window_float_open_modal('EDITAR VEHICULO','/Mantenimiento/Vehiculo_Mantenimiento_Editar',id,'',f,600,300);
+                window_float_open_modal('EDITAR VEHICULO','/Mantenimiento/Vehiculo_Mantenimiento_Editar',id,'',f,600,280);
         }
 
         var fncEliminar=function(id){			

@@ -43,16 +43,18 @@ class comprobante_regula_sunat {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from comprobante_regula_sunat';
+            $cn = new connect_new();
             $ID=$cn->getData($q);
             $q = 'insert into comprobante_regula_sunat(ID,comprobante_regula_ID,fecha_generacion,fecha_respuesta,nombre_archivo,hash,xml_firmado,representacion_impresa,estado_envio,codigo_estado,descripcion_estado,cdr_sunat,usuario_id)';
             $q.='values('.$ID.','.$this->comprobante_regula_ID.',"' . $this->fecha_generacion . '","'.$this->fecha_respuesta.'","'.$this->nombre_archivo.'","'.$this->hash.'","'.$this->xml_firmado.'","'.$this->representacion_impresa.'","'.$this->estado_envio.'","'.$this->codigo_estado.'","'.$this->descripcion_estado.'","'.$this->cdr_sunat.'",'. $this->usuario_id .');';
-            echo $q;
+            //echo $q;
 //console_log($q);
+            $cn = new connect_new();
             $retornar = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
@@ -64,7 +66,7 @@ class comprobante_regula_sunat {
     }
 
     public function getGrid($comprobante_regula_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT * FROM comprobante_regula_sunat WHERE comprobante_regula_ID='.$comprobante_regula_ID.' ORDER BY ID DESC LIMIT 1 ';
             $dt = $cn->getGrid($q);

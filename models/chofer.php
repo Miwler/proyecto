@@ -38,16 +38,18 @@ class chofer {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from chofer;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             $q = 'insert into chofer(ID,persona_ID,empresa_ID,licencia_conducir,celular,estado_ID,usuario_id)';
             $q.='values('.$ID.','.$this->persona_ID.','.$this->empresa_ID.',"' . $this->licencia_conducir . '","' . $this->celular
                 . '",'.$this->estado_ID.',' . $this->usuario_id.');';
             //echo $q;
+			$cn = new connect_new();
             $retornar = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
@@ -59,7 +61,7 @@ class chofer {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update chofer set persona_ID='.$this->persona_ID.',empresa_ID='.$this->empresa_ID.',licencia_conducir="'.$this->licencia_conducir.'",';
@@ -75,7 +77,7 @@ class chofer {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -92,7 +94,7 @@ class chofer {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(cho.ID) ';
             $q.=' from chofer cho,persona pe,estado es ';
@@ -111,7 +113,7 @@ class chofer {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ID,persona_ID,empresa_ID,licencia_conducir,celular,estado_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from chofer ';
@@ -139,7 +141,7 @@ class chofer {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'cho.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select cho.ID, pe.apellido_paterno,pe.apellido_materno,pe.nombres,cho.licencia_conducir,cho.celular,cho.empresa_ID,cho.estado_ID,es.nombre as estado';
             $q.=' from chofer cho,persona pe,estado es';
@@ -163,7 +165,7 @@ class chofer {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select count(ID) from chofer where del=0 and persona_ID=".$this->persona_ID;

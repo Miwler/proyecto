@@ -5,7 +5,8 @@ var fParent;
 var fParent1;
 var fParent2;
 var fparentPadre;
-
+var fparentPadre1;
+var interfaz=0;
 $(function () {    
     verificarNavegador();
         
@@ -364,7 +365,7 @@ function window_float_open_modal_hijo(titulo,url,id,q,f0,ancho,alto)
 		
 	if ($.trim(q)!=""||q.length>0) {
            
-            cad =cad +'?obj='+ q +'&aleatorio=' + aleatorio;
+            cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
 		
 	} else{
            cad =cad +'?aleatorio=' + aleatorio;
@@ -625,10 +626,13 @@ function float_close_modal() {
     
 }
 function float_close_modal_hijo() {   
-    //alert('');
     $("#float_modal_hijo .modal-body").html("");
-    $("#float_modal_hijo").modal("hide");
-    $("#float_modal").modal("show");
+        $("#float_modal_hijo").modal("hide");
+    if(interfaz==0){
+        
+        $("#float_modal").modal("show");
+    }
+    
     
 }
 function float_close_modal_hijo_hijo() {   
@@ -710,17 +714,12 @@ function redondear(numero, cantidad_decimal) {
     return rNumero;
 }
 
-function redondearView(numero, cantidad_decimal) {
-    var nDecimal = Math.pow(10, cantidad_decimal);
-    numero = numero + '';
-    numero = numero.replace(',', '');
-    var rNumero = Math.round(numero * nDecimal) / nDecimal;
-    if (isNaN(rNumero)) {
-        rNumero = 0;
-    }
-    return rNumero.toFixed(cantidad_decimal);
-}
 
+function financiero(x) {
+     x=x+'';
+    x=x.replace(',', '');
+  return Number.parseFloat(x).toFixed(2);
+}
 function fncMostrar_Mensaje(obj) {
     $(obj).slideDown('slide');
 
@@ -967,7 +966,7 @@ function build_data_table_dom(table, columnDefs, order, npageLength) {
 }
 
 function build_data_table(table, columnDefs, order, npageLength) {
-
+    
     columnDefs = (typeof columnDefs === 'undefined') ? [] : columnDefs;
     order = (typeof order === 'undefined') ? [[0, "asc"]] : order;
     npageLength = (typeof npageLength === 'undefined') ? 10 : npageLength;
@@ -1079,3 +1078,149 @@ function search_filter(table_id) {
         jQuery.fn.DataTable.ext.type.search.string(this.value)
         ).draw();
 }
+
+
+function LoadCombo(combo, url, parametro, id, nombre, todos, callBack) {
+    
+    if (!id)
+        id = 'ID';
+    if (!nombre)
+        nombre = 'nombre';
+
+    enviarAjax(url, 'frm1', parametro, function (res) {
+        var jsonObject = $.parseJSON(res);
+
+        $('#' + combo).html('');
+        if (todos == 'T')
+            $('#' + combo).append("<option value='-1' selected='selected'>-Todos-</option>").trigger('chosen:updated');
+        else if (todos == 'S')
+            $('#' + combo).append("<option value='-1' selected='selected'>-Seleccione-</option>").trigger('chosen:updated');
+
+        $.each(jsonObject, function (i, item) {
+            $('#' + combo).append("<option value='" + $.trim(item[id]) + "'>" + $.trim(item[nombre]) + "</option>").trigger('chosen:updated');
+        });
+
+        if (callBack) {
+            callBack.apply();
+        }
+
+    });
+}
+
+function cargarCombo(combo, url, parametro, id, nombre, todos, seleccion, callBack) {
+
+    if (!seleccion)
+        seleccion = false;
+    if (!id)
+        id = 'ID';
+    if (!nombre)
+        nombre = 'nombre';
+
+    enviarAjax(url, 'frm1', parametro, function (res) {
+        var jsonObject = $.parseJSON(res);
+
+        $('#' + combo).html('');
+        if (todos == 'T') {
+            $('#' + combo).append("<option value='-1' selected='selected'>-Todos-</option>").trigger('chosen:updated');
+        } else if (todos == 'S') {
+            $('#' + combo).append("<option value='-1' selected='selected'>-seleccione-</option>").trigger('chosen:updated');
+        }
+        $.each(jsonObject, function (i, item) {
+            if ($.trim(item[id]) == seleccion) {
+                seleccionar = " selected='selected'";
+            } else {
+                seleccionar = "";
+            }
+            $('#' + combo).append("<option value='" + $.trim(item[id]) + "' " + seleccionar + ">" + $.trim(item[nombre]) + "</option>").trigger('chosen:updated');
+        });
+
+        if (callBack) {
+            callBack.apply();
+        }
+
+    });
+}
+
+function window_open_view(url,id,q,f0)
+{
+    if (typeof (f0) == 'undefined') {        
+        if (typeof (f0) == 'undefined') {
+            fparentPadre1= '';
+        } else {
+            fparentPadre1 = f0;
+        }        
+    } else {
+        fparentPadre1= f0;
+    }
+   
+    var aleatorio = Math.random();
+
+    var iframe = document.createElement('iframe');	
+    //var window_float = $('#window-float');
+    iframe.id = 'iwindow-float-modal';
+    iframe.scrolling = 'no';   
+	iframe.style.border=0;
+	
+	/*Envio el ID*/
+    var  cad = (id != '') ? '/' + id : '';  
+	
+	/*Envio la cadena de consultas*/
+	if (typeof (q) == 'undefined') {      
+		cad =cad +'?aleatorio=' + aleatorio;
+	} else{
+		cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
+	}
+	
+	var src = url.toLowerCase() + cad ;
+     $("#divContenedorDIV").html('<iframe id="iframeContenedor" class="embed-responsive-item" src="'+src+'" allowfullscreen></iframe>');
+        $("#cuerpo_principal").hide('fast');
+        
+        $('#divContenedorDIV').show("fast");
+     interfaz=1;  
+  
+}
+function window_close_view() {   
+  
+   $('#divContenedorDIV').hide("fast");
+        $("#cuerpo_principal").show('fast');
+        $("#divContenedorDIV").html('');
+    
+}
+
+function window_save_view(parametro){
+    if(parametro){
+        fparentPadre1.call(this,parametro);
+        //fParent1.apply();
+    }else{
+        fparentPadre1.apply();
+    }
+    
+    window_close_view();
+}
+function get_breadcrumb(){
+         var ul='<span class="label">Ubicación:</span><ol class="breadcrumb"><li><i class="fa fa-home"></i> <a >Home</a><i class="fa fa-angle-right"></i></li>';
+        
+          
+         $("#sidebar-left .sidebar-menu>li.active").each(function(){
+             var titulo=$(this).find("span.text:first").text();
+             var  href=$(this).find("a:first").attr("href");
+             ul=ul+'<li><a>'+titulo+'</a><i class="fa fa-angle-right"></i></li>';
+             //var titulo1=$(this).find("ul li.active:first");
+             $(this).find("ul>li.active:first").each(function(){
+                 var titulo1=$(this).find("span.text:first").text();
+                 var href1=$(this).find("a:first").attr("href");
+                    ul=ul+'<li><a >'+titulo1+'</a><i class="fa fa-angle-right"></i></li>';
+                    $(this).find("ul>li.active").each(function(){
+                        var titulo2=$(this).find("span.text:first").text();
+                        var href2=$(this).find("a:first").attr("href");
+                           ul=ul+'<li><a >'+titulo2+'</a><i class="fa fa-angle-right"></i></li>';
+                    });
+             });
+            
+            
+          
+         });
+         //ul=ul+'</ol>';
+         return ul;
+         //$("#divArbol").html(ul);
+     }   

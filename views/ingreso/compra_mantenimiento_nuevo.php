@@ -30,13 +30,29 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1||$GLOBALS['resultado'] == 1) { ?>
 
-<form id="form" method="POST" action="/Ingreso/Compra_Mantenimiento_Nuevo" onsubmit="return validar();" style="width:800px" class="form-horizontal" >
+<form id="form" method="POST" action="/Ingreso/Compra_Mantenimiento_Nuevo" onsubmit="return validar();" class="form-horizontal" >
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divDatos" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i><span> Datos</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divContenedorProdutos" class="nav-link"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i><span> Productos</span></a></li>
             </ul>
+            <div class="pull-right">
+                <button  id="btnEnviar" name="btnEnviar" class='btn btn-success' title="Guardar" >
+                    <img alt="" width="16" src="/include/img/boton/save_48x48.png">
+                    Guardar
+                </button>
+                <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
+                <button  type="button" id="btnAgregar" name="btnEnviar" title="Agregar productos" class='btn btn-info' onclick="fncRegistrar_Productos();" >
+                    <img  alt="" width="16" src="/include/img/boton/addProducto48x48.png">
+                    Agregar
+                </button>
+                <?php } ?>
+                <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Salir" onclick="salir();" >
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    Salir
+                </button>
+            </div>
         </div>
         <div class="panel-body no-padding rounded-bottom">
             
@@ -46,17 +62,17 @@ function fncPage() { ?>
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Código:</label>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <input id="txtID" name="txtID" value="<?php echo $GLOBALS['oCompra']->ID; ?>" style="display: none;"/>
-                            <input id="txtNumero" name="txtNumero" disabled class="form-control int" type="text"  value="<?php echo sprintf("%'.07d",$GLOBALS['oCompra']->ID); ?>" />
+                            <input id="txtNumero" name="txtNumero" disabled class="form-control int" type="text"  value="<?php echo sprintf("%'.07d",$GLOBALS['oCompra']->codigo); ?>" />
                         </div>
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Nro de orden:</label>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Nro de orden:</label>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="row">
-                                <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6" style="padding-left:0;">
+                                <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6">
                                     <input id="txtOrden_Compra_ID" name="txtOrden_Compra_ID" value="<?php echo $GLOBALS['oCompra']->orden_ingreso_ID;?>" style="display:none;"/>
                                     <input type="text" id="txtNumeroOrden" name="txtNumeroOrden" disabled class="form-control" value="<?php echo $GLOBALS['oCompra']->numero_orden_ingreso; ?>">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-                                    <button type="button" id="btnBuscarOC" class="btn btn-success" title="Buscar Orden" onclick="fncBuscarOrden();"><span class="glyphicon glyphicon-search"></span>Buscar</button>
+                                    <button type="button" id="btnBuscarOC" class="btn btn-success" title="Buscar Orden" onclick="fncBuscarOrden();"><span class="glyphicon glyphicon-search"></span>Importar OC</button>
 
                                 </div>
                             </div>
@@ -86,14 +102,14 @@ function fncPage() { ?>
                                 $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->tipo_comprobante_ID;?>);
                             </script>
                         </div>
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Número:<span class="asterisk">*</span></label>
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Número:<span class="asterisk">*</span></label>
                        
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="row">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" style="padding-left:0;">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <input id="txtSerie" name="txtSerie" type="text" class="form-control" autocomplete=off maxlength="4"  onchange="fncSerie();" placeholder="Serie" value="<?php echo $GLOBALS['oCompra']->serie; ?>" />
                                 </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-6">
+                                <div class="col-lg-7 col-md-7 col-sm-7">
                                     <input id="txtNumero_Factura" name="txtNumero_Factura" type="text" class="text-int form-control" autocomplete=off maxlength="9"   onchange="fncNumero();" placeholder="Número" value="<?php echo $GLOBALS['oCompra']->numero; ?>" />
                                 </div>
                             </div>
@@ -101,21 +117,21 @@ function fncPage() { ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Fecha emisión:<span class="asterisk">*</span></label>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Fecha emisión:<span class="asterisk">*</span></label>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <input id="txtFecha_Emision" name="txtFecha_Emision" type="text" class="form-control date-range-picker-single" value="<?php if(isset($GLOBALS['oCompra']->fecha_emision)){ echo $GLOBALS['oCompra']->fecha_emision;} else{ echo date("d/m/Y");} ?>" />
                             
                         </div>
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Fecha vencimiento:<span class="asterisk">*</span></label>
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Fecha vencimiento:<span class="asterisk">*</span></label>
                         
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <input id="txtFecha_Vencimiento" name="txtFecha_Vencimiento" type="text" class="form-control date-range-picker-single"  value="<?php echo $GLOBALS['oCompra']->fecha_vencimiento; ?>"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Proveedor:<span class="asterisk">*</span></label>
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Proveedor:<span class="asterisk">*</span></label>
                         
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <select id="selProveedor" name="selProveedor" class="chosen-select">
                                 <option value="0">--Seleccionar--</option>
                                  <?php foreach($GLOBALS['oCompra']->dtProveedor as $proveedor){?>
@@ -124,92 +140,66 @@ function fncPage() { ?>
                             </select>
                             
                         </div>
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">I.G.V.%:</label>
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">I.G.V.%:</label>
                         
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <input type="text" id="txtVigv" name="txtVigv" disabled class="form-control" value="<?php echo ($GLOBALS['oCompra']->vigv*100); ?>"> 
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Moneda:</label>
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Moneda:</label>
                        
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" >
                                 <?php foreach($GLOBALS['oCompra']->dtMoneda as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
                                 <?php }?>
                             </select>
                             <script type="text/javascript">
                                 $('#cboMoneda').val('<?php echo $GLOBALS['oCompra']->moneda_ID;?>');
                             </script>
                         </div>
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Tipo de cambio:</label>
+                        <label class="col-lg-2 col-md-2 col-sm-2  control-label">Tipo de cambio:</label>
                        
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <input id="txtTipo_Cambio" name="txtTipo_Cambio" type="text" class="form-control decimal"  value="<?php echo $GLOBALS['oCompra']->tipo_cambio;?>" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Comentario:</label>
+                        <label class="col-lg-2 col-md-2 col-sm-2 control-label">Comentario:</label>
                        
                         <div id="tdComentario" class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 50px;"><?php echo $GLOBALS['oCompra']->descripcion;?></textarea>
+                            <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 80px;overflow:auto;resize:none;"><?php echo $GLOBALS['oCompra']->descripcion;?></textarea>
                         </div>
                     </div>
                 </div>
                 <div id="divContenedorProdutos" class="tab-pane fade inner-all" >
                     <div class="form-group">
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 text-right">
-                            <label>Sub Total:</label>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                        <label class="control-label col-sm-2">Sub Total:</label>
+   
+                        <div class="col-lg-2 col-md-2 col-sm-2">
                             <input type="text" id="txtSubTotal" class="form-control moneda" disabled >
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 text-right">
-                            <label>IGV (<?php echo $GLOBALS['oCompra']->vigv*100; ?>%):</label>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                       <label class="control-label col-sm-2">IGV (<?php echo $GLOBALS['oCompra']->vigv*100; ?>%):</label>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
                             <input type="text" id="txtIGV" disabled class="form-control moneda">
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 text-right">
-                            <label>Total:</label>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                        <label class="control-label col-sm-2">Total:</label>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
                             <input type="text" id="txtTotal" disabled class="form-control moneda">
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 text-right">
-                             <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
-                            <button  type="button" id="btnAgregar" name="btnEnviar" title="Agregar productos" class='btn btn-info' onclick="fncRegistrar_Productos();" >
-                                <img  alt="" width="16" src="/include/img/boton/addProducto48x48.png">
-                                Agregar
-                            </button>
-                            <?php } ?>
-                        </div>
+                       
                          
                     </div>
                     <div class="form-group">
-                        <div id="divContenedor_Float_Hijo" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 contenedor_detalle" style="height: 300px;overflow:auto;margin: 0 auto; ">
+                        <div id="divContenedor_Float_Hijo" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 contenedor_detalle" style="height: 350px;overflow:auto;margin: 0 auto; ">
     
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class='btn btn-success' title="Guardar" >
-                        <img alt="" width="16" src="/include/img/boton/save_48x48.png">
-                        Guardar
-                    </button>
-                  
-                    <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Salir" onclick="salir();" >
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Salir
-                    </button>
-                </div>
-            </div>
-        </div>
+        
     </div>
     
     <input id="txtOrden" name="txtOrden" type="text"  style="display:none;">
@@ -297,11 +287,11 @@ function fncPage() { ?>
 
     var fncRegistrar_Productos=function(){
         var compra_ID=$('#txtID').val();
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO",'Ingreso/Compra_Mantenimiento_Nuevo_Producto',compra_ID,'',fncCargar_Detalle_Compra,null,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO PRODUCTO",'Ingreso/Compra_Mantenimiento_Nuevo_Producto',compra_ID,'',fncCargar_Detalle_Compra,null,440);
 
     }
     var fncEditar=function(id){
-        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Ingreso/Compra_Mantenimiento_Editar_Producto",id,"",fncCargar_Detalle_Compra,null,600);
+        parent.window_float_open_modal_hijo("EDITAR PRODUCTO","Ingreso/Compra_Mantenimiento_Editar_Producto",id,"",fncCargar_Detalle_Compra,null,440);
         
     }
     var fncValidarExistencia=function(){
@@ -437,7 +427,7 @@ function fncPage() { ?>
         
     }
     var fncBuscarOrden=function(){
-    parent.window_float_open_modal_hijo("ORDEN DE COMPRAS GENERADAS","Ingreso/compra_mantenimiento_buscar_orden",'','',fncCargarValores,640,500);
+    parent.window_float_open_modal_hijo("ORDEN DE COMPRAS GENERADAS","Ingreso/compra_mantenimiento_buscar_orden",'','',fncCargarValores,640,450);
         //window_float_deslizar('form','Compra/compra_mantenimiento_buscar_orden','','');
     }
           

@@ -37,16 +37,17 @@ class vehiculo {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retorna = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 from vehiculo;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             //$cn->transa($q);
             $q = 'insert into vehiculo(ID,descripcion,marca,placa,certificado_inscripcion,empresa_ID,usuario_id)';
             $q.=' values('.$ID.',"' . $this->descripcion. '","'.$this->marca.'","' . $this->placa.'","' . $this->certificado_inscripcion;
             $q.='",'.$this->empresa_ID.',' . $this->usuario_id . ')';
-      
+			$cn = new connect_new();
             $retorna = $cn->transa($q);
 
             $this->ID = $ID;
@@ -59,7 +60,7 @@ class vehiculo {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update vehiculo set descripcion="' . $this->descripcion ;
@@ -75,7 +76,7 @@ class vehiculo {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -92,7 +93,7 @@ class vehiculo {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(pr.ID) ';
             $q.=' FROM vehiculo as pr ';
@@ -111,7 +112,7 @@ class vehiculo {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,descripcion,marca,placa,certificado_inscripcion,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from vehiculo ';
@@ -139,7 +140,7 @@ class vehiculo {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID,marca,placa,certificado_inscripcion,descripcion,empresa_ID,usuario_ID,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM vehiculo';
@@ -163,7 +164,7 @@ class vehiculo {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             

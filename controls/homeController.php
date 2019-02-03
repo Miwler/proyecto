@@ -3,13 +3,14 @@
         if(!class_exists('empresa')){
             require ROOT_PATH . 'models/empresa.php';
         }
-        
+         
         
         global $returnView;
         $returnView=true;
         
-        
+       
         $dtEmpresa_Usuario=empresa::getEmpresaxUsuarioID($_SESSION['usuario_ID']);
+        
         //$dtDatos_Generales=datos_generales::getGrid();
         //$dtEmpresa=empresa::getGrid();
         /*Destruimos las sesiones*/

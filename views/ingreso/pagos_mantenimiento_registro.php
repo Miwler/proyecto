@@ -100,7 +100,7 @@ function fncPage() { ?>
                             <label>Moneda:</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" name="txtMoneda" id="txtMoneda" disabled value="<?php echo $GLOBALS['oCompra']->moneda;?>" class="form-control">
+                            <input type="text" name="txtMoneda" id="txtMoneda" disabled value="<?php echo utf8_encode($GLOBALS['oCompra']->moneda);?>" class="form-control">
                         </div>
 
                     </div>
@@ -228,20 +228,24 @@ function fncPage() { ?>
             return false;
         }
         $('#txtMonto_Pago').removeAttr('disabled');
-        enviarFormulario("Ingreso/ajaxGrabarPagos_Mantenimiento_Registro",'frm1',function(res){
-            if(res.resultado==1){
-                toastem.success(res.mensaje);
-                $("#txtMonto_Pago").val("");
-                fncMontoPendiente(res.monto_pendiente);
-                cargarDetalle();
-            }else{
-                mensaje.error("OCURRIÓ UN ERROR", res.mensaje);
-            }
-            
-            if(res.bloquear==1){
-                bloquear_edicion();
-            }
+        block_ui(function(){
+            enviarFormulario("Ingreso/ajaxGrabarPagos_Mantenimiento_Registro",'frm1',function(res){
+                $.unblockUI();
+                if(res.resultado==1){
+                    toastem.success(res.mensaje);
+                    $("#txtMonto_Pago").val("");
+                    fncMontoPendiente(res.monto_pendiente);
+                    cargarDetalle();
+                }else{
+                    mensaje.error("OCURRIÓ UN ERROR", res.mensaje);
+                }
+
+                if(res.bloquear==1){
+                    bloquear_edicion();
+                }
+            });
         });
+        
     }
     var cargarDetalle=function(){
         var compra_ID=$("#txtCompra_ID").val();
@@ -296,9 +300,11 @@ function fncPage() { ?>
     
     
     var fncEliminar=function(id){
-        cargarValores('/Ingreso/ajaxMantenimiento_Registro_Eliminar',id,function(resultado){
+        block_ui(function(){
+            cargarValores('/Ingreso/ajaxMantenimiento_Registro_Eliminar',id,function(resultado){
+                $.unblockUI();
             if(resultado.resultado==1){
-                f.enviar();
+               cargarDetalle();
 
                 mensaje.info("OK",resultado.mensaje);
                 fncMontoPendiente(resultado.monto_pendiente);
@@ -308,6 +314,8 @@ function fncPage() { ?>
                 mensaje.error("Ocurrió un error",resultado.mensaje);
             }
         });
+        });
+        
   
     }
     var fncDesactivarBtnDetalle=function(){

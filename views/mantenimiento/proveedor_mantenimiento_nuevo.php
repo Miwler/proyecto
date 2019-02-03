@@ -304,7 +304,7 @@ function fncPage() { ?>
                 Cerrar
             </button> 
         </div>
-        <div class="clerafix"></div>
+        <div class="clearfix"></div>
     </div>
    
 

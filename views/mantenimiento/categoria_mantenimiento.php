@@ -16,6 +16,10 @@
     
 <?php function fncTituloCabecera(){?>
         <i class="fa fa-cubes" aria-hidden="true"></i> Registro de Categoría
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" >Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm"  method="post" action="/Mantenimiento/ajaxCategoria_Mantenimiento" class="form-horizontal">
@@ -25,19 +29,19 @@
                 <li class="active"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> Filtro</a></li>
                 <li><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> Búsqueda</a></li>
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
             </div>
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-
+            
         </div>
-        <div class="panel-body">
+        <div class="panel-body form-horizontal">
             <div class="tab-content">
                 <div class="tab-pane active" id="vista_filtrar">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-4 col-sm-4  col-xs-6">
-                            <label>Línea: </label>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Línea: </label>
+                        <div class="col-sm-3">
+                            
                             <select id="selLinea" name="selLinea" onchange="fncLinea(this.value);" style="width:100%;" class="form-control">
                                 <option value="0">TODOS</option>
                         <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
@@ -46,8 +50,9 @@
 
                             </select>
                         </div>
-                        <div class="col-md-4 col-lg-4 col-sm-4  col-xs-6">
-                            <label>Categoría: </label>
+                        <label class="control-label col-sm-3">Categoría: </label>
+                        <div class="col-sm-3">
+                            
                             <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" style="width:100%;" class="form-control">
                                 <option value="0" selected>TODOS</option>
                         <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
@@ -58,9 +63,10 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="vista_buscar">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-                            <label>Nombre: </label>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Nombre: </label>
+                        <div class="col-sm-8">
+                            
                             <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" style="width:70%;" autocomplete="off" placeholder="Ingresar nombre de la categoría">
                         </div>
                     </div>
@@ -101,9 +107,10 @@
 
             grids = new grid(tb);
             grids.nuevoEvento();
-            grids.fncPaginacionTabs(f,'num_page');	
+            	
             $('[data-toggle="tooltip"]').tooltip(); 
             $('#websendeos').stacktable();
+            grids.fncPaginacionTabs(f,'num_page');
     }
    
     $('#txtBuscar,#txtMostrar').keypress(function(e){
@@ -136,13 +143,13 @@
     var fncNuevo=function(){
 
         var linea_ID=$('#selLinea').val();				
-        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> REGISTRAR NUEVA CATEGORÍA','/Mantenimiento/Categoria_mantenimiento_Nuevo','','',f,800,500);
+        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> REGISTRAR NUEVA CATEGORÍA','/Mantenimiento/Categoria_mantenimiento_Nuevo','','',f,800,480);
 
     }
 
     var fncEditar=function(id){	
         
-        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> EDITAR CATEGORÍA','/Mantenimiento/Categoria_mantenimiento_Editar',id,'',f,800,500);
+        window_float_open_modal('<i class="fa fa-shopping-cart" aria-hidden="true"></i> EDITAR CATEGORÍA','/Mantenimiento/Categoria_mantenimiento_Editar',id,'',f,800,480);
 
     }
     

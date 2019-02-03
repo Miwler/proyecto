@@ -4,7 +4,8 @@
 
 	 <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>
 		<?php  fncTitle(); echo " - SIEM" ?>
 	</title>
@@ -49,8 +50,8 @@
         <script src="../../assets/global/plugins/bower_components/retina.js/dist/retina.min.js"></script>
         <!--/ END CORE PLUGINS -->
         <!--PLUGIN PERSONALIZADOS-->
-        <link href="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.min.css" rel="stylesheet" type="text/css"/>
-        <script src="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.jquery.js" type="text/javascript"></script>
+        <link href="../../assets/global/plugins/bower_components/chosen_v1.8.7/chosen.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../../assets/global/plugins/bower_components/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
         <link href="../../../assets/global/plugins/bower_components/bootstrap-datepicker-vitalets/css/datepicker.css" rel="stylesheet">
         <link href="../../../assets/global/plugins/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
 	<link href="../../../assets/global/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
@@ -76,7 +77,7 @@
         
         <!--PLUGIN PROPIOS-->
         <script src="include/jquery-ui-1.12.0/jquery-ui.js"></script>
-        
+
         <link href="../../include/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css"/>
         <script src="../../include/bootstrap-dialog/js/bootstrap-dialog.min.js" type="text/javascript"></script>
          <link href="../../include/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -88,6 +89,18 @@
         <script src="../../include/js/jNotificacion.js" type="text/javascript"></script>
         <link href="../../include/css/estilos.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="include/css/toastem.css" />   
+        <script src="../../include/js/jBotones.js" type="text/javascript"></script>
+       <!-- <script src="../../include/jspanel-4.1.2/jspanel.js" type="text/javascript"></script>
+        <link href="../../include/jspanel-4.1.2/jspanel.css" rel="stylesheet" type="text/css"/>
+        <script src="../../include/jspanel-4.1.2/extensions/modal/jspanel.modal.js" type="text/javascript"></script>
+        <script src="../../include/jspanel-4.1.2/extensions/tooltip/jspanel.tooltip.js" type="text/javascript"></script>
+        <script src="../../include/jspanel-4.1.2/extensions/hint/jspanel.hint.js" type="text/javascript"></script>
+        <script src="../../include/jspanel-4.1.2/extensions/layout/jspanel.layout.js" type="text/javascript"></script>
+        <script src="../../include/jspanel-4.1.2/extensions/contextmenu/jspanel.contextmenu.js" type="text/javascript"></script>
+        <script src="../../include/jspanel-4.1.2/extensions/dock/jspanel.dock.js" type="text/javascript"></script>
+        -->
+      
+        
         <?php  fncHead();	?>
 </head>
 <body class="page-sound page-header-fixed page-sidebar-fixed page-footer-fixed" >
@@ -384,26 +397,11 @@
 
             <!-- START @PAGE CONTENT -->
             <section id="page-content">
-
+            <div id="cuerpo_principal">
                 <!-- Start page header -->
                 <div class="header-content">
                     <h2><?php fncTituloCabecera();?></h2>
-                    <div class="breadcrumb-wrapper hidden-xs">
-                        <!--<span class="label">You are here:</span>
-                        <!--<ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-home"></i>
-                                <a href="dashboard.html">HR Dashboard</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <a href="admin-system-quick-access.html">Admin System</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li class="active">Quick Access</li>
-                        </ol>-->
-
-                    </div>
+                    <div id="divArbol" class="breadcrumb-wrapper hidden-xs"></div>
                 </div><!-- /.header-content -->
                 <!--/ End page header -->
 
@@ -415,8 +413,10 @@
                     ?>
 
                 </div><!-- /.body-content -->
+            </div>
                 <!--/ End body content -->
-
+            <div id="divContenedorDIV"  class="embed-responsive embed-responsive-16by9 box effect2"  style="display:none;">
+            </div>
                 <!-- Start footer content -->
                 <footer class="footer-content">
                      © <?php echo date("Y")?> - <span id="copyright-year"></span> &copy; Soluciones Informáticas M&M S.R.L. Creado por <a href="http://www.simm.com.pe"> www.simm.com.pe</a>, Perú
@@ -524,7 +524,8 @@
 
     <div id="toastem"></div>
    <div id="fondo_espera" style="background:#000;opacity:0.7;width:100%;height:100%;z-index: 56;text-align:center;top:0;position:absolute; display:none;" ><img width="80px" src="/include/img/loader-Login.gif"></div>
-    <div id="float_modal" class="modal fade modal-success bs-example-modal-table in" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false" role="dialog">
+    
+   <div id="float_modal" class="modal fade modal-success bs-example-modal-table in" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false" role="dialog">
         <div class="modal-dialog modal-lg">
 
            <!-- Modal content-->
@@ -570,6 +571,31 @@
            </div>
         </div>
    </div>
+   
+   <div id="Modal_Registro_Informacion" class="modal fade modal-teal bs-example-modal-table in" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false" role="dialog">
+        <div class="modal-dialog" style="heigth:100%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" onclick="close_registro_informacion();">&times;</button>
+                  <h4 id="Registro_Informacion_Title" class="modal-title" >Registro de información</h4>
+                </div>
+                <div  class="modal-body embed-responsive-16by9 form-horizontal">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="fncAgregarInformacionGrilla();">Agregar</button>
+                    <button type="button" class="btn btn-danger" onclick="close_registro_informacion();">Cerrar</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            
+        </div>
+   </div>
+   <div id="contenedorUL" style="position:absolute;display:none;" class="btn-group open">
+         <ul id="contenedor_anticlick" class="dropdown-menu" style="display: block;">
+         
+        </ul>
+     </div>
     <script type="text/javascript">
     $(document).ready(function(){
             $('.chosen-select').chosen();
@@ -649,6 +675,27 @@
             });
 
         });
+        
+  
+
+    $('#btn-getstarted-1').on('click', function () {
+        jsPanel.create({
+            theme:       'primary',
+            headerTitle: 'my panel #1',
+            position:    'center-top 0 58',
+            contentSize: '450 250',
+            content:     '<p>Example panel ...</p>',
+            callback: function () {
+                this.content.style.padding = '20px';
+            },
+            onbeforeclose: function () {
+                return confirm('Do you really want to close the panel?');
+            }
+        })
+    });
+
+    
+
         </script>
    <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
 
@@ -722,6 +769,13 @@
     }
     .circulo_menu{
         height: 18px;width:18px; border-radius: 50%;float:left;margin-right:5px;margin-right: 5px;
+    }
+    .panel-tab .panel-heading>ul li a{
+        padding: 4px!important;
+    }
+    .panel-tab .panel-heading>ul li a i{
+        height: 25px;
+        font-size:20px;
     }
 </style>
 

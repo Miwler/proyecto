@@ -73,7 +73,7 @@ function post_ajaxInventario_Mantenimiento() {
             
             //$resultado.='<td>'.$impresion.'</td>';
             $resultado.='<td class="text-center">' .sprintf("%'.05d", $item['codigo']). '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['producto']) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($item['producto']) . '</td>';
             $resultado.='<td class="text-center">' . FormatTextViewHtml($item['total']) . '</td>';
             $resultado.='<td class="text-center" ><a onclick="fncInventarioKardex(' . $item['codigo'] . ');"><img title="Kardex" src="/include/img/boton/details_14x14.png" />&nbsp;Kardex</a>';
             $resultado.='</td>';
@@ -96,9 +96,9 @@ function post_ajaxInventario_Mantenimiento() {
 }
 
 function get_Inventario_Mantenimiento_Producto($id){
-        require ROOT_PATH.'models/orden_venta.php';
-        require ROOT_PATH.'models/compra.php';
-        require ROOT_PATH.'models/compra_detalle.php';
+        require ROOT_PATH.'models/salida.php';
+        require ROOT_PATH.'models/ingreso.php';
+        require ROOT_PATH.'models/ingreso_detalle.php';
         require ROOT_PATH.'models/inventario.php';
         require ROOT_PATH.'models/producto.php';
         require ROOT_PATH.'models/moneda.php';
@@ -334,7 +334,7 @@ function extraerProductoMovimiento($producto_ID){
         $resultado.="<td class='text-center'>".$existencia_cantidad."</td>";
         $resultado.="</tr>";
         
-        $dtProducto_Movimiento=inventario::getMovimientoProducto($producto_ID);
+        $dtProducto_Movimiento=inventario::getMovimientoProductos($producto_ID);
         
        /* $array=uasort($dtProducto_Movimiento,"cmp");*/
         $total=count($dtProducto_Movimiento);
@@ -406,10 +406,10 @@ function VerSeries($tipo,$codigo){
     $resultado.='<tbody>';
     try{
         
-        if ($tipo=="Compra"){
-            $filtro="compra_detalle_ID=".$codigo;
-        }else if($tipo=="Venta") {
-             $filtro="orden_venta_detalle_ID=".$codigo;
+        if ($tipo=="Ingreso"){
+            $filtro="ingreso_detalle_ID=".$codigo;
+        }else if($tipo=="Salida") {
+             $filtro="salida_detalle_ID=".$codigo;
         }else {
             $filtro='producto_ID='.$codigo.' and estado_ID=48';
         }

@@ -13,6 +13,7 @@ class producto {
     private $categoria_ID;
     private $precio_inicial;
     private $marca;
+    private $peso;
     private $modelo;
     private $color;
     private $estado_ID;
@@ -53,13 +54,53 @@ class producto {
         // Retorna nulo si no existe
         return null;
     }
+     function __construct()
+  {
+        $this->nombre="";
+    $this->descripcion="";
+    $this->marca="";
+    $this->peso=0;
+    $this->modelo="";
+    $this->color="";
+    $this->precio_inicial_soles=0;
+    $this->precio_inicial_dolares=0;
+    $this->moneda_ID=0;
+    $this->tipo_cambio=0;
+    $this->ver_web=0;
+    $this->caracteristicas="";
+    $this->especificaciones="";
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
+    $this->codigo=0;
 
+  }
+  function __destruct()
+  {
+        $this->nombre;
+    $this->descripcion;
+    $this->marca;
+    $this->peso;
+    $this->modelo;
+    $this->color;
+    $this->precio_inicial_soles;
+    $this->precio_inicial_dolares;
+    $this->moneda_ID;
+    $this->tipo_cambio;
+    $this->ver_web;
+    $this->caracteristicas;
+    $this->especificaciones;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+    $this->codigo;
+
+  }
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from producto;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             //$cn->transa($q);
             $q = 'insert into producto(ID,empresa_ID, descripcion,nombre,unidad_medida_ID, usuario_id, categoria_ID, estado_ID,marca,';
@@ -72,6 +113,7 @@ class producto {
                     ','.$this->ver_web.',"'.$this->caracteristicas.'","'.$this->especificaciones.'")';
                
            // echo $q;
+		   $cn = new connect_new();
             $retornar = $cn->transa($q);
 
             
@@ -83,9 +125,49 @@ class producto {
             throw new Exception($q);
         }
     }
-
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_producto_Insert",
+            array(
+    "iID"=>0,
+    "iempresa_ID"=>$this->empresa_ID,
+    "icategoria_ID"=>$this->categoria_ID,
+    "inombre"=>$this->nombre,
+    "iestado_ID"=>$this->estado_ID,
+    "idescripcion"=>$this->descripcion,
+    "imarca"=>$this->marca,
+    "ipeso"=>$this->peso,
+    "imodelo"=>$this->modelo,
+    "icolor"=>$this->color,
+    "iunidad_medida_ID"=>$this->unidad_medida_ID,
+    "iprecio_inicial_soles"=>$this->precio_inicial_soles,
+    "iprecio_inicial_dolares"=>$this->precio_inicial_dolares,
+    "imoneda_ID"=>$this->moneda_ID,
+    "itipo_cambio"=>$this->tipo_cambio,
+    "iver_web"=>$this->ver_web,
+    "icaracteristicas"=>$this->caracteristicas,
+    "iespecificaciones"=>$this->especificaciones,
+    "iusuario_id"=>$this->usuario_id
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registró");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "producto.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update producto set nombre="' . $this->nombre . '",descripcion="' . $this->descripcion. '",unidad_medida_ID=';
@@ -106,7 +188,7 @@ class producto {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -123,7 +205,7 @@ class producto {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(pr.ID) ';
             $q.=' FROM producto pr, categoria ca, linea li ';
@@ -142,9 +224,9 @@ class producto {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
-            $q = 'Select ID,empresa_ID,codigo,nombre,unidad_medida_ID,descripcion,marca,modelo,color,categoria_ID,estado_ID,';
+            $q = 'Select ID,empresa_ID,codigo,nombre,unidad_medida_ID,descripcion,marca,peso,modelo,color,categoria_ID,estado_ID,codigo,';
             $q.= 'moneda_ID,precio_inicial_soles,precio_inicial_dolares,tipo_cambio,ifnull(ver_web,0) as ver_web,ifnull(caracteristicas,"") as caracteristicas,ifnull(especificaciones,"") as especificaciones,';
             $q.= 'usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from producto ';
@@ -164,6 +246,7 @@ class producto {
                 $oProducto->estado_ID = $item['estado_ID'];
               
                 $oProducto->marca = $item['marca'];
+                $oProducto->peso = $item['peso'];
                 $oProducto->modelo = $item['modelo'];
                 $oProducto->color = $item['color'];
                 $oProducto->moneda_ID=$item['moneda_ID'];
@@ -173,6 +256,7 @@ class producto {
                 $oProducto->ver_web=$item['ver_web'];
                 $oProducto->especificaciones=$item['especificaciones'];
                 $oProducto->caracteristicas=$item['caracteristicas'];
+                $oProducto->codigo=$item['codigo'];
                 $oProducto->usuario_id = $item['usuario_id'];
                 $oProducto->usuario_mod_id = $item['usuario_mod_id'];
             }
@@ -183,7 +267,7 @@ class producto {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'pr.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT pr.ID,pr.descripcion,pr.unidad_medida_ID,upper(pr.nombre) as producto,pr.codigo,ca.nombre as categoria,';
             $q.= 'upper(li.nombre) as linea , ca.ID as categoria_ID , upper(es.nombre) as estado,pr.moneda_ID,pr.precio_inicial_soles,';
@@ -209,9 +293,40 @@ class producto {
             throw new Exception($q);
         }
     }
-
+    static function getListaProducto($categoria_ID,$linea_ID)
+    {
+        $cn =new connect_new();
+        try
+        {
+        $q='call sp_producto_getLista('.$_SESSION['empresa_ID'].','.$categoria_ID.','.$linea_ID.');';
+        //echo $q;
+        //console_log($q);
+        $retorna=$cn->getData($q);
+        return $retorna;
+        }catch(Exception $ex)
+        {
+                throw new Exception($q);
+        }
+    }
+    static function getProducto_Codigo($codigo)
+    {
+        $cn =new connect_new();
+        try
+        {
+            $dt=$cn->store_procedure_getGrid("sp_producto_getCodigo", 
+                    array('icodigo'=>$codigo,
+                        'iempresa_ID'=>$_SESSION['empresa_ID']));
+       
+        
+            return $dt;
+        }catch(Exception $ex)
+        {
+            log_error(__FILE__, "producto.getProducto_Codigo", $ex->getMessage());
+            throw new Exception("Ocurrio un error en la consulta");
+        }
+    }
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select  count(ID) from producto ";
@@ -232,7 +347,7 @@ class producto {
         }
     }
 function verificarHijos($categoria_ID){
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
 		//Verifico que no se repita el nombre
@@ -247,12 +362,12 @@ function verificarHijos($categoria_ID){
         }
     }
     
-     static function MostrarGraficoProducto_MasVendidos() {
-        $cn = new connect();
+   static function MostrarGraficoProducto_MasVendidos() {
+        $cn = new connect_new();
         try {
-            $q = 'select ovd.producto_ID,pr.nombre as producto, sum(ovd.cantidad) as cantidad, sum(ovd.precio_venta_soles) as precio_venta_soles , sum(ovd.precio_venta_dolares) as precio_venta_dolares  ';
-            $q.= 'from orden_venta_detalle ovd, producto pr, orden_venta ov  ';
-            $q.= 'where  ovd.del=0 and pr.ID = ovd.producto_ID and ov.ID = ovd.orden_venta_ID and (ov.estado_ID = 40 or ov.estado_ID = 42) ';
+            $q = 'select sd.producto_ID,pr.nombre as producto, sum(sd.cantidad) as cantidad, sum(sd.precio_venta_soles) as precio_venta_soles , sum(sd.precio_venta_dolares) as precio_venta_dolares ';
+            $q.= 'from salida_detalle sd, producto pr, salida s  ';
+            $q.= ' where sd.del=0 and pr.ID = sd.producto_ID and s.ID = sd.salida_ID and (s.estado_ID = 40 or s.estado_ID = 42) ';
             $q.= 'GROUP BY pr.nombre ';
             $q.= 'order by precio_venta_soles desc ';
              $q.=' limit 10';
@@ -262,9 +377,9 @@ function verificarHijos($categoria_ID){
         } catch (Exception $ex) {
             throw new Exception($q);
         }
-    }   
+    }     
     static function getLista($nombre) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             
             $q="call getOptionProducto(".$_SESSION['empresa_ID'].",'".$nombre."');";
@@ -277,13 +392,13 @@ function verificarHijos($categoria_ID){
             throw new Exception($q);
         }
     }
-    static function geLista1($buscar='')
+    static function geLista1($buscar='',$linea_ID=0,$categoria_ID=0)
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
-            $q='call getListaProductos1('.$_SESSION['empresa_ID'].',"'.$buscar.'");';
-            //echo $q;
+            $q='call getListaProductos1('.$_SESSION['empresa_ID'].',"'.$buscar.'",'.$linea_ID.','.$categoria_ID.');';
+            
             $dt=$cn->getGrid($q);									
             return $dt;												
         }catch(Exception $ex)
@@ -291,5 +406,28 @@ function verificarHijos($categoria_ID){
                 throw new Exception($q);
         }
     }
-    
+    static function getFilasHistorial($producto_ID) {
+        $cn = new connect_new();
+        try {
+            $dt=$cn->store_procedure_getGrid("sp_producto_getHistorial",
+            array(
+                "iproducto_ID"=>$producto_ID
+            ));
+            return $dt;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
+    static function getFilasSeparaciones($producto_ID) {
+        $cn = new connect_new();
+        try {
+            $dt=$cn->store_procedure_getGrid("sp_producto_getSeparaciones",
+            array(
+                "iproducto_ID"=>$producto_ID
+            ));
+            return $dt;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
 }

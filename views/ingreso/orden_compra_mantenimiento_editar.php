@@ -56,29 +56,45 @@ function fncPage() { ?>
             <li class="nav-item active"><a data-toggle="tab" href="#divDatos" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i><span> Datos</span></a></li>
             <li class="nav-item"><a data-toggle="tab" href="#divContenedorProdutos" class="nav-link"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i><span> Productos</span></a></li>
         </ul>
+        <div class="pull-right">
+            <button  type="button" id="btnAgregar" name="btnEnviar" title="Agregar productos" class='btn btn-info' onclick="fncRegistrar_Productos();" >
+                <img  alt="" width="16" src="/include/img/boton/addProducto48x48.png">
+                Agregar
+            </button>
+            <button  id="btnEnviar" name="btnEnviar" class='btn btn-success' title="Guardar" >
+                    <img alt="" width="16" src="/include/img/boton/save_48x48.png">
+                    Guardar
+            </button>
+
+            <button  id="btnPDF" name="btnPDF" type="button" title="Descargar en PDF" class="btn btn-info" onclick=" pdf.descargar('Ingreso/Orden_Compra_pdf/<?php echo $GLOBALS['oOrden_Compra']->ID;?>');" >
+                <span class="glyphicon glyphicon-cloud-download"></span>
+                PDF
+            </button> 
+
+            <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Salir" onclick="salir();" >
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Salir
+            </button>
+        </div>
     </div>
     <div class="panel-body no-padding rounded-bottom">
         
         <div class="tab-content form-horizontal" >
             <div id="divDatos" class="tab-pane fade in active inner-all">
                 <div class="form-group">
-                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Nro de orden:</label>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                    <label class="col-lg-3 col-md-3 col-sm-3 control-label">Fecha:<span class="asterisk">*</span></label>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <input id="txtFecha" name="txtFecha" type="text" class="form-control date-range-picker-single" value="<?php if(isset($GLOBALS['oOrden_Compra']->fecha)){ echo $GLOBALS['oOrden_Compra']->fecha;} else{ echo date("d/m/Y");} ?>" />
+                    </div>
+                    <label class="col-lg-3 col-md-3 col-sm-3 control-label">Nro de orden:</label>
+                    <div class="col-lg-9 col-md-3 col-sm-3">
                          <input id="txtOrden_Compra_ID" name="txtOrden_Compra_ID" value="<?php echo $GLOBALS['oOrden_Compra']->ID;?>" style="display:none;"/>
                          <input id="txtNumero_Orden" name="txtNumero_Orden" disabled class="int form-control" type="text"  value="<?php echo sprintf("%'.07d",$GLOBALS['oOrden_Compra']->numero_orden); ?>" />
                     </div>
                 </div>
                 <div class="form-group">
-                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
-                        <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Fecha:<span class="asterisk">*</span></label>
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                        <input id="txtFecha" name="txtFecha" type="text" class="form-control date-range-picker-single" value="<?php if(isset($GLOBALS['oOrden_Compra']->fecha)){ echo $GLOBALS['oOrden_Compra']->fecha;} else{ echo date("d/m/Y");} ?>" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Proveedor:<span class="asterisk">*</span></label>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                    <label  class="col-lg-3 col-md-3 col-sm-3 control-label">Proveedor:<span class="asterisk">*</span></label>
+                    <div class="col-lg-9 col-md-9 col-sm-9">
                       <select id="selProveedor" name="selProveedor" class="chosen-select">
                           <option value="0">--Seleccionar--</option>
                            <?php foreach($GLOBALS['oOrden_Compra']->dtProveedor as $proveedor){?>
@@ -91,77 +107,59 @@ function fncPage() { ?>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Moneda:</label>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                    <label class="col-lg-3 col-md-3 col-sm-3 control-label">Moneda:</label>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <select id="selMoneda" name="selMoneda" class="form-control" >
                             <?php foreach($GLOBALS['oOrden_Compra']->dtMoneda as  $iMoneda){?>
-                            <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
+                            <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
                             <?php }?>
                         </select>
                         <script type="text/javascript">
                             $('#selMoneda').val('<?php echo $GLOBALS['oOrden_Compra']->moneda_ID;?>');
                         </script>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Tipo de cambio:</label>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                        <input id="txtTipo_Cambio" name="txtTipo_Cambio" type="text" class="form-control decimal"  value="<?php echo $GLOBALS['oOrden_Compra']->tipo_cambio;?>" />
+                    <label class="col-lg-3 col-md-3 col-sm-3 control-label">Tipo de cambio:</label>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <input id="txtTipo_Cambio" name="txtTipo_Cambio" type="text" class="form-control decimal" autocomplete="off"  value="<?php echo $GLOBALS['oOrden_Compra']->tipo_cambio;?>" />
                     </div>
                 </div>
+    
                 <div class="form-group">
-                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">I.G.V.%:</label>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                    <label class="col-lg-3 col-md-3 col-sm-3 control-label">I.G.V.%:</label>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <input type="text" id="txtVigv" name="txtVigv" disabled class="form-control" value="<?php echo ($GLOBALS['oOrden_Compra']->vigv); ?>"> 
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Estado:</label>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                    <label class="col-lg-3 col-md-3 col-sm-3 control-label">Estado:</label>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <select id="selEstado" name="selEstado" class="form-control">
                             <?php foreach($GLOBALS['oOrden_Compra']->dtEstado as $iEstado){ ?>
                                  <option value="<?php echo $iEstado['ID']; ?>"><?php echo FormatTextView($iEstado['nombre']); ?></option>
                             <?php } ?>
                         </select>
                     </div>
-
                 </div>
-
                 <div class="form-group" style="height: 97px;">
                     <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Comentario:</label>
                     <div id="tdComentario" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                        <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 50px;"><?php echo FormatTextViewHtml($GLOBALS['oOrden_Compra']->comentario);?></textarea>
+                        <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 80px;resize:none;overflow:auto;"><?php echo $GLOBALS['oOrden_Compra']->comentario;?></textarea>
                     </div>
                 </div>
             </div>
             <div id="divContenedorProdutos" class="tab-pane fade inner-all" style="padding-top:10px;">
                 <div class="form-group">
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                        <label>Sub Total:</label>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <label class="control-label col-sm-2"> Sub Total:</label>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <input type="text" id="txtSubTotal" class="form-control" disabled>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                        <label>IGV (<?php echo $GLOBALS['oOrden_Compra']->vigv; ?>):</label>
-                    </div>
+                    <label class="control-label col-sm-2">IGV (<?php echo $GLOBALS['oOrden_Compra']->vigv; ?>):</label>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <input type="text" id="txtIGV" disabled class="form-control moneda">
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
-                        <label>Total:</label>
-                    </div>
+                   <label class="control-label col-sm-2">Total:</label>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <input type="text" id="txtTotal" disabled class="form-control moneda">
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right">
-
-                        <button  type="button" id="btnAgregar" name="btnEnviar" title="Agregar productos" class='btn btn-info' onclick="fncRegistrar_Productos();" >
-                            <img  alt="" width="16" src="/include/img/boton/addProducto48x48.png">
-                            Agregar
-                        </button>
-
-                    </div>
+                   
 
                 </div>
                 <div class="form-group">
@@ -172,26 +170,7 @@ function fncPage() { ?>
             </div>
         </div>
     </div>
-    <div class="panel-footer">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button  id="btnEnviar" name="btnEnviar" class='btn btn-success' title="Guardar" >
-                    <img alt="" width="16" src="/include/img/boton/save_48x48.png">
-                    Guardar
-                </button>
-
-                <button  id="btnPDF" name="btnPDF" type="button" title="Descargar en PDF" class="btn btn-info" onclick=" pdf.descargar('Ingreso/Orden_Compra_pdf/<?php echo $GLOBALS['oOrden_Compra']->ID;?>');" >
-                    <span class="glyphicon glyphicon-cloud-download"></span>
-                    PDF
-                </button> 
-
-                <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Salir" onclick="salir();" >
-                    <span class="glyphicon glyphicon-arrow-left"></span>
-                    Salir
-                </button>
-            </div>
-        </div>
-    </div>
+   
 </div>
 </form>
 

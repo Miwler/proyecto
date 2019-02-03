@@ -8,6 +8,10 @@ require ROOT_PATH . "views/shared/content.php";
 function fncTitle() { ?>
     Grafico Estadistico de Productos
 <?php } ?>
+
+  
+    
+    
 <?php
 
 function fncHead() { ?>
@@ -128,6 +132,9 @@ $(function () {
 <?php
 
 function fncMenu() { ?>
+<?php } ?>
+<?php function fncTituloCabecera(){?>
+     <i class="fa fa-dashboard" aria-hidden="true"></i> GRÁFICOS ESTADÍSTICOS
 <?php } ?>
 <?php
 

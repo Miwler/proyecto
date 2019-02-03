@@ -39,15 +39,17 @@ class cliente_contacto {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retorna = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 from cliente_contacto;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             $q.= 'insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)';
             $q.='values('.$ID.',"'.$this->codigo.'",'.$this->cliente_ID.','.$this->persona_ID.',"'.$this->telefono.'","'.$this->celular.'",';
             $q.='"'.$this->correo.'","'.$this->cargo.'",'.$this->estado_ID.','.$this->usuario_id.');';   
             //echo $q;
+			$cn = new connect_new();
             $retorna = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
@@ -58,7 +60,7 @@ class cliente_contacto {
     }
 
 function actualizar() {
-    $cn = new connect();
+    $cn = new connect_new();
     $retornar = -1;
     try {
         $q = 'update cliente_contacto set codigo="'.$this->codigo.'",cliente_ID='.$this->cliente_ID.',persona_ID='.$this->persona_ID.',';
@@ -75,7 +77,7 @@ function actualizar() {
 }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -92,7 +94,7 @@ function actualizar() {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(pr.ID) ';
             $q.=' FROM representante_cliente as pr ';
@@ -110,7 +112,7 @@ function actualizar() {
         }
     }
     static function getCodigo() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ifNULL(max(ID),0)+1 from cliente_contacto ';
             //echo $q;
@@ -123,7 +125,7 @@ function actualizar() {
     }
 
   static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from cliente_contacto ';
@@ -152,7 +154,7 @@ function actualizar() {
         }
     }
 static function getByIDCliente($cliente_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombres,codigo,apellidos,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from representante_cliente ';
@@ -177,7 +179,7 @@ static function getByIDCliente($cliente_ID) {
     }
    
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'clic.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT clic.ID,clic.codigo,clic.persona_ID,clic.telefono,clic.celular,clic.correo,clic.cargo,clic.estado_ID,';
             $q.='cli.razon_social,pe.apellido_paterno,pe.apellido_materno,pe.nombres,pe.direccion,es.nombre as estado';
@@ -202,7 +204,7 @@ static function getByIDCliente($cliente_ID) {
         }
     }
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select count(ID) from cliente_contacto where del=0 and cliente_ID=".$this->cliente_ID." and persona_ID=".$this->persona_ID;
@@ -217,7 +219,7 @@ static function getByIDCliente($cliente_ID) {
     }
    
     function verificarHijos($cliente_ID){
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
 		//Verifico que no se repita el nombre

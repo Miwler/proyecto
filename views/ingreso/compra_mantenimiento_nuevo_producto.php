@@ -35,162 +35,167 @@
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
 <form id="frm1"  method="post" action="Ingreso/compra_mantenimiento_nuevo_producto/<?php echo $GLOBALS['compra_ID'];?>" onsubmit="return validar();" class="form-horizontal">
+    <input type="hidden" id="txtCompraID" name="txtCompraID" value="<?php echo $GLOBALS['compra_ID'];?>">
+    <input type="hidden" id="txtID" name="txtID" value="<?php echo $GLOBALS['oCompra_Detalle']->ID;?>">
+         
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divDatos" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#tbdocumentos" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Ventas pendientes</span></a></li>
             </ul>
+            <div class="pull-right">
+                <button  id="btnEnviar" name="btnEnviar" class='btn btn-success' title="Guardar" >
+                    <img alt="" width="16" src="/include/img/boton/save_48x48.png">
+                    Guardar
+                </button>
+
+                <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Cancelar" onclick="parent.float_close_modal_hijo();" >
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                    Cancelar
+                </button>
+            </div>
         </div>
         <div class="panel-body">
-            
             <div class="tab-content">
                 <div id="divDatos" class="tab-pane fade in active inner-all">
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Línea:</label>
-                        
-                        <input type="hidden" id="txtCompraID" name="txtCompraID" value="<?php echo $GLOBALS['compra_ID'];?>">
-                        <input type="hidden" id="txtID" name="txtID" value="<?php echo $GLOBALS['oCompra_Detalle']->ID;?>">
-         
-                        <div id="tdLinea" class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <select id="selLinea" name="selLinea" onchange="fncLinea();" class="chosen-select form-control filtroLista" style="width:300px;">
-                                <option value="0">TODOS</option>
-                            <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
-                            <?php } ?>
-                            </select>
-                            <script type="text/javascript">
-                                $('#selLinea').val(<?php echo $GLOBALS['linea_ID'];?>);
-                            </script>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Categoría:</label>
-           
-                        <div id="tdCategoria" class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="chosen-select form-control filtroLista" style="width:300px;">
-                                <option value="0" selected>TODOS</option>
-                            <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                                    <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
-                            <?php } ?>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Línea:</label>
+                                <div id="tdLinea" class="col-sm-9">
+                                    <select id="selLinea" name="selLinea" onchange="fncLinea();" class="chosen-select form-control filtroLista" style="width:300px;">
+                                        <option value="0">TODOS</option>
+                                    <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
+                                        <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                                    <?php } ?>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $('#selLinea').val(<?php echo $GLOBALS['linea_ID'];?>);
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Categoría:</label>
 
-                            </select> 
-                            <input id="txtp" style="display:none;">
-                            <script type="text/javascript">
-                                $('#selCategoria').val(<?php echo $GLOBALS['categoria_ID'];?>);
-                            </script>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Producto:<span class="asterisk">*</span></label>
-           
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 lista_producto" id="tdProducto" >
-                           <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                <option value='0'>--SELECCIONAR--</option>
-                                <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <script type="text/javascript">
-                            <?php if($GLOBALS['oCompra_Detalle']->ID>0){ ?>
-                                $("#selProducto").val(<?php echo $GLOBALS['oCompra_detalle']->producto_ID;?>);
+                                <div id="tdCategoria" class="col-sm-9">
+                                    <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="chosen-select form-control filtroLista" style="width:300px;">
+                                        <option value="0" selected>TODOS</option>
+                                    <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
+                                            <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                                    <?php } ?>
 
-                            <?php } else {?>
-                                 
-                            <?php } ?> 
+                                    </select> 
+                                    <input id="txtp" style="display:none;">
+                                    <script type="text/javascript">
+                                        $('#selCategoria').val(<?php echo $GLOBALS['categoria_ID'];?>);
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Producto:<span class="asterisk">*</span></label>
+                                <div class="col-sm-9 lista_producto" id="tdProducto" >
+                                   <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
+                                        <option value='0'>--SELECCIONAR--</option>
+                                        <?php foreach($GLOBALS['dtProducto'] as $item){?>
+                                        <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <script type="text/javascript">
+                                    <?php if($GLOBALS['oCompra_Detalle']->ID>0){ ?>
+                                        $("#selProducto").val(<?php echo $GLOBALS['oCompra_detalle']->producto_ID;?>);
 
-                        </script>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Descripción:</label>
-           
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" style="height: 50px;" ><?php echo FormatTextView($GLOBALS['oCompra_Detalle']->descripcion); ?></textarea>
+                                    <?php } else {?>
 
-                        </div>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Cantidad:<span class="asterisk">*</span></label>
-           
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="text" id="txtCantidad" name="txtCantidad"  class="int form-control" style="width:80px;text-align: center;" autocomplete="off" value="<?php echo $GLOBALS['oCompra_Detalle']->cantidad;?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
+                                    <?php } ?> 
 
-                        </div>
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Precio unitario <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:<span class="asterisk">*</span></label>
-           
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="text" id="txtPrecioUnitario" name="txtPrecioUnitario"  autocomplete="off" class="decimal form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->precio?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Destino:</label>
-                        
-                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <div class="rdio rdio-theme circle">
-                                <input id="rbStock" type="radio" name="rbDestino" value="1" onclick="desactivarDocumentos(this.value);">
-                                <label for="rbStock">Stock</label>
+                                </script>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Descripción:</label>
+
+                                <div class="col-sm-9">
+                                    <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" style="height: 120px;overflow:auto;resize: none;" ><?php echo FormatTextView($GLOBALS['oCompra_Detalle']->descripcion); ?></textarea>
+
+                                </div>
+
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <div class="rdio rdio-theme circle">
-                                <input type="radio" id="rbVenta" name="rbDestino" value="2" onclick="desactivarDocumentos(this.value);">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Cantidad:<span class="asterisk">*</span></label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtCantidad" name="txtCantidad"  class="int form-control text-center"  autocomplete="off" value="<?php echo $GLOBALS['oCompra_Detalle']->cantidad;?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
+
+                                </div>
                                 
-                                <label for="rbVenta">Vendidos</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Precio unitario <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:<span class="asterisk">*</span></label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtPrecioUnitario" name="txtPrecioUnitario"  autocomplete="off" class="decimal form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->precio?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Destino:</label>
+
+                               <div class="col-sm-3">
+                                    <div class="rdio rdio-theme circle">
+                                        <input id="rbStock" type="radio" name="rbDestino" value="1" onclick="desactivarDocumentos(this.value);">
+                                        <label for="rbStock">Stock</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="rdio rdio-theme circle">
+                                        <input type="radio" id="rbVenta" name="rbDestino" value="2" onclick="desactivarDocumentos(this.value);">
+
+                                        <label for="rbVenta">Vendidos</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Stock:</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtStock" name="txtStock" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->stock; ?>" disabled>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5  control-label">Sub total <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtSubTotal" name="txtSubTotal" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->subtotal?>" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">I.G.V.<?php echo $GLOBALS['oCompra_Detalle']->vigv*100;?>% <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
+
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtIgv" name="txtIgv" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->igv?>" disabled>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Total <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="txtTotal" name="txtTotal" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->total?>" disabled> 
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Stock:</label>
-                        
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="text" id="txtStock" name="txtStock" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->stock; ?>" disabled>
-                        </div>
-                        <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Sub total <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
-                        
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtSubTotal" name="txtSubTotal" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->subtotal?>" disabled>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">I.G.V.<?php echo $GLOBALS['oCompra_Detalle']->vigv*100;?>% <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
-                        
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="text" id="txtIgv" name="txtIgv" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->igv?>" disabled>
-                        </div>
-                        <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Total <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
-                       
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtTotal" name="txtTotal" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->total?>" disabled> 
-
-                        </div>
-                    </div>
-                    
                 </div>
-                <div id="tbdocumentos" class="form-group tab-pane fade inner-all"  style="overflow:auto;height: 300px;">
+                <div id="tbdocumentos" class="form-group tab-pane fade inner-all"  style="overflow:auto;height: 350px;">
                    
                    
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class='btn btn-success' title="Guardar" >
-                        <img alt="" width="16" src="/include/img/boton/save_48x48.png">
-                        Guardar
-                    </button>
-                  
-                    <button  id="btnCancelar" name="btnCancelar" type="button" class='btn btn-danger' title="Cancelar" onclick="parent.float_close_modal_hijo();" >
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </form>
     <script type="text/javascript">
@@ -230,7 +235,7 @@
             mensaje.advertencia('VALIDACIÓN DE DATOS','Registre un precio unitario.','txtPrecioUnitario');
             return false;   
         }
-        $('#fondo_espera').css('display','');
+        block_ui();
         			
     }
     $('#txtSubTotal').attr('disabled');

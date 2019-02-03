@@ -1,202 +1,205 @@
 <?php
 
 class factura_venta_detalle {
-    private $ID;
-    private $factura_venta_ID;
-    private $salida_detalle_ID;
-    private $usuario_id;
-    private $usuario_mod_id;
-    private $message;
-
+  private $ID;
+  private $factura_venta_ID;
+  private $salida_detalle_ID;
+  private $impuestos_tipo_ID;
+  private $descripcion;
+  private $ver_descripcion;
+  private $ver_componente;
+  private $ver_adicional;
+  private $ver_serie;
+  private $usuario_id;
+  private $usuario_mod_id;
+  private $getMessage;
+  private $salida_ID;
+  private $incluir_obsequios;
   public function __set($var, $valor)
     {
-// convierte a minúsculas toda una cadena la función strtolower
-          $temporal = $var;
-
-          // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
-          if (property_exists('factura_venta_detalle',$temporal))
-           {
-                  $this->$temporal = $valor;
-           }
-           else
-           {
-                  echo $var . " No existe.";
-           }
+      $temporal = $var;
+      if (property_exists("factura_venta_detalle",$temporal))
+      {
+        $this->$temporal = $valor;
+      }
+      else
+      {
+        echo $var . " No existe.";
+      }
     }
-    public function __get($var)
+  public function __get($var)
+  {
+    $temporal = $var;
+    if (property_exists("factura_venta_detalle", $temporal))
     {
-        $temporal = $var;
-
-        // Verifica que exista
-        if (property_exists('factura_venta_detalle', $temporal))
-         {
-                return $this->$temporal;
-         }
-
-        // Retorna nulo si no existe
-        return null;
+      return $this->$temporal;
     }
-    function insertar()
+    return null;
+  }
+  function __construct()
+  {
+        $this->descripcion="";
+    $this->ver_descripcion=0;
+    $this->ver_componente=0;
+    $this->ver_adicional=0;
+    $this->ver_serie=0;
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
+
+  }
+  function __destruct()
+  {
+        $this->descripcion;
+    $this->ver_descripcion;
+    $this->ver_componente;
+    $this->ver_adicional;
+    $this->ver_serie;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
+  static function getByID($ID)
     {
-        $cn =new connect();
-        $retornar=-1;
-        try{
+    $cn =new connect_new();
+    try
+    {
+        $dt=$cn->store_procedure_getGrid(
+          "sp_factura_venta_detalle_getByID",
+            array("iID"=>$ID));
+        $ofactura_venta_detalle=null;
+        foreach($dt as $item)
+        {
+            $ofactura_venta_detalle= new factura_venta_detalle();
+            $ofactura_venta_detalle->ID=$item["ID"];
+            $ofactura_venta_detalle->factura_venta_ID=$item["factura_venta_ID"];
+            $ofactura_venta_detalle->salida_detalle_ID=$item["salida_detalle_ID"];
+            $ofactura_venta_detalle->impuestos_tipo_ID=$item["impuestos_tipo_ID"];
+            $ofactura_venta_detalle->descripcion=$item["descripcion"];
+            $ofactura_venta_detalle->ver_descripcion=$item["ver_descripcion"];
+            $ofactura_venta_detalle->ver_componente=$item["ver_componente"];
+            $ofactura_venta_detalle->ver_adicional=$item["ver_adicional"];
+            $ofactura_venta_detalle->ver_serie=$item["ver_serie"];
+            $ofactura_venta_detalle->usuario_id=$item["usuario_id"];
+            $ofactura_venta_detalle->usuario_mod_id=$item["usuario_mod_id"];
 
-            $q='select ifnull(max(ID),0)+1 as ID from factura_venta_detalle;';
-            $ID=$cn->getData($q);
-            $q='INSERT INTO factura_venta_detalle (ID,factura_venta_ID,salida_detalle_ID,usuario_id) ';
-            $q.='VALUES ('.$ID.','.$this->factura_venta_ID.','.$this->salida_detalle_ID.','.$this->usuario_id.')';
-            //echo $q;
-            $retornar=$cn->transa($q);
-
-            $this->ID=$ID;
-            $this->message='Se guardó correctamente';
-
-            return $retornar;
-
-        } catch (Exception $ex) {
-
-            throw new Exception($q);
         }
-    }
-    function actualizar(){
-        $cn =new connect();
-	$retornar=-1;
-        try{
-
-            $q='UPDATE factura_venta_detalle set factura_venta_ID='.$this->factura_venta_ID.',salida_detalle_ID='.$this->salida_detalle_ID.' usuario_mod_id='.$this->usuario_mod_id;
-            $q.=', fdm=now() where del=0 and ID='.$this->ID;
-            //echo $q;
-            $retornar=$cn->transa($q);
-            $this->message='Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
-    }
-    //codigo ortega-aprobar cotizacion
-
-    function eliminar(){
-            $cn =new connect();
-            $retornar=-1;
-            try{
-
-                $q='UPDATE factura_venta_detalle SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
-                $q.=' WHERE del=0 and ID='.$this->ID;
-
-                $retornar=$cn->transa($q);
-
-                $this->message='Se eliminó correctamente';
-                return $retornar;
-            }
-            catch(Exception $ex){
-                    throw new Exception("Ocurrio un error en la consulta");
-            }
-    }
-
-    static function getCount($filtro='')
-	{
-		$cn =new connect();
-		try
-		{
-			$q='select count(ID) ';
-			$q.=' FROM factura_venta_detalle ';
-			$q.=' where del=0' ;
-
-			if ($filtro!='')
-			{
-				$q.=' and '.$filtro;
-			}
-			//echo $q;
-			$resultado=$cn->getData($q);
-
-			return $resultado;
-		}catch(Exception $ex)
-		{
-			throw new Exception("Ocurrio un error en la consulta");
-		}
-	}
-
-        //modificado por ortega-agregar todos los datos y cargar en el modelo
-   static function getByID($ID)
-	{
-            $cn =new connect();
-            try
-            {
-                $q='select ID,factura_venta_ID,salida_detalle_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-                $q.=' from factura_venta_detalle';
-                $q.=' where del=0 and ID='.$ID;
-                    //echo $q;
-                    $dt=$cn->getGrid($q);
-                    $oFactura_Venta_Detalle=null;
-
-                    foreach($dt as $item)
-                    {
-                        $oFactura_Venta_Detalle = new factura_venta_detalle();
-                        $oFactura_Venta_Detalle->ID=$item['ID'];
-                        $oFactura_Venta_Detalle->factura_venta_ID=$item['factura_venta_ID'];
-                        $oFactura_Venta_Detalle->salida_detalle_ID=$item['salida_detalle_ID'];
-                        $oFactura_Venta_Detalle->usuario_id=$item['usuario_id'];
-                        $oFactura_Venta_Detalle->usuario_mod_id=$item['usuario_mod_id'];
-                    }
-                    return $oFactura_Venta_Detalle;
-
-            }catch(Exeption $ex)
-            {
-                    throw new Exception($q);
-            }
-	}
-
-  static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
-	{
-		$cn =new connect();
-		try
-		{
-                    $q='select ID,factura_venta_ID,salida_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id from factura_venta_detalle';
-                    $q.=' where del=0';
-
-                        if($filtro!=''){
-				$q.=' and '.$filtro;
-			}
-
-			$q.=' Order By '.$order;
-
-			if($desde!=-1&&$hasta!=-1){
-				$q.=' Limit '.$desde.','.$hasta;
-			}
-                        //echo $q;
-			$dt=$cn->getGrid($q);
-			return $dt;
-		}catch(Exception $ex)
-		{
-			throw new Exception($q);
-		}
-	}
-
-
-  static function getGrid2($salida_ID)
-	{
-		$cn =new connect();
-		try
-		{
-          $q='select sd.*,p.nombre as producto_nombre,fv.serie from factura_venta fv
-          inner join factura_venta_detalle fvd on fv.ID=fvd.factura_venta_ID
-          inner join salida_detalle sd on fvd.salida_detalle_ID=sd.ID
-          inner join producto p on sd.producto_ID=p.ID
-          where sd.tipo=1 and fv.salida_ID='.$salida_ID.' and fv.del=0 and fvd.del=0 and sd.del=0;';
-
-			    $dt=$cn->getGrid($q);
-			    return $dt;
-
-		}catch(Exception $ex)
-		{
-			throw new Exception($q);
-		}
-	}
-
-  static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ovd.ID asc')
+        return $ofactura_venta_detalle;
+    }catch(Exeption $ex)
     {
-        $cn =new connect();
+      log_error(__FILE__, "factura_venta_detalle.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function insertar()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_factura_venta_detalle_Insert",
+            array(
+                "iID"=>0,
+                "ifactura_venta_ID"=>$this->factura_venta_ID,
+                "isalida_detalle_ID"=>$this->salida_detalle_ID,
+                "iimpuestos_tipo_ID"=>$this->impuestos_tipo_ID,
+                "idescripcion"=>$this->descripcion,
+                "iver_descripcion"=>$this->ver_descripcion,
+                "iver_componente"=>$this->ver_componente,
+                "iver_adicional"=>$this->ver_adicional,
+                "iver_serie"=>$this->ver_serie,
+                "iusuario_id"=>$this->usuario_id,
+
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function insertar_todos()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+        
+      $ID=$cn->store_procedure_transa(
+          "sp_factura_venta_detalle_Insert_Total",
+            array(
+                "retornar"=>$retornar,
+                "ifactura_venta_ID"=>$this->factura_venta_ID,
+                "isalida_ID"=>$this->salida_ID,
+                "iver_descripcion"=>$this->ver_descripcion,
+                "iver_componente"=>$this->ver_componente,
+                "iver_adicional"=>$this->ver_adicional,
+                "iver_serie"=>$this->ver_serie,
+                "iincluir_obsequios"=>$this->incluir_obsequios,
+                "iusuario_id"=>$this->usuario_id,
+
+            ),0);
+     return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_factura_venta_detalle_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "ifactura_venta_ID"=>$this->factura_venta_ID,
+                "isalida_detalle_ID"=>$this->salida_detalle_ID,
+                "iimpuestos_tipo_ID"=>$this->impuestos_tipo_ID,
+                "idescripcion"=>$this->descripcion,
+                "iver_descripcion"=>$this->ver_descripcion,
+                "iver_componente"=>$this->ver_componente,
+                "iver_adicional"=>$this->ver_adicional,
+                "iver_serie"=>$this->ver_serie,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_detalle.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getCount($filtro="")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $resultado=$cn->store_procedure_getData(
+          "sp_factura_venta_detalle_getCount",
+            array(
+              "filtro"=>$filtro));
+      return $resultado;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_detalle.getCount", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  
+   static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ovd.ID asc')
+    {
+        $cn =new connect_new();
         try
         {
         $q='select ovd.ID, ov.moneda_ID,ovd.cantidad,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,';
@@ -223,30 +226,6 @@ class factura_venta_detalle {
             throw new Exception($q);
         }
     }
-    function verificarDuplicado(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un error en la consulta");
-		}
-	}
-    static function getNumero(){
-      $cn =new connect();
-      $numero=0;
-        try{
-            $q='select ifnull(max(numero),0)+1 as ID from factura_venta';
-            $numero=$cn->getData($q);
-            //echo $q;
-            return $numero;
-        } catch (Exception $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
-        }
-
-    }
-  }
-
+}  
 
 ?>

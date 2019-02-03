@@ -15,7 +15,7 @@ class api_SUNAT {
         //$ch = curl_init("http://192.168.10.151:8085/api/".$metodo);
         //$ch = curl_init("http://192.168.0.15/OpenInvoicePeru/api/".$metodo);
         //$ch = curl_init("http://192.168.43.242/OpenInvoicePeru/api/".$metodo);
-        $ch = curl_init("http://192.168.1.3/api/".$metodo);
+        $ch = curl_init("http://192.168.1.4/api/".$metodo);
         //$ch = curl_init("http://localhost:5649/OpenInvoicePeru/api/".$metodo);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -52,13 +52,16 @@ class api_SUNAT {
         }
         
         require ROOT_PATH.'models/distrito.php';
-        if(!class_exists("configuracion")){
+        require ROOT_PATH.'models/provincia.php';
+        require ROOT_PATH.'models/departamento.php';
+        /*if(!class_exists("configuracion")){
             require ROOT_PATH.'models/configuracion.php';
-        }
+        }*/
         $oDatos_generales=datos_generales::getByID1($empresa_ID);
-        $configuracion=configuracion::getGrid();
+        //$configuracion=configuracion::getGrid();
         $oDistrito=distrito::getByID($oDatos_generales->distrito_ID);
-        $certificateCAcer = ROOT_PATH.$configuracion[3]['valores'].'/SUNAT/CERTIFICADO/'.$oDatos_generales->certificado;
+        
+        $certificateCAcer = ROOT_PATH.ruta_archivo.'/SUNAT/CERTIFICADO/'.$oDatos_generales->certificado;
         $certificateCAcerContent = file_get_contents($certificateCAcer);
         $certificadostring =  PHP_EOL.chunk_split(base64_encode($certificateCAcerContent), 64, PHP_EOL).PHP_EOL;
 
@@ -69,7 +72,7 @@ class api_SUNAT {
           'NombreComercial' => $oDatos_generales->alias,
           'Ubigeo' => $oDistrito->codigo_ubigeo,
           'Direccion' => $oDatos_generales->direccion_fiscal,
-          'Urbanizacion' => $oDatos_generales->urbanizacion,
+          'Urbanizacion' => '',
           'Departamento' =>$oDistrito->departamento,
           'Provincia' =>$oDistrito->provincia,
           'Distrito' =>$oDistrito->nombre
@@ -85,6 +88,7 @@ class api_SUNAT {
                       "TasaDetraccion"=>$oDatos_generales->tasadetraccion,
                       "UrlSunat"=>"https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService",
                       "UrlOtroCpe"=>"https://e-beta.sunat.gob.pe/ol-ti-itemision-otroscpe-gem-beta/billService",
+                      "UrlGuia"=>"https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/billService",
                       "Emisor"=>$Emisor
                     );
         return $data;
@@ -94,29 +98,21 @@ class api_SUNAT {
       //Escribir una trama Base64 en un archivo fisico en disco
       //<param name="nombreArchivo">Ruta de Destino (incluir extension)</param>
       //<param name="trama">Trama del Archivo</param>
-    public function EscribirArchivoXML($NombreArchivo,$TramaXmlFirmado)
+    public function EscribirArchivoXML($NombreArchivo,$TramaXmlFirmado,$carpeta)
 
     {
-        if(!class_exists("configuracion")){
-            require ROOT_PATH.'models/configuracion.php';
-        }
-
-        $configuracion=configuracion::getGrid();
-        $OUTPUT = ROOT_PATH.$configuracion[3]['valores']."/SUNAT/XML/".$NombreArchivo;
+        
+        $OUTPUT = ROOT_PATH.ruta_archivo."/SUNAT/XML/".$_SESSION['empresa_ID']."/".$carpeta."/".$NombreArchivo;
         $bin = base64_decode($TramaXmlFirmado);
         file_put_contents($OUTPUT, $bin);
     }
 
-      public function EscribirArchivoCDR($NombreArchivo,$TramaXmlFirmado)
+      public function EscribirArchivoCDR($NombreArchivo,$TramaXmlFirmado,$carpeta)
       {
-        if(!class_exists("configuracion")){
-            require ROOT_PATH.'models/configuracion.php';
-        }
-        
-        $configuracion=configuracion::getGrid();
-        $OUTPUT =  ROOT_PATH.$configuracion[3]['valores']."/SUNAT/CDR/".$NombreArchivo;
-      	//$bin = base64_decode($TramaXmlFirmado);
-        $bin = ($TramaXmlFirmado);
+       
+        $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$carpeta."/".$NombreArchivo;
+      	$bin = base64_decode($TramaXmlFirmado);
+        //$bin = ($TramaXmlFirmado);
       	file_put_contents($OUTPUT, $bin);
       }
 

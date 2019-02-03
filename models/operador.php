@@ -47,7 +47,7 @@ class operador {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retorna = -1;
         try {
             
@@ -60,12 +60,14 @@ class operador {
                 $fecha_contrato_save='"'.FormatTextToDate($this->fecha_contrato,'Y-m-d').'"';
             }
             $q = 'select ifnull(max(ID),0)+1 from operador;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             
             $q = 'insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)';
             $q.='values('.$ID.','.$this->persona_ID.','.$_SESSION["empresa_ID"].',"'.$this->telefono.'","'.$this->celular.'","'.$this->mail.'",'.$fecha_contrato_save.',';
             $q.=$this->comision.','.$this->cargo_ID.','.$this->usuario_id.');';
             //echo $q;
+			$cn = new connect_new();
             $retorna = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
@@ -77,7 +79,7 @@ class operador {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
            
@@ -99,7 +101,7 @@ class operador {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -116,7 +118,7 @@ class operador {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(op.ID) ';
             $q.=' FROM operador as op, cargo as ca, persona pe,persona_documento ped';
@@ -135,9 +137,9 @@ class operador {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
-            $q = 'Select op.ID,op.persona_ID,op.telefono, op.celular, op.mail,ifnull(op.fecha_contrato,"0000-00-00") as fecha_contrato ,op.comision,op.cargo_ID,op.usuario_id,ifnull(op.usuario_mod_id,-1) as usuario_mod_id';
+            $q = 'Select op.ID,op.empresa_ID,op.persona_ID,op.telefono, op.celular, op.mail,ifnull(op.fecha_contrato,"0000-00-00") as fecha_contrato ,op.comision,op.cargo_ID,op.usuario_id,ifnull(op.usuario_mod_id,-1) as usuario_mod_id';
             $q.=',pe.apellido_paterno,pe.apellido_materno,pe.nombres';
             $q.=' from operador op,persona pe ';
             $q.=' where op.persona_ID=pe.ID and op.del=0 and op.ID='.$ID;
@@ -151,6 +153,7 @@ class operador {
 
                 $oOperador->ID = $item['ID'];
                 $oOperador->persona_ID = $item['persona_ID'];
+                $oOperador->empresa_ID = $item['empresa_ID'];
                 $oOperador->telefono = $item['telefono'];
                 $oOperador->celular = $item['celular'];
                 $oOperador->mail = $item['mail'];
@@ -170,13 +173,13 @@ class operador {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'op.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q= 'SELECT op.ID,op.persona_ID,op.telefono,op.celular,op.mail,ifnull(op.fecha_contrato,-1) as fecha_contrato ,op.comision,op.cargo_ID,';
             $q.= 'op.usuario_id,ifnull(op.usuario_mod_id,-1) as usuario_mod_id,';
-            $q.= 'pe.apellido_paterno, pe.apellido_materno,pe.nombres,ped.numero';
-            $q.=' FROM operador as op, cargo as ca, persona pe,persona_documento ped';
-            $q.=' where op.persona_ID=pe.ID and op.cargo_ID=ca.ID and ped.persona_ID=pe.ID and op.del=0 and op.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.= 'pe.apellido_paterno, pe.apellido_materno,pe.nombres,ifnull(ped.numero,"") as numero';
+            $q.=' FROM operador as op, cargo as ca, persona pe left join persona_documento ped on ped.persona_ID=pe.ID';
+            $q.=' where op.persona_ID=pe.ID and op.cargo_ID=ca.ID  and op.del=0 and op.empresa_ID='.$_SESSION['empresa_ID'];
 
 
             if ($filtro != '') {
@@ -198,7 +201,7 @@ class operador {
 
 
     static function getCargo($usuario_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select op.cargo_ID';
             $q.=' from operador op, usuario us,persona pe ';
@@ -211,7 +214,7 @@ class operador {
         }
     }
     static function getOperador($usuario_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select op.ID';
             $q.=' from operador op, usuario us,persona pe ';
@@ -225,7 +228,7 @@ class operador {
     }
    
     function verificar_duplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ID) from operador where del=0 and persona_ID='.$this->persona_ID;
             if($this->ID!=""){

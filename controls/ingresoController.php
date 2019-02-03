@@ -139,7 +139,8 @@ function post_ajaxCompra_Mantenimiento() {
     //$filtro = 'upper(pr.razon_social) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><thead><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-teal table-bordered"><thead><tr>';
+    $resultado.='<th class="thOrden">#</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Código' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Serie' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Número' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -152,27 +153,29 @@ function post_ajaxCompra_Mantenimiento() {
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 10;
+    $colspanFooter = 11;
     try {
         $cantidadMaxima = ingreso::getCount($filtro);
         $dtCompra = ingreso::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCompra);
          $i=(($paginaActual-1) * $cantidadMostrar)+1;
+         //$i=1;
         foreach ($dtCompra as $item) {
             
             $resultado.='<tr class="tr-item">';
+            $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . sprintf("%'.07d",$item['codigo']). '</td>';
             $resultado.='<td class="text-center">' . $item['serie'] . '</td>';
             $resultado.='<td class="text-center">' . sprintf("%'.09d",$item['numero']) . '</td>';
             $resultado.='<td class="tdLeft">' . $item['numero_guia'] . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(strtoupper($item['proveedor'])) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode(strtoupper($item['proveedor'])) . '</td>';
             $resultado.='<td class="text-center">' . date("d/m/Y",strtotime($item['fecha_emision'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView($item['moneda']) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($item['moneda']) . '</td>';
             $resultado.='<td class="tdLeft">' . number_format($item['total'],2,'.',',') . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($item['estado']) . '</td>';
             $botones=array();
             
-           
+          
             if($item['estado_ID']==11){
                 array_push($botones,'<a onclick="fncVerDetalle(' . $item['ID'] . ');" title=""><img src="/include/img/boton/find_14x14.png" /> Ver</a>');
                 
@@ -206,7 +209,7 @@ function post_ajaxCompra_Mantenimiento() {
 
 function get_Compra_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/ingreso.php';
-    require ROOT_PATH.'models/configuracion_empresa.php';
+    
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/tipo_comprobante_empresa.php';
@@ -215,17 +218,17 @@ function get_Compra_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/proveedor.php';
     global $returnView_float;
     $returnView_float=true;
-    $Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+    //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $oCompra = new ingreso();
-    $oCompra->oEstado=estado::getByID($Configuracion_Empresa[2]['valor']);
-    $oCompra->dtEstado=estado::getGrid("est.ID in (".$Configuracion_Empresa[2]['valor'].")",-1,-1);
+    $oCompra->oEstado=estado::getByID(estado_compra);
+    $oCompra->dtEstado=estado::getGrid("est.ID in (".estado_compra.")",-1,-1);
     $oCompra->dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
-    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.tabla="ingreso"');
+    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.accion="compra"');
     $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
-    $oCompra->moneda_ID=$Configuracion_Empresa[0]['valor'];
+    $oCompra->moneda_ID=moneda;
     $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
-    $oCompra->tipo_comprobante_ID=$Configuracion_Empresa[3]['valor'];
+    $oCompra->tipo_comprobante_ID=compra_tipo_comprobante_ID;
     $oCompra->dtProveedor=$dtProveedor;
     $oCompra->ID=0;
     $oCompra->orden_ingreso_ID=0;
@@ -246,7 +249,7 @@ function post_Compra_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/forma_pago.php';
     require ROOT_PATH.'models/proveedor.php';
-    require ROOT_PATH.'models/configuracion_empresa.php';
+
     require ROOT_PATH.'models/tipo_comprobante_empresa.php';
 
      if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
@@ -266,8 +269,8 @@ function post_Compra_Mantenimiento_Nuevo(){
     $moneda_ID=$_POST['cboMoneda'];
     $tipo_cambio=$_POST['txtTipo_Cambio'];
     $descripcion=  FormatTextSave($_POST['txtComentario']);
-    $Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
-    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.tabla="ingreso"');
+    //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+    
     try{
         if($ID==0){
              $oCompra=new ingreso();
@@ -321,7 +324,7 @@ function post_Compra_Mantenimiento_Nuevo(){
         actualizar_costo_compra($oCompra);
        $numero_orden_compra='';
        if($oCompra->orden_ingreso_ID!='-1'){
-           $oOrden_Compra=orden_ingreso::getByID($oCompra->orden_ingresoID);
+           $oOrden_Compra=orden_ingreso::getByID($oCompra->orden_ingreso_ID);
            $numero_orden_compra=sprintf("%'.07d",$oOrden_Compra->numero_orden);
        }
        $oCompra->numero_orden_ingreso=$numero_orden_compra;
@@ -340,7 +343,7 @@ function post_Compra_Mantenimiento_Nuevo(){
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $oCompra->dtMoneda=moneda::getGrid();
     $dtFormaPago=forma_pago::getGrid();
-   
+    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.accion="compra"');
     $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
     $oCompra->oEstado=estado::getByID($oCompra->estado_ID);
     $oCompra->numero=sprintf("%'.09d",$oCompra->numero);
@@ -639,7 +642,7 @@ function post_ajaxCompra_Mantenimiento_Producto_Eliminar(){
                 }
                 
             }
-            $contar_detalle=ingreso_detalle::getCount('ccd.compra_ID='.$compra_ID);
+            $contar_detalle=ingreso_detalle::getCount('ccd.ingreso_ID='.$compra_ID);
             $oCompra=ingreso::getByID($oCompra_Detalle->ingreso_ID);
             actualizar_costo_compra($oCompra);
             
@@ -726,10 +729,10 @@ function actualizarInventario($oInventario1){
     if($oCompra->moneda_ID==1){
         $precio_compra_soles=$oCompra_Detalle->precio;
         //number_format($costo_venta_unitario,2,".",",");
-        $precio_compra_dolares=number_format($precio_compra_soles/$oCompra->tipo_cambio,2);
+        $precio_compra_dolares=round($precio_compra_soles/$oCompra->tipo_cambio,2);
     }else {
         $precio_compra_dolares=$oCompra_Detalle->precio;
-        $precio_compra_soles=number_format($precio_compra_dolares*$oCompra->tipo_cambio,2);
+        $precio_compra_soles=round($precio_compra_dolares*$oCompra->tipo_cambio,2);
     }
     $osalida_detalle=salida_detalle::getByID($oInventario1->salida_detalle_ID);
     $osalida=salida::getByID($osalida_detalle->salida_ID);
@@ -766,8 +769,8 @@ function post_ajaxProductos_Vendidos(){
     $html="";
     try{
        $dtInventario_salida=inventario::getsalida_detalle($producto_ID,$compra_detalle_ID);
-        $html="<table  class='grid_detalle table table-hover table-bordered' id='tableDestino'>";
-        $html.="<theader>";
+        $html="<table  class=' table table-hover table-bordered table-teal' id='tableDestino'>";
+        $html.="<thead>";
         $html.=" <tr>
                     <th>Cant V.</th>
                     <th>Cant C.</th>
@@ -777,7 +780,7 @@ function post_ajaxProductos_Vendidos(){
                     <th>Gu&iacute;a</th>
                     <th>Sel.</th>
                 </tr>";
-        $html.="</theader>";
+        $html.="</thead>";
         $html.="<tbody>";
         foreach($dtInventario_salida as $item){
             $cantidad_comprada=count(inventario::getGrid('salida_detalle_ID='.$compra_detalle_ID.' and producto_ID='.$producto_ID.' and salida_detalle_ID='.$item['salida_detalle_ID']));
@@ -795,7 +798,7 @@ function post_ajaxProductos_Vendidos(){
                 if(count($dtFactura_Venta)>0){
                     $i=0;
                     foreach($dtFactura_Venta as $value){
-                       $fecha= date_format(new datetime($value['fecha_emision']),'d/m/Y');
+                       $fecha= $value['fecha_emision'];
                        if($i==0){
                            $numero_factura.=$value['numero_concatenado'];
                        }else {
@@ -822,10 +825,10 @@ function post_ajaxProductos_Vendidos(){
                        }
 
                      
-                $html.="<td class='tdCenter'>".$fecha."</td>";  
-                $html.="<td class='tdCenter'>".$numero_factura."</td>";
-                $html.="<td class='tdCenter'>".$numero_guia."</td>";
-                $html.="<td class='tdCenter'><input type='checkbox' disabled='disabled' id='ck".$item['salida_detalle_ID']."' name='".$item['salida_detalle_ID']."' value='".$item['IDs']."'></td>"; 
+                $html.="<td class='text-center'>".$fecha."</td>";  
+                $html.="<td class='text-center'>".$numero_factura."</td>";
+                $html.="<td class='text-center'>".$numero_guia."</td>";
+                $html.="<td class='text-center'><div class='ckbox ckbox-teal'><input type='checkbox' disabled='disabled' id='ck".$item['salida_detalle_ID']."' name='".$item['salida_detalle_ID']."' value='".$item['IDs']."'><label for=id='ck".$item['salida_detalle_ID']."'></label></div></td>"; 
                 $html.="</tr>";
 
             }
@@ -833,7 +836,7 @@ function post_ajaxProductos_Vendidos(){
        }
     }
     catch(Exception $ex){
-
+        log_error(__FILE__, "ingresoController", $ex->getMessage());
     $html.="<tr><td>".$ex->getMessage()."</td></tr>";
 
     }
@@ -848,8 +851,10 @@ function actualizar_costo_compra_detalle($oCompra,$moneda_ID){
     require ROOT_PATH . 'models/ingreso_detalle.php';
     try {
         if($oCompra->moneda_ID!=$moneda_ID){
-        $dtCompra_detalle=ingreso_detalle::getGrid('ccd.compra_ID='.$oCompra->ID,-1,-1);
+        $dtCompra_detalle=ingreso_detalle::getGrid('ccd.ingreso_ID='.$oCompra->ID,-1,-1);
+        
         foreach($dtCompra_detalle as $item){
+            
             $oCompra_Detalle=ingreso_detalle::getByID($item['codigo']);
                 $precio=0;
                 if($oCompra->moneda_ID==1){
@@ -860,8 +865,8 @@ function actualizar_costo_compra_detalle($oCompra,$moneda_ID){
                 $oCompra_Detalle->precio=$precio;
                 $subtotal=$precio*$oCompra_Detalle->cantidad;
                 $oCompra_Detalle->subtotal=$subtotal;
-                $oCompra_Detalle->igv=number_format($subtotal*$oCompra->vigv,2,'.','');
-                $oCompra_Detalle->total=number_format($subtotal*(1+$oCompra->vigv),2,'.','');
+                $oCompra_Detalle->igv=round($subtotal*$oCompra->vigv,2);
+                $oCompra_Detalle->total=round($subtotal*(1+$oCompra->vigv),2);
                 $oCompra_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
                 $oCompra_Detalle->actualizar();
             }
@@ -883,8 +888,8 @@ function actualizar_costo_compra($oCompra){
             $subtotal=$subtotal+$item['subtotal'];
         }
         $oCompra->subtotal=round($subtotal,2);
-        $oCompra->igv=number_format($subtotal*$oCompra->vigv,2,'.','');
-        $oCompra->total=number_format($subtotal*(1+$oCompra->vigv),2,'.','');
+        $oCompra->igv=round($subtotal*$oCompra->vigv,2);
+        $oCompra->total=round(($subtotal*(1+$oCompra->vigv)),2);
         if($total_old!=$oCompra->total){
             $diferencia=$oCompra->total-$total_old;
             $oCompra->monto_pendiente=$oCompra->monto_pendiente+$diferencia;
@@ -1189,7 +1194,7 @@ function post_ajaxCompra_Mantenimiento_Eliminar() {
         if ($oCompra == null) {
             throw new Exception('Parece que el registro ya fue eliminado.');
         }
-        $dtCompra_detalle=ingreso_detalle::getGrid('compra_ID='.$oCompra->ID,-1,-1);
+        $dtCompra_detalle=ingreso_detalle::getGrid('ingreso_ID='.$oCompra->ID,-1,-1);
         if(count($dtCompra_detalle)>0){
             throw new Exception("No se puede eliminar la compra, tiene detalle registrado, elimine los detalles.");
         }
@@ -1358,17 +1363,18 @@ function get_Compra_Mantenimiento_Editar($id){
         return;
     }
     $numero_orden_compra='';
-    if($oCompra->orden_ingreso_ID!='-1'){
+    if($oCompra->orden_ingreso_ID!=-1){
         $oOrden_Compra=orden_ingreso::getByID($oCompra->orden_ingreso_ID);
         $numero_orden_compra=sprintf("%'.07d",$oOrden_Compra->numero_orden);
+       
     }
     $oCompra->numero_orden_ingreso=$numero_orden_compra;
-    $dtEstado=estado::getGrid('est.ID in (9,10,11) and est.tabla="ingreso"');
+    $dtEstado=estado::getGrid('est.ID in (9,10,11)');
     $oProveedor=proveedor::getByID($oCompra->proveedor_ID); 
     $dtMoneda=moneda::getGrid();
 
 //    $dtComprobante_tipo=comprobante_tipo::getGrid('ct.en_compra=1');
-    $dtTipo_Comprobante = tipo_comprobante_empresa::getGrid('tce.tabla="ingreso"');
+    $dtTipo_Comprobante = tipo_comprobante_empresa::getGrid('tce.accion="compra"');
     $oCompra->oEstado=estado::getByID($oCompra->estado_ID);
     $oCompra->dtMoneda=$dtMoneda;
     //$GLOBALS['dtMoneda']=$dtMoneda;
@@ -1390,8 +1396,8 @@ function get_Compra_Mantenimiento_Editar($id){
 }
 function post_Compra_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/ingreso.php';
-    require ROOT_PATH.'models/orden_compra.php';
-    require ROOT_PATH.'models/comprobante_tipo.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
+    require ROOT_PATH.'models/tipo_comprobante_empresa.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/forma_pago.php';
@@ -1400,7 +1406,7 @@ function post_Compra_Mantenimiento_Editar($id){
      if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
     global $returnView_float;
     $returnView_float=true;
-    $comprobante_tipo_ID=$_POST['cboComprobante_Tipo'];
+    $tipo_comprobante_ID=$_POST['cboComprobante_Tipo'];
     $serie=$_POST['txtSerie'];
     $numero=$_POST['txtNumero_Factura'];
     $tipo_cambio=$_POST['txtTipo_Cambio'];
@@ -1409,9 +1415,9 @@ function post_Compra_Mantenimiento_Editar($id){
     $numero_guia=$_POST['txtNumero_Guia'];
     $moneda_ID=$_POST['cboMoneda'];
     $fecha_vencimiento=$_POST['txtFecha_Vencimiento'];
-    $proveedor_ID=$_POST['txtProveedor_ID'];
+    $proveedor_ID=$_POST['selProveedor'];
     $con_igv=1;
-    $descripcion=FormatTextSave($_POST['txtComentario']);
+    $descripcion=$_POST['txtComentario'];
     if(isset($_POST['chkCon_Igv'])){
             $con_igv=1;
     }
@@ -1424,7 +1430,7 @@ function post_Compra_Mantenimiento_Editar($id){
     }
     try{
         $moneda_ID_old=$oCompra->moneda_ID;
-        $oCompra->comprobante_tipo_ID=$comprobante_tipo_ID;
+        $oCompra->tipo_comprobante_ID=$tipo_comprobante_ID;
         $oCompra->serie=$serie;
         $oCompra->numero=$numero;
         $oCompra->numero_guia=$numero_guia;
@@ -1435,7 +1441,7 @@ function post_Compra_Mantenimiento_Editar($id){
         $oCompra->proveedor_ID=$proveedor_ID;
         $oCompra->vigv=$vigv;
         $oCompra->con_igv=$con_igv;
-       $oCompra->descripcion=$descripcion;
+        $oCompra->descripcion=$descripcion;
         $oCompra->moneda_ID=$moneda_ID;
         $oCompra->periodo=date("Y",strtotime($fecha_emision));
         $oCompra->usuario_mod_id=$_SESSION['usuario_ID'];
@@ -1461,13 +1467,16 @@ function post_Compra_Mantenimiento_Editar($id){
         $GLOBALS['mensaje'] = $ex->getMessage();
     }
     $oCompra->oProveedor=proveedor::getByID($oCompra->proveedor_ID);
+    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID']);
+    $oCompra->dtProveedor=$dtProveedor;
+    
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $dtMoneda=moneda::getGrid();
     $oCompra->dtMoneda=$dtMoneda;
-    $dtComprobante_tipo=comprobante_tipo::getGrid('ct.en_compra=1');
+    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.accion="compra"');;
 
-    $dtEstado=estado::getGrid('est.ID in (9,10) and est.tabla="compra"');
-    $oCompra->dtComprobante_Tipo=$dtComprobante_tipo;
+    $dtEstado=estado::getGrid('est.ID in (9,10)');
+    $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
     //$GLOBALS['dtMoneda']=$dtMoneda;   
     $GLOBALS['tipo_cambio']=$oDatos_generales->tipo_cambio;
     //$GLOBALS['oProveedor']=$oProveedor;
@@ -1753,22 +1762,23 @@ function post_ajaxCompra_Mantenimiento_Detalle() {
             $orden = 'ccd.ID ' . $orden_tipo;
             break;
     }			 
-    $resultado = '<table class="table table-hover table-bordered"><theader><tr>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(0);">Nro</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Producto' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado = '<table class="table table-hover table-bordered table-teal"><thead><tr>';
+    $resultado.='<th class="text-center" onclick="fncOrden(0);">Nro</th>';
+    $resultado.='<th class="text-center" onclick="fncOrden(1);">Producto' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     //$resultado.='<th class="thOrden" onclick="fncOrden(2);">Descripcion' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(3);">cantidad' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(4);">Precio' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Sub Total' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="text-center" onclick="fncOrden(3);">Cantidad' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="text-center" onclick="fncOrden(4);">Precio' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="text-center" onclick="fncOrden(5);">Sub Total' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th></th>';
     $footer=6;        
    
     
-    $resultado.='</tr></theader>';
+    $resultado.='</tr></thead>';
     $filtro="ccd.ingreso_ID=".$compra_ID;
     $resultado.='<tbody>';
     try {
         //$cantidadMaxima = ingreso_detalle::getCount($filtro);
+        $oCompra=ingreso::getByID($compra_ID);
         $dtCompra = ingreso_detalle::getGrid($filtro, '-1', '-1',$orden);
         $rows = count($dtCompra);
         $i=1;
@@ -1788,14 +1798,17 @@ function post_ajaxCompra_Mantenimiento_Detalle() {
             $botones=array();
             array_push($botones,'<a class="btn-view" title="Editar producto" onclick="fncEditar('.$item['codigo'].');" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>');
             array_push($botones,'<a class="btn-view" title="Registrar serie" onclick="fncSeries('.$item['codigo'].');" ><span class="glyphicon glyphicon-barcode"></span> Serie</a>');
-            array_push($botones,'<a  class="btn-view" onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar producto&#39;,fncEliminar,&#39;' . $item['codigo'] . '&#39;);" title="Eliminar producto"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>');
-            $resultado.='<td class="text-center" >'.extraerOpcion($botones)."</td>";
+            if($oCompra->estado_ID==9){
+                array_push($botones,'<a  class="btn-view" onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar producto&#39;,fncEliminar,&#39;' . $item['codigo'] . '&#39;);" title="Eliminar producto"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>');
+           
+            }
+             $resultado.='<td class="text-center" >'.extraerOpcion($botones)."</td>";
             $resultado.='</tr>';
             $i=$i+1;
             $igv=$igv+$item['igv'];
             $subtotal=$subtotal+$item['subtotal'];
         }
-        $oCompra=ingreso::getByID($compra_ID);
+        
         $mensaje=1;
     } catch (Exception $ex) {
         $resultado.='<tr ><td colspan="6">' . $ex->getMessage() . '</td></tr>';
@@ -2088,7 +2101,11 @@ function get_Pagos_Mantenimiento() {
         $periodo=substr($item['fecha_emision'],0,4);
        $a++;
     }
-    $GLOBALS['dtProveedor']=proveedor::getGrid('prv.empresa_ID='.$_SESSION['empresa_ID'].' and prv.ID in ('.$proveedor_IDs.')',-1,-1,'prv.razon_social asc');
+    if($proveedor_IDs!=""){
+        $GLOBALS['dtProveedor']=proveedor::getGrid('prv.empresa_ID='.$_SESSION['empresa_ID'].' and prv.ID in ('.$proveedor_IDs.')',-1,-1,'prv.razon_social asc');
+    }else{
+            $GLOBALS['dtProveedor']=array();
+    }    
     $GLOBALS['dtPerido']=$array_periodo;
     $GLOBALS['dtEstado']=estado::getGrid('est.tabla="ingreso"',-1,-1,'est.nombre asc');
 }
@@ -2185,6 +2202,7 @@ function post_ajaxPagos_Mantenimiento() {
     }
   			 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
+    $resultado.='<th class="thOrden">#</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Cod Compra' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Serie' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Número' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -2198,12 +2216,13 @@ function post_ajaxPagos_Mantenimiento() {
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 11;
+    $colspanFooter = 12;
     try {
         $cantidadMaxima = ingreso::getCount($filtro);
         $dtCompra = ingreso::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCompra);
-
+         
+        $i=($paginaActual-1)*$cantidadMostrar+1;
         foreach ($dtCompra as $item) {
             //$oMoneda=moneda::getByID($item['moneda_ID']);
             $resultado.='<tr class="tr-item">';
@@ -2216,7 +2235,8 @@ function post_ajaxPagos_Mantenimiento() {
             }
             
             
-            //$resultado.='<td>'.$impresion.'</td>';
+            $resultado.='<td class="text-center">'. $i.'</td>';
+            $i++;
             $resultado.='<td class="text-center">' .sprintf("%'.05d",$item['codigo']) . '</td>';
             $resultado.='<td class="text-center">' .sprintf("%'.03d",$item['serie']) . '</td>';
             $resultado.='<td class="tdLeft">' .sprintf("%'.09d",$item['numero']) . '</td>';
@@ -2260,7 +2280,7 @@ function get_Pagos_Mantenimiento_Registro($id){
     $oCompra=ingreso::getByID($id);
     
     $oMoneda=moneda::getByID($oCompra->moneda_ID);
-    $oCompra->moneda=  FormatTextViewHtml($oMoneda->descripcion);
+    $oCompra->moneda= $oMoneda->descripcion;
     $oEstado=estado::getByID($oCompra->estado_ID);
     $oCompra->estado=$oEstado->nombre;
     $GLOBALS['oCompra']=$oCompra;
@@ -2350,7 +2370,7 @@ function post_ajaxPagos_Mantenimiento_Registro(){
  
     require ROOT_PATH . 'controls/funcionController.php';
     $compra_ID=$_POST['id'];
-    $resultado='<table class="table table-hover table-bordered"><thead><tr>'.
+    $resultado='<table class="table table-hover table-bordered table-teal"><thead><tr>'.
             '<th class="text-center;">Item</th>'.
             '<th class="text-center;">Fecha</th>'.
             '<th class="text-center;">Pago</th>'.
@@ -2369,7 +2389,7 @@ function post_ajaxPagos_Mantenimiento_Registro(){
                 '<td class="text-right">'.number_format($value['monto_pagado'],2,'.',',').'</td>'.
                 '<td class="text-right">'.number_format($value['monto_pendiente'],2,'.',',').'</td>';
                 $botones=array();
-                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar pago&#39;,fncEliminar,&#39;' . $value['ID'] . '&#39;);" title="Eliminar Pago"><span class="glyphicon glyphicon-trash">Eliminar</a>');
+                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar pago&#39;,fncEliminar,&#39;' . $value['ID'] . '&#39;);" title="Eliminar Pago"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
             $resultado.='<td class="text-center" >'.extraerOpcion($botones)."</td>";   
             $resultado.='</tr>';
             $i++;
@@ -2543,7 +2563,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
 
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><theader><tr>';
-    
+    $resultado.='<th class="text-center">#</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">NUM. ORD.' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">PROVEEDOR' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">ESTADO' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -2553,32 +2573,35 @@ function post_ajaxOrden_Compra_Mantenimiento() {
     $resultado.='<th></th>';
     $resultado.='</tr></theader>';
     $resultado.='<tbody>';
-    $colspanFooter = 7;
+    $colspanFooter = 8;
     try {
         $cantidadMaxima = orden_ingreso::getCount($filtro);
         $dtOrden_Compra = orden_ingreso::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtOrden_Compra);
         $i=(($paginaActual-1) * $cantidadMostrar)+1;
+        
         foreach ($dtOrden_Compra as $item) {
             $resultado.='<tr class="tr-item">';
-            $resultado.='<td class="text-center">' . $item['numero_orden'] . '</td>';
+            $resultado.='<td class="text-center">'.$i.'</td>';
+            $resultado.='<td class="text-center">' . sprintf("%',05d",$item['numero_orden']) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(strtoupper($item['proveedor'])) . '</td>';           
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
             $resultado.='<td class="text-center">' . FormatTextViewHtml(date("d/m/Y",strtotime($item['fecha']))) . '</td>';
             $resultado.='<td class="text-right">' . FormatTextViewHtml($item['simbolo']) . '</td>';
             $resultado.='<td class="text-right">' . number_format($item['total'],2,'.',',') . '</td>';
+            $i++;
             $botones=array();
             if($item['estado_ID']==59){
-                array_push($botones,'<a class="btn-view" onclick="fncVerDetalle(' . $item['ID'] . ');" title=""><img src="/include/img/boton/find_14x14.png" /> Ver</a>');
+                array_push($botones,'<a class="btn-view" onclick="fncVerDetalle(' . $item['ID'] . ');" title=""><img src="/include/img/boton/find_14x14.png" />Ver</a>');
             }else{
-                array_push($botones,'<a class="btn-view" onclick="fncEditar(' . $item['ID'] . ');" title="Editar" ><img src="/include/img/boton/edit_14x14.png" /> Editar</a>');
+                array_push($botones,'<a class="btn-view" onclick="fncEditar(' . $item['ID'] . ');" title="Editar" ><img src="/include/img/boton/edit_14x14.png" />Editar</a>');
                 //array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');" title="Eliminar" ><img src="/include/img/boton/delete_14x14.png" /> Eliminar</a>');
                 array_push($botones,'<a class="btn-view" onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar compra"><img src="/include/img/boton/delete_14x14.png" /> Eliminar</a>');
             }
             
             $resultado.='<td class="btnAction">'.extraerOpcion($botones).'</td>';
             $resultado.='</tr>';
-            $i=$i+1;
+            
         }
 
         $cantidadPaginas = '';
@@ -2760,7 +2783,7 @@ function post_Orden_Compra_Mantenimiento_Nuevo(){
     $proveedor_ID=$_POST['selProveedor'];
     $moneda_ID=$_POST['selMoneda'];
     $vigv=$_POST['txtVigv'];
-    $comentario=  FormatTextSave($_POST['txtComentario']);
+    $comentario=  $_POST['txtComentario'];
     
     if($orden_compra_ID==0){
         $oOrden_Compra = new orden_ingreso();
@@ -2863,7 +2886,7 @@ function post_Orden_Compra_Mantenimiento_Editar(){
     $proveedor_ID=$_POST['selProveedor'];
     $moneda_ID=$_POST['selMoneda'];
     $vigv=$_POST['txtVigv'];
-    $comentario=  FormatTextSave($_POST['txtComentario']);
+    $comentario=  $_POST['txtComentario'];
    
     $oOrden_Compra=orden_ingreso::getByID($orden_compra_ID);
     if($oOrden_Compra==null){
@@ -2927,7 +2950,7 @@ function post_ajaxOrden_Compra_Mantenimiento_Eliminar() {
         if ($oOrden_Compra == null) {
             throw new Exception('Parece que el registro ya fue eliminado.');
         }
-        $dtOrden_compra_detalle=orden_ingreso_detalle::getGrid('orden_compra_ID='.$oOrden_Compra->ID,-1,-1);
+        $dtOrden_compra_detalle=orden_ingreso_detalle::getGrid('orden_ingreso_ID='.$oOrden_Compra->ID,-1,-1);
         if(count($dtOrden_compra_detalle)>0){
             throw new Exception("No se puede eliminar la orden de compra, elimine los detalles.");
         }
@@ -2958,13 +2981,13 @@ function post_ajaxOrden_Compra_Mantenimiento_Producto(){
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $orden_compra_ID=$_POST['id'];
     $resultado='<div class="" >';
-    $resultado.= '<table id="tabla-producto" class="table table-striped table-primary"><thead><tr>';
-    $resultado.='<th class="thOrden">Nro</th>';
-    $resultado.='<th class="thOrden">Producto</th>';
+    $resultado.= '<table id="tabla-producto" class="table table-striped table-teal table-bordered"><thead><tr>';
+    $resultado.='<th class="text-center">Nro</th>';
+    $resultado.='<th class="text-center">Producto</th>';
     //$resultado.='<th class="thOrden" >Descripcion</th>';
-    $resultado.='<th class="thOrden" >cantidad</th>';
-    $resultado.='<th class="thOrden" >Precio</th>';
-    $resultado.='<th class="thOrden" >Sub Total</th>';
+    $resultado.='<th class="text-center" >Cantidad</th>';
+    $resultado.='<th class="text-center" >Precio</th>';
+    $resultado.='<th class="text-center" >Sub Total</th>';
     $resultado.='<th></th>';
              
     $resultado.='</tr>';
@@ -2985,21 +3008,24 @@ function post_ajaxOrden_Compra_Mantenimiento_Producto(){
         foreach ($dtOrden_Compra_Detalle as $item) {
             
             $resultado.='<tr class="item-tr" >';
-            $resultado.='<td class="tdCenter">'.$i.'</td>';
+            $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView($item['producto']) . '</td>';
             //$resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['descripcion']) . '</td>';
-            $resultado.='<td class="tdCenter">' . ($item['cantidad']) . '</td>';
-            $resultado.='<td class="tdRight">' . number_format($item['precio'],2,".",",") . '</td>';
-            $resultado.='<td class="tdRight">' . number_format($item['subtotal'],2,".",",") . '</td>';
+            $resultado.='<td class="text-center">' . ($item['cantidad']) . '</td>';
+            $resultado.='<td class="text-right">' . number_format($item['precio'],2,".",",") . '</td>';
+            $resultado.='<td class="text-right">' . number_format($item['subtotal'],2,".",",") . '</td>';
             $botones=array();
             $boton='<a onclick="fncEditar(' . $item['ID'] . ');" class="btn-view"><img title="Editar" src="/include/img/boton/edit_14x14.png" />Editar</a>';
             array_push($botones,$boton);
-            array_push($botones,'<a class="btn-view" onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar"><span class="glyphicon glyphicon-trash">Eliminar</a>');
+            if($oOrden_Compra->estado_ID==55){
+                 array_push($botones,'<a class="btn-view" onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar"><span class="glyphicon glyphicon-trash">Eliminar</a>');
+            }
+           
             $resultado.='<td class="text-center" >'.extraerOpcion($botones)."</td>";
             $resultado.='</tr>';
             $i=$i+1;
             $igv=$igv+$item['igv'];
-            $subtotal=$subtotal+$item['subtotal'];
+            $subtotal=$subtotal+floatval($item['subtotal']);
         }
         $total=$igv+$subtotal;
         $vigv=$oOrden_Compra->vigv*100;
@@ -3227,7 +3253,7 @@ function get_Orden_Compra_PDF($id){
     $pdf->SetTextColor(0);
     $pdf->SetFont('Arial','',8);
     $pdf->Rect(10,225,120,20);
-    $pdf->MultiCell(120,5, $oOrden_Compra->comentario,0,'J');
+    $pdf->MultiCell(120,5, utf8_decode($oOrden_Compra->comentario),0,'J');
     $pdf->Ln(20);
     //Firmas
     $pdf->Line(75,265,135,265);
@@ -3266,7 +3292,7 @@ function get_Orden_Compra_PDF($id){
             $pdf->Cell(30,120,'',1,0,'C');
             $pdf->Ln();
         }
-        $alto=$alto+$pdf->Row(array(sprintf("%'.05d",$fila['ID']), $fila['producto'], $fila['cantidad'], number_format($fila['precio'],2,".",","),number_format($fila['subtotal'],2,".",",")),5);
+        $alto=$alto+$pdf->Row(array(sprintf("%'.05d",$fila['ID']), utf8_decode($fila['producto']), $fila['cantidad'], number_format($fila['precio'],2,".",","),number_format($fila['subtotal'],2,".",",")),5);
     }
     
     
@@ -3360,7 +3386,7 @@ function post_ajaxComprar_Orden(){
 }
 function post_ajaxCargarCompra(){
     require ROOT_PATH.'models/producto.php';
-    require ROOT_PATH.'models/orden_compra.php';
+    require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/proveedor.php';
     $compra_ID=$_POST['id'];
@@ -3539,6 +3565,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
 
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
+    $resultado.='<th>N°</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Cod. Compra' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Serie' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Numero' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -3553,12 +3580,14 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 11;
+    $colspanFooter = 12;
     try {
         $cantidadMaxima = count(ingreso::getGrid($filtro,-1,-1,'co.ID asc'));
         $dtCompra = ingreso::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCompra);
-
+        
+            
+        $i=($paginaActual-1)*$cantidadMostrar+1;
         foreach ($dtCompra as $item) {
             $oMoneda=moneda::getByID($item['moneda_ID']);
             
@@ -3566,18 +3595,19 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
             $fecha_emision = date('d/m/Y',strtotime($item['fecha_emision']));
             $fecha_vencimiento=date('d/m/Y',strtotime($item['fecha_vencimiento']));
             $resultado.='<tr class="tr-item">';
-             $resultado.='<td class="tex-center">' .sprintf("%'.05d",$item['codigo']) . '</td>';
-            $resultado.='<td class="tex-center">' .sprintf("%'.03d",$item['serie']) . '</td>';
-            $resultado.='<td class="tex-center">' . $item['numero'] . '</td>';
-            $resultado.='<td class="tex-center">' .$fecha_emision . '</td>';
-            $resultado.='<td class="tex-center">' . $fecha_vencimiento . '</td>';
+            $resultado.='<td class="text-center">' .$i . '</td>';
+            $resultado.='<td class="text-center">' .sprintf("%'.05d",$item['codigo']) . '</td>';
+            $resultado.='<td class="text-center">' .sprintf("%'.03d",$item['serie']) . '</td>';
+            $resultado.='<td class="text-center">' . $item['numero'] . '</td>';
+            $resultado.='<td class="text-center">' .$fecha_emision . '</td>';
+            $resultado.='<td class="text-center">' . $fecha_vencimiento . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['proveedor']) . '</td>';
             $resultado.='<td class="text-right">' . FormatTextViewHtml($item['simbolo']) . '</td>';
             $resultado.='<td class="text-right">' . $item['total'] . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_pendiente'] . '</td>';
 
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']). '</td>';
-           
+           $i++;
             $dtInventario=inventario::getGridComprobarVenta('co.ID='.$item['ID']);  
             $botones=array();
             if(count($dtInventario)>0){
@@ -3620,7 +3650,7 @@ function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
     $returnView_float=true;
     $oCompra=ingreso::getByID($id);
     $oMoneda=moneda::getByID($oCompra->moneda_ID);
-    $oCompra->moneda=  FormatTextViewHtml($oMoneda->descripcion);
+    $oCompra->moneda= $oMoneda->descripcion;
     $dtOperador=operador::getGrid('op.cargo_ID in (1,3)',-1,-1);
     $oCompra->dtOperador=$dtOperador;
     $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="ingreso"',-1,-1,'nombre asc');

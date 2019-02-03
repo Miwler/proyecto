@@ -38,15 +38,17 @@ class categoria {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
 
             $q = 'select ifnull(max(ID),0)+1 from categoria;';
+			$cn = new connect_new();
             $ID=$cn->getData($q);
             $q = 'insert into categoria(ID,nombre,descripcion,imagen,linea_ID,usuario_id,empresa_ID)';
             $q.='values('.$ID.',"' . $this->nombre . '","' . $this->descripcion . '","'.$this->imagen.'",'. $this->linea_ID . ',' . $this->usuario_id .','.$this->empresa_ID.');';
             //echo $q;
+			$cn = new connect_new();
             $retornar = $cn->transa($q);
 
             $this->ID = $ID;
@@ -59,7 +61,7 @@ class categoria {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update categoria set descripcion="' . $this->descripcion . '",nombre="' . $this->nombre . '", linea_ID='.$this->linea_ID;
@@ -74,7 +76,7 @@ class categoria {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -91,7 +93,7 @@ class categoria {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ca.ID) ';
             $q.=' FROM categoria as ca, linea li ';
@@ -110,7 +112,7 @@ class categoria {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,linea_ID,descripcion,nombre,ifnull(imagen,"") as imagen,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from categoria ';
@@ -138,7 +140,7 @@ class categoria {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ca.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ca.ID,UPPER(ca.nombre) as nombre,ca.descripcion,ca.linea_ID,UPPER(li.nombre) as linea,ca.empresa_ID';
             $q.=' FROM categoria  ca , linea li';
@@ -163,7 +165,7 @@ class categoria {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
            $q="select  count(ID) from categoria ";
@@ -181,7 +183,7 @@ class categoria {
         }
     }
     function verificarHijos($linea_ID){
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
             //Verifico que no se repita el nombre
@@ -197,7 +199,7 @@ class categoria {
     }
     
     static function getByID2($producto_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ca.ID from linea li, categoria ca, producto pr where li.del=0 and ca.del=0 and pr.del=0 and li.ID=ca.linea_ID and ca.ID=pr.categoria_ID and pr.ID='.$producto_ID;
             $categoria_ID = $cn->getData($q);
@@ -205,6 +207,23 @@ class categoria {
             return $categoria_ID;
         } catch (Exeption $ex) {
             throw new Exception("Ocurrio un error en la consulta");
+        }
+    }
+    static function getOption($linea_ID,$empresa_ID) {
+        $cn = new connect_new();
+        try {
+            $retorna=$cn->store_procedure_getData(
+              "getOptionCategoria",
+                array(
+                    "ilinea_ID"=>$linea_ID,
+                    "iempresa_ID"=>$empresa_ID
+                ));
+        
+            $retornar=$retorna;
+         
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception('Ocurrio un error en la consulta');
         }
     }
 }

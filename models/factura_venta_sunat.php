@@ -1,187 +1,200 @@
 <?php
 
 class factura_venta_sunat {
-
-    private $ID;
-    private $salida_ID;
-    private $fecha_generacion;
-    private $fecha_respuesta;
-    private $nombre_archivo;
-    private $xml_firmado;
-    private $hash;
-    private $representacion_impresa;
-    private $estado_envio;
-    private $codigo_estado;
-    private $descripcion_estado;
-    private $cdr_sunat;
-    private $usuario_id;
-
-    Private $getMessage;
-
-    public function __set($var, $valor) {
-// convierte a minúsculas toda una cadena la función strtolower
-        $temporal = $var;
-
-        // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"
-        if (property_exists('factura_venta_sunat', $temporal)) {
-            $this->$temporal = $valor;
-        } else {
-            echo $var . " No existe.";
-        }
+  private $ID;
+  private $factura_venta_ID;
+  private $fecha_generacion;
+  private $fecha_respuesta;
+  private $nombre_archivo;
+  private $xml_firmado;
+  private $hash;
+  private $representacion_impresa;
+  private $estado_envio;
+  private $codigo_estado;
+  private $descripcion_estado;
+  private $cdr_sunat;
+  private $observacion;
+  private $usuario_id;
+  private $getMessage;
+  public function __set($var, $valor)
+    {
+      $temporal = $var;
+      if (property_exists("factura_venta_sunat",$temporal))
+      {
+        $this->$temporal = $valor;
+      }
+      else
+      {
+        echo $var . " No existe.";
+      }
     }
-
-    public function __get($var) {
-        $temporal = $var;
-
-        // Verifica que exista
-        if (property_exists('factura_venta_sunat', $temporal)) {
-            return $this->$temporal;
-        }
-
-        // Retorna nulo si no existe
-        return null;
+  public function __get($var)
+  {
+    $temporal = $var;
+    if (property_exists("factura_venta_sunat", $temporal))
+    {
+      return $this->$temporal;
     }
+    return null;
+  }
+  function __construct()
+  {
+        $this->factura_venta_ID="NULL";
+    $this->fecha_generacion="";
+    $this->fecha_respuesta="";
+    $this->nombre_archivo="";
+    $this->xml_firmado="";
+    $this->hash="";
+    $this->representacion_impresa="";
+    $this->estado_envio=0;
+    $this->codigo_estado="";
+    $this->descripcion_estado="";
+    $this->cdr_sunat="";
+    $this->usuario_id=$_SESSION["usuario_ID"];
 
-    function insertar() {
-        $cn = new connect();
-        $retornar = -1;
+  }
+  function __destruct()
+  {
+        $this->factura_venta_ID;
+    $this->fecha_generacion;
+    $this->fecha_respuesta;
+    $this->nombre_archivo;
+    $this->xml_firmado;
+    $this->hash;
+    $this->representacion_impresa;
+    $this->estado_envio;
+    $this->codigo_estado;
+    $this->descripcion_estado;
+    $this->cdr_sunat;
+    $this->usuario_id;
+
+  }
+  static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_factura_venta_sunat_getByID",
+          array("iID"=>$ID));
+      $ofactura_venta_sunat=null;
+      foreach($dt as $item)
+      {
+        $ofactura_venta_sunat= new factura_venta_sunat();
+        $ofactura_venta_sunat->ID=$item["ID"];
+        $ofactura_venta_sunat->factura_venta_ID=$item["factura_venta_ID"];
+        $ofactura_venta_sunat->fecha_generacion=$item["fecha_generacion"];
+        $ofactura_venta_sunat->fecha_respuesta=$item["fecha_respuesta"];
+        $ofactura_venta_sunat->nombre_archivo=$item["nombre_archivo"];
+        $ofactura_venta_sunat->xml_firmado=$item["xml_firmado"];
+        $ofactura_venta_sunat->hash=$item["hash"];
+        $ofactura_venta_sunat->representacion_impresa=$item["representacion_impresa"];
+        $ofactura_venta_sunat->estado_envio=$item["estado_envio"];
+        $ofactura_venta_sunat->codigo_estado=$item["codigo_estado"];
+        $ofactura_venta_sunat->descripcion_estado=$item["descripcion_estado"];
+        $ofactura_venta_sunat->cdr_sunat=$item["cdr_sunat"];
+        $ofactura_venta_sunat->usuario_id=$item["usuario_id"];
+
+      }
+      return $ofactura_venta_sunat;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_sunat.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function insertar()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_factura_venta_sunat_Insert",
+            array(
+            "iID"=>0,
+            "ifactura_venta_ID"=>$this->factura_venta_ID,
+            "ifecha_generacion"=>$this->fecha_generacion,
+            "ifecha_respuesta"=>$this->fecha_respuesta,
+            "inombre_archivo"=>$this->nombre_archivo,
+            "ixml_firmado"=>$this->xml_firmado,
+            "ihash"=>$this->hash,
+            "irepresentacion_impresa"=>$this->representacion_impresa,
+            "iestado_envio"=>$this->estado_envio,
+            "icodigo_estado"=>$this->codigo_estado,
+            "idescripcion_estado"=>$this->descripcion_estado,
+            "icdr_sunat"=>$this->cdr_sunat,
+            "observacion"=>$this->observacion,
+            "iusuario_id"=>$this->usuario_id
+        ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_sunat.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_factura_venta_sunat_Update",
+            array(
+                "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "ifactura_venta_ID"=>$this->factura_venta_ID,
+                "ifecha_generacion"=>$this->fecha_generacion,
+                "ifecha_respuesta"=>$this->fecha_respuesta,
+                "inombre_archivo"=>$this->nombre_archivo,
+                "ixml_firmado"=>$this->xml_firmado,
+                "ihash"=>$this->hash,
+                "irepresentacion_impresa"=>$this->representacion_impresa,
+                "iestado_envio"=>$this->estado_envio,
+                "icodigo_estado"=>$this->codigo_estado,
+                "idescripcion_estado"=>$this->descripcion_estado,
+                "icdr_sunat"=>$this->cdr_sunat,
+
+          ),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_sunat.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getCount($filtro="")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $resultado=$cn->store_procedure_getData(
+          "sp_factura_venta_sunat_getCount",
+            array(
+              "filtro"=>$filtro));
+      return $resultado;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_sunat.getCount", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  public function getGrid2($factura_venta_ID) {
+        $cn = new connect_new();
         try {
-
-            $q = 'select ifnull(max(ID),0)+1 from factura_venta_sunat';
-            $ID=$cn->getData($q);
-            $q = 'insert into factura_venta_sunat(ID,salida_ID,fecha_generacion,fecha_respuesta,nombre_archivo,hash,xml_firmado,representacion_impresa,estado_envio,codigo_estado,descripcion_estado,cdr_sunat,usuario_id)';
-            $q.='values('.$ID.','.$this->salida_ID.',"' . $this->fecha_generacion . '","'.$this->fecha_respuesta.'","'.$this->nombre_archivo.'","'.$this->hash.'","'.$this->xml_firmado.'","'.$this->representacion_impresa.'","'.$this->estado_envio.'","'.$this->codigo_estado.'","'.$this->descripcion_estado.'","'.$this->cdr_sunat.'",'. $this->usuario_id .');';
-            //console_log($q);
-            $retornar = $cn->transa($q);
-            $this->ID = $ID;
-            $this->getMessage = 'Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception($ex);
-            //throw new Exception("Ocurrio un error en la consulta");
-        }
-    }
-
-    function actualizar() {
-        $cn = new connect();
-        $retornar = -1;
-        try {
-            $q = 'update categoria set descripcion="' . $this->descripcion . '",nombre="' . $this->nombre . '", linea_ID='.$this->linea_ID.',usuario_mod_id=' . $this->usuario_mod_id;
-            $q.=', fdm=now() where del=0 and id=' . $this->ID;
-            $retornar = $cn->transa($q);
-            $this->message = 'Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-
-        }
-    }
-
-    function eliminar() {
-        $cn = new connect();
-        $retornar = -1;
-        try {
-
-            $q = 'UPDATE categoria SET del=1,usuario_mod_id=' . $this->usuario_mod_id . ', fdm=Now()';
-            $q.=' WHERE del=0 and ID=' . $this->ID;
-
-            $retornar = $cn->transa($q);
-
-            $this->message = 'Se eliminó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
-        }
-    }
-
-    static function getCount($filtro = '') {
-        $cn = new connect();
-        try {
-            $q = 'select count(ca.ID) ';
-            $q.=' FROM categoria as ca, linea li ';
-            $q.=' where ca.linea_ID=li.ID and ca.del=0 ';
-
-            if ($filtro != '') {
-                $q.=' and ' . $filtro;
-            }
-            //echo $q;
-            $resultado = $cn->getData($q);
-
-            return $resultado;
-        } catch (Exception $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
-        }
-    }
-
-    static function getByID($ID) {
-        $cn = new connect();
-        try {
-            $q = 'Select ID,nombre,tabla,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-            $q.=' from cargo ';
-            $q.=' where del=0 and ID=' . $ID;
-
-            $dt = $cn->getGrid($q);
-            $oCargo = null;
-
-            foreach ($dt as $item) {
-                $oCargo = new cargo();
-
-                $oCargo->ID = $item['ID'];
-                $oCargo->nombre = $item['nombre'];
-                $oCargo->tabla = $item['tabla'];
-				$oCargo->orden = $item['orden'];
-                $oCargo->usuario_id = $item['usuario_id'];
-                $oCargo->usuario_mod_id = $item['usuario_mod_id'];
-            }
-            return $oCargo;
-        } catch (Exeption $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
-        }
-    }
-
-    static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
-        try {
-            $q = 'Select ID,nombre,tabla,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-            $q.=' FROM cargo';
-            $q.=' where del=0 ';
-
-
-            if ($filtro != '') {
-                $q.=' and ' . $filtro;
-            }
-
-            $q.=' Order By ' . $order;
-
-            if ($desde != -1 && $hasta != -1) {
-                $q.=' Limit ' . $desde . ',' . $hasta;
-            }
-            //echo $q;
+            $q = 'SELECT * FROM factura_venta_sunat WHERE factura_venta_ID='.$factura_venta_ID.' ORDER BY ID DESC LIMIT 1 ';
             $dt = $cn->getGrid($q);
             return $dt;
         } catch (Exception $ex) {
             throw new Exception('Ocurrio un error en la consulta');
         }
     }
-
-    public function getGrid2($salida_ID) {
-        $cn = new connect();
-        try {
-            $q = 'SELECT * FROM factura_venta_sunat WHERE salida_ID='.$salida_ID.' ORDER BY ID DESC LIMIT 1 ';
-            $dt = $cn->getGrid($q);
-            return $dt;
-        } catch (Exception $ex) {
-            throw new Exception('Ocurrio un error en la consulta');
-        }
-    }
-
-    function verificarDuplicado() {
-        $cn = new connect();
-        $retornar = -1;
-        try {
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception("Ocurrio un error en la consulta");
-        }
-    }
-
-}
+}  

@@ -2,25 +2,25 @@
 require_once('../lib/soap/nusoap.php');
 
 function getData($sql){
-    require_once ('../models/connect.php');
-    $cn = new connect();
+    require_once ('../models/connect_new.php');
+    $cn = new connect_new();
     $resultado=$cn->getData($sql);
     $retornar = Array('resultado' => $resultado);
     return json_encode($retornar, true);
 }
 
 function getGrid($sql){
-    require_once ('../models/connect.php');
-    $cn = new connect();
+    require_once ('../models/connect_new.php');
+    $cn = new connect_new();
     $dt=$cn->getGrid($sql);
     $dt=utf8_converter($dt);
    
     return json_encode($dt);
 }
 function transa($sql){
-    require_once ('../models/connect.php');
+    require_once ('../models/connect_new.php');
     try{
-         $cn = new connect();
+         $cn = new connect_new();
 
          $resultado=$cn->transa($sql);;
          $mensaje="Se realizó correctamente";
@@ -61,7 +61,7 @@ $server->register("getGrid",
     "urn:services#getGrid",
     "rpc",
     "encoded",
-    "Ejecuta una sentencia.");
+    "Extrae una cadena de registros.");
 $server->register("transa",
     array("sql" => "xsd:string"),
     array("return" => "xsd:string"),
@@ -69,7 +69,7 @@ $server->register("transa",
     "urn:services#transa",
     "rpc",
     "encoded",
-    "Devuelve  registros."); 
+    "Ejecuta una sentencia."); 
 if ( !isset( $HTTP_RAW_POST_DATA ) ) $HTTP_RAW_POST_DATA =file_get_contents( 'php://input' );
 $server->service($HTTP_RAW_POST_DATA);
 

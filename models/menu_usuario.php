@@ -179,7 +179,7 @@ class menu_usuario {
         }
     }
     static function getGridUsuario_Empresa($filtro = '', $desde = -1, $hasta = -1, $order = 'em.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select em.ID, em.nombre';
             $q.=' from menu_usuario mu,menu me,modulo_empresa moe,empresa em';

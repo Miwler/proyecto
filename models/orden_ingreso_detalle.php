@@ -53,17 +53,19 @@ class orden_ingreso_detalle {
     
    
     function insertar(){
-		$cn =new connect();
+		
 		$retornar=-1;
 		try{
                     $ID=0;
 			$q="select ifnull(max(ID),0)+1 as ID from orden_ingreso_detalle;";
+                        $cn =new connect_new();
 			$ID=$cn->getData($q);
 			
 			$q="INSERT INTO orden_ingreso_detalle(ID,orden_ingreso_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,usuario_id) ";
 			$q.="VALUES (".$ID.",".$this->orden_ingreso_ID.",".$this->producto_ID.",'".$this->descripcion."',".$this->cantidad.",'";
 			$q.=number_format($this->precio,2,'.','')."','".number_format($this->subtotal,2,'.','')."','".number_format($this->igv,2,'.','')."','".number_format($this->total,2,'.','')."',".$this->usuario_id.');';
 			//echo $q;
+                        $cn =new connect_new();
 			$retornar=$cn->transa($q);
 			
 			
@@ -78,7 +80,7 @@ class orden_ingreso_detalle {
 	}	
 		
     function actualizar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -98,7 +100,7 @@ class orden_ingreso_detalle {
     }
 
     function eliminar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -117,7 +119,7 @@ class orden_ingreso_detalle {
 
     static function getByID($ID)
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='Select ID,orden_ingreso_ID,producto_ID,descripcion,cantidad,precio,subtotal,igv,total,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -151,7 +153,7 @@ class orden_ingreso_detalle {
     }
 
     function verificarDuplicado(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     return $retornar;
@@ -163,7 +165,7 @@ class orden_ingreso_detalle {
 
     static function getCount($filtro='')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(ocd.ID) ';
@@ -186,7 +188,7 @@ class orden_ingreso_detalle {
 
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$orden='ocd.ID asc')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select ocd.ID,ocd.producto_ID,ocd.orden_ingreso_ID,ocd.descripcion,ocd.cantidad,';

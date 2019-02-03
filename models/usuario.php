@@ -107,11 +107,12 @@ class usuario
         
 	static function validar($nombre,$contrasena)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q="Select ID,persona_ID,estado_ID,nombre,password,ifnull(foto,'') as foto from usuario ";
 			$q.="where del=0 and nombre='".$nombre."' and password='".$contrasena."' and (estado_ID=45 or estado_ID=0)";
+                        //echo $q;
 			$dt=$cn->getGrid($q);			
 			$usuario=null;
 			

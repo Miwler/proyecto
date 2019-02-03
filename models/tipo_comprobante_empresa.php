@@ -1,215 +1,191 @@
 <?php
-class tipo_comprobante_empresa
-{
-	private $ID;
-	private $tipo_comprobante_ID;
-	private $empresa_ID;
-	private $tabla;
-	private $imprime;
-	private $usuario_id;	
-	private $usuario_mod_id;
-	private $getMessage;
-		
-	public function __set($var, $valor)
-	{
-		// convierte a minúsculas toda una cadena la función strtolower
-		$temporal = $var;
-		
-		// Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
-		if (property_exists('tipo_comprobante_empresa',$temporal))
-		 {
-			$this->$temporal = $valor;
-		 }
-		 else
-		 {
-			echo $var . " No existe.";
-		 }
-	 }
-	 
-	 public function __get($var)
-	 {
-		$temporal = $var;
-		
-		// Verifica que exista
-		if (property_exists('tipo_comprobante_empresa', $temporal))
-		 {
-			return $this->$temporal;
-		 }
-		 
-		// Retorna nulo si no existe
-		return null;
-	}
-	
-	function insertar(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-			$q='SET @maxrow:=(select ifnull(max(ID),0) from tipo_comprobante);';
-			$cn->transa($q);
-			
-			$q='INSERT INTO tipo_comprobante(ID,documento_identidad_ID,en_venta,en_compra,codigo,nombre,con_igv,con_serie_numero,con_numero,usuario_id) ';
-			$q.='VALUES ((select @maxrow:=@maxrow+1),'.$this->documento_identidad_ID.','.$this->en_venta.','.$this->en_compra.',';
-			$q.='"'.FormatTextSave($this->codigo).'","'.FormatTextSave($this->nombre).'",'.$this->con_igv.','.$this->con_serie_numero.','.$this->con_numero.','.$this->usuario_id.');';
-			
-			$retornar=$cn->transa($q);
-			
-			$q='select max(ID) from comprobante_tipo where usuario_id='.$this->usuario_id;
-			$this->ID=$cn->getData($q);
-			
-			$this->getMessage='Se guardó correctamente';
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}	
-	
-	function actualizar(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-					
-			$q='UPDATE comprobante_tipo SET documento_identidad_ID='.$this->documento_identidad_ID.',en_venta='.$this->en_venta.',';
-			$q.='en_compra='.$this->en_compra.',codigo="'.FormatTextSave($this->codigo).'",nombre="'.FormatTextSave($this->nombre).'",con_igv='.$this->con_igv.',';
-			$q.=' con_serie_numero='.$this->con_serie_numero.',con_numero='.$this->con_numero.',usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
-			$q.=' WHERE ID='.$this->ID;
-			
-			$retornar=$cn->transa($q);
-			
-			$this->getMessage='Se guardó correctamente';
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}		
-	
-	function eliminar(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-					
-			$q='UPDATE comprobante_tipo SET del=1,usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
-			$q.=' WHERE ID='.$this->ID;
-			
-			$retornar=$cn->transa($q);
-			
-			$this->getMessage='Se eliminó correctamente';
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}
+class tipo_comprobante_empresa {
+  private $ID;
+  private $tipo_comprobante_ID;
+  private $empresa_ID;
+  private $accion;
+  private $imprime;
+  private $usuario_id;
+  private $usuario_mod_id;
+  private $getMessage;
+  public function __set($var, $valor)
+    {
+      $temporal = $var;
+      if (property_exists("tipo_comprobante_empresa",$temporal))
+      {
+        $this->$temporal = $valor;
+      }
+      else
+      {
+        echo $var . " No existe.";
+      }
+    }
+  public function __get($var)
+  {
+    $temporal = $var;
+    if (property_exists("tipo_comprobante_empresa", $temporal))
+    {
+      return $this->$temporal;
+    }
+    return null;
+  }
+  function __construct()
+  {
+        $this->accion="";
+    $this->imprime=0;
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
- 	static function getByID($ID)
-	{
-		$cn =new connect();
-		try 
-		{
-			$q='Select ID,tipo_comprobante_ID,empresa_ID,tabla,imprime,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
-			$q.=' from tipo_comprobante_empresa';
-			$q.=' where ID='.$ID;
-			
-			$dt=$cn->getGrid($q);			
-			$oTipo_Comprobante_Empresa=null;
-			
-			foreach($dt as $item)
-			{
-				$oTipo_Comprobante_Empresa=new tipo_comprobante_empresa();
-				
-				$oTipo_Comprobante_Empresa->ID=$item['ID'];
-				$oTipo_Comprobante_Empresa->tipo_comprobante_ID=$item['tipo_comprobante_ID'];
-				$oTipo_Comprobante_Empresa->empresa_ID=$item['empresa_ID'];
-				$oTipo_Comprobante_Empresa->tabla=$item['tabla'];
-				$oTipo_Comprobante_Empresa->imprime=$item['imprime'];
-				$oTipo_Comprobante_Empresa->usuario_id=$item['usuario_id'];
-				$ocomprobante_tipo->usuario_mod_id=$item['usuario_mod_id'];
-			}			
-			return $oTipo_Comprobante_Empresa;
-				
-		}catch(Exeption $ex)
-		{
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}
-	
-	function verificarDuplicado(){
-		$cn =new connect();
-		$retornar=-1;
-		try{
-			
-			//Verifico que no se repita el nombre
-			$q='SELECT count(ID) FROM comprobante_tipo';
-			$q.=' WHERE del=0 and Upper(nombre)="'.strtoUpper(FormatTextSave($this->nombre)).'"';		
-			
-			if($this->ID!=''){
-				$q.=' and ID<>'.$this->ID;
-			}
-			
-			$retornar=$cn->getData($q);			
-			
-			if ($retornar>0){
-				$this->getMessage='Ya existe un tipo de comprobante con el mismo nombre.';
-				return $retornar;
-			}
-			return $retornar;
-		}
-		catch(Exception $ex){
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	}
-	
-	static function getCount($filtro='')
-	{
-		$cn =new 	connect();
-		try 
-		{
-			$q='select count(ct.ID) ';
-			$q.=' FROM tipo_comprobante_empresa';
-			$q.=' where del=0 ';
-			
-			if ($filtro!='')
-			{
-				$q.=' and '.$filtro;
-			}
-			
-			$resultado=$cn->getData($q);									
-		
-			return $resultado;					
-		}catch(Exception $ex)
-		{
-			throw new Exception("Ocurrio un Error en la consulta");
-		}
-	} 
-	
-	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
-	{
-		$cn =new connect();
-		try 
-		{
-			$q='SELECT tce.ID,tce.tipo_comprobante_ID,tce.empresa_ID,tce.tabla,tce.imprime,tce.usuario_id,ifnull(tce.usuario_mod_id,-1) as usuario_mod_id';
-			$q.=',tc.nombre';
-			$q.=' FROM tipo_comprobante_empresa tce,tipo_comprobante tc';
-			$q.=' where tce.tipo_comprobante_ID=tc.ID and tc.del=0 and  tce.del=0 and tce.empresa_ID='.$_SESSION['empresa_ID'];
-			
-			if($filtro!=''){
-				$q.=' and '.$filtro;
-			}
-			
-			$q.=' Order By '.$order;
-			
-			if($desde!=-1&&$hasta!=-1){
-				$q.=' Limit '.$desde.','.$hasta;
-			}			
-			//echo $q;
-			$dt=$cn->getGrid($q);									
-			return $dt;												
-		}catch(Exception $ex)
-		{
-			throw new Exception('Ocurrio un Error en la consulta');
-		}
-	}
-}
+  }
+  function __destruct()
+  {
+        $this->accion;
+    $this->imprime;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
+  static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_tipo_comprobante_empresa_getByID",
+          array("iID"=>$ID));
+      $otipo_comprobante_empresa=null;
+      foreach($dt as $item)
+      {
+        $otipo_comprobante_empresa= new tipo_comprobante_empresa();
+      $otipo_comprobante_empresa->ID=$item["ID"];
+      $otipo_comprobante_empresa->tipo_comprobante_ID=$item["tipo_comprobante_ID"];
+      $otipo_comprobante_empresa->empresa_ID=$item["empresa_ID"];
+      $otipo_comprobante_empresa->accion=$item["accion"];
+      $otipo_comprobante_empresa->imprime=$item["imprime"];
+      $otipo_comprobante_empresa->usuario_id=$item["usuario_id"];
+      $otipo_comprobante_empresa->usuario_mod_id=$item["usuario_mod_id"];
+
+      }
+      return $otipo_comprobante_empresa;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "tipo_comprobante_empresa.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function insertar()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_tipo_comprobante_empresa_Insert",
+            array(
+    "iID"=>0,
+    "itipo_comprobante_ID"=>$this->tipo_comprobante_ID,
+    "iempresa_ID"=>$this->empresa_ID,
+    "iaccion"=>$this->accion,
+    "iimprime"=>$this->imprime,
+    "iusuario_id"=>$this->usuario_id,
+
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "tipo_comprobante_empresa.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_tipo_comprobante_empresa_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "itipo_comprobante_ID"=>$this->tipo_comprobante_ID,
+    "iempresa_ID"=>$this->empresa_ID,
+    "iaccion"=>$this->accion,
+    "iimprime"=>$this->imprime,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "tipo_comprobante_empresa.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function eliminar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_tipo_comprobante_empresa_Delete",
+            array(
+              "retornar"=>$retornar,
+              "iID"=>$this->ID,
+              "iusuario_mod_id"=>$this->usuario_mod_id ),0
+            );
+      if($retornar>0)$this->getMessage = "Se elimin? correctamente";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "tipo_comprobante_empresa.eliminar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getCount($filtro="")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $resultado=$cn->store_procedure_getData(
+          "sp_tipo_comprobante_empresa_getCount",
+            array(
+              "filtro"=>$filtro));
+      return $resultado;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "tipo_comprobante_empresa.getCount", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getGrid($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+        $filtro=" and tce.empresa_ID=".$_SESSION['empresa_ID'].(($filtro<>"")?" and ":"").$filtro;
+      $dt=$cn->store_procedure_getGrid(
+          "sp_tipo_comprobante_empresa_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "tipo_comprobante_empresa.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+}  
+
 
 ?>

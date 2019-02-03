@@ -17,6 +17,11 @@
             });
             
         </script>
+        <style>
+            #table_serie tbody td{
+                font-size:11px;
+            }
+        </style>
 	
 <?php } ?>
 
@@ -27,112 +32,108 @@
 
 <?php function fncPage(){?>
     <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm2"  class="divRegistrarSeries"  method="post" action="/Ventas/Orden_Venta_Mantenimiento_Producto_Serie/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
-    <div class="panel panel-<?php echo $_SESSION['cabecera'];?>">
-        <div class="panel-heading">
-            <div class="form-group">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <label>Producto:</label>
+    <form id="frm1"  method="post" action="/Salida/Orden_Venta_Mantenimiento_Producto_Serie/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal divRegistrarSeries">
+        <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-lg-2 col-md-2 col-sm-2">Producto:</label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->oProducto->nombre);?>
+            </div>
+            <label class="control-label col-lg-2 col-md-2 col-sm-2">Cantidad:</label>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <?php echo $GLOBALS['oOrden_Venta_Detalle']->cantidad;?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-2 col-md-2 col-sm-2">Serie:</label>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <input type="text" id="txtRegSeries" name="txtRegSeries"  autocomplete="off" class="form-control" placeholder="Ingresa la serie">
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1">
+                <button id="btnMP" type="button" class="btn btn-success" title="Registrar series" onclick="fncRegistrarSeries($('#txtRegSeries').val());" >
+                    <img src="/include/img/boton/serie.png"  />
+                </button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="ckbox ckbox-theme">
+                    <input  type="checkbox" id="ckSecuencia" checked class="seleccionar"  name="ckSecuencia" value="ckSecuencia">
+                    <label for="ckSecuencia">Secuencia</label>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                    <?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->oProducto->nombre);?>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <label>Cantidad:</label>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <?php echo $GLOBALS['oOrden_Venta_Detalle']->cantidad;?>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="ckbox ckbox-theme">
+                    <input  type="checkbox" id="ckDetalle" class="seleccionar" name="ckDetalle" value="ckDetalle">
+                    <label for="ckDetalle">Detalle</label>
                 </div>
             </div>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <label>Ingrese la serie:</label>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <input type="text" id="txtRegSeries" name="txtRegSeries"  autocomplete="off" class="form-control" >
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                    <button id="btnMP" type="button" class="btn btn-success" title="Registrar series" onclick="fncRegistrarSeries($('#txtRegSeries').val());" >
-                        <img src="/include/img/boton/serie.png"  />
-                    </button>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <div class="ckbox ckbox-theme">
-                        <input  type="checkbox" id="ckSecuencia" checked class="seleccionar"  name="ckSecuencia" value="ckSecuencia">
-                        <label for="ckSecuencia">Secuencia</label>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                    <div class="ckbox ckbox-theme">
-                        <input  type="checkbox" id="ckDetalle" class="seleccionar" name="ckDetalle" value="ckDetalle">
-                        <label for="ckDetalle">Detalle</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 grid_detalle" style="height: 350px;overflow:auto;">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Action</th>
-                                <th style="width:40px">Nro.</th>
-                                <?php if($GLOBALS['oOrden_Venta_Detalle']->internos>0){?>
-                                <th>Tipo</th>
-                                <th>Descripción</th>
-                                <?php } ?>
-                                <th>Serie</th>
-                                <th>Factura V.</th>
-                                <th>Gu&iacute;a V.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php $i=1;?>
-                        <?php foreach($GLOBALS['oOrden_Venta_Detalle']->dtInventario as $item){?>
-                            <tr class="item-tr">
-                                <td>
-                                     <a title="Editar"  onclick="fncEditar(<?php echo $item['ID'] ?>);"><img src="/include/img/boton/edit_14x14.png"/> Editar</a>
-                                </td>
-                                <td>
-                                     <a title="Eliminar" onclick="fncEliminar(<?php echo $item['ID'] ?>);"><img src="/include/img/boton/delete_14x14.png" /> Eliminar</a>
-                                </td>
-                                <td class="tdCenter"><?php echo $i;?></td>
-                                <?php if($GLOBALS['oOrden_Venta_Detalle']->internos>0){?>
-                                <td><?php echo $item['tipo'];?></td>
-                                <td><?php echo FormatTextView($item['producto']);?></td>
-                                <?php } ?>
-                                <td class="tdLeft"><input type="text" id="<?php echo $item['ID'] ?>" name="<?php echo $item['ID'] ?>" value="<?php echo $item['serie']?>" style="display:none;"><span id="span<?php echo $item['ID'] ?>"><?php echo $item['serie'] ?></span></td>
-                                <td class="tdCenter"><?php echo $item['numero_orden_venta']?></td>
-                                <td class="tdCenter"><?php echo $item['numero_factura_venta']?></td>
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 grid_detalle" style="height: 320px;overflow:auto;">
+                <table id="table_serie" class="table table-hover table-responsive table-teal">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Action</th>
+                            <th style="width:40px">Nro.</th>
+                            <?php if($GLOBALS['oOrden_Venta_Detalle']->internos>0){?>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <?php } ?>
+                            <th>Serie</th>
+                            <th>Factura V.</th>
+                            <th>Gu&iacute;a V.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php $i=1;?>
+                    <?php foreach($GLOBALS['oOrden_Venta_Detalle']->dtInventario as $item){?>
+                        <tr class="item-tr">
+                            <td>
+                                 <a title="Editar" class="btn btn-success" onclick="fncEditar(<?php echo $item['ID'] ?>);"><img src="/include/img/boton/edit_14x14.png"/></a>
+                            </td>
+                            <td>
+                                 <a title="Eliminar" class="btn btn-danger" onclick="fncEliminar(<?php echo $item['ID'] ?>);"><img src="/include/img/boton/delete_14x14.png" /></a>
+                            </td>
+                            <td class="text-center"><?php echo $i;?></td>
+                            <?php if($GLOBALS['oOrden_Venta_Detalle']->internos>0){?>
+                            <td><?php echo $item['tipo'];?></td>
+                            <td><?php echo FormatTextView($item['producto']);?></td>
+                            <?php } ?>
+                            <td class="tdLeft"><input type="text" id="<?php echo $item['ID'] ?>" name="<?php echo $item['ID'] ?>" autocomplete="off" value="<?php echo $item['serie']?>" style="display:none;"><span id="span<?php echo $item['ID'] ?>"><?php echo $item['serie'] ?></span></td>
+                            <td class="tdCenter"><?php echo $item['numero_salida']?></td>
+                            <td class="tdCenter"><?php echo $item['numero_factura_venta']?></td>
 
-                            </tr>
-                        <?php $i++;?>
-                        <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
+                        </tr>
+                    <?php $i++;?>
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                        Guardar
-                    </button>
-                    <button id="btnRegresar" type="button" title="Cancelar"  class="btn btn-danger" onclick="parent.float_close_modal_hijo();">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </div>
+        
     </div>
-			
-</form>
-<script type="text/javascript">
+    <div class="form-footer">
+        <div class="pull-left">
+            <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Guardar
+            </button>
+            <button id="btnRegresar" type="button" title="Cancelar"  class="btn btn-danger" onclick="parent.float_close_modal_hijo();">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Cancelar
+            </button>
+        </div>
+        <div class="clearfix"></div>
+    </div>
 
+
+    </form>
+<script type="text/javascript">
+    function stopRKey(evt) {
+        var evt = (evt) ? evt : ((event) ? event : null);
+        var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+        if ((evt.keyCode == 13) && (node.type=="text")) {return false;}
+    }
+document.onkeypress = stopRKey;
 
     $("#txtRegSeries").keypress(function(e){
         if(e.which==13){
@@ -221,7 +222,7 @@
        }
    });
    var validar=function(){
-        $('#fondo_espera').css('display','block');
+       block_ui();
     }
  </script>
     <?php } ?>

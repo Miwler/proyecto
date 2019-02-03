@@ -17,7 +17,11 @@
             });
             
         </script>
-	
+	<style>
+            #table_serie tbody td{
+                font-size:11px;
+            }
+        </style>
 <?php } ?>
 
 <?php function fncTitleHead(){?>Registro de Serie<?php } ?>
@@ -28,7 +32,7 @@
 <?php function fncPage(){?>
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="frm2"  class="divRegistrarSeries"  method="post" action="/Salida/Orden_Venta_Mantenimiento_Producto_Serie_hijo/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1"   method="post" action="/Salida/Orden_Venta_Mantenimiento_Producto_Serie_hijo/<?php echo $GLOBALS['oOrden_Venta_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal divRegistrarSeries">
     
        
         <div class="form-body">
@@ -73,7 +77,7 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " style="height: 350px; overflow:auto;">
-                    <table class="table table-hover grid_detalle">
+                    <table id="table_serie" class="table table-hover table-teal grid_detalle">
                         <thead>
                             <tr>
                                 <th colspan="2">Action</th>
@@ -116,17 +120,16 @@
         </div>
         <div class="form-footer">
             <div class="pull-left">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                        Guardar
-                    </button>
-                    <button id="btnRegresar" type="button" title="Cancelar"  class="btn btn-danger" onclick="parent.float_close_modal_hijo_hijo();">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Cancelar
-                    </button>
-                </div>
+               <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    Guardar
+                </button>
+                <button id="btnRegresar" type="button" title="Cancelar"  class="btn btn-danger" onclick="parent.float_close_modal_hijo_hijo();">
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                    Cancelar
+                </button>
             </div>
+            <div class="clearfix"></div>
         </div>
    
 </form>

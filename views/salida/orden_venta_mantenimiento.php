@@ -45,6 +45,11 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registros de orden de ventas
+     <div class="pull-right">
+        <a onclick="fngetData();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+        <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+   
+     </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm1" method="post" action="#" class="form-horizontal">
@@ -57,9 +62,7 @@
             </ul>
             
            
-            <a onclick="fngetData();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-        </div>
+                 </div>
         <div class="panel-body">
             <div class="tab-content">
                 <div  id="vista_filtrar" class="tab-pane fade in active">

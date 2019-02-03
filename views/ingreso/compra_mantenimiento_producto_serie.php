@@ -130,7 +130,13 @@
     
 </form>
    <script type="text/javascript">
-
+$(document).ready(function() {
+    $("form").keypress(function(e) {
+        if (e.which == 13) {
+            return false;
+        }
+    });
+});
 
     $("#txtRegSeries").keypress(function(e){
          if(e.which==13){
@@ -157,7 +163,7 @@
             });
             if(i==0){
                 if(valor=="ckSecuencia"){
-                $('#tablaserie tr :input[type=text]').each(function(){
+                $('#tablaserie  tr :input[type=text]').each(function(){
                         if($.trim($(this).val())==''){
                             $(this).val($.trim(serie));
 
@@ -215,7 +221,7 @@
           }
       });
     var validar=function(){
-        $('#fondo_espera').css('display','block');
+        block_ui();
     }
     </script>
  

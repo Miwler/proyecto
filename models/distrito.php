@@ -42,7 +42,7 @@ class distrito
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select di.ID,di.provincia_ID,concat(de.codigo_ubigeo,pr.codigo_ubigeo,di.codigo_ubigeo) as codigo_ubigeo,di.nombre,di.usuario_id,ifnull(di.usuario_mod_id,-1) as usuario_mod_id,';
@@ -76,7 +76,7 @@ class distrito
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(dt.ID) ';
@@ -99,7 +99,7 @@ class distrito
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='dt.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT dt.ID,dt.provincia_ID,dt.codigo_ubigeo,dt.nombre,dt.usuario_id,ifnull(dt.usuario_mod_id,-1) as usuario_mod_id';
@@ -123,6 +123,42 @@ class distrito
 			throw new Exception('Ocurrio un error en la consulta.');
 		}
 	}
+    static function getOpciones($ID,$provincia_ID) {
+        $cn = new connect_new();
+        $opciones="";
+        try {
+            $dt=$cn->store_procedure_getGrid("sp_distrito_getOpciones",
+                    array(
+                        "iID"=>$ID,
+                        "iprovincia_ID"=>$provincia_ID
+                     ));
+            if(count($dt)>0){
+               $opciones=utf8_encode($dt[0]["opciones"]);
+           }
+            return $opciones;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "departamento.getOpciones", $ex->getMessage());
+            throw new Exception('Ocurrio un error en la consulta');
+        }
+    }
+    
+    static function getUbigeo($ID,$empresa_ID,$cliente_ID) {
+        $cn = new connect_new();
+        $opciones="";
+        try {
+            $dt=$cn->store_procedure_getGrid("sp_distrito_getUbigeo",
+                    array(
+                        "idistrito_ID"=>$ID,
+                        "iempresa_ID"=>$empresa_ID,
+                        "icliente_ID"=>$cliente_ID
+                     ));
+           
+            return $dt;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "departamento.getOpciones", $ex->getMessage());
+            throw new Exception('Ocurrio un error en la consulta');
+        }
+    }
 }
 
 ?>

@@ -92,6 +92,7 @@
                     </div>
                 </div>
                 <?php }?><!-- /.form-group -->
+               
             </div><!-- /.sign-body -->
             <div class="sign-footer">
                 <div class="form-group">

@@ -18,7 +18,8 @@ class PDF2 extends FPDF
     public $detalle;
     public $numero_cuenta;
 
-
+    public $font_size=5;
+    public $subtitle_size=8;
     //public $dtOrden_Venta_Numero_Cuenta;
     function Row($data,$altura)
     {
@@ -31,6 +32,7 @@ class PDF2 extends FPDF
             //Issue a page break first if needed
             $this->CheckPageBreak($h);
             //Draw the cells of the row
+           
             for($i=0;$i<count($data);$i++)
             {
                     $w=$this->widths[$i];
@@ -40,11 +42,12 @@ class PDF2 extends FPDF
                     $y=$this->GetY();
                     //$this->Write(2,$y);
                     //$alto=$this->GetMultiCellHeight(0,0,$data[$i]);
-
+                    
                     //Draw the border
                     $this->MultiCell($w,$altura,$data[$i],0,$a,false);
                     //Put the position to the right of the cell
                     $this->SetXY($x+$w,$y);
+                   
 
             }
 
@@ -119,7 +122,7 @@ class PDF2 extends FPDF
     function cabecera_header(){
         require ROOT_PATH . 'include/lib_fecha_texto.php';
         $this->Image("files/imagenes/logo_comprobantes/".$_SESSION['empresa_ID'].".jpg" , 8 ,8, 70, 20 , "JPG" );
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetTextColor(0);
         $this->SetXY(8,18);
         $this->Cell(80,30,utf8_decode($this->cabecera[0]['razon_social']),0,1);
@@ -131,7 +134,7 @@ class PDF2 extends FPDF
         $this->SetXY(138,8);
         $this->SetFont('Arial','B',15);
         $this->Cell(70,10,'R.U.C.'.$this->cabecera[0]['ruc'],0,2,'C');
-        $this->Cell(70,10,utf8_decode('FACTURA ELECTRÓNICA'),0,2,'C');
+        $this->Cell(70,10,utf8_decode($this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA'),0,2,'C');
         $this->Cell(70,10,utf8_decode($this->cabecera[0]['serie'].' - N°'. $this->cabecera[0]['numero_concatenado']),0,0,'C');
 
         $this->Ln();
@@ -139,45 +142,45 @@ class PDF2 extends FPDF
        // $this->Cell(155,5,'FECHA',1,0,'R');
         //$this->Ln();$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'R');
         //$this->SetXY(8,50);
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(120,5,utf8_decode('Lima, '.fechaATexto($this->cabecera[0]['fecha_emision'])),0,0,'L');
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(40,5,'Fecha de vencimiento:',0,0,'L');
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(40,5,$this->cabecera[0]['fecha_vencimiento'],0,0,'L');
         $this->Ln();
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('Señor(es):'),0,0,'L');
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(95,5,utf8_decode($this->cabecera[0]['cliente']),0,0,'L');
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(40,5,utf8_decode('Vendedor(a):'),0,0,'L');
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(40,5,utf8_decode(substr($this->cabecera[0]['operador'],0,22)),0,0,'L');
         $this->Ln();
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('Dirección:'),0,0,'L');
-        $this->SetFont('Arial','',9);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(95,5,utf8_decode(substr($this->cabecera[0]['direccion'],0,50)),0,0,'L');
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(40,5,utf8_decode('N° Pedido:'),0,0,'L');
-        $this->SetFont('Arial','',10);
-        $this->Cell(40,5,utf8_decode($this->cabecera[0]['orden_pedido']),0,0,'L');
+        $this->SetFont('Arial','',$this->subtitle_size);
+        $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_venta']),0,0,'L');
         $this->Ln();
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('R.U.C.:'),0,0,'L');
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(35,5,utf8_decode($this->cabecera[0]['cliente_ruc']),0,0,'L');
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(35,5,utf8_decode('Código del Cliente:'),0,0,'L');
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode($this->cabecera[0]['cliente_codigo']),0,0,'L');
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(40,5,utf8_decode('N° Orden de Compra:'),0,0,'L');
-        $this->SetFont('Arial','',10);
-        $this->Cell(40,5,utf8_decode($this->cabecera[0]['orden_ingreso']),0,0,'L');
+        $this->SetFont('Arial','',$this->subtitle_size);
+        $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_compra']),0,0,'L');
         $this->Ln();
-        $this->SetFont('Arial','B',10);
+        $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(200,5,utf8_decode('Por lo siguiente:'),0,1,'L');
     }
     function contenido_detalle($dtDetalle){
@@ -187,7 +190,9 @@ class PDF2 extends FPDF
             $costo_unitario=number_format($item['precio_unitario'],2,'.',',');
             $subtotal=number_format($item['sub_total'],2,'.',',');
             $this->SetFont('Arial','B',10);
-            $array=array($item['cantidad'],$item['medida'],$item['codigo'],$item['producto'],$costo_unitario,$subtotal);
+            $texto = $item['producto'];
+            //$texto .= ($item['producto']=='')?'':chr(10).$item['descripcion'];
+            $array=array($item['cantidad'],$item['medida'],$item['codigo'],utf8_decode($item['producto']),$costo_unitario,$subtotal);
             $this->Row($array,5);
             $this->SetX(30);
             $this->SetFont('Arial','',9);
@@ -196,7 +201,7 @@ class PDF2 extends FPDF
     }
     function contenedor_detalle($alto){
     //$this->SetXY(10,$y);
-    $this->Ln();
+   /* $this->Ln();
     $this->SetFont('Arial','B',8);
     $this->SetTextColor(255,255,255);
     $this->SetFillColor(117,179,114);
@@ -215,7 +220,7 @@ class PDF2 extends FPDF
     $this->Cell(100,$alto,'',1,0,'C');
     $this->Cell(25,$alto,'',1,0,'C');
     $this->Cell(25,$alto,'',1,0,'C');
-    //pie de pagina
+    //pie de pagina*/
     $precio_venta_total=$this->cabecera[0]['monto_total'];
     $total_facturado=explode(".",$precio_venta_total);
         $decimal="00";
@@ -228,9 +233,17 @@ class PDF2 extends FPDF
 
         }
         $numero_texto="SON: ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper($this->cabecera[0]['moneda'])).".";
+       
+    $monto_total_neto=number_format($this->cabecera[0]['monto_total_neto'],2,'.',',');
+    $monto_total_igv=number_format($this->cabecera[0]['monto_total_igv'],2,'.',',');
+    $monto_total=number_format($this->cabecera[0]['monto_total'],2,'.',',');
+    $gravadas=number_format($this->cabecera[0]['gravadas'],2,'.',',');
+    $exoneradas=number_format($this->cabecera[0]['exoneradas'],2,'.',',');
+    $inafectas=number_format($this->cabecera[0]['inafectas'],2,'.',',');
+    $gratuitas=number_format($this->cabecera[0]['gratuitas'],2,'.',',');
+    $otros_cargos=number_format($this->cabecera[0]['otros_cargos'],2,'.',',');
 
-
-    $this->Ln();
+   /* $this->Ln();
     $this->SetTextColor(0);
     $this->Cell(175,10,$numero_texto,1,0,'L');
     $this->Cell(25,10,'',1,0,'C');
@@ -255,8 +268,8 @@ class PDF2 extends FPDF
     $this->Cell(60,5,utf8_decode('CANCELADO'),0,2,'C');
     $this->Cell(60,5,utf8_decode('Lima         de                de'),0,2,'C');
     $this->Cell(60,15,utf8_decode('p. JJSOLUCIONES PERU E.I.R.L.'),0,2,'C');
-
-    $this->SetXY(150,227);
+*/
+    /*$this->SetXY(150,227);
     $this->Cell(25,10,utf8_decode('Sub-Total'),1,2,'C');
     $this->Cell(25,10,utf8_decode('I.G.V. 18%'),1,2,'C');
     $this->Cell(25,10,utf8_decode('TOTAL'),1,2,'C');
@@ -264,7 +277,45 @@ class PDF2 extends FPDF
     $this->SetXY(175,227);
     $this->Cell(35,10,utf8_decode($this->cabecera[0]['monto_total_neto']),1,2,'R');
     $this->Cell(35,10,utf8_decode($this->cabecera[0]['monto_total_igv']),1,2,'R');
-    $this->Cell(35,10,utf8_decode($this->cabecera[0]['monto_total']),1,2,'R');
+    $this->Cell(35,10,utf8_decode($this->cabecera[0]['monto_total']),1,2,'R');*/
+    $this->Ln();
+    $this->SetFont('Arial','B',9);
+    $this->SetTextColor(0);
+    $this->Cell(175,10,$numero_texto,1,0,'L');
+    $this->Cell(25,10,'',1,0,'C');
+    //$this->Ln();
+    $this->Ln();
+    $h_actual=$this->GetY();
+    $this->SetX(145);
+    $this->Cell(30,$this->font_size,utf8_decode('OP. GRAVADA'),0,0,'L');
+    $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
+    $this->Cell(25,$this->font_size,$gravadas,1,0,'R');
+    $this->Ln();
+    $this->SetX(145);
+    $this->Cell(30,$this->font_size,utf8_decode('OP. INAFECTA'),0,0,'L');
+    $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
+    $this->Cell(25,$this->font_size,$inafectas,1,0,'R');
+    $this->Ln();
+    $this->SetX(145);
+    $this->Cell(30,$this->font_size,utf8_decode('OP. EXONERADA'),0,0,'L');
+    $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
+    $this->Cell(25,$this->font_size,$exoneradas,1,0,'R');
+    $this->Ln();
+    $this->SetX(145);
+    $this->Cell(30,$this->font_size,utf8_decode('I.G.V. '.($this->cabecera[0]['igv']*100)."%"),0,0,'L');
+    $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
+    $this->Cell(25,$this->font_size,$monto_total_igv,1,0,'R');
+    
+    $this->Ln();
+    $this->SetX(145);
+    $this->Cell(30,$this->font_size,utf8_decode('OTROS CARGOS'),0,0,'L');
+    $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
+    $this->Cell(25,$this->font_size,$otros_cargos,1,0,'R');
+    $this->Ln();
+    $this->SetX(145);
+    $this->Cell(30,$this->font_size,utf8_decode('IMPORTE TOTAL'),0,0,'L');
+    $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
+    $this->Cell(25,$this->font_size,$monto_total,1,0,'R');
    }
 
 
@@ -273,8 +324,9 @@ class PDF2 extends FPDF
        $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
        $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
        $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
-       $this->SetXY(40,257);
-       $this->Cell(80,30,utf8_decode('Representación impresa de la FACTURA ELECTRÓNICA, visita wwww/comprobante/index'),0,1);
+       
+       $this->SetXY(40,270);
+       $this->Cell(80,5,utf8_decode('Representacion impresa de la '.$this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA,'.link_comprobante_electronico),0,1);
     }
 
 }

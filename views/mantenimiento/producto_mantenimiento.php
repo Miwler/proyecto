@@ -16,6 +16,11 @@
     
 <?php function fncTituloCabecera(){?>
         <i class="fa fa-cubes" aria-hidden="true"></i> Registro de productos
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" >Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+           
+        </div>
 <?php } ?>
 <?php function fncPage(){?>
   
@@ -27,21 +32,20 @@
                     <li><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> Búsqueda</a></li>
 
                 </ul>
-                <div style="position: absolute;right: 260px;top: 12px;display: block;">
+                <div class="pull-right">
                     <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
                 </div>
-                <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-                <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-           
+                
             </div>
             <div class="panel-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="vista_filtrar">
                         <div class="form-group">
-                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6">
-                                <label>Línea: </label>
-                                <select id="selLinea" name="selLinea" onchange="fncLinea(this.value);" style="width:100%;" class="form-control">
+                            <label class="control-label col-sm-2">Línea: </label>
+                            <div class="col-sm-2">
+                                
+                                <select id="selLinea" name="selLinea" onchange="fncLinea(this.value);" class="form-control">
                                     <option value="0">TODOS</option>
                             <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
                                     <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
@@ -49,8 +53,9 @@
 
                                 </select>
                             </div>
-                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6">
-                                <label>Categoría: </label>
+                            <label class="control-label col-sm-2">Categoría: </label>
+                            <div class="col-sm-2">
+                                
                                 <select id="selCategoria" name="selCategoria" onchange="fncCategoria(this.value);" style="width:100%;" class="form-control">
                                     <option value="0" selected>TODOS</option>
                             <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
@@ -58,8 +63,9 @@
                             <?php } ?>
                                 </select>
                             </div>
-                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6">
-                                <label>Producto: </label>
+                            <label class="control-label col-sm-2">Producto: </label>
+                            <div class="col-sm-2">
+                                
                                 <select id="selProducto" name="selProducto" onchange="fncProducto(this.value);" style="width:100%;" class="form-control">
                                     <option value="0" selected>--</option>
                             <?php foreach($GLOBALS['dtProducto'] as $iProducto){ ?>
@@ -71,13 +77,15 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="vista_buscar">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                <label>Código: </label>
-                                <input type="number" id="txtCodigo" name="txtCodigo" class="form-control int" style="width:50%;" autocomplete="off">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Código: </label>
+                            <div class="col-sm-3">
+                                
+                                <input type="number" id="txtCodigo" name="txtCodigo" class="form-control int"  autocomplete="off">
                             </div>
-                            <div class="col-md-6 col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                <label>Nombre: </label>
+                            <label class="control-label col-sm-3">Nombre: </label>
+                            <div class="col-sm-3">
+                                
                                 <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" style="width:100%;" autocomplete="off" placeholder="Ingresar nombre de producto">
                             </div>
 
@@ -124,9 +132,10 @@
 
             grids = new grid(tb);
             grids.nuevoEvento();
-            grids.fncPaginacionTabs(f,'num_page');	
+           	
             $('[data-toggle="tooltip"]').tooltip(); 
             $('#websendeos').stacktable();
+             grids.fncPaginacion1(f);
     }
    
     $('#txtBuscar,#txtMostrar,#txtCodigo').keypress(function(e){

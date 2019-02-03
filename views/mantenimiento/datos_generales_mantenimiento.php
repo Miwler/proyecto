@@ -7,7 +7,11 @@
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jLista.js"></script>	
-		
+    <script src="../../include/js/jsRegistro_Multiple.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var correos_generales='<?php echo $GLOBALS['html_filas_correos'];?>';
+        var celulares_generales='<?php echo $GLOBALS['html_filas_celulares'];?>';
+    </script>
 <?php } ?>
     
 <?php function fncMenu(){?>
@@ -18,206 +22,158 @@
 <?php function fncPage(){?>
     <form id="frm1" name="frm1" method="post" action="/Mantenimiento/Datos_generales_Mantenimiento" enctype="multipart/form-data" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab panel-tab-double shadow">
-        
         <div class="panel-body">
-           
                 <div class="row">
                     <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                <div class="panel panel-danger">
+                                <div class="panel panel-danger border border-danger">
                                     <div class="panel-heading">
                                         <h4><img src="include/img/boton/dolar_48x48.png" style="height: 20px"> Información Monetaria  </h4>
                                     </div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Tipo de cambio: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->tipo_cambio);?>" class="form-control form-requerido text-uppercase decimal">
+                                            <label class="col-sm-3 control-label">Tipo de cambio: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio" value="<?php echo $GLOBALS['oDatos_Generales']->tipo_cambio;?>" class="form-control form-requerido text-uppercase decimal">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>I.G.V: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtVigv" name="txtVigv" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->vigv);?>" class="form-control form-requerido text-uppercase decimal">
+                                            <label class="col-sm-3 control-label">I.G.V: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtVigv" name="txtVigv" value="<?php echo $GLOBALS['oDatos_Generales']->vigv;?>" class="form-control form-requerido text-uppercase decimal">
                                             </div>
                                         </div>
-
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">I.S.C: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtISC" name="txtISC" value="<?php echo $GLOBALS['oDatos_Generales']->visc;?>" class="form-control form-requerido text-uppercase decimal">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Tasa detracción: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtTasaDetraccion" name="txtTasaDetraccion" value="<?php echo $GLOBALS['oDatos_Generales']->tasadetraccion;?>" class="form-control form-requerido text-uppercase decimal">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                <div class="panel panel-primary">
+                                <div class="panel panel-primary border border-primary">
                                     <div class="panel-heading">
                                         <h4><img src="include/img/boton/phone_32x32.png" style="height: 20px"> Contactos</h4>
                                     </div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Página web: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Página web: </label>
+                                            <div class="col-sm-9">
                                                 <input type="text" id="txtPagina_Web" name="txtPagina_Web" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->pagina_web);?>" class="form-control form-requerido">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Correo principal: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtMail_Principal" name="txtMail_Principal" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->mail_principal);?>" class="form-control form-requerido">
+                                            <label class="col-sm-3 control-label">Correo: </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="txtCorreo" name="txtCorreo" onclick="fncRegistrar_Informacion_Multiple(this,correos_generales,'correos',1);" autocomplete="off" value="<?php echo $GLOBALS['oDatos_Generales']->correo;?>" class="form-control form-requerido">
                                             </div>
                                         </div>
+                                        
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Correo de información: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtMail_Info" name="txtMail_Info" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->mail_info);?>" class="form-control form-requerido">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Correo de venta: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                               <input type="text" id="txtMail_Venta" name="txtMail_Venta" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->mail_venta);?>" class="form-control form-requerido">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Central telefónica: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Central telefónica: </label>
+                                            <div class="col-sm-9">
                                                 <input type="text" id="txtTelefono" name="txtTelefono" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->telefono);?>" class="form-control form-requerido">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Celular1: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtRpc" name="txtRpc" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->rpc);?>" class="form-control text-uppercase">
+                                            <label class="col-sm-3 control-label">Celulares: </label>
+                                            <div class="col-sm-9">
+                                                <input type="text" id="txtCelular" name="txtCelular" onclick="fncRegistrar_Informacion_Multiple(this,celulares_generales,'celulares',1);" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->celular);?>" autocomplete="off" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Celular2: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtRpm" name="txtRpm" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->rpm);?>" class="form-control text-uppercase">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Celular3: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtNextel" name="txtNextel" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->nextel);?>" class="form-control text-uppercase">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Celular4: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtOtro_Operador" name="txtOtro_Operador" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->otro_operador);?>" class="form-control text-uppercase">
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                         <div class="row">
-                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                  <div class="panel panel-default">
+                            <div class="col-sm-12">
+                                <div class="panel panel-warning border border-warning">
                                     <div class="panel-heading">
                                         <h4><img src="../../include/img/boton/sunat.png" alt="" style="height: 30px;"/> Información SUNAT </h4>
 
                                     </div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Razon social: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtRazon_Social" name="txtRazon_Social" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->razon_social);?>" class="form-control form-requerido text-uppercase">
+                                            <label class="control-label col-sm-3">Razon social: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtRazon_Social" name="txtRazon_Social" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->razon_social);?>" class="form-control form-requerido">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>R.U.C.: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtRuc" name="txtRuc" value="<?php echo FormatTextView($GLOBALS['oDatos_Generales']->ruc);?>" class="form-control form-requerido text-uppercase int">
+                                            <label class="control-label col-sm-3">R.U.C.: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtRuc" name="txtRuc" value="<?php echo $GLOBALS['oDatos_Generales']->ruc;?>" class="form-control form-requerido int">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Dirección fiscal: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <input type="text" id="txtDireccion_Fiscal" name="txtDireccion_Fiscal" value="<?php echo $GLOBALS['oDatos_Generales']->direccion_fiscal;?>" class="form-control form-requerido text-uppercase">
+                                            <label class="control-label col-sm-3">Dirección fiscal: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtDireccion_Fiscal" name="txtDireccion_Fiscal" autocomplete="off" value="<?php echo $GLOBALS['oDatos_Generales']->direccion_fiscal;?>" class="form-control">
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Urbanización: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtUrbanizacion" name="txtUrbanizacion" value="<?php echo $GLOBALS['oDatos_Generales']->urbanizacion;?>" autocomplete="off"  class="form-control">
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+                    </div>
+                    <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
+                        
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                 <div class="panel panel-default">
+                                 <div class="panel panel-lilac border border-lilac">
                                     <div class="panel-heading">
                                         <h4>Información Visual</h4>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Logo: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Logo: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <img id="imagen_previa" src="files/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>" style="height: 80px">
                                                 <input type="file" name="imagen" id="imagen" onchange="fileValidation();">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Favicon: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Favicon: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <img id="imagen_previaicono" src="files/imagenes/favicon/<?php echo $GLOBALS['oDatos_Generales']->favicon;?>" style="height: 40px">
                                                 <input type="file" name="icono" id="icono" onchange="fileValidationIcono();">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Nombre corto: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Nombre corto: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <input type="text" id="txtAlias" name="txtAlias" value="<?php echo $GLOBALS['oDatos_Generales']->alias;?>" class="form-control form-requerido text-uppercase">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Dirección: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Dirección: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <input type="text" id="txtDireccion" name="txtDireccion" value="<?php echo $GLOBALS['oDatos_Generales']->direccion;?>" class="form-control form-requerido text-uppercase">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Departamento: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Departamento: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <select id="selDepartamento" name="selDepartamento" class="form-control" onchange="fncDepartamento();">
                                                     <?php foreach($GLOBALS['dtDepatamento'] as $departamento){ ?>
                                                     <option value="<?php echo $departamento['ID']?>"><?php echo FormatTextView($departamento['nombre'])?></option>
@@ -229,10 +185,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Provincia: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Provincia: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <select id="selProvincia" name="selProvincia" class="form-control">
                                                     <?php foreach($GLOBALS['dtProvincia'] as $provincia){ ?>
                                                     <option value="<?php echo $provincia['ID']?>"><?php echo FormatTextView($provincia['nombre'])?></option>
@@ -244,10 +198,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Distrito: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
+                                            <label class="col-sm-3 control-label">Distrito: </label>
+                                            <div class="col-lg-9 col-sm-9">
                                                 <select id="selDistrito" name="selDistrito" class="form-control">
                                                      <?php foreach($GLOBALS['dtDistrito'] as $distrito){ ?>
                                                     <option value="<?php echo $distrito['ID']?>"><?php echo FormatTextView($distrito['nombre'])?></option>
@@ -259,34 +211,70 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-6">
-                                                <label>Observación: </label>
-                                            </div>
-                                            <div class="col-lg-9 col-sm-9 col-md-9 col-xs-6">
-                                                <textarea id="txtObservacion" name="txtObservacion" class="form-control form-requerido text-uppercase"><?php echo FormatTextView($GLOBALS['oDatos_Generales']->observacion);?></textarea>
-
+                                            <label class="col-sm-3 control-label">Observación: </label>
+                                            <div class="col-lg-9 col-sm-9">
+                                                <textarea id="txtObservacion" name="txtObservacion" class="form-control text-uppercase"><?php echo FormatTextView($GLOBALS['oDatos_Generales']->observacion);?></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="panel panel-warning border border-warning">
+                                    <div class="panel-heading">
+                                        <h4 style="height: 30px;">Comprobante electrónico </h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Usuario SOL: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtUsuarioSol" name="txtUsuarioSol" value="<?php echo $GLOBALS['oDatos_Generales']->usuariosol;?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Clave SOL: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtClaveSol" name="txtClaveSol" value="<?php echo $GLOBALS['oDatos_Generales']->clavesol;?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Certificado: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtCertificado" name="txtCertificado" value="<?php echo $GLOBALS['oDatos_Generales']->certificado;?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Password Certificado: </label>
+                                            <div class="col-lg-9 col-sm-9 col-md-9">
+                                                <input type="text" id="txtPasswordCertificado" name="txtPasswordCertificado" value="<?php echo $GLOBALS['oDatos_Generales']->passwordcertificado;?>" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button  id="btnEnviar" name="btnEnviar" class="btn btn-success btn-lg" title="Guardar cambios" >
-                            <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
-                            Guardar
-                        </button>
-                    </div>
-                </div>
-                
-            
+        </div>
+        <div class="modal-footer">
+            <div class="pull-left">
+                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success btn-lg" title="Guardar cambios" >
+                    <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
+                    Guardar
+                </button>
+            </div>
         </div>
     </div>
+      
     </form>
+
     <script type="text/javascript">
+        
+        
         function validar(){
             
         }

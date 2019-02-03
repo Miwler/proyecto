@@ -11,6 +11,9 @@
       
         <link href="../../include/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script src="../../include/jquery-ui-1.12.1/jquery-ui.js" type="text/javascript"></script>
+       
+        <!--<link href="../../assets/global/plugins/bower_components/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        -->
         <link href="../../include/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="../../include/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         
@@ -50,16 +53,16 @@
         <link href="../../assets/admin/css/components.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/custom.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/layout.css" rel="stylesheet" type="text/css"/>
-        <link href="../../assets/admin/css/material-custom.css" rel="stylesheet" type="text/css"/>
+       <!-- <link href="../../assets/admin/css/material-custom.css" rel="stylesheet" type="text/css"/>-->
         <link href="../../assets/admin/css/plugins.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/reset.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/theme.css" rel="stylesheet" type="text/css"/>
         <link href="../../assets/admin/css/yii-custom.css" rel="stylesheet" type="text/css"/>
-   
         
         <!--PERSONALIZADO!-->
-        <link href="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.min.css" rel="stylesheet" type="text/css"/>
-        <script src="../../assets/global/plugins/bower_components/chosen_v1.2.0/chosen.jquery.js" type="text/javascript"></script>
+       <link href="../../assets/global/plugins/bower_components/chosen_v1.8.7/chosen.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../../assets/global/plugins/bower_components/chosen_v1.8.7/chosen.jquery.js" type="text/javascript"></script>
+       
         <link href="../../../assets/global/plugins/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../assets/global/plugins/bower_components/animate.css/animate.min.css" rel="stylesheet">
         <link href="../../../assets/global/plugins/bower_components/bootstrap-datepicker-vitalets/css/datepicker.css" rel="stylesheet">
@@ -73,19 +76,36 @@
   
         <script src="../../assets/global/plugins/bower_components/blockui/jquery.blockUI.js" type="text/javascript"></script>
 
+         <link href="../../../assets/global/plugins/bower_components/datatables/css/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="../../../assets/global/plugins/bower_components/datatables/css/datatables.responsive.css" rel="stylesheet">
+        <link href="../../../assets/global/plugins/bower_components/fuelux/dist/css/fuelux.min.css" rel="stylesheet">
         
+        <script src="../../../assets/global/plugins/bower_components/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="../../../assets/global/plugins/bower_components/datatables/js/dataTables.bootstrap.js"></script>
+        <script src="../../../assets/global/plugins/bower_components/datatables/js/datatables.responsive.js"></script>
+        <script src="../../../assets/global/plugins/bower_components/fuelux/dist/js/fuelux.min.js"></script>
         <!---->
         <!--<link rel="stylesheet" type="text/css" href="include/css/estilos-float.css" />
 	<!--<link rel="stylesheet" type="text/css" href="include/css/controles.css" />-->
-	
+        <script src="../../include/js/jBotones.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="include/css/toastem.css" />   
-        
+        <script type="text/javascript" src="include/js/jscript.js" ></script>
 	<script type="text/javascript" >
         
         var fParent= parent.fParent;   
           
 	</script>
+        <style>
+            .page-header{
+                margin-top:10px;
+            }
+        </style>
 	<?php  fncHead();	?>
+        <style>
+            .btn-group li a:hover{
+                cursor:pointer;
+            }
+        </style>
 </head>
 <body>
     <div id="main">

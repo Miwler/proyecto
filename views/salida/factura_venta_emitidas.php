@@ -5,7 +5,11 @@
 
 <?php function fncHead(){?>
 	<script type="text/javascript" src="include/js/jForm.js"></script>
-       
+        <style>
+            #datatable-ajax td{
+                font-size:12px;
+            }
+        </style>
 
 <?php } ?>
 
@@ -19,46 +23,112 @@
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Salida/Factura_Venta_Emitidas"  class="form-horizontal" onsubmit="return validar();" >
+<form id="form" method="POST" action="#"  class="form-horizontal" onsubmit="return validar();" >
     <div class="form-body">
         <div class="form-group">
             <label class="control-label col-sm-2 col-xs-2">Periodo:</label>
             <div class="col-sm-2 col-xs-2">
-                <input type="text" id="txtPeriodo" name="txtPeriodo" value="<?php echo date("Y");?>" class="form-control">
+                <select id="selPeriodo" name="selPeriodo" class="form-control">
+                    <option value="0">Todos</option>
+                    <?php for($i=periodo_inicio;$i<=date("Y");$i++){?>
+                    <option value="<?php echo $i?>" <?php echo (($i==date("Y"))?"selected":"de");?>><?php echo $i?></option>
+                    <?php } ?>
+                </select>
+               
             </div>
             <label class="control-label col-sm-1 col-xs-1">Serie:</label>
             <div class="col-sm-2 col-xs-2">
-                <input type="text" id="txtSerie" name="txtSerie" class="form-control">
+                <input type="text" id="txtSerie" name="txtSerie" autocomplete="off" class="form-control">
             </div>
             <label class="control-label col-sm-2 col-xs-2">Número</label>
             <div class="col-sm-2 col-xs-2">
-                <input type="text" id="txtNumero" name="txtNumero" class="form-control">
+                <input type="text" id="txtNumero" name="txtNumero" autocomplete="off" class="form-control">
             </div>
             <div class="col-sm-1 col-xs-1">
-                <button type="button" class="btn btn-success" onclick="cargarFacturas_Emitidas();"><i class="fa fa-search"></i></button>
+                <button type="button" class="btn btn-success" onclick="fngetData();"><i class="fa fa-search"></i></button>
             </div>
         </div>
-        <div class="form-group" id="tabla" style="height: 270;overflow:auto;">
-            
+        <div class="form-group"  style="height: 370;overflow:auto;">
+            <table id="datatable-ajax" class="table table-primary  table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
+                <thead>
+                    <tr>
+                        <th>Serie</th>
+                        <th>Número</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Total</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <!--tbody section is required-->
+                <tbody></tbody>
+                <!--tfoot section is optional-->
+                
+            </table>
         </div>
     </div>
     
 </form>
 <script type="text/javascript">
-    var cargarFacturas_Emitidas=function(){
-        //$("#fondo_espera").appendTo("#tabla");
-        $("#fondo_espera").css("display","");
-        enviarFormulario('Salida/ajaxFacturas_Emitidas','form',function(resultado){
-            $('#tabla').html(resultado.html);
-            $("#fondo_espera").css("display","none");
-        });
-       
+    var myTable;
+    function fngetData() {
+        block_ui(function(){
+                var myObject = new Object();
+                
+                 enviarAjax('Salida/ajaxFacturas_Emitidas', 'form', myObject, function (res) {
+                    
+                    var jsonObject = $.parseJSON(res);
+                   
+                    var result = jsonObject.map(function (item) {
+                         
+                        var result = [];
+                        result.push(item.serie);
+                        result.push(item.numero_concatenado);
+                        result.push(item.fecha_emision);
+                        result.push(item.cliente);
+                        result.push(item.total);
+                        result.push(item.accion);
+                        result.push("");
+                         $.unblockUI();
+                        return result;
+                    });
+                    
+                    myTable.rows().remove();
+                    myTable.rows.add(result);
+                    myTable.draw();
+                   $.unblockUI();
+                });
+            });
     }
+    function fnGridCSS() {
+        try {
+            var shadows =
+                [
+
+                    { "width": "5%", "targets": 0,"className":"text-center" },
+                    { "width": "5%", "targets": 1,"className":"text-center"},
+                    { "width": "10%", "targets": 2,"className":"text-center" },
+                    { "width": "70%", "targets": 3 },
+                    { "width": "10%", "targets": 4,"className":"text-center" },
+                    { 'targets': [5], 'orderable': false, 'searchable': false, "width": "10%","className":"text-center" }
+                ];
+
+            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "desc"]]);
+
+        } catch (e) {
+            //alert(e.message);
+            mensaje.error('Error', e.message);
+        }
+    }
+   
     var fncSeleccionar=function(ID){
         parent.windos_float_save_modal_hijo(ID);
     }
     $(document).ready(function(){
-        cargarFacturas_Emitidas();
+       fnGridCSS();
+        fngetData();
+                
+        
     });
     
 </script>   

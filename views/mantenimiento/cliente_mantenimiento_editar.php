@@ -344,6 +344,7 @@ function fncPage() { ?>
                 Salir
             </button>   
         </div>
+        <div class="clearfix"></div>
     </div>
 
 </form>
@@ -581,7 +582,7 @@ function fncPage() { ?>
         $(document).ready(function(){
             toastem.success("<?php echo $GLOBALS['mensaje'];?>");
             
-           setTimeout('window_float_save();', 1000);
+           setTimeout('window_float_save_modal();', 1000);
         });
     </script>
 <?php } ?>
@@ -599,7 +600,7 @@ function fncPage() { ?>
     <script type="text/javascript">
         $(document).ready(function () {
             toastem.error("<?php echo $GLOBALS['mensaje'];?>")
-            setTimeout('window_float_save();', 1000);
+            setTimeout('window_float_save_modal();', 1000);
 
         });
 

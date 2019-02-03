@@ -2,14 +2,18 @@
 	require ROOT_PATH."views/shared/content.php";	
 ?>	
 <?php function fncTitle(){?>
-Modulos
+Menú
 <?php } ?>
+
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jGrid.js"></script>
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncMenu(){?>
+<?php } ?>
+<?php function fncTituloCabecera(){?>
+Menú
 <?php } ?>
 <?php function fncPage(){?>
 <div class="panel panel-success">

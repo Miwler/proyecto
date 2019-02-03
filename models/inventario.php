@@ -55,7 +55,7 @@ class inventario {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retorna = -1;
         try {
             
@@ -72,6 +72,7 @@ class inventario {
                 $cotizacion_detalle_ID=$this->cotizacion_detalle_ID;
             }
             $q = 'select ifnull(max(ID),0)+1 as ID from inventario;';
+            $cn = new connect_new();
             $ID=$cn->getData($q);
             
             $utilidad_soles=0;
@@ -99,6 +100,7 @@ class inventario {
             $q.='values('.$ID.','.$_SESSION['empresa_ID'].','. $ingreso_detalle_ID .','.$salida_detalle_ID. ',"'. $this->descripcion. '",' .$this->producto_ID.
                 ','.$this->estado_ID.','.$utilidad_soles.','.$utilidad_dolares.','.$comision_soles.','.$comision_dolares.',"'.$serie.'",'.$cotizacion_detalle_ID.','.$this->usuario_id . ')';
             //echo $q;
+            $cn = new connect_new();
              $retorna=$cn->transa($q);
             $this->getMessage = 'Se guardó correctamente';
             $this->ID=$ID;
@@ -109,7 +111,7 @@ class inventario {
         }
     }
    function actualizar(){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
                 $salida_detalle_ID='NULL';
@@ -144,7 +146,7 @@ class inventario {
     }
     static function getByID($ID)
     {
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select ID, producto_ID,ingreso_detalle_ID ,salida_detalle_ID,';
@@ -183,7 +185,7 @@ class inventario {
 	}
     static function getByID2($ingreso_detalle_ID)
     {
-           $cn =new connect();
+           $cn =new connect_new();
            try 
            {
                    $q='  select ID, producto_ID,ingreso_detalle_ID, salida_detalle_ID,cantidad_ingreso,'
@@ -219,7 +221,7 @@ class inventario {
            }
     }
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID desc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q='select ID, producto_ID,ingreso_detalle_ID, salida_detalle_ID,';
             $q.=' descripcion,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,';
@@ -245,7 +247,7 @@ class inventario {
         }
     }
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q='select count(ID)';
             $q.=' from inventario where empresa_ID='.$_SESSION['empresa_ID'].' and del=0';
@@ -263,9 +265,9 @@ class inventario {
         }
     }
     static function getGridInventario($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
-            $q="select inv.ID,pro.nombre as producto,(case when ovd.tipo=3 then 'Componente' else 'Adicional' end) as tipo, (case when inv.serie is null or inv.serie='NULL' then '' else inv.serie end)  as serie,";
+            $q="select inv.ID,pro.nombre as producto,(case when ovd.tipo_ID=3 then 'Componente' else 'Adicional' end) as tipo, (case when inv.serie is null or inv.serie='NULL' then '' else inv.serie end)  as serie,";
             $q.="(case when inv.ingreso_detalle_ID is null then '' else cd.ID end ) as ingreso_detalle,";
             $q.="(case when inv.ingreso_detalle_ID is null then '' else co.numero end ) as numero_ingreso,";
             $q.="(case when inv.salida_detalle_ID is null then '' else ovd.ID end ) as salida_detalle_ID,";
@@ -304,7 +306,7 @@ class inventario {
         }
     }
     static function getGridInventario1($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select inv.ID,inv.producto_ID,ifnull(inv.ingreso_detalle_ID,-1) as ingreso_detalle_ID ,ifnull(inv.salida_detalle_ID,-1) as salida_detalle_ID,";
             $q.="inv.descripcion,inv.estado_ID,inv.utilidad_soles,inv.utilidad_dolares,inv.comision_soles,inv.comision_dolares,";
@@ -331,7 +333,7 @@ class inventario {
         }
     }
      static function getGridProductos($filtro = '', $desde = -1, $hasta = -1, $order = 'pro.nombre asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q='select pro.ID as codigo,pro.nombre as producto,(select count(ID) from inventario where producto_ID=pro.ID and estado_ID=48) as total';
             $q.=' from producto pro';
@@ -357,7 +359,7 @@ class inventario {
     
     
         static function getGridingresoAnulada($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q='select inv.ID, inv.producto_ID,inv.ingreso_detalle_ID,inv.salida_detalle_ID,cod.descripcion,cod.ID as codigo_ingresodetalle, co.ID as codigo_ingreso,inv.estado_ID ';
             $q.=' from inventario inv, ingreso_detalle cod, ingreso co ';
@@ -384,7 +386,7 @@ class inventario {
     
     
       static function getGridComprobarVenta($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q='select inv.ID, inv.producto_ID,inv.ingreso_detalle_ID,inv.salida_detalle_ID,cod.descripcion,cod.ID as codigo_ingresodetalle, co.ID as codigo_ingreso,inv.estado_ID ';
             $q.=' from inventario inv, ingreso_detalle cod, ingreso co ';
@@ -409,7 +411,7 @@ class inventario {
     
     
      static function getCountProductos($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q='SELECT COUNT(*) FROM (';
             $q.='select pro.nombre as producto, pro.ID as codigo,count(inv.ID) as total';
@@ -428,7 +430,7 @@ class inventario {
         }
     }
     function actualizar2($ingreso_detalle_ID){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
             $fecha='NULL';
@@ -451,7 +453,7 @@ class inventario {
         }
     }
      function actualizarEstadoAutomatico(){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
             
@@ -468,7 +470,7 @@ class inventario {
         }
     }
     function actualizarUltimostock($stock){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
             
@@ -487,7 +489,7 @@ class inventario {
     }
     
     function actualizarEstadoAnulacion() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -504,7 +506,7 @@ class inventario {
     
     
     function eliminar2(){
-         $cn =new connect();
+         $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -520,8 +522,29 @@ class inventario {
                 throw new Exception("Ocurrio un error en la consulta.");
             }
     }
+    static function actualizar_inventario($isalida_detalle_ID,$iproducto_ID_old,$iusuario_id,$empresa_ID){
+        $cn =new connect_new();
+        $retornar=0;
+        try
+        {
+        $retornar=$cn->store_procedure_transa(
+              "sp_inventario_Update_Salida_Detalle",
+                array(
+                    "retornar"=>$retornar,
+                    "isalida_detalle_ID"=>$isalida_detalle_ID,
+                    "iproducto_ID_old"=>$iproducto_ID_old,
+                    "iusuario_id"=>$iusuario_id,
+                    "iempresa_ID"=>$empresa_ID
+                ),0);
+        
+          return $retornar;
+        }catch(Exeption $ex)
+        {
+          throw new Exception($ex->getMessage());
+        }
+    }
     function eliminar(){
-         $cn =new connect();
+         $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -538,15 +561,15 @@ class inventario {
             }
     }
     function getStock($producto_ID){
-        $cn =new connect();
+        $cn =new connect_new();
          try 
          {
-                 //$q='select ifnull(stock,0) from inventario where del=0 and producto_ID='.$producto_ID.'  order by ID desc limit 1  ';
-                $q="select count(inv.ID) from inventario inv INNER JOIN ingreso_detalle cd ON inv.ingreso_detalle_ID=cd.ID where inv.del=0 and cd.del=0 and inv.producto_ID=".$producto_ID." and inv.estado_ID=48" ;
-                $existencia=$cn->getData($q);
-                $vendidos=$cn->getData("select count(inv.ID) from inventario inv  INNER JOIN salida_detalle ovd ON inv.salida_detalle_ID=ovd.ID where inv.del=0 and ovd.del=0 and inv.producto_ID=".$producto_ID." and inv.estado_ID=50");
+             $retorna=$cn->store_procedure_getData(
+                     "sp_inventario_getStock",
+                     array("iproducto_ID"=>$producto_ID));
                 
-                $retorna=$existencia-$vendidos;		
+                
+              
                 return $retorna;
                 //echo $q;
          }catch(Exeption $ex)
@@ -555,7 +578,7 @@ class inventario {
          }
     }
     function getGuiaFaltanteSeries($producto_ID){
-        $cn =new connect();
+        $cn =new connect_new();
          try 
          {
                  $q='select inv.ID, inv.producto_ID,inv.salida_detalle_ID,inv.cantidad_salida,inv.stock,DATE_FORMAT(inv.fecha,"%d-%m-%Y") as fecha,inv.descripcion,';
@@ -575,7 +598,7 @@ class inventario {
          }
     }
     function getsalida_detalle($producto_ID,$ingreso_detalle_ID){
-         $cn =new connect();
+         $cn =new connect_new();
          try 
          {
                 $q='select count(inv.ID) as cantidad,group_concat(inv.ID separator"|") as IDs,inv.salida_detalle_ID from inventario inv';
@@ -600,7 +623,7 @@ class inventario {
          }
     }
     function getReporteComisiones(){
-         $cn =new connect();
+         $cn =new connect_new();
          try 
          {
                 $q='select ovd.ID,ov.fecha,  ov.moneda_ID as moneda_venta,round(ov.tipo_cambio,2) as tipo_cambio_venta,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,co.moneda_ID as moneda_ingreso,co.tipo_cambio as tipo_cambio_ingreso,';
@@ -622,7 +645,7 @@ class inventario {
          }
     }    
     static function getMovimientoProducto($producto_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             
             $q="CREATE TEMPORARY TABLE  IF NOT EXISTS Temporal(";
@@ -654,5 +677,21 @@ class inventario {
             throw new Exception($ex->getMessage());
         }
     }
-    
+     static function getMovimientoProductos($producto_ID)
+    {
+        $cn =new connect_new();
+        try
+        {
+            $dt=$cn->store_procedure_getGrid('sp_inventario_getKardex',
+                    array('iproducto_ID'=>$producto_ID));
+        //$q='call sp_inventario_getKardex('.$producto_ID.');';
+        //echo $q;
+        //console_log($q);
+        //$retorna=$cn->getData($q);
+        return $dt;
+        }catch(Exception $ex)
+        {
+                throw new Exception($q);
+        }
+    }
 }

@@ -14,6 +14,11 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-file-text-o" aria-hidden="true"></i> Registro de cotizaciones
+     <div class="pull-right">
+         <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+        <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        
+     </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm1"  method="post" action="/Salida/ajaxCotizacion_Mantenimiento" class="form-horizontal">
@@ -24,16 +29,11 @@
          <ul class="nav nav-tabs">
                 <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
-               
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
-            </div>
-            
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-        
+            </div> 
     </div>
     <div class="panel-body">
         <div class="tab-content">
@@ -215,20 +215,20 @@
             f.enviar();
     }
     var fncNuevo=function(){
-        window_float_open_modal('NOTA DE CRÉDITO','Salida/Nota_Credito_Mantenimiento_Nuevo','','',f,800,550);
+        window_float_open_modal('NUEVA COTIZACIÓN','Salida/Cotizacion_Mantenimiento_Nuevo','','',f,800,530);
       
     }
    
     var fncEditar=function(id){	
-        window_float_open_modal('EDITAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Editar',id,'',f,800,550);
+        window_float_open_modal('EDITAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Editar',id,'',f,800,530);
         
 
     }
     var fncClonar=function(id){	
-        window_float_open_modal('CLONAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Clonar',id,'',f,800,550);  
+        window_float_open_modal('CLONAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Clonar',id,'',f,800,530);  
     }
     var fncEliminar=function(id){	
-        gridEliminar(f,id,'/Ventas/ajaxCotizacion_Mantenimiento_Eliminar');
+        gridEliminar(f,id,'/Salida/ajaxCotizacion_Mantenimiento_Eliminar');
     }
 
     $('#txtBuscar,#txtMostrar,#txtPeriodo,#txtNumero').keypress(function(e){			

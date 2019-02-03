@@ -1,17 +1,15 @@
 <?php		
 	require ROOT_PATH."views/shared/content-float-modal-hijo.php";	
 ?>	
-<?php function fncTitle(){?>EDITAR NUEVO PRODUCTO<?php } ?>
+<?php function fncTitle(){?>EDITAR PRODUCTO<?php } ?>
 
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
     <script type="text/javascript" src="include/js/jValidarLargoComentarios.js"></script>
     <script type='text/javascript'>
     $(document).ready(function(){
+        fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>);
         <?php if($GLOBALS['oCotizacion_Detalle']->componente==1){?>
-                
-            fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>);
-
             fncCargar_Cotizacion_Componente();
             $('#ckComponente').prop('checked',true);
             $('#txtPrecioUnitarioDolares').prop('disabled', true);
@@ -19,7 +17,7 @@
         <?php } ?>
         <?php if($GLOBALS['oCotizacion_Detalle']->adicional==1){?>
             $('#ckAdicional').prop('checked',true);
-             fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>);
+            
              fncCargar_Cotizacion_Adicional();
         <?php } ?>
             <?php if($GLOBALS['oCotizacion']->estado_ID==25){?>
@@ -28,15 +26,20 @@
 
     });
     </script>
+    <style>
+         #table_historial_compra tbody td,#table_historial_venta tbody td,#table_separaciones tbody td,#table_componente tbody td,#table_adicional tbody td{
+            font-size:11px;
+        }
+    </style>
 <?php } ?>
 
-<?php function fncTitleHead(){?>EDITAR NUEVO PRODUCTO<?php } ?>
+<?php function fncTitleHead(){?>EDITAR PRODUCTO<?php } ?>
 
 <?php function fncMenu(){?>
 <?php } ?>
 
 <?php function fncPage(){?>
-<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['oCotizacion_Detalle']->tipo==2||$GLOBALS['oCotizacion_Detalle']->tipo==5||$GLOBALS['oCotizacion_Detalle']->tipo==6){ ?>
+<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['oCotizacion_Detalle']->tipo_ID==2||$GLOBALS['oCotizacion_Detalle']->tipo_ID==5||$GLOBALS['oCotizacion_Detalle']->tipo_ID==6){ ?>
 <form id="frm1"  method="post" action="Salida/Cotizacion_Mantenimiento_Producto_Editar/<?php echo $GLOBALS['oCotizacion_Detalle']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
@@ -52,6 +55,16 @@
                 <li class="nav-item"><a href="#adicionales" data-toggle="tab"><i class="fa fa-cubes"></i> <span>Adicionales</span></a></li>
                 <?php } ?>
             </ul>
+            <div class="pull-right">
+                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
+                        <img width="14"  alt="" src="/include/img/boton/save_48x48.png">
+                       Guardar
+                    </button>
+                     <button id="btnRegresar1" type="button" class="btn btn-danger" onclick="parent.windos_float_save_modal_hijo();" title="Regresar">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                            Regresar
+                    </button>
+            </div>
         </div>
         <div class="panel-body no-padding rounded-bottom" style="height:450px;overflow:auto; ">
            
@@ -94,19 +107,17 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Producto: </label>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lista_producto" id="tdProducto" >
-                             <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                <option value='0'>--SELECCIONAR--</option>
-                                <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                <?php } ?>
-                            </select>
-                            
+                        <div class="col-sm-7 lista_producto" id="tdProducto" >
+                            <input type="hidden" id="selProducto" name="selProducto" value="<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>">
+                            <input type="text" id="listaProducto" class="form-control" value="<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->nombre;?>">
                             <script type="text/javascript">
-                                <?php if($GLOBALS['oCotizacion_Detalle']->ID>0){ ?>
-                                   $("#selProducto").val(<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>);
-                                <?php }?>
+                            $(document).ready(function(){
+                                listar_productos();
+                            });
                             </script>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="txtCodigo" name="txtCodigo" placeholder="Código" autocomplete="off" value="<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->codigo;?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -213,7 +224,7 @@
                            <input type="text" id="txtAdicionalDolares" name="txtAdicionalDolares" class="form-control moneda"  value="<?php echo $GLOBALS['oCotizacion_Detalle']->adicional_dolares;?>" disabled>
                        </div>
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                           <input type="text" id="txtAdicionalSoles" name="txtAdicionalSoles" class="form-control moneda" value="<?php echo $GLOBALS['oCotizacion_Detalle']->adicional_solares;?>" disabled>
+                           <input type="text" id="txtAdicionalSoles" name="txtAdicionalSoles" class="form-control moneda" value="<?php echo $GLOBALS['oCotizacion_Detalle']->adicional_soles;?>" disabled>
                        </div>
                    </div>
                    <div class="form-group">
@@ -252,8 +263,38 @@
                    </div>
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="separaciones">
+                    <h4>Separaciones de producto</h4>
+                    <table id="table_separaciones" class='table table-hover table-bordered table-teal'><thead>
+                        <tr><th>N°Cotizaci&oacute;n</th><th>Fecha</th><th>Cant. Comprada</th><th>Cant. Separada</th><th >Responsable</th></tr>
+                    </thead>
+                    <tbody>
+                    </table>
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="historial">
+                    <div class="row" >
+                        <div class="col-sm-6">
+                            <h4>Historial de Compras</h4>
+                            <table class='table table-hover  table-responsive table-teal' id="table_historial_compra">
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Proveedor</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="title lg-text">Historial de Ventas</h4>
+                            <table class='table table-hover table-responsive table-teal' id="table_historial_venta" >
+                                <thead>
+                                    <tr><th>Fecha</th><th>Precio U.</th><th>Cantidad</th><th>Cliente</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade inner-all divCuerpo" id="componentes">
                     <?php if($GLOBALS['oCotizacion_Detalle']->componente==1){?>
@@ -277,21 +318,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar">
-                        <img width="14"  alt="" src="/include/img/boton/save_48x48.png">
-                       Guardar
-                    </button>
-                     <button id="btnRegresar1" type="button" class="btn btn-warning" onclick="parent.float_close_modal_hijo();" title="Regresar">
-                         <span class="glyphicon glyphicon-arrow-left"></span>
-                            Regresar
-                    </button>   
-                </div>
-
-            </div>
-        </div>
+        
     </div>
 <script type="text/javascript">
     var mensaje_validacion=function(){
@@ -316,6 +343,7 @@
     }
     $(document).ready(function(){
         fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->ID;?>);
+        fncProducto(<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->ID;?>);
 
     });
     var Resultado_verificar=0;
@@ -378,7 +406,7 @@
         $('#txtIgvDolares').removeAttr('disabled');
         $('#txtTotalSoles').removeAttr('disabled');
         $('#txtTotalDolares').removeAttr('disabled');
-        $('#fondo_espera').css('display','');
+        block_ui();
         
     }
     var llenarCajas=function(){
@@ -406,12 +434,12 @@
     }
     var fncNuevoComponente=function(){
         var id=$('#txtID').val();
-       parent.window_float_open_modal_hijo_hijo("AGREGAR NUEVO COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Componente_Nuevo",id,"",fncCargar_Cotizacion_Componente,700,600);
+       parent.window_float_open_modal_hijo_hijo("AGREGAR NUEVO COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Componente_Nuevo",id,"",fncCargar_Cotizacion_Componente,700,480);
 
     }
 
     var fncEditarComponente=function(id){
-         parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Componente_Editar",id,"",fncCargar_Cotizacion_Componente,700,600);
+         parent.window_float_open_modal_hijo_hijo("EDITAR COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Componente_Editar",id,"",fncCargar_Cotizacion_Componente,700,480);
     }
     var fncEliminarComponente=function(id){
         cargarValores('/Salida/ajaxCotizacion_Mantenimiento_Registro_Componente_Eliminar',id,function(resultado){
@@ -429,7 +457,9 @@
 
     }
     var fncEditarAdicional=function(id){
-        parent.window_float_open_modal_hijo_hijo("AGREGAR COMPONENTE","/Salida/Cotizacion_Mantenimiento_Registro_Adicional_Nuevo",id,"",fncCargar_Cotizacion_Adicional,700,600);
+        parent.window_float_open_modal_hijo_hijo("EDITAR ADICIONAL","/Salida/Cotizacion_Mantenimiento_Registro_Adicional_Editar",id,"",fncCargar_Cotizacion_Adicional,700,530);
+
+        
     }
     var fncEliminarAdicional=function(id){
         cargarValores('/Salida/ajaxCotizacion_Mantenimiento_Registro_Adicional_Eliminar',id,function(resultado){
@@ -497,8 +527,10 @@
     }
     
     var fncHistoriaProducto=function(producto_ID){
-        cargarValores('/Salida/ajaxHistorial_Producto',producto_ID,function(resultado){
-            $('#historial').html(resultado.html); 
+        cargarValores('/Funcion/ajaxHistorial_Producto',producto_ID,function(resultado){
+            
+            $('#table_historial_compra tbody').html(resultado.filas_compras); 
+            $('#table_historial_venta tbody').html(resultado.filas_ventas); 
         });
     }
 
@@ -547,9 +579,11 @@
        
 
     }
-
-   var fncProducto=function(){
-        var producto_ID=$("#selProducto").val();
+ var listar_productos=function(){
+        lista_producto('/funcion/ajaxListarProductos','listaProducto','selProducto',$("#selLinea").val(),$("#selCategoria").val(),fncProducto,fncLimpiar);
+    }
+   var fncProducto=function(producto_ID){
+        //var producto_ID=$("#selProducto").val();
         if(producto_ID>0){
             //$('#tbdocumentos').html('<div style="background:#000;opacity:0.7;width:100%;height:100%;text-align:center;" ><img width="80px" src="/include/img/loader-Login.gif"></div>');
             cargarValores('/Funcion/ajaxSeleccionar_Producto1',producto_ID,function(resultado){
@@ -557,8 +591,13 @@
                 //$('#selCategoria').val(resultado.categoria_ID);
                 //$('#selProducto').val(resultado.producto_ID);
                 if(resultado.resultado==1){
+                    $("#selLinea").val(resultado.linea_ID);
+                    $("#selCategoria").html(resultado.html);
+                    $("#selLinea").trigger("chosen:updated");
+                    $("#selCategoria").trigger("chosen:updated");
                     $('#txtStock').val(resultado.stock);
                     $('#txtDescripcion').val(resultado.descripcion);
+                    $('#txtCodigo').val(resultado.codigo);
                     if(resultado.stock>0){
                         $('#ckSeparacion').prop('disabled',false);
                          
@@ -576,9 +615,44 @@
             fncLimpiar();
         }
     }
+function buscarProducto(codigo){
+        if($.trim(codigo)==""){
+            toastem.error("Debe registrar un código.");
+            return false;
+        }
+        $("#listaProducto").val('');
+        $("#selProducto").val(0);
+        $("#selLinea").val(0);
+        $("#selCategoria").val(0);
+        fncLimpiar();
+        
+        cargarValores('/funcion/ajaxBuscarProductos',codigo,function(resultado){
+            if(resultado.resultado==0){
+                toastem.error("No existe el producto");
+                $("#selLinea").trigger("chosen:updated");
+                $("#selCategoria").trigger("chosen:updated");
+                
+            }else if(resultado.resultado==1){
+                 $("#listaProducto").val(resultado.producto);
+                 $("#selProducto").val(resultado.producto_ID);
+                 fncProducto(resultado.producto_ID);
+            }else{
+                 toastem.error("Ocurrió un error en el sistema.");
+            }
+           
+        });
+   }
+   $('#txtCodigo').keypress(function(e){
+
+        if (e.which==13){
+            buscarProducto($('#txtCodigo').val());
+               
+                return false;
+        }
+});
 
     var fncCargarPrecioCompra=function(producto_ID){
-          cargarValores('/Ingreso/ajaxPrecio_Compra',producto_ID,function(resultado){
+          cargarValores('/Ingreso/ajaxPrecio_Ingreso',producto_ID,function(resultado){
             $('#txtPrecioCompraDolares').val(resultado.precio_compra_dolares); 
             $('#txtPrecioCompraSoles').val(resultado.precio_compra_soles);
             
@@ -586,7 +660,7 @@
                 toastem.error(resultado.mensaje);
                $('#separaciones').html(resultado.mensaje); 
             }
-            $('#separaciones').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+            //$('#separaciones').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
             VerSeparaciones(resultado.producto_ID);
         });
      } 
@@ -664,23 +738,21 @@
 
     }
     function VerSeparaciones(producto_ID){
-        cargarValores('/Salida/ajaxVerSeparaciones',producto_ID,function(resultado){
-            $('#separaciones').html(resultado.html); 
-            if(resultado.resultado==-1){
-               $('#separaciones').html(resultado.mensaje); 
-            }
-             $('#historial').html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
-            fncHistoriaProducto(resultado.producto_ID);
+        cargarValores('/Funcion/ajaxVerSeparaciones',producto_ID,function(resultado){
+            $("#table_separaciones tbody").html(resultado.html);
+                  fncHistoriaProducto(producto_ID);
         });
         
     }
     var fncLimpiar=function(){
         $('#txtPrecioCompraDolares').val('');
         $('#txtPrecioCompraSoles').val('');
-        $('#separaciones').html('');
-        $('#historial').html('');
+       $("#table_historial_compra tbody").html('');
+        $("#table_historial_venta tbody").html('');
+        $("#table_separaciones tbody").html('');
         $('#txtDescripcion').val('');
         $('#txtStock').val('');
+        $("#txtCodigo").val('');
     }
     $('#ckComponente').click(function(){
         if($(this).prop('checked')){

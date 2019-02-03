@@ -12,56 +12,99 @@
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncTituloCabecera(){?>
-        <i class="fa fa-envelope" aria-hidden="true"></i>Mantenimiento de Correlativos
+        <i class="fa fa-align-left" aria-hidden="true"></i>Mantenimiento de Correlativos
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        </div>
 <?php } ?>
 <?php function fncPage(){?>
 
-        <form id="frm1" name="frm1" method="post" action="/Mantenimiento/Correlativos_Mantenimiento" class="form-horizontal">
+        <form id="frm1" name="frm1" method="post" action="/Mantenimiento/ajaxCorrelativos_Mantenimiento" class="form-horizontal">
             <div class="panel panel-tab panel-tab-double shadow">
-               
-                <div class="panel-body">
-                   
-                        <table class="grid table table-hover table-bordered">
-                            <tr>
-                                <th>Documento</th>
-                                <th>Serie</th>
-                                <th>Último número</th>
-                            </tr>
-                            <?php foreach($GLOBALS['dtCorrelativos'] as $item){?>
-                            <tr>
-                                <td><?php echo FormatTextView($item['nombre'])?></td>
-                                <td class="tdCenter"><?php echo $item['serie']?></td>
-                                <td class="tdCenter">
-                                    <input type="number" id="txt<?php echo $item['ID']?>" name="txt<?php echo $item['ID']?>" value="<?php echo $item['ultimo_numero']?>" class="int form-control">
-                                </td>
-                            </tr>
-                            <?php } ?>
-                           
-                        </table>
-                    
+       <div class="panel-heading no-padding">
+                <ul class="nav nav-tabs">
+
+                    <li class="active nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
+
+                </ul>
+                <div class="pull-right">
+                    <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
+
                 </div>
-                <div class="panel-footer">
-                    <button id="btnGrabar" name="btnGrabar"  title="Grabar" onclick="f.enviar();" class="btn btn-success">
-                        <span class="glyphicon glyphicon-floppy-disk"></span> Grabar
-                    </button>
+
+        </div>
+        <div class="panel-body">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="vista_buscar">
+                    
+
                 </div>
             </div>
-           
+            <div class="row">
+                <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
+            </div>
+            <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
+            <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
+            <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
+
+
+        </div>
+    </div>
 	</form>	
-	<?php if(isset($GLOBALS['resultado'])&& $GLOBALS['resultado']==1){?>
 	<script type="text/javascript">
-            $(document).ready(function () {
-                toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
+        var f=new form('frm1','div1');
+        f.terminado = function () {
+                var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
+                grids = new grid(tb);
+                grids.nuevoEvento();
                 
-             });
-	</script>
-        <?php } ?>
-        <?php if(isset($GLOBALS['resultado'])&& $GLOBALS['resultado']==-1){?>
-	<script type="text/javascript">
-            $(document).ready(function () {
-                toastem.error('<?php echo $GLOBALS['mensaje']; ?>');
-                
-             });
-	</script>
-        <?php } ?>
+                $('[data-toggle="tooltip"]').tooltip(); 
+                $('#websendeos').stacktable();
+                grids.fncPaginacion1(f);
+        }
+        f.enviar();
+
+        var fncOrden=function(col){
+
+                var col_old=$('#txtOrden').val();
+
+                if(col_old==col){
+                        if($('#chkOrdenASC').is(':checked')){
+                                $('#chkOrdenASC').prop('checked',false);
+                        }else{
+                                $('#chkOrdenASC').prop('checked',true);
+                        }
+                }else{
+                        $('#txtOrden').val(col);
+                        $('#chkOrdenASC').prop('checked',true);
+                }		
+
+                f.enviar();
+        }
+
+        var fncNuevo=function(){
+            window_float_open_modal('REGISTRAR NUEVO CORRELATIVO','/Mantenimiento/Correlativos_Mantenimiento_Nuevo','','',f,400,300);
+        }
+
+        var fncEditar=function(id){
+            window_float_open_modal('EDITAR CORRELATIVOS','/Mantenimiento/Correlativos_Mantenimiento_Editar',id,'',f,400,300);   
+        }
+
+        var fncEliminar=function(id){			
+                gridEliminar(f,id,'/Mantenimiento/ajaxCorrelativos_Mantenimiento_Eliminar');
+        }
+
+        $('#txtRazon_Social,#txtRUC,#txtMostrar').keypress(function(e){
+
+                if (e.which==13){
+                        $('#num_page').val(1);
+                        f.enviar();
+                        return false;
+                }
+        });
+
+        $('#txtBuscar').focus();
+</script>
+            
 <?php } ?>

@@ -46,7 +46,7 @@ class numero_cuenta {
         return null;
     }
      static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "Select ID,nombre_banco,numero,cci,moneda_ID,ifNull(abreviatura,'') as abreviatura,ifNull(usuario_id,0) as usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id";
             $q.=' from numero_cuenta ';
@@ -74,14 +74,15 @@ class numero_cuenta {
         }
     }
     function insertar() {
-        $cn = new connect();
+        
         try {
             $q = 'select ifNull(max(ID),0)+1 from numero_cuenta';
+			$cn = new connect_new();
             $ID = $cn->getData($q);
             
             $q=' INSERT INTO numero_cuenta (ID,nombre_banco,numero,cci,moneda_ID,usuario_id) ';
             $q.=' VALUES ('.$ID.',"'.$this->nombre_banco.'","'.$this->numero.'","'.$this->cci.'",'.$this->moneda_ID.','.$this->usuario_id.')' ;
-           
+            $cn = new connect_new();
             $retorna = $cn->transa($q);
             $this->ID=$ID;
             $this->getMessage="Se guardó correctamente.";
@@ -91,7 +92,7 @@ class numero_cuenta {
         }
     }   
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             
             $q=' UPDATE numero_cuenta set nombre_banco="'.$this->nombre_banco.'",numero="'.$this->numero.'",cci="'.$this->cci;
@@ -107,7 +108,7 @@ class numero_cuenta {
         }
     }  
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -125,7 +126,7 @@ class numero_cuenta {
     
     
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ID) ';
             $q.=' from numero_cuenta  ';
@@ -146,7 +147,7 @@ class numero_cuenta {
     
     
     static function getByID1($moneda_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombre_banco,numero,cci,moneda_ID';
             $q.=' from numero_cuenta ';
@@ -172,7 +173,7 @@ class numero_cuenta {
     }   
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select ID,nombre_banco,numero,cci,moneda_ID,ifnull(abreviatura,"") as abreviatura';
