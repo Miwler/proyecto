@@ -560,12 +560,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
-       <?php if($GLOBALS['cierre']==1){?>
-    setTimeout(function(){
-        parent.window_save_view();
-    },1000);
-    
-    <?php } ?>
+      
     });
     
 //   ampliarVentanaVertical(750,'form');

@@ -3129,7 +3129,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $garantia=$_POST['txtGarantia'];
             $observacion=$_POST['txtObservacion'];
             $estado_ID=$_POST['selEstado'];
-            $cierre=$_POST['cierre'];
+            
             try{
 
                 $oCotizacion=cotizacion::getByID($id);
@@ -3220,7 +3220,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $GLOBALS['dtForma_Pago']=$dtForma_Pago;
             $GLOBALS['dtEstado']=$dtEstado;
             $GLOBALS['dtMoneda']=moneda::getGrid();
-            $GLOBALS['cierre']=$cierre;
+            
             $GLOBALS['resultado']=$resultado;
             $GLOBALS['mensaje']=$mensaje;
     }
