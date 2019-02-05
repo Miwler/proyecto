@@ -92,7 +92,7 @@ var enviar = function (obj,btn)
      myObject['aleatorio'] = aleatorio;
      myObject['btnEnviar'] = btn;
      //alert(myObject['btnEnviar']);
-     $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+     //$(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
 
      /*Se convierte en json para enviarlo*/
 

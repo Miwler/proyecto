@@ -10,6 +10,10 @@
         <script type="text/javascript" src="include/js/jPdf.js"></script>
         <script type="text/javascript" src="include/js/jValidarLargoComentarios.js" ></script>
         <link rel="stylesheet" type="text/css" href="include/css/factura.css" /> 
+
+        <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
+        <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>    
+
         
 <script>
 

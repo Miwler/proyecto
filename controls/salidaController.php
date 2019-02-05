@@ -2006,11 +2006,16 @@ function get_Cotizacion_PDF($id){
         $oForma_Pago=new forma_pago();
     }
     $oOperador=operador::getByID($oCotizacion->operador_ID);
-    $oEjecutivo=persona::getByID($oOperador->persona_ID);
-    if($oOperador==null){
+    if(isset($oOperador)){
+         $oEjecutivo=persona::getByID($oOperador->persona_ID);
+    }else{
         $oOperador=new operador();
-        $oEjecutivo=new persona();
+         $oEjecutivo=new persona();
     }
+   
+    
+    
+    
     $dtCotizacion_Numero_Cuenta=cotizacion_numero_cuenta::getGrid1('cnc.cotizacion_ID='.$id,-1,-1);
     $pdf= new PDF1('P','mm','A4');
     $pdf->oCotizacion=$oCotizacion;
@@ -3049,11 +3054,10 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $oCotizacion=cotizacion::getByID($id);
             $oCliente=cliente::getByID($oCotizacion->cliente_ID);
             $operador_ID=0;
-            if($oCotizacion->operador_ID==null){
+            if($oCotizacion->operador_ID==null||$oCotizacion->operador_ID==-1){
                 $oOperador= new operador();
                 $oOperador->nombres="Vendedor";
                 $oOperador->apellido_paterno="no asignado";
-                $oOperador->direccion="--";
                 $oOperador->telefono="--";
                 $oOperador->celular="--";
 
@@ -3120,11 +3124,12 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $plazo_entrega=$_POST['txtPlazo_Entrega'];
             //$estado_ID=1;
             $tipo_cambio=$_POST['txtTipo_Cambio'];
-            $lugar_entrega=strtoupper($_POST['txtLugar_Entrega']);
-            $validez_oferta=strtoupper($_POST['txtValidez_Oferta']);
-            $garantia=strtoupper($_POST['txtGarantia']);
-            $observacion=strtoupper($_POST['txtObservacion']);
+            $lugar_entrega=$_POST['txtLugar_Entrega'];
+            $validez_oferta=$_POST['txtValidez_Oferta'];
+            $garantia=$_POST['txtGarantia'];
+            $observacion=$_POST['txtObservacion'];
             $estado_ID=$_POST['selEstado'];
+            $cierre=$_POST['cierre'];
             try{
 
                 $oCotizacion=cotizacion::getByID($id);
@@ -3150,7 +3155,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
                 $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
                 $oCotizacion->igv=$oDatos_Generales->vigv;
                 $oCotizacion->usuario_mod_id=$_SESSION['usuario_ID'];
-                $oCotizacion->actualizar();
+                $oCotizacion->actualizar1();
             //insertamos los numero de cuentas
                 //limpiamos si existen registros
                 $dtCotizacion_Numero_Cuenta=cotizacion_numero_cuenta::getGrid('cotizacion_ID='.$oCotizacion->ID);
@@ -3186,7 +3191,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
                 $oOperador=new operador();
                 $oOperador->nombres="Vendedor no";
                 $oOperador->apellido_paterno="asignado";
-                $oOperador->direccion="--";
+              
                 $oOperador->telefono="--";
                 $oOperador->celular="-";
 
@@ -3215,6 +3220,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $GLOBALS['dtForma_Pago']=$dtForma_Pago;
             $GLOBALS['dtEstado']=$dtEstado;
             $GLOBALS['dtMoneda']=moneda::getGrid();
+            $GLOBALS['cierre']=$cierre;
             $GLOBALS['resultado']=$resultado;
             $GLOBALS['mensaje']=$mensaje;
     }

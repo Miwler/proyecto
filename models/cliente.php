@@ -209,6 +209,50 @@ class cliente {
             throw new Exception("Ocurrio un error en la consulta");
         }
     }
+    static function getByID1($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_cliente_getByID",
+          array("iID"=>$ID));
+      $ocliente=null;
+      foreach($dt as $item)
+      {
+        $ocliente= new cliente();
+      $ocliente->ID=$item["ID"];
+      $ocliente->empresa_ID=$item["empresa_ID"];
+      $ocliente->codigo=$item["codigo"];
+      $ocliente->razon_social=$item["razon_social"];
+      $ocliente->nombre_comercial=$item["nombre_comercial"];
+      $ocliente->ruc=$item["ruc"];
+      $ocliente->direccion=$item["direccion"];
+      $ocliente->direccion_fiscal=$item["direccion_fiscal"];
+      $ocliente->distrito_ID=$item["distrito_ID"];
+      $ocliente->telefono=$item["telefono"];
+      $ocliente->celular=$item["celular"];
+      $ocliente->correo=$item["correo"];
+      $ocliente->forma_pago_ID=$item["forma_pago_ID"];
+      $ocliente->banco=$item["banco"];
+      $ocliente->numero_cuenta_soles=$item["numero_cuenta_soles"];
+      $ocliente->numero_cuenta_dolares=$item["numero_cuenta_dolares"];
+      $ocliente->estado_ID=$item["estado_ID"];
+      $ocliente->descuento=$item["descuento"];
+      $ocliente->tiempo_credito=$item["tiempo_credito"];
+      $ocliente->usuario_id=$item["usuario_id"];
+      $ocliente->usuario_mod_id=$item["usuario_mod_id"];
+      $ocliente->correlativo=$item["correlativo"];
+      $ocliente->tipo_documento_ID=$item["tipo_documento_ID"];
+
+      }
+      return $ocliente;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cliente.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'clt.ID asc') {
         $cn = new connect_new();

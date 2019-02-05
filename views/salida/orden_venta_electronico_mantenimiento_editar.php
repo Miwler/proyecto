@@ -67,7 +67,7 @@
                 <div id="divCliente" class="tab-pane fade in active inner-all">
                      <div class="row">
                          <div class="col-sm-7">
-                             <div class="form-group form-group-divider form-group-inline">
+                            <div class="form-group form-group-divider form-group-inline">
                                 <div class="form-inner">
                                     <h4 class="no-margin">Cliente</h4>
                                 </div>
@@ -146,8 +146,8 @@
                 </div>
                 <div id="divDatos_Generales" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <label class="control-label col-lg-3 col-md-3 col-sm-3">Fecha:<span class="asterisk">*</span> </label>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-sm-3">Fecha:<span class="asterisk">*</span> </label>
+                        <div class="col-sm-3">
                             <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single  form-control" value="<?php echo date("d/m/Y"); ?>" /> 
                         </div>
                        <label class="control-label col-lg-3 col-md-3 col-sm-3">Número: </label>

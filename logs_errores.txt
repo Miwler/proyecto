@@ -1092,3 +1092,89 @@ FECHA Y HORA: 03 02 2019 01:02:14
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
 METODO: salidaController.post_ajaxEnviarSUNAT
 ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El XML no contiene el tag o no existe informacion de cac:Item/cbc:Description del item - Detalle: xxx.xxx.xxx value='ticket: 1549248065205 error: Error en la linea: 1: 2027 (nodo: "cac:Item/cbc:Description" valor: "TINTA EPSON NEGRO PARA L200
+TINTA EPSON NEGRO PARA L200 
+C?d. de f?brica : T664120-AL 
+Marca : EPSON")'
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El XML no contiene el tag o no existe informacion de cac:Item/cbc:Description del item - Detalle: xxx.xxx.xxx value='ticket: 1549248140329 error: Error en la linea: 1: 2027 (nodo: "cac:Item/cbc:Description" valor: "TINTA EPSON NEGRO PARA L200
+TINTA EPSON NEGRO PARA L200 
+C?d. de f?brica : T664120-AL 
+Marca : EPSON")'
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 22:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 11:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 11:02:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 16:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",705,13,"33434","343434","sistemas@gmail.com","SISTEMAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 19:02:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=404,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5078",numero_concatenado="0005078-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=121.18,vigv_dolares=35.64,precio_venta_neto_soles=673.20,precio_venta_total_soles=794.38,precio_venta_neto_dolares=198.00,precio_venta_total_dolares=233.64,forma_pago_ID=0,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.4000,lugar_entrega="AV. AVIACION NRO. 4928 URB. HIGUERETA LIMA - LIMA - SANTIAGO DE SURCO",validez_oferta="7",garantia="1 AñO",observacion="PRECIOS VALIDOS HASTA AGOTAR STOCK. LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIóN SON PARA EL TOTAL DE LA COMPRA, LA FACTURACIóN MINIMA CON DISTRIBUCIóN ES DE 150 DóLARES MAS IGV",usuario_mod_id=0,fdm=now() where del=0 and ID=5078
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=1, telefono="511 6419403",celular="",mail="ventas1@jjsoluciones",fecha_contrato=""2009-03-06"",cargo_ID=2,usuario_mod_id=0, fdc=now() where del=0 and ID=12
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=705,cliente_contacto_ID=0,operador_ID=-1,periodo="2019",numero="5086",numero_concatenado="0005086-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=0.00,vigv_dolares=0.00,precio_venta_neto_soles=0.00,precio_venta_total_soles=0.00,precio_venta_neto_dolares=0.00,precio_venta_total_dolares=0.00,forma_pago_ID=0,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV VENECOS",validez_oferta="7",garantia="1 AñO",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5086
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 AñO",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 AÃ±O",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="00:01:53",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 AÃ±O",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="00:02:53",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 año",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃÂ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃÂ©DITO, LA INGRESO MÃÂ­NIMA ES DE 150 DÃÂ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)

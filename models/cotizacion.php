@@ -69,6 +69,66 @@ class cotizacion {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+  {
+        $this->cliente_contacto_ID=0;
+    $this->operador_ID=0;
+    $this->periodo=0;
+    $this->numero=0;
+    $this->numero_concatenado="";
+    $this->fecha="";
+    $this->igv=0;
+    $this->vigv_soles=0;
+    $this->vigv_dolares=0;
+    $this->precio_venta_neto_soles=0;
+    $this->precio_venta_total_soles=0;
+    $this->precio_venta_neto_dolares=0;
+    $this->precio_venta_total_dolares=0;
+    $this->tiempo_credito=0;
+    $this->tardanza="";
+    $this->plazo_entrega=0;
+    $this->tipo_cambio=0;
+    $this->lugar_entrega="";
+    $this->validez_oferta="";
+    $this->garantia="";
+    $this->observacion="";
+    $this->area_texto="";
+    $this->numero_pagina=0;
+    $this->producto_pagina="";
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
+
+  }
+  function __destruct()
+  {
+        $this->cliente_contacto_ID;
+    $this->operador_ID;
+    $this->periodo;
+    $this->numero;
+    $this->numero_concatenado;
+    $this->fecha;
+    $this->igv;
+    $this->vigv_soles;
+    $this->vigv_dolares;
+    $this->precio_venta_neto_soles;
+    $this->precio_venta_total_soles;
+    $this->precio_venta_neto_dolares;
+    $this->precio_venta_total_dolares;
+    $this->tiempo_credito;
+    $this->tardanza;
+    $this->plazo_entrega;
+    $this->tipo_cambio;
+    $this->lugar_entrega;
+    $this->validez_oferta;
+    $this->garantia;
+    $this->observacion;
+    $this->area_texto;
+    $this->numero_pagina;
+    $this->producto_pagina;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
     function insertar()
     {
         
@@ -122,6 +182,55 @@ class cotizacion {
             throw new Exception($q);
         }
     }
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_cotizacion_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "iempresa_ID"=>$this->empresa_ID,
+    "icliente_ID"=>$this->cliente_ID,
+    "icliente_contacto_ID"=>$this->cliente_contacto_ID,
+    "ioperador_ID"=>$this->operador_ID,
+    "iperiodo"=>$this->periodo,
+    "inumero"=>$this->numero,
+    "inumero_concatenado"=>$this->numero_concatenado,
+    "imoneda_ID"=>$this->moneda_ID,
+    "ifecha"=>$this->fecha,
+    "iigv"=>$this->igv,
+    "ivigv_soles"=>$this->vigv_soles,
+    "ivigv_dolares"=>$this->vigv_dolares,
+    "iprecio_venta_neto_soles"=>$this->precio_venta_neto_soles,
+    "iprecio_venta_total_soles"=>$this->precio_venta_total_soles,
+    "iprecio_venta_neto_dolares"=>$this->precio_venta_neto_dolares,
+    "iprecio_venta_total_dolares"=>$this->precio_venta_total_dolares,
+    "iforma_pago_ID"=>$this->forma_pago_ID,
+    "itiempo_credito"=>$this->tiempo_credito,
+    "itardanza"=>$this->tardanza,
+    "iplazo_entrega"=>$this->plazo_entrega,
+    "iestado_ID"=>$this->estado_ID,
+    "itipo_cambio"=>$this->tipo_cambio,
+    "ilugar_entrega"=>$this->lugar_entrega,
+    "ivalidez_oferta"=>$this->validez_oferta,
+    "igarantia"=>$this->garantia,
+    "iobservacion"=>$this->observacion,
+    "iarea_texto"=>$this->area_texto,
+    "inumero_pagina"=>$this->numero_pagina,
+    "iproducto_pagina"=>$this->producto_pagina,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cotizacion.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     //codigo ortega-aprobar cotizacion
     function aprobarCotizacion($id){
         $cn =new connect_new();
@@ -190,7 +299,7 @@ class cotizacion {
 		}
 	} 
         //modificado por ortega-agregar todos los datos y cargar en el modelo
-   static function getByID($ID)
+   /*static function getByID($ID)
     {
         $cn =new connect_new();
         try 
@@ -247,7 +356,60 @@ class cotizacion {
         {
             throw new Exception($q);
         }
+    }*/
+        static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_cotizacion_getByID",
+          array("iID"=>$ID));
+      $ocotizacion=null;
+      foreach($dt as $item)
+      {
+        $ocotizacion= new cotizacion();
+      $ocotizacion->ID=$item["ID"];
+      $ocotizacion->empresa_ID=$item["empresa_ID"];
+      $ocotizacion->cliente_ID=$item["cliente_ID"];
+      $ocotizacion->cliente_contacto_ID=$item["cliente_contacto_ID"];
+      $ocotizacion->operador_ID=$item["operador_ID"];
+      $ocotizacion->periodo=$item["periodo"];
+      $ocotizacion->numero=$item["numero"];
+      $ocotizacion->numero_concatenado=$item["numero_concatenado"];
+      $ocotizacion->moneda_ID=$item["moneda_ID"];
+      $ocotizacion->fecha=$item["fecha"];
+      $ocotizacion->igv=$item["igv"];
+      $ocotizacion->vigv_soles=$item["vigv_soles"];
+      $ocotizacion->vigv_dolares=$item["vigv_dolares"];
+      $ocotizacion->precio_venta_neto_soles=$item["precio_venta_neto_soles"];
+      $ocotizacion->precio_venta_total_soles=$item["precio_venta_total_soles"];
+      $ocotizacion->precio_venta_neto_dolares=$item["precio_venta_neto_dolares"];
+      $ocotizacion->precio_venta_total_dolares=$item["precio_venta_total_dolares"];
+      $ocotizacion->forma_pago_ID=$item["forma_pago_ID"];
+      $ocotizacion->tiempo_credito=$item["tiempo_credito"];
+      $ocotizacion->tardanza=$item["tardanza"];
+      $ocotizacion->plazo_entrega=$item["plazo_entrega"];
+      $ocotizacion->estado_ID=$item["estado_ID"];
+      $ocotizacion->tipo_cambio=$item["tipo_cambio"];
+      $ocotizacion->lugar_entrega=$item["lugar_entrega"];
+      $ocotizacion->validez_oferta=$item["validez_oferta"];
+      $ocotizacion->garantia=$item["garantia"];
+      $ocotizacion->observacion=$item["observacion"];
+      $ocotizacion->area_texto=$item["area_texto"];
+      $ocotizacion->numero_pagina=$item["numero_pagina"];
+      $ocotizacion->producto_pagina=$item["producto_pagina"];
+      $ocotizacion->usuario_id=$item["usuario_id"];
+      $ocotizacion->usuario_mod_id=$item["usuario_mod_id"];
+
+      }
+      return $ocotizacion;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cotizacion.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
+  }
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='co.ID asc')
 	{
             $cn =new connect_new();
