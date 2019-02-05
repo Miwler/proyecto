@@ -45,6 +45,33 @@ class operador {
         // Retorna nulo si no existe
         return null;
     }
+    
+    
+      function __construct()
+  {
+        $this->telefono="";
+    $this->celular="";
+    $this->mail="";
+    $this->fecha_contrato=NULL;
+    $this->comision=0;
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
+
+  }
+  function __destruct()
+  {
+        $this->telefono;
+    $this->celular;
+    $this->mail;
+    $this->fecha_contrato;
+    $this->comision;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
+    
+    
+    
 
     function insertar() {
         
@@ -78,27 +105,63 @@ class operador {
         }
     }
 
-    function actualizar() {
-        $cn = new connect_new();
-        $retornar = -1;
-        try {
-           
-            $fecha_contrato_save='NULL';
-            if($this->fecha_contrato!=null && $this->fecha_contrato!="__/__/____"){
-                $fecha_contrato_save='"'.FormatTextToDate($this->fecha_contrato,'Y-m-d').'"';
-            }
-            $q = 'update operador SET persona_ID=' . $this->persona_ID.', telefono="'.$this->telefono.'",';
-            $q.='celular="'.$this->celular.'",mail="'.$this->mail.'",fecha_contrato="'.$fecha_contrato_save.'",';
-            $q.='cargo_ID='.$this->cargo_ID.',usuario_mod_id='.$this->usuario_mod_id.', fdc=now()';
-            $q.=' where del=0 and ID='.$this->ID;
-            //echo $q;
-            $retornar = $cn->transa($q);
-            $this->getMessage = 'Se actualizó correctamente.';
-            return $retornar;
-        } catch (Exception $ex) {
-            throw new Exception($q);
-        }
+//    function actualizar() {
+//        $cn = new connect_new();
+//        $retornar = -1;
+//        try {
+//           
+//            $fecha_contrato_save='NULL';
+//            if($this->fecha_contrato!=null && $this->fecha_contrato!="__/__/____"){
+//                $fecha_contrato_save='"'.FormatTextToDate($this->fecha_contrato,'Y-m-d').'"';
+//            }
+//            $q = 'update operador SET persona_ID=' . $this->persona_ID.', telefono="'.$this->telefono.'",';
+//            $q.='celular="'.$this->celular.'",mail="'.$this->mail.'",fecha_contrato="'.$fecha_contrato_save.'",';
+//            $q.='cargo_ID='.$this->cargo_ID.',usuario_mod_id='.$this->usuario_mod_id.', fdc=now()';
+//            $q.=' where del=0 and ID='.$this->ID;
+//            //echo $q;
+//            $retornar = $cn->transa($q);
+//            $this->getMessage = 'Se actualizó correctamente.';
+//            return $retornar;
+//        } catch (Exception $ex) {
+//            throw new Exception($q);
+//        }
+//    }
+    
+    
+      function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_operador_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "iempresa_ID"=>$this->empresa_ID,
+    "ipersona_ID"=>$this->persona_ID,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "imail"=>$this->mail,
+    "ifecha_contrato"=>$this->fecha_contrato,
+    "icomision"=>$this->comision,
+    "icargo_ID"=>$this->cargo_ID,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      if($ID>0)
+    {
+         $this->getMessage="Se actualizó correctamente.";
+      }
+          
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "operador.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
+  }
+    
 
     function eliminar() {
         $cn = new connect_new();
@@ -136,41 +199,38 @@ class operador {
         }
     }
 
-    static function getByID($ID) {
-        $cn = new connect_new();
-        try {
-            $q = 'Select op.ID,op.empresa_ID,op.persona_ID,op.telefono, op.celular, op.mail,ifnull(op.fecha_contrato,"0000-00-00") as fecha_contrato ,op.comision,op.cargo_ID,op.usuario_id,ifnull(op.usuario_mod_id,-1) as usuario_mod_id';
-            $q.=',pe.apellido_paterno,pe.apellido_materno,pe.nombres';
-            $q.=' from operador op,persona pe ';
-            $q.=' where op.persona_ID=pe.ID and op.del=0 and op.ID='.$ID;
-             //echo $q;
-            $dt = $cn->getGrid($q);
+static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_operador_getByID",
+          array("iID"=>$ID));
+      $ooperador=null;
+      foreach($dt as $item)
+      {
+        $ooperador= new operador();
+      $ooperador->ID=$item["ID"];
+      $ooperador->empresa_ID=$item["empresa_ID"];
+      $ooperador->persona_ID=$item["persona_ID"];
+      $ooperador->telefono=$item["telefono"];
+      $ooperador->celular=$item["celular"];
+      $ooperador->mail=$item["mail"];
+      $ooperador->fecha_contrato=$item["fecha_contrato"];
+      $ooperador->comision=$item["comision"];
+      $ooperador->cargo_ID=$item["cargo_ID"];
+      $ooperador->usuario_id=$item["usuario_id"];
+      $ooperador->usuario_mod_id=$item["usuario_mod_id"];
 
-            $oOperador = null;
-
-            foreach ($dt as $item) {
-                $oOperador = new operador();
-
-                $oOperador->ID = $item['ID'];
-                $oOperador->persona_ID = $item['persona_ID'];
-                $oOperador->empresa_ID = $item['empresa_ID'];
-                $oOperador->telefono = $item['telefono'];
-                $oOperador->celular = $item['celular'];
-                $oOperador->mail = $item['mail'];
-                $oOperador->fecha_contrato = $item['fecha_contrato'];
-                $oOperador->comision = $item['comision'];
-                $oOperador->cargo_ID = $item['cargo_ID'];
-                $oOperador->usuario_id = $item['usuario_id'];
-                $oOperador->usuario_mod_id = $item['usuario_mod_id'];
-                $oOperador->apellido_paterno = $item['apellido_paterno'];
-                $oOperador->apellido_materno = $item['apellido_materno'];
-                $oOperador->nombres = $item['nombres'];
-            }
-            return $oOperador;
-        } catch (Exeption $ex) {
-            throw new Exception($q);
-        }
+      }
+      return $ooperador;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "operador.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
+  }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'op.ID asc') {
         $cn = new connect_new();
