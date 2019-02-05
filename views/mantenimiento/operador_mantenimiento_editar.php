@@ -34,7 +34,13 @@ function fncPage() { ?>
                 <label>Persona:</label>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" title="Agregar persona nueva" onclick="fncAgregar_Persona();"><img src="/include/img/boton/add_user-20.png"></a>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                <input type="text" id="txtPersona_ID" class="form-control form-requerido" >
+                <input type="hidden" id="txtPersona_ID" name="txtPersona_ID" class="form-control form-requerido" value="<?php echo $GLOBALS['oOperador']->persona_ID;?>">
+                <input type="text" id="listaPersonas" name="listaPersonas" class="form-control" value="<?php echo $GLOBALS['oOperador']->nombres_completo;?>">
+                <script>
+                $(document).ready(function(){
+                    lista('/funcion/ajaxListarPersonas','listaPersonas','txtPersona_ID',mostrar_informacion_persona);
+                });
+                </script>
             </div>
         </div>
         <div class="form-group">
@@ -113,16 +119,16 @@ function fncPage() { ?>
     $(document).ready(function(){
         $("#selCargo").val("<?php echo $GLOBALS['oOperador']->cargo_ID;?>");
     });
-    var cboPersona = cargarCbo('divPersona', 'txtPersona_ID', '/funcion/ajaxCbo_Persona',"<?php echo $GLOBALS['oOperador']->persona_ID;?>","<?php echo $GLOBALS['oOperador']->nombres_completo;?>", true);
-    cboPersona.seleccionado=function(){
-            var id=$('#sendtxtPersona_ID').val();
-            mostrar_informacion_persona(id);
-        }
+//    var cboPersona = cargarCbo('divPersona', 'txtPersona_ID', '/funcion/ajaxCbo_Persona',"<?php echo $GLOBALS['oOperador']->persona_ID;?>","<?php echo $GLOBALS['oOperador']->nombres_completo;?>", true);
+//    cboPersona.seleccionado=function(){
+//            var id=$('#sendtxtPersona_ID').val();
+//            mostrar_informacion_persona(id);
+//        }
     
     var validar=function(){
-        var persona_ID=$.trim($("#sendtxtPersona_ID").val());
+        var persona_ID=$.trim($("#txtPersona_ID").val());
         
-        if(persona_ID==""){
+        if(persona_ID=="" || persona_ID == '0'){
             toastem.error("Debe seleccionar una persona.");
             return false;
         }
@@ -139,17 +145,20 @@ function fncPage() { ?>
         });
     }
     var fncCargarPersona=function(id,nombres){
-        cboPersona.seleccionar(id, nombres);
-        mostrar_informacion_persona(id);
+       cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtPersona_ID').val(id);
+            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
+            mostrar_informacion_persona(id);
+        });
     }
 </script>
     <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
        
         <script type="text/javascript">
-            $(document).ready(function(){
-                toastem.success(" <?php echo $GLOBALS['mensaje']; ?>");
+           $(document).ready(function(){
+                toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
                 
-                setTimeout('window_float_save();', 1000);
+                setTimeout('window_float_save_modal();', 1000);
             });
             
         </script>

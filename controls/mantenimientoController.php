@@ -3115,17 +3115,10 @@ function post_Operador_Mantenimiento_Editar($id) {
     global $returnView_float;
     $returnView_float = true;
     
-    $dtCargo = cargo::getGrid('',-1,-1,"nombre asc");
     
     
-    $oOperador = operador::getByID($id);
-    $oPersona=persona::getByID($oOperador->persona_ID);
+    
 
-    if ($oOperador == null) {
-        $GLOBALS['resultado'] = -1;
-        $GLOBALS['mensaje'] = 'Parecer que el registro ya fue eliminado.';
-        return;
-    }
     $persona_ID= $_POST['txtPersona_ID'];
     $telefono = FormatTextSave($_POST['txtTelefono']);
     $celular = FormatTextSave($_POST['txtCelular']);
@@ -3134,6 +3127,19 @@ function post_Operador_Mantenimiento_Editar($id) {
     $comision = $_POST['txtComision'];
     $cargo = $_POST['selCargo'];
     try {
+        $dtCargo = cargo::getGrid('',-1,-1,"nombre asc");
+        $oOperador = operador::getByID($id);
+        $oPersona=persona::getByID($oOperador->persona_ID);
+
+        if ($oOperador == null) {
+            $GLOBALS['resultado'] = -1;
+
+            throw new Exception('Parecer que el registro ya fue eliminado.');
+
+
+
+        }
+        
         $oOperador->persona_ID = $persona_ID;
         $oOperador->telefono = $telefono;
         $oOperador->celular = $celular;
@@ -3143,13 +3149,14 @@ function post_Operador_Mantenimiento_Editar($id) {
         $oOperador->cargo_ID = $cargo;
         $oOperador->usuario_mod_id = $_SESSION['usuario_ID'];
         $oOperador->actualizar();
-        $GLOBALS['oOperador'] = $oOperador;
+       
 
         $mensaje = $oOperador->getMessage;
         $resultado = 1;
     } catch (Exception $ex) {
         $resultado = -1;
-        $mensaje = $ex->getMessage();
+        $mensaje = utf8_encode(mensaje_error);
+        log_error(__FILE__, 'mantenimiento/post_Operador_Mantenimiento_Editar', $ex->getMessage());
     }
     $oOperador->dtCargo=$dtCargo;
     if($oOperador->fecha_contrato=="0000-00-00"){
@@ -3157,6 +3164,7 @@ function post_Operador_Mantenimiento_Editar($id) {
     }
     
     $oOperador->nombres_completo=FormatTextView($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
+    $GLOBALS['oOperador'] = $oOperador;
     $GLOBALS['mensaje'] = $mensaje;
     $GLOBALS['resultado']=$resultado;
 }
