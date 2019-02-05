@@ -60,7 +60,7 @@
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==2||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Editar/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();"  class="form-horizontal form-bordered">
     <input type="hidden" id="selEstado" name="selEstado" value="<?php $GLOBALS['oCotizacion']->estado_ID; ?>">
-    <input type="hidden" id="cierre" name="cierre" value="0">
+   
     <div class="panel panel-tab rounded shadow">
          <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -533,6 +533,7 @@
         $('#txtTiempo_Avance').removeAttr("disabled");
         $('#txtNumero').removeAttr('disabled');
         //$('#fondo_espera').css('display','block');
+         block_ui();
     }
     var actualizar_dimensiones=function(){
        

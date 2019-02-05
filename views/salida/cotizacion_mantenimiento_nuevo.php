@@ -28,6 +28,7 @@ $(document).ready(function(){
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal form-bordered" >
+    <input type="hidden" id="selEstado" name="selEstado" value="<?php $GLOBALS['oCotizacion']->estado_ID; ?>">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -148,9 +149,7 @@ $(document).ready(function(){
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo date("d/m/Y"); ?>" /> 
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Número: </label>
-                        </div>
+                        <label class="control-label col-sm-3">Número: </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <input type="text" id="txtCotizacion_ID" name="txtCotizacion_ID" value="<?php echo $GLOBALS['oCotizacion']->ID; ?>"style="display:none;">
                             <input id="txtNumero" name="txtNumero" type="text" class="text-int form-control" disabled autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->numero_concatenado; ?>" /> 
@@ -158,63 +157,42 @@ $(document).ready(function(){
                     </div>
 
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Estado: </label>
+                        <label class="control-label col-sm-3">Garantía: </label>
+                        
+                        <div class="col-sm-2">
+                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oCotizacion']->garantia; ?>" class="form-control text-uppercase" >
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <select id="selEstado" name="selEstado" class="form-control">
-                                <?php foreach($GLOBALS['dtEstado'] as $value){?>
-                                <option value="<?php echo $value['ID'];?>"><?php  echo utf8_encode($value['nombre']);?></option>
-                                <?php } ?>
-                            </select>
-                            <script type="text/javascript">
-                                $('#selEstado').val(<?php echo $GLOBALS['oCotizacion']->estado_ID;?>);
-                            </script>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Tiempo avance: </label>
-                        </div>
+                        <label class="control-label col-sm-3">Tiempo avance:</label>
+                        
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <input type="text" id="txtTiempo_Avance" name="txtTiempo_Avance" disabled class="cronometro form-control" autocomplete=off  value="<?php echo $GLOBALS['oCotizacion']->tardanza; ?>" > 
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Plazo de entrega: </label>
-                        </div>
+                        <label class="control-label col-sm-3">Plazo de entrega:</label>
+                        
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <input type="text" id="txtPlazo_Entrega" name="txtPlazo_Entrega" placeholder="Días" class="int form-control" autocomplete="off"  value="<?php echo $GLOBALS['oCotizacion']->plazo_entrega; ?>"/>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Validez: </label>
-                        </div>
+                        <label class="control-label col-sm-3">Validez:</label>
+                        
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo  FormatTextView($GLOBALS['oCotizacion']->validez_oferta); ?>" >
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Lugar de entrega: </label>
-                        </div>
+                        <label class="control-label col-sm-3">Lugar de entrega:</label>
+                       
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                             <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo utf8_encode(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Garantía: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oCotizacion']->garantia; ?>" class="form-control text-uppercase" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Observación: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                        <label class="control-label col-sm-3">Observación:</label>
+                        
+                        <div class="col-lg-9 col-md-9 col-sm-9">
                             <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control"  rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize:none;"><?php echo $GLOBALS['oCotizacion']->observacion; ?></textarea>
                         </div>
                     </div>
@@ -505,19 +483,16 @@ $(document).ready(function(){
             $('.nav-tabs a[href="#divDatos_Economicos"]').tab('show');
             return false;
         }
-        if(estado_ID=="2"){
-           
-            var contador=0;
-            $('#productos .item-tr').each(function(){
+         var contador=0;
+        $('#productos .item-tr').each(function(){
                  
-                contador++;
-            });
-            if(contador==0){
-               
-                mensaje.advertencia("VALIDACIÓN DE DATOS",'Debes ingresar un producto para poder cambiar de estado.','selEstado');
-                 $('.nav-tabs a[href="#divDatos_Generales"]').tab('show');
-                return false; 
-            }
+            contador++;
+        });
+        if(contador>0){
+            $("#selEstado").val(2);
+            
+        }else{
+            $("#selEstado").val(1);
         }
         $('#txtTiempo_Avance').removeAttr("disabled");
         $('#txtNumero').removeAttr('disabled');

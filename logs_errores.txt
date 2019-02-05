@@ -1178,3 +1178,23 @@ FECHA Y HORA: 04 02 2019 20:02:48
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064) insert into cotizacion (ID,empresa_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,numero_concatenado,moneda_ID,fecha, igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,tiempo_credito,tardanza,plazo_entrega,estado_ID,tipo_cambio,lugar_entrega, validez_oferta,garantia,observacion,usuario_id) values (5089,2,610,0,15,'2019','5089','0005089-2019',2,"2019-02-04",0.1800,0,0,0,0,0,0,1,0,'00:00:15','2',,3.32,'CAL.DEAN VALDIVIA NRO. 227 INT. 801 (ESQUINA PLAZA ANDRES AVELINO CACERES) LIMA - LIMA - SAN ISIDRO','7','1 año','Las cantidades y montos ofrecidos en la presente cotización son para el total de la ingreso al crédito, la ingreso mínima es de 150 dólares',0);
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre

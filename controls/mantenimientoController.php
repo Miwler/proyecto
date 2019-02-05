@@ -2676,7 +2676,7 @@ function post_ajaxProducto_Mantenimiento() {
    if($opcion_tipo=="buscar"){
        $filtro.=((trim($filtro)!="")?" and ":""). ' upper(pr.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
         if($_POST['txtCodigo']!=""){
-            $filtro='pr.ID='.$_POST['tcxtCodigo'];
+            $filtro='pr.ID='.$_POST['txtCodigo'];
         }
    }else{
        if($linea_ID>0){
