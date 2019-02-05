@@ -215,12 +215,14 @@
             f.enviar();
     }
     var fncNuevo=function(){
-        window_float_open_modal('NUEVA COTIZACIÓN','Salida/Cotizacion_Mantenimiento_Nuevo','','',f,800,530);
+         window_open_view('Salida/Cotizacion_Mantenimiento_Nuevo',0,null,fngetData);
+        //window_float_open_modal('NUEVA COTIZACIÓN','Salida/Cotizacion_Mantenimiento_Nuevo','','',f,800,530);
       
     }
    
     var fncEditar=function(id){	
-        window_float_open_modal('EDITAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Editar',id,'',f,800,530);
+         window_open_view('Salida/Cotizacion_Mantenimiento_Editar',id,null,fngetData);
+        //window_float_open_modal('EDITAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Editar',id,'',f,800,530);
         
 
     }
@@ -230,7 +232,9 @@
     var fncEliminar=function(id){	
         gridEliminar(f,id,'/Salida/ajaxCotizacion_Mantenimiento_Eliminar');
     }
-
+    function fngetData(){
+        f.enviar();
+    }
     $('#txtBuscar,#txtMostrar,#txtPeriodo,#txtNumero').keypress(function(e){			
         if (e.which==13){
                 $('#num_page').val(1);

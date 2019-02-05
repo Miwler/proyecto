@@ -67,7 +67,7 @@
                 <div id="divCliente" class="tab-pane fade in active inner-all">
                      <div class="row">
                          <div class="col-sm-7">
-                             <div class="form-group form-group-divider form-group-inline">
+                            <div class="form-group form-group-divider form-group-inline">
                                 <div class="form-inner">
                                     <h4 class="no-margin">Cliente</h4>
                                 </div>
@@ -146,8 +146,8 @@
                 </div>
                 <div id="divDatos_Generales" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <label class="control-label col-lg-3 col-md-3 col-sm-3">Fecha:<span class="asterisk">*</span> </label>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-sm-3">Fecha:<span class="asterisk">*</span> </label>
+                        <div class="col-sm-3">
                             <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single  form-control" value="<?php echo date("d/m/Y"); ?>" /> 
                         </div>
                        <label class="control-label col-lg-3 col-md-3 col-sm-3">Número: </label>
@@ -350,9 +350,13 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         Agregar
                     </button>
+                    <?php if($GLOBALS['oOrden_Venta']->impresion==1) { ?>
+                        <button id='btnImprimiendo' type="button" class="btn btn-info" onclick='$("#ModalResultadoImpresion").modal("show");'>Imprimiendo</button>
+                        <?php }?>
                     
-                    
-                    <div id="contenedor_imprimir"></div>
+                    <div id="contenedor_imprimir">
+                        
+                    </div>
                     <table id="table_guias" class="table table-hover table-bordered table-teal">
                         <thead>
                             <tr><th class="text-center">N°</th><th class="text-center">Número</th><th class="text-center">Fecha emisión</th><th class="text-center">Vehículo</th><th class="text-center">Chofer</th><th class="text-center">Estado</th><th></th></tr>
@@ -1135,6 +1139,7 @@
                 var respuesta = $.parseJSON(res);
                fncCargar_Guias_Ventas();
                 if(respuesta.resultado=='2'){
+                    $("#btnImprimiendo").css("display","none");
                     limpiar_verificacion();
                     $("#ModalResultadoImpresion").modal("hide");
                     
