@@ -2,7 +2,7 @@
 	require ROOT_PATH."views/shared/content.php";	
 ?>	
 <?php function fncTitle(){?>
-		Información para producto
+		Información para linea de producto
 <?php } ?>
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
@@ -36,19 +36,18 @@
             
         </div>
         <div class="panel-body">
-            <div class="tab-content">
-               
-                <div class="tab-pane in active" id="vista_buscar">
-                    
-                    <div class="form-group">
-                        <label class="form-group col-sm-4">Nombre: </label>
-                        <div class="col-sm-8">
-                            
-                            <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" style="width:70%;" autocomplete="off" placeholder="Ingresar nombre de la categoría">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="vista_buscar">
+                        <div class="form-group">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
+                                 <label>Nombre: </label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombre de linea de producto.">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 

@@ -19,13 +19,10 @@ class connect
             //$this->db='bd_jjsoluciones_test' ;
             $this->db='bd_desarrollo' ;
             $this->db_user='administrador';
-<<<<<<< HEAD
+
             //$this->db_password='Lima123';
             $this->db_password='Lima123';
-=======
-            $this->db_password='Lima123';
-            //$this->db_password='';
->>>>>>> d5a94c4c5a7423ea1e5a16decc10adc1343e0600
+
             //$this->db_password='';
             $this->gError='';
             $this->connect();

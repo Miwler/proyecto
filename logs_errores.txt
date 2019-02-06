@@ -1376,3 +1376,91 @@ SET @_iver_serie = '0';
 SET @_iusuario_id = '0';
 CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
 >>>>>>> d5a94c4c5a7423ea1e5a16decc10adc1343e0600
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:39
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1627';
+SET @_isalida_detalle_ID = '3188';
+SET @_iimpuestos_tipo_ID = '1';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:39
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salida/post_Orden_Venta_Mantenimiento_Factura
+ERROR: Exception: Falló la ejecución: (1305) in C:\xampp\htdocs\proyecto\models\connect_new.php:374
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\factura_venta_detalle.php(112): connect_new->store_procedure_transa('sp_factura_vent...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\salidaController.php(7567): factura_venta_detalle->insertar()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Orden_Venta_Mantenimiento_Factura('1605')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",645,4,"511 6419403","dsds","ventas2@jjsoluciones.com","SISTEMAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'HAY OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'HAY OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'UNA OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'UNA OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
