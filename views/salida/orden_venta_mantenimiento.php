@@ -333,9 +333,10 @@
         window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Factura_Vista_PreviaPDF',id,'',f,800,550);
     }
     var fncEditar=function(id){
-         window_float_open_modal('EDITAR ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,480);
+        window_open_view('Salida/Orden_Venta_Mantenimiento_Editar',id,null,fngetData);
+         //window_float_open_modal('EDITAR ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,480);
     }
-
+    
     var fncVer=function(id){
          window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,480);
     }

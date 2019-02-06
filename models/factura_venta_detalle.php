@@ -226,6 +226,26 @@ class factura_venta_detalle {
             throw new Exception($q);
         }
     }
+      static function getGrid($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_factura_venta_detalle_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_detalle.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 }  
 
 ?>

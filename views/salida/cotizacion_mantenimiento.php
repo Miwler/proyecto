@@ -227,7 +227,8 @@
 
     }
     var fncClonar=function(id){	
-        window_float_open_modal('CLONAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Clonar',id,'',f,800,530);  
+        window_open_view('Salida/Cotizacion_Mantenimiento_Clonar',id,null,fngetData);
+        //window_float_open_modal('CLONAR COTIZACIÓN','/Salida/Cotizacion_Mantenimiento_Clonar',id,'',f,800,530);  
     }
     var fncEliminar=function(id){	
         gridEliminar(f,id,'/Salida/ajaxCotizacion_Mantenimiento_Eliminar');

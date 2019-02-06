@@ -1,5 +1,6 @@
 <?php		
-	require ROOT_PATH . "views/shared/content-float-modal.php";	
+	//require ROOT_PATH . "views/shared/content-float-modal.php";
+        require ROOT_PATH . "views/shared/content-view.php";	
 ?>	
 <?php function fncTitle(){?>Registrar Venta<?php } ?>
 
@@ -39,72 +40,120 @@ $(document).ready(function(){
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Salida/Orden_Venta_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Venta']->ID?>" onsubmit="return validar();" class="form-horizontal">
+<form id="form" method="POST" action="/Salida/Orden_Venta_Mantenimiento_Editar/<?php echo $GLOBALS['oOrden_Venta']->ID?>" onsubmit="return validar();" class="form-horizontal form-bordered">
      <div class="panel panel-tab rounded shadow">
          <div class="panel-heading">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divCliente" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Cliente</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos Generales</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Economicos"><i class="fa fa-cc-visa" aria-hidden="true"></i> <span>Datos económicos</span></a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#divEjecutivo"><i class="fa fa-handshake-o" aria-hidden="true"></i> <span>Ejecutivo</span></a></li>
+                
                 <li class="nav-item"><a href="#DivProductos" data-toggle="tab" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" ><i class="fa fa-cubes"></i> <span>Obsequios</span></a></li>
             </ul>
+             <div class="pull-right">
+                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    Guardar
+                </button>
+                <button title="Descargar cotización"  id="btnDescargar" name="btnDescargar" type="button" class="btn btn-danger" style="display: none;">
+                    <span class="glyphicon glyphicon-cloud-download"></span>
+                    Cotización
+                </button>
+                <button  id="btnCancelar" name="btnCancelar" class="btn btn-warning" type="button" onclick="parent.window_save_view();" >
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    Salir
+                </button>
+             </div>
         </div>
-        <div class="panel-body no-padding rounded-bottom" style="height: 350px;overflow:auto;">
+        <div class="panel-body no-padding rounded-bottom">
             
             <div class="tab-content">
                 <div id="divCliente" class="tab-pane fade in active inner-all">
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Cliente: </label>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <div class="form-group form-group-divider form-group-inline">
+                                <div class="form-inner">
+                                    <h4 class="no-margin">Cliente</h4>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Cliente: </label>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                    <input type="hidden" id="selCliente" name="selCliente" value="<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>">
+                                    <input type="text" id="listaCliente" class="form-control" value="<?php echo FormatTextView($GLOBALS['oCliente']->ruc.' - '.$GLOBALS['oCliente']->razon_social);?>">
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function(){
+                                            lista('/funcion/ajaxListarClientes','listaCliente','selCliente',fncCargaValores);
+                                        });
+
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                 <label class="control-label col-sm-3">Dirección: </label>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize: none;" class="form-control form-requerido text-uppercase" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Teléfono: </label>
+                                
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                    <input id="txtTelefono" name="txtTelefono" type="text" class="text-int form-control" autocomplete=off disabled value="<?php echo $GLOBALS['oCliente']->telefono; ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Contacto: </label>
+                                
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                    <select id="selRepresentante" name="selRepresentante" class="form-control"> 
+                                        <option value="0">--</option>
+                                        <?php if($GLOBALS['oCotizacion']->ID!=null){ 
+                                        foreach($GLOBALS['dtCliente_Contacto'] as $item){?>
+                                        <option value="<?php echo $item['ID']?>"><?php echo $item['apellidos'].''.$item['nombres']; ?></option>
+                                            <?php }?>
+                                        <script type="text/javascript">
+                                            $('#selRepresentante').val(<?php echo $GLOBALS['oCotizacion']->representante_cliente_ID; ?>);
+                                       </script>
+                                            <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <input type="hidden" id="selCliente" name="selCliente" value="<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>">
-                            <input type="text" id="listaCliente" class="form-control" value="<?php echo FormatTextView($GLOBALS['oCliente']->ruc.' - '.$GLOBALS['oCliente']->razon_social);?>">
-                            
-                            <script type="text/javascript">
-                                $(document).ready(function(){
-                                    lista('/funcion/ajaxListarClientes','listaCliente','selCliente',fncCargaValores);
-                                });
-                           
-                            </script>
+                        <div class="col-sm-5">
+                            <div class="form-group form-group-divider form-group-inline">
+                                <div class="form-inner">
+                                    <h4 class="no-margin">Ejecutivo</h4>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Nombres: </label>
+                               
+                                <div class="col-sm-9">
+                                    <input id="txtOperador_ID" name="txtOperador_ID" style="display:none;"   value="<?php echo $GLOBALS['oOperador']->ID;?>" /> 
+                                    <input type="text" id="txtNombres_Vendedor" name="txtNombres_Vendedor"  disabled value="<?php echo $GLOBALS['oOperador']->nombres . ' '.$GLOBALS['oOperador']->apellido_paterno; ?>" class="form-control"/> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Celular: </label>
+                                
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtCelular1" name="txtCelular1"    disabled value="<?php echo $GLOBALS['oOperador']->celular; ?>" class="form-control"/> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Teléfono: </label>
+                               
+                                <div class="col-sm-9">
+                                    <input type="text"  id="txtTelefono_Vendedor" name="txtTelefono_Vendedor" disabled value="<?php echo $GLOBALS['oOperador']->telefono; ?>" class="form-control"/> 
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Dirección: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;" class="form-control form-requerido text-uppercase" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Teléfono: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <input id="txtTelefono" name="txtTelefono" type="text" class="text-int form-control" autocomplete=off disabled value="<?php echo $GLOBALS['oCliente']->telefono; ?>" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <label>Contacto: </label>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <select id="selRepresentante" name="selRepresentante" class="form-control"> 
-                                <option value="0">--</option>
-                                <?php if($GLOBALS['oCotizacion']->ID!=null){ 
-                                foreach($GLOBALS['dtCliente_Contacto'] as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo $item['apellidos'].''.$item['nombres']; ?></option>
-                                    <?php }?>
-                                <script type="text/javascript">
-                                    $('#selRepresentante').val(<?php echo $GLOBALS['oCotizacion']->representante_cliente_ID; ?>);
-                               </script>
-                                    <?php } ?>
-                            </select>
-                        </div>
-                    </div>
+                    
+                   
                 </div>
                 <div id="divDatos_Generales" class="tab-pane fade inner-all">
                     <div class="form-group">
@@ -253,33 +302,7 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
-                <div id="divEjecutivo" class="tab-pane fade inner-all">
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Nombres: </label>
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <input id="txtOperador_ID" name="txtOperador_ID" style="display:none;"   value="<?php echo $GLOBALS['oOperador']->ID;?>" /> 
-                            <input type="text" id="txtNombres_Vendedor" name="txtNombres_Vendedor"  disabled value="<?php echo $GLOBALS['oOperador']->nombres . ' '.$GLOBALS['oOperador']->apellido_paterno; ?>" class="form-control"/> 
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Celular: </label>
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <input type="text" id="txtCelular1" name="txtCelular1"    disabled value="<?php echo $GLOBALS['oOperador']->celular; ?>" class="form-control"/> 
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Teléfono: </label>
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <input type="text"  id="txtTelefono_Vendedor" name="txtTelefono_Vendedor" disabled value="<?php echo $GLOBALS['oOperador']->telefono; ?>" class="form-control"/> 
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="tab-pane fade inner-all" id="DivProductos">
                     
                     <button  type="button" id="btnAgregar" name="btnDetalle" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
@@ -304,25 +327,7 @@ $(document).ready(function(){
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
-                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                        Guardar
-                    </button>
-                    <button title="Descargar cotización"  id="btnDescargar" name="btnDescargar" type="button" class="btn btn-danger" style="display: none;">
-                        <span class="glyphicon glyphicon-cloud-download"></span>
-                        Cotización
-                    </button>
-                    <button  id="btnCancelar" name="btnCancelar" class="btn btn-warning" type="button" onclick="window_float_save_modal();" >
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Salir
-                    </button>
-                </div>
-            </div>
-        </div>
+       
     </div>
     <input id="txtOrden" name="txtOrden" type="text"  style="display:none;">
     <input id="chkOrdenASC" name="chkOrdenASC"   value="ASC" style="display:none;">
@@ -520,8 +525,10 @@ $(document).ready(function(){
             $('#subtotal').html(resultado.subtotal);
             $('#vigv').html(resultado.vigv);
             $('#total').html(resultado.total);
+            
             $('#divContenedorDetalle').html(resultado.html);
-            //calcularEstructura(orden_venta_ID);
+            
+            calcularEstructura(orden_venta_ID);
           
         });
     }
@@ -631,7 +638,7 @@ $(document).ready(function(){
         cargarValores('Salida/ajaxMostrarInformacion',orden_venta_ID,function(resultado){
             $('#txtID').val(resultado.orden_venta_ID);
             $('#txtCotizacion_ID').val(resultado.cotizacion_ID);
-            cboCliente.seleccionar(resultado.cliente_ID,resultado.Ruc+'-'+resultado.Razon_Social);
+            //cboCliente.seleccionar(resultado.cliente_ID,resultado.Ruc+'-'+resultado.Razon_Social);
              $('#txtDireccion').val(resultado.Direccion);
              $('#txtTelefono').val(resultado.Telefono);
              $('#selRepresentante').html(resultado.lista_representante); 

@@ -159,8 +159,8 @@ $(document).ready(function(){
                     <div class="form-group">
                         <label class="control-label col-sm-3">Garantía: </label>
                         
-                        <div class="col-sm-2">
-                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oCotizacion']->garantia; ?>" class="form-control text-uppercase" >
+                        <div class="col-sm-3">
+                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oCotizacion']->garantia; ?>" class="form-control" >
                         </div>
                         <label class="control-label col-sm-3">Tiempo avance:</label>
                         
@@ -395,7 +395,7 @@ $(document).ready(function(){
     var fncCargaValores=function(id){
        
         cargarValores('/Salida/ajaxCotizacion_Detalle_Cliente',id,function(resultado){
-                      
+            //console.log(resultado);          
             $('#txtDireccion').val(resultado.Direccion);
             $('#txtLugar_Entrega').val(resultado.Direccion);
             $('#txtTelefono').val(resultado.Telefono);
