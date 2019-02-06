@@ -1246,6 +1246,7 @@ METODO:
 ERROR: Existe un producto registrado con el mismo nombre
 >>>>>>> 49b2e3d91d13e95099bcf71ae7758feec5405fcb
 ============================ERROR====================================
+<<<<<<< HEAD
 FECHA Y HORA: 06 02 2019 00:02:07
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.store_procedure_getGrid
@@ -1285,3 +1286,93 @@ FECHA Y HORA: 06 02 2019 06:02:15
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.transa
 ERROR: Falló la preparación: (1064)insert into linea(ID,nombre,descripcion,tipo,imagen,empresa_ID,usuario_id)values(102,"linea de testeo 'fola'","descripcion"gol"","producto","",2,0);
+=======
+FECHA Y HORA: 05 02 2019 18:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '15';
+CALL `sp_operador_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 18:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salida/post_ajaxCotizacion_Detalle_Cliente
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 18:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '15';
+CALL `sp_operador_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 19:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 21:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 21:02:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1626';
+SET @_isalida_detalle_ID = '3157';
+SET @_iimpuestos_tipo_ID = '';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '';
+CALL `sp_factura_venta_detalle_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1626';
+SET @_isalida_detalle_ID = '3157';
+SET @_iimpuestos_tipo_ID = '';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1626';
+SET @_isalida_detalle_ID = '3157';
+SET @_iimpuestos_tipo_ID = '';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+>>>>>>> d5a94c4c5a7423ea1e5a16decc10adc1343e0600

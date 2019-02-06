@@ -6,13 +6,14 @@
         <group/>
 =======
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/facturacion_electronica/transaccion_documentos.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/mantenimiento/operador_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/cotizacion.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/files/SUNAT/XML/2/factura/20536781499-01-F001-13.xml</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/facturacion_electronica/formatos_xml/formatos_xml.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jForm.js</file>
         </group>
 >>>>>>> 49b2e3d91d13e95099bcf71ae7758feec5405fcb
     </open-files>

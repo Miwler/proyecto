@@ -33,7 +33,7 @@
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Datos</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divProductos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costos</span></a></li>
+                <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Facturas</span></a></li>
             </ul>
         </div>
         <div class="panel-body no-padding rounded-bottom" style="height:300px;overflow:auto; ">
@@ -146,9 +146,9 @@
                             <label>Tipo impuesto:</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <select class="form-control" id="selImpuestos_Tipo" name="selImpuestos_Tipo">
+                            <select class="form-control" id="selImpuestos_Tipo" name="selImpuestos_Tipo" disabled>
                                 <?php foreach($GLOBALS['oFactura_Venta']->dtImpuestos_Tipo as $valor){?>
-                                <option value="<?php echo $valor['ID'];?>"><?php echo FormatTextView($valor['nombre']);?></option>
+                                <option value="<?php echo $valor['ID'];?>"><?php echo utf8_encode($valor['nombre']);?></option>
                                 <?php } ?>
                             </select>
                             <script>
@@ -165,113 +165,36 @@
                 </div>
                 <div id="divCosto" class="tab-pane fade inner-all">
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <h4>Datos SUNAT</h4>
-                                <div class="row">
-                                    <label class="control-label col-sm-4 col-xs-12">%Descuento</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal" id="txtPorcentaje_Descuento" autocomplete="off" name="txtPorcentaje_Descuento" onkeyup="fncCalcularDescuento();" value="<?php echo $GLOBALS['oFactura_Venta']->porcentaje_descuento;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Anticipo(-)</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtAnticipos" name="txtAnticipos" value="<?php echo $GLOBALS['oFactura_Venta']->anticipos;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Exonerada</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtExoneradas" name="txtExoneradas" value="<?php echo $GLOBALS['oFactura_Venta']->exoneradas;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Inafecta</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtInafectas" name="txtInafectas" value="<?php echo $GLOBALS['oFactura_Venta']->inafectas;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Gravada</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtGrvadas" name="txtGrvadas" value="<?php echo $GLOBALS['oFactura_Venta']->gravadas;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">IGV <?php echo $GLOBALS['oOrden_Venta']->igv*100?> %</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtTotal_IGV" name="txtTotal_IGV" value="<?php echo $GLOBALS['oFactura_Venta']->monto_total_igv;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Gratuita</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtGratuitas" name="txtGratuitas" value="<?php echo $GLOBALS['oFactura_Venta']->gratuitas;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Otros Cargos</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  id="txtOtros_Cargos" autocomplete="off" name="txtOtros_Cargos" onkeyup="fncSuma_Otros_Cargos();" value="<?php echo $GLOBALS['oFactura_Venta']->otros_cargos;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Descuento</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled autocomplete="off" id="txtDescuento_Global" name="txtDescuento_Global" value="<?php echo $GLOBALS['oFactura_Venta']->descuento_global;?>">
-                                    </div>
-                                    <label class="control-label col-sm-4 col-xs-12">Total</label>
-                                    <div class="col-sm-8 col-xs-12">
-                                        <input type="text" class="form-control decimal"  disabled id="txtMonto_Total" name="txtMonto_Total" value="<?php echo $GLOBALS['oFactura_Venta']->monto_total;?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-7">
-                                
-                            </div>
+                        
+                        <input type="hidden" class="form-control decimal"   id="txtExoneradas" name="txtExoneradas" value="<?php echo $GLOBALS['oFactura_Venta']->exoneradas;?>">
+                        <input type="hidden" class="form-control decimal" id="txtPorcentaje_Descuento" autocomplete="off" name="txtPorcentaje_Descuento" onkeyup="fncCalcularDescuento();" value="<?php echo $GLOBALS['oFactura_Venta']->porcentaje_descuento;?>">
+                        <input type="hidden" class="form-control decimal"   id="txtAnticipos" name="txtAnticipos" value="<?php echo $GLOBALS['oFactura_Venta']->anticipos;?>">
+                        <input type="hidden" class="form-control decimal"   id="txtInafectas" name="txtInafectas" value="<?php echo $GLOBALS['oFactura_Venta']->inafectas;?>">
+                        <input type="hidden" class="form-control decimal"   id="txtGratuitas" name="txtGratuitas" value="<?php echo $GLOBALS['oFactura_Venta']->gratuitas;?>">
+                        <input type="hidden" class="form-control decimal"   autocomplete="off" id="txtDescuento_Global" name="txtDescuento_Global" value="<?php echo $GLOBALS['oFactura_Venta']->descuento_global;?>">
+                         <input type="hidden" class="form-control decimal"  id="txtOtros_Cargos" autocomplete="off" name="txtOtros_Cargos" onkeyup="fncSuma_Otros_Cargos();" value="<?php echo $GLOBALS['oFactura_Venta']->otros_cargos;?>">
+                        <label class="control-label col-sm-2 col-xs-2">Gravada</label>
+                        <div class="col-sm-2 col-xs-2">
+                            <input type="text" class="form-control decimal"  disabled id="txtGravadas" name="txtGravadas" value="<?php echo $GLOBALS['oFactura_Venta']->gravadas;?>">
+                        </div>
+                        <label class="control-label col-sm-2 col-xs-2">IGV <?php echo $GLOBALS['oOrden_Venta']->igv*100?> %</label>
+                        <div class="col-sm-2 col-xs-2">
+                            <input type="text" class="form-control decimal"  disabled id="txtTotal_IGV" name="txtTotal_IGV" value="<?php echo $GLOBALS['oFactura_Venta']->monto_total_igv;?>">
+                        </div>
+                        <label class="control-label col-sm-2 col-xs-2">Total</label>
+                        <div class="col-sm-2 col-xs-2">
+                            <input type="text" class="form-control decimal"  disabled id="txtMonto_Total" name="txtMonto_Total" value="<?php echo $GLOBALS['oFactura_Venta']->monto_total;?>">
                         </div>
                         
                         
                     </div>
-                    <!--
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label></label>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <label>Dólares</label>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <label>Soles</label>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Sub Total:</label>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                             <input type="text" id="txtSubTotal_Dolares" name="txtSubTotal_Dolares" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_neto_dolares;?>">
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input type="text" id="txtSubTotal_Soles" name="txtSubTotal_Soles" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_neto_soles;?>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>I.G.V.:</label>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input type="text" id="txtIgv_Dolares" name="txtIgv_Dolares" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->vigv_dolares;?>">
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                             <input type="text" id="txtIgv_Soles" name="txtIgv_Soles" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->vigv_soles;?>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Total</label>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input type="text" id="txtTotal_Dolares" name="txtTotal_Dolares" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_total_dolares;?>">
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input type="text" id="txtTotal_Soles" name="txtTotal_Soles" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_total_soles;?>">
-                        </div>
-                    </div>-->
-                    <?php if($GLOBALS['electronico']==0){?>
+                   
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
                             <?php echo  $GLOBALS['facturas_informacion'];?>
                         </div>
 
                     </div>
-                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -462,7 +385,11 @@
          }
          $('#selMoneda').prop('disabled',false);
          $('#txtDescuento_Global').prop('disabled',false);
-      block_ui(function () {});
+         $('#selImpuestos_Tipo').prop('disabled',false);
+         $("#txtGravadas").prop('disabled',false);
+         $("#txtTotal_IGV").prop('disabled',false);
+         $("#txtMonto_Total").prop('disabled',false);
+      block_ui();
        
          //$('#fondo_espera').css('display', 'block');
    }
