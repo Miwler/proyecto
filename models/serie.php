@@ -165,7 +165,7 @@ class serie {
         $retornar = -1;
         try {
            $q="select  count(ID) from serie ";
-            $q.=" where del=0 and upper(nombre) like upper('".$this->nombre."')";
+            $q.=" where del=0 and comprobante_tipo_ID ='.$this->comprobante_tipo_ID.' and upper(nombre) like upper('".$this->nombre."')";
             
                 if($this->ID!=''){
                        $q.=' and ID<>'.$this->ID;
@@ -173,7 +173,7 @@ class serie {
 
                 $retornar=$cn->getData($q);
                 if ($retornar>0){
-                            $this->message='Ya existe una serie con el mismo nombre ';
+                            $this->message='Ya existe una serie con el mismo nombre y tipo de comprobante ';
                             return $retornar;
                 }
             return $retornar;

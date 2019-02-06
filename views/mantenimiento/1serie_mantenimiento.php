@@ -2,25 +2,24 @@
 	require ROOT_PATH."views/shared/content.php";	
 ?>	
 <?php function fncTitle(){?>
-		Informacion para operador
+		Serie
 <?php } ?>
 <?php function fncHead(){?>
 		<script type="text/javascript" src="include/js/jForm.js"></script>
 		<script type="text/javascript" src="include/js/jGrid.js"></script>
-                <script type="text/javascript" src="include/js/jCboDiv.js"></script>
 		<link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
 <?php function fncTituloCabecera(){?>
-        <i class="fa fa-user" aria-hidden="true"></i> Mantenimiento de Operadores
+        <i class="fa fa-user" aria-hidden="true"></i> Mantenimiento de Series
         <div class="pull-right">
-        <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
         <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" >Nuevo &nbsp;<i class="fa fa-plus"></i></a>
         </div>
 <?php } ?>
 <?php function fncPage(){?>
- <form id="frm1" method="post" action="/Mantenimiento/ajaxOperador_Mantenimiento" class="form-horizontal">
+ <form id="frm1" method="post" action="/Mantenimiento/ajaxSerie_Mantenimiento" class="form-horizontal">
  <div class="panel panel-tab panel-tab-double shadow">
     <div class="panel-heading no-padding">
         <ul class="nav nav-tabs">
@@ -43,7 +42,7 @@
                          <label>Buscar: </label>
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                        <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombres del personal.">
+                        <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombre de la serie.">
                     </div>
                 </div>
             </div>
@@ -94,24 +93,16 @@
 		}
 		
 		var fncNuevo=function(){			
-			window_float_open_modal('NUEVO OPERADOR','/Mantenimiento/Operador_mantenimiento_Nuevo','','',f,700,430);
+			window_float_open_modal('NUEVO SERIE','/Mantenimiento/Serie_mantenimiento_Nuevo','','',f,600,280);
 		}
 		
 		var fncEditar=function(id){			
-			window_float_open_modal('EDITAR OPERADOR','/Mantenimiento/Operador_mantenimiento_Editar',id,'',f,700,430);
+			window_float_open_modal('EDITAR SERIE','/Mantenimiento/Serie_mantenimiento_Editar',id,'',f,600,280);
 		}
 		
 		var fncEliminar=function(id){			
-			gridEliminar(f,id,'/Mantenimiento/ajaxOperador_mantenimiento_Eliminar','divMensaje');
+			gridEliminar(f,id,'/Mantenimiento/ajaxSerie_mantenimiento_Eliminar','divMensaje');
 		}
-		
-		var fncCliente=function(id){			
-			window_float_open_modal('ASIGNAR CLIENTES','/Mantenimiento/Operador_Mantenimiento_Asignar_Cliente',id,'',f,700,650);
-		}
-		
-		/*var fncUsuario=function(id){			
-			window_float_open_modal('REGISTRAR USUARIO','/Mantenimiento/Usuario_Mantenimiento_Nuevo',id,'',f,700,650);
-		}*/
 		
 		$('#txtBuscar,#txtMostrar').keypress(function(e){
                     

@@ -152,7 +152,7 @@ function fncPage() { ?>
         <script type="text/javascript">
             $(document).ready(function(){
                 toastem.success(" <?php echo $GLOBALS['mensaje']; ?>");
-                setTimeout('window_float_save();', 1000);
+                setTimeout('window_float_save_modal();', 1000);
             });
             
         </script>

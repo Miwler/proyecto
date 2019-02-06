@@ -197,7 +197,7 @@ class comprobante_tipo
 		$cn =new connect();
 		try 
 		{
-			$q='SELECT ct.ID,ct.documento_identidad_ID,ct.en_venta,ct.en_compra,ct.codigo,ct.nombre,ct.con_igv,ct.con_serie_numero,ct.con_numero,';
+			$q='SELECT ct.ID,ct.documento_identidad_ID,ct.en_venta,ct.en_ingreso,ct.codigo,ct.nombre,ct.con_igv,ct.con_serie_numero,ct.con_numero,';
 			$q.=' ct.usuario_id,ifnull(ct.usuario_mod_id,-1) as usuario_mod_id';
 			$q.=' FROM comprobante_tipo as ct';
 			$q.=' where ct.del=0 ';
@@ -216,7 +216,7 @@ class comprobante_tipo
 			return $dt;												
 		}catch(Exception $ex)
 		{
-			throw new Exception('Ocurrio un Error en la consulta');
+			throw new Exception($q);
 		}
 	}
 }
