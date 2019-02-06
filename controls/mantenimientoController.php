@@ -4505,8 +4505,8 @@ function post_Linea_Mantenimiento_Nuevo() {
     global $returnView_float;
     $returnView_float = true;
 
-    $nombre = FormatTextSave(strtoupper(trim($_POST['txtNombre'])));
-    $descripcion = FormatTextSave(strtoupper(trim($_POST['txtDescripcion'])));
+    $nombre = trim($_POST['txtNombre']);
+    $descripcion = trim($_POST['txtDescripcion']);
     $tipo=$_POST['selTipo'];
     $oLinea = new linea;
 
@@ -4676,8 +4676,8 @@ function post_ajaxLinea_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . sprintf("%'.06d",$item['ID']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['nombre']))) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['descripcion']))) . '</td>';     
+            $resultado.='<td class="tdLeft">' . utf8_encode(ucfirst(mb_strtolower($item['nombre']))) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode(ucfirst(mb_strtolower($item['descripcion']))) . '</td>';     
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Línea&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar línea"><span class="glyphicon glyphicon-trash">Eliminar</a>');
@@ -5440,7 +5440,7 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
             $oMoneda=moneda::getByID($item['moneda_ID']);
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
-            $resultado.='<td class="tdleft">' . $item['nombre_banco']. '</td>';
+            $resultado.='<td class="tdleft">' . utf8_encode($item['nombre_banco']). '</td>';
             $resultado.='<td class="tdLeft">' . $item['numero']. '</td>';
             $resultado.='<td class="tdLeft">' . $item['cci'] . '</td>';
             $resultado.='<td class="tdLeft">' . utf8_encode($oMoneda->descripcion). '</td>';
@@ -5471,7 +5471,7 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
 function post_ajaxNumero_Cuenta_Mantenimiento_Eliminar($id) {
     require ROOT_PATH . 'models/numero_cuenta.php';
     require ROOT_PATH . 'models/cotizacion_numero_cuenta.php';
-    require ROOT_PATH . 'models/orden_venta_numero_cuenta.php';
+    require ROOT_PATH . 'models/salida_numero_cuenta.php';
     try {
         $oNumero_Cuenta = numero_cuenta::getByID($id);
         $oNumero_Cuenta->usuario_mod_id = $_SESSION['usuario_ID'];
@@ -5482,9 +5482,9 @@ function post_ajaxNumero_Cuenta_Mantenimiento_Eliminar($id) {
         if(count($dtCotizacion_Numero_Cuenta)>0){
              throw new Exception('La cuenta tiene registro en las cotizaciones');
         }
-        $dtOrden_Venta_Numero_Cuenta=orden_venta_numero_cuenta::getGrid('numero_cuenta_ID='.$id);
-        if(count($dtOrden_Venta_Numero_Cuenta)>0){
-            Throw new Exception('La cuenta tiene registro en orden de venta');
+        $dtSalida_Numero_Cuenta=salida_numero_cuenta::getGrid('numero_cuenta_ID='.$id);
+        if(count($dtSalida_Numero_Cuenta)>0){
+            Throw new Exception('La cuenta tiene registro en salida');
         }
         if ($oNumero_Cuenta->eliminar() == -1) {
             throw new Exception($oNumero_Cuenta->getMessage);
@@ -5589,7 +5589,7 @@ function get_Serie_Mantenimiento_Editar($id) {
     $oSerie->dtComprobante_tipo=$dtComprobante_tipo;
     
     $GLOBALS['oSerie'] = $oSerie;
-//    $GLOBALS['dtComprobante_tipo']=$dtComprobante_tipo;
+ $GLOBALS['dtComprobante_tipo']=$dtComprobante_tipo;
     $GLOBALS['mensaje'] = '';
 }
 
@@ -5685,8 +5685,8 @@ function post_ajaxSerie_Mantenimiento() {
             
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['ID'])  . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['nombre'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['comprobante_tipo'])) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode(strtoupper($item['nombre'])) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode(strtoupper($item['comprobante_tipo'])) . '</td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Editar serie"> Editar</a>');	
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Serie&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar serie"><span class="glyphicon glyphicon-trash">Eliminar</a>');

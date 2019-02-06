@@ -14,14 +14,14 @@ class connect_new
             //$this->host='200.4.228.195';
             //$this->host='192.168.8.240';
 						//$this->host='192.168.8.240';
-            $this->host='localhost';
+            $this->host='192.168.1.24';
             //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
             //$this->db='bd_jjsoluciones_test' ;
 			$this->db='bd_desarrollo' ;
-            $this->db_user='root';
+            $this->db_user='administrador';
             //$this->db_password='Lima123';
-            $this->db_password='';
+            $this->db_password='Lima123';
             //$this->db_password='';
             $this->gError='';
             //$this->connect();
