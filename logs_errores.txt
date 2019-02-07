@@ -1464,3 +1464,33 @@ SET @_iimagen = '102.jpg';
 SET @_iusuario_mod_id = '0';
 SET @_iempresa_ID = '2';
 CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 01:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",708,14,"","","abc@gmail.com","SISTEMITAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 02:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",13,1,"511 6419403","981525207","ventas1@gmail.com","SISTEMA",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 02:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",705,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","SISTEMITAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 02:02:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(38,"CC00038",705,,"","","rosset@gmail.com","",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 05:02:39
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(38,"CC00038",705,2,"4151","945133161","elias@je.com","",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 05:02:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(38,"CC00038",705,2,"4151","945133161","elias@je.com","FD",72,0);

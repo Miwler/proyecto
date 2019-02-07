@@ -398,6 +398,9 @@ function fncPage() { ?>
             $('#txtCelular1').val(resultado.oPersona.celular);
             $('#txtCorreo1').val(resultado.oPersona.correo);
             
+            $('#btnAccion').prop('disabled', false);
+            $('#btnCancelar').prop('disabled', false);
+            
         });
     }
 

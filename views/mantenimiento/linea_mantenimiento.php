@@ -43,7 +43,7 @@
                                  <label>Nombre: </label>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombre de linea de producto.">
+                                <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombre de linea.">
                             </div>
                         </div>
                     </div>
