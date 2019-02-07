@@ -2,4 +2,585 @@
 FECHA Y HORA: 06 02 2019 23:02:13
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
+<<<<<<< HEAD
 ERROR: Falló la preparación: (1054)
+=======
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:59
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:59
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 18:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: RegistrationName -  El dato ingresado no cumple con el estandar - Detalle: xxx.xxx.xxx value='ticket: 1549070763068 error: INFO: 2022 (nodo: "cac:PartyLegalEntity/cbc:RegistrationName" valor: " INDUSTRIAS NIKO S A")'
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: Falló la ejecución: (1318)SET @_ifactura_venta = '1';
+SET @_inota_credito = '0';
+SET @_inota_debito = '0';
+SET @_iID = '0';
+CALL `sp_comunicacion_baja_getFilasDocumentos`( @_ifactura_venta, @_inota_credito, @_inota_debito, @_iID)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: Falló la ejecución: (1318)SET @_ifactura_venta = '1';
+SET @_inota_credito = '0';
+SET @_inota_debito = '0';
+SET @_iID = '0';
+CALL `sp_comunicacion_baja_getFilasDocumentos`( @_ifactura_venta, @_inota_credito, @_inota_debito, @_iID)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: Falló la ejecución: (1318)SET @_ifactura_venta = '1';
+SET @_inota_credito = '0';
+SET @_inota_debito = '0';
+SET @_iID = '0';
+CALL `sp_comunicacion_baja_getFilasDocumentos`( @_ifactura_venta, @_inota_credito, @_inota_debito, @_iID)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: Falló la ejecución: (1318)SET @_ifactura_venta = '1';
+SET @_inota_credito = '0';
+SET @_inota_debito = '0';
+SET @_iID = '0';
+CALL `sp_comunicacion_baja_getFilasDocumentos`( @_ifactura_venta, @_inota_credito, @_inota_debito, @_iID)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: Falló la ejecución: (1318)SET @_ifactura_venta = '1';
+SET @_inota_credito = '0';
+SET @_inota_debito = '0';
+SET @_iID = '0';
+CALL `sp_comunicacion_baja_getFilasDocumentos`( @_ifactura_venta, @_inota_credito, @_inota_debito, @_iID)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: Falló la ejecución: (1318)SET @_ifactura_venta = '1';
+SET @_inota_credito = '0';
+SET @_inota_debito = '0';
+SET @_iID = '0';
+CALL `sp_comunicacion_baja_getFilasDocumentos`( @_ifactura_venta, @_inota_credito, @_inota_debito, @_iID)
+============================ERROR====================================
+FECHA Y HORA: 01 02 2019 20:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxCargarFilarDocumetosBjas
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 02 02 2019 21:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: La venta ya tiene una factura generada.
+============================ERROR====================================
+FECHA Y HORA: 02 02 2019 21:02:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: La venta ya tiene una factura generada.
+============================ERROR====================================
+<<<<<<< HEAD
+FECHA Y HORA: 03 02 2019 07:02:25
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1146)
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 07:02:49
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1146)
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 14:02:37
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1146)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 01:02:41
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=6, telefono="511 6419403",celular="",mail="ventas@jjsoluciones.net",fecha_contrato=""2004-06-02"",cargo_ID=2,usuario_mod_id=0, fdc=now() where del=0 and ID=14
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 01:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=1, telefono="511 6419403",celular="7788888",mail="ventas1@jjsoluciones",fecha_contrato=""2009-03-05"",cargo_ID=5,usuario_mod_id=0, fdc=now() where del=0 and ID=12
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 02:02:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=3, telefono="511 6419403",celular="",mail="jgonzales@jjsoluciones.net",fecha_contrato=""2007-09-20"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=10
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 02:02:04
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=3, telefono="511 6419403",celular="",mail="jgonzales@jjsoluciones.net",fecha_contrato=""2007-09-20"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=10
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 02:02:20
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=6, telefono="511 6419403",celular="",mail="ventas@jjsoluciones.net",fecha_contrato=""2004-06-30"",cargo_ID=2,usuario_mod_id=0, fdc=now() where del=0 and ID=14
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 04:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=3, telefono="511 6419403",celular="",mail="jgonzales@jjsoluciones.net",fecha_contrato=""2007-09-20"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=10
+=======
+FECHA Y HORA: 03 02 2019 00:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iFechaEmision = '2019-02-03';
+SET @_iFechaReferencia = '2019-02-01';
+SET @_iestado_ID = '109';
+SET @_iempresa_ID = '2';
+SET @_iusuario_id = '0';
+SET @_iMotivoBaja = 'Error de digitación';
+SET @_idocumentos = 'factura_venta|1617|01|F001|6';
+CALL `sp_comunicacion_baja_Insert`( @_iID, @_iFechaEmision, @_iFechaReferencia, @_iestado_ID, @_iempresa_ID, @_iusuario_id, @_iMotivoBaja, @_idocumentos)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 00:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: post_Comunicacion_Baja_Mantenimiento_Nuevo
+ERROR: exception 'Exception' with message 'Falló la preparación: (0)' in C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php:377
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\models\comunicacion_baja.php(123): connect_new->store_procedure_transa('sp_comunicacion...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(16807): comunicacion_baja->insertar()
+#2 [internal function]: post_Comunicacion_Baja_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(162): call_user_func_array('post_Comunicaci...', Array)
+#4 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#5 {main}
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 01:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El XML no contiene el tag o no existe informacion de cac:Item/cbc:Description del item - Detalle: xxx.xxx.xxx value='ticket: 1549248065205 error: Error en la linea: 1: 2027 (nodo: "cac:Item/cbc:Description" valor: "TINTA EPSON NEGRO PARA L200
+TINTA EPSON NEGRO PARA L200 
+C?d. de f?brica : T664120-AL 
+Marca : EPSON")'
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 21:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El XML no contiene el tag o no existe informacion de cac:Item/cbc:Description del item - Detalle: xxx.xxx.xxx value='ticket: 1549248140329 error: Error en la linea: 1: 2027 (nodo: "cac:Item/cbc:Description" valor: "TINTA EPSON NEGRO PARA L200
+TINTA EPSON NEGRO PARA L200 
+C?d. de f?brica : T664120-AL 
+Marca : EPSON")'
+============================ERROR====================================
+FECHA Y HORA: 03 02 2019 22:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 11:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 11:02:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 16:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",705,13,"33434","343434","sistemas@gmail.com","SISTEMAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 19:02:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=404,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5078",numero_concatenado="0005078-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=121.18,vigv_dolares=35.64,precio_venta_neto_soles=673.20,precio_venta_total_soles=794.38,precio_venta_neto_dolares=198.00,precio_venta_total_dolares=233.64,forma_pago_ID=0,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.4000,lugar_entrega="AV. AVIACION NRO. 4928 URB. HIGUERETA LIMA - LIMA - SANTIAGO DE SURCO",validez_oferta="7",garantia="1 AñO",observacion="PRECIOS VALIDOS HASTA AGOTAR STOCK. LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIóN SON PARA EL TOTAL DE LA COMPRA, LA FACTURACIóN MINIMA CON DISTRIBUCIóN ES DE 150 DóLARES MAS IGV",usuario_mod_id=0,fdm=now() where del=0 and ID=5078
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=1, telefono="511 6419403",celular="",mail="ventas1@jjsoluciones",fecha_contrato=""2009-03-06"",cargo_ID=2,usuario_mod_id=0, fdc=now() where del=0 and ID=12
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=705,cliente_contacto_ID=0,operador_ID=-1,periodo="2019",numero="5086",numero_concatenado="0005086-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=0.00,vigv_dolares=0.00,precio_venta_neto_soles=0.00,precio_venta_total_soles=0.00,precio_venta_neto_dolares=0.00,precio_venta_total_dolares=0.00,forma_pago_ID=0,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV VENECOS",validez_oferta="7",garantia="1 AñO",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5086
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 AñO",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 AÃ±O",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="00:01:53",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 AÃ±O",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃ©DITO, LA INGRESO MÃ­NIMA ES DE 150 DÃ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update cotizacion set cliente_ID=199,cliente_contacto_ID=0,operador_ID=15,periodo="2019",numero="5087",numero_concatenado="0005087-2019",moneda_ID=2,fecha="2019-02-04",igv=0.1800,vigv_soles=298.80,vigv_dolares=90.00,precio_venta_neto_soles=1660.00,precio_venta_total_soles=1958.80,precio_venta_neto_dolares=500.00,precio_venta_total_dolares=590.00,forma_pago_ID=2,tiempo_credito=0,tardanza="00:02:53",plazo_entrega="2",estado_ID=,tipo_cambio=3.3200,lugar_entrega="AV. J. P. FERNANDINI NRO. 996 - BREÑA - LIMA",validez_oferta="7",garantia="1 año",observacion="LAS CANTIDADES Y MONTOS OFRECIDOS EN LA PRESENTE COTIZACIÃÂ³N SON PARA EL TOTAL DE LA INGRESO AL CRÃÂ©DITO, LA INGRESO MÃÂ­NIMA ES DE 150 DÃÂ³LARES",usuario_mod_id=0,fdm=now() where del=0 and ID=5087
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 20:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064) insert into cotizacion (ID,empresa_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,numero_concatenado,moneda_ID,fecha, igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,tiempo_credito,tardanza,plazo_entrega,estado_ID,tipo_cambio,lugar_entrega, validez_oferta,garantia,observacion,usuario_id) values (5089,2,610,0,15,'2019','5089','0005089-2019',2,"2019-02-04",0.1800,0,0,0,0,0,0,1,0,'00:00:15','2',,3.32,'CAL.DEAN VALDIVIA NRO. 227 INT. 801 (ESQUINA PLAZA ANDRES AVELINO CACERES) LIMA - LIMA - SAN ISIDRO','7','1 año','Las cantidades y montos ofrecidos en la presente cotización son para el total de la ingreso al crédito, la ingreso mínima es de 150 dólares',0);
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre
+============================ERROR====================================
+FECHA Y HORA: 04 02 2019 22:02:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre
+>>>>>>> 49b2e3d91d13e95099bcf71ae7758feec5405fcb
+============================ERROR====================================
+<<<<<<< HEAD
+FECHA Y HORA: 06 02 2019 00:02:07
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '5085';
+CALL `sp_cotizacion_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 00:02:10
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '5085';
+CALL `sp_cotizacion_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 00:02:45
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '5085';
+CALL `sp_cotizacion_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 00:02:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '5085';
+CALL `sp_cotizacion_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 00:02:58
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '5085';
+CALL `sp_cotizacion_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into linea(ID,nombre,descripcion,tipo,imagen,empresa_ID,usuario_id)values(102,"linea de testeo 'fola'","descripcion"gol"","producto","",2,0);
+=======
+FECHA Y HORA: 05 02 2019 18:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '15';
+CALL `sp_operador_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 18:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salida/post_ajaxCotizacion_Detalle_Cliente
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 18:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '15';
+CALL `sp_operador_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 19:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 21:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 21:02:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1626';
+SET @_isalida_detalle_ID = '3157';
+SET @_iimpuestos_tipo_ID = '';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '';
+CALL `sp_factura_venta_detalle_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1626';
+SET @_isalida_detalle_ID = '3157';
+SET @_iimpuestos_tipo_ID = '';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 05 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1626';
+SET @_isalida_detalle_ID = '3157';
+SET @_iimpuestos_tipo_ID = '';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+>>>>>>> d5a94c4c5a7423ea1e5a16decc10adc1343e0600
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:39
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_ifactura_venta_ID = '1627';
+SET @_isalida_detalle_ID = '3188';
+SET @_iimpuestos_tipo_ID = '1';
+SET @_idescripcion = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iusuario_id = '0';
+CALL `sp_factura_venta_detalle_Insert`( @_iID, @_ifactura_venta_ID, @_isalida_detalle_ID, @_iimpuestos_tipo_ID, @_idescripcion, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:39
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salida/post_Orden_Venta_Mantenimiento_Factura
+ERROR: Exception: Falló la ejecución: (1305) in C:\xampp\htdocs\proyecto\models\connect_new.php:374
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\factura_venta_detalle.php(112): connect_new->store_procedure_transa('sp_factura_vent...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\salidaController.php(7567): factura_venta_detalle->insertar()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Orden_Venta_Mantenimiento_Factura('1605')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 06:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",645,4,"511 6419403","dsds","ventas2@jjsoluciones.com","SISTEMAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'HAY OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'HAY OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'UNA OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 06 02 2019 22:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '102';
+SET @_inombre = 'UNA OTRA LINEA';
+SET @_idescripcion = 'DESCRIPCION DE OTRA LINEA';
+SET @_itipo = 'alquiler';
+SET @_iimagen = '102.jpg';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_linea_Update`( @_retornar, @_iID, @_inombre, @_idescripcion, @_itipo, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 01:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",708,14,"","","abc@gmail.com","SISTEMITAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 02:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",13,1,"511 6419403","981525207","ventas1@gmail.com","SISTEMA",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 02:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(37,"CC00037",705,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","SISTEMITAS",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 02:02:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(38,"CC00038",705,,"","","rosset@gmail.com","",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 05:02:39
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(38,"CC00038",705,2,"4151","945133161","elias@je.com","",72,0);
+============================ERROR====================================
+FECHA Y HORA: 07 02 2019 05:02:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)select ifnull(max(ID),0)+1 from cliente_contacto;insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(38,"CC00038",705,2,"4151","945133161","elias@je.com","FD",72,0);
+>>>>>>> ba2f21933538a399fb0464cdb6e763d5180d75c6

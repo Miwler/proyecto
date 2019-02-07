@@ -2960,20 +2960,20 @@ function post_ajaxSelect_Producto($IDs){
 //eliminar producto
 function verificarUtilizacionProducto($id){
     require ROOT_PATH . 'models/cotizacion_detalle.php';
-    require ROOT_PATH . 'models/compra_detalle.php';
-    require ROOT_PATH . 'models/orden_venta_detalle.php';
+    require ROOT_PATH . 'models/ingreso_detalle.php';
+    require ROOT_PATH . 'models/salida_detalle.php';
     $retorna=0;
     $totalCotizacion_Detalle=cotizacion_detalle::getCount('producto_ID='.$id);
     if($totalCotizacion_Detalle>0){
         $retorna=1;
     }
-    $totalCompra_detalle=compra_detalle::getCount('ccd.producto_ID='.$id);
-    if($totalCompra_detalle>0){
+    $totalIngreso_detalle=ingreso_detalle::getCount('ccd.producto_ID='.$id);
+    if($totalIngreso_detalle>0){
         $retorna=1;
     }
     
-    $totalOrden_Venta_Detalle=orden_venta_detalle::getCount('producto_ID='.$id);
-    if($totalOrden_Venta_Detalle>0){
+    $totalSalida_Detalle=salida_detalle::getCount('producto_ID='.$id);
+    if($totalSalida_Detalle>0){
         $retorna=1;
     }
     return $retorna;
