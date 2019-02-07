@@ -116,7 +116,7 @@
                     <div class="form-group">
                         
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>N° orden de pedido</label>
+                            <label>N° orden de venta</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_venta; ?>" >
@@ -308,28 +308,31 @@
     }
    
     var fncImprimirFactura=function(){
-        $('#fondo_espera').css('display','block');
-        var orden_venta_ID=$('#txtorden_ventaID').val();
+        block_ui(function(){
+            var orden_venta_ID=$('#txtorden_ventaID').val();
         
-        cargarValores('Salida/ajaxImprimir_Factura',orden_venta_ID,function(resultado){
-            
-            if(resultado.resultado==1){
-                $('#txtEstado').val('Emitido');
-                $('#tdfacturas_detalle').html(resultado.facturas_detalle);
-                bloquear_factura();
-                /*window.parent.bloquear_edicion();
-                window.parent.crear_boton_QuitarPrint();*/
-                parent.fParent1.call(this,2);
-               //parent.fParent1.call(2);
-                //window.parent.crear_boton_guia();
-                toastem.success(resultado.mensaje);
-                
-            }else {
-                mensaje.advertencia("ERROR DE IMPRESION",resultado.mensaje);
-                //toastem.error(resultado.mensaje);
-            }
-            $('#fondo_espera').css('display','none');
+            cargarValores('Salida/ajaxImprimir_Factura',orden_venta_ID,function(resultado){
+                $.unblockUI()
+                if(resultado.resultado==1){
+                    $('#txtEstado').val('Emitido');
+                    $('#tdfacturas_detalle').html(resultado.facturas_detalle);
+                    bloquear_factura();
+                    //window.parent.bloquear_edicion();
+                    //window.parent.crear_boton_QuitarPrint();
+                    //parent.fParent1.call(this,2);
+                  //parent.fParent1.call(2);
+                    //window.parent.crear_boton_guia();
+                    toastem.success(resultado.mensaje);
+
+                }else {
+                    mensaje.advertencia("ERROR DE IMPRESION",resultado.mensaje);
+                    //toastem.error(resultado.mensaje);
+                }
+                $('#fondo_espera').css('display','none');
+            });
         });
+        
+        
         
     }
     var bloquear_factura=function(){

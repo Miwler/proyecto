@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/correlativos.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/1factura_venta_detalle_1.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_factura.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/prueba_imprimir.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/guia_venta_detalle.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta_detalle.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_nuevo.php</file>
-=======
-            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/vehiculo_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/models/connect_new.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/linea_mantenimiento.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/linea_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/controls/mantenimientoController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/operador_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/linea_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/models/connect.php</file>
->>>>>>> 755530380168c8cc0ad2c204ca2a324bba88367c
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/guia_venta.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_guia.php</file>
         </group>
     </open-files>
 </project-private>

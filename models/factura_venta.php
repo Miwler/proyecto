@@ -612,6 +612,21 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
             throw new Exception($q);
         }
     }
+    function actualizarCostos(){
+        $cn =new connect_new();
+	$retornar=-1;
+        try{
+
+            $q='UPDATE factura_venta set monto_total_neto='.$this->monto_total_neto.',monto_total_igv='.$this->monto_total_igv.',monto_total='.$this->monto_total;
+            $q.=',monto_pendiente='.$this->monto_pendiente.' where ID='.$this->ID;
+            //echo $q;
+            $retornar=$cn->transa($q);
+            $this->getMessage='Se guardó correctamente';
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
 }  
 
 

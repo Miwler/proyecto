@@ -179,6 +179,27 @@ class factura_venta_detalle {
       throw new Exception($ex->getMessage());
     }
   }
+  function eliminar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_factura_venta_detalle_Delete",
+            array(
+              "retornar"=>$retornar,
+              "iID"=>$this->ID,
+              "iusuario_mod_id"=>$this->usuario_mod_id ),0
+            );
+      if($retornar>0)$this->getMessage = "Se elimin? correctamente";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "factura_venta_detalle.eliminar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
   static function getCount($filtro="")
     {
     $cn =new connect_new();
@@ -226,7 +247,7 @@ class factura_venta_detalle {
             throw new Exception($q);
         }
     }
-      static function getGrid($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    static function getGrid($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
     {
     $cn =new connect_new();
     $retornar =0;
