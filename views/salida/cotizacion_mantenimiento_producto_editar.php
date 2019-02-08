@@ -8,7 +8,7 @@
     <script type="text/javascript" src="include/js/jValidarLargoComentarios.js"></script>
     <script type='text/javascript'>
     $(document).ready(function(){
-        fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>);
+//        fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->producto_ID;?>);
         <?php if($GLOBALS['oCotizacion_Detalle']->componente==1){?>
             fncCargar_Cotizacion_Componente();
             $('#ckComponente').prop('checked',true);
@@ -849,7 +849,7 @@ function buscarProducto(codigo){
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
 });
 <?php if($GLOBALS['oCotizacion_Detalle']->tipo==1){ ?>
-setTimeout('windos_float_save_modal_hijo();', 1000);
+setTimeout('parent.windos_float_save_modal_hijo();', 1000);
 <?php } ?>
  
 </script>
