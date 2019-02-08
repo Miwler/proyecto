@@ -78,6 +78,11 @@
                 <div id="divCliente" class="tab-pane fade in active inner-all">
                     <div class="row">
                         <div class="col-sm-7">
+                            <div class="form-group form-group-divider form-group-inline">
+                                <div class="form-inner">
+                                    <h4 class="no-margin">Cliente</h4>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                     <label>Cliente: </label>
@@ -255,7 +260,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
                             <?php }?>
                             </select>
                             <script type="text/javascript">
@@ -425,7 +430,7 @@
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,550);
+            parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,450);
             //window_float_deslizar('form','Ventas/Orden_Venta_Mantenimiento_Factura',orden_venta_ID,'');
         
         }else {
@@ -442,7 +447,7 @@
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,500);
+            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",factura_impreso,700,500);
             //window_float_deslizar('form','Ventas/Orden_Venta_Mantenimiento_Guia',orden_venta_ID,'');
         }else {
             toastem.error('Debe registrar productos.');
@@ -478,12 +483,18 @@
      //Opción para editar los detalles
   
     var factura_impreso=function(opcion){
-        if(opcion==1){
-            crear_boton_guia();
-        }else{
-            bloquear_edicion();
-            crear_boton_QuitarPrint();
-        }
+        switch(opcion){
+            case 1:
+                 crear_boton_guia();
+                 bloquear_edicion();
+                 break;
+            case 2:
+                bloquear_edicion();
+                crear_boton_QuitarPrint();
+                 break;
+             case 3:
+                crear_boton_QuitarPrint();
+         }
         
     }
     var fncSeries=function(id){
@@ -497,10 +508,10 @@
     }
      var fncQuitarPrint=function(){
         var orden_venta_ID=$('#txtID').val();
-        cargarValores('Ventas/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
+        cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
             toastem.info(resultado.mensaje);
             if(resultado.resultado==1){
-                setTimeout('window_float_save_modal();', 1000);   
+                setTimeout('parent.window_save_view();', 1000);   
             }
         });
     } 
@@ -579,6 +590,7 @@
                 $('#vigv').html(resultado.vigv);
                 $('#total').html(resultado.total);
                 $('#divContenedorDetalle').html(resultado.html);
+                crear_boton_factura();
                 calcularEstructura(orden_venta_ID);
              
             });
@@ -849,8 +861,8 @@
         $('#divContenedorDetalle').css('display','none');
    }
    var bloquear_edicion=function(){
-       $('#selCliente').prop('disabled', true);
-       $('#selCliente').trigger('chosen:updated');
+       $('#listaCliente').prop('disabled', true);
+       
        $('#selRepresentante').prop('disabled',true);
        $('#selForma_Pago').prop('disabled',true);
        

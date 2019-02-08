@@ -42,8 +42,8 @@
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Datos</span></a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#divProductos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Guías</span></a></li>
+                <li class="nav-item"><a data-toggle="tab" href="#divProductos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Detalle</span></a></li>
+                <!--<li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Guías</span></a></li>-->
             </ul>
         </div>
         <div class="panel-body no-padding rounded-bottom" style="height:370px;overflow:auto; ">
@@ -173,10 +173,18 @@
                     
                 </div>
                 <div id="divProductos" class="tab-pane fade inner-all">
+                    <!--
                     <div id="divProductos" name="divProductos" class="grid-content-hijo">
                         <?php echo $GLOBALS['listaproducto'];?>
+                    </div>-->
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdguia_detalle">
+                            <?php echo  $GLOBALS['facturas_informacion'];?>
+                        </div>
+
                     </div>
                 </div>
+                <!--
                 <div id="divCosto" class="tab-pane fade inner-all">
                     <div class="form-group">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -223,14 +231,9 @@
                             <input type="text" id="txtTotal_Soles" name="txtTotal_Soles" class="form-control" disabled value="<?php echo $GLOBALS['oOrden_Venta']->precio_venta_total_soles;?>">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdguia_detalle">
-                            <?php echo  $GLOBALS['facturas_informacion'];?>
-                        </div>
+                    
 
-                    </div>
-
-                </div>
+                </div> -->
             </div>
         </div>
         

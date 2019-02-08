@@ -1044,3 +1044,43 @@ FECHA Y HORA: 08 02 2019 00:02:33
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
 METODO: salida/post_ajaxOrden_Venta_Mantenimiento
 ERROR: Ocurrió un error en el sistema
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:42
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 08 02 2019 18:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
