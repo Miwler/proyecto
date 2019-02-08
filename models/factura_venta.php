@@ -627,6 +627,21 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
             throw new Exception($q);
         }
     }
+    function actualizarEstado(){
+        $cn =new connect_new();
+	$retornar=-1;
+        try{
+
+            $q='UPDATE factura_venta set estado_ID='.$this->estado_ID.',observacion="'.$this->observacion.'",impresion='.$this->impresion.', usuario_mod_id='.$this->usuario_mod_id;
+            $q.=', fdm=now() where del=0 and ID='.$this->ID;
+            //echo $q;
+            $retornar=$cn->transa($q);
+            $this->getMessage='Se guardó correctamente';
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
 }  
 
 

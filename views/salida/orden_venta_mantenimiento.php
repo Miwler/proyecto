@@ -327,7 +327,8 @@
     });
     
     var fncNuevo=function(){
-        window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,480);
+         window_open_view('Salida/Orden_Venta_Mantenimiento_Nuevo','',null,fngetData);
+        //window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Nuevo','','',f,800,480);
     }
     var fncVerPDF=function(id){
         window_float_open_modal('REGISTRAR NUEVA ORDEN DE VENTA','Salida/Factura_Vista_PreviaPDF',id,'',f,800,550);
@@ -338,7 +339,8 @@
     }
     
     var fncVer=function(id){
-         window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,480);
+         window_open_view('Salida/Orden_Venta_Mantenimiento_Editar',id,null,fngetData);
+         //window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Mantenimiento_Editar',id,'',f,800,480);
     }
     var fncDOWNLOAD_XML=function(id,tipo) {
         try {
@@ -438,7 +440,9 @@
             gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
 				    
     }
-        
+    function crear_boton_QuitarPrint(){
+        crear_boton_QuitarPrint();
+    }    
 </script>
 
 <?php } ?>
