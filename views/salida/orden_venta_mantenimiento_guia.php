@@ -57,13 +57,13 @@
                             <input type="hidden" id="txtorden_ventaID" name="txtorden_ventaID" value="<?php echo  $GLOBALS['oOrden_Venta']->ID;?>">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <select id="selSerie" name="selSerie"  disabled class="form-control" >
+                            <select id="selSerie" name="selSerie"  disabled class="form-control" onchange="fncActualizarNumero();">
                                 <?php foreach($GLOBALS['oGuia_Venta']->dtSerie as $value){ ?>
-                                <option value="<?php echo $value['nombre'];?>"><?php echo $value['nombre'];?></option>
+                                <option value="<?php echo $value['ID'];?>"><?php echo $value['serie'];?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
-                            $('#selSerie').val('<?php echo $GLOBALS['oGuia_Venta']->serie;?>');
+                            $('#selSerie').val('<?php echo $GLOBALS['oGuia_Venta']->correlativos_ID;?>');
                             </script>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -113,10 +113,11 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Vehículo:</label>
+                            <label>Vehículo:<span class="asterisk">*</span></label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selVehiculo_ID" name="selVehiculo_ID" class="form-control">
+                                <option value="0">Seleccione</option>
                                 <?php foreach($GLOBALS['oGuia_Venta']->dtVehiculo as $item){ ?>
                                 <option value="<?php echo $item["ID"]?>"><?php echo $item["placa"]?> - <?php echo FormatTextView($item["marca"])?></option>
                                 <?php } ?>
@@ -126,7 +127,7 @@
                             </script>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Chofer:</label>
+                            <label>Chofer:<span class="asterisk">*</span></label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <select id="selChofer_ID" name="selChofer_ID" class="form-control">
@@ -160,13 +161,13 @@
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off"  class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_orden_compra; ?>" >
+                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_orden_compra; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>N° orden de pedido</label>
+                            <label>N° orden de venta</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_orden_venta; ?>" >
+                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_orden_venta; ?>" >
                         </div>
                     </div>
                     
@@ -264,12 +265,18 @@
                         <span class="glyphicon glyphicon-arrow-left"></span>
                         Regresar
                    </button>   
+                    <button type="button" onclick="prueba();">prpbar</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 <script type="text/javascript">
+    function prueba(){
+        cargarValores('salida/ajaxImprimir_prueba','0',function(resultado){
+            console.log(resultado);
+        });
+    }
     var fncVistaPrevia=function(){
         var orden_venta_ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
         
@@ -278,7 +285,7 @@
 
     var fncActualizarNumero=function(){
        var serie=$("#selSerie").val();
-        cargarValores('/Saldia/ajaxGuia_Venta_Numero_Ultimo',serie,function(resultado){
+        cargarValores('/salida/ajaxGuia_Venta_Numero_Ultimo',serie,function(resultado){
             if(resultado.resultado==1){
                 $('#txtNumero').val(resultado.numero); 
             }else{
@@ -299,6 +306,7 @@
             
             block_ui(function(){
                 cargarValores('/Salida/ajaxImprimir_Guia',orden_venta_ID,function(resultado){
+                    console.log(resultado);
                 //alert(resultado.resultado);
                 if(resultado.resultado==1){
                     $('#txtEstado').val('Emitido');
@@ -394,6 +402,8 @@
       
        var fecha_emision=$('#txtFecha_Emision').val();
        var fecha_inicio_traslado=$('#txtFecha_Inicio_Traslado').val();
+       var vehiculo_ID=$("#selVehiculo_ID").val();
+       var chofer_ID=$("selChofer_ID").val();
        if(fecha_emision==""){
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione la fecha de emisión de la guía.','txtFecha_Emision');
            
@@ -404,10 +414,21 @@
            
            return false;
        }
+       if(vehiculo_ID=="0"){
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione un vehículo.','selVehiculo_ID');
+           
+           return false;
+       }
+       if(chofer_ID=="0"){
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione un chofer.','selChofer_ID');
+           
+           return false;
+       }
        $('#selSerie').prop('disabled', false);
        
        $('#txtNumero ').prop('disabled', false);
-       
+       $("#txtOrden_Compra").prop('disabled', false);
+       $("#txtOrden_Pedido").prop('disabled', false);
        block_ui();
        
    }

@@ -3,11 +3,16 @@
 class guia_venta_detalle {
 
     private $ID;
-    private $guia_venta_ID;
-    private $salida_detalle_ID;
-    private $usuario_id;
-    private $usuario_mod_id;
-    Private $message;
+  private $guia_venta_ID;
+  private $salida_detalle_ID;
+  private $descripcion;
+  private $ver_descripcion;
+  private $ver_componente;
+  private $ver_adicional;
+  private $ver_serie;
+  private $usuario_id;
+  private $usuario_mod_id;
+  private $getMessage;
 
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -32,9 +37,30 @@ class guia_venta_detalle {
         // Retorna nulo si no existe
         return null;
     }
+function __construct()
+  {
+        $this->descripcion="";
+    $this->ver_descripcion=0;
+    $this->ver_componente=0;
+    $this->ver_adicional=0;
+    $this->ver_serie=0;
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
-    function insertar() {
-        $cn = new connect();
+  }
+  function __destruct()
+  {
+        $this->descripcion;
+    $this->ver_descripcion;
+    $this->ver_componente;
+    $this->ver_adicional;
+    $this->ver_serie;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
+    /*function insertar() {
+        $cn = new connect_new();
         $retornar = -1;
         try {
             
@@ -68,8 +94,8 @@ class guia_venta_detalle {
         } catch (Exception $ex) {
             
         }
-    }
-
+    }*/
+/*
     function eliminar() {
         $cn = new connect();
         $retornar = -1;
@@ -86,7 +112,87 @@ class guia_venta_detalle {
             throw new Exception($q);
         }
     }
+*/
+  function insertar()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_guia_venta_detalle_Insert",
+            array(
+    "iID"=>0,
+    "iguia_venta_ID"=>$this->guia_venta_ID,
+    "isalida_detalle_ID"=>$this->salida_detalle_ID,
+    "idescripcion"=>$this->descripcion,
+    "iver_descripcion"=>$this->ver_descripcion,
+    "iver_componente"=>$this->ver_componente,
+    "iver_adicional"=>$this->ver_adicional,
+    "iver_serie"=>$this->ver_serie,
+    "iusuario_id"=>$this->usuario_id,
 
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_guia_venta_detalle_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "iguia_venta_ID"=>$this->guia_venta_ID,
+    "isalida_detalle_ID"=>$this->salida_detalle_ID,
+    "idescripcion"=>$this->descripcion,
+    "iver_descripcion"=>$this->ver_descripcion,
+    "iver_componente"=>$this->ver_componente,
+    "iver_adicional"=>$this->ver_adicional,
+    "iver_serie"=>$this->ver_serie,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta_detalle.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function eliminar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_guia_venta_detalle_Delete",
+            array(
+              "retornar"=>$retornar,
+              "iID"=>$this->ID,
+              "iusuario_mod_id"=>$this->usuario_mod_id ),0
+            );
+      if($retornar>0)$this->getMessage = "Se elimin? correctamente";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta_detalle.eliminar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getCount($filtro = '') {
         $cn = new connect();
         try {
@@ -105,7 +211,7 @@ class guia_venta_detalle {
             throw new Exception("Ocurrio un error en la consulta");
         }
     }
-
+/*
     static function getByID($ID) {
         $cn = new connect();
         try {
@@ -132,7 +238,38 @@ class guia_venta_detalle {
             throw new Exception($q);
         }
     }
+*/
+    static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_guia_venta_detalle_getByID",
+          array("iID"=>$ID));
+      $oguia_venta_detalle=null;
+      foreach($dt as $item)
+      {
+        $oguia_venta_detalle= new guia_venta_detalle();
+      $oguia_venta_detalle->ID=$item["ID"];
+      $oguia_venta_detalle->guia_venta_ID=$item["guia_venta_ID"];
+      $oguia_venta_detalle->salida_detalle_ID=$item["salida_detalle_ID"];
+      $oguia_venta_detalle->descripcion=$item["descripcion"];
+      $oguia_venta_detalle->ver_descripcion=$item["ver_descripcion"];
+      $oguia_venta_detalle->ver_componente=$item["ver_componente"];
+      $oguia_venta_detalle->ver_adicional=$item["ver_adicional"];
+      $oguia_venta_detalle->ver_serie=$item["ver_serie"];
+      $oguia_venta_detalle->usuario_id=$item["usuario_id"];
+      $oguia_venta_detalle->usuario_mod_id=$item["usuario_mod_id"];
 
+      }
+      return $oguia_venta_detalle;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta_detalle.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
         $cn = new connect();
         try {
