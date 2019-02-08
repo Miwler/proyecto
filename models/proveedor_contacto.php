@@ -43,20 +43,19 @@ class proveedor_contacto {
         $retorna = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 from proveedor_contacto;';
-			$cn = new connect_new();
+	    $cn = new connect_new();
             $ID=$cn->getData($q);
             $q = 'insert into proveedor_contacto(ID, persona_ID,telefono, celular, correo,proveedor_ID,estado_ID,usuario_id)';
             $q.='values('.$ID.','.$this->persona_ID. ',"'.$this->telefono.'","' . $this->celular . '","' . $this->correo. '",'.$this->proveedor_ID.','.$this->estado_ID.','.$this->usuario_id.');';
             //echo $q;
-			$cn = new connect_new();
+	    $cn = new connect_new();
             $retorna = $cn->transa($q);
-
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
             return $retorna;
         } catch (Exception $ex) {
 
-            throw new Exception('Ocurrió un error en la BD al insertar la persona de contacto');
+            throw new Exception('Ocurrio un error en la consulta');
         }
     }
 

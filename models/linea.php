@@ -111,47 +111,47 @@ class linea {
     }
   }
 
-    function actualizar() {
-        $cn = new connect_new();
-        $retornar = -1;
-        try {
-            $q = 'update linea set descripcion="' .$this->descripcion . '",nombre="' . $this->nombre ;
-            $q.='",tipo="'.$this->tipo.'",imagen="'.$this->imagen.'",empresa_ID='.$this->empresa_ID.',usuario_mod_id=' . $this->usuario_mod_id;
-            $q.=', fdm=now() where del=0 and id=' . $this->ID;
-            $retornar = $cn->transa($q);
-            $this->getMessage = 'Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            
-        }
-    }
-  
-  
-//    function actualizar0()
-//    {
-//    $cn =new connect_new();
-//    $retornar =0;
-//    try
-//    {
-//      $ID=$cn->store_procedure_transa(
-//          "sp_linea_Update",
-//            array(
-//              "retornar"=>$retornar,
-//    "iID"=>$this->ID,
-//    "inombre"=>$this->nombre,
-//    "idescripcion"=>$this->descripcion,
-//    "itipo"=>$this->tipo,
-//    "iimagen"=>$this->imagen,
-//    "iusuario_mod_id"=>$this->usuario_mod_id,
-//    "iempresa_ID"=>$this->empresa_ID
-//),0);
-//      return $retornar;
-//    }catch(Exeption $ex)
-//    {
-//      log_error(__FILE__, "linea.actualizar", $ex->getMessage());
-//      throw new Exception($ex->getMessage());
+//    function actualizar() {
+//        $cn = new connect_new();
+//        $retornar = -1;
+//        try {
+//            $q = 'update linea set descripcion="' .$this->descripcion . '",nombre="' . $this->nombre ;
+//            $q.='",tipo="'.$this->tipo.'",imagen="'.$this->imagen.'",empresa_ID='.$this->empresa_ID.',usuario_mod_id=' . $this->usuario_mod_id;
+//            $q.=', fdm=now() where del=0 and id=' . $this->ID;
+//            $retornar = $cn->transa($q);
+//            $this->getMessage = 'Se guardó correctamente';
+//            return $retornar;
+//        } catch (Exception $ex) {
+//            
+//        }
 //    }
-//  }
+  
+  
+ function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_linea_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "inombre"=>$this->nombre,
+    "idescripcion"=>$this->descripcion,
+    "itipo"=>$this->tipo,
+    "iimagen"=>$this->imagen,
+    "iempresa_ID"=>$this->empresa_ID,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "linea.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
   
 
     function eliminar() {

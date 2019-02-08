@@ -134,6 +134,15 @@ function fncPage() { ?>
        parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
         
     } 
+
+    var fncCargarPersona=function(id){
+       cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtPersona_ID').val(id);
+            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
+            mostrar_informacion_persona(id);
+        }); 
+    }
+    
     var mostrar_informacion_persona=function(id){
         cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
             $('#txtTelefono').val(resultado.oPersona.telefono);
@@ -142,14 +151,7 @@ function fncPage() { ?>
             
         });
     }
-    var fncCargarPersona=function(id){
-       cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
-            $('#txtPersona_ID').val(id);
-            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
-            mostrar_informacion_persona(id);
-        });
-        
-    }
+    
 </script>
     <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
        

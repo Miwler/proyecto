@@ -70,7 +70,7 @@ function post_Proveedor_Mantenimiento_Nuevo() {
     $estado_ID=$_POST['selEstado'];
     
     //Datos de persona de contacto
-    if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])==""&& $_POST['txtPersona_ID']!=0){
+    if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&& $_POST['txtPersona_ID']!=0){
         $persona_ID=$_POST['txtPersona_ID'];
         
         $telefono1 = FormatTextSave($_POST['txtTelefono1']);
@@ -102,7 +102,7 @@ function post_Proveedor_Mantenimiento_Nuevo() {
             throw new Exception($oProveedor->getMessage);
         }
         $oProveedor->insertar();
-        if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])==""&&$_POST['txtPersona_ID']!=0){
+        if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
             if($oProveedor->ID>0){
                 
                 $oProveedor_Contacto->persona_ID=$persona_ID;

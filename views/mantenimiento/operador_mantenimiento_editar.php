@@ -16,7 +16,7 @@ function fncHead() { ?>
 
 <?php
 
-function fncTitleHead() { ?>Nuevo Operador<?php } ?>
+function fncTitleHead() { ?>Editar Operador<?php } ?>
 
 <?php
 
@@ -105,7 +105,7 @@ function fncPage() { ?>
                 <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                 Guardar
             </button>
-            <button  id="btnCancelar" name="btnCancelar" type="button" onclick="window_float_close();" class="btn btn-danger">
+            <button  id="btnCancelar" name="btnCancelar" type="button" onclick="window_float_close_modal();" class="btn btn-danger">
                 <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
                 Cancelar
             </button>
@@ -134,8 +134,18 @@ function fncPage() { ?>
         }
     }
     var fncAgregar_Persona=function(){
-        window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
+//        window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
+          parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
     } 
+
+    var fncCargarPersona=function(id){
+       cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtPersona_ID').val(id);
+            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
+            mostrar_informacion_persona(id);
+        });
+    }
+    
     var mostrar_informacion_persona=function(id){
         cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
             $('#txtTelefono').val(resultado.oPersona.telefono);
@@ -144,13 +154,7 @@ function fncPage() { ?>
             
         });
     }
-    var fncCargarPersona=function(id,nombres){
-       cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
-            $('#txtPersona_ID').val(id);
-            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
-            mostrar_informacion_persona(id);
-        });
-    }
+    
 </script>
     <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
        

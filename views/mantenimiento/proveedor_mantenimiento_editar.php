@@ -358,12 +358,24 @@ function fncPage() { ?>
         ajaxSelect('selDistrito', '/Mantenimiento/ajaxSelect_Distrito/' + obj.val(), '',null);
     }
     var fncAgregar_Persona=function(){
-        window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
+//        window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
+          parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
     } 
    /* var fncCargarPersona=function(id,nombres){
         cboPersona.seleccionar(id, nombres);
         
     }*/
+    
+    var fncCargarPersona=function(id){
+        
+        cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtPersona_ID').val(id);
+            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
+            mostrar_informacion_persona(id);
+        });
+        
+    }
+    
 
     var mostrar_informacion_persona=function(id){
         cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
@@ -372,6 +384,8 @@ function fncPage() { ?>
             $('#txtCelular1').val(resultado.oPersona.celular);
             $('#txtCorreo1').val(resultado.oPersona.correo);
             
+            $('#btnAccion').prop('disabled', false);
+            $('#btnCancelar').prop('disabled', false);
         });
     }
     
@@ -385,10 +399,7 @@ function fncPage() { ?>
         }else {
              
             cboMostrarTexto('/Mantenimiento/ajaxCbo_ProveedorRazonSocial',valor_buscar,contenedorLista);
-        }
-        
-       
-                
+        }          
     }
     var subirValorCaja=function(valor,tipo){
         if(tipo==1){
@@ -543,7 +554,7 @@ function fncPage() { ?>
         <script type="text/javascript">
             $(document).ready(function(){
                 toastem.success("<?php echo $GLOBALS['mensaje'];?>");
-                setTimeout('window_float_save();', 1000);
+                setTimeout('window_float_save_modal();', 1000);
             });
            
         </script>
@@ -562,7 +573,7 @@ function fncPage() { ?>
         <script type="text/javascript">
             $(document).ready(function () {
                 toastem.error('<?php  echo $GLOBALS['mensaje'];?>');
-                setTimeout('window_float_save();', 1000);
+                setTimeout('window_float_save_modal();', 1000);
 
             });
 

@@ -43,19 +43,19 @@ class cliente_contacto {
         $retorna = -1;
         try {
             $q = 'select ifnull(max(ID),0)+1 from cliente_contacto;';
-			$cn = new connect_new();
+	    $cn = new connect_new();
             $ID=$cn->getData($q);
-            $q.= 'insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)';
+            $q = 'insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)';
             $q.='values('.$ID.',"'.$this->codigo.'",'.$this->cliente_ID.','.$this->persona_ID.',"'.$this->telefono.'","'.$this->celular.'",';
             $q.='"'.$this->correo.'","'.$this->cargo.'",'.$this->estado_ID.','.$this->usuario_id.');';   
             //echo $q;
-			$cn = new connect_new();
+	    $cn = new connect_new();
             $retorna = $cn->transa($q);
             $this->ID = $ID;
             $this->getMessage = 'Se guardó correctamente';
             return $retorna;
         } catch (Exception $ex) {
-            throw new Exception($q);
+            throw new Exception('Ocurrio un error en la consulta');
         }
     }
 
