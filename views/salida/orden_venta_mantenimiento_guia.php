@@ -43,7 +43,7 @@
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Datos</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divProductos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Costos</span></a></li>
+                <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Guías</span></a></li>
             </ul>
         </div>
         <div class="panel-body no-padding rounded-bottom" style="height:370px;overflow:auto; ">
@@ -67,7 +67,7 @@
                             </script>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="text" id="txtNumero" name="txtNumero" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_concatenado;?>">
+                            <input type="number" id="txtNumero" name="txtNumero" disabled class="form-control" autocomplete="off" value="<?php echo $GLOBALS['oGuia_Venta']->numero_concatenado;?>">
                         </div>
                         <div class="col-lg-3 col-md-1 col-sm-1 col-xs-1">
                             <button type="button" id="btnActualizar" style="vertical-align: bottom; border: none;" onclick="fncActualizarNumero();"><img src="/include/img/boton/refresh32x32.png" width="22px"/></button>
@@ -224,7 +224,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdguia_detalle">
                             <?php echo  $GLOBALS['facturas_informacion'];?>
                         </div>
 
@@ -237,26 +237,22 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
-                <?php if($GLOBALS['oGuia_Venta']->estado_ID!=38){?>
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Generar Guía">
-                        <span class="glyphicon glyphicon-ok"></span>
-                      Generar
+                    <button  id="btnEnviar" name="btnEnviar" style="display: none" class="btn btn-success" title="Imprimir Guía">
+                         <span class="glyphicon glyphicon-print"></span>
+                      Imprimir
                    </button>
-                <?php } ?>
-               <?php  if($GLOBALS['oGuia_Venta']->ver_vista_previa==1){?>
-                   <button type="button" id="btnVistaprevia" name="btnVistaprevia"  title="Vista previa" class="btn btn-info" onclick="fncVistaPrevia();">
-                       <span class="glyphicon glyphicon-eye-open"></span>
-                      Vista previa
-                   </button>
-               <?php } ?>
-               <?php  if($GLOBALS['oGuia_Venta']->ver_imprimir==1){?>
-                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Imprimir guía" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la Guía?','Imprimir guía',fncImprimirGuia);">
+               <button  type="button" id="btnImprimir" name="btnImprimir" style="display: none" title="Imprimir guía" class="btn btn-success" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la Guía?','Imprimir guía',fncImprimirGuia);">
                        <span class="glyphicon glyphicon-print"></span>
                       Imprimir
                    </button>
-               <?php } ?>
-
-                   <button id="btnAnular" type="button" title="Anular guía" class="btn btn-danger" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de anular la guía?','Anular Guía',fncAnularGuia);">
+               
+               
+              
+                <button type="button" id="btnVistaprevia" name="btnVistaprevia" style="display: none"  title="Vista previa" class="btn btn-info" onclick="fncVistaPrevia();">
+                       <span class="glyphicon glyphicon-eye-open"></span>
+                      Vista previa
+                   </button>
+                   <button id="btnAnular" type="button" title="Anular guía" style="display: none"  class="btn btn-danger" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de anular la guía?','Anular Guía',fncAnularGuia);">
                        <span class="glyphicon glyphicon-ban-circle"></span>
                         Anular
                    </button> 
@@ -265,18 +261,25 @@
                         <span class="glyphicon glyphicon-arrow-left"></span>
                         Regresar
                    </button>   
-                    <button type="button" onclick="prueba();">prpbar</button>
+                   
                 </div>
             </div>
         </div>
     </div>
 </form>
 <script type="text/javascript">
-    function prueba(){
-        cargarValores('salida/ajaxImprimir_prueba','0',function(resultado){
-            console.log(resultado);
-        });
-    }
+    $(document).ready(function(){
+        <?php if($GLOBALS['oGuia_Venta']->estado_ID!=38){?>
+            $("#btnEnviar").css("display","");    
+        <?php } ?>
+        <?php if($GLOBALS['oGuia_Venta']->estado_ID==38){?>
+            $("#btnImprimir").css("display","");  
+            $("#btnAnular").css("display",""); 
+        <?php } ?>
+        <?php  if($GLOBALS['oGuia_Venta']->ver_vista_previa==1){?>
+            $("#btnVistaprevia").css("display",""); 
+        <?php } ?>
+    });
     var fncVistaPrevia=function(){
         var orden_venta_ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
         
@@ -305,27 +308,30 @@
         try{
             
             block_ui(function(){
-                cargarValores('/Salida/ajaxImprimir_Guia',orden_venta_ID,function(resultado){
-                    console.log(resultado);
-                //alert(resultado.resultado);
-                if(resultado.resultado==1){
-                    $('#txtEstado').val('Emitido');
-                    $('#tdguia_detalle').html(resultado.guia_detalle);
-                    bloquear_guia();
-                    $('#btnAnular').css('display','');
-                    //parent.fParent1.call(this,2);
-                    $.unblockUI();
-                    toastem.success(resultado.mensaje);
+                var object=new Object();
+                object['orden_venta_ID']=orden_venta_ID;
+                enviarAjaxParse('/Salida/ajaxImprimir_Guia','frm1',object,function(resultado){
+                    if(resultado.resultado==1){
+                        $('#txtEstado').val('Emitido');
+                        $("#btnVistaprevia").css("display",""); 
+                        $("#btnAnular").css("display",""); 
+                        $("#btnImprimir").css("display","");
+                        $("#btnEnviar").css("display","none");
+                        $('#tdguia_detalle').html(resultado.guia_detalle);
+                        bloquear_guia();
+                        $('#btnAnular').css('display','');
+                        parent.fParent1.call(this,2);
+                        $.unblockUI();
+                        toastem.success(resultado.mensaje);
 
-                }else {
-                     $.unblockUI();
-                    mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
-                        //modal.advertencia('ERROR DE IMPRESIÓN',resultado.mensaje);
-                }
+                    }else {
+                         $.unblockUI();
+                        mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
+                            //modal.advertencia('ERROR DE IMPRESIÓN',resultado.mensaje);
+                    }
+                });
                
-                //$('#fondo_espera').css('display','none');
             });
-        });
         }catch(e){
             $.unblockUI();
             console.log(e);
@@ -342,8 +348,13 @@
                         $.unblockUI();
                         toastem.success(resultado.mensaje);
                         desbloquear_guia();
+                        fncActualizarNumero();
                         $('#tdguia_detalle').html(resultado.guia_detalle);
                         $('#btnAnular').css('display','none');
+                        $("#btnVistaprevia").css("display","none");
+                        $("#btnImprimir").css("display","none");
+                        
+                        
                         $('#btn_flotante_hijo').prepend('<button  id="btnEnviar" name="btnEnviar" class="botones_formulario" title="Generar Guía"> <img  alt="" src="/include/img/boton/generar_48x48.png">Generar</button>');
                         
                     }else {
@@ -367,7 +378,9 @@
         $('#txtOrden_Compra').prop('disabled', true);
         $('#txtOrden_Pedido').prop('disabled', true);
         $('#selVehiculo_ID').prop('disabled', true);
-        
+        $("#selSerie").prop('disabled', true);
+        $("#txtNumero").prop('disabled', true);
+        $("#ckOpcion").prop("checked",false);
         $('#txtPunto_Partida').prop('disabled', true);
         $('#txtPunto_Llegada').prop('disabled', true);
         $('#txtEmpresa_Transporte').prop('disabled', true);
@@ -509,6 +522,7 @@
  $(document).ready(function () {
      $.unblockUI();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
+    fncImprimirGuia();
 });
 
 //setTimeout('window_deslizar_save();', 1000);

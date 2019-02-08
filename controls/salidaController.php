@@ -3990,7 +3990,7 @@ function post_ajaxOrden_Venta_Mantenimiento() {
        $dtSalida=salida::getTabla($opcion,$cliente,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$periodo_texto,$numero,$numero_factura,27);
         echo(json_encode($dtSalida, JSON_NUMERIC_CHECK)); 
     }catch(Exception $ex){
-        consolo_log($ex);
+        log_error(__FILE__,"salida/post_ajaxOrden_Venta_Mantenimiento",$ex->getMessage());
     }
     
   
@@ -7339,13 +7339,13 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $osalida=salida::getByID($salida_ID);
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
         $listaproducto=mostrar_productos($salida_ID,3);
-        $ContarFactura_Venta=factura_venta::getCount('salida_ID='.$id);
+        $ContarFactura_Venta=factura_venta::getCount('salida_ID='.$id.' and estado_ID in (35,41)');
         //$electronico=factura_venta::getE
         $dtImpuestos_Tipo=impuestos_tipo::getGrid();
         $mensaje="";
         $informacion="";
         
-        if($ContarFactura_Venta==0){
+        if($ContarFactura_Venta==0||$osalida->estado_ID==58){
             $electronico=correlativos::verificar_electronico(correlativos_ID);
             $oFactura_Venta=new factura_venta();
             $oFactura_Venta->comprobante="factura_venta";
@@ -7936,7 +7936,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                         $osalida->numero_pagina=1;
                     }
                     for($i=0;$i<$osalida->numero_pagina;$i++){
-                    $valor=$i+1;
+                    $valor=$i+0;
                     $observacion="";
                     $serie=$osalida->serie;
                     $numero='';
@@ -7958,6 +7958,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     }else {
 
                         $numero=correlativos::getNumero(correlativos_ID_fisico)+$i;
+                        $oCorrelativos=correlativos::getByID(correlativos_ID_fisico);
+                        $serie=$oCorrelativos->serie;
                         $observacion="Por generar";
                     }
                     $html.="<tr>";
@@ -8861,7 +8863,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH . 'models/salida_numero_cuenta.php';
         require ROOT_PATH . 'models/moneda.php';
         require ROOT_PATH . 'models/correlativos.php';
-        $salida_ID=$_POST['id'];
+        $salida_ID=$_POST['orden_venta_ID'];
+        $correlativos_ID=$_POST['selSerie'];
+        $numero_concatenado=$_POST['txtNumero'];
+        $numero_registrado=preg_replace('/^0+/', '', $numero_concatenado);
         try{
             $numero_orden_imprimiendo=verificarImpresora($salida_ID);
             $osalida=salida::getByID($salida_ID);
@@ -8873,6 +8878,37 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $oFactura_Venta=factura_venta::getByID($item['ID']);
                     $oCliente=cliente::getByID($osalida->cliente_ID);
                     $oOperador=operador::getByID($osalida->operador_ID);
+                    if($oFactura_Venta->estado_ID==35||$oFactura_Venta->estado_ID==41){
+                       //Actualizamos el número de la factura
+                    if($oFactura_Venta->estado_ID==41){
+                        $numero=$numero_registrado;
+                        
+                        $oFactura_Venta->correlativos_ID=$correlativos_ID;
+                        
+                    }else{
+                        $numero=correlativos::getNumero($oFactura_Venta->correlativos_ID);
+                        //$numero_concatenado=sprintf("%'.07d",$numero);
+                    }   
+                    $osalida->serie=$oFactura_Venta->serie;
+                    //$numero=correlativos::getByNumero(3,$oFactura_Venta->serie);
+                    
+                    $oFactura_Venta->numero=$numero;
+                    $oFactura_Venta->numero_concatenado=sprintf("%'.07d",$numero);
+                    $oFactura_Venta->estado_ID=41;
+                    $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oFactura_Venta->actualizar();
+                     //Actualizamos el estado de la factura a estado emitido
+
+
+                    //Actualizamos el correlativo
+                    //$oCorrelativos=correlativos::getBySerie(3,$oFactura_Venta->serie);
+                    $oCorrelativos=correlativos::getByID($oFactura_Venta->correlativos_ID);
+                    $oCorrelativos->ultimo_numero=$numero;
+                    $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oCorrelativos->actualizar();
+                   }/*elseif($oFactura_Venta->estado_ID==41){
+                       $factura_emitidos++;
+                   }*/
                     //direccion ip local-nombre de impresora
 
 					//===========================================
@@ -9031,28 +9067,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $return=printer_end_page($handle);
                     printer_end_doc($handle);
                     printer_close($handle);
-                   if($oFactura_Venta->estado_ID==35){
-                       //Actualizamos el número de la factura
-                    $osalida->serie=$oFactura_Venta->serie;
-                    //$numero=correlativos::getByNumero(3,$oFactura_Venta->serie);
-                    $numero=correlativos::getNumero($oFactura_Venta->correlativos_ID);
-                    $oFactura_Venta->numero=$numero;
-                    $oFactura_Venta->numero_concatenado=sprintf("%'.07d",$numero);
-                    $oFactura_Venta->estado_ID=41;
-                    $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
-                    $oFactura_Venta->actualizar();
-                     //Actualizamos el estado de la factura a estado emitido
-
-
-                    //Actualizamos el correlativo
-                    //$oCorrelativos=correlativos::getBySerie(3,$oFactura_Venta->serie);
-                    $oCorrelativos=correlativos::getByID($oFactura_Venta->correlativos_ID);
-                    $oCorrelativos->ultimo_numero=$numero;
-                    $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
-                    $oCorrelativos->actualizar();
-                   }elseif($oFactura_Venta->estado_ID==41){
-                       $factura_emitidos++;
-                   }
+                   
 
 
 
@@ -9212,7 +9227,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH . 'models/chofer.php';
         require ROOT_PATH . 'models/vehiculo.php';
         if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
-        $salida_ID=$_POST['id'];
+        $salida_ID=$_POST['orden_venta_ID'];
+        $correlativos_ID=$_POST['selSerie'];
+        $numero_concatenado=$_POST['txtNumero'];
+        $numero_registrado=preg_replace('/^0+/', '', $numero_concatenado);
         try{
             $guia_emitidos=0;
             $oDatos_Genetales=datos_generales::getByID1($_SESSION['empresa_ID']);
@@ -9222,7 +9240,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 //$contar_factura_imitida=0;
                 $contar_factura_imitida=factura_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in (41,60,93,94)');
                 if($contar_factura_imitida>0){
-                    $dtGuia_Venta=guia_venta::getGrid('salida_ID='.$salida_ID.' and estado_ID in (37,38)',-1,-1,'ID asc');
+                    $dtGuia_Venta=guia_venta::getGrid1('salida_ID='.$salida_ID.' and estado_ID in (37,38)',-1,-1,'ID asc');
                     foreach($dtGuia_Venta as $valor){
                         $oGuia_Venta=guia_venta::getByID($valor['ID']);
                         $oCliente=cliente::getByID($osalida->cliente_ID);
@@ -9240,12 +9258,19 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                             $oFactura_Venta=new factura_venta();
                         }
                         
-                        if($oGuia_Venta->estado_ID==37){
+                        if($oGuia_Venta->estado_ID==37||$oGuia_Venta->estado_ID==38){
                            //Actualizamos el número de la guia
                         $serie=$valor['serie'];
-                        $numero=correlativos::getNumero($oGuia_Venta->correlativos_ID);
+                        if($oGuia_Venta->estado_ID==38){
+                            $oGuia_Venta->correlativos_ID=$correlativos_ID;
+                            $numero=$numero_registrado;
+                        }else{
+                            $numero=correlativos::getNumero($oGuia_Venta->correlativos_ID);
+                            $numero_concatenado=sprintf("%'.07d",$numero);
+                        }
+                        
                         $oGuia_Venta->numero=$numero;
-                        $oGuia_Venta->numero_concatenado=sprintf("%'.07d",$numero);
+                        $oGuia_Venta->numero_concatenado=$numero_concatenado;
                         $oGuia_Venta->estado_ID=38;
                         $oGuia_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
                         //$oGuia_Venta->actualizarEstadoandNumero();
@@ -9525,49 +9550,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                         printer_end_doc($handle);
                         printer_close($handle);
     }
-    function post_ajaxImprimir_prueba(){
-        require ROOT_PATH.'include/ticket/autoload.php';
-        //require __DIR__ . '/ticket/autoload.php';
-        
-        $nombre_impresora = "PDFCreator"; 
- 
- 
-        $connector = new WindowsPrintConnector($nombre_impresora);
-        $printer = new Printer($connector);
-
-        /*
-                Imprimimos un mensaje. Podemos usar
-                el salto de línea o llamar muchas
-                veces a $printer->text()
-        */
-        $printer->text("Hola mundo\nParzibyte.me");
-
-        /*
-                Hacemos que el papel salga. Es como 
-                dejar muchos saltos de línea sin escribir nada
-        */
-        $printer->feed();
-
-        /*
-                Cortamos el papel. Si nuestra impresora
-                no tiene soporte para ello, no generará
-                ningún error
-        */
-        $printer->cut();
-
-        /*
-                Por medio de la impresora mandamos un pulso.
-                Esto es útil cuando la tenemos conectada
-                por ejemplo a un cajón
-        */
-        $printer->pulse();
-
-        /*
-                Para imprimir realmente, tenemos que "cerrar"
-                la conexión con la impresora. Recuerda incluir esto al final de todos los archivos
-        */
-        $printer->close();
-    }
+    
     function post_ajaxImprimir_Guia_Venta(){
         require ROOT_PATH . 'models/salida.php';
 
@@ -9812,6 +9795,37 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         }
 
          $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje,'guia_detalle'=>$guia_detalle);
+
+        echo json_encode($retornar);
+    }
+    function post_ajaxAnular_Factura(){
+        require ROOT_PATH . 'models/salida.php';
+        require ROOT_PATH . 'models/factura_venta.php';
+        $salida_ID=$_POST['id'];
+        try{
+            $osalida=salida::getByID($salida_ID);
+            $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$salida_ID,-1,-1,'ID asc');
+            foreach($dtFactura_Venta as $item){
+               $oFactura_Venta=factura_venta::getByID($item['ID']);
+               $oFactura_Venta->estado_ID=53;
+               $oFactura_Venta->observacion='Factura anulada';
+               $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+               $oFactura_Venta->actualizarEstado();
+            }
+            $osalida->estado_ID=58;
+            $osalida->usuario_mod_id=$_SESSION['usuario_ID'];   
+            $osalida->actualizar();
+            $resultado=1;
+            $mensaje="Se anuló correctamente";
+            $factura_detalle=extraer_estructura_facturas($osalida);
+
+        }catch(Exception $ex){
+            log_error(__FILE__,"salida/post_ajaxAnular_Factura",$ex->getMessage());
+            $resultado=-1;
+            $mensaje=$ex->getMessage();
+        }
+
+         $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje,'factura_detalle'=>$factura_detalle);
 
         echo json_encode($retornar);
     }

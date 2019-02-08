@@ -12,9 +12,7 @@
        <?php } else { ?>
            $('#ckOpcion').prop('checked', false);
        <?php } ?>
-        <?php if($GLOBALS['oFactura_Venta']->estado_ID==41||$GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94){?>  
-            bloquear_factura();
-        <?php } ?>   
+        
 
     });
     </script>
@@ -53,7 +51,7 @@
                             <input type="hidden" id="txtorden_ventaID" name="txtorden_ventaID" value="<?php echo  $GLOBALS['oOrden_Venta']->ID;?>">
                             <input type="hidden" id="txtSerie" name="txtSerie" value="<?php echo  $GLOBALS['oFactura_Venta']->serie;?>">
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2">
                             <select id="selSerie" name="selSerie" class="form-control" disabled onchange="fncActualizarNumero();" >
                                 <?php foreach($GLOBALS['oFactura_Venta']->dtSerie as $value){ ?>
                                 <option value="<?php echo $value['ID'];?>"><?php echo $value['serie'];?></option>
@@ -63,8 +61,8 @@
                              $('#selSerie').val('<?php echo $GLOBALS['oFactura_Venta']->correlativos_ID;?>');
                              </script>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="text" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off" value="<?php echo  $GLOBALS['oFactura_Venta']->numero_concatenado;?>" disabled onchange="fncNumero();">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <input type="number" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off" value="<?php echo  $GLOBALS['oFactura_Venta']->numero_concatenado;?>" disabled >
                             
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -75,13 +73,13 @@
                             <?php } ?>
                             
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                             <?php if($GLOBALS['oFactura_Venta']->estado_ID!=41){?>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                             
                              <div class="ckbox ckbox-theme">
                                 <input type="checkbox" id="ckOpcion" name="ckOpcion" value="1">
-                                <label for="ckOpcion"></label>
+                                <label for="ckOpcion">Modificar Nro.</label>
                             </div>
-                             <?php } ?>
+                            
                         </div>
                     </div>
                     <div class="form-group">
@@ -201,31 +199,30 @@
         
         <div class="panel-footer">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
-                    <?php if($GLOBALS['oFactura_Venta']->estado_ID!=41){?>
-                    <button  id="btnEnviar" name="btnEnviar" title="Generar factura" class="btn btn-success">
-                       <span class="glyphicon glyphicon-ok"></span>
-                      Generar
-                   </button>
-               <?php } ?>
-               <?php  if($GLOBALS['oFactura_Venta']->ver_vista_previa==1){?>
-                   <button type="button" id="btnVistaprevia" name="btnVistaprevia"  title="Vista previa" class="btn btn-info" onclick="fncVistaPrevia();">
-                       <span class="glyphicon glyphicon-eye-open"></span>
-                      Vista previa
-                   </button>
-               <?php } ?>
-               <?php  if($GLOBALS['oFactura_Venta']->ver_imprimir==1){?>
-                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Vista previa" class="btn btn-warning" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la factura?','Imprimir factura',fncImprimirFactura);">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="divBtn">
+                    
+                    <button  id="btnEnviar" name="btnEnviar" title="Imprimir factura" style="display: none" class="btn btn-success">
+                       <span class="glyphicon glyphicon-print"></span>
+                      Imprimir
+                    </button>
+                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Imprimir factura" class="btn btn-success" style="display: none;" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la factura?','Imprimir factura',fncImprimirFactura);">
                        <span class="glyphicon glyphicon-print"></span>
                       Imprimir
                    </button>
-               <?php } ?>
-                <?php  if($GLOBALS['oFactura_Venta']->ver_enviar_SUNAT==1){?>
-                   <button  type="button" id="btnEnviarFactura" name="btnEnviarFactura" title="Enviar SUNAT" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de enviar a la SUNAT la factura?','Enviar SUNAT',fncSUNAT,<?php echo $GLOBALS['oFactura_Venta']->ID;?>);">
-                       <i class="fa fa-angle-double-right"></i>
-                      Enviar SUNAT
+               <button type="button" id="btnVistaprevia" name="btnVistaprevia"  title="Vista previa" style="display: none" class="btn btn-info" onclick="fncVistaPrevia();">
+                       <span class="glyphicon glyphicon-eye-open"></span>
+                      Vista previa
                    </button>
-               <?php } ?>
+                
+              
+               
+               
+                    
+                    <button id="btnAnular" type="button" title="Anular factura" style="display:none;" class="btn btn-danger" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de anular la factura?','Anular Guía',fncAnularFactura);">
+                       <span class="glyphicon glyphicon-ban-circle"></span>
+                        Anular
+                   </button> 
+                   
                     <button id="btnRegresar" type="button" onclick="parent.float_close_modal_hijo();" class="btn btn-danger">
                            <span class="glyphicon glyphicon-arrow-left"></span>
                            Regresar
@@ -236,6 +233,19 @@
     </div>
 </form>
  <script type="text/javascript">
+     $(document).ready(function(){
+         <?php if($GLOBALS['oFactura_Venta']->estado_ID==41){?>
+                $("#btnImprimir").css("display","");
+                $("#btnAnular").css("display","");
+                bloquear_factura();
+         <?php }?>
+         <?php  if($GLOBALS['oFactura_Venta']->estado_ID!=41){ ?>
+             $("#btnEnviar").css("display","");
+         <?php }?>
+              <?php  if($GLOBALS['oFactura_Venta']->ver_vista_previa==1){?>
+                   $("#btnVistaprevia").css("display","");
+               <?php } ?>
+     });
     var fncVistaPrevia=function(){
         var orden_venta_ID=$('#txtorden_ventaID').val();
         //window_float_deslizar_hijo('form','Ventas/Orden_Venta_Mantenimiento_Factura_Vista_Previa',orden_venta_ID,'');
@@ -309,35 +319,50 @@
    
     var fncImprimirFactura=function(){
         block_ui(function(){
+            var object=new Object();
             var orden_venta_ID=$('#txtorden_ventaID').val();
-        
-            cargarValores('Salida/ajaxImprimir_Factura',orden_venta_ID,function(resultado){
-                $.unblockUI()
-                if(resultado.resultado==1){
-                    $('#txtEstado').val('Emitido');
-                    $('#tdfacturas_detalle').html(resultado.facturas_detalle);
-                    bloquear_factura();
-                    //window.parent.bloquear_edicion();
-                    //window.parent.crear_boton_QuitarPrint();
-                    //parent.fParent1.call(this,2);
-                  //parent.fParent1.call(2);
-                    //window.parent.crear_boton_guia();
-                    toastem.success(resultado.mensaje);
+                object['orden_venta_ID']=orden_venta_ID;
+                enviarAjaxParse('/Salida/ajaxImprimir_Factura','frm1',object,function(resultado){
+                    $.unblockUI()
+                    if(resultado.resultado==1){
+                        $("#btnImprimir").css("display","");
+                        $("#btnAnular").css("display","");
+                        $("#btnVistaprevia").css("display","");
+                        $('#txtEstado').val('Emitido');
+                        $('#tdfacturas_detalle').html(resultado.facturas_detalle);
+                        bloquear_factura();
+                        //window.parent.bloquear_edicion();
+                        //window.parent.crear_boton_QuitarPrint();
+                        //parent.fParent1.call(this,2);
+                      parent.fParent1.call(this,2);
+                        //window.parent.crear_boton_guia();
+                        toastem.success(resultado.mensaje);
 
-                }else {
-                    mensaje.advertencia("ERROR DE IMPRESION",resultado.mensaje);
-                    //toastem.error(resultado.mensaje);
-                }
-                $('#fondo_espera').css('display','none');
-            });
+                    }else {
+                        mensaje.advertencia("ERROR DE IMPRESION",resultado.mensaje);
+                        //toastem.error(resultado.mensaje);
+                    }
+                });
+                
+            
+        
         });
         
         
         
     }
+    var desbloquear_factura=function(){
+        
+        $('#txtFecha_Emision').prop('disabled', false);
+        $('#txtPlazo_Factura').prop('disabled', false);
+        $('#txtFecha_Vencimiento').prop('disabled', false);
+       
+        
+    }
     var bloquear_factura=function(){
+       
         $('#btnActualizar').css('display', 'none');
-        $('.ckbox-theme').css('display', 'none');
+        //$('.ckbox-theme').css('display', 'none');
         $('#txtFecha_Emision').prop('disabled', true);
         $('#txtPlazo_Factura').prop('disabled', true);
         $('#txtFecha_Vencimiento').prop('disabled', true);
@@ -346,7 +371,7 @@
         $('#selMoneda').prop('disabled', true);
         $('#txtEstado').prop('disabled', true);
         $('#btnActualizar').css('display', 'none');
-        $('#btnEnviar').prop('disabled', true);
+       
         $('#btnEnviar').css('display', 'none');
         $("#selTipoComprobante").prop('disabled',true);
         $("#selSerie").prop('disabled',true);
@@ -392,6 +417,9 @@
          $("#txtGravadas").prop('disabled',false);
          $("#txtTotal_IGV").prop('disabled',false);
          $("#txtMonto_Total").prop('disabled',false);
+         $("#txtOrden_Compra").prop('disabled',false);
+         $("#txtOrden_Pedido").prop('disabled',false);
+         $("#selImpuestos_Tipo").prop('disabled',false);
       block_ui();
        
          //$('#fondo_espera').css('display', 'block');
@@ -408,8 +436,7 @@
          window.parent.fncCargarVistaGuia();
     }*/
     var ocultarBotones=function(){
-        $('#btnImprimirFactura').attr('disabled');
-        $('#btnImprimirFactura').css('display','none');
+       
         $('#btnEnviar').attr('disabled');
         $('#btnEnviar').css('display','none');
         $('#Imprimir').css('display','none');
@@ -524,6 +551,33 @@
         var nuevo_total=redondear(otros_cargos+gravadas2+exoneradas2+inafectas2+igv2,2);
         $('#txtMonto_Total').val(nuevo_total);
     }
+    var fncAnularFactura=function(){
+        var orden_venta_ID=$('#txtorden_ventaID').val();
+         try{
+             block_ui(function(){
+                 cargarValores('Salida/ajaxAnular_Factura',orden_venta_ID,function(resultado){
+                    if(resultado.resultado==1){
+                        $.unblockUI();
+                        toastem.success(resultado.mensaje);
+                        desbloquear_factura();
+                        fncActualizarNumero();
+                        $('#tdfacturas_detalle').html(resultado.factura_detalle);
+                        $('#btnAnular').css('display','none');
+                       $("#btnVistaprevia").css("display","none");
+                        $("#btnImprimir").css('display','none');
+                        $("#btnEnviar").css("display","");
+                    }else {
+                        $.unblockUI();
+                        toastem.error(resultado.mensaje);
+                    }
+                });
+             });
+            
+        }catch(e){
+            $.unblockUI();
+            console.log(e);
+        }
+    }
 </script>
  
  <?php } ?>
@@ -545,7 +599,9 @@
  //alert('hola');
  $(document).ready(function () {
      $.unblockUI();
+     fncImprimirFactura();
      parent.fParent1.call(this,1);
+     
     //window.parent.crear_boton_guia();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
     

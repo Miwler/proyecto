@@ -409,18 +409,25 @@ $(document).ready(function(){
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,500);
+            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",factura_impreso,700,500);
         }else {
             toastem.error('Debe registrar productos.');
         }
     }
      var factura_impreso=function(opcion){
-        if(opcion==1){
-            crear_boton_guia();
-        }else{
-            bloquear_edicion();
-            crear_boton_QuitarPrint();
-        }
+         switch(opcion){
+            case 1:
+                 crear_boton_guia();
+                 bloquear_edicion();
+                 break;
+            case 2:
+                bloquear_edicion();
+                crear_boton_QuitarPrint();
+                 break;
+             case 3:
+                crear_boton_QuitarPrint();
+         }
+        
         
     }
     var fncQuitarPrint=function(){
@@ -428,7 +435,7 @@ $(document).ready(function(){
         cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
             toastem.info(resultado.mensaje);
             if(resultado.resultado==1){
-                setTimeout('window_float_save_modal();', 1000);   
+                setTimeout('parent.window_save_view();', 1000);   
                
             }
         });
@@ -452,7 +459,7 @@ $(document).ready(function(){
         
     }
     var crear_boton_QuitarPrint=function(){
-
+        console.log("dede");
         if($('#btnQuitarPrint').length){
           
         }else {
@@ -771,7 +778,7 @@ $(document).ready(function(){
          $('#divContenedorDetalle').css('display','none');
     }
     var bloquear_edicion=function(){
-        $('#selCliente').prop('disabled', true);
+        $('#listaCliente').prop('disabled', true);
        $('#selCliente').trigger('chosen:updated');
        $('#selRepresentante').prop('disabled',true);
        $('#selForma_Pago').prop('disabled',true);

@@ -469,6 +469,7 @@ function actualizar()
       throw new Exception($ex->getMessage());
     }
   }
+  /*
   static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
         $cn = new connect_new();
         try {
@@ -493,7 +494,47 @@ function actualizar()
         } catch (Exception $ex) {
             throw new Exception($q);
         }
+    }*/
+  static function getGrid($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_guia_venta_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
+  }
+  static function getGrid1($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGridParse(
+          "sp_guia_venta_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getGridSalida($salida_ID)
 	{
             $cn =new connect_new();
@@ -530,5 +571,19 @@ function actualizar()
                 throw new Exception('Ocurrio un error en el sistema');
             }
 	}
-
+    function actualizarEstado(){
+        $cn =new connect_new();
+	$retornar=-1;
+        try{
+            
+            $q='UPDATE guia_venta set estado_ID='.$this->estado_ID.',observacion="'.$this->observacion.'", usuario_mod_id='.$this->usuario_mod_id;
+            $q.=', fdm=now() where del=0 and ID='.$this->ID;
+            //echo $q;
+            $retornar=$cn->transa($q);
+            $this->getMessage='Se guardó correctamente';
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+    }
 }  
