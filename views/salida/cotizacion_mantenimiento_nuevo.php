@@ -101,7 +101,7 @@ $(document).ready(function(){
                                        <option value="0">--</option>
                                        <?php if($GLOBALS['oCotizacion']->ID!=null){ 
                                            foreach($GLOBALS['dtCliente_Contacto'] as $item){?>
-                                       <option value="<?php echo $item['ID']?>"><?php echo $item['apellidos'].''.$item['nombres']; ?></option>
+                                       <option value="<?php echo $item['ID']?>"><?php echo $item['apellidos'].' '.$item['nombres']; ?></option>
                                            <?php }?>
                                        <script type="text/javascript">
                                            $('#selRepresentante').val(<?php echo $GLOBALS['oCotizacion']->representante_cliente_ID; ?>);
@@ -122,7 +122,7 @@ $(document).ready(function(){
 
                                 <div class="col-sm-9">
                                     <input id="txtOperador_ID" name="txtOperador_ID" style="display:none;"   value="<?php echo $GLOBALS['oOperador']->ID;?>" /> 
-                                    <input type="text" id="txtNombres_Vendedor" name="txtNombres_Vendedor"  disabled value="<?php echo $GLOBALS['oOperador']->nombres . ' '.$GLOBALS['oOperador']->apellido_paterno; ?>" class="form-control"/> 
+                                    <input type="text" id="txtNombres_Vendedor" name="txtNombres_Vendedor"  disabled value="<?php echo $GLOBALS['oOperador']->nombres . ' '.$GLOBALS['oOperador']->apellido_paterno . ' '.$GLOBALS['oOperador']->apellido_materno; ?>" class="form-control"/> 
 
                                 </div>
                             </div>

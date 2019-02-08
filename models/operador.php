@@ -210,7 +210,7 @@ static function getByID($ID)
       $ooperador=null;
       foreach($dt as $item)
       {
-        $ooperador= new operador();
+      $ooperador= new operador();
       $ooperador->ID=$item["ID"];
       $ooperador->empresa_ID=$item["empresa_ID"];
       $ooperador->persona_ID=$item["persona_ID"];
@@ -222,7 +222,10 @@ static function getByID($ID)
       $ooperador->cargo_ID=$item["cargo_ID"];
       $ooperador->usuario_id=$item["usuario_id"];
       $ooperador->usuario_mod_id=$item["usuario_mod_id"];
-
+      $ooperador->nombres=$item["nombres"];
+      $ooperador->apellido_paterno=$item["apellido_paterno"];
+      $ooperador->apellido_materno=$item["apellido_materno"];
+      
       }
       return $ooperador;
     }catch(Exeption $ex)

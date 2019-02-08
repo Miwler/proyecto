@@ -182,7 +182,7 @@ static function getByIDCliente($cliente_ID) {
         $cn = new connect_new();
         try {
             $q = 'SELECT clic.ID,clic.codigo,clic.persona_ID,clic.telefono,clic.celular,clic.correo,clic.cargo,clic.estado_ID,';
-            $q.='cli.razon_social,pe.apellido_paterno,pe.apellido_materno,pe.nombres,pe.direccion,es.nombre as estado';
+            $q.='cli.razon_social, pe.apellido_paterno, pe.apellido_materno, CONCAT(pe.apellido_paterno," ",pe.apellido_materno) AS apellidos, pe.nombres,pe.direccion,es.nombre as estado';
             $q.=' FROM cliente_contacto clic, cliente as cli,persona pe,estado es ';
             $q.=' where cli.ID=clic.cliente_ID and clic.persona_ID=pe.ID and clic.estado_ID=es.ID and clic.del=0 ';
 

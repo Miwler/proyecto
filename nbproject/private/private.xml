@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-<<<<<<< HEAD
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
         <file>
             <url>views/mantenimiento/operador_mantenimiento.php</url>
@@ -14,21 +13,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/proyecto/models/cliente_contacto.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/controls/mantenimientoController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/cliente_mantenimiento_editar.php</file>
-=======
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_factura.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/prueba_imprimir.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/guia_venta_detalle.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta_detalle.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/guia_venta.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_guia.php</file>
->>>>>>> 7efe96f44d4c84faed25bafa17ced3a3742c51de
+            <file>file:/C:/xampp/htdocs/proyecto/models/operador.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/salida/cotizacion_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/salida/cotizacion_mantenimiento.php</file>
         </group>
     </open-files>
 </project-private>
