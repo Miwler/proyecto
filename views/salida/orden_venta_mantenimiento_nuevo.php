@@ -47,8 +47,8 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos Generales</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Economicos"><i class="fa fa-cc-visa" aria-hidden="true"></i> <span>Datos económicos</span></a></li>
                
-                <li class="nav-item"><a href="#DivProductos" data-toggle="tab" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
-                <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" ><i class="fa fa-cubes"></i> <span>Obsequios</span></a></li>
+                <li class="nav-item" id="li_productos" style="display: none;"><a href="#DivProductos" data-toggle="tab" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
+                <li class="nav-item" id="li_obsequios" style="display: none;"><a href="#DivObsequios" data-toggle="tab" ><i class="fa fa-cubes"></i> <span>Obsequios</span></a></li>
             </ul>
             <div class="pull-right">
                 <?php if($GLOBALS['oOrden_Venta']->cotizacion_ID==-1){?>
@@ -78,6 +78,11 @@
                 <div id="divCliente" class="tab-pane fade in active inner-all">
                     <div class="row">
                         <div class="col-sm-7">
+                            <div class="form-group form-group-divider form-group-inline">
+                                <div class="form-inner">
+                                    <h4 class="no-margin">Cliente</h4>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                     <label>Cliente: </label>
@@ -200,13 +205,13 @@
                             <label>Validez: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo  FormatTextView($GLOBALS['oOrden_Venta']->validez_oferta); ?>" >
+                            <input type="text" id="txtValidez_Oferta" placeholder="Días" autocomplete="off" name="txtValidez_Oferta" class="int form-control" value="<?php echo $GLOBALS['oOrden_Venta']->validez_oferta; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <label>Garantía: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo FormatTextView($GLOBALS['oOrden_Venta']->garantia); ?>" class="form-control text-uppercase" >
+                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oOrden_Venta']->garantia; ?>" class="form-control" >
                         </div>
                     </div>
                     
@@ -216,7 +221,7 @@
                             <label>Lugar de entrega: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo FormatTextViewHtml(trim($GLOBALS['oOrden_Venta']->lugar_entrega)); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control"><?php echo trim($GLOBALS['oOrden_Venta']->lugar_entrega); ?></textarea>
                         </div>
                     </div>
                     
@@ -243,7 +248,7 @@
                         </div>
                         
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <input type='text' id='txtAdicional' name='txtAdicional' maxlength="40"  value='<?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->adicional);?>' class="form-control text-uppercase">
+                            <input type='text' id='txtAdicional' name='txtAdicional' maxlength="40"  value='<?php echo $GLOBALS['oOrden_Venta']->adicional;?>' class="form-control">
                         </div>
                     </div>
                 </div>
@@ -255,7 +260,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo FormatTextViewHtml($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
                             <?php }?>
                             </select>
                             <script type="text/javascript">
@@ -275,9 +280,9 @@
                             <label>Forma de pago: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
+                            <select id="selForma_Pago" name="selForma_Pago" class="form-control">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
-                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo FormatTextView($iForma_Pago['nombre']);?></option>
+                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
@@ -314,23 +319,21 @@
                 </div>
                 
                 <div class="tab-pane fade inner-all" id="DivProductos">
-                    <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
-                    <button  type="button" id="btnAgregar" name="btnDetalle" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
+                    <button  type="button" id="btnAgregar" name="btnDetalle" style="display:none;" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
                         <span class="glyphicon glyphicon-plus"></span>
                         Agregar
                     </button>
-                    <?php } ?>
+                   
                     <div class="divCuerpo" id="productos">
                         
                     </div>
                 </div>
                 <div class="tab-pane fade inner-all" id="DivObsequios">
-                    <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
                     <button  type="button" id="btnAgregarObsequio" name="btnAgregarObsequio" class='btn btn-info' onclick="fncRegistrar_Obsequios();" title="Agregar obsequio" >
                         <span class="glyphicon glyphicon-plus"></span>
                         Agregar
                     </button>
-                    <?php } ?>
+                   
                      <div class="divCuerpo" id="obsequios">
                         
                     </div>
@@ -347,6 +350,15 @@
     
 </div>
 <script type="text/javascript">
+    $(document).ready(function(){
+        <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
+                 $("#btnAgregar").css("display","");   
+                 $("#li_productos").css("display","");
+                 $("#li_obsequios").css("display","");
+                 $("#btnAgregarObsequio").css("display",""); 
+        <?php } ?>
+        
+    });
     $('.nav-tabs a').on('show.bs.tab', function(event){
         var x = $.trim($(event.target).text());   
        
@@ -425,7 +437,7 @@
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,550);
+            parent.window_float_open_modal_hijo("FACTURA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Factura",orden_venta_ID,"",factura_impreso,700,450);
             //window_float_deslizar('form','Ventas/Orden_Venta_Mantenimiento_Factura',orden_venta_ID,'');
         
         }else {
@@ -442,7 +454,7 @@
         }); 
         if(i>0){
             var orden_venta_ID=$('#txtID').val();
-            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",null,700,500);
+            parent.window_float_open_modal_hijo("GUIA DE VENTA","/Salida/Orden_Venta_Mantenimiento_Guia",orden_venta_ID,"",factura_impreso,700,500);
             //window_float_deslizar('form','Ventas/Orden_Venta_Mantenimiento_Guia',orden_venta_ID,'');
         }else {
             toastem.error('Debe registrar productos.');
@@ -478,12 +490,18 @@
      //Opción para editar los detalles
   
     var factura_impreso=function(opcion){
-        if(opcion==1){
-            crear_boton_guia();
-        }else{
-            bloquear_edicion();
-            crear_boton_QuitarPrint();
-        }
+        switch(opcion){
+            case 1:
+                 crear_boton_guia();
+                 bloquear_edicion();
+                 break;
+            case 2:
+                bloquear_edicion();
+                crear_boton_QuitarPrint();
+                 break;
+             case 3:
+                crear_boton_QuitarPrint();
+         }
         
     }
     var fncSeries=function(id){
@@ -497,12 +515,16 @@
     }
      var fncQuitarPrint=function(){
         var orden_venta_ID=$('#txtID').val();
-        cargarValores('Ventas/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
-            toastem.info(resultado.mensaje);
-            if(resultado.resultado==1){
-                setTimeout('window_float_save_modal();', 1000);   
-            }
+        block_ui(function(){
+            cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
+                $.unblockUI();
+                toastem.info(resultado.mensaje);
+                if(resultado.resultado==1){
+                    setTimeout('parent.window_save_view();', 1000);   
+                }
+            });
         });
+        
     } 
    //==============funcion para elminar
   /*  $('#btnEliminar').click(function(){
@@ -572,13 +594,14 @@
         var orden=$('#txtOrden').val();
         var tipo=$('#chkOrdenASC').val();
        if(orden_venta_ID>0){
-            cargarValores("Salida/ajaxOrden_Venta_Detalle_Productos",orden_venta_ID,function(resultado){
+            cargarValores("Salida/ajaxOrden_Venta_Fisico_Detalle_Productos",orden_venta_ID,function(resultado){
              //alert(resultado.resultado);
                 $('#productos').html(resultado.resultado);
                 $('#subtotal').html(resultado.subtotal);
                 $('#vigv').html(resultado.vigv);
                 $('#total').html(resultado.total);
                 $('#divContenedorDetalle').html(resultado.html);
+                crear_boton_factura();
                 calcularEstructura(orden_venta_ID);
              
             });
@@ -763,8 +786,10 @@
         }   
     });
     var mostrarBotones=function(){
-        $('#btnAgregar').css('display','block');
-        $('#btnAgregarObsequio').css('display','block');
+        $('#btnAgregar').css('display','');
+        $('#btnAgregarObsequio').css('display','');
+        $("#li_productos").css("display","");
+        $("#li_obsequios").css("display","");
         
     }
     var ocultarBotones=function(){
@@ -849,8 +874,8 @@
         $('#divContenedorDetalle').css('display','none');
    }
    var bloquear_edicion=function(){
-       $('#selCliente').prop('disabled', true);
-       $('#selCliente').trigger('chosen:updated');
+       $('#listaCliente').prop('disabled', true);
+       
        $('#selRepresentante').prop('disabled',true);
        $('#selForma_Pago').prop('disabled',true);
        

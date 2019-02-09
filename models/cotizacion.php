@@ -201,7 +201,7 @@ class cotizacion {
     "inumero"=>$this->numero,
     "inumero_concatenado"=>$this->numero_concatenado,
     "imoneda_ID"=>$this->moneda_ID,
-    "ifecha"=>$this->fecha,
+    "ifecha"=> FormatTextToDate($this->fecha,"Y-m-d"),
     "iigv"=>$this->igv,
     "ivigv_soles"=>$this->vigv_soles,
     "ivigv_dolares"=>$this->vigv_dolares,
@@ -224,6 +224,9 @@ class cotizacion {
     "iproducto_pagina"=>$this->producto_pagina,
     "iusuario_mod_id"=>$this->usuario_mod_id
 ),0);
+      if($retornar>0){
+          $this->getMessage="Se actualizó correctamente";
+      }
       return $retornar;
     }catch(Exeption $ex)
     {

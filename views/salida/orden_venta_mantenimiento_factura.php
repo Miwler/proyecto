@@ -30,7 +30,7 @@
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
                 <li class="nav-item active"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Datos</span></a></li>
-                <li class="nav-item"><a data-toggle="tab" href="#divProductos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
+                <!--<li class="nav-item"><a data-toggle="tab" href="#divProductos" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>-->
                 <li class="nav-item"><a data-toggle="tab" href="#divCosto" class="nav-link"><i class="fa fa-money" aria-hidden="true"></i> <span>Facturas</span></a></li>
             </ul>
         </div>
@@ -108,7 +108,7 @@
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_compra; ?>" >
+                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" disabled autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_compra; ?>" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -117,7 +117,7 @@
                             <label>N° orden de venta</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_venta; ?>" >
+                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" disabled autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_venta; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Moneda</label>
