@@ -3180,7 +3180,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
                     }
 
                 }
-                $mensaje=$oCotizacion->getMessage;
+                $mensaje="Se actualizó correctamente";
                 $resultado=1;
             }catch(Exception $ex){
                     $resultado=-1;
@@ -4058,9 +4058,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         $osalida=new salida();
         $osalida->ID=0;
-        $osalida->garantia=  FormatTextSave("1 año");
+        $osalida->garantia=  "1 año";
         $osalida->validez_oferta=7;
-        $osalida->moneda_ID=2;
+        $osalida->moneda_ID=moneda;
         $osalida->ver_adicional=1;
         $osalida->adicional="Nueva Central Telef&oacute;nica ".$oDatos_Generales->telefono;
         $osalida->tipo_cambio=$oDatos_Generales->tipo_cambio;
@@ -4068,6 +4068,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $osalida->ver_factura=0;
         $osalida->ver_guia=0;
         $osalida->impresion=0;
+        $osalida->forma_pago_ID=0;
         $oCliente=new cliente();
         //$dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $oOperador=new operador();
@@ -4500,6 +4501,136 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
     }
+    function post_ajaxOrden_Venta_Fisico_Detalle_Productos(){
+        require ROOT_PATH.'models/salida.php';
+        require ROOT_PATH.'models/salida_detalle.php';
+        require ROOT_PATH.'models/producto.php';
+        require ROOT_PATH.'models/moneda.php';
+        require ROOT_PATH.'models/unidad_medida.php';
+        require ROOT_PATH.'controls/funcionController.php';
+        $salida_ID=$_POST['id'];
+
+
+        //---------------------------------------
+        $osalida=salida::getByID($salida_ID);
+        $oMoneda=moneda::getByID($osalida->moneda_ID);
+        //$resultado='<div style="height:150px;overflow:overlay;">';
+        $resultado='<table id="tbProductos" class="table table-hover table-bordered table-responsive table-teal">';
+        $resultado.='<thead><tr>';
+        $resultado.='<th class="text-center">#</th>';
+        $resultado.='<th class="text-center">Componentes </th>';
+        $resultado.='<th class="text-center">Adicionales </th>';
+        $resultado.='<th class="text-center">Cantidad </th>';
+        $resultado.='<th class="text-center">Producto </th>';
+        //$resultado.='<th class="text-center">Pre. Unit.</th>';
+        $resultado.='<th class="text-center">Valor Unit.</th>';
+        $resultado.='<th class="text-center">V. Venta</th>';
+        $resultado.='<th></th>';
+        $resultado.='</tr></thead>';
+        $resultado.='<tbody>';
+        $html="";
+        try {
+            $filtro='salida_ID='.$salida_ID. ' and tipo_ID in(1,2,5,6) and salida_detalle_ID=0';
+
+            $rows=salida_detalle::getCount($filtro);
+
+            $i=1;
+            $costo_venta=0;
+            $dtsalida_Detalle=salida_detalle::getGrid($filtro,-1,-1,'ID asc');
+            foreach($dtsalida_Detalle as $item)
+            {
+                $salida_detalle_ID=$item['salida_detalle_ID'];
+                if($salida_detalle_ID==0){
+                $oProducto=producto::getByID($item['producto_ID']);
+                    if($osalida->moneda_ID==1){
+                        $costo_venta_unitario_padre=$item['precio_venta_unitario_soles'];
+                        $precio_venta_subtotal_padre=$item['precio_venta_subtotal_soles'];
+                    }else {
+                        $costo_venta_unitario_padre=$item['precio_venta_unitario_dolares'];
+                        $precio_venta_subtotal_padre=$item['precio_venta_subtotal_dolares'];
+                    }
+
+
+                    $resultado.='<tr class="item-tr" id="'.$item['ID'].'">';
+
+                    //$contar=cotizacion_detalle::getCount('cotizacion_ID='.$cotizacion_ID.' and cotizacion_detalle_ID='.$item['ID'],-1,-1,'tipo asc');
+
+                    $array=retornar_valores($item['tipo_ID']);
+                    $componente="";
+                    if($array['componente']==1){
+                        $componente="<img src='/include/img/boton/check_16x16.png'/>";
+                    }
+
+                    $adicional='';
+                    if($array['adicional']==1){
+                        $adicional="<img src='/include/img/boton/check_16x16.png'/>";
+                    }
+                    $resultado.='<td class="text-center">'.$i.'</td>';
+                    $resultado.='<td class="text-center">'.$componente.'</td>';
+                    $resultado.='<td class="text-center">'.$adicional.'</td>';
+                    $resultado.='<td class="text-center">'.$item['cantidad'].'</td>';
+                    $resultado.='<td class="tdLeft">'.FormatTextView(strtoupper($oProducto->nombre)).'</td>';
+                    //$resultado.='<td class="text-right">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
+                    $resultado.='<td class="text-right">'.number_format($item['valor_unitario'],2,".",",").'</td>';
+                    $resultado.='<td class="text-right">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
+                    $botones=array();
+                    if($osalida->estado_ID==40||$osalida->estado_ID==42){
+                        array_push($botones,'<a onclick="fncVerProducto(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Ver Producto">Ver</a>');
+                        array_push($botones,'<a onclick="fncSeries(' . $item['ID'] . ');" title="Registrar series" ><span class="glyphicon glyphicon-barcode"></span>Serie</a>');
+
+                    }else{
+                        array_push($botones,'<a onclick="fncEditarProducto(' . $item['ID'] . ');"title="Editar Producto" ><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
+                        array_push($botones,'<a onclick="fncSeries(' . $item['ID'] . ');" title="Registrar series" ><span class="glyphicon glyphicon-barcode"></span>Serie</a>');
+                        array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Producto&#39;,fncEliminarProducto,&#39;' . $item['ID'] . '&#39;);" title="Eliminar Producto"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
+
+                    }
+
+                    $resultado.='<td class="text-center">'.extraerOpcion($botones)."</td>";
+                    $resultado.='</tr>';
+                    $i++;
+
+                }
+            }
+
+            if($osalida->moneda_ID==1){
+                $vigv_t=number_format($osalida->vigv_soles,2,'.',',');
+                $precio_venta_neto_t=number_format($osalida->precio_venta_neto_soles,2,'.',',');
+                $precio_venta_total_t=number_format($osalida->precio_venta_total_soles,2,'.',',');
+
+            }else {
+                $vigv_t=number_format($osalida->vigv_dolares,2,'.',',');
+                $precio_venta_neto_t=number_format($osalida->precio_venta_neto_dolares,2,'.',',');
+                $precio_venta_total_t=number_format($osalida->precio_venta_total_dolares,2,'.',',');
+            }
+            $html=mostrar_productos($salida_ID,1);
+
+           }catch(Exception $ex){
+            $resultado.='<tr ><td colspan="7">'.$ex->getMessage().'</td></tr>';
+        }
+        $resultado.='</tbody>';
+        $resultado.='<tfooter>';
+        
+        $resultado.='<tr><th colspan="6" class="text-right">OP. GRAVADA: '.$oMoneda->simbolo.'</th><th id="tdGravada" class="text-right">'.number_format($osalida->gravadas,2,'.',',').'</th><td></td></tr>';
+        //$resultado.='<tr><th colspan="6" class="text-right">OP. INAFECTA: '.$oMoneda->simbolo.'</th><th id="tdInafecta" class="text-right">'.number_format($osalida->inafectas,2,'.',',').'</th><td></td></tr>';
+        //$resultado.='<tr><th colspan="6" class="text-right">OP. EXONERADA: '.$oMoneda->simbolo.'</th><th id="tdExonerada" class="text-right">'.number_format($osalida->exoneradas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">TOTAL IGV: '.$oMoneda->simbolo.'</th><th id="tdIgv" class="text-right">'.$vigv_t.'</th><td></td></tr>';
+         //$resultado.='<tr><th colspan="6" class="text-right">OP. GRATUITAS: '.$oMoneda->simbolo.'</th><th class="text-right">'.number_format($osalida->gratuitas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">IMPORTE TOTAL: '.$oMoneda->simbolo.'</th><th id="tdTotal" class="text-right">'.$precio_venta_total_t.'</th><td></td></tr>';
+        $resultado.='</tfooter>';
+        $resultado.='</table>';
+        /*$resultado.='<div class="infoCostos" style="text-align:right;"><b>Sub Total:</b/><div style="width:80px;float: right;padding-right: 20px;">'.$precio_venta_neto_t.'</div></div>';
+        $resultado.='<div class="infoCostos" style="text-align:right;"><b>IGV:<b/><div style="width:80px;float: right;padding-right: 20px;">'.$vigv_t.'</div></div>';
+        $resultado.='<div class="infoCostos" style="text-align:right;"><b>Total:<b/><div style="width:80px;float: right;padding-right: 20px;">'.$precio_venta_total_t.'</div></div>';
+*/
+        $retornar=Array('resultado'=>$resultado,'vigv'=>$vigv_t,'subtotal'=>$precio_venta_neto_t,
+            'total'=>$precio_venta_total_t,'gravadas'=>$osalida->gravadas,'exoneradas'=>$osalida->exoneradas,
+            'inafectas'=>$osalida->inafectas,
+            'precio_venta_total_soles'=>$osalida->precio_venta_total_soles,'precio_venta_total_dolares'=>$osalida->precio_venta_total_dolares,
+            'vigv_soles'=>$osalida->vigv_soles,'vigv_dolares'=>$osalida->vigv_dolares,'html'=>$html);
+        //$retorn="<h1>Hola</h1>";
+
+        echo json_encode($retornar);
+    }
     function post_ajaxOrden_Venta_Detalle_Productos(){
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/salida_detalle.php';
@@ -4840,11 +4971,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 $osalida->descuento_dolares=0;
                 $osalida->estado_ID=28;
                 $osalida->tipo_cambio=$oCotizacion->tipo_cambio;
-                $osalida->plazo_entrega=$oCotizacion->plazo_entrega;
+                $osalida->plazo_entrega=utf8_decode($oCotizacion->plazo_entrega);
                 $osalida->lugar_entrega=$oCotizacion->lugar_entrega;
                 $osalida->validez_oferta=$oCotizacion->validez_oferta;
-                $osalida->garantia=  $oCotizacion->garantia;
-                $osalida->observacion= $oCotizacion->observacion;
+                $osalida->garantia=  utf8_decode($oCotizacion->garantia);
+                $osalida->observacion=utf8_decode($oCotizacion->observacion);
                 $osalida->numero_pagina=1;
                 $osalida->nproducto_pagina="2";
                 $osalida->usuario_id=$_SESSION['usuario_ID'];

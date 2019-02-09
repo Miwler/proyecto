@@ -108,7 +108,7 @@
                             <label>N° Orden de compra</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_compra; ?>" >
+                            <input type="text" id="txtOrden_Compra" name="txtOrden_Compra" disabled autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_compra; ?>" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -117,7 +117,7 @@
                             <label>N° orden de venta</label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_venta; ?>" >
+                            <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" disabled autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oFactura_Venta']->numero_orden_venta; ?>" >
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label>Moneda</label>

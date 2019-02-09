@@ -59,8 +59,7 @@
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==2||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Editar/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();"  class="form-horizontal form-bordered">
-    <input type="hidden" id="selEstado" name="selEstado" value="<?php $GLOBALS['oCotizacion']->estado_ID; ?>">
-   
+    
     <div class="panel panel-tab rounded shadow">
          <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -99,7 +98,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Cliente:<span class="asterisk">*</span> </label>
-                               <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                    <select id="selCliente" name="selCliente" class="chosen-select">
                                        <option value="0">--Seleccionar--</option>
                                         <?php foreach($GLOBALS['dtCliente'] as $cliente){?>
@@ -109,7 +108,7 @@
                                    <script type="text/javascript">
                                    $("#selCliente").val(<?php echo $GLOBALS['oCotizacion']->cliente_ID;?>);
                                    </script>
-                               </div>
+                                </div>
                             </div>
                            <div class="form-group">
                                <label class="control-label col-sm-3">Dirección: </label>
@@ -175,6 +174,20 @@
                     </div>
                 </div>
                 <div id="divDatos_Generales" class="tab-pane fade inner-all">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Estado</label>
+                        <div class="col-sm-3">
+                            <select  id="selEstado" name="selEstado" class="form-control">
+                                <?php foreach($GLOBALS['dtEstado'] as $estado){?>
+                                <option value="<?php echo $estado['ID']?>"><?php echo $estado['nombre']?></option>
+                                <?php }?>
+
+                            </select>
+                            <script>
+                                $("#selEstado").val(<?php echo $GLOBALS['oCotizacion']->estado_ID;?>);
+                            </script>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label  class="control-label col-sm-3">Fecha: <span class="asterisk">*</span></label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -513,12 +526,7 @@
                  
             contador++;
         });
-        if(contador>0){
-            $("#selEstado").val(2);
-            
-        }else{
-            $("#selEstado").val(1);
-        }
+        
         /*if(estado_ID=="2"){
            
             var contador=0;
