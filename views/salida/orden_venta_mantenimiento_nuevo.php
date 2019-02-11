@@ -513,7 +513,7 @@
         //}
         
     }
-     var fncQuitarPrint=function(){
+    var fncQuitarPrint=function(){
         var orden_venta_ID=$('#txtID').val();
         block_ui(function(){
             cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){

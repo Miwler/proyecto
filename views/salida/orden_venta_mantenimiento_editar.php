@@ -432,14 +432,17 @@ $(document).ready(function(){
     }
     var fncQuitarPrint=function(){
         var orden_venta_ID=$('#txtID').val();
-        cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
-            toastem.info(resultado.mensaje);
-            if(resultado.resultado==1){
-                setTimeout('parent.window_save_view();', 1000);   
-               
-            }
+        block_ui(function(){
+            cargarValores('Salida/ajaxTerminarImpresion',orden_venta_ID,function(resultado){
+                $.unblockUI();
+                toastem.info(resultado.mensaje);
+                if(resultado.resultado==1){
+                    setTimeout('parent.window_save_view();', 1000);   
+                }
+            });
         });
-    }
+        
+    } 
 
    var crear_boton_factura=function(){
         
@@ -526,7 +529,7 @@ $(document).ready(function(){
         var orden=$('#txtOrden').val();
         var tipo=$('#chkOrdenASC').val();
         //$('#divContenedor_Float_Hijo').css('display', 'block');
-        cargarValores("Salida/ajaxOrden_Venta_Detalle_Productos",orden_venta_ID,function(resultado){
+        cargarValores("Salida/ajaxOrden_Venta_Fisico_Detalle_Productos",orden_venta_ID,function(resultado){
             
             $('#productos').html(resultado.resultado);
             $('#subtotal').html(resultado.subtotal);

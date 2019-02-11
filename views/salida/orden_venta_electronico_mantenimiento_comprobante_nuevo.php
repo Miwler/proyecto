@@ -114,31 +114,20 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="display:none">
                         <div class="col-lg-6 col-md-6 col-sm-6 ">
                             <div class="ckbox ckbox-theme">
-                                <input type="checkbox" id="ckGenerar" name="ckGenerar" value="93" <?php  echo(($GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94||$GLOBALS['oFactura_Venta']->estado_ID==95||$GLOBALS['oFactura_Venta']->estado_ID==96)?" checked ":"")?>>
+                                <input type="checkbox" id="ckGenerar" name="ckGenerar" checked value="93" <?php  echo(($GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94||$GLOBALS['oFactura_Venta']->estado_ID==95||$GLOBALS['oFactura_Venta']->estado_ID==96)?" checked ":"")?>>
                                 <label for="ckGenerar">Generar factura electrónica</label>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 ">
                             <div class="ckbox ckbox-theme">
-                                <input type="checkbox" id="ckCon_Guia" name="ckCon_Guia" value="1" <?php  echo(($GLOBALS['oFactura_Venta']->con_guia==1)?" checked ":"")?>>
+                                <input type="checkbox" id="ckCon_Guia" name="ckCon_Guia" checked value="1" <?php  echo(($GLOBALS['oFactura_Venta']->con_guia==1)?" checked ":"")?>>
                                 <label for="ckCon_Guia">Con guía?</label>
                             </div>
                         </div>
-                        <!--
-                        <label class="control-label col-sm-3">Tipo impuesto:<span class="asterisk">*</span></label>
-                        <div class="col-sm-3">
-                            <select class="form-control" id="selImpuestos_Tipo" name="selImpuestos_Tipo">
-                                <?php foreach($GLOBALS['oFactura_Venta']->dtImpuestos_Tipo as $valor){?>
-                                <option value="<?php echo $valor['ID'];?>"><?php echo utf8_encode($valor['nombre']);?></option>
-                                <?php } ?>
-                            </select>
-                            <script>
-                                $("#selImpuestos_Tipo").val(<?php echo $GLOBALS['oFactura_Venta']->impuestos_tipoID;?>);
-                            </script>
-                        </div>-->
+                       
                     </div>
                     <div class="form-group">
                         

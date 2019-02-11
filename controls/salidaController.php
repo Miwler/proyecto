@@ -4575,11 +4575,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $resultado.='<td class="text-right">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
                     $botones=array();
                     if($osalida->estado_ID==40||$osalida->estado_ID==42){
-                        array_push($botones,'<a onclick="fncVerProducto(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Ver Producto">Ver</a>');
+                        array_push($botones,'<a onclick="fncVerProducto(' . $item['ID'] . ');" title="Ver Producto"><span class="glyphicon glyphicon-pencil"></span>Ver</a>');
                         array_push($botones,'<a onclick="fncSeries(' . $item['ID'] . ');" title="Registrar series" ><span class="glyphicon glyphicon-barcode"></span>Serie</a>');
 
                     }else{
-                        array_push($botones,'<a onclick="fncEditarProducto(' . $item['ID'] . ');"title="Editar Producto" ><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
+                        array_push($botones,'<a onclick="fncEditarProducto(' . $item['ID'] . ');"title="Editar Producto"><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
                         array_push($botones,'<a onclick="fncSeries(' . $item['ID'] . ');" title="Registrar series" ><span class="glyphicon glyphicon-barcode"></span>Serie</a>');
                         array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Producto&#39;,fncEliminarProducto,&#39;' . $item['ID'] . '&#39;);" title="Eliminar Producto"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
 
@@ -12718,9 +12718,13 @@ function post_ajaxDownloadXML() {
     //var_dump($xml_firmado);
     $nombre_archivo = $ofactura_venta_sunat[0]['nombre_archivo'];
     if ($tipo == 'CDR') {
-      $xml_firmado_new = $ofactura_venta_sunat[0]['cdr_sunat'];
-      $OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$nombre_archivo.'_NEW.zip';
-      file_put_contents($OUTPUT, base64_decode($ofactura_venta_sunat[0]['cdr_sunat']));
+        $xml_firmado_new = $ofactura_venta_sunat[0]['cdr_sunat'];
+      /*$OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$nombre_archivo.'_NEW.zip';
+      file_put_contents($OUTPUT, base64_decode($ofactura_venta_sunat[0]['cdr_sunat']));*/
+        $archivo=ruta_archivo."/SUNAT/CDR_DESCARGAR/".$_SESSION['empresa_ID'].'/'.$nombre_archivo.'.zip';
+        $OUTPUT =  ROOT_PATH.$archivo;
+        file_put_contents($OUTPUT, base64_decode($ofactura_venta_sunat[0]['cdr_sunat']));
+        $nombre_archivo=$archivo;
     }
    
     if ($tipo == 'XML') {
@@ -14724,12 +14728,14 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
         require ROOT_PATH.'models/numero_cuenta.php';
+        require ROOT_PATH.'models/factura_venta.php';
         require ROOT_PATH.'controls/funcionController.php';
         global  $returnView_float;
         $returnView_float=true;
         $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
         $mensaje="";
-
+        $factura_venta_ID_emitida=0;
+          
         $osalida=new salida();
         $osalida->ID=0;
         $osalida->garantia=  "1 año";
@@ -14762,7 +14768,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['oNumero_Cuenta']=$oNumero_Cuenta;
         $GLOBALS['dtMoneda']=moneda::getGrid();
         $GLOBALS['oCotizacion']=$oCotizacion;
-
+        $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
         $GLOBALS['mensaje']=$mensaje;
     }
     function post_Orden_Venta_Electronico_Mantenimiento_Nuevo(){
@@ -14805,6 +14811,11 @@ function get_Comprobante_regula_Vista_Previa($id){
         $cadena_numero_cuenta=$_POST['txtCadena_Numero_Cuenta'];
         $adicional=$_POST['txtAdicional'];
         try{
+            $factura_venta_ID_emitida=0;
+            $dtFactura_Venta=factura_venta::getGrid2("fv.estado_ID=94 and fv.salida_ID=".$id,-1,-1,"fv.ID desc");
+            if(count($dtFactura_Venta)>0){
+                $factura_venta_ID_emitida=$dtFactura_Venta[0]['ID'];
+            } 
             $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
             if($id>0){
                 $osalida=salida::getByID($id);
@@ -14932,6 +14943,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
+        $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
     }
     
     function get_Orden_Venta_Electronico_Mantenimiento_Editar($id){
@@ -14956,6 +14968,11 @@ function get_Comprobante_regula_Vista_Previa($id){
 
         $osalida=salida::getByID($id);
         $contar_hijo=salida_detalle::getCount('salida_ID='.$id);
+        $factura_venta_ID_emitida=0;
+        $dtFactura_Venta=factura_venta::getGrid2("fv.estado_ID=94 and fv.salida_ID=".$id,-1,-1,"fv.ID desc");
+        if(count($dtFactura_Venta)>0){
+            $factura_venta_ID_emitida=$dtFactura_Venta[0]['ID'];
+        }
         /*if($contar_hijo>0){
             $osalida->ver_factura=1;
             $contador_factura=factura_venta::getCount('salida_ID='.$id.' and estado_ID in (35,41,53,60,93,94,95,96)');
@@ -14990,6 +15007,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['dtEstado']=$dtEstado;
         $GLOBALS['oNumero_Cuenta']=$oNumero_Cuenta;
         $GLOBALS['dtMoneda']=moneda::getGrid();
+        $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
 
 
         $GLOBALS['mensaje']=$mensaje;
@@ -15119,6 +15137,10 @@ function get_Comprobante_regula_Vista_Previa($id){
             $osalida->ver_factura=0;
             $osalida->ver_guia=0;
         }
+       $dtFactura_Venta=factura_venta::getGrid2("fv.estado_ID=94 and fv.salida_ID=".$id,-1,-1,"fv.ID desc");
+        if(count($dtFactura_Venta)>0){
+            $factura_venta_ID_emitida=$dtFactura_Venta[0]['ID'];
+        }
         $oCliente=cliente::getByID($osalida->cliente_ID);
         $oOperador=operador::getByID($osalida->operador_ID);
         $dtForma_Pago=forma_pago::getGrid();
@@ -15146,6 +15168,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         //$GLOBALS['dtEstado']=$dtEstado;
         $GLOBALS['oNumero_Cuenta']=$oNumero_Cuenta;
         $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
+        $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
     }
@@ -16059,6 +16082,7 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $GLOBALS['mensaje']="No ha generado la factura o no marcó la opción con guía.";
                 throw new Exception("No ha generado la factura o no marcó la opción con guía.");
             }
+            $oGuia_Venta->factura_venta_ID=$dtFactura_Venta[0]['ID'];
             $oGuia_Venta->dtFactura_Venta=$dtFactura_Venta;
             $oGuia_Venta->numero_orden_compra=$osalida->numero_orden_compra;
             $oGuia_Venta->numero_orden_venta=$osalida->numero_concatenado;

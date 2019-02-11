@@ -41,7 +41,7 @@
            
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
-                    <div class="form-group">
+                    <div class="form-group" style="display:none">
                         <label class="control-label col-sm-3">Tipo documento:<span class="asterisk">*</span></label>
                         <div class="col-sm-9">
                             <select class="form-control" id="selTipoDocumento" name="selTipoDocumento">
@@ -57,18 +57,28 @@
                     <div class="form-group">
                         <label class="control-label col-lg-3 col-md-3 col-sm-3">N° Guía:<span class="asterisk">*</span></label>
                             
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-sm-2">
                             <select id="selSerie" name="selSerie"  disabled class="form-control" onchange="fncActualizarNumero();">
                                 <?php echo $GLOBALS['oGuia_Venta']->dtSerie;?>
                                
                             </select>
                             
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-sm-2">
                             <input type="text" id="txtNumero" name="txtNumero" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_concatenado;?>">
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
+                        <div class="col-sm-1">
                             <button type="button" id="btnActualizar" style="vertical-align: bottom; border: none;" onclick="fncActualizarNumero();"><img src="/include/img/boton/refresh32x32.png" width="22px"/></button>
+                        </div>
+                        <label class="control-label col-sm-2">Fact/Bol:<span class="asterisk">*</span></label>
+                        <div class="col-sm-2">
+                            
+                            <select id="selFactura" name="selFactura" class="form-control">
+                                <?php foreach($GLOBALS['oGuia_Venta']->dtFactura_Venta as $factura_venta){?>
+                                <option value="<?php echo $factura_venta['ID']?>"><?php echo $factura_venta['serie'].'-'.$factura_venta['numero']?></option>
+                                <?php } ?>
+                            </select>
+                        
                         </div>
                     </div>
                     <div class="form-group">
@@ -94,6 +104,31 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-3">Vehículo:<span class="asterisk">*</span></label>
+                        <div class="col-sm-3">
+                            <select id="selVehiculo_ID" name="selVehiculo_ID" class="form-control">
+                                <option value="0">Seleccionar</option>
+                                <?php foreach($GLOBALS['oGuia_Venta']->dtVehiculo as $item){ ?>
+                                <option value="<?php echo $item["ID"]?>"><?php echo $item["placa"]?> - <?php echo FormatTextView($item["marca"])?></option>
+                                <?php } ?>
+                            </select>
+                            <script type="text/javascript">
+                               $('#selVehiculo_ID').val('<?php echo $GLOBALS['oGuia_Venta']->vehiculo_ID;?>'); 
+                            </script>
+                        </div>
+                        <label class="control-label col-sm-3">Chofer:<span class="asterisk">*</span></label>
+                        <div class="col-sm-3">
+                            <select id="selChofer_ID" name="selChofer_ID" class="form-control">
+                                <?php foreach($GLOBALS['oGuia_Venta']->dtChofer as $item1){ ?>
+                                <option value="<?php echo $item1["ID"]?>"><?php echo FormatTextViewHtml($item1["nombres"]);?>, <?php echo FormatTextViewHtml($item1["apellido_paterno"]);?></option>
+                                <?php } ?>
+                            </select>
+                            <script type="text/javascript">
+                               $('#selChofer_ID').val('<?php echo $GLOBALS['oGuia_Venta']->chofer_ID;?>'); 
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-3">Observación:<span class="asterisk">*</span></label>
                         
                         <div class="col-lg-9 col-md-9 col-sm-9">
@@ -101,16 +136,8 @@
                         </div>
                        
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-3">Comprobante de pago:<span class="asterisk">*</span></label>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <select id="selFactura" name="selFactura" class="form-control">
-                                <?php foreach($GLOBALS['oGuia_Venta']->dtFactura_Venta as $factura_venta){?>
-                                <option value="<?php echo $factura_venta['ID']?>"><?php echo $factura_venta['serie'].'-'.$factura_venta['numero_concatenado']?></option>
-                                <?php } ?>
-                            </select>
-                        
-                        </div>
+                    <div class="form-group" style="display:none">
+                       
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="ckbox ckbox-theme">
                                 <input type="checkbox" id="ckGenerar" name="ckGenerar" <?php  echo(($GLOBALS['oGuia_Venta']->estado_ID==97||$GLOBALS['oGuia_Venta']->estado_ID==98||$GLOBALS['oGuia_Venta']->estado_ID==99||$GLOBALS['oGuia_Venta']->estado_ID==100)?" checked ":"")?>>
@@ -262,30 +289,7 @@
                             </script>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-lg-3 col-md-3 col-sm-3">Vehículo:<span class="asterisk">*</span></label>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <select id="selVehiculo_ID" name="selVehiculo_ID" class="form-control">
-                                <?php foreach($GLOBALS['oGuia_Venta']->dtVehiculo as $item){ ?>
-                                <option value="<?php echo $item["ID"]?>"><?php echo $item["placa"]?> - <?php echo FormatTextView($item["marca"])?></option>
-                                <?php } ?>
-                            </select>
-                            <script type="text/javascript">
-                               $('#selVehiculo_ID').val('<?php echo $GLOBALS['oGuia_Venta']->vehiculo_ID;?>'); 
-                            </script>
-                        </div>
-                        <label class="control-label col-lg-3 col-md-3 col-sm-3">Chofer:<span class="asterisk">*</span></label>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <select id="selChofer_ID" name="selChofer_ID" class="form-control">
-                                <?php foreach($GLOBALS['oGuia_Venta']->dtChofer as $item1){ ?>
-                                <option value="<?php echo $item1["ID"]?>"><?php echo FormatTextViewHtml($item1["nombres"]);?>, <?php echo FormatTextViewHtml($item1["apellido_paterno"]);?></option>
-                                <?php } ?>
-                            </select>
-                            <script type="text/javascript">
-                               $('#selChofer_ID').val('<?php echo $GLOBALS['oGuia_Venta']->chofer_ID;?>'); 
-                            </script>
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         
                         <label class="control-label col-sm-3">Ruc empresa transporta:</label>
@@ -333,12 +337,19 @@
                       Generar
                    </button>
                 <?php } ?>
-             
+                <button type="button" id="btn_EnviarFactura" class="btn btn-primary" style="display:none;" onclick="fncEnviarFacturaSUNAT();">
+                    Enviar Fact/Boleta a SUNAT
+                </button>
+
+                <button id="btnAnular" type="button" title="Anular guía" class="btn btn-danger" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de anular la guía?','Anular Guía',fncAnularGuia);">
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                     Anular
+                </button> 
             
-                    <button id="btnRegresar" type="button" title="Regresar" class="cancelar" onclick="parent.float_close_modal_hijo();">
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Regresar
-                   </button>   
+                <button id="btnRegresar" type="button" title="Regresar" class="cancelar" onclick="parent.float_close_modal_hijo();">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    Regresar
+               </button>   
                 </div>
             </div>
         </div>
@@ -406,40 +417,41 @@
     
     
     var bloquear_guia=function(){
-      $("#btnActualizar").css("display","none");
-      $("#selTipoDocumento").prop("disabled",true);
-        $("#txtFecha_Emision").prop("disabled",true);
-        $("#txtPeso_Bruto_Total").prop("disabled",true);
-        $("#txtObservacion").prop("disabled",true);
-        $("#selFactura").prop("disabled",true);
-        $("#ckGenerar").prop("disabled",true);
-        $("#ckver_descripcion").prop("disabled",true);
-        $("#ckver_componente").prop("disabled",true);
-        $("#ckver_adicional").prop("disabled",true);
-        $("#ckver_serie").prop("disabled",true);
-        $("#ckincluir_obsequios").prop("disabled",true);
-        $("#txtFecha_Inicio_Traslado").prop("disabled",true);
-        $("#selDepartamento_Partida").prop("disabled",true);
-        $("#selProvincia_Partida").prop("disabled",true);
-        $("#selDistrito_Partida").prop("disabled",true);
-        $("#txtPunto_Partida").prop("disabled",true);
-        $("#selDepartamento_LLegada").prop("disabled",true);
-        $("#selProvincia_LLegada").prop("disabled",true);
-        $("#selDistrito_LLegada").prop("disabled",true);
-        $("#txtPunto_Llegada").prop("disabled",true);
-        $("#selMotivo_Traslado").prop("disabled",true);
-        $("#txtDescripcion_Motivo").prop("disabled",true);
-        $("#selModalidad_Traslado").prop("disabled",true);
-        $("#selVehiculo_ID").prop("disabled",true);
-        $("#selChofer_ID").prop("disabled",true);
+        $('#btnActualizar').css('display', 'none');
+        $('#ckOpcion').css('display', 'none');
+        $('#txtFecha_Emision').prop('disabled', true);
+        $('#selChofer_ID').prop('disabled', true);
+        $('#txtFecha_Inicio_Traslado').prop('disabled', true);
+        $('#txtOrden_Compra').prop('disabled', true);
+        $('#txtOrden_Pedido').prop('disabled', true);
+        $('#selVehiculo_ID').prop('disabled', true);
+        $("#txtPeso_Bruto_Total").prop('disabled',true);
+        $('#txtPunto_Partida').prop('disabled', true);
+        $("#selDepartamento_Partida").prop('disabled', true);
+        $("#selProvincia_Partida").prop('disabled', true);
+        $("#selDistrito_Partida").prop('disabled', true);
+        $("#selDepartamento_LLegada").prop('disabled', true);
+        $("#selProvincia_LLegada").prop('disabled', true);
+        $("#selDistrito_LLegada").prop('disabled', true);
+        $("#selMotivo_Traslado").prop('disabled', true);
+        $("#txtDescripcion_Motivo").prop('disabled', true);
+        $('#txtPunto_Llegada').prop('disabled', true);
+        $('#txtEmpresa_Transporte').prop('disabled', true);
+        $('#selModalidad_Traslado').prop('disabled', true);
         
-        $("#txtRuc_Empresa_Transporte").prop("disabled",true);
-        $("#txtEmpresa_Transporte").prop("disabled",true);
-        $("#txtPlaca_Vehiculo").prop("disabled",true);
-        $("#txtDNI_Conductor").prop("disabled",true);
+        
+        $('#txtEstado').prop('disabled', true);
         $('#btnActualizar').css('display', 'none');
         $('#btnEnviar').prop('disabled', true);
         $('#btnEnviar').css('display', 'none');
+        $("#selTipoDocumento").prop("disabled",true);
+        $("#ckver_descripcion").prop("disabled",true);
+        $("#ckver_adicional").prop("disabled",true);
+        $("#ckver_serie").prop("disabled",true);
+        $("#ckver_componente").prop("disabled",true);
+        $("#ckincluir_obsequios").prop("disabled",true);
+        $("#txtObservacion").prop("disabled", true);
+        $("#selFactura").prop("disabled",true);
        // $('#btnImprimir').css('display', 'none');
         
     }
@@ -584,7 +596,150 @@
         <?php }?>  
             
     });
-   
+   var fncImprimirGuia=function(){
+         var salida_ID=$("#txtSalida_ID").val();
+        try{
+            
+            block_ui(function(){
+                cargarValores('/Salida/ajaxImprimir_Guia_Venta',salida_ID,function(resultado){
+                $.unblockUI();
+                if(resultado.resultado==1){
+                    $("#txtDocumento").val(resultado.serie+' - '+resultado.numero);
+                    $("#ModalResultadoImpresion").modal("show");
+                    $("#txtNumero_Hojas").val(resultado.cantidad_pagina);
+                    //$("#btn_EnviarFactura").css("display","");
+                    
+                    toastem.success(resultado.mensaje);
+                   
+                    
+                }else {
+                     
+                    mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
+                        //modal.advertencia('ERROR DE IMPRESIÓN',resultado.mensaje);
+                }
+               
+               
+            });
+        });
+        }catch(e){
+            $.unblockUI();
+            console.log(e);
+        }
+        
+        
+    }
+    function fncEnviarFacturaSUNAT() {
+        var id=<?php echo $GLOBALS['oGuia_Venta']->factura_venta_ID?>;
+        try {
+            block_ui(function () {
+                cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
+                    $.unblockUI();
+
+                    if (resultado.resultado == 1) {
+                        
+                        toastem.success(resultado.mensaje);
+                        $("#btn_EnviarFactura").css("display","none");
+                        setTimeout(function(){
+                            parent.fParent1.call(this,id);
+                            parent.float_close_modal_hijo();
+                        },1000);
+                        
+                        //$('#txtEstado').val('Enviado a SUNAT');
+                        //$('#tdfacturas_detalle').html(resultado.facturas_detalle);
+                        //fncCargar_Comprobantes_Ventas();
+
+                        //alert(obj.MensajeRespuesta);
+                    }else if(resultado.resultado==2){
+                        toastem.info(resultado.mensaje);
+                        $("#btn_EnviarFactura").css("display","none");
+                        //$("#btnEnviarFactura").remove();
+                        //$('#txtEstado').val('Enviado a SUNAT');
+                        //$('#tdfacturas_detalle').html(resultado.facturas_detalle);
+                        //fncCargar_Comprobantes_Ventas();
+                         setTimeout(function(){
+                            parent.fParent1.call(this,id);
+                            parent.float_close_modal_hijo();
+                        },1000);
+                        
+                    }else{
+                        mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
+                    }
+                });
+            });
+        } catch (e) {
+                //$.unblockUI();
+                console.log(e);
+        } finally {
+
+        }
+    }
+   function fncGuardarVerificacion(){
+        var estado_impresion=$("#selEstadoImpresion").val();
+        var estado_hoja=$("#selEstadoHoja").val();
+        var numero_hoja=$.trim($("#txtNumero_Hojas").val());
+        var nueva_impresion=$("#selNuevaImpresion").val();
+        if(estado_impresion==-1){
+            mensaje.error("Mensaje error","Debe seleccionar si la impresión salió correctamente.",'selEstadoImpresion');
+            return false;
+        }
+        if(estado_impresion==0){
+            if(estado_hoja==-1){
+                mensaje.error("Mensaje error","Debe seleccionar si la hoja se dañó.",'selEstadoHoja');
+                return false;
+            }
+            if(estado_hoja==1){
+                if(numero_hoja==""||numero_hoja=="0"){
+                    mensaje.error("Mensaje error","Debe registrar la cantidad de hojas dañadas.",'txtNumero_Hojas');
+                    return false;
+                }
+               
+            }
+            if(nueva_impresion==-1){
+                mensaje.error("Mensaje error","Debe seleccionar si desea volver a imprimir el documento.",'selNuevaImpresion');
+                return false;
+            }
+        }
+        $("#divCargandoVerificacion").css('display','');
+        $("#frmValidacionImpresion").css("display","none");
+        var object=new Object();
+        object["salida_ID"]=$('#txtSalida_ID').val();
+        //object["salida_ID"]=903;
+            enviarAjax('/Salida/ajaxValidarImpresion_Guia_Venta','frmValidacionImpresion',object,function(res){
+                var respuesta = $.parseJSON(res);
+               //fncCargar_Guias_Ventas();
+                if(respuesta.resultado=='2'){
+                    $("#btnImprimiendo").css("display","none");
+                    limpiar_verificacion();
+                    $("#ModalResultadoImpresion").modal("hide");
+                    $("#btn_EnviarFactura").css("display","");
+                    setTimeout(function(){
+                        fncEnviarFacturaSUNAT();
+                    },1000);
+                    bloquear_guia();
+                    
+                }else if(respuesta.resultado=='1'){
+                    limpiar_verificacion();
+                    $("#txtNumero_Hojas").val(respuesta.cantidad_pagina);
+                     $("#txtDocumento").val(respuesta.serie+' - '+respuesta.numero);
+                    $("#divCargandoVerificacion").css('display','none');
+                    $("#frmValidacionImpresion").css("display","");
+                }else{
+                    mensaje.error('Ocurrió un error','Ocurrió un error al grabar la información.');
+                }
+            });
+        
+        
+    }
+    function limpiar_verificacion(){
+        $("#selEstadoImpresion").val(-1);
+        $("#selEstadoHoja").val(-1);
+        $("#selEstadoHoja").prop('disabled', true);
+        $("#txtNumero_Hojas").val('');
+        $("#txtNumero_Hojas").prop('disabled', true);
+        $("#selNuevaImpresion").val(-1);
+        $("#selNuevaImpresion").prop('disabled', true);
+        $("#divCargandoVerificacion").css("display",'none');
+    }
     </script>
  
  <?php } ?>
@@ -604,7 +759,8 @@
  $(document).ready(function () {
      $.unblockUI();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
-    setTimeout('parent.windos_float_save_modal_hijo();', 1000);
+    fncImprimirGuia();
+    //setTimeout('parent.windos_float_save_modal_hijo();', 1000);
 });
 
 //setTimeout('window_deslizar_save();', 1000);
@@ -636,3 +792,69 @@
         </div>
     <?php } ?>    
 <?php } ?>
+<div class="modal fade modal-teal" id="ModalResultadoImpresion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Validación de impresión</h5>
+        
+      </div>
+        <div class="modal-body form-horizontal">
+            <div id="frmValidacionImpresion">
+                <div class="form-group">
+                      <label class="col-sm-5 control-label">Documento impreso:</label>
+                      <div class="col-sm-7">
+                          <input type="text" id="txtDocumento" name="txtDocumento" disabled class="form-control" >
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-5 control-label">¿Se imprimió correctamente?</label>
+                      <div class="col-sm-7">
+                          <select id="selEstadoImpresion" name="selEstadoImpresion" class="form-control">
+                              <option value="-1">Seleccione</option>
+                              <option value="1">SI</option>
+                              <option value="0">NO</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-5 control-label">¿Se dañó la hoja?</label>
+                      <div class="col-sm-7">
+                          <select id="selEstadoHoja" name="selEstadoHoja" class="form-control" disabled>
+                              <option value="-1">Seleccione</option>
+                              <option value="1">SI</option>
+                              <option value="0">NO</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-5 control-label">¿Cuantas hojas se dañaron?</label>
+                      <div class="col-sm-7">
+                          <input type="number" id="txtNumero_Hojas" name="txtNumero_Hojas" class="int form-control" min="1"  disabled>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-5 control-label">¿Desea volver a imprimir?</label>
+                      <div class="col-sm-7">
+                          <select id="selNuevaImpresion" name="selNuevaImpresion" class="form-control" disabled>
+                              <option value="-1">Seleccione</option>
+                              <option value="1">SI</option>
+                              <option value="0">NO</option>
+                          </select>
+                      </div>
+                  </div>
+            </div>
+            <div id="divCargandoVerificacion" style="height: 100%;width:100%;display:none;">
+                <div style="margin:30px auto;width:100px;"><img src="../../include/img/loader-Login.gif" alt="" style="width:100px;"/></div>
+                
+            </div>
+        </div>
+      
+      <div class="modal-footer">
+          <button type="button" class="grabar" onclick="fncGuardarVerificacion();">Save changes</button>
+        <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>-->
+        
+      </div>
+    </div>
+  </div>
+</div>
