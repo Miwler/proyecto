@@ -254,7 +254,7 @@ class cliente {
     }
   }
 
-    static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'clt.ID asc') {
+    static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'clt.ID desc') {
         $cn = new connect_new();
         try {
             $q = 'SELECT clt.ID,clt.empresa_ID,clt.codigo,clt.razon_social,clt.nombre_comercial,clt.ruc,';

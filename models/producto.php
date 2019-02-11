@@ -21,7 +21,8 @@ class producto {
     private $precio_inicial_soles;
     private $precio_inicial_dolares;
     private $tipo_cambio;
-   
+    private $activo;
+    
     private $unidad_medida;
     private $ver_web;
     private $caracteristicas;
@@ -203,6 +204,24 @@ class producto {
             throw new Exception("Ocurrio un error en la consulta");
         }
     }
+    
+    function desactivar() {
+        $cn = new connect_new();
+        $retornar = -1;
+        try {
+
+            $q = 'UPDATE producto SET activo=0,usuario_mod_id=' . $this->usuario_mod_id . ', fdm=Now()';
+            $q.=' WHERE del=0 and ID=' . $this->ID;
+            //echo $q;
+            $retornar = $cn->transa($q);
+
+            $this->getMessage = 'Se desactivó correctamente';
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception("Ocurrio un error en la consulta");
+        }
+    }
+    
 
     static function getCount($filtro = '') {
         $cn = new connect_new();

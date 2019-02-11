@@ -1593,6 +1593,9 @@ function post_ajaxCliente_Mantenimiento() {
         $orden_tipo = 'ASC';
     }
     switch ($txtOrden) {
+        case 0:
+            $orden = 'clt.ID ' . $orden_tipo;
+            break;
         case 1:
             $orden = 'clt.ruc ' . $orden_tipo;
             break;
@@ -2723,8 +2726,9 @@ function post_ajaxProducto_Mantenimiento() {
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar producto"><span class="glyphicon glyphicon-pencil"></span> Editar</a>');
             array_push($botones,'<a onclick="fncImagen(' . $item['ID'] . ');" title="Subir fotos del producto"><span class="glyphicon glyphicon-camera"></span> Fotos</a>');
-            array_push($botones,'<a onclick="fncDeshabilitar(' . $item['ID'] . ');" title="Deshabilitar producto"><span class="glyphicon glyphicon-ban-circle"></span>Deshabilitar</a>');
-            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Producto&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar producto"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
+//            array_push($botones,'<a onclick="fncDeshabilitar(' . $item['ID'] . ');" title="Deshabilitar producto"><span class="glyphicon glyphicon-ban-circle"></span>Deshabilitar</a>');
+            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de desactivar el producto.&#39;,&#39;Desactivar Producto&#39;,fncDesactivar,&#39;' . $item['ID'] . '&#39;);" title="Desactivar producto"><span class="glyphicon glyphicon-ban-circle"></span>Desactivar</a>');
+            array_push($botones,'<a onclick="modal.confirmacion(&#39;Esta seguro de eliminar el registro.&#39;,&#39;Eliminar Producto&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar producto"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
             $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
             $resultado.='</tr>';
             $i=$i+1;
@@ -3008,6 +3012,33 @@ function post_ajaxProducto_Mantenimiento_Eliminar($id) {
 
     echo json_encode($retornar);
 }
+
+
+function post_ajaxProducto_Mantenimiento_Desactivar($id) {
+    require ROOT_PATH . 'models/producto.php';
+
+    try {
+        $oProducto = producto::getByID($id);
+        $oProducto->usuario_mod_id = $_SESSION['usuario_ID'];
+
+        if ($oProducto->desactivar() == -1) {
+            throw new Exception($oProducto->getMessage);
+        }
+
+        $resultado = 1;
+        $mensaje = $oProducto->getMessage;
+       
+    } catch (Exception $ex) {
+        $resultado = -1;
+        $mensaje = $ex->getMessage();
+       
+    }
+
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+
+    echo json_encode($retornar);
+}
+
 
 //fin producto mantenimiento
 //----------------------------------------------------------------------------------------

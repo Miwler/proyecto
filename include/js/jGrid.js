@@ -314,6 +314,43 @@ var gridEliminar = function (obj, id, url) {
     });
     
 }
+
+
+var gridDesactivar = function (obj, id, url) {   
+
+    $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+
+    $.ajax({
+        type: "post",
+        url: url+'/'+id,
+        data: {
+        },
+        datatype: "json",
+        success: function (respuesta) {	
+            //alert(respuesta);
+            var respuesta = $.parseJSON(respuesta);
+            
+            if(respuesta.resultado==1){
+                mensaje.info("Mensaje de respuesta",respuesta.mensaje);
+                
+            }else{
+                mensaje.error("Mensaje de error",respuesta.mensaje);
+            }
+
+            if(respuesta.funcion){
+                $('#script').html(respuesta.funcion);
+            }
+            obj.enviar();
+        },
+        error: function () {
+            toastem.error("Ocurrió un error en el ajax");       
+            //obj.enviar();
+        }
+    });
+    
+}
+
+
 var newGrid=function(tb){
 	var nGrid=new grid(tb);
 	nGrid.nuevoEvento();			

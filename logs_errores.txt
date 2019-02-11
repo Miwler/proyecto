@@ -1099,3 +1099,54 @@ FECHA Y HORA: 08 02 2019 23:02:58
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 09 02 2019 06:02:07
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 22:02:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 22:02:48
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)select count(co.ID)  FROM cotizacion as co, cliente as cl  where co.del=0 and co.cliente_ID=cl.ID and co.periodo=abril
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 22:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)select count(co.ID)  FROM cotizacion as co, cliente as cl  where co.del=0 and co.cliente_ID=cl.ID and co.numero=jjjj
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 22:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)select count(co.ID)  FROM cotizacion as co, cliente as cl  where co.del=0 and co.cliente_ID=cl.ID and co.numero=u
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 22:02:56
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)select count(co.ID)  FROM cotizacion as co, cliente as cl  where co.del=0 and co.cliente_ID=cl.ID and co.periodo=dd
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 23:02:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)select count(co.ID)  FROM cotizacion as co, cliente as cl  where co.del=0 and co.cliente_ID=cl.ID and co.periodo=ff
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 23:02:08
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)select count(co.ID)  FROM cotizacion as co, cliente as cl  where co.del=0 and co.cliente_ID=cl.ID and co.numero=ggg
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 00:02:43
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 00:02:09
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
