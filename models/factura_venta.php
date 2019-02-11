@@ -450,7 +450,7 @@ class factura_venta {
                     throw new Exception("Ocurrio un error en la consulta");
             }
     }
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
+    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='fv.ID asc')
     {
         $cn =new connect_new();
         try

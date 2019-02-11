@@ -100,7 +100,7 @@
                             <label>Punto de Partida:</label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <input type="text" id="txtPunto_Partida" name="txtPunto_Partida" required class="form-control form-requerido" value="<?php echo $GLOBALS['oGuia_Venta']->punto_partida;?>">
+                            <input type="text" id="txtPunto_Partida" name="txtPunto_Partida" required class="form-control form-requerido" autocomplete="off" value="<?php echo $GLOBALS['oGuia_Venta']->punto_partida;?>">
                         </div>
                     </div>
                     <div class="form-group">

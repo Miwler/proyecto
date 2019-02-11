@@ -41,7 +41,7 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Economicos"><i class="fa fa-cc-visa" aria-hidden="true"></i> <span>Datos económicos</span></a></li>
                 <li class="nav-item"><a href="#DivProductos" data-toggle="tab" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" ><i class="fa fa-cubes"></i> <span>Obsequios</span></a></li>
-                <li class="nav-item"><a href="#divComprobante" data-toggle="tab" ><i class="fa fa-file-text-o"></i> <span>Documentos</span></a></li>
+                <li class="nav-item"><a href="#divComprobante" data-toggle="tab" ><i class="fa fa-file-text-o"></i> <span>Comprobante</span></a></li>
                 
             </ul>
             <div class="pull-right">
@@ -326,45 +326,69 @@
                 <div class="tab-pane fade inner-all" id="divComprobante">
                     <div class="form-group form-group-divider">
                         <div class="form-inner">
-                            <h4 class="no-margin">Comprobante</h4>
+                            <h4 class="no-margin">Facturas y/o Boletas</h4>
                         </div>
                     </div>
-                    <button  type="button" id="btnComprobantes" name="btnComprobantes" class='btn btn-info' onclick="fncRegistrar_Comprobante();" title="Agregar comprobante de venta" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Agregar
-                    </button>
-                    <table id="table_comprobantes" class="table table-hover table-bordered table-teal">
-                        <thead>
-                            <tr><th class="text-center">N°</th><th class="text-center">Tipo</th><th class="text-center">Número</th><th class="text-center">Fecha</th><th class="text-center">Fecha vencimiento</th><th class="text-center">Total</th><th class="text-center">Estado</th><th></th></tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button  type="button" id="btnComprobantes" name="btnComprobantes" class='btn btn-info' onclick="fncRegistrar_Comprobante();" title="Agregar comprobante de venta" >
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Agregar
+                            </button>
+                            <button  type="button" id="btnDescargarPDF"  class='btn btn-danger' style="display:none" onclick="descargar_factura('PDF');" title="Descargar PDF" >
+                                <i class="fa fa-file-pdf-o"></i>
+                                Descargar PDF
+                            </button>
+                            <button  type="button" id="btnDescargarXML"  class='btn btn-teal' style="display:none"  onclick="descargar_factura('XML');" title="Descargar XML" >
+                                <i class="fa fa-file-pdf-o"></i>
+                                Descargar XML
+                            </button>
+                            <button  type="button" id="btnDescargarCDR"  class='btn btn-lilac' style="display:none"  onclick="descargar_factura('CDR');" title="Descargar CDR" >
+                                <i class="fa fa-file-code-o"></i>
+                                Descargar CDR
+                            </button>
+                        </div>
+                        <div class="col-sm-12">
+                            <table id="table_comprobantes" class="table table-hover table-bordered table-teal">
+                                <thead>
+                                    <tr><th class="text-center">N°</th><th class="text-center">Tipo</th><th class="text-center">Número</th><th class="text-center">Fecha</th><th class="text-center">Fecha vencimiento</th><th class="text-center">Total</th><th class="text-center">Estado</th><th></th></tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    
                     <div class="form-group form-group-divider  margin-top">
                         <div class="form-inner">
                             <h4 class="no-margin">Guía</h4>
                         </div>
                     </div>
-                    <button  type="button" id="btnGuia" name="btnGuia" class='btn btn-info' onclick="fncRegistrar_Guia();" title="Agregar Guía de remisión" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Agregar
-                    </button>
-                    <?php if($GLOBALS['oOrden_Venta']->impresion==1) { ?>
-                        <button id='btnImprimiendo' type="button" class="btn btn-info" onclick='$("#ModalResultadoImpresion").modal("show");'>Imprimiendo</button>
-                        <?php }?>
-                    
-                    <div id="contenedor_imprimir">
-                        
-                    </div>
-                    <table id="table_guias" class="table table-hover table-bordered table-teal">
-                        <thead>
-                            <tr><th class="text-center">N°</th><th class="text-center">Número</th><th class="text-center">Fecha emisión</th><th class="text-center">Vehículo</th><th class="text-center">Chofer</th><th class="text-center">Estado</th><th></th></tr>
-                        </thead>
-                        <tbody>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button  type="button" id="btnGuia" style="display: none;" name="btnGuia" class='btn btn-info' onclick="fncRegistrar_Guia();" title="Agregar Guía de remisión" >
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Agregar
+                            </button>
                             
-                        </tbody>
-                    </table>
+                        <?php if($GLOBALS['oOrden_Venta']->impresion==1) { ?>
+                            <button id='btnImprimiendo' type="button" class="btn btn-info" onclick='$("#ModalResultadoImpresion").modal("show");'>Imprimiendo</button>
+                            <?php }?>
+                            <div id="contenedor_imprimir">
+
+                            </div>
+                            <table id="table_guias" class="table table-hover table-bordered table-teal">
+                                <thead>
+                                    <tr><th class="text-center">N°</th><th class="text-center">Número</th><th class="text-center">Fecha emisión</th><th class="text-center">Vehículo</th><th class="text-center">Chofer</th><th class="text-center">Estado</th><th></th></tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
               
             </div>
@@ -378,9 +402,13 @@
 <div id="divContenedorDetalle" style="display:none;">
     
 </div>
- 
+<iframe id="frmDescargar" style="display:none;"></iframe>
 <script type="text/javascript">
+    var factura_venta_ID=<?php echo $GLOBALS['factura_venta_ID_emitida'];?>;
     $(document).ready(function(){
+        if(factura_venta_ID>0){
+            mostrar_btn_descargar();
+        }
         fncCargar_Detalle_Orden_Venta();
         fncCargar_Comprobantes_Ventas();
         fncCargar_Guias_Ventas();
@@ -499,7 +527,7 @@
     var fncRegistrar_Obsequios=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/Orden_Venta_Mantenimiento_Obsequio_Nuevo',orden_venta_ID,'',fncCargar_Detalle_Obsequios);
-        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/Orden_Venta_Mantenimiento_Obsequio_Nuevo",orden_venta_ID,"",fncCargar_Detalle_Obsequios,700,600);
+        parent.window_float_open_modal_hijo("AGREGAR NUEVO OBSEQUIO","Salida/Orden_Venta_Mantenimiento_Obsequio_Nuevo",orden_venta_ID,"",fncCargar_Detalle_Obsequios,700,430);
     }
     
     var fncEditarObsequio=function(id){
@@ -573,12 +601,12 @@
     var fncRegistrar_Comprobante=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo",orden_venta_ID,"",fncCargar_Comprobantes_Ventas,700,450);
+        parent.window_float_open_modal_hijo("AGREGAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo",orden_venta_ID,"",fncGenerarComprobantes,700,450);
     }
     var fncEditarComprobante=function(ID){
        
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("EDITAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Editar",ID,"",fncCargar_Comprobantes_Ventas,700,450);
+        parent.window_float_open_modal_hijo("EDITAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Editar",ID,"",fncGenerarComprobantes,700,450);
     }
     var fncVerComprobante =function(ID){
        
@@ -612,6 +640,15 @@
         });
         
     }
+    function fncGenerarComprobantes(){
+       
+        fncCargar_Comprobantes_Ventas();
+        setTimeout(function(){
+            fncRegistrar_Guia();
+        },1000);
+        
+    }
+    
     var fncEliminarComprobante=function(ID){
         cargarValores('Salida/ajaxOrden_Venta_Electronico_Mantenimiento_Comprobante_Eliminar',ID,function(resultado){
             if(resultado.resultado==1){
@@ -648,16 +685,32 @@
         });
         
     }
+    function fncEmitirGuia_Factura(factura_ID){
+        console.log(factura_ID);
+        if(factura_ID>0){
+            factura_venta_ID=factura_ID;
+            fncCargar_Guias_Ventas();
+            setTimeout(function(){
+                fncCargar_Comprobantes_Ventas();
+                 mostrar_btn_descargar();
+            });
+           
+        }else{
+            ocultar_btn_descargar();
+        }
+       
+    }
+    
     var fncRegistrar_Guia=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo",orden_venta_ID,"",fncCargar_Guias_Ventas,700,450);
+        parent.window_float_open_modal_hijo("AGREGAR GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo",orden_venta_ID,"",fncEmitirGuia_Factura,700,450);
     }
     var fncEditarGuia=function(ID){
-        parent.window_float_open_modal_hijo("EDITAR GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncCargar_Guias_Ventas,700,450);
+        parent.window_float_open_modal_hijo("EDITAR GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncEmitirGuia_Factura,700,450);
     }
     var fncVerGuia=function(ID){
-        parent.window_float_open_modal_hijo("VER GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncCargar_Guias_Ventas,700,450);
+        parent.window_float_open_modal_hijo("VER GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncEmitirGuia_Factura,700,450);
     }
     var fncEliminarGuia=function(ID){
         cargarValores('Salida/ajaxOrden_Venta_Electronico_Mantenimiento_Guia_Eliminar',ID,function(resultado){
@@ -992,10 +1045,12 @@
                         }
 
                         if (tipo=='CDR') {
-                        zip.generateAsync({type:"base64"}).then(function (base64) {
+                            $("#frmDescargar").prop("src",obj.nombre_archivo);
+                            //location.href=obj.nombre_archivo;
+                        /*zip.generateAsync({type:"base64"}).then(function (base64) {
                             data = obj.xml_firmado;
                             location.href="data:application/zip;base64," + data;
-                        });
+                        });*/
                         }
                     }else{
                             alert(obj.mensaje);
@@ -1165,6 +1220,25 @@
         $("#selNuevaImpresion").val(-1);
         $("#selNuevaImpresion").prop('disabled', true);
         $("#divCargandoVerificacion").css("display",'none');
+    }
+    function descargar_factura(tipo){
+        if(factura_venta_ID>0){
+            var id=factura_venta_ID;
+            fncDOWNLOAD_XML(id,tipo);
+        }else{
+            mensaje.error("Ocurrió un error","No existe emitido una factura electrónica para esta venta.");
+        }
+        
+    }
+    function mostrar_btn_descargar(){
+        $("#btnDescargarPDF").css("display","");
+        $("#btnDescargarXML").css("display","");
+        $("#btnDescargarCDR").css("display","");
+    }
+    function ocultar_btn_descargar(){
+        $("#btnDescargarPDF").css("display","none");
+        $("#btnDescargarXML").css("display","none");
+        $("#btnDescargarCDR").css("display","none");
     }
     $(document).ready(function () {
         $("#selEstadoImpresion").change(function(){

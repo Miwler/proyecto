@@ -1,7 +1,7 @@
 {
 	"user-autentication":true,
 	"login":{
-		"captcha-enable":true,
+		"captcha-enable":false,
 		"attempt":5,
 		"interval":"00:05:00"
 	}

@@ -161,7 +161,7 @@
                             <label>Descripción: </label>
                         </div>
                         <div class="col-sm-12" id="tdComentario">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:100px;resize: none;overflow: auto;"><?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control comentario" rows="7" cols="40" maxlength="2000" style="height:100px;resize: none;overflow: auto;"><?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->descripcion);?></textarea>
                         </div>
                     </div>
                 </div>
@@ -1351,13 +1351,14 @@
    var bloquear_edicion=function(){
        $('#selLinea').prop('disabled',true);
        $('#selCategoria').prop('disabled', true);
-       $('#selProducto').prop('disabled', true);
+       $('#listaProducto').prop('disabled', true);
        $('#ckComponente').prop('disabled', true);
        $('#ckAdicional').prop('disabled', true);
        $('#txtDescripcion').prop('disabled', true);
        $('#txtCantidad').prop('disabled', true);
        $('#txtPrecioUnitarioDolares').prop('disabled', true);
        $('#txtPrecioUnitarioSoles').prop('disabled', true);
+       $("#txtPeso").prop('disabled', true);
        $('#btnEnviar').remove();
        $('#btnEliminar').remove();
        $('#btnComponente').css('display','none');

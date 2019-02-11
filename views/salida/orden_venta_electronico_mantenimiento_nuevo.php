@@ -110,7 +110,7 @@
                                 <label class="control-label col-sm-3">Dirección: </label>
 
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido text-uppercase" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -205,7 +205,7 @@
                         <label class="control-label col-sm-3">Garantía:</label>
                        
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oOrden_Venta']->garantia; ?>" class="form-control text-uppercase" >
+                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo $GLOBALS['oOrden_Venta']->garantia; ?>" class="form-control" >
                         </div>
                     </div>
                     
@@ -215,7 +215,7 @@
                         
                        
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 60px;resize:none;overflow:auto" class="form-control text-uppercase"><?php echo trim($GLOBALS['oOrden_Venta']->lugar_entrega); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 60px;resize:none;overflow:auto" class="form-control"><?php echo trim($GLOBALS['oOrden_Venta']->lugar_entrega); ?></textarea>
                         </div>
                     </div>
                     
@@ -270,7 +270,7 @@
                         <label class="control-label col-sm-3">Forma de pago:<span class="asterisk"></span></label>
                         
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
+                            <select id="selForma_Pago" name="selForma_Pago" class="form-control">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
                                 <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
                                 <?php } ?>
@@ -362,40 +362,69 @@
                 <div class="tab-pane fade inner-all" id="divComprobante">
                     <div class="form-group form-group-divider">
                         <div class="form-inner">
-                            <h4 class="no-margin">Comprobante</h4>
+                            <h4 class="no-margin">Facturas y/o Boletas</h4>
                         </div>
                     </div>
-                    <button  type="button" id="btnComprobantes" name="btnComprobantes" class='btn btn-info' onclick="fncRegistrar_Comprobante();" title="Agregar comprobante de venta" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Agregar
-                    </button>
-                    <table id="table_comprobantes" class="table table-hover table-bordered table-teal">
-                        <thead>
-                            <tr><th class="text-center">N°</th><th class="text-center">Tipo</th><th class="text-center">Número</th><th class="text-center">Fecha</th><th class="text-center">Fecha vencimiento</th><th class="text-center">Total</th><th class="text-center">Estado</th><th></th></tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button  type="button" id="btnComprobantes" name="btnComprobantes" class='btn btn-info' onclick="fncRegistrar_Comprobante();" title="Agregar comprobante de venta" >
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Agregar
+                            </button>
+                            <button  type="button" id="btnDescargarPDF"  class='btn btn-danger' style="display:none" onclick="descargar_factura('PDF');" title="Descargar PDF" >
+                                <i class="fa fa-file-pdf-o"></i>
+                                Descargar PDF
+                            </button>
+                            <button  type="button" id="btnDescargarXML"  class='btn btn-teal' style="display:none"  onclick="descargar_factura('XML');" title="Descargar XML" >
+                                <i class="fa fa-file-pdf-o"></i>
+                                Descargar XML
+                            </button>
+                            <button  type="button" id="btnDescargarCDR"  class='btn btn-lilac' style="display:none"  onclick="descargar_factura('CDR');" title="Descargar CDR" >
+                                <i class="fa fa-file-code-o"></i>
+                                Descargar CDR
+                            </button>
+                        </div>
+                        <div class="col-sm-12">
+                            <table id="table_comprobantes" class="table table-hover table-bordered table-teal">
+                                <thead>
+                                    <tr><th class="text-center">N°</th><th class="text-center">Tipo</th><th class="text-center">Número</th><th class="text-center">Fecha</th><th class="text-center">Fecha vencimiento</th><th class="text-center">Total</th><th class="text-center">Estado</th><th></th></tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="form-group form-group-divider">
                         <div class="form-inner">
                             <h4 class="no-margin"><i class="fa fa-file-text"></i>Guía</h4>
                         </div>
                     </div>
-                   
-                    <button  type="button" id="btnGuia" name="btnGuia" class='btn btn-info' onclick="fncRegistrar_Guia();" title="Agregar Guía de remisión" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Agregar
-                    </button>
-                    <div id="contenedor_imprimir"></div>
-                    <table id="table_guias" class="table table-hover table-bordered table-teal">
-                        <thead>
-                            <tr><th class="text-center">N°</th><th class="text-center">Número</th><th class="text-center">Fecha emisión</th><th class="text-center">Vehículo</th><th class="text-center">Chofer</th><th class="text-center">Estado</th><th></th></tr>
-                        </thead>
-                        <tbody>
+                   <div class="form-group">
+                        <div class="col-sm-12">
+                            <button  type="button" id="btnGuia" style="display: none;" name="btnGuia" class='btn btn-info' onclick="fncRegistrar_Guia();" title="Agregar Guía de remisión" >
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Agregar
+                            </button>
                             
-                        </tbody>
-                    </table>
+                        <?php if($GLOBALS['oOrden_Venta']->impresion==1) { ?>
+                            <button id='btnImprimiendo' type="button" class="btn btn-info" onclick='$("#ModalResultadoImpresion").modal("show");'>Imprimiendo</button>
+                            <?php }?>
+                            <div id="contenedor_imprimir">
+
+                            </div>
+                            <table id="table_guias" class="table table-hover table-bordered table-teal">
+                                <thead>
+                                    <tr><th class="text-center">N°</th><th class="text-center">Número</th><th class="text-center">Fecha emisión</th><th class="text-center">Vehículo</th><th class="text-center">Chofer</th><th class="text-center">Estado</th><th></th></tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
                 
             </div>
@@ -410,7 +439,11 @@
     
 </div>
 <script type="text/javascript">
+    var factura_venta_ID=<?php echo $GLOBALS['factura_venta_ID_emitida'];?>;
     $(document).ready(function(){
+        if(factura_venta_ID>0){
+            mostrar_btn_descargar();
+        }
         var moneda_ID=$("#cboMoneda").val();
         if(moneda_ID==1){
              $("#lbMoneda1").html('S/.');
@@ -1014,7 +1047,8 @@
         $('#divContenedorDetalle').css('display','none');
    }
    var bloquear_edicion=function(){
-       $('#listaCliente').prop('disabled', true);
+        $('#listaCliente').prop('disabled', true);
+      
        $('#selRepresentante').prop('disabled',true);
        $('#selForma_Pago').prop('disabled',true);
        
@@ -1033,17 +1067,18 @@
        //Ocultamos los botones
        $('#btnEnviar').prop('disabled',true);
        $('#btnEnviar').css('display', 'none');
-       $('#btnAgregar').prop('disabled',true);
+       //$('#btnAgregar').prop('disabled',true);
        $('#btnAgregar').css('display', 'none');
+       $("#btnAgregarObsequio").css('display', 'none');
+       $("#txtPorcentaje_Descuento").prop('disabled',true);
+       $("#txtDescuento_Global").prop('disabled',true);
+       $("#txtOtros_Cargos").prop('disabled',true);
+      
        $('#tbnumero_cuenta input').each(function(){
            $(this).prop('disabled',true);
        });
        $('#btnEliminar').prop('disabled',true);
       // $('#').prop('disabled',true);
-       
-       
-       
-       
    }
    function fncEnviarSUNAT(id) {
         try {
@@ -1071,7 +1106,7 @@
 
         }
     }
-    var fncDOWNLOAD_XML=function(id,tipo) {
+   var fncDOWNLOAD_XML=function(id,tipo) {
         try {
             block_ui(function () {
 
@@ -1094,7 +1129,7 @@
                 success: function(resultado)
                 {
                 $.unblockUI();
-                console.log(resultado);
+                //console.log(resultado);
                 var obj = $.parseJSON(resultado);
 
                     if (obj.exito == 'true') {
@@ -1110,10 +1145,12 @@
                         }
 
                         if (tipo=='CDR') {
-                        zip.generateAsync({type:"base64"}).then(function (base64) {
+                            $("#frmDescargar").prop("src",obj.nombre_archivo);
+                            //location.href=obj.nombre_archivo;
+                        /*zip.generateAsync({type:"base64"}).then(function (base64) {
                             data = obj.xml_firmado;
                             location.href="data:application/zip;base64," + data;
-                        });
+                        });*/
                         }
                     }else{
                             alert(obj.mensaje);
@@ -1165,15 +1202,15 @@
 
         return formatted;
     }
-   var fncRegistrar_Comprobante=function(){
+  var fncRegistrar_Comprobante=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo",orden_venta_ID,"",fncCargar_Comprobantes_Ventas,700,450);
+        parent.window_float_open_modal_hijo("AGREGAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo",orden_venta_ID,"",fncGenerarComprobantes,700,450);
     }
     var fncEditarComprobante=function(ID){
        
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("EDITAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Editar",ID,"",fncCargar_Comprobantes_Ventas,700,450);
+        parent.window_float_open_modal_hijo("EDITAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Comprobante_Editar",ID,"",fncGenerarComprobantes,700,450);
     }
     var fncVerComprobante =function(ID){
        
@@ -1207,6 +1244,15 @@
         });
         
     }
+     function fncGenerarComprobantes(){
+       
+        fncCargar_Comprobantes_Ventas();
+        setTimeout(function(){
+            fncRegistrar_Guia();
+        },1000);
+        
+    }
+    
     var fncEliminarComprobante=function(ID){
         cargarValores('Salida/ajaxOrden_Venta_Electronico_Mantenimiento_Comprobante_Eliminar',ID,function(resultado){
             if(resultado.resultado==1){
@@ -1243,17 +1289,31 @@
         });
         
     }
-    
+    function fncEmitirGuia_Factura(factura_ID){
+        console.log(factura_ID);
+        if(factura_ID>0){
+            factura_venta_ID=factura_ID;
+            fncCargar_Guias_Ventas();
+            setTimeout(function(){
+                fncCargar_Comprobantes_Ventas();
+                 mostrar_btn_descargar();
+            });
+           
+        }else{
+            ocultar_btn_descargar();
+        }
+       
+    }
     var fncRegistrar_Guia=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
-        parent.window_float_open_modal_hijo("AGREGAR COMPROBANTE DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo",orden_venta_ID,"",fncCargar_Guias_Ventas,700,450);
+        parent.window_float_open_modal_hijo("AGREGAR GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo",orden_venta_ID,"",fncEmitirGuia_Factura,700,450);
     }
     var fncEditarGuia=function(ID){
-        parent.window_float_open_modal_hijo("EDITAR GUIA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncCargar_Guias_Ventas,700,450);
+        parent.window_float_open_modal_hijo("EDITAR GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncEmitirGuia_Factura,700,450);
     }
     var fncVerGuia=function(ID){
-        parent.window_float_open_modal_hijo("VER GUIA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncCargar_Guias_Ventas,700,450);
+        parent.window_float_open_modal_hijo("VER GUÍA DE VENTA","Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Editar",ID,"",fncEmitirGuia_Factura,700,450);
     }
     var fncEliminarGuia=function(ID){
         cargarValores('Salida/ajaxOrden_Venta_Electronico_Mantenimiento_Guia_Eliminar',ID,function(resultado){
@@ -1372,6 +1432,25 @@
         $("#selNuevaImpresion").val(-1);
         $("#selNuevaImpresion").prop('disabled', true);
         $("#divCargandoVerificacion").css("display",'none');
+    }
+    function descargar_factura(tipo){
+        if(factura_venta_ID>0){
+            var id=factura_venta_ID;
+            fncDOWNLOAD_XML(id,tipo);
+        }else{
+            mensaje.error("Ocurrió un error","No existe emitido una factura electrónica para esta venta.");
+        }
+        
+    }
+    function mostrar_btn_descargar(){
+        $("#btnDescargarPDF").css("display","");
+        $("#btnDescargarXML").css("display","");
+        $("#btnDescargarCDR").css("display","");
+    }
+    function ocultar_btn_descargar(){
+        $("#btnDescargarPDF").css("display","none");
+        $("#btnDescargarXML").css("display","none");
+        $("#btnDescargarCDR").css("display","none");
     }
     $(document).ready(function () {
         $("#selEstadoImpresion").change(function(){
