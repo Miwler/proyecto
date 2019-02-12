@@ -188,9 +188,14 @@
             gridEliminar(f,id,'/Mantenimiento/ajaxProducto_mantenimiento_Eliminar');
     }
     
+    var fncActivar=function(id){	
+
+            gridCondicionProducto(f,id,'/Mantenimiento/ajaxProducto_mantenimiento_Activar');
+    }
+    
     var fncDesactivar=function(id){	
 
-            gridDesactivar(f,id,'/Mantenimiento/ajaxProducto_mantenimiento_Desactivar');
+            gridCondicionProducto(f,id,'/Mantenimiento/ajaxProducto_mantenimiento_Desactivar');
     }
     
     var fncLinea=function(linea_ID){
