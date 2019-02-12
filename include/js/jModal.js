@@ -59,3 +59,4 @@
     };
 
     })(jQuery);
+$('#dialog-confirm').on('dialogclose', function(event) { alert('closed'); }); 

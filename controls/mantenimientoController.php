@@ -2670,6 +2670,9 @@ function post_ajaxProducto_Mantenimiento() {
         case 4:
             $orden = 'es.nombre ' . $orden_tipo;
             break;
+        case 5:
+            $orden = 'pr.activo ' . $orden_tipo;
+            break;
         
         default:
             $orden = 'pr.ID ' . $orden_tipo;
@@ -2706,10 +2709,11 @@ function post_ajaxProducto_Mantenimiento() {
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Categoría' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Línea' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(4);">Estado' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Condición' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 7;
+    $colspanFooter = 8;
     try {
         $cantidadMaxima = producto::getCount($filtro);
         $dtProducto = producto::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
@@ -2723,11 +2727,24 @@ function post_ajaxProducto_Mantenimiento() {
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['categoria']))) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['linea']))) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['estado']))) . '</td>';
+            
+            if($item['activo']==1){
+                $condicion = '<div title="Activado"><span style="color:green" class="glyphicon glyphicon-ok"></span></div>';
+            }else{
+                $condicion = '<div title="Desactivado"><span style="color:red" class="glyphicon glyphicon-ban-circle"></span></div>';
+            }
+            
+            $resultado.='<td class="text-center">' . $condicion . '</td>';
+            
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar producto"><span class="glyphicon glyphicon-pencil"></span> Editar</a>');
             array_push($botones,'<a onclick="fncImagen(' . $item['ID'] . ');" title="Subir fotos del producto"><span class="glyphicon glyphicon-camera"></span> Fotos</a>');
-//            array_push($botones,'<a onclick="fncDeshabilitar(' . $item['ID'] . ');" title="Deshabilitar producto"><span class="glyphicon glyphicon-ban-circle"></span>Deshabilitar</a>');
-            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de desactivar el producto.&#39;,&#39;Desactivar Producto&#39;,fncDesactivar,&#39;' . $item['ID'] . '&#39;);" title="Desactivar producto"><span class="glyphicon glyphicon-ban-circle"></span>Desactivar</a>');
+            if($item['activo']==1){
+                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de desactivar el producto.&#39;,&#39;Desactivar Producto&#39;,fncDesactivar,&#39;' . $item['ID'] . '&#39;);" title="Desactivar producto"><span class="glyphicon glyphicon-ban-circle"></span>Desactivar</a>');
+            }else{
+                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de activar el producto.&#39;,&#39;Activar Producto&#39;,fncActivar,&#39;' . $item['ID'] . '&#39;);" title="Activar producto"><span class="glyphicon glyphicon-ok"></span>Activar</a>');
+            }
+            
             array_push($botones,'<a onclick="modal.confirmacion(&#39;Esta seguro de eliminar el registro.&#39;,&#39;Eliminar Producto&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar producto"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
             $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
             $resultado.='</tr>';
@@ -3013,6 +3030,31 @@ function post_ajaxProducto_Mantenimiento_Eliminar($id) {
     echo json_encode($retornar);
 }
 
+
+function post_ajaxProducto_Mantenimiento_Activar($id) {
+    require ROOT_PATH . 'models/producto.php';
+
+    try {
+        $oProducto = producto::getByID($id);
+        $oProducto->usuario_mod_id = $_SESSION['usuario_ID'];
+
+        if ($oProducto->activar() == -1) {
+            throw new Exception($oProducto->getMessage);
+        }
+
+        $resultado = 1;
+        $mensaje = $oProducto->getMessage;
+       
+    } catch (Exception $ex) {
+        $resultado = -1;
+        $mensaje = $ex->getMessage();
+       
+    }
+
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+
+    echo json_encode($retornar);
+}
 
 function post_ajaxProducto_Mantenimiento_Desactivar($id) {
     require ROOT_PATH . 'models/producto.php';

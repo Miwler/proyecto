@@ -316,7 +316,7 @@ var gridEliminar = function (obj, id, url) {
 }
 
 
-var gridDesactivar = function (obj, id, url) {   
+var gridCondicionProducto = function (obj, id, url) {   
 
     $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
 
