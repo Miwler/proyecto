@@ -525,7 +525,7 @@ class factura_venta {
         }
     }
     static function getFactura_SUNAT($factura_venta_ID,$tipo)
-	{
+	{//
             $cn =new connect_new();
             try
             {
