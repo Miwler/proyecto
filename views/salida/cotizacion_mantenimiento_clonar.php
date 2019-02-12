@@ -404,6 +404,7 @@
         $('#divContenedor_Float_Hijo').css('display', 'block');
         cargarValores3("Salida/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
             $('#productos').html(resultado.resultado);
+             actualizar_dimensiones();
             //fncSeleccionarDetalle();
         });
     }

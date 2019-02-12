@@ -349,10 +349,10 @@ XML;
         $Emisor = array (
           'NroDocumento' =>$oDatos_generales->ruc,
           'TipoDocumento' => '6',//Antes 6
-          'NombreLegal' => $oDatos_generales->razon_social,
-          'NombreComercial' => $oDatos_generales->alias,
+          'NombreLegal' => trim($oDatos_generales->razon_social),
+          'NombreComercial' => trim($oDatos_generales->alias),
           'Ubigeo' => $oDistrito->codigo_ubigeo,
-          'Direccion' => $oDatos_generales->direccion_fiscal,
+          'Direccion' => trim($oDatos_generales->direccion_fiscal),
           'Urbanizacion' => '',
           'Departamento' =>$oDistrito->departamento,
           'Provincia' =>$oDistrito->provincia,

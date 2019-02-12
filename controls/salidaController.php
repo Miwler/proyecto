@@ -4640,7 +4640,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'controls/funcionController.php';
         $salida_ID=$_POST['id'];
 
-
+        
         //---------------------------------------
         $osalida=salida::getByID($salida_ID);
         $oMoneda=moneda::getByID($osalida->moneda_ID);
@@ -4667,6 +4667,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $i=1;
             $costo_venta=0;
             $dtsalida_Detalle=salida_detalle::getGrid($filtro,-1,-1,'ID asc');
+            
             foreach($dtsalida_Detalle as $item)
             {
                 $salida_detalle_ID=$item['salida_detalle_ID'];
@@ -4699,7 +4700,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $resultado.='<td class="text-center">'.$componente.'</td>';
                     $resultado.='<td class="text-center">'.$adicional.'</td>';
                     $resultado.='<td class="text-center">'.$item['cantidad'].'</td>';
-                    $resultado.='<td class="tdLeft">'.FormatTextView(strtoupper($oProducto->nombre)).'</td>';
+                    $resultado.='<td class="tdLeft">'.utf8_encode(strtoupper($oProducto->nombre)).'</td>';
                     //$resultado.='<td class="text-right">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($item['valor_unitario'],2,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
@@ -4721,7 +4722,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
                 }
             }
-
+           
             if($osalida->moneda_ID==1){
                 $vigv_t=number_format($osalida->vigv_soles,2,'.',',');
                 $precio_venta_neto_t=number_format($osalida->precio_venta_neto_soles,2,'.',',');
@@ -4740,19 +4741,19 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $resultado.='</tbody>';
         $resultado.='<tfooter>';
         
-        $resultado.='<tr><th colspan="6" class="text-right">OP. GRAVADA: '.$oMoneda->simbolo.'</th><th id="tdGravada" class="text-right">'.number_format($osalida->gravadas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">OP. INAFECTA: '.$oMoneda->simbolo.'</th><th id="tdInafecta" class="text-right">'.number_format($osalida->inafectas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">OP. EXONERADA: '.$oMoneda->simbolo.'</th><th id="tdExonerada" class="text-right">'.number_format($osalida->exoneradas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">TOTAL IGV: '.$oMoneda->simbolo.'</th><th id="tdIgv" class="text-right">'.$vigv_t.'</th><td></td></tr>';
-         $resultado.='<tr><th colspan="6" class="text-right">OP. GRATUITAS: '.$oMoneda->simbolo.'</th><th class="text-right">'.number_format($osalida->gratuitas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">IMPORTE TOTAL: '.$oMoneda->simbolo.'</th><th id="tdTotal" class="text-right">'.$precio_venta_total_t.'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">OP. GRAVADA: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdGravada" class="text-right">'.number_format($osalida->gravadas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">OP. INAFECTA: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdInafecta" class="text-right">'.number_format($osalida->inafectas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">OP. EXONERADA: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdExonerada" class="text-right">'.number_format($osalida->exoneradas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">TOTAL IGV: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdIgv" class="text-right">'.$vigv_t.'</th><td></td></tr>';
+         $resultado.='<tr><th colspan="6" class="text-right">OP. GRATUITAS: '.utf8_encode($oMoneda->simbolo).'</th><th class="text-right">'.number_format($osalida->gratuitas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">IMPORTE TOTAL: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdTotal" class="text-right">'.$precio_venta_total_t.'</th><td></td></tr>';
         $resultado.='</tfooter>';
         $resultado.='</table>';
         /*$resultado.='<div class="infoCostos" style="text-align:right;"><b>Sub Total:</b/><div style="width:80px;float: right;padding-right: 20px;">'.$precio_venta_neto_t.'</div></div>';
         $resultado.='<div class="infoCostos" style="text-align:right;"><b>IGV:<b/><div style="width:80px;float: right;padding-right: 20px;">'.$vigv_t.'</div></div>';
         $resultado.='<div class="infoCostos" style="text-align:right;"><b>Total:<b/><div style="width:80px;float: right;padding-right: 20px;">'.$precio_venta_total_t.'</div></div>';
 */
-        $retornar=Array('resultado'=>$resultado,'vigv'=>$vigv_t,'subtotal'=>$precio_venta_neto_t,
+        $retornar=Array('resultado'=>utf8_encode($resultado),'vigv'=>$vigv_t,'subtotal'=>$precio_venta_neto_t,
             'total'=>$precio_venta_total_t,'gravadas'=>$osalida->gravadas,'exoneradas'=>$osalida->exoneradas,
             'inafectas'=>$osalida->inafectas,
             'precio_venta_total_soles'=>$osalida->precio_venta_total_soles,'precio_venta_total_dolares'=>$osalida->precio_venta_total_dolares,
@@ -5140,7 +5141,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $osalida=salida::getByID($salida_ID);
             $cotizacion_ID=$osalida->cotizacion_ID;
             $oCliente=cliente::getByID($osalida->cliente_ID);
-            $Razon_Social=  FormatTextViewHtml($oCliente->razon_social);
+            $Razon_Social=  utf8_encode($oCliente->razon_social);
             $Ruc=$oCliente->ruc;
             $Telefono=$oCliente->telefono;
             $Direccion=utf8_encode($oCliente->direccion);
@@ -10001,7 +10002,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $html.='<td id="td'.$i.'" width="85.4px" style="text-align:center; padding-top: 10px; border:none;font-weight: bold;">'. $item['cantidad'].' </td>';
                     $html.='<td width="524.3px" style="padding:0 20px;padding-top: 10px;border:none;"><span style="font-weight: bold;">'. FormatTextViewHtml($item['producto']).'</span>';
                     if($item['descripcion']!=""){
-                         $html.='<br/><span>'. nl2br(FormatTextViewHtml($item['descripcion'])) .'</span>';
+                         $html.='<br/><span>'. nl2br(utf8_encode($item['descripcion'])) .'</span>';
                     }
 
 
@@ -12504,9 +12505,9 @@ function post_ajaxEnviarSUNAT() {
             $DocumentoDetalle[] = array (
                 'Id' => $i+1,
                 'Cantidad' => $item['cantidad'],
-                'UnidadMedida' => $item['unidad_medida'],
+                'UnidadMedida' => trim($item['unidad_medida']),
                 'CodigoItem' => $item['codigo'],
-                'Descripcion' => substr($item['producto_descripcion'],0,250),
+                'Descripcion' => trim(substr($item['producto_descripcion'],0,250)),
                 'ValorUnitario' =>$item['valor_unitario'],
                 'PrecioUnitario' =>$item['precio_unitario'],
                 'PrecioVentaUnitario' =>$item['precio_venta_unitario'],
@@ -12528,8 +12529,8 @@ function post_ajaxEnviarSUNAT() {
                 'isc_base'=>$item['isc_base'],
                 'Suma' => $item['Suma'],
                 'tipo_tributo_codigo' => $item['tipo_tributo_codigo'],
-                'tipo_tributo_descripcion' => $item['tipo_tributo_descripcion'],
-                'codigo_tipo_nombre' => $item['codigo_tipo_nombre'],
+                'tipo_tributo_descripcion' =>trim($item['tipo_tributo_descripcion']),
+                'codigo_tipo_nombre' => trim($item['codigo_tipo_nombre']),
                 'codigo_categoria' => $item['codigo_categoria'],
             );
             
@@ -12554,9 +12555,9 @@ function post_ajaxEnviarSUNAT() {
         'TipoDocumento' =>$oFactura_venta[0]['codigo_documento'],
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
-          'NroDocumento' => $oFactura_venta[0]['ruc'],
-          'TipoDocumento' => $oFactura_venta[0]['TipoDocumento'],//SOLO FACTURA  06
-          'NombreLegal' => $oFactura_venta[0]['cliente'],
+          'NroDocumento' => trim($oFactura_venta[0]['ruc']),
+          'TipoDocumento' => trim($oFactura_venta[0]['TipoDocumento']),//SOLO FACTURA  06
+          'NombreLegal' => trim($oFactura_venta[0]['cliente']),
         ),
         'DocumentoDespacho'=>$DocumentoDespacho,
         'FechaEmision' => $oFactura_venta[0]['fecha_emision'],
@@ -13167,7 +13168,7 @@ function post_AjaxMarcarConGuia(){
 function get_Factura_Vista_PreviaPDF($id){
 
     require ROOT_PATH.'models/factura_venta.php';
-
+    require ROOT_PATH.'models/factura_venta_sunat.php';
     require ROOT_PATH.'formatos_pdf/factura_venta_pdf.php';
     global $returnView_float;
     $returnView_float=true;
@@ -13240,7 +13241,7 @@ function get_Factura_Vista_PreviaPDF($id){
                 
                 $x=10;
             }
-            for ($a=0;$a<count($array_width);$a++){
+            /*for ($a=0;$a<count($array_width);$a++){
                 
                 $pdf->Line($x,$h_atual,$x,$y);
                 if($a<count($array_width)-1){
@@ -13249,9 +13250,15 @@ function get_Factura_Vista_PreviaPDF($id){
                 
                 
             }
-            $pdf->Line(10,$y,$x,$y);
+            $pdf->Line(10,$y,$x,$y);*/
             
         //$pdf->contenido_detalle($dtDetalle);
+            $hash="";
+            $dtFv=factura_venta_sunat::getGrid2($id);
+            if(count($dtFv)>0){
+                $hash=$dtFv[0]['hash'];
+            }
+            $pdf->hash=$hash;
             $pdf->contenedor_detalle(130);
             $pdf->SetWidths(array(20,15,15,100,25,25));
             $pdf->SetAligns(array('C','C','C','L','R','R'));

@@ -375,6 +375,7 @@ $(document).ready(function(){
         if(cotizacion_ID!=0){
             cargarValores3("Salida/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
                 $('#productos').html(resultado.resultado);
+                actualizar_dimensiones();
                 //fncSeleccionarDetalle();
             });
         }

@@ -1182,3 +1182,8 @@ RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: Falló la preparación: (1064)
 >>>>>>> 1e5d5528cc4de7648411415d201d89bb9fc506d5
+============================ERROR====================================
+FECHA Y HORA: 11 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: RegistrationName -  El dato ingresado no cumple con el estandar - Detalle: xxx.xxx.xxx value='ticket: 1549934782812 error: INFO: 2022 (nodo: "cac:PartyLegalEntity/cbc:RegistrationName" valor: " J.C.CONTRATISTAS GENERALES EIRL")'

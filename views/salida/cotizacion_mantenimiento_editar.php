@@ -422,6 +422,7 @@
         $('#divContenedor_Float_Hijo').css('display', 'block');
         cargarValores3("Salida/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
             $('#productos').html(resultado.resultado);
+            actualizar_dimensiones();
             //fncSeleccionarDetalle();
         });
     }
@@ -546,7 +547,7 @@
     var actualizar_dimensiones=function(){
        
         var orden_venta_ID=$('#txtCotizacion_ID').val();
-        
+        console.log('deeddedde');
         cargarValores('Salida/ajaxActualzarDimension',orden_venta_ID,function(resultado){
             if(resultado.resultado==-1){
                 mensaje.error('OCURRIÓ UN ERROR','Ocurrió un error en el dimensionamiento');

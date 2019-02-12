@@ -720,6 +720,7 @@
         var tipo=$('#chkOrdenASC').val();
        if(orden_venta_ID>0){
            block_ui(function(){
+               
                 cargarValores("Salida/ajaxOrden_Venta_Detalle_Productos",orden_venta_ID,function(resultado){
                 console.log(resultado);
                    $('#productos').html(resultado.resultado);
