@@ -41,11 +41,12 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             
                             <select class="form-control" id="selTipoComprobante" name="selTipoComprobante" onchange="fncSelComprobante(this.value);">
-                                <option value="factura_venta">Factura</option>
-                                <option value="boleta_venta">Boleta</option>
+                                <!--<option value="factura_venta">Factura</option>
+                                <option value="boleta_venta">Boleta</option>-->
+                                <?php echo $GLOBALS['selComprobantes'];?>
                             </select>
                             <script type="text/javascript">
-                                $("#selTipoComprobante").val("<?php echo $GLOBALS['oFactura_Venta']->comprobante;?>");
+                                //$("#selTipoComprobante").val("<?php echo $GLOBALS['oFactura_Venta']->comprobante;?>");
                             </script>
                             <input type="hidden" id="txtID" name="txtID" value="<?php echo  $GLOBALS['oFactura_Venta']->ID;?>">
                             <input type="hidden" id="txtorden_ventaID" name="txtorden_ventaID" value="<?php echo  $GLOBALS['oOrden_Venta']->ID;?>">
@@ -84,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Fecha emisión</label>
+                            <label>Fecha emisión<span class="asterisk">*</span></label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtFecha_Emision" name="txtFecha_Emision" required class="date-range-picker-single form-control" value="<?php echo $GLOBALS['oFactura_Venta']->fecha_emision;?>">
@@ -99,7 +100,7 @@
                     
                     <div class="form-group">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <label>Fecha vencimiento:</label>
+                            <label>Fecha vencimiento:<span class="asterisk">*</span></label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <input type="text" id="txtFecha_Vencimiento" name="txtFecha_Vencimiento" required class="form-control date-range-picker-single" value="<?php echo $GLOBALS['oFactura_Venta']->fecha_vencimiento;?>">
@@ -295,9 +296,11 @@
       window.parent.ocultarBotonGuia(valor);
    }*/
     var fncSelComprobante=function(comprobante){
-        
-        cargarValores('/Salida/ajaxExtraerSeries',comprobante,function(resultado){
+        var electronico=0;
+        cargarValores1('/Salida/ajaxExtraerSeries',comprobante,electronico,function(resultado){
             if(resultado.resultado==1){
+                
+                console.log(resultado.html);
                 $("#selSerie").html(resultado.html);
                 fncActualizarNumero();
             }
@@ -420,6 +423,7 @@
          $("#txtOrden_Compra").prop('disabled',false);
          $("#txtOrden_Pedido").prop('disabled',false);
          $("#selImpuestos_Tipo").prop('disabled',false);
+         $("#selTipoComprobante ").prop('disabled',false);
       block_ui();
        
          //$('#fondo_espera').css('display', 'block');

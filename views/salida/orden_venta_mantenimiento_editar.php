@@ -94,7 +94,7 @@ $(document).ready(function(){
                             <div class="form-group">
                                  <label class="control-label col-sm-3">Dirección: </label>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize: none;" class="form-control form-requerido text-uppercase" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize: none;" class="form-control form-requerido" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -200,7 +200,7 @@ $(document).ready(function(){
                             <label>Garantía: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo FormatTextView($GLOBALS['oOrden_Venta']->garantia); ?>" class="form-control text-uppercase" >
+                            <input type="text" id="txtGarantia" name="txtGarantia" autocomplete="off" placeholder="1 año" value="<?php echo FormatTextView($GLOBALS['oOrden_Venta']->garantia); ?>" class="form-control" >
                         </div>
                     </div>
                     
@@ -217,7 +217,7 @@ $(document).ready(function(){
                             <label>Observación: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control" rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize: none;"><?php echo ($GLOBALS['oOrden_Venta']->observacion); ?></textarea>
+                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control" rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize: none;"><?php echo trim($GLOBALS['oOrden_Venta']->observacion); ?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -233,7 +233,7 @@ $(document).ready(function(){
                             </script>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <input type='text' id='txtAdicional' name='txtAdicional' maxlength="40"  value='<?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->adicional);?>' class="form-control text-uppercase">
+                            <input type='text' id='txtAdicional' name='txtAdicional' maxlength="40"  value='<?php echo FormatTextViewHtml($GLOBALS['oOrden_Venta']->adicional);?>' class="form-control">
                         </div>
                     </div>
                 </div>
@@ -265,7 +265,7 @@ $(document).ready(function(){
                             <label>Forma de pago: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
+                            <select id="selForma_Pago" name="selForma_Pago" class="form-control">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
                                 <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
                                 <?php } ?>

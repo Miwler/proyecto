@@ -1187,3 +1187,87 @@ FECHA Y HORA: 11 02 2019 20:02:28
 RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
 METODO: transaccion_documento.enviar_documento
 ERROR: RegistrationName -  El dato ingresado no cumple con el estandar - Detalle: xxx.xxx.xxx value='ticket: 1549934782812 error: INFO: 2022 (nodo: "cac:PartyLegalEntity/cbc:RegistrationName" valor: " J.C.CONTRATISTAS GENERALES EIRL")'
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 20:02:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1054)
+SET @_iempresa_ID = '2';
+SET @_ielectronico = '0';
+SET @_iaccion = 'venta';
+SET @_correlativos_ID = '1';
+SET @_itipo_comprobante_ID = '0';
+SET @_opcion = 'tipo_comprobantes';
+CALL `sp_tipo_comprobante_getTipos`( @_iempresa_ID, @_ielectronico, @_iaccion, @_correlativos_ID, @_itipo_comprobante_ID, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 20:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1054)
+SET @_iempresa_ID = '2';
+SET @_ielectronico = '0';
+SET @_iaccion = 'venta';
+SET @_correlativos_ID = '1';
+SET @_itipo_comprobante_ID = '0';
+SET @_opcion = 'tipo_comprobantes';
+CALL `sp_tipo_comprobante_getTipos`( @_iempresa_ID, @_ielectronico, @_iaccion, @_correlativos_ID, @_itipo_comprobante_ID, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 20:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 22:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1064)select op.ID from operador op, usuario us,persona pe  where us.persona_ID=pe.ID and op.persona_ID=pe.ID and us.del=0 and us.ID=
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salida/post_ajaxAnular_Factura
+ERROR: select op.ID from operador op, usuario us,persona pe  where us.persona_ID=pe.ID and op.persona_ID=pe.ID and us.del=0 and us.ID=
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:42
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
