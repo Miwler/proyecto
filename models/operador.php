@@ -105,62 +105,62 @@ class operador {
         }
     }
 
-//    function actualizar() {
-//        $cn = new connect_new();
-//        $retornar = -1;
-//        try {
-//           
-//            $fecha_contrato_save='NULL';
-//            if($this->fecha_contrato!=null && $this->fecha_contrato!="__/__/____"){
-//                $fecha_contrato_save='"'.FormatTextToDate($this->fecha_contrato,'Y-m-d').'"';
-//            }
-//            $q = 'update operador SET persona_ID=' . $this->persona_ID.', telefono="'.$this->telefono.'",';
-//            $q.='celular="'.$this->celular.'",mail="'.$this->mail.'",fecha_contrato="'.$fecha_contrato_save.'",';
-//            $q.='cargo_ID='.$this->cargo_ID.',usuario_mod_id='.$this->usuario_mod_id.', fdc=now()';
-//            $q.=' where del=0 and ID='.$this->ID;
-//            //echo $q;
-//            $retornar = $cn->transa($q);
-//            $this->getMessage = 'Se actualizó correctamente.';
-//            return $retornar;
-//        } catch (Exception $ex) {
-//            throw new Exception($q);
-//        }
-//    }
-    
-    
-      function actualizar()
-    {
-    $cn =new connect_new();
-    $retornar =0;
-    try
-    {
-      $ID=$cn->store_procedure_transa(
-          "sp_operador_Update",
-            array(
-              "retornar"=>$retornar,
-    "iID"=>$this->ID,
-    "iempresa_ID"=>$this->empresa_ID,
-    "ipersona_ID"=>$this->persona_ID,
-    "itelefono"=>$this->telefono,
-    "icelular"=>$this->celular,
-    "imail"=>$this->mail,
-    "ifecha_contrato"=>$this->fecha_contrato,
-    "icomision"=>$this->comision,
-    "icargo_ID"=>$this->cargo_ID,
-    "iusuario_mod_id"=>$this->usuario_mod_id
-),0);
-      if($ID>0)
-    {
-         $this->getMessage="Se actualizó correctamente.";
-      }
-          
-      return $retornar;
-    }catch(Exeption $ex)
-    {
-      log_error(__FILE__, "operador.actualizar", $ex->getMessage());
-      throw new Exception($ex->getMessage());
+    function actualizar() {
+        $cn = new connect_new();
+        $retornar = -1;
+        try {
+           
+            $fecha_contrato_save='NULL';
+            if($this->fecha_contrato!=null){
+                $fecha_contrato_save='"'.FormatTextToDate($this->fecha_contrato,'Y-m-d').'"';
+            }
+            $q = 'update operador SET persona_ID=' . $this->persona_ID.', telefono="'.$this->telefono.'",';
+            $q.='celular="'.$this->celular.'",mail="'.$this->mail.'",fecha_contrato='.$fecha_contrato_save.',';
+            $q.='cargo_ID='.$this->cargo_ID.',usuario_mod_id='.$this->usuario_mod_id.', fdc=now()';
+            $q.=' where del=0 and ID='.$this->ID;
+            //echo $q;
+            $retornar = $cn->transa($q);
+            $this->getMessage = 'Se actualizó correctamente.';
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
     }
-  }
+    
+    
+//      function actualizar()
+//    {
+//    $cn =new connect_new();
+//    $retornar =0;
+//    try
+//    {
+//      $ID=$cn->store_procedure_transa(
+//          "sp_operador_Update",
+//            array(
+//              "retornar"=>$retornar,
+//    "iID"=>$this->ID,
+//    "iempresa_ID"=>$this->empresa_ID,
+//    "ipersona_ID"=>$this->persona_ID,
+//    "itelefono"=>$this->telefono,
+//    "icelular"=>$this->celular,
+//    "imail"=>$this->mail,
+//    "ifecha_contrato"=>$this->fecha_contrato,
+//    "icomision"=>$this->comision,
+//    "icargo_ID"=>$this->cargo_ID,
+//    "iusuario_mod_id"=>$this->usuario_mod_id
+//),0);
+//      if($ID>0)
+//    {
+//         $this->getMessage="Se actualizó correctamente.";
+//      }
+//          
+//      return $retornar;
+//    }catch(Exeption $ex)
+//    {
+//      log_error(__FILE__, "operador.actualizar", $ex->getMessage());
+//      throw new Exception($ex->getMessage());
+//    }
+//  }
     
 
     function eliminar() {

@@ -1182,3 +1182,209 @@ RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: Falló la preparación: (1064)
 >>>>>>> 1e5d5528cc4de7648411415d201d89bb9fc506d5
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 06:02:03
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:43
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:43
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:04
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:04
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=13, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=24
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:06
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=13, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=24
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:18
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:27
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:27
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:30
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:33
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:33
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:44
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:44
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:53
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=29, telefono="",celular="",mail="",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=20
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:53
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=29, telefono="",celular="",mail="",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=20
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:00
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=12, telefono="484-0284 anex 841",celular="",mail="eperona@molinoeltriu.com",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=22
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:00
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=12, telefono="484-0284 anex 841",celular="",mail="eperona@molinoeltriu.com",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=22
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:25
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2013-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:25
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2013-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2001-01-19"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:16
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2001-01-19"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:24
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:29
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:29
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:30
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:36
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:36
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:49
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2019-02-13"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:49
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2019-02-13"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:52
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""1970-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:52
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""1970-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:34
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="12121",celular="121212",mail="abc@gmail.com",fecha_contrato=""2019-12-12"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:34
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="12121",celular="121212",mail="abc@gmail.com",fecha_contrato=""2019-12-12"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=25

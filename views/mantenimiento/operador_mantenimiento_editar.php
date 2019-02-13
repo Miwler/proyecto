@@ -119,14 +119,24 @@ function fncPage() { ?>
     $(document).ready(function(){
         $("#selCargo").val("<?php echo $GLOBALS['oOperador']->cargo_ID;?>");
     });
-//    var cboPersona = cargarCbo('divPersona', 'txtPersona_ID', '/funcion/ajaxCbo_Persona',"<?php echo $GLOBALS['oOperador']->persona_ID;?>","<?php echo $GLOBALS['oOperador']->nombres_completo;?>", true);
-//    cboPersona.seleccionado=function(){
-//            var id=$('#sendtxtPersona_ID').val();
-//            mostrar_informacion_persona(id);
-//        }
     
     var validar=function(){
         var persona_ID=$.trim($("#txtPersona_ID").val());
+        var fecha_contrato = $.trim($("#txtFecha_Contrato").val());
+        
+        if(fecha_contrato!=""){
+            if(!validarFecha(fecha_contrato)){
+            mensaje.error("Mensaje de error","Debe ingresar una fecha válida","txtFecha_Contrato");
+            mover_scroll_inicio();
+            return false;
+            } 
+        }
+        
+//        if(fecha_contrato==null || fecha_contrato=="____/__/__"){
+//            mensaje.error("Mensaje de error","Debe ingresar una fecha válida","txtFecha_Contrato");
+//            mover_scroll_inicio();
+//            return false;
+//        }
         
         if(persona_ID=="" || persona_ID == '0'){
             toastem.error("Debe seleccionar una persona.");

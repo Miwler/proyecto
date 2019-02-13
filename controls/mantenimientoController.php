@@ -2740,9 +2740,9 @@ function post_ajaxProducto_Mantenimiento() {
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar producto"><span class="glyphicon glyphicon-pencil"></span> Editar</a>');
             array_push($botones,'<a onclick="fncImagen(' . $item['ID'] . ');" title="Subir fotos del producto"><span class="glyphicon glyphicon-camera"></span> Fotos</a>');
             if($item['activo']==1){
-                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de desactivar el producto.&#39;,&#39;Desactivar Producto&#39;,fncDesactivar,&#39;' . $item['ID'] . '&#39;);" title="Desactivar producto"><span class="glyphicon glyphicon-ban-circle"></span>Desactivar</a>');
+                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de desactivar el producto.&#39;,&#39;Aviso&#39;,fncDesactivar,&#39;' . $item['ID'] . '&#39;);" title="Desactivar producto"><span class="glyphicon glyphicon-ban-circle"></span>Desactivar</a>');
             }else{
-                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de activar el producto.&#39;,&#39;Activar Producto&#39;,fncActivar,&#39;' . $item['ID'] . '&#39;);" title="Activar producto"><span class="glyphicon glyphicon-ok"></span>Activar</a>');
+                array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de activar el producto.&#39;,&#39;Aviso&#39;,fncActivar,&#39;' . $item['ID'] . '&#39;);" title="Activar producto"><span class="glyphicon glyphicon-ok"></span>Activar</a>');
             }
             
             array_push($botones,'<a onclick="modal.confirmacion(&#39;Esta seguro de eliminar el registro.&#39;,&#39;Eliminar Producto&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar producto"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
@@ -3171,9 +3171,9 @@ function get_Operador_Mantenimiento_Editar($id) {
         return;
     }
     $oOperador->dtCargo=$dtCargo;
-    if($oOperador->fecha_contrato=="0000-00-00"){
-        $oOperador->fecha_contrato="";
-    }
+//    if($oOperador->fecha_contrato=="0000-00-00"){
+//        $oOperador->fecha_contrato="";
+//    }
     
     $oOperador->nombres_completo=FormatTextView($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
     $GLOBALS['oOperador'] = $oOperador;
@@ -3232,9 +3232,9 @@ function post_Operador_Mantenimiento_Editar($id) {
         log_error(__FILE__, 'mantenimiento/post_Operador_Mantenimiento_Editar', $ex->getMessage());
     }
     $oOperador->dtCargo=$dtCargo;
-    if($oOperador->fecha_contrato=="0000-00-00"){
-        $oOperador->fecha_contrato="";
-    }
+//    if($oOperador->fecha_contrato=="0000-00-00"){
+//        $oOperador->fecha_contrato="";
+//    }
     
     $oOperador->nombres_completo=FormatTextView($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
     $GLOBALS['oOperador'] = $oOperador;
@@ -3258,6 +3258,9 @@ function post_ajaxOperador_Mantenimiento() {
         $orden_tipo = 'ASC';
     }
     switch ($txtOrden) {
+        case 0:
+            $orden = 'op.ID ' . $orden_tipo;
+            break;
         case 1:
             $orden = 'pe.apellido_paterno ' . $orden_tipo;
             break;
