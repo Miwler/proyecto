@@ -28,7 +28,6 @@ $(document).ready(function(){
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal form-bordered" >
-    <input type="hidden" id="selEstado" name="selEstado" value="<?php $GLOBALS['oCotizacion']->estado_ID; ?>">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -83,7 +82,7 @@ $(document).ready(function(){
                            <div class="form-group">
                                <label class="control-label col-sm-3">Dirección: </label>
                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido text-uppercase" ><?php echo utf8_encode(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo utf8_encode(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
                                </div>
                            </div>
                            <div class="form-group">
@@ -145,9 +144,23 @@ $(document).ready(function(){
                 </div>
                 <div id="divDatos_Generales" class="tab-pane fade inner-all">
                     <div class="form-group">
+                        <label class="control-label col-sm-3">Estado</label>
+                        <div class="col-sm-3">
+                            <select  id="selEstado" name="selEstado" class="form-control">
+                                <?php foreach($GLOBALS['dtEstado'] as $estado){?>
+                                <option value="<?php echo $estado['ID']?>"><?php echo $estado['nombre']?></option>
+                                <?php }?>
+
+                            </select>
+                            <script>
+                                $("#selEstado").val(<?php echo $GLOBALS['oCotizacion']->estado_ID;?>);
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-3">Fecha:<span class="asterisk">*</span> </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo date("d/m/Y"); ?>" /> 
+                            <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo $GLOBALS['oCotizacion']->fecha; ?>" /> 
                         </div>
                         <label class="control-label col-sm-3">Número: </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -185,7 +198,7 @@ $(document).ready(function(){
                         <label class="control-label col-sm-3">Lugar de entrega:</label>
                        
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo utf8_encode(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control"><?php echo trim($GLOBALS['oCotizacion']->lugar_entrega); ?></textarea>
                         </div>
                     </div>
 
@@ -225,7 +238,7 @@ $(document).ready(function(){
                             <label>Forma de pago: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
+                            <select id="selForma_Pago" name="selForma_Pago" class="form-control">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
                                 <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
                                 <?php } ?>
@@ -375,6 +388,7 @@ $(document).ready(function(){
         if(cotizacion_ID!=0){
             cargarValores3("Salida/ajaxCotizacion_Detalle_Productos",cotizacion_ID,tiempo,orden,tipo,function(resultado){
                 $('#productos').html(resultado.resultado);
+                actualizar_dimensiones();
                 //fncSeleccionarDetalle();
             });
         }
@@ -447,7 +461,7 @@ $(document).ready(function(){
         var Garantia=$.trim($('#txtGarantia').val());
         
         var SelForma_Pago = $.trim($('#selForma_Pago'));
-        var estado_ID = $.trim($('#selEstado'));
+        var estado_ID = $('#selEstado').val();
         if(cliente_ID=="0"){
             mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione un cliente.','selCliente');
             $('.nav-tabs a[href="#divCliente"]').tab('show');
@@ -488,11 +502,9 @@ $(document).ready(function(){
                  
             contador++;
         });
-        if(contador>0){
-            $("#selEstado").val(2);
-            
-        }else{
-            $("#selEstado").val(1);
+        if(contador==0 && estado_ID==2){
+            mensaje.advertencia("VALIDACIÓN DE DATOS",'No puede cambiar de estado, no tiene registrado ningún producto.');
+            return false;
         }
         $('#txtTiempo_Avance').removeAttr("disabled");
         $('#txtNumero').removeAttr('disabled');
@@ -502,7 +514,7 @@ $(document).ready(function(){
        
         var orden_venta_ID=$('#txtCotizacion_ID').val();
        
-        cargarValores('/Ventas/ajaxActualzarDimension',orden_venta_ID,function(resultado){
+        cargarValores('/Salida/ajaxActualzarDimension',orden_venta_ID,function(resultado){
             if(resultado.resultado==-1){
                 mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
             }

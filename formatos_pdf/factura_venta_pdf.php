@@ -20,6 +20,7 @@ class PDF2 extends FPDF
 
     public $font_size=5;
     public $subtitle_size=8;
+    public $hash="";
     //public $dtOrden_Venta_Numero_Cuenta;
     function Row($data,$altura)
     {
@@ -316,17 +317,26 @@ class PDF2 extends FPDF
     $this->Cell(30,$this->font_size,utf8_decode('IMPORTE TOTAL'),0,0,'L');
     $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
     $this->Cell(25,$this->font_size,$monto_total,1,0,'R');
+    $this->Ln(10);
+    $this->SetFont('Arial','',8);
+    $y=$this->GetY();
+    $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
+    $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
+    $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,100,$y,25,25,'PNG');
+    $this->setY($y+25);   
+    $this->Cell(200,$this->font_size,utf8_decode('Representacion impresa de la '.$this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA,'.link_comprobante_electronico),0,0,'C');
+   $this->Ln(5);
+    
+    $this->Cell(200,$this->font_size,"DigestValue: ".$this->hash,0,0,'C');
+    
    }
 
 
     function Footer(){
 
-       $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
-       $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
-       $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
        
        $this->SetXY(40,270);
-       $this->Cell(80,5,utf8_decode('Representacion impresa de la '.$this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA,'.link_comprobante_electronico),0,1);
+       
     }
 
 }

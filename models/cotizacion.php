@@ -360,7 +360,7 @@ class cotizacion {
             throw new Exception($q);
         }
     }*/
-        static function getByID($ID)
+    static function getByID($ID)
     {
     $cn =new connect_new();
     try

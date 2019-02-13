@@ -104,7 +104,7 @@
                                     <label>Dirección: </label>
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;" class="form-control form-requerido text-uppercase" ><?php echo FormatTextViewHtml(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                    <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo trim($GLOBALS['oCliente']->direccion); ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -466,7 +466,7 @@
         if($('#btnFactura').length){
            
         }else{
-            $('#btnDescargar').after(' <button  type="button" id="btnFactura" title="Generar Factura" name="btnFactura" class="btn btn-primary" onclick="fncFactura();" ><span class="glyphicon glyphicon-list-alt"></span> Factura</button>');
+            $('#btnDescargar').after(' <button  type="button" id="btnFactura" title="Generar Factura" name="btnFactura" class="btn btn-primary" onclick="fncFactura();" ><span class="glyphicon glyphicon-list-alt"></span> Comprobante</button>');
         }
         
     }
@@ -764,13 +764,24 @@
              $('#txtGarantia').val(resultado.garantia);
              $('#btnDescargar').css('display','');
              $('#btnDescargar').prop('src','');
-             var arrayID=resultado.numero_cuenta_IDs.split(",");
-             if(arrayID.length>0){
-                 for(var i in arrayID){
+             if(resultado.existe !=""){
+                 if(isNaN(resultado.numero_cuenta_IDs)){
+                      var arrayID=resultado.numero_cuenta_IDs.split(",");
+                    
+                    if(arrayID.length>0){
+                        for(var i in arrayID){
 
-                     $('#cknumero_cuenta'+arrayID[i]).attr('checked','checked');
+                            $('#cknumero_cuenta'+arrayID[i]).attr('checked','checked');
+                        }
+                    }
+                 }else{
+                     $('#cknumero_cuenta'+resultado.numero_cuenta_IDs).attr('checked','checked');
                  }
+                
+                
+                 
              }
+             
              $('#btnImportar').css('display', 'none');
              mostrarBotones();
              fncCargar_Detalle_Orden_Venta();

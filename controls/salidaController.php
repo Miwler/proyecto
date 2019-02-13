@@ -4058,11 +4058,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         $osalida=new salida();
         $osalida->ID=0;
-        $osalida->garantia=  "1 año";
+        $osalida->garantia= "1 año";
         $osalida->validez_oferta=7;
         $osalida->moneda_ID=moneda;
         $osalida->ver_adicional=1;
-        $osalida->adicional="Nueva Central Telef&oacute;nica ".$oDatos_Generales->telefono;
+        $osalida->adicional="Nueva Central Telefónica ".$oDatos_Generales->telefono;
         $osalida->tipo_cambio=$oDatos_Generales->tipo_cambio;
         $osalida->cotizacion_ID=-1;
         $osalida->ver_factura=0;
@@ -4126,15 +4126,15 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $tiempo_credito=$_POST['selTiempo_Credito'];
         $fecha=$_POST['txtFecha'];
         $operador_ID=$_POST['txtOperador_ID'];
-        $lugar_entrega=FormatTextSave($_POST['txtLugar_Entrega']);
+        $lugar_entrega=$_POST['txtLugar_Entrega'];
         $validez_oferta=$_POST['txtValidez_Oferta'];
-        $garantia=  FormatTextSave($_POST['txtGarantia']);
-        $observacion=FormatTextSave($_POST['txtObservacion']);
+        $garantia=  $_POST['txtGarantia'];
+        $observacion=$_POST['txtObservacion'];
         $ver_adicional=0;
         if(isset($_POST['ckVer_Adicional'])){
             $ver_adicional=$_POST['ckVer_Adicional'];
         }
-        $adicional=FormatTextSave($_POST['txtAdicional']);
+        $adicional=$_POST['txtAdicional'];
         try{
             $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
             if($id>0){
@@ -4156,7 +4156,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $osalida->adicional=$adicional;
                 $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
 
-                $osalida->actualizar();
+                //$osalida->actualizar();
+                $osalida->actualizar_new();
 
                 if($osalida->estado_ID==28){
                     $Cliente_ID=$osalida->cliente_ID;
@@ -4206,8 +4207,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 $osalida->ver_adicional=$ver_adicional;
                 $osalida->adicional=$adicional;
                 $osalida->tipo_ID=27;
-                $osalida->insertar();
-
+                //$osalida->insertar();
+                $osalida->insertar_new();
                 $mensaje="Se guardó correctamente";
                 $resultado=1;
             }
@@ -4218,7 +4219,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                 foreach($dtsalida_Numero_Cuenta as $item){
                 $osalida_Numero_Cuenta=salida_numero_cuenta::getByID($item['ID']);
                 $osalida_Numero_Cuenta->usuario_mod_id=$_SESSION['usuario_ID'];
-                $osalida_Numero_Cuenta->eliminar();
+                $osalida_Numero_Cuenta->eliminar1();
                 }
             }
             //ingresamos los valores
@@ -4231,7 +4232,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $osalida_Numero_Cuenta->salida_ID=$osalida->ID;
                     $osalida_Numero_Cuenta->numero_cuenta_ID=$numero_cuenta_ID;
                     $osalida_Numero_Cuenta->usuario_id=$_SESSION['usuario_ID'];
-                    $osalida_Numero_Cuenta->insertar();
+                    $osalida_Numero_Cuenta->insertar1();
                    // $checked="checked";
                 }
             }
@@ -4239,8 +4240,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         }
 
         catch (Exception $ex){
+            log_error(__FILE__,"salida/post_Orden_Venta_Mantenimiento_Nuevo",$ex->getMessage());
             $resultado=-1;
-            $mensaje=$ex->getMessage();
+            $mensaje=$ex->mensaje_error;
 
         }
         $contar_hijo=salida_detalle::getCount('salida_ID='.$id);
@@ -4640,7 +4642,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'controls/funcionController.php';
         $salida_ID=$_POST['id'];
 
-
+        
         //---------------------------------------
         $osalida=salida::getByID($salida_ID);
         $oMoneda=moneda::getByID($osalida->moneda_ID);
@@ -4667,6 +4669,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $i=1;
             $costo_venta=0;
             $dtsalida_Detalle=salida_detalle::getGrid($filtro,-1,-1,'ID asc');
+            
             foreach($dtsalida_Detalle as $item)
             {
                 $salida_detalle_ID=$item['salida_detalle_ID'];
@@ -4699,7 +4702,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $resultado.='<td class="text-center">'.$componente.'</td>';
                     $resultado.='<td class="text-center">'.$adicional.'</td>';
                     $resultado.='<td class="text-center">'.$item['cantidad'].'</td>';
-                    $resultado.='<td class="tdLeft">'.FormatTextView(strtoupper($oProducto->nombre)).'</td>';
+                    $resultado.='<td class="tdLeft">'.utf8_encode(strtoupper($oProducto->nombre)).'</td>';
                     //$resultado.='<td class="text-right">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($item['valor_unitario'],2,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
@@ -4721,7 +4724,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
                 }
             }
-
+           
             if($osalida->moneda_ID==1){
                 $vigv_t=number_format($osalida->vigv_soles,2,'.',',');
                 $precio_venta_neto_t=number_format($osalida->precio_venta_neto_soles,2,'.',',');
@@ -4740,19 +4743,19 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         $resultado.='</tbody>';
         $resultado.='<tfooter>';
         
-        $resultado.='<tr><th colspan="6" class="text-right">OP. GRAVADA: '.$oMoneda->simbolo.'</th><th id="tdGravada" class="text-right">'.number_format($osalida->gravadas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">OP. INAFECTA: '.$oMoneda->simbolo.'</th><th id="tdInafecta" class="text-right">'.number_format($osalida->inafectas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">OP. EXONERADA: '.$oMoneda->simbolo.'</th><th id="tdExonerada" class="text-right">'.number_format($osalida->exoneradas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">TOTAL IGV: '.$oMoneda->simbolo.'</th><th id="tdIgv" class="text-right">'.$vigv_t.'</th><td></td></tr>';
-         $resultado.='<tr><th colspan="6" class="text-right">OP. GRATUITAS: '.$oMoneda->simbolo.'</th><th class="text-right">'.number_format($osalida->gratuitas,2,'.',',').'</th><td></td></tr>';
-        $resultado.='<tr><th colspan="6" class="text-right">IMPORTE TOTAL: '.$oMoneda->simbolo.'</th><th id="tdTotal" class="text-right">'.$precio_venta_total_t.'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">OP. GRAVADA: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdGravada" class="text-right">'.number_format($osalida->gravadas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">OP. INAFECTA: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdInafecta" class="text-right">'.number_format($osalida->inafectas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">OP. EXONERADA: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdExonerada" class="text-right">'.number_format($osalida->exoneradas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">TOTAL IGV: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdIgv" class="text-right">'.$vigv_t.'</th><td></td></tr>';
+         $resultado.='<tr><th colspan="6" class="text-right">OP. GRATUITAS: '.utf8_encode($oMoneda->simbolo).'</th><th class="text-right">'.number_format($osalida->gratuitas,2,'.',',').'</th><td></td></tr>';
+        $resultado.='<tr><th colspan="6" class="text-right">IMPORTE TOTAL: '.utf8_encode($oMoneda->simbolo).'</th><th id="tdTotal" class="text-right">'.$precio_venta_total_t.'</th><td></td></tr>';
         $resultado.='</tfooter>';
         $resultado.='</table>';
         /*$resultado.='<div class="infoCostos" style="text-align:right;"><b>Sub Total:</b/><div style="width:80px;float: right;padding-right: 20px;">'.$precio_venta_neto_t.'</div></div>';
         $resultado.='<div class="infoCostos" style="text-align:right;"><b>IGV:<b/><div style="width:80px;float: right;padding-right: 20px;">'.$vigv_t.'</div></div>';
         $resultado.='<div class="infoCostos" style="text-align:right;"><b>Total:<b/><div style="width:80px;float: right;padding-right: 20px;">'.$precio_venta_total_t.'</div></div>';
 */
-        $retornar=Array('resultado'=>$resultado,'vigv'=>$vigv_t,'subtotal'=>$precio_venta_neto_t,
+        $retornar=Array('resultado'=>utf8_encode($resultado),'vigv'=>$vigv_t,'subtotal'=>$precio_venta_neto_t,
             'total'=>$precio_venta_total_t,'gravadas'=>$osalida->gravadas,'exoneradas'=>$osalida->exoneradas,
             'inafectas'=>$osalida->inafectas,
             'precio_venta_total_soles'=>$osalida->precio_venta_total_soles,'precio_venta_total_dolares'=>$osalida->precio_venta_total_dolares,
@@ -5140,7 +5143,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $osalida=salida::getByID($salida_ID);
             $cotizacion_ID=$osalida->cotizacion_ID;
             $oCliente=cliente::getByID($osalida->cliente_ID);
-            $Razon_Social=  FormatTextViewHtml($oCliente->razon_social);
+            $Razon_Social=  utf8_encode($oCliente->razon_social);
             $Ruc=$oCliente->ruc;
             $Telefono=$oCliente->telefono;
             $Direccion=utf8_encode($oCliente->direccion);
@@ -5187,6 +5190,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $Observacion= utf8_encode($osalida->observacion);
             $Numero_Concatenado=$osalida->numero_concatenado;
             $dtsalida_Numero_Cuenta=salida_numero_cuenta::getGrid('salida_ID='.$osalida->ID);
+            //print_r($dtsalida_Numero_Cuenta);
             $numero_cuenta_IDs='';
             $i=0;
             foreach($dtsalida_Numero_Cuenta as $valor){
@@ -5201,8 +5205,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $resultado=1;
             $mensaje='';
         }catch(Exception $ex){
+            log_error(__FILE__,"salida/post_ajaxMostrarInformacion",$ex->getMessage());
             $resultado=-1;
-            $mensaje=$ex->getMessage();
+            $mensaje=mensaje_error;
             $cotizacion_ID='';
             $Telefono="";
             $Direccion="";
@@ -7463,6 +7468,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH . 'models/estado.php';
         require ROOT_PATH . 'models/correlativos.php';
         require ROOT_PATH . 'models/impuestos_tipo.php';
+        require ROOT_PATH . 'models/tipo_comprobante.php';
+        
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
@@ -7477,7 +7484,19 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $informacion="";
         
         if($ContarFactura_Venta==0||$osalida->estado_ID==58){
-            $electronico=correlativos::verificar_electronico(correlativos_ID);
+            if($osalida->estado_ID==58){
+                $dtFactura_Venta1=factura_venta::getGrid("fv.salida_ID=".$id." and fv.estado_ID=53",-1,-1,"fv.ID desc");
+                $correlativos_ID=$dtFactura_Venta1[0]['correlativos_ID'];
+                $electronico=correlativos::verificar_electronico($dtFactura_Venta1[0]['correlativos_ID']);
+                $numero_temporal=correlativos::getNumero($dtFactura_Venta1[0]['correlativos_ID']);
+                $dtComprobantes=tipo_comprobante::getComprobantes(0,'venta',$correlativos_ID,0,"tipo_comprobantes");
+            }else{
+                $electronico=correlativos::verificar_electronico(correlativos_ID);
+                $numero_temporal=correlativos::getNumero(correlativos_ID_fisico);
+                $correlativos_ID=correlativos_ID_fisico;
+                $dtComprobantes=tipo_comprobante::getComprobantes(0,'venta',correlativos_ID_fisico,0,"tipo_comprobantes");
+            }
+            
             $oFactura_Venta=new factura_venta();
             $oFactura_Venta->comprobante="factura_venta";
             $dtGridCorrelativo=correlativos::getGridCorrelativos("venta",0);
@@ -7485,7 +7504,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $oFactura_Venta->fecha_emision=date("d/m/Y");
             $oFactura_Venta->moneda_ID=$osalida->moneda_ID;
             $oFactura_Venta->fecha_vencimiento=date("d/m/Y");
-            $numero_temporal=correlativos::getNumero(correlativos_ID_fisico);
+            
             $oFactura_Venta->serie=correlativos::getByID(correlativos_ID_fisico)->serie;
             $oFactura_Venta->numero=$numero_temporal;
             $numero_concatenado=sprintf("%'.07d",$numero_temporal);
@@ -7495,7 +7514,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $oFactura_Venta->ver_vista_previa=0;
             $oFactura_Venta->ver_imprimir=0;
             $oFactura_Venta->ver_cambios=0;
-            $oFactura_Venta->correlativos_ID=correlativos_ID_fisico;
+            $oFactura_Venta->correlativos_ID=$correlativos_ID;
             $oFactura_Venta->impuestos_tipo_ID=1;
             $oFactura_Venta->numero_orden_venta=$osalida->numero_concatenado;
             $oFactura_Venta->numero_orden_compra=$osalida->numero_orden_compra;
@@ -7512,6 +7531,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             //generamos una factura en estado registrado
             $oEstado=estado::getByID(35);
 //$oFactura_Venta->estado_ID=35;
+            
+            $dtGridCorrelativo=correlativos::getGridCorrelativos("venta",0);
+            
         }else {
             $i=0;
             $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$id,-1,-1,'ID asc');
@@ -7523,10 +7545,12 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 $i= $i+1;*/
             }
             $oFactura_Venta=factura_venta::getByID($factura_ID);
+           
             $oFactura_Venta->comprobante="factura_venta";
             $dtGridCorrelativo=correlativos::getGridCorrelativos("venta",0);
             $electronico=correlativos::verificar_electronico($oFactura_Venta->correlativos_ID);
             $oEstado=estado::getByID($oFactura_Venta->estado_ID);
+             $dtComprobantes=tipo_comprobante::getComprobantes(0,'venta',$oFactura_Venta->correlativos_ID,0,"tipo_comprobantes");
             //$oFactura_Venta->ver_cambios=0;
             switch($oFactura_Venta->estado_ID){
                 case 35:
@@ -7580,6 +7604,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $GLOBALS['oOrden_Venta']=$osalida;
         $GLOBALS['listaproducto']=$listaproducto;
         $GLOBALS['mensaje']=$mensaje;
+        $GLOBALS['selComprobantes']=$dtComprobantes;
 
     }
 
@@ -7595,6 +7620,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH . 'models/estado.php';
         require ROOT_PATH . 'models/correlativos.php';
         require ROOT_PATH . 'models/impuestos_tipo.php';
+        require ROOT_PATH . 'models/tipo_comprobante.php';
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$ID;
@@ -7632,6 +7658,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $electronico=0;
             $osalida=salida::getByID($ID);
             $contador_facturas=factura_venta::getCount('salida_ID='.$ID);
+            $dtComprobantes=tipo_comprobante::getComprobantes(0,'venta',$correlativos_ID,0,"tipo_comprobantes");
             //Creamos nueva factura para los anulados
             if($contador_facturas==0||$osalida->estado_ID==58){
                 $arrayProductoFactura=explode("/",$osalida->nproducto_pagina);
@@ -7850,6 +7877,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $GLOBALS['listaproducto']=$listaproducto;
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
+        $GLOBALS['selComprobantes']=$dtComprobantes;
     }
     function post_ajaxQuitarGuia(){
         require ROOT_PATH . 'models/salida.php';
@@ -8067,7 +8095,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                         $osalida->numero_pagina=1;
                     }
                     for($i=0;$i<$osalida->numero_pagina;$i++){
-                    $valor=$i+0;
+                    $valor=$i+1;
                     $observacion="";
                     $serie=$osalida->serie;
                     $numero='';
@@ -8075,7 +8103,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     if(isset($arrayFactura[$i])){
 
                         $oFactura_Venta=factura_venta::getByID($arrayFactura[$i]);
-
+                        
                         if($osalida->estado_ID==58){
                             $numero=correlativos::getNumero($oFactura_Venta->correlativos_ID)+$i;
                             $observacion="Por generar x anulación";
@@ -8087,9 +8115,15 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                         }
 
                     }else {
-
-                        $numero=correlativos::getNumero(correlativos_ID_fisico)+$i;
-                        $oCorrelativos=correlativos::getByID(correlativos_ID_fisico);
+                        $dtFactura=factura_venta::getGrid("fv.salida_ID=".$osalida->ID,-1,-1,"fv.ID desc");
+                        if(count($dtFactura)>0 &&$dtFactura[0]['estado_ID']==53){
+                             $numero=correlativos::getNumero($dtFactura[0]['correlativos_ID'])+$i;
+                            $oCorrelativos=correlativos::getByID($dtFactura[0]['correlativos_ID']);
+                        }else{
+                            $numero=correlativos::getNumero(correlativos_ID_fisico)+$i;
+                            $oCorrelativos=correlativos::getByID(correlativos_ID_fisico);
+                        }
+                        
                         $serie=$oCorrelativos->serie;
                         $observacion="Por generar";
                     }
@@ -9932,16 +9966,22 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
     function post_ajaxAnular_Factura(){
         require ROOT_PATH . 'models/salida.php';
         require ROOT_PATH . 'models/factura_venta.php';
+        require ROOT_PATH . 'models/operador.php';
         $salida_ID=$_POST['id'];
         try{
             $osalida=salida::getByID($salida_ID);
-            $dtFactura_Venta=factura_venta::getGrid('salida_ID='.$salida_ID,-1,-1,'ID asc');
+            $dtFactura_Venta=factura_venta::getGrid('fv.salida_ID='.$salida_ID.' and fv.estado_ID=41',-1,-1,'ID asc');
+            $operador_ID=operador::getOperador($_SESSION['usuario_ID']);
             foreach($dtFactura_Venta as $item){
                $oFactura_Venta=factura_venta::getByID($item['ID']);
                $oFactura_Venta->estado_ID=53;
                $oFactura_Venta->observacion='Factura anulada';
+               $oFactura_Venta->operador_ID_anulacion=($operador_ID>0)?$operador_ID:0;
+               $oFactura_Venta->motivo_anulacion_ID=2;//Error de impresión
+               $oFactura_Venta->fecha_anulacion=date('Y-m-d');
                $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
-               $oFactura_Venta->actualizarEstado();
+               $oFactura_Venta->actualizar();
+               //$oFactura_Venta->actualizarEstado();
             }
             $osalida->estado_ID=58;
             $osalida->usuario_mod_id=$_SESSION['usuario_ID'];   
@@ -10001,7 +10041,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $html.='<td id="td'.$i.'" width="85.4px" style="text-align:center; padding-top: 10px; border:none;font-weight: bold;">'. $item['cantidad'].' </td>';
                     $html.='<td width="524.3px" style="padding:0 20px;padding-top: 10px;border:none;"><span style="font-weight: bold;">'. FormatTextViewHtml($item['producto']).'</span>';
                     if($item['descripcion']!=""){
-                         $html.='<br/><span>'. nl2br(FormatTextViewHtml($item['descripcion'])) .'</span>';
+                         $html.='<br/><span>'. nl2br(utf8_encode($item['descripcion'])) .'</span>';
                     }
 
 
@@ -12504,9 +12544,9 @@ function post_ajaxEnviarSUNAT() {
             $DocumentoDetalle[] = array (
                 'Id' => $i+1,
                 'Cantidad' => $item['cantidad'],
-                'UnidadMedida' => $item['unidad_medida'],
+                'UnidadMedida' => trim($item['unidad_medida']),
                 'CodigoItem' => $item['codigo'],
-                'Descripcion' => substr($item['producto_descripcion'],0,250),
+                'Descripcion' => trim(substr($item['producto_descripcion'],0,250)),
                 'ValorUnitario' =>$item['valor_unitario'],
                 'PrecioUnitario' =>$item['precio_unitario'],
                 'PrecioVentaUnitario' =>$item['precio_venta_unitario'],
@@ -12528,8 +12568,8 @@ function post_ajaxEnviarSUNAT() {
                 'isc_base'=>$item['isc_base'],
                 'Suma' => $item['Suma'],
                 'tipo_tributo_codigo' => $item['tipo_tributo_codigo'],
-                'tipo_tributo_descripcion' => $item['tipo_tributo_descripcion'],
-                'codigo_tipo_nombre' => $item['codigo_tipo_nombre'],
+                'tipo_tributo_descripcion' =>trim($item['tipo_tributo_descripcion']),
+                'codigo_tipo_nombre' => trim($item['codigo_tipo_nombre']),
                 'codigo_categoria' => $item['codigo_categoria'],
             );
             
@@ -12554,9 +12594,9 @@ function post_ajaxEnviarSUNAT() {
         'TipoDocumento' =>$oFactura_venta[0]['codigo_documento'],
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
-          'NroDocumento' => $oFactura_venta[0]['ruc'],
-          'TipoDocumento' => $oFactura_venta[0]['TipoDocumento'],//SOLO FACTURA  06
-          'NombreLegal' => $oFactura_venta[0]['cliente'],
+          'NroDocumento' => trim($oFactura_venta[0]['ruc']),
+          'TipoDocumento' => trim($oFactura_venta[0]['TipoDocumento']),//SOLO FACTURA  06
+          'NombreLegal' => trim($oFactura_venta[0]['cliente']),
         ),
         'DocumentoDespacho'=>$DocumentoDespacho,
         'FechaEmision' => $oFactura_venta[0]['fecha_emision'],
@@ -13167,7 +13207,7 @@ function post_AjaxMarcarConGuia(){
 function get_Factura_Vista_PreviaPDF($id){
 
     require ROOT_PATH.'models/factura_venta.php';
-
+    require ROOT_PATH.'models/factura_venta_sunat.php';
     require ROOT_PATH.'formatos_pdf/factura_venta_pdf.php';
     global $returnView_float;
     $returnView_float=true;
@@ -13240,7 +13280,7 @@ function get_Factura_Vista_PreviaPDF($id){
                 
                 $x=10;
             }
-            for ($a=0;$a<count($array_width);$a++){
+            /*for ($a=0;$a<count($array_width);$a++){
                 
                 $pdf->Line($x,$h_atual,$x,$y);
                 if($a<count($array_width)-1){
@@ -13249,9 +13289,15 @@ function get_Factura_Vista_PreviaPDF($id){
                 
                 
             }
-            $pdf->Line(10,$y,$x,$y);
+            $pdf->Line(10,$y,$x,$y);*/
             
         //$pdf->contenido_detalle($dtDetalle);
+            $hash="";
+            $dtFv=factura_venta_sunat::getGrid2($id);
+            if(count($dtFv)>0){
+                $hash=$dtFv[0]['hash'];
+            }
+            $pdf->hash=$hash;
             $pdf->contenedor_detalle(130);
             $pdf->SetWidths(array(20,15,15,100,25,25));
             $pdf->SetAligns(array('C','C','C','L','R','R'));

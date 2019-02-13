@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>views/mantenimiento/operador_mantenimiento.php</url>
-            <bookmark id="1">
-                <name/>
-                <line>29</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/operador_mantenimiento.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/operador_mantenimiento_editar.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/salida/cotizacion_mantenimiento_editar.php</file>
@@ -19,6 +11,15 @@
             <file>file:/C:/xampp/htdocs/proyecto/controls/salidaController.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/controls/mantenimientoController.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/operador_mantenimiento_nuevo.php</file>
+=======
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/formatos_pdf/factura_venta_pdf.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/logs_errores.txt</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/facturacion_electronica/transaccion_documentos.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_editar.php</file>
+>>>>>>> eebb0f98f8f793ea84fe6632d269efb729b9e553
         </group>
     </open-files>
 </project-private>

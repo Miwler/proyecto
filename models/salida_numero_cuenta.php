@@ -41,8 +41,20 @@ class salida_numero_cuenta {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+    {
+          $this->usuario_id=$_SESSION["usuario_ID"];
+      $this->usuario_mod_id=$_SESSION["usuario_ID"];
+
+    }
+    function __destruct()
+    {
+          $this->usuario_id;
+      $this->usuario_mod_id;
+
+    }
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -93,7 +105,7 @@ class salida_numero_cuenta {
         }
     }
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,salida_ID,numero_cuenta_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from salida_numero_cuenta ';
@@ -120,7 +132,7 @@ class salida_numero_cuenta {
      
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select ID,salida_ID,numero_cuenta_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -146,7 +158,7 @@ class salida_numero_cuenta {
 	}
     static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ovnc.ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='select ovnc.ID,ovnc.salida_ID,ovnc.numero_cuenta_ID,ovnc.usuario_id,ifnull(ovnc.usuario_mod_id,-1) as usuario_mod_id,';
@@ -171,4 +183,77 @@ class salida_numero_cuenta {
                 throw new Exception('Ocurrio un error en la consulta');
         }
     }
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_salida_numero_cuenta_Insert",
+            array(
+            "iID"=>0,
+            "isalida_ID"=>$this->salida_ID,
+            "inumero_cuenta_ID"=>$this->numero_cuenta_ID,
+            "iusuario_id"=>$this->usuario_id,
+
+        ),0);
+      if($ID>0){
+        $this->message="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "salida_numero_cuenta.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_salida_numero_cuenta_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "isalida_ID"=>$this->salida_ID,
+                "inumero_cuenta_ID"=>$this->numero_cuenta_ID,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
+      if($retornar>0){
+          $this->message="Se actualizó correctamente";
+      }
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "salida_numero_cuenta.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function eliminar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_salida_numero_cuenta_Delete",
+            array(
+              "retornar"=>$retornar,
+              "iID"=>$this->ID,
+              "iusuario_mod_id"=>$this->usuario_mod_id ),0
+            );
+      if($retornar>0)$this->getMessage = "Se elimin? correctamente";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "salida_numero_cuenta.eliminar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 }
