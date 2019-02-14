@@ -394,11 +394,18 @@ function validarEmail(cadena)
     return expresion.test(cadena);       
 }
 
-function validarFecha(cadena) {    
+function validarFecha(cadena) {  
+        var RegExPattern = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
+      if ((cadena.match(RegExPattern)) && (cadena!='')) {
+           // return true;
+      } else {
+            return false;
+      }
     var buscar = cadena.indexOf("_");
-
+    
     if (buscar == -1) {
         var cadena = cadena.split('/');
+        
         var dia = parseFloat(cadena[0]);
         var mes = parseFloat(cadena[1]);
         var anio = parseFloat(cadena[2]);

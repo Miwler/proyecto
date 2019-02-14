@@ -10,8 +10,9 @@ function fncTitle() { ?>Editar Operador<?php } ?>
 function fncHead() { ?>
 
     <script type="text/javascript" src="include/js/jForm.js"></script>
-
-  
+    <script type="text/javascript" src="include/js/jTeclas.js"></script>
+   
+    
 <?php } ?>
 
 <?php
@@ -116,6 +117,7 @@ function fncPage() { ?>
 </form>
     <?php } ?>
 <script type="text/javascript">
+    
     $(document).ready(function(){
         $("#selCargo").val("<?php echo $GLOBALS['oOperador']->cargo_ID;?>");
     });
@@ -123,14 +125,11 @@ function fncPage() { ?>
     var validar=function(){
         var persona_ID=$.trim($("#txtPersona_ID").val());
         var fecha_contrato = $.trim($("#txtFecha_Contrato").val());
-        
-        if(fecha_contrato!=""){
-            if(!validarFecha(fecha_contrato)){
+        if(validarFecha(fecha_contrato)==false){
             mensaje.error("Mensaje de error","Debe ingresar una fecha válida","txtFecha_Contrato");
             mover_scroll_inicio();
             return false;
             } 
-        }
         
 //        if(fecha_contrato==null || fecha_contrato=="____/__/__"){
 //            mensaje.error("Mensaje de error","Debe ingresar una fecha válida","txtFecha_Contrato");
