@@ -269,7 +269,7 @@ class producto {
             $q.= 'usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from producto ';
             $q.=' where del=0 and ID=' . $ID;
-			//echo $q;
+			echo $q;
             $dt = $cn->getGrid($q);
             $oProducto = null;
 
