@@ -35,7 +35,7 @@ class producto {
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
-
+//deed
         // Verifica que la propiedad exista, en este caso el nombre es la cadena en "$temporal"		
         if (property_exists('producto', $temporal)) {
             $this->$temporal = $valor;
