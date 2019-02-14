@@ -3122,11 +3122,11 @@ function post_Operador_Mantenimiento_Nuevo() {
     $returnView_float = true;
     $dtCargo = cargo::getGrid('');
     $persona_ID = $_POST['txtPersona_ID'];
-    $telefono = FormatTextSave($_POST['txtTelefono']);
-    $celular = FormatTextSave($_POST['txtCelular']);
-    $mail = FormatTextSave($_POST['txtMail']);
-    $fecha_contrato = $_POST['txtFecha_Contrato'];
-    $comision = $_POST['txtComision'];
+    $telefono = trim($_POST['txtTelefono']);
+    $celular = trim($_POST['txtCelular']);
+    $mail = trim($_POST['txtMail']);
+    $fecha_contrato = trim($_POST['txtFecha_Contrato']);
+    $comision = trim($_POST['txtComision']);
     $cargo = $_POST['selCargo'];
     $oOperador = new operador();
 
@@ -3188,16 +3188,12 @@ function post_Operador_Mantenimiento_Editar($id) {
     global $returnView_float;
     $returnView_float = true;
     
-    
-    
-    
-
     $persona_ID= $_POST['txtPersona_ID'];
-    $telefono = FormatTextSave($_POST['txtTelefono']);
-    $celular = FormatTextSave($_POST['txtCelular']);
-    $mail = FormatTextSave($_POST['txtMail']);
-    $fecha_contrato = $_POST['txtFecha_Contrato'];
-    $comision = $_POST['txtComision'];
+    $telefono = trim($_POST['txtTelefono']);
+    $celular = trim($_POST['txtCelular']);
+    $mail = trim($_POST['txtMail']);
+    $fecha_contrato = trim($_POST['txtFecha_Contrato']);
+    $comision = trim($_POST['txtComision']);
     $cargo = $_POST['selCargo'];
     try {
         $dtCargo = cargo::getGrid('',-1,-1,"nombre asc");
@@ -3304,9 +3300,9 @@ function post_ajaxOperador_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView($item['apellido_paterno']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView($item['apellido_materno']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView($item['nombres']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView($item['numero']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['apellido_materno']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['nombres']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['numero']) . '</td>';
             $resultado.='<td class="tdLeft">' . $oCargo->nombre . '</td>';
             $botones=array();
             
@@ -6109,17 +6105,17 @@ function post_Persona_Mantenimiento_Nuevo() {
     $returnView_float = true;
     $oPersona=new persona();
     $tipo_documentop_ID=$_POST['selTipo_Documento'];
-    $numero=FormatTextSave($_POST['txtNumero']);
-    $apellido_paterno=  FormatTextSave(strtoupper($_POST['txtApellido_Paterno']));
-    $apellido_materno=  FormatTextSave(strtoupper($_POST['txtApellido_Materno']));
-    $nombres=  FormatTextSave(strtoupper($_POST['txtNombres']));
+    $numero=trim($_POST['txtNumero']);
+    $apellido_paterno=trim($_POST['txtApellido_Paterno']);
+    $apellido_materno=trim($_POST['txtApellido_Materno']);
+    $nombres=trim($_POST['txtNombres']);
     $fecha_nacimiento=$_POST['txtFecha_Nacimiento'];
     $sexo_ID=$_POST['selSexo_ID'];
     $distrito_ID=$_POST['selDistrito'];
-    $direccion=FormatTextSave(strtoupper($_POST['txtDireccion']));
-    $correo=FormatTextSave($_POST['txtCorreo']);
-    $telefono=FormatTextSave($_POST['txtTelefono']);
-    $celular=FormatTextSave($_POST['txtCelular']);
+    $direccion=trim($_POST['txtDireccion']);
+    $correo=trim($_POST['txtCorreo']);
+    $telefono=trim($_POST['txtTelefono']);
+    $celular=trim($_POST['txtCelular']);
     try {
         $oPersona->apellido_paterno=$apellido_paterno;
         $oPersona->apellido_materno=$apellido_materno;
