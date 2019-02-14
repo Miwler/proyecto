@@ -1479,3 +1479,8 @@ RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: Falló la preparación: (1054)
 >>>>>>> eebb0f98f8f793ea84fe6632d269efb729b9e553
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 06:02:35
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)

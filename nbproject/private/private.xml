@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>views/mantenimiento/operador_mantenimiento.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>29</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_editar.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_nuevo.php</file>
+=======
+            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/operador_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/operador_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/logs_errores.txt</file>
+            <file>file:/C:/xampp/htdocs/proyecto/models/operador.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/include/js/jTeclas.js</file>
+            <file>file:/C:/xampp/htdocs/proyecto/controls/mantenimientoController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/cliente_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/shared/content-float-modal.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/lib/function.php</file>
+>>>>>>> a6780f6c099c7322a59492468c4d34d885d036e8
         </group>
     </open-files>
 </project-private>

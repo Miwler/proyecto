@@ -33,7 +33,7 @@
        
        
 	<script type="text/javascript" src="include/js/jscript-float1.js" ></script>
-	<script type="text/javascript" src="include/js/jTeclas.js" ></script>
+	
         
 	<script type="text/javascript" src="include/js/jCboDiv.js" ></script>
 	<script type="text/javascript" src="include/js/jFunc.js" ></script>
@@ -90,8 +90,9 @@
         <script src="../../include/js/jBotones.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="include/css/toastem.css" />   
         <script type="text/javascript" src="include/js/jscript.js" ></script>
+<!--        <script src="../../include/js/jTeclas.js" type="text/javascript"></script>-->
 	<script type="text/javascript" >
-        
+
         var fParent= parent.fParent;   
           
 	</script>
