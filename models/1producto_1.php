@@ -229,8 +229,8 @@ class producto {
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'pr.ID asc') {
         $cn = new connect_new();
         try {
-            $q = 'SELECT pr.ID,pr.descripcion,pr.unidad_medida_ID,upper(pr.nombre) as producto,pr.codigo,ca.nombre as categoria,';
-            $q.= 'upper(li.nombre) as linea , ca.ID as categoria_ID , upper(es.nombre) as estado,pr.moneda_ID,pr.precio_inicial_soles,';
+            $q = 'SELECT pr.ID,pr.descripcion,pr.unidad_medida_ID,pr.nombre as producto,pr.codigo,ca.nombre as categoria,';
+            $q.= 'li.nombre as linea , ca.ID as categoria_ID , es.nombre as estado,pr.moneda_ID,pr.precio_inicial_soles,';
             $q.= 'pr.precio_inicial_dolares,pr.tipo_cambio,pr.ver_web,pr.caracteristicas,pr.especificaciones';
             $q.=' FROM producto pr, categoria ca, estado es,linea li ';
             $q.=' where pr.empresa_ID='.$_SESSION['empresa_ID'].' and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es.ID=pr.estado_ID and li.del=0';
@@ -245,7 +245,7 @@ class producto {
             if ($desde != -1 && $hasta != -1) {
                 $q.=' Limit ' . $desde . ',' . $hasta;
             }
-            //echo $q;
+            echo $q;
             $dt = $cn->getGrid($q);
            
             return $dt;

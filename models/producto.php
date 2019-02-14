@@ -134,26 +134,26 @@ class producto {
       $ID=$cn->store_procedure_transa(
           "sp_producto_Insert",
             array(
-    "iID"=>0,
-    "iempresa_ID"=>$this->empresa_ID,
-    "icategoria_ID"=>$this->categoria_ID,
-    "inombre"=>$this->nombre,
-    "iestado_ID"=>$this->estado_ID,
-    "idescripcion"=>$this->descripcion,
-    "imarca"=>$this->marca,
-    "ipeso"=>$this->peso,
-    "imodelo"=>$this->modelo,
-    "icolor"=>$this->color,
-    "iunidad_medida_ID"=>$this->unidad_medida_ID,
-    "iprecio_inicial_soles"=>$this->precio_inicial_soles,
-    "iprecio_inicial_dolares"=>$this->precio_inicial_dolares,
-    "imoneda_ID"=>$this->moneda_ID,
-    "itipo_cambio"=>$this->tipo_cambio,
-    "iver_web"=>$this->ver_web,
-    "icaracteristicas"=>$this->caracteristicas,
-    "iespecificaciones"=>$this->especificaciones,
-    "iusuario_id"=>$this->usuario_id
-),0);
+            "iID"=>0,
+            "iempresa_ID"=>$this->empresa_ID,
+            "icategoria_ID"=>$this->categoria_ID,
+            "inombre"=>$this->nombre,
+            "iestado_ID"=>$this->estado_ID,
+            "idescripcion"=>$this->descripcion,
+            "imarca"=>$this->marca,
+            "ipeso"=>$this->peso,
+            "imodelo"=>$this->modelo,
+            "icolor"=>$this->color,
+            "iunidad_medida_ID"=>$this->unidad_medida_ID,
+            "iprecio_inicial_soles"=>$this->precio_inicial_soles,
+            "iprecio_inicial_dolares"=>$this->precio_inicial_dolares,
+            "imoneda_ID"=>$this->moneda_ID,
+            "itipo_cambio"=>$this->tipo_cambio,
+            "iver_web"=>$this->ver_web,
+            "icaracteristicas"=>$this->caracteristicas,
+            "iespecificaciones"=>$this->especificaciones,
+            "iusuario_id"=>$this->usuario_id
+        ),0);
       if($ID>0){
         $this->getMessage="El registro se guardó correctamente.";
         $this->ID=$ID;
@@ -187,7 +187,50 @@ class producto {
             
         }
     }
-
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_producto_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iempresa_ID"=>$this->empresa_ID,
+                "icategoria_ID"=>$this->categoria_ID,
+                "inombre"=>$this->nombre,
+                "iestado_ID"=>$this->estado_ID,
+                "idescripcion"=>$this->descripcion,
+                "imarca"=>$this->marca,
+                "ipeso"=>$this->peso,
+                "imodelo"=>$this->modelo,
+                "icolor"=>$this->color,
+                "iunidad_medida_ID"=>$this->unidad_medida_ID,
+                "iprecio_inicial_soles"=>$this->precio_inicial_soles,
+                "iprecio_inicial_dolares"=>$this->precio_inicial_dolares,
+                "imoneda_ID"=>$this->moneda_ID,
+                "itipo_cambio"=>$this->tipo_cambio,
+                "iver_web"=>$this->ver_web,
+                "icaracteristicas"=>$this->caracteristicas,
+                "iespecificaciones"=>$this->especificaciones,
+                "icodigo"=>$this->codigo,
+                "iactivo"=>$this->activo,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
+      if($retornar>0){
+          $this->getMessage="Se actualizó correctamente";
+      }else{
+          $this->getMessage="No se realizó ninguna acción";
+      }
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "producto.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function eliminar() {
         $cn = new connect_new();
         $retornar = -1;
@@ -261,7 +304,7 @@ class producto {
         }
     }
 
-    static function getByID($ID) {
+    /*static function getByID($ID) {
         $cn = new connect_new();
         try {
             $q = 'Select ID,empresa_ID,codigo,nombre,unidad_medida_ID,descripcion,marca,peso,modelo,color,categoria_ID,estado_ID,codigo,';
@@ -269,7 +312,7 @@ class producto {
             $q.= 'usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from producto ';
             $q.=' where del=0 and ID=' . $ID;
-			echo $q;
+			
             $dt = $cn->getGrid($q);
             $oProducto = null;
 
@@ -277,7 +320,7 @@ class producto {
                 $oProducto = new producto();
                 $oProducto->ID = $item['ID'];
                 $oProducto->empresa_ID = $item['empresa_ID'];
-                $oProducto->nombre = $item['nombre'];
+                $oProducto->nombre = utf8_encode($item['nombre']);
                 $oProducto->descripcion = $item['descripcion'];
                 $oProducto->unidad_medida_ID = $item['unidad_medida_ID'];
                 $oProducto->categoria_ID = $item['categoria_ID'];
@@ -302,13 +345,55 @@ class producto {
         } catch (Exeption $ex) {
             throw new Exception("Ocurrio un error en la consulta");
         }
-    }
+    }*/
+static function getByID($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_producto_getByID",
+          array("iID"=>$ID));
+      $oproducto=null;
+      foreach($dt as $item)
+      {
+        $oproducto= new producto();
+      $oproducto->ID=$item["ID"];
+      $oproducto->empresa_ID=$item["empresa_ID"];
+      $oproducto->categoria_ID=$item["categoria_ID"];
+      $oproducto->nombre=$item["nombre"];
+      $oproducto->estado_ID=$item["estado_ID"];
+      $oproducto->descripcion=$item["descripcion"];
+      $oproducto->marca=$item["marca"];
+      $oproducto->peso=$item["peso"];
+      $oproducto->modelo=$item["modelo"];
+      $oproducto->color=$item["color"];
+      $oproducto->unidad_medida_ID=$item["unidad_medida_ID"];
+      $oproducto->precio_inicial_soles=$item["precio_inicial_soles"];
+      $oproducto->precio_inicial_dolares=$item["precio_inicial_dolares"];
+      $oproducto->moneda_ID=$item["moneda_ID"];
+      $oproducto->tipo_cambio=$item["tipo_cambio"];
+      $oproducto->ver_web=$item["ver_web"];
+      $oproducto->caracteristicas=$item["caracteristicas"];
+      $oproducto->especificaciones=$item["especificaciones"];
+      $oproducto->codigo=$item["codigo"];
+      $oproducto->activo=$item["activo"];
+      $oproducto->usuario_id=$item["usuario_id"];
+      $oproducto->usuario_mod_id=$item["usuario_mod_id"];
 
+      }
+      return $oproducto;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "producto.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'pr.ID asc') {
         $cn = new connect_new();
         try {
-            $q = 'SELECT pr.ID,pr.descripcion,pr.unidad_medida_ID,upper(pr.nombre) as producto,pr.codigo,ca.nombre as categoria,';
-            $q.= 'upper(li.nombre) as linea , ca.ID as categoria_ID , upper(es.nombre) as estado,pr.moneda_ID,pr.precio_inicial_soles,';
+            $q = 'SELECT pr.ID,pr.descripcion,pr.unidad_medida_ID,pr.nombre as producto,pr.codigo,ca.nombre as categoria,';
+            $q.= 'li.nombre as linea , ca.ID as categoria_ID , es.nombre as estado,pr.moneda_ID,pr.precio_inicial_soles,';
             $q.= 'pr.precio_inicial_dolares,pr.tipo_cambio,pr.ver_web,pr.caracteristicas,pr.especificaciones,pr.activo';
             $q.=' FROM producto pr, categoria ca, estado es,linea li ';
             $q.=' where pr.empresa_ID='.$_SESSION['empresa_ID'].' and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es.ID=pr.estado_ID and li.del=0';
@@ -331,6 +416,26 @@ class producto {
             throw new Exception($q);
         }
     }
+    static function getGrid1($filtro="",$inicio=-1,$fin=-1,$orden="pr.ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_producto_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "producto.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getListaProducto($categoria_ID,$linea_ID)
     {
         $cn =new connect_new();

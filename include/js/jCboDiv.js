@@ -509,7 +509,7 @@ var ajaxSelect = function (objContent,url,txtBuscar,callBack)
             var respuesta = $.parseJSON(respuesta);
             //alert(respuesta.resultado);
             $('#' + objContent).html(respuesta.resultado);            
-
+            $('#' + objContent).trigger("chosen:updated");
             $('#script').html(respuesta.funcion);
 
             if (callBack){
