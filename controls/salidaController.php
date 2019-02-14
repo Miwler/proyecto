@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*hola miwlerr/
+/*hola miwlerr/ajaxCotizacion_Detalle_Productos
 /**de
  * Description of ventasController
  *
@@ -1624,7 +1624,7 @@ function post_ajaxCotizacion_Detalle_Productos(){
                 $resultado.='<td class="tdCenter">'.$componente.'</td>';
                 $resultado.='<td class="tdCenter">'.$adicional.'</td>';
                 $resultado.='<td class="tdCenter">'.$i.'</td>';
-                $resultado.='<td class="tdLeft">'.FormatTextView(strtoupper($oProducto->nombre)).'</td>';
+                $resultado.='<td class="tdLeft">'. test_input($oProducto->nombre).'</td>';
                 $resultado.='<td class="tdCenter">'.$item['cantidad'].'</td>';
                 $resultado.='<td class="tdRight" style="padding-right:8px;">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
                 $resultado.='<td class="tdRight" style="padding-right:8px;">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
@@ -4571,7 +4571,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     $resultado.='<td class="text-center">'.$componente.'</td>';
                     $resultado.='<td class="text-center">'.$adicional.'</td>';
                     $resultado.='<td class="text-center">'.$item['cantidad'].'</td>';
-                    $resultado.='<td class="tdLeft">'.FormatTextView(strtoupper($oProducto->nombre)).'</td>';
+                   
+                    $resultado.='<td class="tdLeft">'. test_input($oProducto->nombre).'</td>';
+                   
                     //$resultado.='<td class="text-right">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($item['valor_unitario'],2,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
@@ -10039,7 +10041,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
 
                     $html.='<tr>';
                     $html.='<td id="td'.$i.'" width="85.4px" style="text-align:center; padding-top: 10px; border:none;font-weight: bold;">'. $item['cantidad'].' </td>';
-                    $html.='<td width="524.3px" style="padding:0 20px;padding-top: 10px;border:none;"><span style="font-weight: bold;">'. FormatTextViewHtml($item['producto']).'</span>';
+                    $html.='<td width="524.3px" style="padding:0 20px;padding-top: 10px;border:none;"><span style="font-weight: bold;">'. test_input($item['producto']).'</span>';
                     if($item['descripcion']!=""){
                          $html.='<br/><span>'. nl2br(utf8_encode($item['descripcion'])) .'</span>';
                     }

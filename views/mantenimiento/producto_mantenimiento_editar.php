@@ -36,10 +36,8 @@ function fncMenu() { ?>
                 <div class="tab-content">
                     <div id="divDatos" class="tab-pane fade in active inner-all">
                         <div class="form-group">
-                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                                <label>Código: </label>
-                            </div>
-                            <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                            <label class="col-sm-3 control-label">Código: </label>
+                            <div  class="col-sm-9">
                                 <input type="text" class="form-control"  value="<?php echo sprintf("%'.06d",$GLOBALS['oProducto']->ID);?>" disabled>
                             </div>
                         </div>
@@ -85,7 +83,7 @@ function fncMenu() { ?>
                                 <label>Nombre: </label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                                <input id="txtNombre" name="txtNombre"  onkeyup="MostrarLista(this.id,'divProducto');" type="text"  autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oProducto']->nombre); ?>" class="form-control text-uppercase form-requerido" />
+                                <input id="txtNombre" name="txtNombre"  onkeyup="MostrarLista(this.id,'divProducto');" type="text"  autocomplete="off" value="<?php echo $GLOBALS['oProducto']->nombre; ?>" class="form-control form-requerido" />
                                 <div id="divProducto" style="position:absolute;width:350px;z-index: 10;top:35;"></div>
                             </div>
                         </div>
@@ -94,7 +92,7 @@ function fncMenu() { ?>
                                 <label>Descripción: </label>
                             </div>
                             <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                                <textarea id="txtDescripcion" name="txtDescripcion" style="height:60px;" class="form-control text-uppercase"/><?php echo FormatTextView($GLOBALS['oProducto']->descripcion);?></textarea>
+                                <textarea id="txtDescripcion" name="txtDescripcion" style="height:60px;overflow:auto;resize:none;" class="form-control"/><?php echo FormatTextView($GLOBALS['oProducto']->descripcion);?></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -104,7 +102,7 @@ function fncMenu() { ?>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
                                <select id="selMoneda_ID" name="selMoneda_ID"  class="form-control" onchange='fncTipo_Cambio(this.value);'>
                                     <?php foreach($GLOBALS['oProducto']->dtMoneda as $item){?>
-                                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['descripcion']));?></option>
+                                    <option value="<?php echo $item['ID']?>"><?php echo utf8_encode($item['descripcion']);?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -154,7 +152,7 @@ function fncMenu() { ?>
                                 <label>Marca: </label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                               <input id="txtMarca" name="txtMarca" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->marca; ?>" class="form-control text-uppercase"/>
+                               <input id="txtMarca" name="txtMarca" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->marca; ?>" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -162,7 +160,7 @@ function fncMenu() { ?>
                                 <label>Modelo: </label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                               <input id="txtModelo" name="txtModelo" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->modelo; ?>" class="form-control text-uppercase"/>
+                               <input id="txtModelo" name="txtModelo" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->modelo; ?>" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -170,7 +168,7 @@ function fncMenu() { ?>
                                 <label>Color: </label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                              <input id="txtColor" name="txtColor" type="text" autocomplete="off"  value="<?php echo $GLOBALS['oProducto']->color; ?>" class="form-control text-uppercase"/>        
+                              <input id="txtColor" name="txtColor" type="text" autocomplete="off"  value="<?php echo $GLOBALS['oProducto']->color; ?>" class="form-control"/>        
                             </div>
                         </div>
                     </div>

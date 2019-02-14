@@ -2268,15 +2268,15 @@ function post_Producto_Mantenimiento_Nuevo() {
         $precio_inicial_dolares=0;
     }
     $unidad_medida_ID = $_POST['selUnidad_Medida'];
-    $marca=FormatTextSave(strtoupper(trim($_POST['txtMarca'])));
-    $modelo=FormatTextSave(strtoupper(trim($_POST['txtModelo'])));
-    $color=FormatTextSave(strtoupper(trim($_POST['txtColor'])));
+    $marca=trim($_POST['txtMarca']);
+    $modelo=trim($_POST['txtModelo']);
+    $color=trim($_POST['txtColor']);
     //Informacion para la web
     
     $ver_web=(!isset($_POST['ckVer_Web']))?0:$_POST['ckVer_Web'];
     
-    $caracteristicas=FormatTextSave(strtoupper(trim($_POST['txtCaracteristicas'])));
-    $especificaciones=FormatTextSave(strtoupper(trim($_POST['txtEspecificaciones'])));
+    $caracteristicas=trim($_POST['txtCaracteristicas']);
+    $especificaciones=trim($_POST['txtEspecificaciones']);
    
     $oProducto = new producto;
 
@@ -2299,29 +2299,33 @@ function post_Producto_Mantenimiento_Nuevo() {
         $oProducto->especificaciones=$especificaciones;
         $oProducto->usuario_id = $_SESSION['usuario_ID'];
         if ($oProducto->verificarDuplicado() > 0) {
-            throw new Exception($oProducto->getMessage);
-         
-        } 
-        $oProducto->insertar1();
+            
+            //throw new Exception($oProducto->getMessage);
+            $GLOBALS['resultado'] = -1;
+            $GLOBALS['mensaje']=$oProducto->getMessage;
+        } else{
+            $oProducto->insertar1();
         // Mover fichero de imagen chica a su ubicación definitiva
 
        /*Insertamos el producto al  inventario con estado inicial */
-        $oInventario=new inventario();
-        $oInventario->descripcion=$descripcion;
-        $oInventario->producto_ID=$oProducto->ID;
-        $oInventario->estado_ID=47;
-        $oInventario->salida_detalle_ID="NULL";
-        $oInventario->ingreso_detalle_ID="NULL";
-        $oInventario->utilidad_soles=0;
-        $oInventario->utilidad_dolares=0;
-        $oInventario->comision_soles=0;
-        $oInventario->comision_dolares=0;
-        $oInventario->serie="NULL";
-        $oInventario->cotizacion_detalle_ID="NULL";
-        $oInventario->usuario_id=$_SESSION['usuario_ID'];   
-        $oInventario->insertar();
-        $GLOBALS['resultado'] = 1;
-        $GLOBALS['mensaje']=$oProducto->getMessage;
+            $oInventario=new inventario();
+            $oInventario->descripcion=$descripcion;
+            $oInventario->producto_ID=$oProducto->ID;
+            $oInventario->estado_ID=47;
+            $oInventario->salida_detalle_ID="NULL";
+            $oInventario->ingreso_detalle_ID="NULL";
+            $oInventario->utilidad_soles=0;
+            $oInventario->utilidad_dolares=0;
+            $oInventario->comision_soles=0;
+            $oInventario->comision_dolares=0;
+            $oInventario->serie="NULL";
+            $oInventario->cotizacion_detalle_ID="NULL";
+            $oInventario->usuario_id=$_SESSION['usuario_ID'];   
+            $oInventario->insertar();
+            $GLOBALS['resultado'] = 1;
+            $GLOBALS['mensaje']=$oProducto->getMessage;
+        }
+        
  
     } catch (Exception $ex) {
         $GLOBALS['resultado'] = -1;
@@ -2342,7 +2346,7 @@ function post_Producto_Mantenimiento_Nuevo() {
     $GLOBALS['categoria_ID']= $_POST['selCategoria'];
     $GLOBALS['oProducto'] = $oProducto;
     
-    $GLOBALS['oProducto'] = $oProducto;
+   
 }
 function post_ajaxCbo_Categoria() {
     require ROOT_PATH . 'models/categoria.php';
@@ -2421,44 +2425,51 @@ function post_Producto_Mantenimiento_Editar($id) {
     $precio_inicial_soles=$_POST['txtPrecio_Inicial_soles'];
     $precio_inicial_dolares=$_POST['txtPrecio_Inicial_Dolares'];
     $tipo_cambio=$_POST['txtTipo_Cambio'];
-    $marca=FormatTextSave(strtoupper(trim($_POST['txtMarca'])));
-    $modelo=FormatTextSave(strtoupper(trim($_POST['txtModelo'])));
-    $color=FormatTextSave(strtoupper(trim($_POST['txtColor'])));
+    $marca=trim($_POST['txtMarca']);
+    $modelo=trim($_POST['txtModelo']);
+    $color=trim($_POST['txtColor']);
     $ver_web=(!isset($_POST['ckVer_Web']))?0:$_POST['ckVer_Web'];
-    $caracteristicas=FormatTextSave(strtoupper(trim($_POST['txtCaracteristicas'])));
-    $especificaciones=FormatTextSave(strtoupper(trim($_POST['txtEspecificaciones'])));
+    $caracteristicas=trim($_POST['txtCaracteristicas']);
+    $especificaciones=trim($_POST['txtEspecificaciones']);
     $oProducto = producto::getByID($id);
     try {
         if ($oProducto == null) {
-            throw new Exception('Parecer que el registro ya fue eliminado');
-      
-        }
-        $oProducto->ID=$id;
-        $oProducto->empresa_ID=$_SESSION['empresa_ID'];
-        $oProducto->nombre = $nombre;
-        $oProducto->descripcion = $descripcion;
-        $oProducto->unidad_medida_ID = $unidad_medida_ID;
-        
-        $oProducto->categoria_ID = $categoria_ID;
-        $oProducto->marca=$marca;
-        $oProducto->modelo=$modelo;
-        $oProducto->color=$color;
-        $oProducto->moneda_ID=$moneda_ID;
-        $oProducto->precio_inicial_soles=$precio_inicial_soles;
-        $oProducto->precio_inicial_dolares=$precio_inicial_dolares;
-        $oProducto->tipo_cambio=$tipo_cambio;
-        $oProducto->ver_web=$ver_web;
-        $oProducto->caracteristicas=$caracteristicas;
-        $oProducto->especificaciones=$especificaciones;
-        $oProducto->usuario_mod_id = $_SESSION['usuario_ID'];
-
-        if ($oProducto->verificarDuplicado() > 0) {
-               throw new Exception($oProducto->getMessage);
-        }
-        $oProducto->actualizar();
             
-        $GLOBALS['resultado'] = 1;
-        $GLOBALS['mensaje']="Se actualizó correctamente";
+            $GLOBALS['resultado'] = -1;
+                $GLOBALS['mensaje']='Parecer que el registro ya fue eliminado';
+        }else{
+            $oProducto->ID=$id;
+            $oProducto->empresa_ID=$_SESSION['empresa_ID'];
+            $oProducto->nombre = $nombre;
+            $oProducto->descripcion = $descripcion;
+            $oProducto->unidad_medida_ID = $unidad_medida_ID;
+
+            $oProducto->categoria_ID = $categoria_ID;
+            $oProducto->marca=$marca;
+            $oProducto->modelo=$modelo;
+            $oProducto->color=$color;
+            $oProducto->moneda_ID=$moneda_ID;
+            $oProducto->precio_inicial_soles=$precio_inicial_soles;
+            $oProducto->precio_inicial_dolares=$precio_inicial_dolares;
+            $oProducto->tipo_cambio=$tipo_cambio;
+            $oProducto->ver_web=$ver_web;
+            $oProducto->caracteristicas=$caracteristicas;
+            $oProducto->especificaciones=$especificaciones;
+            $oProducto->usuario_mod_id = $_SESSION['usuario_ID'];
+
+            if ($oProducto->verificarDuplicado() > 0) {
+                $GLOBALS['resultado'] = -1;
+                $GLOBALS['mensaje']=$oProducto->getMessage;
+
+            }else{
+                $oProducto->actualizar1();
+
+                $GLOBALS['resultado'] = 1;
+                $GLOBALS['mensaje']="Se actualizó correctamente";
+            }
+        }
+        
+        
     } catch (Exception $ex) {
         $GLOBALS['resultado'] = -1;
         $GLOBALS['mensaje'] = $ex->getMessage();
@@ -2680,7 +2691,7 @@ function post_ajaxProducto_Mantenimiento() {
     }
    $filtro='';
    if($opcion_tipo=="buscar"){
-       $filtro.=((trim($filtro)!="")?" and ":""). ' upper(pr.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+       $filtro.=((trim($filtro)!="")?" and ":""). ' upper(pr.nombre) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
         if($_POST['txtCodigo']!=""){
             $filtro='pr.ID='.$_POST['txtCodigo'];
         }
@@ -2717,15 +2728,16 @@ function post_ajaxProducto_Mantenimiento() {
     try {
         $cantidadMaxima = producto::getCount($filtro);
         $dtProducto = producto::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        
         $rows = count($dtProducto);
         $i=($paginaActual-1)*$cantidadMostrar+1;
         foreach ($dtProducto as $item) {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['ID']) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['producto']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['categoria']))) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['linea']))) . '</td>';
+            $resultado.='<td class="tdLeft">' . $item['producto'] . '</td>';
+            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower(trim($item['categoria'])))) . '</td>';
+            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower(trim($item['linea'])))) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['estado']))) . '</td>';
             
             if($item['activo']==1){
@@ -2772,20 +2784,20 @@ function post_ajaxProducto_Mantenimiento() {
 // muestra la lista deplegable
 function post_ajaxCbo_Producto(){
     require ROOT_PATH.'models/producto.php';
-    $buscar=$_POST['txtBuscar'];
+    $buscar=trim($_POST['txtBuscar']);
     if(trim($buscar)!=""){
-        $filtro='upper(pr.nombre) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
+        $filtro='pr.empresa_ID='.$_SESSION['empresa_ID'].' and upper(pr.nombre) like "%'.strtoupper($buscar).'%"';
     }else{
-        $filtro='pr.ID=0';
+        $filtro='pr.empresa_ID='.$_SESSION['empresa_ID'].' and pr.ID=0';
     }
 
-    $dtProducto=producto::getGrid($filtro);
-
+    $dtProducto=producto::getGrid1($filtro);
+    
     $i=1;
     $resultado='<ul class="cbo-ul">';
     if(count($dtProducto)>0){			
             foreach($dtProducto as $iProducto){
-                    $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.FormatTextViewHtml($iProducto['producto']).'&#39;);"><span id="'.$iProducto['ID'].'" title="'.FormatTextViewHtml($iProducto['producto']).'">'.FormatTextViewHtml($iProducto['producto']).'</span></li>';
+                    $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'. test_input($iProducto['producto']).'&#39;);"><span id="'.$iProducto['ID'].'" title="'.test_input($iProducto['producto']).'">'. test_input($iProducto['producto']).'</span></li>';
                     $i++;
             }
     }

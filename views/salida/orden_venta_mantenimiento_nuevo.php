@@ -175,7 +175,7 @@
                             <label>Fecha:<span class="asterisk">*</span> </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo date("d/m/Y"); ?>" /> 
+                            <input type="text" id="txtFecha" name="txtFecha" class="date-range-picker-single form-control" value="<?php echo $GLOBALS['oOrden_Venta']->fecha; ?>" /> 
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <label>Número: </label>
