@@ -10,6 +10,7 @@ function fncTitle() { ?>Nuevo Operador<?php } ?>
 function fncHead() { ?>
 
     <script type="text/javascript" src="include/js/jForm.js"></script>
+    <script type="text/javascript" src="include/js/jTeclas.js"></script>
     
 <?php } ?>
 
@@ -78,7 +79,6 @@ function fncPage() { ?>
 
         
         <div class="form-group">
-
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <label>Comision:</label>
             </div>

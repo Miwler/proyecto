@@ -55,7 +55,7 @@ class cliente_contacto {
             $this->getMessage = 'Se guardó correctamente';
             return $retorna;
         } catch (Exception $ex) {
-            throw new Exception('Ocurrio un error en la consulta');
+            throw new Exception($q);
         }
     }
 

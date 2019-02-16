@@ -33,7 +33,7 @@
        
        
 	<script type="text/javascript" src="include/js/jscript-float1.js" ></script>
-	
+	<script type="text/javascript" src="include/js/jTeclas.js" ></script>
         
 	<script type="text/javascript" src="include/js/jCboDiv.js" ></script>
 	<script type="text/javascript" src="include/js/jFunc.js" ></script>
