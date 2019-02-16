@@ -1384,9 +1384,9 @@ function post_Cliente_Mantenimiento_Editar($id) {
     }
    
     $ruc = $_POST['txtRuc'];
-    $razon_social = trim($_POST['txtRazon_Social']);
-    $direccion_fiscal = trim($_POST['txtDireccion_Fiscal']);
-    $nombre_comercial = trim($_POST['txtNombre_Comercial']);
+    $razon_social = test_input($_POST['txtRazon_Social']);
+    $direccion_fiscal = test_input($_POST['txtDireccion_Fiscal']);
+    $nombre_comercial = test_input($_POST['txtNombre_Comercial']);
     $estado_ID=$_POST['selEstado'];
     $telefono = trim($_POST['txtTelefono']);
     $celular = trim($_POST['txtCelular']);
