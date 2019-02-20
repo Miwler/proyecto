@@ -35,7 +35,7 @@ function fncPage() { ?>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selTipo_Documento" name="selTipo_Documento" class="form-control form-requerido">
                                         <?php foreach($GLOBALS['oPersona']->dtTipo_Documento as $item){ ?>
-                                        <option value="<?php echo $item['ID']?>"><?php echo FormatTextView($item['nombre'])?></option>
+                                        <option value="<?php echo $item['ID']?>"><?php echo $item['nombre'];?></option>
                                         <?php } ?>
                                     </select>
                                     <script type="text/javascript">
@@ -56,7 +56,7 @@ function fncPage() { ?>
                                     <label>Apellido Paterno: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtApellido_Paterno" name="txtApellido_Paterno"  value="<?php echo FormatTextView($GLOBALS['oPersona']->apellido_paterno);?>" autocomplete="off" class="form-control form-requerido " > 
+                                    <input type="text" id="txtApellido_Paterno" name="txtApellido_Paterno"  value="<?php echo $GLOBALS['oPersona']->apellido_paterno;?>" autocomplete="off" class="form-control form-requerido " > 
                                 </div>
                             </div>
                             <div class="form-group">
@@ -64,7 +64,7 @@ function fncPage() { ?>
                                     <label>Apellido Materno: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtApellido_Materno" name="txtApellido_Materno" value="<?php echo FormatTextView($GLOBALS['oPersona']->apellido_materno);?>" autocomplete="off" class="form-control form-requerido ">
+                                    <input type="text" id="txtApellido_Materno" name="txtApellido_Materno" value="<?php echo $GLOBALS['oPersona']->apellido_materno;?>" autocomplete="off" class="form-control form-requerido ">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -72,7 +72,7 @@ function fncPage() { ?>
                                     <label>Nombres: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtNombres" name="txtNombres" value="<?php echo FormatTextView($GLOBALS['oPersona']->nombres);?>" autocomplete="off" class="form-control form-requerido ">
+                                    <input type="text" id="txtNombres" name="txtNombres" value="<?php echo $GLOBALS['oPersona']->nombres;?>" autocomplete="off" class="form-control form-requerido ">
 
                                 </div>
                             </div>
@@ -130,7 +130,9 @@ function fncPage() { ?>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selProvincia" name="selProvincia" class="form-control" onchange="fncProvincia();">
-                                        <option value="0">--</option>
+                                        <?php foreach($GLOBALS['oPersona']->dtProvincia as $provincia){?>
+                                        <option value="<?php echo $provincia['ID']; ?>"><?php echo $provincia['nombre'];?></option>
+                                        <?php } ?>
                                     </select>
                                     <script type="text/javascript">
                                         $('#selProvincia').val(<?php echo $GLOBALS['oPersona']->provincia_ID; ?>);
@@ -143,7 +145,9 @@ function fncPage() { ?>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selDistrito" name="selDistrito" class="form-control">
-                                        <option value="0">--</option>
+                                        <?php foreach($GLOBALS['oPersona']->dtDistrito as $distrito){?>
+                                        <option value="<?php echo $distrito['ID']; ?>"><?php echo $distrito['nombre'];?></option>
+                                        <?php } ?>
                                     </select>
                                     <script type="text/javascript">
                                             $('#selDistrito').val(<?php echo $GLOBALS['oPersona']->distrito_ID; ?>);
@@ -155,7 +159,7 @@ function fncPage() { ?>
                                     <label>Dirección: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtDireccion" name="txtDireccion" value="<?php echo FormatTextView($GLOBALS['oPersona']->direccion);?>" autocomplete="off" class="form-control ">
+                                    <input type="text" id="txtDireccion" name="txtDireccion" value="<?php echo $GLOBALS['oPersona']->direccion;?>" autocomplete="off" class="form-control ">
                                 </div>
                             </div>
                             <div class="form-group"> 
@@ -163,7 +167,7 @@ function fncPage() { ?>
                                     <label>Correo: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtCorreo" name="txtCorreo" value="<?php echo FormatTextView($GLOBALS['oPersona']->correo);?>" autocomplete="off" class="form-control">
+                                    <input type="text" id="txtCorreo" name="txtCorreo" value="<?php echo $GLOBALS['oPersona']->correo;?>" autocomplete="off" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group"> 
@@ -171,7 +175,7 @@ function fncPage() { ?>
                                     <label>Teléfono: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtTelefono" name="txtTelefono" value="<?php echo FormatTextView($GLOBALS['oPersona']->telefono);?>" autocomplete="off" class="form-control text-uppercase">
+                                    <input type="text" id="txtTelefono" name="txtTelefono" value="<?php echo $GLOBALS['oPersona']->telefono;?>" autocomplete="off" class="form-control text-uppercase">
                                 </div>
                             </div>
                             <div class="form-group"> 
@@ -179,7 +183,7 @@ function fncPage() { ?>
                                     <label>Celular: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtCelular" name="txtCelular" value="<?php echo FormatTextView($GLOBALS['oPersona']->celular);?>" autocomplete="off" class="form-control int">
+                                    <input type="text" id="txtCelular" name="txtCelular" value="<?php echo $GLOBALS['oPersona']->celular;?>" autocomplete="off" class="form-control int">
                                 </div>
                             </div>
                         </div>
@@ -212,6 +216,7 @@ function fncPage() { ?>
         var apellido_materno=$.trim($('#txtApellido_Materno').val());
         var nombres=$.trim($('#txtNombres').val());
         var sexo_ID=$('#selSexo_ID').val();
+        var correo=$('#txtCorreo').val();
         if(numero==""){
             mensaje.error("Mensaje de error","Debe registrar un número de documento.",'txtNumero');
             return false;
@@ -231,6 +236,14 @@ function fncPage() { ?>
         if(sexo_ID==0){
             mensaje.error("Mensaje de error","Seleccione el sexo.",'selSexo_ID');
             return false;
+        }
+        if(correo!=""){
+            if (!validarEmail(correo))
+            {
+                mensaje.error("Mensaje de error","No es un correo valido.",'txtCorreo'); 
+                mover_scroll_inicio();
+                return false;
+            }
         }
         
     }

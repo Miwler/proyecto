@@ -58,7 +58,37 @@ class cliente_contacto {
             throw new Exception($q);
         }
     }
-
+ function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_cliente_contacto_Insert",
+            array(
+            "iID"=>0,
+            "icodigo"=>$this->codigo,
+            "icliente_ID"=>$this->cliente_ID,
+            "ipersona_ID"=>$this->persona_ID,
+            "itelefono"=>$this->telefono,
+            "icelular"=>$this->celular,
+            "icorreo"=>$this->correo,
+            "icargo"=>$this->cargo,
+            "iusuario_id"=>$this->usuario_id,
+            "iestado_ID"=>$this->estado_ID
+        ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cliente_contacto.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 function actualizar() {
     $cn = new connect_new();
     $retornar = -1;
@@ -75,6 +105,40 @@ function actualizar() {
         throw new Exception($q);
     }
 }
+
+
+
+function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_cliente_contacto_Update",
+            array(
+              "retornar"=>$retornar,
+                    "iID"=>$this->ID,
+                    "icodigo"=>$this->codigo,
+                    "icliente_ID"=>$this->cliente_ID,
+                    "ipersona_ID"=>$this->persona_ID,
+                    "itelefono"=>$this->telefono,
+                    "icelular"=>$this->celular,
+                    "icorreo"=>$this->correo,
+                    "icargo"=>$this->cargo,
+                    "iusuario_mod_id"=>$this->usuario_mod_id,
+                    "iestado_ID"=>$this->estado_ID
+                ),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cliente_contacto.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+
+
+
 
     function eliminar() {
         $cn = new connect_new();

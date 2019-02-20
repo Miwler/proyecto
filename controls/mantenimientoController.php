@@ -1274,13 +1274,26 @@ function post_Cliente_Mantenimiento_Nuevo() {
         $oCliente->estado_ID = $estado_ID;
         $oCliente->descuento = $descuento;
         $oCliente->tiempo_credito = $tiempo_credito;
+        $oCliente->tipo_documento_ID=6;
         $oCliente->usuario_id = $_SESSION['usuario_ID'];
         $oCliente->usuario_mod_id = $_SESSION['usuario_ID'];
+        
+        $retorna = $oCliente->insertar1();
 
-        if ($oCliente->verificarDuplicado() > 0) {
-             throw new Exception($oCliente->getMessage);
-        }
-        $oCliente->insertar();
+        if ($retorna==-2) {
+                $resultado=-1;
+                $mensaje="La razon social ya existe.";
+                
+        }else{
+            if ($retorna==-3)
+             {
+                $resultado=-1;
+                $mensaje="El ruc ya existe.";
+                
+             }else{
+                 
+//        $oCliente->insertar();
+       
         if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
             if($oCliente->ID>0){
                 $oCliente_Contacto->persona_ID=$persona_ID;
@@ -1305,10 +1318,12 @@ function post_Cliente_Mantenimiento_Nuevo() {
             $mensaje=$oCliente->getMessage;  
         }
        
-        
+             }
+        }
     } catch (Exception $ex) {
         $resultado= -1;
-        $mensaje=$ex->getMessage();
+        $mensaje = utf8_encode(mensaje_error);
+        log_error(__FILE__, "mantenimiento/controller/cliente_mantenimiento_nuevo", $ex->getMessage());
     }
 	$oCliente->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
         $oCliente->dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
@@ -1436,9 +1451,19 @@ function post_Cliente_Mantenimiento_Editar($id) {
         $oCliente->usuario_mod_id = $_SESSION['usuario_ID'];
 
         if ($oCliente->verificarDuplicado() > 0) {
-             throw new Exception($oCliente->getMessage);
-        }
-        $oCliente->actualizar();
+             //throw new Exception($oCliente->getMessage);
+            $resultado= -1;
+            $mensaje=$oCliente->getMessage;
+        }else{
+            if ($oCliente->verificarDuplicado_RazonSocial() > 0)
+             {
+           //  throw new Exception($oCliente->getMessage);
+            $resultado= -1;
+            $mensaje=$oCliente->getMessage;
+             }else{
+                 
+                 
+            $oCliente->actualizar();
         if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
             if($oCliente->ID>0){
                 $oCliente_Contacto->persona_ID=$persona_ID;
@@ -1451,7 +1476,7 @@ function post_Cliente_Mantenimiento_Editar($id) {
                 $oCliente_Contacto->correo=$correo1;
                 $oCliente_Contacto->estado_ID=$estado_ID1;
                 $oCliente_Contacto->usuario_id=$_SESSION['usuario_ID'];
-                if($oCliente_Contacto->verificarDuplicado>0){
+                if($oCliente_Contacto->verificarDuplicado()>0){
                     throw new Exception($oCliente_Contacto->getMessage);
                 }
                 $oCliente_Contacto->insertar();
@@ -1461,12 +1486,17 @@ function post_Cliente_Mantenimiento_Editar($id) {
         }else{
             $resultado=1;
             $mensaje=$oCliente->getMessage;  
-        }
-       
+            }
+                 
+             }
         
+        }
+
+
     } catch (Exception $ex) {
         $resultado= -1;
-        $mensaje=$ex->getMessage();
+        $mensaje = utf8_encode(mensaje_error);
+        log_error(__FILE__, "mantenimiento/controller/cliente_mantenimiento_editar", $ex->getMessage());
     }
 	$oCliente->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
         $oCliente->dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
@@ -1496,12 +1526,12 @@ function post_ajaxMostar_Lista_Contacto_Cliente() {
         $dtCliente_Contacto=cliente_contacto::getGrid("clic.cliente_ID=".$cliente_ID);
         foreach($dtCliente_Contacto as $item){
             $resultado.='<tr id="'.$item['ID'].'">';
-            $resultado.='<td>'.FormatTextView(strtoupper($item['apellido_paterno'].' '.$item['apellido_materno'].', '.$item['nombres'])).'</td>';
-            $resultado.='<td>'.FormatTextView(strtoupper($item['cargo'])).'</td>';
-            $resultado.='<td>'.FormatTextView($item['telefono']).'</td>';
-            $resultado.='<td>'.FormatTextView($item['celular']).'</td>';
-            $resultado.='<td>'.FormatTextView($item['correo']).'</td>';
-            $resultado.='<td>'.FormatTextView(strtoupper($item['estado'])).'<input id="txt'.$item['ID'].'" value="'.$item['persona_ID'].'" style="display:none;"><input id="est'.$item['ID'].'" value="'.$item['estado_ID'].'" style="display:none;"></td>';
+            $resultado.='<td>'.test_input($item['apellido_paterno'].' '.$item['apellido_materno'].', '.$item['nombres']).'</td>';
+            $resultado.='<td>'.test_input($item['cargo']).'</td>';
+            $resultado.='<td>'.test_input($item['telefono']).'</td>';
+            $resultado.='<td>'.test_input($item['celular']).'</td>';
+            $resultado.='<td>'.test_input($item['correo']).'</td>';
+            $resultado.='<td>'.test_input($item['estado']).'<input id="txt'.$item['ID'].'" value="'.$item['persona_ID'].'" style="display:none;"><input id="est'.$item['ID'].'" value="'.$item['estado_ID'].'" style="display:none;"></td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Editar Contacto">Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Contacto&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar chofer"><span class="glyphicon glyphicon-trash">Eliminar</a>');
@@ -1526,10 +1556,10 @@ function post_ajaxAccionCliente_Contacto() {
     $cliente_ID=$_POST['txtcliente_ID'];
     if(isset($_POST['txtPersona_ID'])){
         $persona_ID=$_POST['txtPersona_ID'];
-        $telefono1 = FormatTextSave(strtoupper($_POST['txtTelefono1']));
-        $celular1 = FormatTextSave($_POST['txtCelular1']);
-        $correo1=FormatTextSave($_POST['txtCorreo1']);
-        $cargo=FormatTextSave(strtoupper($_POST['txtCargo']));
+        $telefono1 = test_input($_POST['txtTelefono1']);
+        $celular1 = $_POST['txtCelular1'];
+        $correo1=test_input($_POST['txtCorreo1']);
+        $cargo=test_input($_POST['txtCargo']);
         $estado_ID1=$_POST['selEstado1'];
     }
     try {
@@ -1546,12 +1576,13 @@ function post_ajaxAccionCliente_Contacto() {
             $oCliente_Contacto->estado_ID=$estado_ID1;
             $oCliente_Contacto->cliente_ID=$cliente_ID;
             $oCliente_Contacto->usuario_id=$_SESSION['usuario_ID'];
-            if($oCliente_Contacto->verificarDuplicado>0){
+            /*if($oCliente_Contacto->verificarDuplicado>0){
                     throw new Exception($oCliente_Contacto->getMessage);
-                }
-            $oCliente_Contacto->insertar();
+                }*/
+            $retorna=$oCliente_Contacto->insertar1();
         }else{
             $oCliente_Contacto=cliente_contacto::getByID($ID);
+            //print_r($oCliente_Contacto);
             $oCliente_Contacto->persona_ID=$persona_ID;
             $oCliente_Contacto->cargo=$cargo;
             $oCliente_Contacto->telefono=$telefono1;
@@ -1562,14 +1593,30 @@ function post_ajaxAccionCliente_Contacto() {
             if($oCliente_Contacto==null){
                 throw new Exception("No existe el registro.");
             }
-            if($oCliente_Contacto->verificarDuplicado>0){
+            /*if($oCliente_Contacto->verificarDuplicado>0){
                 throw new Exception($oCliente_Contacto->getMessage);
-            }
+            }*/
             $oCliente_Contacto->usuario_mod_id=$_SESSION['usuario_ID'];
-            $oCliente_Contacto->actualizar();
+            //echo "deded";
+            $retorna = $oCliente_Contacto->actualizar1();
+            //echo "deded".$retorna;
+            
+            
         }
-        $mensaje=$oCliente_Contacto->getMessage;
-        $resultado=1;
+        if($retorna==-2){
+                $mensaje="La persona ya existe.";
+                $resultado=-1;
+            }
+            if($retorna==0){
+                $mensaje="No se actualizó ningún registro.";
+                $resultado=-1;
+            }
+            if($retorna>0){
+                $mensaje="Se actualizó correctamente";
+                $resultado=1;
+            }
+        //$mensaje=$oCliente_Contacto->getMessage;
+        //$resultado=1;
     }catch(Exception $ex){
         $resultado=-1;
         $mensaje=$ex->getMessage();
@@ -1752,6 +1799,59 @@ function post_ajaxCliente_Mantenimiento_Contacto_Eliminar()
 
 
 
+    
+    function post_ajaxCbo_ClienteRuc(){
+    require ROOT_PATH.'models/cliente.php';
+    $buscar=$_POST['txtBuscar'];
+    if(trim($buscar)!=""){
+        $filtro='clt.ruc like "%'.test_input($buscar).'%"';
+    }else{
+        $filtro='clt.ID=0';
+    }
+
+    $dtCliente=cliente::getGrid($filtro);
+
+    $i=1;
+    $resultado='<ul class="cbo-ul">';
+    if(count($dtCliente)>0){			
+        foreach($dtCliente as $iCliente){
+            $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.$iCliente['ruc'].'&#39;,1);"><span>'.$iCliente['ruc'].'</span></li>';
+            $i++;
+        }
+    }
+    $resultado.='</ul>';
+
+    $mensaje='';
+    $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje);
+    echo json_encode($retornar);
+}
+    
+    
+function post_ajaxCbo_ClienteRazonSocial(){
+    require ROOT_PATH.'models/cliente.php';
+    $buscar=$_POST['txtBuscar'];
+    if(trim($buscar)!=""){
+        $filtro='clt.razon_social like "%'.test_input($buscar).'%"';
+    }else{
+        $filtro='clt.ID=0';
+    }
+
+    $dtCliente=cliente::getGrid($filtro);
+
+    $i=1;
+    $resultado='<ul class="cbo-ul">';
+    if(count($dtCliente)>0){			
+        foreach($dtCliente as $iCliente){
+            $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.test_input($iCliente['razon_social']).'&#39;,2);"><span>'.test_input($iCliente['razon_social']).'</span></li>';
+            $i++;
+        }
+    }
+    $resultado.='</ul>';
+
+    $mensaje='';
+    $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje);
+    echo json_encode($retornar);
+}    
 
 
 //fin mantenimiento Cliente
@@ -6086,17 +6186,24 @@ function get_Persona_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/persona_documento.php';
     require ROOT_PATH . 'models/tipo_documento.php';
     require ROOT_PATH . 'models/departamento.php';
+    require ROOT_PATH . 'models/provincia.php';
+    require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/sexo.php';
     global $returnView_float;
     $returnView_float = true;
     $oPersona=new persona();
     $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
     $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
+    $dtProvincia=provincia::getGrid("departamento_ID=15",-1,-1,"nombre asc");
+    $dtDistrito=distrito::getGrid("provincia_ID=129",-1,-1,"nombre asc");
     $dtSexo=sexo::getGrid("",-1,-1,"nombre asc");
     $oPersona->dtTipo_Documento=$dtTipo_Documento;
     $oPersona->dtDepartamento=$dtDepartamento;
+    $oPersona->dtProvincia=$dtProvincia;
+    $oPersona->dtDistrito=$dtDistrito;
     $oPersona->departamento_ID=15;
-    $oPersona->provincia_ID=0;
+    $oPersona->provincia_ID=129;
+    $oPersona->distrito_ID=1261;
     $oPersona->tipo_documento_ID=1;
     $oPersona->dtSexo=$dtSexo;
     $oPersona->numero='';

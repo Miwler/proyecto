@@ -85,6 +85,51 @@ class cliente {
             throw new Exception($q);
         }
     }
+    
+    
+     function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_cliente_Insert",
+            array(
+    "iID"=>0,
+    "iempresa_ID"=>$this->empresa_ID,
+    "icodigo"=>$this->codigo,
+    "irazon_social"=>$this->razon_social,
+    "inombre_comercial"=>$this->nombre_comercial,
+    "iruc"=>$this->ruc,
+    "idireccion"=>$this->direccion,
+    "idireccion_fiscal"=>$this->direccion_fiscal,
+    "idistrito_ID"=>$this->distrito_ID,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "iforma_pago_ID"=>$this->forma_pago_ID,
+    "ibanco"=>$this->banco,
+    "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
+    "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
+    "iestado_ID"=>$this->estado_ID,
+    "idescuento"=>$this->descuento,
+    "itiempo_credito"=>$this->tiempo_credito,
+    "iusuario_id"=>$this->usuario_id,
+    "icorrelativo"=>$this->correlativo,
+    "itipo_documento_ID"=>$this->tipo_documento_ID
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cliente.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 
     function actualizar() {
         $cn = new connect_new();
@@ -297,6 +342,30 @@ class cliente {
                 $retornar=$cn->getData($q);
             if($retornar>0){
                 $this->getMessage="Existe un cliente registrado con el mismo ruc";
+            }
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception("Ocurrio un error en la consulta");
+        }
+    }
+    
+    
+    
+    function verificarDuplicado_RazonSocial() {
+        $cn = new connect_new();
+        $retornar = -1;
+        try {
+            $q="select  count(ID) from cliente ";
+            $q.=" where del=0 and empresa_ID=".$_SESSION['empresa_ID']." and razon_social ='".$this->razon_social."'";
+           
+                $filtro="";
+                if(isset($this->ID)){
+                    $filtro=" and ID<>".$this->ID;
+                }
+                $q.=$filtro;
+                $retornar=$cn->getData($q);
+            if($retornar>0){
+                $this->getMessage="Existe un cliente registrado con la misma razon social";
             }
             return $retornar;
         } catch (Exception $ex) {

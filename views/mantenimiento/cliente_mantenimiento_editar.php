@@ -143,7 +143,7 @@ function fncPage() { ?>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selProvincia" name="selProvincia" class="form-control" onchange="fncProvincia();">
                                         <?php foreach($GLOBALS['oCliente']->dtProvincia as $provincia){?>
-                                        <option value="<?php echo $provincia['ID']; ?>"><?php echo FormatTextView(strtoupper($provincia['nombre']))?></option>
+                                        <option value="<?php echo $provincia['ID']; ?>"><?php echo $provincia['nombre'];?></option>
                                         <?php } ?>
                                     </select>
                                     <script type="text/javascript">
@@ -158,7 +158,7 @@ function fncPage() { ?>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selDistrito" name="selDistrito" class="form-control">
                                         <?php foreach($GLOBALS['oCliente']->dtDistrito as $distrito){?>
-                                        <option value="<?php echo $distrito['ID']; ?>"><?php echo FormatTextView(strtoupper($distrito['nombre']))?></option>
+                                        <option value="<?php echo $distrito['ID']; ?>"><?php echo $distrito['nombre'];?></option>
                                         <?php } ?>
                                     </select>
                                     <script type="text/javascript">
@@ -171,7 +171,7 @@ function fncPage() { ?>
                                     <label>Dirección: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                     <input type="text"  id="txtDireccion" name="txtDireccion" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->direccion); ?>" class="form-control "/>
+                                     <input type="text"  id="txtDireccion" name="txtDireccion" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->direccion; ?>" class="form-control "/>
                                 </div>
                             </div>
                         </div>
@@ -186,7 +186,7 @@ function fncPage() { ?>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selForma_Pago" name="selForma_Pago" class="form-control ">
                                         <?php foreach($GLOBALS['oCliente']->dtForma_Pago as $item){?>
-                                        <option value="<?php echo $item['ID']?>"><?php echo FormatTextView($item['nombre'])?></option>
+                                        <option value="<?php echo $item['ID']?>"><?php echo $item['nombre'];?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -218,7 +218,7 @@ function fncPage() { ?>
                                     <label>Banco: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtBanco" name="txtBanco" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->banco); ?>"  class="form-control "/>
+                                    <input type="text"  id="txtBanco" name="txtBanco" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->banco; ?>"  class="form-control "/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -226,7 +226,7 @@ function fncPage() { ?>
                                     <label>Nro. Cuenta (S/.): </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtNumero_Cuenta_Soles" name="txtNumero_Cuenta_Soles" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->numero_cuenta_soles); ?>" class="form-control int-text"/>
+                                    <input type="text"  id="txtNumero_Cuenta_Soles" name="txtNumero_Cuenta_Soles" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->numero_cuenta_soles; ?>" class="form-control int-text"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -234,7 +234,7 @@ function fncPage() { ?>
                                     <label>Nro. Cuenta(US$): </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtNumero_Cuenta_Dolares" name="txtNumero_Cuenta_Dolares" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->numero_cuenta_dolares); ?>"  class="form-control int-text"/>
+                                    <input type="text"  id="txtNumero_Cuenta_Dolares" name="txtNumero_Cuenta_Dolares" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->numero_cuenta_dolares; ?>"  class="form-control int-text"/>
                                 </div>
                             </div>
 
@@ -286,7 +286,7 @@ function fncPage() { ?>
                             <label>Celular: </label>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="text" id="txtCelular1" name="txtCelular1" autocomplete="off" class="form-control int-text">
+                            <input type="text" id="txtCelular1" name="txtCelular1" autocomplete="off" class="form-control ">
                         </div>
                     </div>
                     <div class="form-group">
@@ -303,8 +303,8 @@ function fncPage() { ?>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                             <select id="selEstado1" name="selEstado1" class="form-control">
-                                <?php foreach($GLOBALS['oCliente_Contacto']->dtEstado as $proveedor_contacto){?>
-                                <option value="<?php echo $proveedor_contacto['ID']?>"><?php echo FormatTextView(strtoupper($proveedor_contacto['nombre']));?></option>
+                                <?php foreach($GLOBALS['oCliente_Contacto']->dtEstado as $cliente_contacto){?>
+                                <option value="<?php echo $cliente_contacto['ID']?>"><?php echo $cliente_contacto['nombre'];?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -409,10 +409,10 @@ function fncPage() { ?>
          var valor_buscar=$('#'+buscador).val();
         if(contenedorLista=='divRuc'){
            
-            cboMostrarTexto('/Mantenimiento/ajaxCbo_ProveedorRuc',valor_buscar,contenedorLista);
+            cboMostrarTexto('/Mantenimiento/ajaxCbo_ClienteRuc',valor_buscar,contenedorLista);
         }else {
              
-            cboMostrarTexto('/Mantenimiento/ajaxCbo_ProveedorRazonSocial',valor_buscar,contenedorLista);
+            cboMostrarTexto('/Mantenimiento/ajaxCbo_ClienteRazonSocial',valor_buscar,contenedorLista);
         }          
     }
     var subirValorCaja=function(valor,tipo){
@@ -508,9 +508,10 @@ function fncPage() { ?>
             mensaje.error("Mensaje de error","Debe seleccionar una persona.","txtPersona_ID");
         }else{
              var correo=$('#txtCorreo1').val();
-            if (!validarEmail(correo)){
-                 mensaje.error("Mensaje de error","Debe registrar un correo válido",'txtCorreo1');
-            }else{
+             if(correo!="" && !validarEmail(correo)){
+                mensaje.error("Mensaje de error","No es un correo valido.",'txtCorreo1');
+             }
+             else{
                 enviarFormulario('Mantenimiento/ajaxAccionCliente_Contacto','divFormulario',function(resultado){
                     if(resultado.resultado==1){
                         toastem.success(resultado.mensaje);
@@ -546,13 +547,14 @@ function fncPage() { ?>
         /*if(typeof(cboPersona)=="undefined"){
             var cboPersona = newCbo('divPersona', 'txtPersona_ID', '/funcion/ajaxCbo_Persona', true);
         }*/
+        $('#listaPersonas').val('');
         $('#txtPersona_ID').val('');
         $('#txtID').val('0');
         $('#txtCargo').val('');
         $('#txtTelefono1').val('');
         $('#txtCelular1').val('');
         $('#txtCorreo1').val('');
-        $('#selEstado1').val(70);
+        $('#selEstado1').val(72);
     }
     
     var fncEliminar=function(id){

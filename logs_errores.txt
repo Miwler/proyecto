@@ -1524,3 +1524,203 @@ FECHA Y HORA: 15 02 2019 02:02:18
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.transa
 ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(66,"CC00066",720,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
+============================ERROR====================================
+FECHA Y HORA: 18 02 2019 19:02:29
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(68,"CC00068",722,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
+============================ERROR====================================
+FECHA Y HORA: 18 02 2019 19:02:47
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(68,"CC00068",722,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34564565656';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34564565656';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:58
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34546546756';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:22
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34546546756';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 02:02:09
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'Paño sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '23545555555';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 02:02:09
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/controller/cliente_mantenimiento_nuevo
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(120): connect_new->store_procedure_transa('sp_cliente_Inse...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1280): cliente->insertar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 03:02:09
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '32433333333';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 03:02:09
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/controller/cliente_mantenimiento_nuevo
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(120): connect_new->store_procedure_transa('sp_cliente_Inse...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1280): cliente->insertar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
