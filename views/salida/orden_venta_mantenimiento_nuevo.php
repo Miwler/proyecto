@@ -93,7 +93,7 @@
 
                                     <script type="text/javascript">
                                         $(document).ready(function(){
-                                            lista('/funcion/ajaxListarClientes','listaCliente','selCliente',fncCargaValores);
+                                            lista('/funcion/ajaxListarClientes','listaCliente','selCliente',fncCargaValores,limpiarPadre);
                                         });
 
                                     </script>
@@ -665,7 +665,7 @@
         }
 
     }
-    function limpiarPadre(IDimagen){
+    function limpiarPadre(){
         //alert(IDimagen);
         $("#selCliente").val('');
         $("#listaCliente").val('');
