@@ -362,7 +362,7 @@ class connect_new
                 //$lv_log .= $val;
                 $lv_log .= $lv_call;
                 $lv_log .= $lv_select;
-               //echo $lv_log;
+             // echo $lv_log;
                 //echo $val;
                 //echo $lv_select;
                 if (!($sentencia = $this->connect_new->prepare($lv_call))) 
