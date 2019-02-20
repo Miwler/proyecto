@@ -53,7 +53,7 @@ function fncPage() { ?>
                                   <label>Razon Social: </label>
                               </div>
                               <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                  <input type="text"  id="txtRazon_Social" name="txtRazon_Social" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->razon_social); ?>" onkeyup="MostrarLista(this.id,'divRazonSocial');" class="form-control form-requerido text-uppercase"/>
+                                  <input type="text"  id="txtRazon_Social" name="txtRazon_Social" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->razon_social; ?>" onkeyup="MostrarLista(this.id,'divRazonSocial');" class="form-control form-requerido "/>
                                   <div id="divRazonSocial" class="divBuscador"></div>
                               </div>
                           </div>
@@ -62,7 +62,7 @@ function fncPage() { ?>
                                   <label>Dirección fiscal: </label>
                               </div>
                               <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                  <input type="text"  id="txtDireccion_Fiscal" name="txtDireccion_Fiscal" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->direccion_fiscal); ?>"  class="form-control text-uppercase"/>
+                                  <input type="text"  id="txtDireccion_Fiscal" name="txtDireccion_Fiscal" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->direccion_fiscal; ?>"  class="form-control "/>
                               </div>
                           </div>
                         </div>
@@ -75,7 +75,7 @@ function fncPage() { ?>
                                     <label>Nombre comercial: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtNombre_Comercial" name="txtNombre_Comercial" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->nombre_comercial); ?>"  class="form-control text-uppercase"/>
+                                    <input type="text"  id="txtNombre_Comercial" name="txtNombre_Comercial" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->nombre_comercial; ?>"  class="form-control "/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -85,7 +85,7 @@ function fncPage() { ?>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selEstado" name="selEstado" class="form-control form-requerido">
                                         <?php foreach($GLOBALS['oCliente']->dtEstado as $valor){ ?>
-                                        <option value="<?php echo $valor['ID'];?>"><?php echo FormatTextView(strtoupper($valor['nombre']));?></option>
+                                        <option value="<?php echo $valor['ID'];?>"><?php echo $valor['nombre'];?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -95,7 +95,7 @@ function fncPage() { ?>
                                     <label>Teléfono: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtTelefono" name="txtTelefono" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->telefono); ?>"  class="form-control int-text"/>
+                                    <input type="text"  id="txtTelefono" name="txtTelefono" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->telefono; ?>"  class="form-control int-text"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -103,7 +103,7 @@ function fncPage() { ?>
                                     <label>Celular: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtCelular" name="txtCelular" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->celular); ?>"  class="form-control int"/>
+                                    <input type="text"  id="txtCelular" name="txtCelular" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->celular; ?>"  class="form-control int"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -111,7 +111,7 @@ function fncPage() { ?>
                                     <label>Correo: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtCorreo" name="txtCorreo" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->correo); ?>"  class="form-control"/>
+                                    <input type="text"  id="txtCorreo" name="txtCorreo" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->correo; ?>"  class="form-control"/>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@ function fncPage() { ?>
                                     <label>Dirección: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                     <input type="text"  id="txtDireccion" name="txtDireccion" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->direccion); ?>" class="form-control text-uppercase"/>
+                                     <input type="text"  id="txtDireccion" name="txtDireccion" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->direccion); ?>" class="form-control "/>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@ function fncPage() { ?>
                                     <label>Forma de pago: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <select id="selForma_Pago" name="selForma_Pago" class="form-control text-uppercase">
+                                    <select id="selForma_Pago" name="selForma_Pago" class="form-control ">
                                         <?php foreach($GLOBALS['oCliente']->dtForma_Pago as $item){?>
                                         <option value="<?php echo $item['ID']?>"><?php echo FormatTextView($item['nombre'])?></option>
                                         <?php } ?>
@@ -218,7 +218,7 @@ function fncPage() { ?>
                                     <label>Banco: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text"  id="txtBanco" name="txtBanco" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->banco); ?>"  class="form-control text-uppercase"/>
+                                    <input type="text"  id="txtBanco" name="txtBanco" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCliente']->banco); ?>"  class="form-control "/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -269,7 +269,7 @@ function fncPage() { ?>
                             <label>Cargo: </label>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="text" id="txtCargo" name="txtCargo" autocomplete="off" class="form-control text-uppercase">
+                            <input type="text" id="txtCargo" name="txtCargo" autocomplete="off" class="form-control ">
                         </div>
                     </div>
                    
@@ -278,7 +278,7 @@ function fncPage() { ?>
                             <label>Teléfono: </label>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="text" id="txtTelefono1" name="txtTelefono1" autocomplete="off" class="form-control text-uppercase int-text">
+                            <input type="text" id="txtTelefono1" name="txtTelefono1" autocomplete="off" class="form-control int-text">
                         </div>
                     </div>
                     <div class="form-group">
@@ -286,7 +286,7 @@ function fncPage() { ?>
                             <label>Celular: </label>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                            <input type="text" id="txtCelular1" name="txtCelular1" autocomplete="off" class="form-control text-uppercase int-text">
+                            <input type="text" id="txtCelular1" name="txtCelular1" autocomplete="off" class="form-control int-text">
                         </div>
                     </div>
                     <div class="form-group">

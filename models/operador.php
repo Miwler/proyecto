@@ -118,7 +118,7 @@ class operador {
             $q.='celular="'.$this->celular.'",mail="'.$this->mail.'",fecha_contrato='.$fecha_contrato_save.',';
             $q.='cargo_ID='.$this->cargo_ID.',usuario_mod_id='.$this->usuario_mod_id.', fdc=now()';
             $q.=' where del=0 and ID='.$this->ID;
-            echo $q;
+//            echo $q;
             $retornar = $cn->transa($q);
             $this->getMessage = 'Se actualizó correctamente.';
             return $retornar;

@@ -1489,3 +1489,38 @@ FECHA Y HORA: 13 02 2019 23:02:52
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
 METODO: 
 ERROR: Existe un producto registrado con el mismo nombre
+============================ERROR====================================
+FECHA Y HORA: 14 02 2019 22:02:13
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1054)insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)values(34,38,2,"56565656","465445","agbfttt@gmail.com","2019-02-14",0fsss,8,0);
+============================ERROR====================================
+FECHA Y HORA: 14 02 2019 22:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1054)insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)values(34,38,2,"56565656","465445","agbfttt@gmail.com","2019-02-14",0fsss,8,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:33
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:05
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(66,"CC00066",720,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
