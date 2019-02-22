@@ -33,6 +33,7 @@ class cliente {
     Private $provincia_ID;
     Private $dtForma_Pago;
     Private $dtCredito;
+    private $tipo_documento_ID;
     
 	
     public function __set($var, $valor) {
@@ -164,6 +165,50 @@ class cliente {
             
         }
     }
+    
+    
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_cliente_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "iempresa_ID"=>$this->empresa_ID,
+    "icodigo"=>$this->codigo,
+    "irazon_social"=>$this->razon_social,
+    "inombre_comercial"=>$this->nombre_comercial,
+    "iruc"=>$this->ruc,
+    "idireccion"=>$this->direccion,
+    "idireccion_fiscal"=>$this->direccion_fiscal,
+    "idistrito_ID"=>$this->distrito_ID,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "iforma_pago_ID"=>$this->forma_pago_ID,
+    "ibanco"=>$this->banco,
+    "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
+    "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
+    "iestado_ID"=>$this->estado_ID,
+    "idescuento"=>$this->descuento,
+    "itiempo_credito"=>$this->tiempo_credito,
+    "iusuario_mod_id"=>$this->usuario_mod_id,
+    "icorrelativo"=>$this->correlativo,
+    "itipo_documento_ID"=>$this->tipo_documento_ID
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cliente.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
+    
 
     function eliminar() {
         $cn = new connect_new();

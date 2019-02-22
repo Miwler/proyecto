@@ -58,6 +58,38 @@ class proveedor_contacto {
             throw new Exception('Ocurrio un error en la consulta');
         }
     }
+    
+    
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_proveedor_contacto_Insert",
+            array(
+    "iID"=>0,
+    "ipersona_ID"=>$this->persona_ID,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "iproveedor_ID"=>$this->proveedor_ID,
+    "iusuario_id"=>$this->usuario_id,
+    "iestado_ID"=>$this->estado_ID
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "proveedor_contacto.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
 
     function actualizar() {
         $cn = new connect_new();
@@ -75,6 +107,36 @@ class proveedor_contacto {
             throw new Exception($q);
         }
     }
+    
+    
+    
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_proveedor_contacto_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "ipersona_ID"=>$this->persona_ID,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "iproveedor_ID"=>$this->proveedor_ID,
+    "iusuario_mod_id"=>$this->usuario_mod_id,
+    "iestado_ID"=>$this->estado_ID
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "proveedor_contacto.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
 
     function eliminar() {
         $cn = new connect_new();

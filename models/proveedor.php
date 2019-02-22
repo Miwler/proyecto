@@ -77,6 +77,49 @@ class proveedor {
             throw new Exception("Ocurrió un error al insertar el proveedor en la BD.");
         }
     }
+    
+    
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_proveedor_Insert",
+            array(
+    "iID"=>0,
+    "iempresa_ID"=>$this->empresa_ID,
+    "iruc"=>$this->ruc,
+    "irazon_social"=>$this->razon_social,
+    "inombre_comercial"=>$this->nombre_comercial,
+    "idireccion"=>$this->direccion,
+    "idireccion_fiscal"=>$this->direccion_fiscal,
+    "itelefono"=>$this->telefono,
+    "ifax"=>$this->fax,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "ibanco"=>$this->banco,
+    "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
+    "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
+    "iparne"=>$this->parne,
+    "iestado_ID"=>$this->estado_ID,
+    "idistrito_ID"=>$this->distrito_ID,
+    "iusuario_id"=>$this->usuario_id,
+
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "proveedor.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
 
     function actualizar() {
         $cn = new connect_new();
@@ -96,6 +139,46 @@ class proveedor {
             
         }
     }
+    
+    
+    
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_proveedor_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "iempresa_ID"=>$this->empresa_ID,
+    "iruc"=>$this->ruc,
+    "irazon_social"=>$this->razon_social,
+    "inombre_comercial"=>$this->nombre_comercial,
+    "idireccion"=>$this->direccion,
+    "idireccion_fiscal"=>$this->direccion_fiscal,
+    "itelefono"=>$this->telefono,
+    "ifax"=>$this->fax,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "ibanco"=>$this->banco,
+    "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
+    "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
+    "iparne"=>$this->parne,
+    "iestado_ID"=>$this->estado_ID,
+    "idistrito_ID"=>$this->distrito_ID,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "proveedor.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
 
     function eliminar() {
         $cn = new connect_new();

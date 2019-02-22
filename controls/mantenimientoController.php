@@ -52,30 +52,30 @@ function post_Proveedor_Mantenimiento_Nuevo() {
     $returnView_float = true;
     //Datos de empresa
     $ruc = $_POST['txtRuc'];
-    $razon_social = FormatTextSave(strtoupper(trim($_POST['txtRazon_Social'])));
-    $direccion_fiscal = FormatTextSave(strtoupper(trim($_POST['txtDireccion_Fiscal'])));
-    $nombre_comercial = FormatTextSave(strtoupper(trim($_POST['txtNombre_Comercial'])));
-    $telefono = FormatTextSave(strtoupper($_POST['txtTelefono']));
-    $celular = FormatTextSave($_POST['txtCelular']);
-    $fax=FormatTextSave(strtoupper($_POST['txtFax']));
-    $correo=FormatTextSave(strtoupper($_POST['txtCorreo']));
+    $razon_social = trim($_POST['txtRazon_Social']);
+    $direccion_fiscal = trim($_POST['txtDireccion_Fiscal']);
+    $nombre_comercial = trim($_POST['txtNombre_Comercial']);
+    $telefono = trim($_POST['txtTelefono']);
+    $celular = trim($_POST['txtCelular']);
+    $fax=trim($_POST['txtFax']);
+    $correo=trim($_POST['txtCorreo']);
     $departamento_ID=$_POST['selDepartamento'];
     $provincia_ID=$_POST['selProvincia'];
     $distrito_ID=$_POST['selDistrito'];
-    $direccion=FormatTextSave(strtoupper(trim($_POST['txtDireccion'])));
-    $banco=FormatTextSave(strtoupper($_POST['txtBanco']));
+    $direccion=trim($_POST['txtDireccion']);
+    $banco=trim($_POST['txtBanco']);
     $numero_cuenta_soles = $_POST['txtNumero_Cuenta_Soles'];
     $numero_cuenta_dolares = $_POST['txtNumero_Cuenta_Dolares'];
-    $parne=FormatTextSave(strtoupper($_POST['txtParne']));
+    $parne=trim($_POST['txtParne']);
     $estado_ID=$_POST['selEstado'];
     
     //Datos de persona de contacto
     if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&& $_POST['txtPersona_ID']!=0){
         $persona_ID=$_POST['txtPersona_ID'];
         
-        $telefono1 = FormatTextSave($_POST['txtTelefono1']);
-        $celular1 = FormatTextSave($_POST['txtCelular1']);
-        $correo1=FormatTextSave($_POST['txtCorreo1']);
+        $telefono1 = trim($_POST['txtTelefono1']);
+        $celular1 = trim($_POST['txtCelular1']);
+        $correo1=trim($_POST['txtCorreo1']);
         $estado_ID1=$_POST['selEstado1'];
     }
     $oProveedor = new proveedor();
@@ -98,10 +98,22 @@ function post_Proveedor_Mantenimiento_Nuevo() {
         $oProveedor->parne = $parne;
         $oProveedor->estado_ID = $estado_ID;
         $oProveedor->usuario_id = $_SESSION['usuario_ID'];
-        if ($oProveedor->verificarDuplicado() > 0) {
-            throw new Exception($oProveedor->getMessage);
-        }
-        $oProveedor->insertar();
+
+        $retorna = $oProveedor->insertar1();
+
+        if ($retorna==-2) {
+                $resultado=-1;
+                $mensaje="Ya existe un proveedor con la misma razon social..";
+                
+        }else{
+            if ($retorna==-3)
+             {
+                $resultado=-1;
+                $mensaje="Ya existe un proveedor con el mismo ruc..";
+                
+             }else{  
+        
+//        $oProveedor->insertar();
         if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
             if($oProveedor->ID>0){
                 
@@ -113,7 +125,7 @@ function post_Proveedor_Mantenimiento_Nuevo() {
                 $oProveedor_Contacto->correo=$correo1;
                 $oProveedor_Contacto->estado_ID=$estado_ID1;
                 $oProveedor_Contacto->usuario_id=$_SESSION['usuario_ID'];
-                if($oProveedor_Contacto->verificarDuplicado>0){
+                if($oProveedor_Contacto->verificarDuplicado()>0){
                     throw new Exception($oProveedor_Contacto->getMessage);
                 }
                 $oProveedor_Contacto->insertar();
@@ -124,11 +136,13 @@ function post_Proveedor_Mantenimiento_Nuevo() {
             $resultado= 1;
             $mensaje=$oProveedor->getMessage;  
         }
-       
+             }
+        }
        
     } catch (Exception $ex) {
         $resultado= -1;
-        $mensaje=$ex->getMessage();
+        $mensaje = utf8_encode(mensaje_error);
+        log_error(__FILE__, "mantenimiento/post_proveedor_mantenimiento_nuevo", $ex->getMessage());
     }
     $oProveedor->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
     $oProveedor->dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
@@ -197,30 +211,30 @@ function post_Proveedor_Mantenimiento_Editar($id) {
     }
     
     $ruc = $_POST['txtRuc'];
-    $razon_social = FormatTextSave(strtoupper(trim($_POST['txtRazon_Social'])));
-    $direccion_fiscal = FormatTextSave(strtoupper(trim($_POST['txtDireccion_Fiscal'])));
-    $nombre_comercial = FormatTextSave(strtoupper(trim($_POST['txtNombre_Comercial'])));
-    $telefono = FormatTextSave(strtoupper($_POST['txtTelefono']));
-    $celular = FormatTextSave($_POST['txtCelular']);
-    $fax=FormatTextSave(strtoupper($_POST['txtFax']));
-    $correo=FormatTextSave(strtoupper($_POST['txtCorreo']));
+    $razon_social = trim($_POST['txtRazon_Social']);
+    $direccion_fiscal = trim($_POST['txtDireccion_Fiscal']);
+    $nombre_comercial = trim($_POST['txtNombre_Comercial']);
+    $telefono = trim($_POST['txtTelefono']);
+    $celular = trim($_POST['txtCelular']);
+    $fax=trim($_POST['txtFax']);
+    $correo=trim($_POST['txtCorreo']);
     $departamento_ID=$_POST['selDepartamento'];
     $provincia_ID=$_POST['selProvincia'];
     $distrito_ID=$_POST['selDistrito'];
-    $direccion=FormatTextSave(strtoupper(trim($_POST['txtDireccion'])));
-    $banco=FormatTextSave(strtoupper($_POST['txtBanco']));
+    $direccion=trim($_POST['txtDireccion']);
+    $banco=trim($_POST['txtBanco']);
     $numero_cuenta_soles = $_POST['txtNumero_Cuenta_Soles'];
     $numero_cuenta_dolares = $_POST['txtNumero_Cuenta_Dolares'];
-    $parne=FormatTextSave(strtoupper($_POST['txtParne']));
+    $parne=trim($_POST['txtParne']);
     $estado_ID=$_POST['selEstado'];
     
     if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
     $persona_ID=$_POST['txtPersona_ID'];
 //    $cargo=FormatTextSave(strtoupper(trim($_POST['txtCargo'])));
     //$direccion1=FormatTextSave(strtoupper($_POST['txtDireccion1']));
-    $telefono1 = FormatTextSave($_POST['txtTelefono1']);
-    $celular1 = FormatTextSave($_POST['txtCelular1']);
-    $correo1=FormatTextSave($_POST['txtCorreo1']);
+    $telefono1 = trim($_POST['txtTelefono1']);
+    $celular1 = trim($_POST['txtCelular1']);
+    $correo1=trim($_POST['txtCorreo1']);
     $estado_ID1=$_POST['selEstado1'];
     }
     
@@ -244,10 +258,22 @@ function post_Proveedor_Mantenimiento_Editar($id) {
         $oProveedor->parne = $parne;
         $oProveedor->estado_ID = $estado_ID;
         $oProveedor->usuario_mod_id = $_SESSION['usuario_ID'];
-        if ($oProveedor->verificarDuplicado() > 0) {
-            throw new Exception($oProveedor->getMessage);
-        }
-        $oProveedor->actualizar();
+
+        $retorna = $oProveedor->actualizar1();
+
+        if ($retorna==-2) {
+            $resultado= -1;
+            $mensaje="Ya existe un proveedor con la misma razon social..";
+            
+        }else{
+            if ($retorna==-3)
+             {
+            $resultado= -1;
+            $mensaje="Ya existe un proveedor con el mismo ruc..";
+            
+             }else{  
+        
+//        $oProveedor->actualizar();
         
         if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
            if($oProveedor->ID>0){
@@ -270,12 +296,15 @@ function post_Proveedor_Mantenimiento_Editar($id) {
         }
         }else{
             $resultado=1;
-            $mensaje=$oProveedor->getMessage;  
+            $mensaje="Se actualizó correctamente";   
+        }
+             }
         }
         
     } catch (Exception $ex) {
         $resultado= -1;
-        $mensaje= $ex->getMessage();
+        $mensaje = utf8_encode(mensaje_error);
+        log_error(__FILE__, "mantenimiento/post_proveedor_mantenimiento_editar", $ex->getMessage());
     }
     
     $oProveedor->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
@@ -296,8 +325,8 @@ function post_Proveedor_Mantenimiento_Editar($id) {
 function post_ajaxProveedor_Mantenimiento() {
     require ROOT_PATH . 'models/proveedor.php';
     require ROOT_PATH . 'controls/funcionController.php';
-    $ruc=FormatTextSave($_POST['txtRUC']);
-    $razon_social = FormatTextSave($_POST['txtRazon_Social']);
+    $ruc = test_input($_POST['txtRUC']);
+    $razon_social = test_input($_POST['txtRazon_Social']);
     $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
     $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar']==0)? 30 : $_POST['txtMostrar'];
     $txtOrden = $_POST['txtOrden'];
@@ -308,7 +337,10 @@ function post_ajaxProveedor_Mantenimiento() {
         $orden_tipo = 'ASC';
     }
     switch ($txtOrden) {
-      
+        
+        case 0:
+            $orden = 'prv.ID ' . $orden_tipo;
+            break;
         case 1:
             $orden = 'prv.ruc ' . $orden_tipo;
             break;
@@ -334,7 +366,7 @@ function post_ajaxProveedor_Mantenimiento() {
     if($ruc!=""){
         $filtro='prv.empresa_ID='.$_SESSION['empresa_ID'].' and prv.ruc="'.$ruc.'"';
     }else{
-       $filtro = 'prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.razon_social) like "%' . strtoupper(FormatTextSave($razon_social)) . '%"';
+       $filtro = 'prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.razon_social) like "%' . strtoupper($razon_social) . '%"';
     }
     
     //---------------------------------------					 
@@ -359,11 +391,11 @@ function post_ajaxProveedor_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . $item['ruc'] . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['razon_social'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['direccion'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['telefono'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['celular'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextView($item['correo']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['razon_social']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['direccion']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['telefono']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['celular']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['correo']) . '</td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Editar Proveedor">Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Proveedor&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar Proveedor"><span class="glyphicon glyphicon-trash">Eliminar</a>');
@@ -432,9 +464,9 @@ function post_ajaxAccionProveedor_Contacto() {
     if(isset($_POST['txtPersona_ID'])){
         $persona_ID=$_POST['txtPersona_ID'];
         
-        $telefono1 = FormatTextSave(strtoupper($_POST['txtTelefono1']));
-        $celular1 = FormatTextSave($_POST['txtCelular1']);
-        $correo1=FormatTextSave($_POST['txtCorreo1']);
+        $telefono1 = test_input($_POST['txtTelefono1']);
+        $celular1 = test_input($_POST['txtCelular1']);
+        $correo1=test_input($_POST['txtCorreo1']);
         $estado_ID1=$_POST['selEstado1'];
     }
     try {
@@ -447,10 +479,10 @@ function post_ajaxAccionProveedor_Contacto() {
             $oProveedor_Contacto->estado_ID=$estado_ID1;
             $oProveedor_Contacto->proveedor_ID=$proveedor_ID;
             $oProveedor_Contacto->usuario_id=$_SESSION['usuario_ID'];
-            if($oProveedor_Contacto->verificarDuplicado>0){
-                    throw new Exception($oProveedor_Contacto->getMessage);
-                }
-            $oProveedor_Contacto->insertar();
+//            if($oProveedor_Contacto->verificarDuplicado>0){
+//                    throw new Exception($oProveedor_Contacto->getMessage);
+//                }
+            $retorna = $oProveedor_Contacto->insertar1();
         }else{
             $oProveedor_Contacto=proveedor_contacto::getByID($ID);
             $oProveedor_Contacto->persona_ID=$persona_ID;
@@ -462,15 +494,29 @@ function post_ajaxAccionProveedor_Contacto() {
             if($oProveedor_Contacto==null){
                 throw new Exception("No existe el registro.");
             }
-            if($oProveedor_Contacto->verificarDuplicado>0){
-                throw new Exception($oProveedor_Contacto->getMessage);
-            }
+//            if($oProveedor_Contacto->verificarDuplicado>0){
+//                throw new Exception($oProveedor_Contacto->getMessage);
+//            }
            
             $oProveedor_Contacto->usuario_mod_id=$_SESSION['usuario_ID'];
-            $oProveedor_Contacto->actualizar();
+            $retorna = $oProveedor_Contacto->actualizar1();
         }
-        $mensaje=$oProveedor_Contacto->getMessage;
-        $resultado=1;
+        
+            if($retorna==-2){
+                $mensaje="La persona ya existe.";
+                $resultado=-1;
+            }
+            if($retorna==0){
+                $mensaje="No se actualizó ningún registro.";
+                $resultado=-1;
+            }
+            if($retorna>0){
+                $mensaje="Se actualizó correctamente";
+                $resultado=1;
+            }
+        
+//        $mensaje=$oProveedor_Contacto->getMessage;
+//        $resultado=1;
     }catch(Exception $ex){
         $resultado=-1;
         $mensaje=$ex->getMessage();
@@ -547,7 +593,7 @@ function post_ajaxCbo_ProveedorRazonSocial(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='upper(prv.razon_social) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
+        $filtro='upper(prv.razon_social) like "%'.strtoupper($buscar).'%"';
     }else{
         $filtro='prv.ID=0';
     }
@@ -558,7 +604,7 @@ function post_ajaxCbo_ProveedorRazonSocial(){
     $resultado='<ul class="cbo-ul">';
     if(count($dtProveedor)>0){			
         foreach($dtProveedor as $iProveedor){
-            $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.FormatTextViewHtml($iProveedor['razon_social']).'&#39;,2);"><span>'.FormatTextViewHtml($iProveedor['razon_social']).'</span></li>';
+            $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.test_input($iProveedor['razon_social']).'&#39;,2);"><span>'.test_input($iProveedor['razon_social']).'</span></li>';
             $i++;
         }
     }
@@ -1282,17 +1328,15 @@ function post_Cliente_Mantenimiento_Nuevo() {
 
         if ($retorna==-2) {
                 $resultado=-1;
-                $mensaje="La razon social ya existe.";
+                $mensaje="Ya existe un cliente con la misma razon social..";
                 
         }else{
             if ($retorna==-3)
              {
                 $resultado=-1;
-                $mensaje="El ruc ya existe.";
+                $mensaje="Ya existe un cliente con el mismo ruc..";
                 
-             }else{
-                 
-//        $oCliente->insertar();
+             }else{                 
        
         if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
             if($oCliente->ID>0){
@@ -1323,7 +1367,7 @@ function post_Cliente_Mantenimiento_Nuevo() {
     } catch (Exception $ex) {
         $resultado= -1;
         $mensaje = utf8_encode(mensaje_error);
-        log_error(__FILE__, "mantenimiento/controller/cliente_mantenimiento_nuevo", $ex->getMessage());
+        log_error(__FILE__, "mantenimiento/post_cliente_mantenimiento_nuevo", $ex->getMessage());
     }
 	$oCliente->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
         $oCliente->dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
@@ -1448,22 +1492,23 @@ function post_Cliente_Mantenimiento_Editar($id) {
         $oCliente->estado_ID = $estado_ID;
         $oCliente->descuento = $descuento;
         $oCliente->tiempo_credito = $tiempo_credito;
+        $oCliente->tipo_documento_ID=6;
         $oCliente->usuario_mod_id = $_SESSION['usuario_ID'];
+        
+        $retorna = $oCliente->actualizar1();
 
-        if ($oCliente->verificarDuplicado() > 0) {
-             //throw new Exception($oCliente->getMessage);
+        if ($retorna==-2) {
             $resultado= -1;
-            $mensaje=$oCliente->getMessage;
+            $mensaje="Ya existe un cliente con la misma razon social..";
+            
         }else{
-            if ($oCliente->verificarDuplicado_RazonSocial() > 0)
+            if ($retorna==-3)
              {
-           //  throw new Exception($oCliente->getMessage);
             $resultado= -1;
-            $mensaje=$oCliente->getMessage;
-             }else{
-                 
-                 
-            $oCliente->actualizar();
+            $mensaje="Ya existe un cliente con el mismo ruc..";
+            
+             }else{  
+    
         if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
             if($oCliente->ID>0){
                 $oCliente_Contacto->persona_ID=$persona_ID;
@@ -1485,18 +1530,18 @@ function post_Cliente_Mantenimiento_Editar($id) {
             }
         }else{
             $resultado=1;
-            $mensaje=$oCliente->getMessage;  
+            $mensaje="Se actualizó correctamente";  
             }
                  
              }
-        
+             
         }
 
 
     } catch (Exception $ex) {
         $resultado= -1;
         $mensaje = utf8_encode(mensaje_error);
-        log_error(__FILE__, "mantenimiento/controller/cliente_mantenimiento_editar", $ex->getMessage());
+        log_error(__FILE__, "mantenimiento/post_cliente_mantenimiento_editar", $ex->getMessage());
     }
 	$oCliente->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
         $oCliente->dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
@@ -1628,8 +1673,8 @@ function post_ajaxAccionCliente_Contacto() {
 function post_ajaxCliente_Mantenimiento() {
     require ROOT_PATH . 'models/cliente.php';
     require ROOT_PATH . 'controls/funcionController.php';
-    $ruc=FormatTextSave($_POST['txtRUC']);
-    $razon_social = FormatTextSave($_POST['txtRazon_Social']);
+    $ruc= trim($_POST['txtRUC']);
+    $razon_social = test_input($_POST['txtRazon_Social']);
     $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
     $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar']==0)? 30 : $_POST['txtMostrar'];
     $txtOrden = $_POST['txtOrden'];
@@ -1668,7 +1713,7 @@ function post_ajaxCliente_Mantenimiento() {
     if($ruc!=""){
         $filtro='clt.empresa_ID='.$_SESSION['empresa_ID'].' and clt.ruc="'.$ruc.'"';
     }else{
-       $filtro = 'clt.empresa_ID='.$_SESSION['empresa_ID'].' and upper(clt.razon_social) like "%' . strtoupper(FormatTextSave($razon_social)) . '%"';
+       $filtro = 'clt.empresa_ID='.$_SESSION['empresa_ID'].' and upper(clt.razon_social) like "%' . strtoupper($razon_social) . '%"';
     }
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
@@ -6270,8 +6315,12 @@ function post_Persona_Mantenimiento_Nuevo() {
     }
     $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
     $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
+    $dtProvincia=provincia::getGrid("departamento_ID=15",-1,-1,"nombre asc");
+    $dtDistrito=distrito::getGrid("provincia_ID=129",-1,-1,"nombre asc");
     $oPersona->dtTipo_Documento=$dtTipo_Documento;
     $oPersona->dtDepartamento=$dtDepartamento;
+    $oPersona->dtProvincia=$dtProvincia;
+    $oPersona->dtDistrito=$dtDistrito;
     $oDistrito=distrito::getByID($distrito_ID);
     $oProvincia=provincia::getByID($oDistrito->provincia_ID);
     $dtSexo=sexo::getGrid("",-1,-1,"nombre asc");

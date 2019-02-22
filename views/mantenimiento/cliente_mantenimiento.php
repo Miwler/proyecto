@@ -43,7 +43,7 @@
                                      <label>RUC: </label>
                                 </div>
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <input type="text" id="txtRUC" name="txtRUC" class="form-control int"  autocomplete="off">
+                                    <input type="number" id="txtRUC" name="txtRUC" class="form-control int"  autocomplete="off">
                                 </div>
                             </div>
                         </div>

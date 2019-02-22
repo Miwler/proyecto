@@ -129,5 +129,737 @@ ERROR: Falló la preparación: (1064) insert into cotizacion (ID,empresa_ID,clie
 FECHA Y HORA: 21 02 2019 20:02:30
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.transa
+<<<<<<< HEAD
 ERROR: Falló la preparación: (1064)insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )values(14545,2,NULL,3396,"MEMORIA DDR3 B1600 8GB Kingston HYPERX FURY Blue
 cm'dee 1";",2449,50,0,0,0,0,"",NULL,0)
+=======
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:43
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:04
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:04
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=26, telefono="",celular="",mail="",fecha_contrato=""2019-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=18
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=13, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=24
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:06
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=13, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=24
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:18
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:27
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:27
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:30
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:33
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:33
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:44
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:44
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:53
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=29, telefono="",celular="",mail="",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=20
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:53
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=29, telefono="",celular="",mail="",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=20
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:00
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=12, telefono="484-0284 anex 841",celular="",mail="eperona@molinoeltriu.com",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=22
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:00
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=12, telefono="484-0284 anex 841",celular="",mail="eperona@molinoeltriu.com",fecha_contrato=""2012-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=22
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:25
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2013-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:25
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2013-02-20"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2001-01-19"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:16
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2001-01-19"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:24
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:29
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:29
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:30
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-02-12"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:36
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:36
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=22, telefono="",celular="",mail="",fecha_contrato=""2019-12-02"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=23
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:49
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2019-02-13"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:49
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""2019-02-13"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:52
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""1970-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:52
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="",celular="",mail="",fecha_contrato=""1970-01-01"",cargo_ID=8,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:34
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update operador SET persona_ID=14, telefono="12121",celular="121212",mail="abc@gmail.com",fecha_contrato=""2019-12-12"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 00:02:34
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Operador_Mantenimiento_Editar
+ERROR: update operador SET persona_ID=14, telefono="12121",celular="121212",mail="abc@gmail.com",fecha_contrato=""2019-12-12"",cargo_ID=1,usuario_mod_id=0, fdc=now() where del=0 and ID=25
+=======
+FECHA Y HORA: 11 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: RegistrationName -  El dato ingresado no cumple con el estandar - Detalle: xxx.xxx.xxx value='ticket: 1549934782812 error: INFO: 2022 (nodo: "cac:PartyLegalEntity/cbc:RegistrationName" valor: " J.C.CONTRATISTAS GENERALES EIRL")'
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 20:02:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1054)
+SET @_iempresa_ID = '2';
+SET @_ielectronico = '0';
+SET @_iaccion = 'venta';
+SET @_correlativos_ID = '1';
+SET @_itipo_comprobante_ID = '0';
+SET @_opcion = 'tipo_comprobantes';
+CALL `sp_tipo_comprobante_getTipos`( @_iempresa_ID, @_ielectronico, @_iaccion, @_correlativos_ID, @_itipo_comprobante_ID, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 20:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1054)
+SET @_iempresa_ID = '2';
+SET @_ielectronico = '0';
+SET @_iaccion = 'venta';
+SET @_correlativos_ID = '1';
+SET @_itipo_comprobante_ID = '0';
+SET @_opcion = 'tipo_comprobantes';
+CALL `sp_tipo_comprobante_getTipos`( @_iempresa_ID, @_ielectronico, @_iaccion, @_correlativos_ID, @_itipo_comprobante_ID, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 20:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 22:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1064)select op.ID from operador op, usuario us,persona pe  where us.persona_ID=pe.ID and op.persona_ID=pe.ID and us.del=0 and us.ID=
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salida/post_ajaxAnular_Factura
+ERROR: select op.ID from operador op, usuario us,persona pe  where us.persona_ID=pe.ID and op.persona_ID=pe.ID and us.del=0 and us.ID=
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:42
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 12 02 2019 23:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+>>>>>>> eebb0f98f8f793ea84fe6632d269efb729b9e553
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 06:02:35
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 13 02 2019 23:02:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: Existe un producto registrado con el mismo nombre
+============================ERROR====================================
+FECHA Y HORA: 14 02 2019 22:02:13
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1054)insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)values(34,38,2,"56565656","465445","agbfttt@gmail.com","2019-02-14",0fsss,8,0);
+============================ERROR====================================
+FECHA Y HORA: 14 02 2019 22:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1054)insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)values(34,38,2,"56565656","465445","agbfttt@gmail.com","2019-02-14",0fsss,8,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:33
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:05
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(65,"CC00065",720,7,"","954717339","yucra@gmail.com","",,0);
+============================ERROR====================================
+FECHA Y HORA: 15 02 2019 02:02:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(66,"CC00066",720,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
+============================ERROR====================================
+FECHA Y HORA: 18 02 2019 19:02:29
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(68,"CC00068",722,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
+============================ERROR====================================
+FECHA Y HORA: 18 02 2019 19:02:47
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into cliente_contacto(ID,codigo,cliente_ID,persona_ID,telefono,celular,correo,cargo,estado_ID,usuario_id)values(68,"CC00068",722,3,"511 6419403","999778052","jgonzales@jjsoluciones.net","",,0);
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34564565656';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34564565656';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:58
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34546546756';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 00:02:22
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '34546546756';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 02:02:09
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'Paño sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '23545555555';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 02:02:09
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/controller/cliente_mantenimiento_nuevo
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(120): connect_new->store_procedure_transa('sp_cliente_Inse...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1280): cliente->insertar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 03:02:09
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00724';
+SET @_irazon_social = 'yaki sac';
+SET @_inombre_comercial = '';
+SET @_iruc = '32433333333';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0';
+SET @_itiempo_credito = '0';
+SET @_iusuario_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Insert`( @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 20 02 2019 03:02:09
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/controller/cliente_mantenimiento_nuevo
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(120): connect_new->store_procedure_transa('sp_cliente_Inse...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1280): cliente->insertar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+<<<<<<< HEAD
+FECHA Y HORA: 21 02 2019 01:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '729';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00729';
+SET @_irazon_social = 'irazon_social';
+SET @_inombre_comercial = '';
+SET @_iruc = '34555555553';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0.00';
+SET @_itiempo_credito = '0';
+SET @_iusuario_mod_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Update`( @_retornar, @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_mod_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:57
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_cliente_mantenimiento_editar
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(202): connect_new->store_procedure_transa('sp_cliente_Upda...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1451): cliente->actualizar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Editar('729')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:51
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '729';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00729';
+SET @_irazon_social = 'irazon_social';
+SET @_inombre_comercial = '';
+SET @_iruc = '34555555553';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0.00';
+SET @_itiempo_credito = '0';
+SET @_iusuario_mod_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Update`( @_retornar, @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_mod_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:51
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_cliente_mantenimiento_editar
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(202): connect_new->store_procedure_transa('sp_cliente_Upda...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1451): cliente->actualizar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Editar('729')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 02:02:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 03:02:26
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 04:02:58
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 04:02:32
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:37
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:33
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:03
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:24
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:28
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:35
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:15
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:19
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Los parámetros son incorrectos
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_iruc = '21342434343';
+SET @_irazon_social = ''la sac'';
+
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:19
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: Exception: Los parámetros son incorrectos in C:\xampp\htdocs\proyecto\models\connect_new.php:348
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\proveedor.php(109): connect_new->store_procedure_transa('sp_proveedor_In...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(102): proveedor->insertar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Proveedor_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+=======
+FECHA Y HORA: 19 02 2019 21:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1881,1689,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1881,1689,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1882,1690,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1882,1690,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salida/post_Orden_Venta_Mantenimiento_Editar
+ERROR: Ocurrio un error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 22:02:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 23:02:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 23:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+>>>>>>> 75ccdfa5198e2393eef1c543961c46fd9e017500
+>>>>>>> 1f9f459b4da0e24fe384a5ebb063c79988e07147
