@@ -122,7 +122,7 @@
                             <label>Descripción: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" id="tdComentario">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:120px;"><?php echo FormatTextView($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control comentario" rows="7" cols="40" maxlength="2000" style="height:120px;"><?php echo FormatTextView($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -865,7 +865,7 @@ function buscarProducto(codigo){
     //window.parent.actualizar_dimensiones();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
 });
-<?php if($GLOBALS['oCotizacion_Detalle']->tipo==1){ ?>
+<?php if($GLOBALS['oCotizacion_Detalle']->tipo_ID==1){ ?>
 setTimeout('parent.windos_float_save_modal_hijo();', 1000);
 
 <?php } ?>

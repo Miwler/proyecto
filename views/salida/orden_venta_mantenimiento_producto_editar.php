@@ -161,7 +161,7 @@
                             <label>Descripción: </label>
                         </div>
                         <div class="col-sm-12" id="tdComentario">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control comentario" rows="7" cols="40" maxlength="2000" style="height:100px;resize: none;overflow: auto;"><?php echo FormatTextView($GLOBALS['oOrden_Venta_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control comentario" rows="7" cols="40" maxlength="2000" style="height:100px;resize: none;overflow: auto;"><?php echo $GLOBALS['oOrden_Venta_Detalle']->descripcion;?></textarea>
                         </div>
                     </div>
                 </div>
@@ -760,7 +760,7 @@
    }
     var llenarCajas=function(){
        var orden_venta_detalle_ID=$('#txtID').val();
-       cargarValores('Salida/ajaxLlenarCajas',orden_venta_detalle_ID, function(resultado){
+        cargarValores('Salida/ajaxLlenarCajas',orden_venta_detalle_ID, function(resultado){
            if(resultado.resultado==1){
 
                $('#txtPrecioUnitarioDolares').val(resultado.precio_venta_unitario_dolares);

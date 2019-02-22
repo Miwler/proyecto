@@ -642,6 +642,26 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
             throw new Exception($q);
         }
     }
+    function actualizar_estructura($salida_ID,$ver_descripcion)
+    {
+        $cn =new connect_new();
+        $retornar =0;
+        try
+        {
+          $retornar=$cn->store_procedure_transa(
+              "sp_factura_venta_UpdateEstructura",
+                array(
+                  "isalida_ID"=>$salida_ID,
+                  "iver_descripcion"=>$ver_descripcion),0
+                );
+          
+          
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "factura_venta.eliminar", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+  }
 }  
 
 

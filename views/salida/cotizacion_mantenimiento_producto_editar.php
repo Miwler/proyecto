@@ -125,7 +125,7 @@
                             <label>Descripción: </label>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" id="tdComentario">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7" cols="40" maxlength="2000" style="height:120px;"><?php echo FormatTextView($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control  comentario" rows="7" cols="40" maxlength="2000" style="height:120px;overflow:auto;resize:none;"><?php echo $GLOBALS['oCotizacion_Detalle']->descripcion;?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -343,7 +343,7 @@
     }
     $(document).ready(function(){
         fncCargarPrecioCompra(<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->ID;?>);
-        fncProducto(<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->ID;?>);
+        //fncProducto(<?php echo $GLOBALS['oCotizacion_Detalle']->oProducto->ID;?>);
 
     });
     var Resultado_verificar=0;
@@ -412,6 +412,7 @@
     var llenarCajas=function(){
         var cotizacion_detalle_ID=$('#txtID').val();
         cargarValores('Salida/ajaxCotizacionLlenarCajas',cotizacion_detalle_ID, function(resultado){
+            //console.log(resultado);
             if(resultado.resultado==1){
                 
                 $('#txtPrecioUnitarioDolares').val(resultado.precio_venta_unitario_dolares);
@@ -848,7 +849,7 @@ function buscarProducto(codigo){
     
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
 });
-<?php if($GLOBALS['oCotizacion_Detalle']->tipo==1){ ?>
+<?php if($GLOBALS['oCotizacion_Detalle']->tipo_ID==1){ ?>
 setTimeout('parent.windos_float_save_modal_hijo();', 1000);
 <?php } ?>
  

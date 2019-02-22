@@ -1370,7 +1370,7 @@ function actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre){
         $oCotizacion_Detalle->vigv_dolares=$oCotizacion_Detalle->precio_venta_subtotal_dolares*($oCotizacion_Detalle->igv);
     }
     $oCotizacion_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
-    $oCotizacion_Detalle->actualizar();
+    $oCotizacion_Detalle->actualizar1();
     switch($oCotizacion_Detalle->tipo){
         case 2://Producto con componente
 
@@ -1402,7 +1402,9 @@ function actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre){
     }
 
     }catch (Exception $ex){
-        return $ex;
+        log_error(__FILE__,"salida/actualizar_costo_cotizacion_detalle_padre",$ex->getMessage());
+        throw  new Exception($ex->getMessage());
+        //return $ex;
     }
 
     return $oCotizacion_Detalle;
@@ -1673,6 +1675,7 @@ function post_ajaxCotizacionLlenarCajas(){
 
     $ID=$_POST['id'];
     $oCotizacion_Detalle=cotizacion_detalle::getByID($ID);
+    //print_r($oCotizacion_Detalle);
     $oCotizacion=cotizacion::getByID($oCotizacion_Detalle->cotizacion_ID);
 
     try{
@@ -1682,6 +1685,7 @@ function post_ajaxCotizacionLlenarCajas(){
         $adicional_dolares=0;
 
         $dtCotizacion_Detalle=cotizacion_detalle::getGrid('cotizacion_ID='.$oCotizacion_Detalle->cotizacion_ID.' and cotizacion_detalle_ID='.$ID.' and tipo_ID in (3,4)',-1,-1,'ID asc');
+        //print_r($dtCotizacion_Detalle);
         foreach($dtCotizacion_Detalle as $item){
             switch($item['tipo_ID']){
                 case 3://componente
@@ -1694,7 +1698,7 @@ function post_ajaxCotizacionLlenarCajas(){
                     break;
             }
         }
-        switch($oCotizacion_Detalle->tipo){
+        switch($oCotizacion_Detalle->tipo_ID){
             case 2://Producto con componente
 
                 $oCotizacion_Detalle->adicional_soles='';
@@ -1728,6 +1732,7 @@ function post_ajaxCotizacionLlenarCajas(){
         $precio_venta_unitario_soles=$oCotizacion_Detalle->precio_venta_unitario_soles;
         $vigv_soles=number_format($oCotizacion_Detalle->vigv_soles,2,'.',',');
         $precio_venta_soles=number_format($oCotizacion_Detalle->precio_venta_soles,2,'.',',');
+        //print_r($oCotizacion_Detalle);
         $adicional_soles=$oCotizacion_Detalle->adicional_soles;
 
          //Precio en dolares
@@ -2284,7 +2289,7 @@ function post_cotizacion_mantenimiento_producto_editar($id){
     }
     $tipo=retornar_tipo($componente,$adicional);
     $producto_ID=$_POST['selProducto'];
-    $descripcion=FormatTextSave(strtoupper(trim($_POST['txtDescripcion'])));
+    $descripcion=trim($_POST['txtDescripcion']);
     $cantidad=$_POST['txtCantidad'];
     $PrecioUnitarioSoles=$_POST['txtPrecioUnitarioSoles'];
     $PrecioUnitarioDolares=$_POST['txtPrecioUnitarioDolares'];
@@ -2322,7 +2327,8 @@ function post_cotizacion_mantenimiento_producto_editar($id){
         //Tipo 1, es tipo producto detalle;
         $oCotizacion_Detalle->tipo_ID=$tipo;
         $oCotizacion_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oCotizacion_Detalle->actualizar();
+        $oCotizacion_Detalle->actualizar1();
+        //$oCotizacion_Detalle->actualizar();
         $oCotizacion_Detalle->precio_venta_unitario_soles=$PrecioUnitarioSoles;
         $oCotizacion_Detalle->precio_venta_unitario_dolares=$PrecioUnitarioDolares;
         $oCotizacion_Detalle->precio_venta_subtotal_soles=$SubTotalSoles;
@@ -2332,6 +2338,7 @@ function post_cotizacion_mantenimiento_producto_editar($id){
         $oCotizacion_Detalle->vigv_dolares=$IgvDolares;
         $oCotizacion_Detalle->precio_venta_soles=$TotalSoles;
         $oCotizacion_Detalle->precio_venta_dolares=$TotalDolares;
+        
         $oCotizacion_Detalle=actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle);
 //            }
         separarProductoCotizacion($oCotizacion_Detalle,$producto_ID_old);
@@ -2356,7 +2363,7 @@ function post_cotizacion_mantenimiento_producto_editar($id){
         $oCotizacion->precio_venta_total_soles=$precio_venta_neto_soles*(1+$oCotizacion->igv);
         $oCotizacion->precio_venta_total_dolares=$precio_venta_neto_dolares*(1+$oCotizacion->igv);
         $oCotizacion->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oCotizacion->actualizar();
+        $oCotizacion->actualizar1();
 
         /*Actualizamos el estado del inventario a separado*/
 
@@ -4636,6 +4643,66 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         echo json_encode($retornar);
     }
+    function post_ajaxEstructuraOrden_Venta_Fisico_Detalle(){
+        require ROOT_PATH.'models/salida.php';
+        require ROOT_PATH.'models/salida_detalle.php';
+        require ROOT_PATH.'models/factura_venta.php';
+        require ROOT_PATH.'controls/funcionController.php';
+        $salida_ID=$_POST['id'];
+        $ver_descripcion=$_POST['id1'];
+
+        //---------------------------------------
+       
+ 
+        try {
+            
+            $dtsalida_detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo_ID in (1,2,5,6)');
+            factura_venta::actualizar_estructura($salida_ID,$ver_descripcion);
+                $html ='<table  id="tablaproducto" cellsspacin="0" cellspadding="0">';
+                $i=1;
+                foreach ($dtsalida_detalle as $item){
+
+                    $html.='<tr>';
+                    $html.='<td id="td'.$i.'" width="85.4px" style="text-align:center; padding-top: 10px; border:none;font-weight: bold;">'. $item['cantidad'].' </td>';
+                    $html.='<td width="524.3px" style="padding:0 20px;padding-top: 10px;border:none;"><span style="font-weight: bold;">'. test_input($item['producto']).'</span>';
+                    if($ver_descripcion==1){
+                        if($item['descripcion']!=""){
+                            $html.='<br/><span>'. nl2br($item['descripcion']) .'</span>';
+                       }
+
+                    }
+                    
+
+                    $dtsalida_detalle_Componente=salida_detalle::getGridLista("ovd.salida_detalle_ID=".$item['ID'].' and ovd.tipo_ID=3');
+                    if(count($dtsalida_detalle_Componente)>0){
+                        $html.='<br/>';
+                        foreach($dtsalida_detalle_Componente as $componente){
+                            $html.='<span>'.$componente['producto'].'&nbsp;&nbsp;('.$componente['cantidad'].'&nbsp;'.$componente['unidad_medida'].')</span><br/>';
+                        }
+                    }
+                    $html.='</td>';
+                    $html.='<td width="81.6px" style="text-align:center;padding-top: 10px;border:none;font-weight: bold;">'. $item['unidad_medida'].'</td>';
+                    $html.='<td width="110.7px" style="text-align:center;padding-top: 10px;border:none;font-weight: bold;">'. $item['peso'] . '</td>';
+                    $html.='</tr>';
+                    $i=$i+1;
+                }
+
+                $html.='</table>';
+                $retorna=$html;
+            
+
+        }catch(Exception $ex){
+            log_error(__FILE__,"salida/post_ajaxEstructuraOrden_Venta_Fisico_Detalle",$ex->getMessage());
+            
+        }
+       
+
+        $retornar=Array('html'=>$html);
+        //$retorn="<h1>Hola</h1>";
+
+        echo json_encode($retornar);
+    }
+    
     function post_ajaxOrden_Venta_Detalle_Productos(){
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/salida_detalle.php';
@@ -4983,7 +5050,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 $osalida->garantia=  utf8_decode($oCotizacion->garantia);
                 $osalida->observacion=utf8_decode($oCotizacion->observacion);
                 $osalida->numero_pagina=1;
-                $osalida->nproducto_pagina="2";
+                $osalida->nproducto_pagina="1";
                 $osalida->usuario_id=$_SESSION['usuario_ID'];
                 $osalida->ver_adicional=1;
                 $osalida->adicional="Nueva central telef&oacute;nica ".$oDatos_Generales->telefono;
@@ -5014,7 +5081,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $osalida_Detalle->producto_ID=$item['producto_ID'];
                     $osalida_Detalle->observacion='';
                     $osalida_Detalle->salida_ID=$osalida->ID;
-                    $osalida_Detalle->descripcion= FormatTextViewHtml($item['descripcion']);
+                    $osalida_Detalle->descripcion=$item['descripcion'];
                     $osalida_Detalle->cantidad=$item['cantidad'];
                     $osalida_Detalle->precio_venta_unitario_soles=$item['precio_venta_unitario_soles'];
                     $osalida_Detalle->precio_venta_unitario_dolares=$item['precio_venta_unitario_dolares'];
@@ -5124,8 +5191,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $mensaje="Se registró correctamente";
         }catch(Exception $ex){
             $resultado=-1;
-            $mensaje=$ex->getMessage();
-
+            $mensaje=utf8_encode(mensaje_error);
+            log_error(__FILE__,"salida/post_ajaxExtraerCotizacion",$ex->getMessage());
         }
         $salida_ID=$osalida->ID;
         $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje,'salida_ID'=>$salida_ID);
@@ -7653,6 +7720,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $otros_cargos=$_POST['txtOtros_Cargos'];
         $descuento_global=$_POST['txtDescuento_Global'];
         $monto_total=$_POST['txtMonto_Total'];
+        $ver_descripcion=isset($_POST['ckVerDescripcion'])?1:0;
         //$con_guia=$_POST['selGuia_Venta'];
         try{
             /* Extraemos el número*/
@@ -7716,6 +7784,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $oFactura_Venta->descuento_global=$descuento_global;
                     $oFactura_Venta->porcentaje_descuento=$porcentaje_descuento;
                     $oFactura_Venta->otros_cargos=$otros_cargos;
+                    $oFactura_Venta->ver_descripcion=$ver_descripcion;
                     $oFactura_Venta->insertar();
                     
                     /*=====Insertamos la factura_venta_detalle*/
@@ -7723,10 +7792,12 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $oFactura_Venta_Detalle->factura_venta_ID=$oFactura_Venta->ID;
                     $oFactura_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
                     $dtsalida_Detalle=salida_detalle::getGridLista("ovd.salida_ID=".$ID. ' and ovd.tipo_ID in (1,2,5,6) ',$n,$nproductos_pagina,"ovd.ID asc");
+                    
                     foreach($dtsalida_Detalle as $value){
                         $oFactura_Venta_Detalle->impuestos_tipo_ID=$impuestos_tipo_ID;
                         $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
                         $oFactura_Venta_Detalle->impuestos_tipo_ID=$impuestos_tipo_ID;
+                        $oFactura_Venta_Detalle->ver_descripcion=$ver_descripcion;
                         $oFactura_Venta_Detalle->insertar();
 
                     }
@@ -7812,6 +7883,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                             $oFactura_Venta->opcion=$opcion;
                             $oFactura_Venta->numero_producto=$nproducto_pagina;
                             $oFactura_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                            $oFactura_Venta->ver_descripcion=$ver_descripcion;
                             //$oFactura_Venta->con_guia=$con_guia;
 
                             $oFactura_Venta->actualizar();
@@ -7830,6 +7902,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                             foreach($dtsalida_Detalle as $value){
                                 $oFactura_Venta_Detalle->impuestos_tipo_ID=$impuestos_tipo_ID;
                                 $oFactura_Venta_Detalle->salida_detalle_ID=$value['ID'];
+                                $oFactura_Venta_Detalle->ver_descripcion=$ver_descripcion;
                                 $oFactura_Venta_Detalle->insertar();
                             }
                             actualizarCostosFactura($oFactura_Venta);
@@ -9108,7 +9181,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     printer_draw_text($handle,$dia,80,375);
                     printer_draw_text($handle,$mes,170,375);
                     printer_draw_text($handle,$anio,440,375);
-					 printer_draw_text($handle,$oFactura_Venta->fecha_vencimiento,1300,375);
+                    printer_draw_text($handle,$oFactura_Venta->fecha_vencimiento,1300,375);
                     //informacio cliente
                     printer_draw_text($handle,$oCliente->razon_social,160,405);
                     printer_draw_text($handle,$oOperador->nombres.' '.$oOperador->apellido_paterno,1250,405);
@@ -9141,10 +9214,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                         printer_draw_text($handle,$costo_unitario,1150,$alto);
                         printer_draw_text($handle,$subtotal,1350,$alto);
                         printer_select_font($handle, $font);
-						if(trim($item['descripcion'])!=''){
+			if(trim($item['descripcion'])!=''&& $oFactura_Venta->ver_descripcion==1){
                             $alto=$alto+10;
                             //verificamos todos los salto de linea
-                            $descripcion_convertido=eregi_replace("[\n|\r|\n\r]","<br />",$item['descripcion']);
+                            $descripcion_convertido=eregi_replace("[\n|\r|\n\r]","<br />",($item['descripcion']));
                             $array=explode('<br />',$descripcion_convertido);
 
                             //$descripcion=wordwrap($item['descripcion'],80,"<br />",true);
@@ -9158,7 +9231,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                                         for($a=0;$a<count($array1);$a++){
                                             if(isset($array1[$a])){
                                                 $alto=$alto+20;
-                                                printer_draw_text($handle,$array1[$a],175,$alto);
+                                                printer_draw_text($handle, $array1[$a],175,$alto);
                                             }
 
                                         }
@@ -10036,7 +10109,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             case 1:
                 $dtsalida_detalle=salida_detalle::getGridLista("ovd.salida_ID=".$salida_ID. ' and ovd.tipo_ID in (1,2,5,6)');
 
-                $html ='<table  id="tablaproducto" class="table table-hover table-bordered">';
+                $html ='<table  id="tablaproducto" cellsspacin="0" cellspadding="0">';
                 $i=1;
                 foreach ($dtsalida_detalle as $item){
 

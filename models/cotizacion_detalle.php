@@ -80,7 +80,60 @@ class cotizacion_detalle {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+    {
+        $this->descripcion="";
+        $this->cantidad=0;
+        $this->precio_venta_unitario_soles=0;
+        $this->precio_venta_unitario_dolares=0;
+        $this->precio_venta_subtotal_soles=0;
+        $this->precio_venta_subtotal_dolares=0;
+        $this->precio_venta_soles=0;
+        $this->precio_venta_dolares=0;
+        $this->igv=0;
+        $this->vigv_soles=0;
+        $this->vigv_dolares=0;
+        $this->cotizacion_detalle_ID=0;
+        $this->estado_id=0;
+        $this->ver_precio=0;
+        $this->tiempo_separacion=0;
+        $this->separacion=0;
+        $this->cantidad_separada=0;
+        $this->tipo=0;
+        $this->orden_cotizacion=0;
+        $this->pagina_cotizacion=0;
+        $this->tipo_ID=0;
+        $this->usuario_id=$_SESSION["usuario_ID"];
+        $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
+  }
+  function __destruct()
+  {
+        $this->descripcion;
+        $this->cantidad;
+        $this->precio_venta_unitario_soles;
+        $this->precio_venta_unitario_dolares;
+        $this->precio_venta_subtotal_soles;
+        $this->precio_venta_subtotal_dolares;
+        $this->precio_venta_soles;
+        $this->precio_venta_dolares;
+        $this->igv;
+        $this->vigv_soles;
+        $this->vigv_dolares;
+        $this->cotizacion_detalle_ID;
+        $this->estado_id;
+        $this->ver_precio;
+        $this->tiempo_separacion;
+        $this->separacion;
+        $this->cantidad_separada;
+        $this->tipo;
+        $this->orden_cotizacion;
+        $this->pagina_cotizacion;
+        $this->tipo_ID;
+        $this->usuario_id;
+        $this->usuario_mod_id;
+
+  }
     function insertar() {
         
         $retorna = -1;
@@ -130,6 +183,52 @@ class cotizacion_detalle {
              throw new Exception($q);
         }
     }
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_cotizacion_detalle_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iproducto_ID"=>$this->producto_ID,
+                "icotizacion_ID"=>$this->cotizacion_ID,
+                "idescripcion"=>$this->descripcion,
+                "icantidad"=>$this->cantidad,
+                "iprecio_venta_unitario_soles"=>$this->precio_venta_unitario_soles,
+                "iprecio_venta_unitario_dolares"=>$this->precio_venta_unitario_dolares,
+                "iprecio_venta_subtotal_soles"=>$this->precio_venta_subtotal_soles,
+                "iprecio_venta_subtotal_dolares"=>$this->precio_venta_subtotal_dolares,
+                "iprecio_venta_soles"=>$this->precio_venta_soles,
+                "iprecio_venta_dolares"=>$this->precio_venta_dolares,
+                "iigv"=>$this->igv,
+                "ivigv_soles"=>$this->vigv_soles,
+                "ivigv_dolares"=>$this->vigv_dolares,
+                "icotizacion_detalle_ID"=>$this->cotizacion_detalle_ID,
+                "iestado_id"=>$this->estado_id,
+                "iver_precio"=>$this->ver_precio,
+                "itiempo_separacion"=>$this->tiempo_separacion,
+                "iseparacion"=>$this->separacion,
+                "icantidad_separada"=>$this->cantidad_separada,
+                "itipo"=>$this->tipo,
+                "iorden_cotizacion"=>$this->orden_cotizacion,
+                "ipagina_cotizacion"=>$this->pagina_cotizacion,
+                "itipo_ID"=>$this->tipo_ID,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
+      if($ID>0){
+           $this->message = 'Se guardó correctamente';
+      }
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cotizacion_detalle.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizarTipo(){
         $cn =new connect_new();
 	$retornar=-1;
@@ -270,7 +369,53 @@ class cotizacion_detalle {
             throw new Exception($q);
         }
     }
+    static function getByID1($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_cotizacion_detalle_getByID",
+          array("iID"=>$ID));
+      $ocotizacion_detalle=null;
+      foreach($dt as $item)
+      {
+        $ocotizacion_detalle= new cotizacion_detalle();
+      $ocotizacion_detalle->ID=$item["ID"];
+      $ocotizacion_detalle->producto_ID=$item["producto_ID"];
+      $ocotizacion_detalle->cotizacion_ID=$item["cotizacion_ID"];
+      $ocotizacion_detalle->descripcion=$item["descripcion"];
+      $ocotizacion_detalle->cantidad=$item["cantidad"];
+      $ocotizacion_detalle->precio_venta_unitario_soles=$item["precio_venta_unitario_soles"];
+      $ocotizacion_detalle->precio_venta_unitario_dolares=$item["precio_venta_unitario_dolares"];
+      $ocotizacion_detalle->precio_venta_subtotal_soles=$item["precio_venta_subtotal_soles"];
+      $ocotizacion_detalle->precio_venta_subtotal_dolares=$item["precio_venta_subtotal_dolares"];
+      $ocotizacion_detalle->precio_venta_soles=$item["precio_venta_soles"];
+      $ocotizacion_detalle->precio_venta_dolares=$item["precio_venta_dolares"];
+      $ocotizacion_detalle->igv=$item["igv"];
+      $ocotizacion_detalle->vigv_soles=$item["vigv_soles"];
+      $ocotizacion_detalle->vigv_dolares=$item["vigv_dolares"];
+      $ocotizacion_detalle->cotizacion_detalle_ID=$item["cotizacion_detalle_ID"];
+      $ocotizacion_detalle->estado_id=$item["estado_id"];
+      $ocotizacion_detalle->ver_precio=$item["ver_precio"];
+      $ocotizacion_detalle->tiempo_separacion=$item["tiempo_separacion"];
+      $ocotizacion_detalle->separacion=$item["separacion"];
+      $ocotizacion_detalle->cantidad_separada=$item["cantidad_separada"];
+      $ocotizacion_detalle->tipo=$item["tipo"];
+      $ocotizacion_detalle->orden_cotizacion=$item["orden_cotizacion"];
+      $ocotizacion_detalle->pagina_cotizacion=$item["pagina_cotizacion"];
+      $ocotizacion_detalle->tipo_ID=$item["tipo_ID"];
+      $ocotizacion_detalle->usuario_id=$item["usuario_id"];
+      $ocotizacion_detalle->usuario_mod_id=$item["usuario_mod_id"];
 
+      }
+      return $ocotizacion_detalle;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cotizacion_detalle.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc') {
         $cn = new connect_new();
         try {
@@ -294,7 +439,7 @@ class cotizacion_detalle {
             $dt = $cn->getGrid($q);
             return $dt;
         } catch (Exception $ex) {
-            throw new Exception("Ocrrió un error.");
+            throw new Exception("Ocurrió un error.");
         }
     }
     static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ID asc') {

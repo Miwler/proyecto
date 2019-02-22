@@ -155,6 +155,15 @@
                             </script>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="ckbox ckbox-theme">
+                                <input type="checkbox" id="ckVerDescripcion" name="ckVerDescripcion" value="1" <?php echo (($GLOBALS['oFactura_Venta']->ver_descripcion==1)?"checked":"");?>>
+                                <label for="ckVerDescripcion">mostrar descripción.</label>
+                            </div>
+                        </div>
+                        
+                    </div>
                     
                 </div>
                 <div id="divProductos" class="tab-pane fade inner-all">
@@ -233,6 +242,9 @@
         </div>
     </div>
 </form>
+<div id="divContenedorDetalle" style="display:none;">
+    
+</div>
  <script type="text/javascript">
      $(document).ready(function(){
          <?php if($GLOBALS['oFactura_Venta']->estado_ID==41){?>
@@ -247,6 +259,7 @@
                    $("#btnVistaprevia").css("display","");
                <?php } ?>
      });
+     
     var fncVistaPrevia=function(){
         var orden_venta_ID=$('#txtorden_ventaID').val();
         //window_float_deslizar_hijo('form','Ventas/Orden_Venta_Mantenimiento_Factura_Vista_Previa',orden_venta_ID,'');
@@ -581,6 +594,100 @@
             $.unblockUI();
             console.log(e);
         }
+    }
+    $("#ckVerDescripcion").click(function(){
+        var ver_descripcion=0;
+         if($(this).is(":checked")){
+             ver_descripcion=1;
+         }
+        var orden_venta_ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
+       
+   
+        //$('#divContenedor_Float_Hijo').css('display', 'block');
+        cargarValores1("Salida/ajaxOrden_Venta_Fisico_Detalle_Productos",orden_venta_ID,ver_descripcion,function(resultado){
+
+            $('#divContenedorDetalle').html(resultado.html);
+            
+            calcularEstructura(orden_venta_ID);
+          
+        });
+     });
+    
+    var calcularEstructura=function(orden_venta_ID){
+        
+        $('#divContenedorDetalle').css('display','block');
+         var tabla= document.getElementById('tablaproducto');
+         var nFilas =tabla.rows.length;
+         var alto=tabla.offsetHeight;
+
+         //var contenedor=iframe.contentWindow.document.getElementById('contenedor_productos');
+         var altocontenedor=500;//524
+         var altostd=0;
+         var numero_pagina=0;
+         var nproductoxhoja="";
+         var suma=0;
+         var nproducto=0;
+         var n=0;
+         //var y=0;
+         //alert(nFilas);
+         for (i = 1; i <= nFilas; i++) { 
+
+             var td=document.getElementById('td'+i);
+             var altotd=td.offsetHeight;
+
+             altostd=altostd +altotd;
+           // alert(altostd);
+                 // 1000>=500
+             if(altostd>=altocontenedor){
+                 if(i==nFilas){
+                     if(n>0){
+                         nproductoxhoja=nproductoxhoja+n+'/';
+                         numero_pagina=numero_pagina+1;
+                         //nproducto=1;
+                         //n=0;
+                     }
+                     nproducto=1;
+                     nproductoxhoja=nproductoxhoja+nproducto;
+                     numero_pagina =numero_pagina + 1;
+
+                 }else {
+                     if(n>0){
+
+                         nproductoxhoja=nproductoxhoja+n+'/';
+                         numero_pagina=numero_pagina+1;
+                         nproducto=1;
+                         n=1;
+                         altostd=altotd;
+                     }else {
+                         nproducto=1;
+                         nproductoxhoja=nproductoxhoja+nproducto+'/';
+                         //numero_pagina =numero_pagina + 1;
+                         altostd=0;
+                     }
+                     //numero_pagina =numero_pagina + 1;
+                 }
+
+
+             }else{
+                 n=n+1;
+
+                 if(i==nFilas){
+
+                 nproducto=nproducto+1;
+                 nproductoxhoja=nproductoxhoja+n;
+                 numero_pagina =numero_pagina + 1;
+                 }
+             }
+             //nproducto=nproducto+1;
+
+         }
+         //alert(numero_pagina);
+         cargarValores2('/Salida/ajaxOrden_Venta_Grabar',orden_venta_ID,numero_pagina,nproductoxhoja,function(resultado){
+             if(resultado.resultado==-1){
+                 toastem.error(resultado.mensaje);
+             }
+         });
+         $('#divContenedorDetalle').css('display','none');
     }
 </script>
  
