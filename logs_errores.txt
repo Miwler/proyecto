@@ -863,3 +863,177 @@ METODO: connect_new.getGrid
 ERROR: Falló la preparación: (1054)
 >>>>>>> 75ccdfa5198e2393eef1c543961c46fd9e017500
 >>>>>>> 1f9f459b4da0e24fe384a5ebb063c79988e07147
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '';
+SET @_iID = '';
+SET @_iproducto_ID = '';
+SET @_iobservacion = '';
+SET @_isalida_ID = '';
+SET @_idescripcion = '';
+SET @_icantidad = '';
+SET @_iprecio_venta_unitario_soles = '';
+SET @_iprecio_venta_unitario_dolares = '';
+SET @_iprecio_venta_subtotal_soles = '';
+SET @_iprecio_venta_subtotal_dolares = '';
+SET @_iprecio_venta_soles = '';
+SET @_iprecio_venta_dolares = '';
+SET @_iigv = '';
+SET @_ivigv_soles = '';
+SET @_ivigv_dolares = '';
+SET @_isalida_detalle_ID = '';
+SET @_iestado_ID = '';
+SET @_icotizacion_detalle_ID = '';
+SET @_iver_precio = '';
+SET @_iobsequio = '';
+SET @_itipo = '';
+SET @_itipo_ID = '';
+SET @_iisc = '';
+SET @_iotro_impuesto = '';
+SET @_idescuento = '';
+SET @_iprecio_referencial = '';
+SET @_isuma = '';
+SET @_itipo_precio_venta_unitario_ID = '';
+SET @_iimpuestos_tipo_ID = '';
+SET @_ipeso = '';
+SET @_itipo_sistema_calculo_isc_ID = null;
+SET @_idescuento_unitario = '';
+SET @_ipu_incluye_igv = '';
+SET @_ipu_incluye_isc = '';
+SET @_idescuento_porcentaje = '';
+SET @_iisc_porcentaje = '';
+SET @_iisc_valor_referencial = '';
+SET @_iisc_activo = '';
+SET @_ivalor_venta_soles = '';
+SET @_ivalor_venta_dolares = '';
+SET @_ivisc_soles = '';
+SET @_ivisc_dolares = '';
+SET @_idescuento_soles = '';
+SET @_idescuento_dolares = '';
+SET @_valor_unitario = '';
+SET @_iusuario_mod_id = '';
+CALL `sp_salida_detalle_Update`( @_retornar, @_iID, @_iproducto_ID, @_iobservacion, @_isalida_ID, @_idescripcion, @_icantidad, @_iprecio_venta_unitario_soles, @_iprecio_venta_unitario_dolares, @_iprecio_venta_subtotal_soles, @_iprecio_venta_subtotal_dolares, @_iprecio_venta_soles, @_iprecio_venta_dolares, @_iigv, @_ivigv_soles, @_ivigv_dolares, @_isalida_detalle_ID, @_iestado_ID, @_icotizacion_detalle_ID, @_iver_precio, @_iobsequio, @_itipo, @_itipo_ID, @_iisc, @_iotro_impuesto, @_idescuento, @_iprecio_referencial, @_isuma, @_itipo_precio_venta_unitario_ID, @_iimpuestos_tipo_ID, @_ipeso, @_itipo_sistema_calculo_isc_ID, @_idescuento_unitario, @_ipu_incluye_igv, @_ipu_incluye_isc, @_idescuento_porcentaje, @_iisc_porcentaje, @_iisc_valor_referencial, @_iisc_activo, @_ivalor_venta_soles, @_ivalor_venta_dolares, @_ivisc_soles, @_ivisc_dolares, @_idescuento_soles, @_idescuento_dolares, @_valor_unitario, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Orden_Venta_Mantenimiento_Producto_Editar
+ERROR: exception 'Exception' with message 'Falló la preparación: (0)' in C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\models\salida_detalle.php(347): connect_new->store_procedure_transa('sp_salida_detal...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(6534): salida_detalle->actualizar_new()
+#2 [internal function]: post_Orden_Venta_Mantenimiento_Producto_Editar('3396')
+#3 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(162): call_user_func_array('post_Orden_Vent...', Array)
+#4 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#5 {main}
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:20
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '';
+SET @_iproducto_ID = '';
+SET @_iobservacion = '';
+SET @_isalida_ID = '';
+SET @_idescripcion = '';
+SET @_icantidad = '';
+SET @_iprecio_venta_unitario_soles = '';
+SET @_iprecio_venta_unitario_dolares = '';
+SET @_iprecio_venta_subtotal_soles = '';
+SET @_iprecio_venta_subtotal_dolares = '';
+SET @_iprecio_venta_soles = '';
+SET @_iprecio_venta_dolares = '';
+SET @_iigv = '';
+SET @_ivigv_soles = '';
+SET @_ivigv_dolares = '';
+SET @_isalida_detalle_ID = '';
+SET @_iestado_ID = '';
+SET @_icotizacion_detalle_ID = null;
+SET @_iver_precio = '';
+SET @_iobsequio = '';
+SET @_itipo = '';
+SET @_itipo_ID = '';
+SET @_iisc = '';
+SET @_iotro_impuesto = '';
+SET @_idescuento = '';
+SET @_iprecio_referencial = '';
+SET @_isuma = '';
+SET @_itipo_precio_venta_unitario_ID = '';
+SET @_iimpuestos_tipo_ID = '';
+SET @_ipeso = '';
+SET @_itipo_sistema_calculo_isc_ID = null;
+SET @_idescuento_unitario = '';
+SET @_ipu_incluye_igv = '';
+SET @_ipu_incluye_isc = '';
+SET @_idescuento_porcentaje = '';
+SET @_iisc_porcentaje = '';
+SET @_iisc_valor_referencial = '';
+SET @_iisc_activo = '';
+SET @_ivalor_venta_soles = '';
+SET @_ivalor_venta_dolares = '';
+SET @_ivisc_soles = '';
+SET @_ivisc_dolares = '';
+SET @_idescuento_soles = '';
+SET @_idescuento_dolares = '';
+SET @_ivalor_unitario = '';
+SET @_iusuario_id = '';
+CALL `sp_salida_detalle_Insert`( @_iID, @_iproducto_ID, @_iobservacion, @_isalida_ID, @_idescripcion, @_icantidad, @_iprecio_venta_unitario_soles, @_iprecio_venta_unitario_dolares, @_iprecio_venta_subtotal_soles, @_iprecio_venta_subtotal_dolares, @_iprecio_venta_soles, @_iprecio_venta_dolares, @_iigv, @_ivigv_soles, @_ivigv_dolares, @_isalida_detalle_ID, @_iestado_ID, @_icotizacion_detalle_ID, @_iver_precio, @_iobsequio, @_itipo, @_itipo_ID, @_iisc, @_iotro_impuesto, @_idescuento, @_iprecio_referencial, @_isuma, @_itipo_precio_venta_unitario_ID, @_iimpuestos_tipo_ID, @_ipeso, @_itipo_sistema_calculo_isc_ID, @_idescuento_unitario, @_ipu_incluye_igv, @_ipu_incluye_isc, @_idescuento_porcentaje, @_iisc_porcentaje, @_iisc_valor_referencial, @_iisc_activo, @_ivalor_venta_soles, @_ivalor_venta_dolares, @_ivisc_soles, @_ivisc_dolares, @_idescuento_soles, @_idescuento_dolares, @_ivalor_unitario, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '';
+SET @_iproducto_ID = '';
+SET @_iobservacion = '';
+SET @_isalida_ID = '';
+SET @_idescripcion = '';
+SET @_icantidad = '';
+SET @_iprecio_venta_unitario_soles = '';
+SET @_iprecio_venta_unitario_dolares = '';
+SET @_iprecio_venta_subtotal_soles = '';
+SET @_iprecio_venta_subtotal_dolares = '';
+SET @_iprecio_venta_soles = '';
+SET @_iprecio_venta_dolares = '';
+SET @_iigv = '';
+SET @_ivigv_soles = '';
+SET @_ivigv_dolares = '';
+SET @_isalida_detalle_ID = '';
+SET @_iestado_ID = '';
+SET @_icotizacion_detalle_ID = null;
+SET @_iver_precio = '';
+SET @_iobsequio = '';
+SET @_itipo = '';
+SET @_itipo_ID = '';
+SET @_iisc = '';
+SET @_iotro_impuesto = '';
+SET @_idescuento = '';
+SET @_iprecio_referencial = '';
+SET @_isuma = '';
+SET @_itipo_precio_venta_unitario_ID = '';
+SET @_iimpuestos_tipo_ID = '';
+SET @_ipeso = '';
+SET @_itipo_sistema_calculo_isc_ID = null;
+SET @_idescuento_unitario = '';
+SET @_ipu_incluye_igv = '';
+SET @_ipu_incluye_isc = '';
+SET @_idescuento_porcentaje = '';
+SET @_iisc_porcentaje = '';
+SET @_iisc_valor_referencial = '';
+SET @_iisc_activo = '';
+SET @_ivalor_venta_soles = '';
+SET @_ivalor_venta_dolares = '';
+SET @_ivisc_soles = '';
+SET @_ivisc_dolares = '';
+SET @_idescuento_soles = '';
+SET @_idescuento_dolares = '';
+SET @_ivalor_unitario = '';
+SET @_iusuario_id = '';
+CALL `sp_salida_detalle_Insert`( @_iID, @_iproducto_ID, @_iobservacion, @_isalida_ID, @_idescripcion, @_icantidad, @_iprecio_venta_unitario_soles, @_iprecio_venta_unitario_dolares, @_iprecio_venta_subtotal_soles, @_iprecio_venta_subtotal_dolares, @_iprecio_venta_soles, @_iprecio_venta_dolares, @_iigv, @_ivigv_soles, @_ivigv_dolares, @_isalida_detalle_ID, @_iestado_ID, @_icotizacion_detalle_ID, @_iver_precio, @_iobsequio, @_itipo, @_itipo_ID, @_iisc, @_iotro_impuesto, @_idescuento, @_iprecio_referencial, @_isuma, @_itipo_precio_venta_unitario_ID, @_iimpuestos_tipo_ID, @_ipeso, @_itipo_sistema_calculo_isc_ID, @_idescuento_unitario, @_ipu_incluye_igv, @_ipu_incluye_isc, @_idescuento_porcentaje, @_iisc_porcentaje, @_iisc_valor_referencial, @_iisc_activo, @_ivalor_venta_soles, @_ivalor_venta_dolares, @_ivisc_soles, @_ivisc_dolares, @_idescuento_soles, @_idescuento_dolares, @_ivalor_unitario, @_iusuario_id)SELECT @_iID AS iID

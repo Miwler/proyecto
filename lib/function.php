@@ -75,7 +75,7 @@ function cargarInformacion($empresa_ID){
 		return $text;
 	}
 	function FormatTextSaveP($text){
-		$text=mysqli_real_escape_string($text);
+		$text=mysql_real_escape_string($text);
 		//$text=mysql_real_escape_string(utf8_decode($text));
                 //$text=utf8_encode($text);
 		return $text;

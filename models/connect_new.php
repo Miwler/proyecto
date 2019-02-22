@@ -335,7 +335,7 @@ class connect_new
                 {
                     $val.=",'".$lv_value."'";
                     if(strtoupper($lv_value)!='NULL'){
-                        $lv_query = "SET @_".$lv_key." = '".mysql_real_escape_string($lv_value)."'";
+                        $lv_query = "SET @_".$lv_key." = '".mysqli_real_escape_string($this->connect_new,$lv_value)."'";
                     }else{
                         $lv_query = "SET @_".$lv_key." = null";
                     }
