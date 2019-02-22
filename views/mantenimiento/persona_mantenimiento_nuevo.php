@@ -217,10 +217,21 @@ function fncPage() { ?>
         var nombres=$.trim($('#txtNombres').val());
         var sexo_ID=$('#selSexo_ID').val();
         var correo=$('#txtCorreo').val();
+        var selTipo_Documento=$('#selTipo_Documento').val();
+        var n = numero.length;
+        
         if(numero==""){
             mensaje.error("Mensaje de error","Debe registrar un número de documento.",'txtNumero');
             return false;
         }
+        
+        if(selTipo_Documento==1){
+            if(n < 8){
+            mensaje.error("Mensaje de error","número de DNI no válido.",'txtNumero');
+            return false;
+        }
+        }
+        
         if(apellido_paterno==""){
             mensaje.error("Mensaje de error","Debe registrar el apellido paterno.",'txtApellido_Paterno');
             return false;

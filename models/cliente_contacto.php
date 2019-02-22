@@ -78,7 +78,7 @@ class cliente_contacto {
             "iestado_ID"=>$this->estado_ID
         ),0);
       if($ID>0){
-        $this->getMessage="El registro se guard? correctamente.";
+        $this->getMessage="El registro se guardó correctamente.";
         $this->ID=$ID;
         
       } 

@@ -1724,3 +1724,159 @@ Stack trace:
 #2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Nuevo('')
 #3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
 #4 {main}
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '729';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00729';
+SET @_irazon_social = 'irazon_social';
+SET @_inombre_comercial = '';
+SET @_iruc = '34555555553';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0.00';
+SET @_itiempo_credito = '0';
+SET @_iusuario_mod_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Update`( @_retornar, @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_mod_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:57
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_cliente_mantenimiento_editar
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(202): connect_new->store_procedure_transa('sp_cliente_Upda...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1451): cliente->actualizar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Editar('729')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:51
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '729';
+SET @_iempresa_ID = '2';
+SET @_icodigo = 'C00729';
+SET @_irazon_social = 'irazon_social';
+SET @_inombre_comercial = '';
+SET @_iruc = '34555555553';
+SET @_idireccion = '';
+SET @_idireccion_fiscal = '';
+SET @_idistrito_ID = '1261';
+SET @_itelefono = '';
+SET @_icelular = '';
+SET @_icorreo = '';
+SET @_iforma_pago_ID = '0';
+SET @_ibanco = '';
+SET @_inumero_cuenta_soles = '';
+SET @_inumero_cuenta_dolares = '';
+SET @_iestado_ID = '12';
+SET @_idescuento = '0.00';
+SET @_itiempo_credito = '0';
+SET @_iusuario_mod_id = '0';
+SET @_icorrelativo = '';
+SET @_itipo_documento_ID = '';
+CALL `sp_cliente_Update`( @_retornar, @_iID, @_iempresa_ID, @_icodigo, @_irazon_social, @_inombre_comercial, @_iruc, @_idireccion, @_idireccion_fiscal, @_idistrito_ID, @_itelefono, @_icelular, @_icorreo, @_iforma_pago_ID, @_ibanco, @_inumero_cuenta_soles, @_inumero_cuenta_dolares, @_iestado_ID, @_idescuento, @_itiempo_credito, @_iusuario_mod_id, @_icorrelativo, @_itipo_documento_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 01:02:51
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_cliente_mantenimiento_editar
+ERROR: Exception: Falló la preparación: (0) in C:\xampp\htdocs\proyecto\models\connect_new.php:379
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\cliente.php(202): connect_new->store_procedure_transa('sp_cliente_Upda...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(1451): cliente->actualizar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Cliente_Mantenimiento_Editar('729')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 02:02:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 03:02:26
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 04:02:58
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 04:02:32
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:37
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:33
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:03
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:24
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:28
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:35
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:15
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: No se registró
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:19
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Los parámetros son incorrectos
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_iruc = '21342434343';
+SET @_irazon_social = ''la sac'';
+
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 02:02:19
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_proveedor_mantenimiento_nuevo
+ERROR: Exception: Los parámetros son incorrectos in C:\xampp\htdocs\proyecto\models\connect_new.php:348
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\models\proveedor.php(109): connect_new->store_procedure_transa('sp_proveedor_In...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\controls\mantenimientoController.php(102): proveedor->insertar1()
+#2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Proveedor_Mantenimiento_Nuevo('')
+#3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
