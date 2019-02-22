@@ -12,6 +12,7 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/xampp/htdocs/proyecto/logs_errores.txt</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/cliente.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/distrito.php</file>
@@ -19,6 +20,14 @@
             <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/persona_mantenimiento_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/cliente_mantenimiento.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/persona.php</file>
+=======
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/cliente.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_guia.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jForm.js</file>
+>>>>>>> 75ccdfa5198e2393eef1c543961c46fd9e017500
         </group>
     </open-files>
 </project-private>

@@ -4395,7 +4395,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
             $ver_adicional=$_POST['ckVer_Adicional'];
         }
 
-        $adicional=FormatTextSave($_POST['txtAdicional']);
+        $adicional=$_POST['txtAdicional'];
         try{
             $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
             $osalida=salida::getByID($id);
@@ -4425,7 +4425,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                         foreach($dtsalida_Numero_Cuenta as $item){
                         $osalida_Numero_Cuenta=salida_numero_cuenta::getByID($item['ID']);
                         $osalida_Numero_Cuenta->usuario_mod_id=$_SESSION['usuario_ID'];
-                        $osalida_Numero_Cuenta->eliminar();
+                        $osalida_Numero_Cuenta->eliminar1();
                         }
                     }
                     //ingresamos los valores
@@ -4438,7 +4438,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                             $osalida_Numero_Cuenta->salida_ID=$osalida->ID;
                             $osalida_Numero_Cuenta->numero_cuenta_ID=$numero_cuenta_ID;
                             $osalida_Numero_Cuenta->usuario_id=$_SESSION['usuario_ID'];
-                            $osalida_Numero_Cuenta->insertar();
+                            $osalida_Numero_Cuenta->insertar1();
                            // $checked="checked";
                         }
                     }
@@ -4455,7 +4455,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
 
         catch (Exception $ex){
             $resultado=-1;
-            $mensaje=$ex->getMessage();
+            $mensaje=utf8_encode(mensaje_error);
+            log_error(__FILE__,"salida/post_Orden_Venta_Mantenimiento_Editar",$ex->getMessage());
 
         }
         $osalida->dtRepresentante_Cliente=cliente_contacto::getGrid('clic.cliente_ID='.$cliente_ID);
@@ -9107,17 +9108,17 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     printer_draw_text($handle,$dia,80,375);
                     printer_draw_text($handle,$mes,170,375);
                     printer_draw_text($handle,$anio,440,375);
-					 printer_draw_text($handle,$oFactura_Venta->fecha_vencimiento,1350,375);
+					 printer_draw_text($handle,$oFactura_Venta->fecha_vencimiento,1300,375);
                     //informacio cliente
                     printer_draw_text($handle,$oCliente->razon_social,160,405);
                     printer_draw_text($handle,$oOperador->nombres.' '.$oOperador->apellido_paterno,1250,405);
                     //
                     printer_draw_text($handle,$oCliente->direccion,160,435);
-                    printer_draw_text($handle,$oFactura_Venta->numero_orden_compra,1350,435);
+                    printer_draw_text($handle,$oFactura_Venta->numero_orden_venta,1300,435);
                     //====
                     printer_draw_text($handle,$oCliente->ruc,160,465);
                     printer_draw_text($handle,$oCliente->codigo,630,465);
-                    printer_draw_text($handle,$oFactura_Venta->numero_orden_venta,1350,465);
+                    printer_draw_text($handle,$oFactura_Venta->numero_orden_compra,1300,465);
                     //Detalle
                     //=============================================================
                     $alto=610;
@@ -9468,8 +9469,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                         //fila1
                         printer_draw_text($handle,$oGuia_Venta->fecha_emision,150,375);
                         printer_draw_text($handle,$oGuia_Venta->fecha_inicio_traslado,580,375);
-                        printer_draw_text($handle,$oGuia_Venta->numero_orden_compra,1350,345);
-                        printer_draw_text($handle,$oGuia_Venta->numero_orden_venta,1350,375);
+                        printer_draw_text($handle,$oGuia_Venta->numero_orden_venta,1350,345);
+                        printer_draw_text($handle,$oGuia_Venta->numero_orden_compra,1350,375);
                         //fila2
                         printer_draw_text($handle,$oGuia_Venta->punto_partida,80,455);
                         printer_draw_text($handle, $oGuia_Venta->punto_llegada,800,455);

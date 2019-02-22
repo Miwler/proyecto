@@ -1725,6 +1725,7 @@ Stack trace:
 #3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
 #4 {main}
 ============================ERROR====================================
+<<<<<<< HEAD
 FECHA Y HORA: 21 02 2019 01:02:57
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.store_procedure_transa
@@ -1880,3 +1881,44 @@ Stack trace:
 #2 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): post_Proveedor_Mantenimiento_Nuevo('')
 #3 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
 #4 {main}
+=======
+FECHA Y HORA: 19 02 2019 21:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1881,1689,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1881,1689,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1882,1690,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(1882,1690,2,0);
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 21:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salida/post_Orden_Venta_Mantenimiento_Editar
+ERROR: Ocurrio un error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 22:02:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 23:02:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 19 02 2019 23:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+>>>>>>> 75ccdfa5198e2393eef1c543961c46fd9e017500

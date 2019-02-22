@@ -248,7 +248,7 @@ class salida_numero_cuenta {
               "iID"=>$this->ID,
               "iusuario_mod_id"=>$this->usuario_mod_id ),0
             );
-      if($retornar>0)$this->getMessage = "Se elimin? correctamente";
+      if($retornar>0)$this->message = "Se elimin? correctamente";
       return $retornar;
     }catch(Exeption $ex)
     {
