@@ -129,7 +129,7 @@ class proveedor_contacto {
     "iusuario_mod_id"=>$this->usuario_mod_id,
     "iestado_ID"=>$this->estado_ID
 ),0);
-      return $retornar;
+      return $ID;
     }catch(Exeption $ex)
     {
       log_error(__FILE__, "proveedor_contacto.actualizar", $ex->getMessage());

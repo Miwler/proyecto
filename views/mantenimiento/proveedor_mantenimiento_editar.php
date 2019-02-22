@@ -515,7 +515,7 @@ function fncPage() { ?>
         $('#btnAccion').attr('title', 'Agregar persona contacto');
         $("#sendtxtPersona_ID").val('0');
        
-        
+        $('#listaPersonas').val('');
         $('#txtPersona_ID').val('');
         $('#txtID').val('0');
         
