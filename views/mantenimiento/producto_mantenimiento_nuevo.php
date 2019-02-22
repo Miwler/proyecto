@@ -113,7 +113,7 @@ function fncMenu() { ?>
                                <select id="selUnidad_Medida" name="selUnidad_Medida" class="form-control form-requerido">
                                     <option value="0">--</option>
                                     <?php foreach($GLOBALS['dtUnidad_Medida'] as $item){ ?>
-                                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['nombre']))?></option>
+                                    <option value="<?php echo $item['ID']?>"><?php echo $item['nombre']?></option>
                                     <?php } ?>
                                 </select>
 

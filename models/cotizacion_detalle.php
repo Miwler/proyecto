@@ -163,7 +163,54 @@ class cotizacion_detalle {
             throw new Exception($q);
         }
     }
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_cotizacion_detalle_Insert",
+            array(
+            "iID"=>0,
+            "iproducto_ID"=>$this->producto_ID,
+            "icotizacion_ID"=>$this->cotizacion_ID,
+            "idescripcion"=>$this->descripcion,
+            "icantidad"=>$this->cantidad,
+            "iprecio_venta_unitario_soles"=>$this->precio_venta_unitario_soles,
+            "iprecio_venta_unitario_dolares"=>$this->precio_venta_unitario_dolares,
+            "iprecio_venta_subtotal_soles"=>$this->precio_venta_subtotal_soles,
+            "iprecio_venta_subtotal_dolares"=>$this->precio_venta_subtotal_dolares,
+            "iprecio_venta_soles"=>$this->precio_venta_soles,
+            "iprecio_venta_dolares"=>$this->precio_venta_dolares,
+            "iigv"=>$this->igv,
+            "ivigv_soles"=>$this->vigv_soles,
+            "ivigv_dolares"=>$this->vigv_dolares,
+            "icotizacion_detalle_ID"=>$this->cotizacion_detalle_ID,
+            "iestado_id"=>$this->estado_id,
+            "iver_precio"=>$this->ver_precio,
+            "itiempo_separacion"=>$this->tiempo_separacion,
+            "iseparacion"=>$this->separacion,
+            "icantidad_separada"=>$this->cantidad_separada,
+            "itipo"=>$this->tipo,
+            "iorden_cotizacion"=>$this->orden_cotizacion,
+            "ipagina_cotizacion"=>$this->pagina_cotizacion,
+            "itipo_ID"=>$this->tipo_ID,
+            "iusuario_id"=>$this->usuario_id,
 
+        ),0);
+      if($ID>0){
+        $this->message="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registró ninguna fila");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "cotizacion_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar() {
         $cn = new connect_new();
         $retornar = -1;

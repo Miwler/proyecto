@@ -170,7 +170,15 @@
                             <input type="text" id="txtOrden_Pedido" name="txtOrden_Pedido" autocomplete="off" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->numero_orden_venta; ?>" >
                         </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="ckbox ckbox-theme">
+                                <input type="checkbox" id="ckVerDescripcion" disabled name="ckVerDescripcion" value="1" <?php echo (($GLOBALS['oGuia_Venta']->ver_descripcion==1)?"checked":"");?>>
+                                <label for="ckVerDescripcion">mostrar descripción.</label>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
                 <div id="divProductos" class="tab-pane fade inner-all">
                     <!--
@@ -441,7 +449,7 @@
            return false;
        }
        $('#selSerie').prop('disabled', false);
-       
+       $("#ckVerDescripcion").prop('disabled', false);
        $('#txtNumero ').prop('disabled', false);
        $("#txtOrden_Compra").prop('disabled', false);
        $("#txtOrden_Pedido").prop('disabled', false);

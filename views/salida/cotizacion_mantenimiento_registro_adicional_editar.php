@@ -103,7 +103,7 @@
                             <label>Descripción: </label>
                         </div>
                         <div id="tdComentario" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control text-uppercase comentario" rows="7"  cols="40" maxlength="3000"   style="height:80px;"><?php echo FormatTextViewHtml($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
+                            <textarea id="txtDescripcion" name="txtDescripcion" class="form-control comentario" rows="7"  cols="40" maxlength="3000"   style="height:80px;"><?php echo FormatTextViewHtml($GLOBALS['oCotizacion_Detalle']->descripcion);?></textarea>
                         </div>
                     </div>
                     <div class="form-group">

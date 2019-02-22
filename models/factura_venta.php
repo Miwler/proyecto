@@ -460,7 +460,7 @@ class factura_venta {
             $q.='fv.operador_ID_anulacion,fv.motivo_anulacion_ID,fv.opcion,fv.numero_producto,';
             $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,';
             $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id,fv.gravadas,fv.gratuitas,fv.inafectas,fv.exoneradas,fv.descuento_global,fv.monto_detraccion,';
-            $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.correlativos_ID,';
+            $q.='fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.correlativos_ID,fv.ver_descripcion,fv.ver_componente,fv.ver_adicional,fv.ver_serie,';
             $q.='ifNull(fv.usuario_mod_id,-1) as usuario_mod_id from factura_venta fv
             inner join correlativos c on fv.correlativos_ID=c.ID
             inner join tipo_comprobante_empresa tce on tce.ID=c.tipo_comprobante_empresa_ID

@@ -1141,7 +1141,7 @@ function post_Cotizacion_Mantenimiento_Registro_Componente_Nuevo($id){
     //El tipo es 3 de un componente
     $tipo=3;//$_POST['rbtipo'];
     $producto_ID=$_POST['selProducto'];
-    $descripcion=  FormatTextSave($_POST['txtDescripcion']);
+    $descripcion= $_POST['txtDescripcion'];
     $cantidad=$_POST['txtCantidad'];
 
     if(isset($_POST['cbVer_Precio'])){
@@ -1193,20 +1193,28 @@ function post_Cotizacion_Mantenimiento_Registro_Componente_Nuevo($id){
         //$oCotizacion_Detalle->cantidad_separada=0;
         $oCotizacion_Detalle->tipo_ID=$tipo;
         $oCotizacion_Detalle->tipo=$tipo;
-        $oCotizacion_Detalle->insertar();
-        $producto_ID_old=$oCotizacion_Detalle->producto_ID;
-        /*Actualizamos los costos en la el costo del padre*/
-        separarProductoCotizacion($oCotizacion_Detalle,$producto_ID_old);
-        //separarProducto($oCotizacion_Detalle,1);
-        $oCotizacion_Detalle_Padre=actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre);
-        $mensaje=actualizar_costo_cotizacion($oCotizacion_Detalle_Padre);
-
-        $resultado=1;
+        $retorna=$oCotizacion_Detalle->insertar1();
+        if($retorna>0){
+            $producto_ID_old=$oCotizacion_Detalle->producto_ID;
+            /*Actualizamos los costos en la el costo del padre*/
+            separarProductoCotizacion($oCotizacion_Detalle,$producto_ID_old);
+            //separarProducto($oCotizacion_Detalle,1);
+            $oCotizacion_Detalle_Padre=actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre);
+            $mensaje=actualizar_costo_cotizacion($oCotizacion_Detalle_Padre);
+             $resultado=1;
+             $mensaje="Se guardó correctamente";
+        }else{
+             $resultado=-1;
+              $mensaje="No se registró ninguna fila";
+        }
+        
+       
 
 
     }catch(Exception $ex){
       $resultado=-1;
-      $mensaje=$ex->getMessage();
+      log_error(__FILE__,"salida/post_Cotizacion_Mantenimiento_Registro_Componente_Nuevo",$ex->getMessage());
+      $mensaje=utf8_encode(mensaje_error);
     }
     $dtCategoria=categoria::getGrid('',-1,-1,'ca.nombre asc');
     $dtLinea=linea::getGrid('',-1,-1,'li.nombre asc');
@@ -1317,7 +1325,7 @@ function actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre){
     $precio_venta_subtotal_soles_hijo=0;
     $precio_venta_subtotal_dolares_hijo=0;
     foreach($dtCotizacion_Detalle_Hijos as $value){
-        switch($value['tipo']){
+        switch($value['tipo_ID']){
             case 3:
                 $precio_venta_subtotal_soles_hijo=$precio_venta_subtotal_soles_hijo+$value['precio_venta_subtotal_soles'];
                 $precio_venta_subtotal_dolares_hijo=$precio_venta_subtotal_dolares_hijo+$value['precio_venta_subtotal_dolares'];
@@ -1333,7 +1341,7 @@ function actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre){
     $precio_venta_unitario_dolares=0;
     $precio_venta_subtotal_soles=0;
     $precio_venta_subtotal_dolares=0;
-    switch($oCotizacion_Detalle->tipo){
+    switch($oCotizacion_Detalle->tipo_ID){
         case 2://Producto con componente
             $precio_venta_unitario_soles=$precio_venta_subtotal_soles_hijo;
             $precio_venta_unitario_dolares=$precio_venta_subtotal_dolares_hijo;
@@ -1358,7 +1366,7 @@ function actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre){
 
             break;
     }
-    if($oCotizacion_Detalle->tipo!=1){//verificamos que no sea un producto
+    if($oCotizacion_Detalle->tipo_ID!=1){//verificamos que no sea un producto
         $oCotizacion_Detalle->precio_venta_unitario_soles=$precio_venta_unitario_soles;
         $oCotizacion_Detalle->precio_venta_unitario_dolares=$precio_venta_unitario_dolares;
         $oCotizacion_Detalle->precio_venta_subtotal_soles=$precio_venta_subtotal_soles;
@@ -1371,7 +1379,7 @@ function actualizar_costo_cotizacion_detalle_padre($oCotizacion_Detalle_Padre){
     }
     $oCotizacion_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
     $oCotizacion_Detalle->actualizar1();
-    switch($oCotizacion_Detalle->tipo){
+    switch($oCotizacion_Detalle->tipo_ID){
         case 2://Producto con componente
 
             $oCotizacion_Detalle->adicional_soles='';
@@ -1430,7 +1438,7 @@ function actualizar_costo_cotizacion($oCotizacion_Detalle){
         $oCotizacion->precio_venta_total_soles=$precio_venta_neto_soles*(1+$oCotizacion->igv);
         $oCotizacion->precio_venta_total_dolares=$precio_venta_neto_dolares*(1+$oCotizacion->igv);
         $oCotizacion->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oCotizacion->actualizar();
+        $oCotizacion->actualizar1();
     }catch(Exception $ex){
         $oCotizacion->getMessage=$ex->getMessage();
     }
@@ -1593,7 +1601,7 @@ function post_ajaxCotizacion_Detalle_Productos(){
         $i=1;
         $costo_venta=0;
 
-
+        //print_r($dtCotizacion_Detalle);
         foreach($dtCotizacion_Detalle as $item)
         {
             $cotizacion_detalle_ID=$item['cotizacion_detalle_ID'];
@@ -2074,7 +2082,7 @@ function get_Cotizacion_PDF($id){
         $tipo=0;
         foreach ($dtCotizacion_Detalle as $fila){
             $oProducto=producto::getByID($fila['producto_ID']);
-            if($fila['tipo']==3||$fila['tipo']==4){
+            if($fila['tipo_ID']==3||$fila['tipo_ID']==4){
                 $item++;
                     $ancho=70;
                     $pdf->SetX(20);
@@ -8500,6 +8508,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 $oFacutura_Venta=factura_venta::getByID($array_facturas[0]);
                 $oGuia_Venta->numero_orden_compra=$oFacutura_Venta->numero_orden_compra;
                 $oGuia_Venta->numero_orden_venta=$oFacutura_Venta->numero_orden_venta;
+                $oGuia_Venta->ver_descripcion=$oFacutura_Venta->ver_descripcion;
             }
             $osalida->serie='001';
             $oGuia_Venta->ID=0;
@@ -8528,6 +8537,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
 
             }
             $oGuia_Venta=guia_venta::getByID($guia_ID);
+            $oGuia_Venta->ver_descripcion=$dtFactura_Venta[0]['ver_descripcion'];
+            $oGuia_Venta->ver_adicional=$dtFactura_Venta[0]['ver_adicional'];
+            $oGuia_Venta->ver_componente=$dtFactura_Venta[0]['ver_componente'];
+            $oGuia_Venta->ver_serie=$dtFactura_Venta[0]['ver_serie'];
             $oEstado=estado::getByID($oGuia_Venta->estado_ID);
             switch($oGuia_Venta->estado_ID){
                 case 37:
@@ -8618,7 +8631,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $empresa_transporte=$_POST['txtEmpresa_Transporte'];
         $numero_orden_compra=$_POST['txtOrden_Compra'];
         $numero_orden_venta=$_POST['txtOrden_Pedido'];
-
+        $ver_descripcion=$_POST['ckVerDescripcion'];
         try{
 
             $comprobante_tipo_ID=5;
@@ -8667,6 +8680,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $oGuia_Venta->empresa_transporte=$empresa_transporte;
                     $oGuia_Venta->opcion=$opcion;
                     $oGuia_Venta->numero_producto=$value['numero_producto'];
+                    $oGuia_Venta->ver_descripcion=$ver_descripcion;
                     if($contador_guia>0){
                         $oGuia_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
                         $oGuia_Venta->actualizar();

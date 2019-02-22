@@ -1037,3 +1037,48 @@ SET @_idescuento_dolares = '';
 SET @_ivalor_unitario = '';
 SET @_iusuario_id = '';
 CALL `sp_salida_detalle_Insert`( @_iID, @_iproducto_ID, @_iobservacion, @_isalida_ID, @_idescripcion, @_icantidad, @_iprecio_venta_unitario_soles, @_iprecio_venta_unitario_dolares, @_iprecio_venta_subtotal_soles, @_iprecio_venta_subtotal_dolares, @_iprecio_venta_soles, @_iprecio_venta_dolares, @_iigv, @_ivigv_soles, @_ivigv_dolares, @_isalida_detalle_ID, @_iestado_ID, @_icotizacion_detalle_ID, @_iver_precio, @_iobsequio, @_itipo, @_itipo_ID, @_iisc, @_iotro_impuesto, @_idescuento, @_iprecio_referencial, @_isuma, @_itipo_precio_venta_unitario_ID, @_iimpuestos_tipo_ID, @_ipeso, @_itipo_sistema_calculo_isc_ID, @_idescuento_unitario, @_ipu_incluye_igv, @_ipu_incluye_isc, @_idescuento_porcentaje, @_iisc_porcentaje, @_iisc_valor_referencial, @_iisc_activo, @_ivalor_venta_soles, @_ivalor_venta_dolares, @_ivisc_soles, @_ivisc_dolares, @_idescuento_soles, @_idescuento_dolares, @_ivalor_unitario, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 21:02:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 22:02:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 22:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1054)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 23:02:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )values(14551,2,NULL,NULL,"Esta computación en 45' y 60";",4611,47,0,0,0,0,"NULL",NULL,0)
+============================ERROR====================================
+FECHA Y HORA: 21 02 2019 23:02:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: 
+ERROR: insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )values(14551,2,NULL,NULL,"Esta computación en 45' y 60";",4611,47,0,0,0,0,"NULL",NULL,0)

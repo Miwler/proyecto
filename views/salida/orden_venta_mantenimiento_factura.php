@@ -437,6 +437,8 @@
          $("#txtOrden_Pedido").prop('disabled',false);
          $("#selImpuestos_Tipo").prop('disabled',false);
          $("#selTipoComprobante ").prop('disabled',false);
+         var orden_venta_ID=<?php echo $GLOBALS['oOrden_Venta']->ID;?>;
+         calcularEstructura(orden_venta_ID);
       block_ui();
        
          //$('#fondo_espera').css('display', 'block');
@@ -604,7 +606,7 @@
        
    
         //$('#divContenedor_Float_Hijo').css('display', 'block');
-        cargarValores1("Salida/ajaxOrden_Venta_Fisico_Detalle_Productos",orden_venta_ID,ver_descripcion,function(resultado){
+        cargarValores1("Salida/ajaxEstructuraOrden_Venta_Fisico_Detalle",orden_venta_ID,ver_descripcion,function(resultado){
 
             $('#divContenedorDetalle').html(resultado.html);
             

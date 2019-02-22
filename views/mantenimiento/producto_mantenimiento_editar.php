@@ -49,7 +49,7 @@ function fncMenu() { ?>
                                 <select id="selLinea" name="selLinea" onchange="fncLinea();" class="form-control form-requerido">
                                     <option value="0">SELECCIONAR</option>
                                     <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                                            <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                                            <option value="<?php echo $iLinea['ID']; ?>"><?php echo $iLinea['nombre']; ?></option>
                                     <?php } ?>
 
                                 </select>
@@ -68,7 +68,7 @@ function fncMenu() { ?>
                                     <option value="0" >--</option>
                                     <?php if (isset($GLOBALS['dtCategoria'])){?>
                                     <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                                              <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                                              <option value="<?php echo $iCategoria['ID']; ?>"><?php echo $iCategoria['nombre']; ?></option>
                                       <?php } ?>
                                     <?php } ?>
                                 </select>
@@ -92,7 +92,7 @@ function fncMenu() { ?>
                                 <label>Descripción: </label>
                             </div>
                             <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                                <textarea id="txtDescripcion" name="txtDescripcion" style="height:60px;overflow:auto;resize:none;" class="form-control"/><?php echo FormatTextView($GLOBALS['oProducto']->descripcion);?></textarea>
+                                <textarea id="txtDescripcion" name="txtDescripcion" style="height:60px;overflow:auto;resize:none;" class="form-control"/><?php echo $GLOBALS['oProducto']->descripcion;?></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -138,7 +138,7 @@ function fncMenu() { ?>
                                <select id="selUnidad_Medida" name="selUnidad_Medida" class="form-control form-requerido">
                                     <option value="0">--</option>
                                     <?php foreach($GLOBALS['dtUnidad_Medida'] as $item){ ?>
-                                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['nombre']))?></option>
+                                    <option value="<?php echo $item['ID']?>"><?php echo $item['nombre']?></option>
                                     <?php } ?>
                                 </select>
 
@@ -191,7 +191,7 @@ function fncMenu() { ?>
                                 <label>Características: </label>
                             </div>
                             <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                                <textarea id="txtCaracteristicas"  name="txtCaracteristicas" class="form-control"><?php echo FormatTextView(strtolower($GLOBALS['oProducto']->caracteristicas));?></textarea>
+                                <textarea id="txtCaracteristicas"  name="txtCaracteristicas" class="form-control"><?php echo $GLOBALS['oProducto']->caracteristicas;?></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -199,7 +199,7 @@ function fncMenu() { ?>
                                 <label>Especificaciones: </label>
                             </div>
                             <div  class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
-                                <textarea id="txtEspecificaciones"  name="txtEspecificaciones" class="form-control"><?php echo FormatTextView(strtolower($GLOBALS['oProducto']->especificaciones));?></textarea>
+                                <textarea id="txtEspecificaciones"  name="txtEspecificaciones" class="form-control"><?php echo $GLOBALS['oProducto']->especificaciones;?></textarea>
                             </div>
                         </div>
                     </div>

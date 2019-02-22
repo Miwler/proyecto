@@ -154,17 +154,17 @@ class producto {
             "iespecificaciones"=>$this->especificaciones,
             "iusuario_id"=>$this->usuario_id
         ),0);
-      if($ID>0){
-        $this->getMessage="El registro se guardó correctamente.";
-        $this->ID=$ID;
-        return $ID;
-      } else {
-          throw new Exception("No se registró");
-      }
+        if($ID>0){
+            $this->getMessage="El registro se guardó correctamente.";
+            $this->ID=$ID;
+            return $ID;
+        } else {
+            throw new Exception("No se registró");
+        }
     }catch(Exeption $ex)
     {
-      log_error(__FILE__, "producto.insertar", $ex->getMessage());
-      throw new Exception($ex->getMessage());
+        log_error(__FILE__, "producto.insertar", $ex->getMessage());
+        throw new Exception($ex->getMessage());
     }
   }
     function actualizar() {
