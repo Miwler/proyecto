@@ -148,7 +148,7 @@ class proveedor {
     $retornar =0;
     try
     {
-      $ID=$cn->store_procedure_transa(
+      $retornar=$cn->store_procedure_transa(
           "sp_proveedor_Update",
             array(
               "retornar"=>$retornar,

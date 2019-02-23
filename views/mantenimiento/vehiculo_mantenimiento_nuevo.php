@@ -33,25 +33,25 @@ function fncPage() { ?>
     <div class="form-group">
       <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Placa:</label>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-            <input type="text" id="txtPlaca" name="txtPlaca"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->placa; ?>" class="form-control form-requerido text-uppercase"/>
+            <input type="text" id="txtPlaca" name="txtPlaca"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->placa; ?>" class="form-control form-requerido "/>
         </div>
     </div>
     <div class="form-group">
       <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Marca:</label>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-            <input type="text" id="txtMarca"  name="txtMarca"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->marca; ?>" class="form-control form-requerido text-uppercase"/>
+            <input type="text" id="txtMarca"  name="txtMarca"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->marca; ?>" class="form-control form-requerido "/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Descripcion:</label>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-            <input type="text" id="txtDescripcion" name="txtDescripcion"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->descripcion; ?>" class="form-control text-uppercase"/>
+            <input type="text" id="txtDescripcion" name="txtDescripcion"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->descripcion; ?>" class="form-control "/>
         </div>
     </div>
     <div class="form-group">
         <label class="col-lg-3 col-md-3 col-sm-3 col-xs-3 control-label">Certificado de Inscripcion:</label>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-            <input type="text" id="txtCerti_Incripcion" name="txtCerti_Incripcion"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->certificado_inscripcion; ?>" class="form-control text-uppercase"/>
+            <input type="text" id="txtCerti_Incripcion" name="txtCerti_Incripcion"  autocomplete="off"  value="<?php echo $GLOBALS['oVehiculo']->certificado_inscripcion; ?>" class="form-control "/>
         </div>
     </div>
         </div>

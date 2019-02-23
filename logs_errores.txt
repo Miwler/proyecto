@@ -1082,3 +1082,9 @@ FECHA Y HORA: 21 02 2019 23:02:51
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
 METODO: 
 ERROR: insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )values(14551,2,NULL,NULL,"Esta computación en 45' y 60";",4611,47,0,0,0,0,"NULL",NULL,0)
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 02:02:09
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
