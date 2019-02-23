@@ -1082,3 +1082,8 @@ FECHA Y HORA: 21 02 2019 23:02:51
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
 METODO: 
 ERROR: insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )values(14551,2,NULL,NULL,"Esta computación en 45' y 60";",4611,47,0,0,0,0,"NULL",NULL,0)
+============================ERROR====================================
+FECHA Y HORA: 22 02 2019 20:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )values(14552,2,NULL,3400,"COOLER CPU COOLER MASTER Hyper 212X Ci7/Ci5/3/AMD cm'20"5",585,50,0,0,0,0,"",NULL,0)

@@ -990,10 +990,10 @@ function post_Vehiculo_Mantenimiento_Nuevo() {
     global $returnView_float;
     $returnView_float = true;
 
-    $placa = FormatTextSave(strtoupper($_POST['txtPlaca']));
-    $descripcion = FormatTextSave(strtoupper($_POST['txtDescripcion']));
-    $marca = FormatTextSave(strtoupper($_POST['txtMarca']));
-    $certificado_inscripcion = FormatTextSave(strtoupper($_POST['txtCerti_Incripcion']));
+    $placa = trim($_POST['txtPlaca']);
+    $descripcion = trim($_POST['txtDescripcion']);
+    $marca = trim($_POST['txtMarca']);
+    $certificado_inscripcion = trim($_POST['txtCerti_Incripcion']);
 
     $oVehiculo = new vehiculo();
 
@@ -1004,16 +1004,28 @@ function post_Vehiculo_Mantenimiento_Nuevo() {
         $oVehiculo->certificado_inscripcion = $certificado_inscripcion;
         $oVehiculo->usuario_id = $_SESSION['usuario_ID'];
         $oVehiculo->empresa_ID=$_SESSION['empresa_ID'];
-        if ($oVehiculo->verificarDuplicado() > 0) {
+        /*if ($oVehiculo->verificarDuplicado() > 0) {
             throw new Exception($oVehiculo->getMessage);
-        }
+        }*/
 		//llama al metodo insertar de Modelo
-        $oVehiculo->insertar();
-        $GLOBALS['resultado'] = 1;
-        $GLOBALS['mensaje'] = $oVehiculo->getMessage;
+        $retorna=$oVehiculo->insertar1();
+        if($retorna==-2){
+            $GLOBALS['resultado'] = -1;
+            $GLOBALS['mensaje'] = "Ya existe un vehículo con la misma placa.";
+        }
+        if($retorna==0){
+            $GLOBALS['resultado'] = -1;
+            $GLOBALS['mensaje'] = "No se registró el vehículo.";
+        }
+        if($retorna>1){
+            $GLOBALS['resultado'] = 1;
+            $GLOBALS['mensaje'] = $oVehiculo->getMessage;
+        }
+        
     } catch (Exception $ex) {
         $GLOBALS['resultado'] = -1;
-        $GLOBALS['mensaje'] = $ex->getMessage();
+        $GLOBALS['mensaje'] = utf8_encode(mensaje_error);
+        log_error(__FILE__,"mantenimiento/post_Vehiculo_Mantenimiento_Nuevo",$ex->getMessage());
     }
     $GLOBALS['oVehiculo'] = $oVehiculo;
 }
@@ -1036,7 +1048,8 @@ function get_Vehiculo_Mantenimiento_Editar($id) {
         $GLOBALS['oVehiculo'] = $oVehiculo;
         $GLOBALS['mensaje'] = '';
     } catch (Exception $ex) {
-        $GLOBALS['mensaje'] = $ex->getMessage();
+        log_error(__FILE__,"mantenimiento/post_Vehiculo_Mantenimiento_Nuevo",$ex->getMessage());
+        $GLOBALS['mensaje'] = utf8_encode(mensaje_error);
     }
 }
 
@@ -1063,13 +1076,26 @@ function post_Vehiculo_Mantenimiento_Editar($id) {
         $oVehiculo->marca = $marca;
         $oVehiculo->certificado_inscripcion = $certificado_inscripcion; 
         $oVehiculo->usuario_mod_id = $_SESSION['usuario_ID'];
-        $oVehiculo->actualizar();
+        $retorna=$oVehiculo->actualizar1();
+        if($retorna==-2){
+            $GLOBALS['resultado'] = -1;
+            $GLOBALS['mensaje'] = "Ya existe un vehículo con la misma placa.";
+        }
+        if($retorna==0){
+            $GLOBALS['resultado'] = -1;
+            $GLOBALS['mensaje'] = "No se registró el vehículo.";
+        }
+        if($retorna>1){
+            $GLOBALS['resultado'] = 1;
+            $GLOBALS['mensaje'] = $oVehiculo->getMessage;
+        }
         
-        $GLOBALS['mensaje'] = $oVehiculo->getMessage;
-        $GLOBALS['resultado'] = 1;
+        
     } catch (Exception $ex) {
         $GLOBALS['resultado'] = -1;
-        $GLOBALS['mensaje'] = $ex->getMessage();
+        
+        $GLOBALS['mensaje'] = utf8_encode(mensaje_error);
+        log_error(__FILE__,"mantenimiento/post_Vehiculo_Mantenimiento_Nuevo",$ex->getMessage());
     }
     $GLOBALS['oVehiculo'] = $oVehiculo;
 }
@@ -2087,8 +2113,8 @@ function post_Chofer_Mantenimiento_Nuevo() {
     global $returnView_float;
     $returnView_float = true;
     $persona_ID=$_POST['selPersona'];
-    $licencia_conducir = FormatTextSave(strtoupper($_POST['txtLicencia_Conducir']));
-    $celular = FormatTextSave($_POST['txtCelular']);
+    $licencia_conducir = trim($_POST['txtLicencia_Conducir']);
+    $celular = trim($_POST['txtCelular']);
     $estado_ID = $_POST['selEstado_ID'];
 
     $oChofer = new chofer;
@@ -5054,15 +5080,15 @@ function post_Datos_generales_Mantenimiento(){
 //    $otro_operador=  FormatTextSave($_POST['txtOtro_Operador']);
     $visc=$_POST['txtISC'];
     $tasadetraccion=$_POST['txtTasaDetraccion'];
-    $razon_social=  test_input(strtoupper($_POST['txtRazon_Social']));
-    $ruc=  FormatTextSave($_POST['txtRuc']);
+    $razon_social=  test_input($_POST['txtRazon_Social']);
+    $ruc= $_POST['txtRuc'];
     $direccion_fiscal=  test_input($_POST['txtDireccion_Fiscal']);
     
     $alias=  test_input($_POST['txtAlias']);
     $direccion=  test_input($_POST['txtDireccion']);
     $distrito_ID=  $_POST['selDistrito'];
     $urbanizacion=$_POST['txtUrbanizacion'];
-    $observacion=  FormatTextSave($_POST['txtObservacion']);
+    $observacion= trim($_POST['txtObservacion']);
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $usuariosol=$_POST['txtUsuarioSol'];
     $clavesol=$_POST['txtClaveSol'];

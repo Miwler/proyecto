@@ -419,7 +419,12 @@ private $departamento_ID;
                 "itasadetraccion"=>$this->tasadetraccion,
                 "iusuario_mod_id"=>$this->usuario_mod_id
             ),0);
-       $this->getMessage="Se actualizó correctamente.";
+      if($ID>0){
+          $this->getMessage="Se actualizó correctamente.";
+      }else{
+          $this->getMessage="no se actualizó correctamente.";
+      }
+       
       return $retornar;
      
     }catch(Exeption $ex)

@@ -283,7 +283,7 @@ var trSeleccionar = function (tr_id) {
 
 var gridEliminar = function (obj, id, url) {   
 
-    $(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
+    //$(obj.Div).html('<div id="grid-loading"><center><img src="/include/img/loading_bar.gif" /></center></div>');
 
     $.ajax({
         type: "post",

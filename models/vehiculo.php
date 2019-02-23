@@ -35,7 +35,26 @@ class vehiculo {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+  {
+        $this->descripcion="";
+    $this->marca="";
+    $this->placa="";
+    $this->certificado_inscripcion="";
+    $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
+  }
+  function __destruct()
+  {
+        $this->descripcion;
+    $this->marca;
+    $this->placa;
+    $this->certificado_inscripcion;
+    $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
     function insertar() {
         
         $retorna = -1;
@@ -58,7 +77,34 @@ class vehiculo {
             throw new Exception("Ocurrió un error en la bd al insertar vehiculo");
         }
     }
-
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_vehiculo_Insert",
+            array(
+                "iID"=>0,
+                "idescripcion"=>$this->descripcion,
+                "imarca"=>$this->marca,
+                "iplaca"=>$this->placa,
+                "icertificado_inscripcion"=>$this->certificado_inscripcion,
+                "iusuario_id"=>$this->usuario_id,
+                "iempresa_ID"=>$this->empresa_ID
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "vehiculo.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar() {
         $cn = new connect_new();
         $retornar = -1;
@@ -74,7 +120,34 @@ class vehiculo {
             
         }
     }
-
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+        $retornar=$cn->store_procedure_transa(
+          "sp_vehiculo_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "idescripcion"=>$this->descripcion,
+                "imarca"=>$this->marca,
+                "iplaca"=>$this->placa,
+                "icertificado_inscripcion"=>$this->certificado_inscripcion,
+                "iusuario_mod_id"=>$this->usuario_mod_id,
+                "iempresa_ID"=>$this->empresa_ID
+            ),0);
+        if($retornar>0){
+            $this->getMessage="Se actualizó correctamente.";
+        }
+        return $retornar;
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "vehiculo.actualizar", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+    }
     function eliminar() {
         $cn = new connect_new();
         $retornar = -1;

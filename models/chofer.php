@@ -170,14 +170,14 @@ class chofer {
         try {
             $q="select count(ID) from chofer where del=0 and persona_ID=".$this->persona_ID;
            
-            if($this->ID!=''){
+            if($this->ID!=''&& $this->ID>0){
                 $q.=' and ID<>'.$this->ID;
             }
 
             $retornar=$cn->getData($q);			
 
             if ($retornar>0){
-                $this->getMessage='Ya existe el chofer ';
+                $this->getMessage='Ya existe el chofer';
                 return $retornar;
             }
             return $retornar;

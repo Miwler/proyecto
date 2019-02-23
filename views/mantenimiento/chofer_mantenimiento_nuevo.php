@@ -38,7 +38,7 @@ function fncPage() { ?>
             <select id="selPersona" name="selPersona" class="chosen-select">
                <option value="0">--Seleccionar--</option>
                 <?php foreach($GLOBALS['dtPersona'] as $persona){?>
-               <option value="<?php echo $persona['ID']?>"><?php echo FormatTextView(strtoupper($persona['apellido_paterno']. ' '. $persona['apellido_materno']. ' ' . $persona['nombres']));?></option>
+               <option value="<?php echo $persona['ID']?>"><?php echo strtoupper($persona['apellido_paterno']. ' '. $persona['apellido_materno']. ' ' . $persona['nombres']);?></option>
                 <?php }?>
             </select>
         </div>
@@ -49,7 +49,7 @@ function fncPage() { ?>
             <label>Licencia conducir: </label>
         </div>
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <input type="text" id="txtLicencia_Conducir" name="txtLicencia_Conducir" value="<?php echo $GLOBALS['oChofer']->licencia_conducir;?>" autocomplete="off" class="form-control form-requerido text-uppercase">
+            <input type="text" id="txtLicencia_Conducir" name="txtLicencia_Conducir" value="<?php echo $GLOBALS['oChofer']->licencia_conducir;?>" autocomplete="off" class="form-control form-requerido">
         </div>
     </div>
     <div class="form-group">
@@ -65,9 +65,9 @@ function fncPage() { ?>
             <label>Estado: </label>
         </div>
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <select id="selEstado_ID" name="selEstado_ID" class="form-control form-requerido text-uppercase">
+            <select id="selEstado_ID" name="selEstado_ID" class="form-control form-requerido">
                 <?php foreach($GLOBALS['oChofer']->dtEstado as $item){ ?>
-                <option value="<?php echo $item['ID']?>"><?php echo FormatTextView(strtoupper($item['nombre']));?></option>
+                <option value="<?php echo $item['ID']?>"><?php echo strtoupper($item['nombre']);?></option>
                 <?php } ?>
             </select>
 

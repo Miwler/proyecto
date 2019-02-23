@@ -35,25 +35,25 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Tipo de cambio: </label>
                                             <div class="col-lg-9 col-sm-9 col-md-9">
-                                                <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio" value="<?php echo $GLOBALS['oDatos_Generales']->tipo_cambio;?>" class="form-control form-requerido text-uppercase decimal">
+                                                <input type="text" id="txtTipo_Cambio" name="txtTipo_Cambio" autocomplete="off" value="<?php echo $GLOBALS['oDatos_Generales']->tipo_cambio;?>" class="form-control form-requerido decimal">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">I.G.V: </label>
                                             <div class="col-lg-9 col-sm-9 col-md-9">
-                                                <input type="text" id="txtVigv" name="txtVigv" value="<?php echo $GLOBALS['oDatos_Generales']->vigv;?>" class="form-control form-requerido text-uppercase decimal">
+                                                <input type="text" id="txtVigv" name="txtVigv" value="<?php echo $GLOBALS['oDatos_Generales']->vigv;?>" class="form-control form-requerido decimal">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">I.S.C: </label>
                                             <div class="col-lg-9 col-sm-9 col-md-9">
-                                                <input type="text" id="txtISC" name="txtISC" value="<?php echo $GLOBALS['oDatos_Generales']->visc;?>" class="form-control form-requerido text-uppercase decimal">
+                                                <input type="text" id="txtISC" name="txtISC" autocomplete="off" value="<?php echo $GLOBALS['oDatos_Generales']->visc;?>" class="form-control form-requerido decimal">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Tasa detracción: </label>
                                             <div class="col-lg-9 col-sm-9 col-md-9">
-                                                <input type="text" id="txtTasaDetraccion" name="txtTasaDetraccion" value="<?php echo $GLOBALS['oDatos_Generales']->tasadetraccion;?>" class="form-control form-requerido text-uppercase decimal">
+                                                <input type="text" id="txtTasaDetraccion" name="txtTasaDetraccion" value="<?php echo $GLOBALS['oDatos_Generales']->tasadetraccion;?>" class="form-control form-requerido decimal">
                                             </div>
                                         </div>
                                     </div>
@@ -162,13 +162,13 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Nombre corto: </label>
                                             <div class="col-lg-9 col-sm-9">
-                                                <input type="text" id="txtAlias" name="txtAlias" value="<?php echo $GLOBALS['oDatos_Generales']->alias;?>" class="form-control form-requerido text-uppercase">
+                                                <input type="text" id="txtAlias" name="txtAlias" value="<?php echo $GLOBALS['oDatos_Generales']->alias;?>" class="form-control form-requerido">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Dirección: </label>
                                             <div class="col-lg-9 col-sm-9">
-                                                <input type="text" id="txtDireccion" name="txtDireccion" value="<?php echo $GLOBALS['oDatos_Generales']->direccion;?>" class="form-control form-requerido text-uppercase">
+                                                <input type="text" id="txtDireccion" name="txtDireccion" autocomplete="off" value="<?php echo $GLOBALS['oDatos_Generales']->direccion;?>" class="form-control form-requerido">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -213,7 +213,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Observación: </label>
                                             <div class="col-lg-9 col-sm-9">
-                                                <textarea id="txtObservacion" name="txtObservacion" class="form-control text-uppercase"><?php echo FormatTextView($GLOBALS['oDatos_Generales']->observacion);?></textarea>
+                                                <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height:60px;overflow:auto;resize:none;"><?php echo $GLOBALS['oDatos_Generales']->observacion;?></textarea>
                                             </div>
                                         </div>
                                     </div>

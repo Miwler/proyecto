@@ -904,6 +904,7 @@
     }
     var mostrarInformacion=function(orden_venta_ID){
         cargarValores('Salida/ajaxMostrarInformacion',orden_venta_ID,function(resultado){
+           // console.log(resultado);
             $('#txtID').val(resultado.salida_ID);
             $('#txtCotizacion_ID').val(resultado.cotizacion_ID);
             $("#selCliente").val(resultado.cliente_ID);
@@ -932,13 +933,21 @@
              $('#txtGarantia').val(resultado.Garantia);
              $('#btnDescargar').css('display','');
              $('#btnDescargar').prop('src','');
-             var arrayID=resultado.numero_cuenta_IDs.split(",");
-             if(arrayID.length>0){
-                 for(var i in arrayID){
+             var texto=String(resultado.numero_cuenta_IDs);
+             var retorna=texto.indexOf(",");
+            
+             if(retorna>-1){
+                 var arrayID=resultado.numero_cuenta_IDs.split(",");
+                if(arrayID.length>0){
+                    for(var i in arrayID){
 
-                     $('#cknumero_cuenta'+arrayID[i]).attr('checked','checked');
-                 }
+                        $('#cknumero_cuenta'+arrayID[i]).attr('checked','checked');
+                    }
+                }
+             }else{
+                 $('#cknumero_cuenta'+texto).attr('checked','checked');
              }
+            
              $('#btnImportar').css('display', 'none');
              mostrarBotones();
              fncCargar_Detalle_Orden_Venta();

@@ -272,7 +272,7 @@ function get_Cotizacion_Mantenimiento_Nuevo(){
         $dtForma_Pago=forma_pago::getGrid();
         $dtCredito=credito::getGrid('id<>0');
         $dtEstado=estado::getGrid('est.ID in (1,2)',-1,-1,'orden asc');
-        $oCotizacion->observacion=utf8_decode($oDatos_Generales->observacion);
+        $oCotizacion->observacion=$oDatos_Generales->observacion;
         $oCotizacion->tipo_cambio=$oDatos_Generales->tipo_cambio;
         $oCotizacion->ID=0;
         $GLOBALS['oCliente']=new cliente();
@@ -5217,6 +5217,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH.'models/salida_detalle.php';
         require ROOT_PATH.'models/salida_numero_cuenta.php';
         $salida_ID=$_POST['id'];
+        $numero_cuenta_IDs="";
         try{
             $osalida=salida::getByID($salida_ID);
             $cotizacion_ID=$osalida->cotizacion_ID;
@@ -9824,10 +9825,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $guia_emitidos=0;
             //$oDatos_Genetales=datos_generales::getByID1($_SESSION['empresa_ID']);
             $osalida=salida::getByID($salida_ID);
+            $dtSalida=salida::getGrid("ov.impresion=1 and ov.ID<>".$salida_ID);
             $contador_impresora=salida::getCount("ov.impresion=1 and ov.ID<>".$salida_ID);
             if($contador_impresora>0){
                 
-                throw new Exception('No se puede imprimir, la impresora esta ocupada.');
+                throw new Exception('No se puede imprimir, la impresora esta ocupada. Nro de venta: '.$dtSalida[0]['numero_concatenado']);
             }
             $contar_factura_imitida=factura_venta::getCount('salida_ID='.$salida_ID.' and estado_ID in (41,60,93,94)');
             if ($contar_factura_imitida==0){
