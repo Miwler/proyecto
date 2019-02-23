@@ -45,7 +45,7 @@ function fncPage() { ?>
                                         <label>RUC: </label>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                        <input  type="text"  id="txtRuc" name="txtRuc" autocomplete="off" maxlength="11" minlength="11"   onkeyup="MostrarLista(this.id,'divRuc');" value="<?php echo $GLOBALS['oProveedor']->ruc; ?>" class="form-control form-requerido int"/>
+                                        <input  type="text"  id="txtRuc" name="txtRuc" autocomplete="off" maxlength="11" minlength="11"   onkeyup="MostrarLista(this.id,'divRuc');" value="<?php echo $GLOBALS['oProveedor']->ruc; ?>" class="form-control form-requerido text-int"/>
                                         <div id="divRuc" class="divBuscador"></div>
                                     </div>
                                 </div>

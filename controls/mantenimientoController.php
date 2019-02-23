@@ -3459,7 +3459,7 @@ function post_ajaxOperador_Mantenimiento() {
             $orden = 'pe.ID ' . $orden_tipo;
             break;
     }
-    $filtro = 'upper(concat(pe.apellido_paterno," ",pe.nombres)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    $filtro = 'upper(concat(pe.apellido_paterno," ",pe.nombres)) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
 
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
@@ -3490,9 +3490,9 @@ function post_ajaxOperador_Mantenimiento() {
             $botones=array();
             
             array_push($botones,'<a onclick="fncCliente(' . $item['ID'] . ');"><img title="Cliente" src="/include/img/boton/cliente.png" />&nbsp;Cliente</a>');
-            //array_push($botones,'<a onclick="fncUsuario(' . $item['ID'] . ');"><img title="Usuario" src="/include/img/boton/usuario.png" />&nbsp;Usuario</a>');
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');"><img title="Editar" src="/include/img/boton/edit_14x14.png" />&nbsp;Editar</a>');
-            array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');"><img title="Eliminar" src="/include/img/boton/delete_14x14.png" />&nbsp;Eliminar</a>');
+            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Operador&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar operador"><span class="glyphicon glyphicon-trash">Eliminar</a>');
+//          array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');"><img title="Eliminar" src="/include/img/boton/delete_14x14.png" />&nbsp;Eliminar</a>');
             $resultado.='<td class="btnAction">'.extraerOpcion($botones).'</td>';
             $resultado.='</tr>';
             $i++;
@@ -3515,7 +3515,6 @@ function post_ajaxOperador_Mantenimiento() {
 }
 
 //eliminar Operador
-//eliminar Operador
 function post_ajaxOperador_Mantenimiento_Eliminar($id) {
     require ROOT_PATH . 'models/operador.php';
     require ROOT_PATH . 'models/operador_cliente.php';
@@ -3532,13 +3531,13 @@ function post_ajaxOperador_Mantenimiento_Eliminar($id) {
              throw new Exception("No se puede eliminar el operador, tiene cliente asignados.");
         }else{
          if ($oOperador->eliminar() == -1) {
-            throw new Exception($oOperador->message);
+            throw new Exception($oOperador->getMessage);
         }
         }
 
 
         $resultado = 1;
-        $mensaje = $oOperador->message;
+        $mensaje = $oOperador->getMessage;
 //           $GLOBALS['resultado']=1;
 //           $GLOBALS['mensaje']=$oOperador->message;
         $funcion = '';
