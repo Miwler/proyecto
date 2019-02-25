@@ -57,7 +57,7 @@
             <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
         </div>
         <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-        <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
+        <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
         <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
 
 

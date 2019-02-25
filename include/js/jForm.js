@@ -108,6 +108,7 @@ var enviar = function (obj,btn)
 
          success: function (respuesta) {
              $.unblockUI();
+             
              respuesta = $.parseJSON(respuesta);
              
              $(obj.Div).html(respuesta.resultado);
@@ -979,48 +980,53 @@ function block_ui(eo_function) {
     //$.unblockUI();
 }
 function lista(url,contenedor,id_txt,funcion,funcion_limpiar){
-    $("#"+contenedor).autocomplete({
-        showNoSuggestionNotice:true,
-        noSuggestionNotice: 'No hay resultados',
-        source: function (request, response) {
-            //clear_data();
+    $(document).ready(function(){
+        $("#"+contenedor).autocomplete({
+            showNoSuggestionNotice:true,
+            noSuggestionNotice: 'No hay resultados',
+            source: function (request, response) {
+                //clear_data();
+                //console.log(url);
+                $.ajax({
+                    url: url,
+                    data: {buscar:request.term},
+                    dataType: "json",
+                    type: "POST",
+                    //contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //alert(data);
 
-            $.ajax({
-                url: url,
-                data: {buscar:request.term},
-                dataType: "json",
-                type: "POST",
-                //contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    //alert(data);
-                    response($.map(data, function (item) {
-                        
-                        return item;
-                    }))
-                },
-                error: function (response) {
-                    //alert("Error");
-                    //alert(response.responseText);
-                },
-                failure: function (response) {
-                    alert(response.responseText);
+                        response($.map(data, function (item) {
+
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        //alert("Error");
+                        console.log(response.responseText);
+                        //alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                var ID = i.item.val;
+                //alert(ID);
+                if(funcion){
+                    funcion(ID);
                 }
-            });
-        },
-        select: function (e, i) {
-            var ID = i.item.val;
-            //alert(ID);
-            if(funcion){
-                funcion(ID);
-            }
-            
-            $('#'+id_txt).val(ID);
-            //alert(persona_ID);
-            //$("#hfALUMNAS").val(alumna_ID);
-            //fnDatosAlumna(alumna_ID);
-        },
-        minLength: 1
+
+                $('#'+id_txt).val(ID);
+                //alert(persona_ID);
+                //$("#hfALUMNAS").val(alumna_ID);
+                //fnDatosAlumna(alumna_ID);
+            },
+            minLength: 1
+        });
     });
+    
     $("#"+contenedor).dblclick(function(){
         $("#"+contenedor).val('');
         if(funcion_limpiar){

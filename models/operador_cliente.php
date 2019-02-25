@@ -34,7 +34,18 @@ class operador_cliente {
     }
     
     
-    
+    function __construct()
+  {
+        $this->usuario_id=$_SESSION["usuario_ID"];
+    $this->usuario_mod_id=$_SESSION["usuario_ID"];
+
+  }
+  function __destruct()
+  {
+        $this->usuario_id;
+    $this->usuario_mod_id;
+
+  }
     
     function insertar() {
         
@@ -48,7 +59,7 @@ class operador_cliente {
             $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].','.$this->cliente_ID.','.$this->operador_ID.','.$this->estado_ID.','. $this->usuario_id .'); ';
               
            //echo $q;
-		   $cn = new connect_new();
+            $cn = new connect_new();
             $retornar = $cn->transa($q);
 
             $this->getMessage = 'Se guardó correctamente.';
@@ -58,7 +69,31 @@ class operador_cliente {
         }
     }
     
-    
+    function actualizar()
+    {
+        $cn =new connect_new();
+        $retornar =0;
+        try
+        {
+          $retornar=$cn->store_procedure_transa(
+              "sp_operador_cliente_Update",
+                array(
+                  "retornar"=>$retornar,
+                    "iID"=>$this->ID,
+                    "icliente_ID"=>$this->cliente_ID,
+                    "ioperador_ID"=>$this->operador_ID,
+                    "iestado_ID"=>$this->estado_ID,
+                    "iempresa_ID"=>$this->empresa_ID,
+                    "iusuario_mod_id"=>$this->usuario_mod_id
+                ),0);
+            return $retornar;
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "operador_cliente.actualizar", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+    }
+  
     
     
     
@@ -148,18 +183,14 @@ class operador_cliente {
 
             foreach ($dt as $item) {
                 $oOperador_Cliente = new operador_cliente();
-
                 $oOperador_Cliente->ID = $item['ID'];
                 $oOperador_Cliente->cliente_ID = $item['cliente_ID'];
-                 $oOperador_Cliente->operador_ID = $item['operador_ID'];
-                 $oOperador_Cliente->empresa_ID = $item['empresa_ID'];
+                $oOperador_Cliente->operador_ID = $item['operador_ID'];
+                $oOperador_Cliente->empresa_ID = $item['empresa_ID'];
                 $oOperador_Cliente->estado_ID = $item['estado_ID'];
                 $oOperador_Cliente->usuario_id= $item['usuario_id'];
                 $oOperador_Cliente->usuario_mod_id= $item['usuario_mod_id'];
-               
-                
-                
-             
+
             }
             //echo $oOperador_Cliente->operador_ID;
             return $oOperador_Cliente;

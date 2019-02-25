@@ -37,43 +37,65 @@ class categoria {
         return null;
     }
 
-    function insertar() {
-        
-        $retornar = -1;
-        try {
+    function insertar()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_categoria_Insert",
+            array(
+            "iID"=>0,
+            "ilinea_ID"=>$this->linea_ID,
+            "inombre"=>$this->nombre,
+            "idescripcion"=>$this->descripcion,
+            "iimagen"=>$this->imagen,
+            "iempresa_ID"=>$this->empresa_ID,
+            "iusuario_id"=>$this->usuario_id,
 
-            $q = 'select ifnull(max(ID),0)+1 from categoria;';
-			$cn = new connect_new();
-            $ID=$cn->getData($q);
-            $q = 'insert into categoria(ID,nombre,descripcion,imagen,linea_ID,usuario_id,empresa_ID)';
-            $q.='values('.$ID.',"' . $this->nombre . '","' . $this->descripcion . '","'.$this->imagen.'",'. $this->linea_ID . ',' . $this->usuario_id .','.$this->empresa_ID.');';
-            //echo $q;
-			$cn = new connect_new();
-            $retornar = $cn->transa($q);
-
-            $this->ID = $ID;
-            $this->getMessage = 'Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-
-            throw new Exception("Ocurrio un error en la consulta");
-        }
+        ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "categoria.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
+  }
 
-    function actualizar() {
-        $cn = new connect_new();
-        $retornar = -1;
-        try {
-            $q = 'update categoria set descripcion="' . $this->descripcion . '",nombre="' . $this->nombre . '", linea_ID='.$this->linea_ID;
-            $q.= ',imagen="'.$this->imagen.'",empresa_ID='.$this->empresa_ID.',usuario_mod_id=' . $this->usuario_mod_id;
-            $q.=', fdm=now() where del=0 and id=' . $this->ID;
-            $retornar = $cn->transa($q);
-            $this->getMessage = 'Se guardó correctamente';
-            return $retornar;
-        } catch (Exception $ex) {
-            
-        }
+    function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_categoria_Update",
+            array(
+              "retornar"=>$retornar,
+            "iID"=>$this->ID,
+            "ilinea_ID"=>$this->linea_ID,
+            "inombre"=>$this->nombre,
+            "idescripcion"=>$this->descripcion,
+            "iimagen"=>$this->imagen,
+            "iempresa_ID"=>$this->empresa_ID,
+            "iusuario_mod_id"=>$this->usuario_mod_id
+        ),0);
+      if($retornar>0){
+          $this->getMessage="Se actualizó correctamente.";
+      }
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "categoria.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
     }
+  }
 
     function eliminar() {
         $cn = new connect_new();
@@ -142,7 +164,7 @@ class categoria {
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ca.ID asc') {
         $cn = new connect_new();
         try {
-            $q = 'SELECT ca.ID,UPPER(ca.nombre) as nombre,ca.descripcion,ca.linea_ID,UPPER(li.nombre) as linea,ca.empresa_ID';
+            $q = 'SELECT ca.ID,ca.nombre as nombre,ca.descripcion,ca.linea_ID,li.nombre as linea,ca.empresa_ID';
             $q.=' FROM categoria  ca , linea li';
             $q.=' where ca.linea_ID=li.ID and ca.del=0 and ca.empresa_ID='.$_SESSION['empresa_ID'];
 

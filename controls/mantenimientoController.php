@@ -691,8 +691,8 @@ function post_Categoria_Mantenimiento_Nuevo() {
     global $returnView_float;
     $returnView_float = true;
 
-    $nombre = FormatTextSave(strtoupper(trim($_POST['txtNombre'])));
-    $descripcion = FormatTextSave(strtoupper(trim($_POST['txtDescripcion'])));
+    $nombre = trim($_POST['txtNombre']);
+    $descripcion = trim($_POST['txtDescripcion']);
     $linea_ID=$_POST['selLinea'];
 
     $oCategoria = new categoria;
@@ -713,24 +713,28 @@ function post_Categoria_Mantenimiento_Nuevo() {
             $oCategoria->insertar();
             $resultado= 1;
             $mensaje=$oCategoria->getMessage;;
-            $dir_subida = $_SERVER['DOCUMENT_ROOT'].'/files/imagenes/categoria/';
-            $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
-            //$extension=$nombre_temporal[1];
-            $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
-            $nombre2=$oCategoria->ID.'.'.$extension;
-            $fichero_subido = $dir_subida .basename($nombre2);
-            //$nombre_archivo=$oWeb_Banner_Imagen->ID.".".$fichero_subido[1];
-            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
-                $oCategoria->imagen=$nombre2;
-                $oCategoria->usuario_mod_id=$_SESSION['usuario_ID'];
-                $oCategoria->actualizar();
-                
-            }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}	
+            if($_FILES['imagen']['name']){
+                $dir_subida = $_SERVER['DOCUMENT_ROOT'].'/files/imagenes/categoria/';
+                $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
+                //$extension=$nombre_temporal[1];
+                $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
+                $nombre2=$oCategoria->ID.'.'.$extension;
+                $fichero_subido = $dir_subida .basename($nombre2);
+                //$nombre_archivo=$oWeb_Banner_Imagen->ID.".".$fichero_subido[1];
+                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
+                    $oCategoria->imagen=$nombre2;
+                    $oCategoria->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oCategoria->actualizar();
+
+                }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}	
+            }
+            
         }
 		
     } catch (Exception $ex) {
         $resultado= -1;
         $mensaje= $ex->getMessage();
+        log_error(__FILE__,"mantenimiento/post_Categoria_Mantenimiento_Nuevo",$ex->getMessage());
     }
      $dtLinea=linea::getGrid();
     $GLOBALS['dtLinea']=$dtLinea;
@@ -773,8 +777,8 @@ function post_Categoria_Mantenimiento_Editar($id) {
     global $returnView_float;
     $returnView_float = true;
     
-    $nombre = FormatTextSave(strtoupper(trim($_POST['txtNombre'])));
-    $descripcion = FormatTextSave(strtoupper(trim($_POST['txtDescripcion'])));
+    $nombre = trim($_POST['txtNombre']);
+    $descripcion =trim($_POST['txtDescripcion']);
     $linea_ID=$_POST['selLinea'];
     $oCategoria = categoria::getByID($id);
     try {
@@ -788,6 +792,7 @@ function post_Categoria_Mantenimiento_Editar($id) {
         $oCategoria->descripcion = $descripcion;
         $oCategoria->linea_ID=$linea_ID;
         $oCategoria->usuario_mod_id = $_SESSION['usuario_ID'];
+        $oCategoria->empresa_ID=$_SESSION['empresa_ID'];
         if ($oCategoria->verificarDuplicado() > 0) {
             //throw new Exception($oProducto->message);
              $mensaje="No se puede registrar porque existe un producto con el mismo nombre";
@@ -861,7 +866,7 @@ function post_ajaxCategoria_Mantenimiento() {
     }
     $filtro="";
     if($opcion_tipo=="buscar"){
-        $filtro.=((trim($filtro!=""))?" and ":""). 'upper(ca.nombre) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+        $filtro.=((trim($filtro!=""))?" and ":""). 'upper(ca.nombre) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
 
     }else{
         $linea_ID=$_POST['selLinea'];
@@ -881,7 +886,7 @@ function post_ajaxCategoria_Mantenimiento() {
     $resultado.='<th class="text-center">N°</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(0);">Código' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Categoría' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Línea' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Línea' . (($txtOrden == 2 ? "<img class=" . $orden_class . "/>" : "")) . '</th>';
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
 
@@ -897,8 +902,8 @@ function post_ajaxCategoria_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . sprintf("%'.05d",$item['ID']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['nombre']))) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['linea']))) . '</td>';
+            $resultado.='<td class="text-left">' . test_input($item['nombre']). '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['linea']). '</td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Categoría&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar categoría"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
@@ -1242,7 +1247,7 @@ function get_Cliente_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/credito.php';
-    
+    require ROOT_PATH . 'models/operador.php';
     global $returnView_float;
     $returnView_float = true;
     $oCliente = new cliente();
@@ -1250,7 +1255,7 @@ function get_Cliente_Mantenimiento_Nuevo() {
     $oCliente->dtProvincia=provincia::getGrid("departamento_ID=15",-1,-1,"nombre asc");
     $oCliente->dtDistrito=distrito::getGrid("provincia_ID=129",-1,-1,"nombre asc");
     $oCliente->dtEstado=estado::getGrid("est.tabla='cliente'",-1,-1,"est.orden asc");
-    
+    $dtOperador=operador::getGrid("",-1,-1,"pe.apellido_paterno asc,pe.apellido_materno asc,pe.nombres asc");
     $oCliente->departamento_ID=15;
     $oCliente->provincia_ID=129;
     $oCliente->distrito_ID=1261;
@@ -1260,7 +1265,7 @@ function get_Cliente_Mantenimiento_Nuevo() {
     
     $oCliente->dtForma_Pago = forma_pago::getGrid();
     $oCliente->dtCredito = credito::getGrid();
-    
+    $GLOBALS['dtOperador'] = $dtOperador;
     $GLOBALS['oCliente'] = $oCliente;
     $GLOBALS['oCliente_Contacto'] = $oCliente_Contacto;
 }
@@ -1294,6 +1299,8 @@ function post_Cliente_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/credito.php';
     require ROOT_PATH . 'models/persona.php';
+    require ROOT_PATH . 'models/operador_cliente.php';
+    require ROOT_PATH . 'models/operador.php';
     global $returnView_float;
     $returnView_float = true;
     $oCliente = new cliente();
@@ -1315,7 +1322,7 @@ function post_Cliente_Mantenimiento_Nuevo() {
     $banco=trim($_POST['txtBanco']);
     $numero_cuenta_soles = $_POST['txtNumero_Cuenta_Soles'];
     $numero_cuenta_dolares = $_POST['txtNumero_Cuenta_Dolares'];
-    
+    $operador_ID=$_POST['selOperador'];
     if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
         $persona_ID=$_POST['txtPersona_ID'];
         $cargo=trim($_POST['txtCargo']);
@@ -1363,30 +1370,38 @@ function post_Cliente_Mantenimiento_Nuevo() {
                 $mensaje="Ya existe un cliente con el mismo ruc..";
                 
              }else{                 
-       
-        if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
-            if($oCliente->ID>0){
-                $oCliente_Contacto->persona_ID=$persona_ID;
-                $oCliente_Contacto->codigo=$oCliente_Contacto->getCodigo();
-                $oCliente_Contacto->cliente_ID=$oCliente->ID;
-                $oCliente_Contacto->cargo=$cargo;
-                
-                $oCliente_Contacto->telefono=$telefono1;
-                $oCliente_Contacto->celular=$celular1;
-                $oCliente_Contacto->correo=$correo1;
-                $oCliente_Contacto->estado_ID=$estado_ID1;
-                $oCliente_Contacto->usuario_id=$_SESSION['usuario_ID'];
-                if($oCliente_Contacto->verificarDuplicado>0){
-                    throw new Exception($oCliente_Contacto->getMessage);
+                 if($operador_ID>0){
+                    $oPerador_Cliente=new operador_cliente();
+                    $oPerador_Cliente->cliente_ID=$retorna;
+                    $oPerador_Cliente->operador_ID=$operador_ID;
+                    $oPerador_Cliente->estado_ID=74;//Estado activo//75 inactivo
+                    $oPerador_Cliente->usuario_id=$_SESSION['usuario_ID'];
+                    $oPerador_Cliente->empresa_ID=$_SESSION['empresa_ID'];
+                    $oPerador_Cliente->insertar();
+                 }
+                if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
+                    if($oCliente->ID>0){
+                        $oCliente_Contacto->persona_ID=$persona_ID;
+                        $oCliente_Contacto->codigo=$oCliente_Contacto->getCodigo();
+                        $oCliente_Contacto->cliente_ID=$oCliente->ID;
+                        $oCliente_Contacto->cargo=$cargo;
+
+                        $oCliente_Contacto->telefono=$telefono1;
+                        $oCliente_Contacto->celular=$celular1;
+                        $oCliente_Contacto->correo=$correo1;
+                        $oCliente_Contacto->estado_ID=$estado_ID1;
+                        $oCliente_Contacto->usuario_id=$_SESSION['usuario_ID'];
+                        if($oCliente_Contacto->verificarDuplicado>0){
+                            throw new Exception($oCliente_Contacto->getMessage);
+                        }
+                        $oCliente_Contacto->insertar();
+                        $resultado= 1;
+                        $mensaje=$oCliente_Contacto->getMessage; 
+                    }
+                }else{
+                    $resultado=1;
+                    $mensaje=$oCliente->getMessage;  
                 }
-                $oCliente_Contacto->insertar();
-                $resultado= 1;
-                $mensaje=$oCliente_Contacto->getMessage; 
-            }
-        }else{
-            $resultado=1;
-            $mensaje=$oCliente->getMessage;  
-        }
        
              }
         }
@@ -1404,9 +1419,10 @@ function post_Cliente_Mantenimiento_Nuevo() {
         $oCliente_Contacto->dtEstado=estado::getGrid("est.tabla='cliente_contacto'",-1,-1,"est.orden asc");
         $oCliente->dtForma_Pago = forma_pago::getGrid();
         $oCliente->dtCredito = credito::getGrid();
-	
+	$dtOperador=operador::getGrid("",-1,-1,"pe.apellido_paterno asc,pe.apellido_materno asc,pe.nombres asc");
         $GLOBALS['oCliente'] = $oCliente;
         $GLOBALS['oCliente_Contacto'] = $oCliente_Contacto;
+        $GLOBALS['dtOperador'] = $dtOperador;
         $GLOBALS['resultado'] = $resultado;
         $GLOBALS['mensaje'] = $mensaje;
 }
@@ -1421,6 +1437,8 @@ function get_Cliente_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/credito.php';
+    require ROOT_PATH . 'models/operador_cliente.php';
+    require ROOT_PATH . 'models/operador.php';
     
     global $returnView_float;
     $returnView_float = true;
@@ -1434,7 +1452,9 @@ function get_Cliente_Mantenimiento_Editar($id) {
     $oProvincia=provincia::getByID($oDistrito->provincia_ID);
     $oCliente->departamento_ID=$oProvincia->departamento_ID;
     $oCliente->provincia_ID=$oProvincia->ID;
-    
+    $Ope=operador_cliente::getByOperador($id);
+    $operador_ID=(isset($Ope))?$Ope->operador_ID:0;
+    $oCliente->operador_ID=$operador_ID;
     $oCliente->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
     $oCliente->dtProvincia=provincia::getGrid("departamento_ID=".$oProvincia->departamento_ID,-1,-1,"nombre asc");;
     $oCliente->dtDistrito=distrito::getGrid("provincia_ID=".$oDistrito->provincia_ID,-1,-1,"nombre asc");
@@ -1444,9 +1464,10 @@ function get_Cliente_Mantenimiento_Editar($id) {
     
     $oCliente->dtForma_Pago = forma_pago::getGrid();
     $oCliente->dtCredito = credito::getGrid();
-    
+    $dtOperador=operador::getGrid("",-1,-1,"pe.apellido_paterno asc,pe.apellido_materno asc,pe.nombres asc");
     $GLOBALS['oCliente'] = $oCliente;
     $GLOBALS['oCliente_Contacto'] = $oCliente_Contacto;
+    $GLOBALS['dtOperador'] = $dtOperador;
 }
 function post_Cliente_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/cliente.php';
@@ -1458,6 +1479,8 @@ function post_Cliente_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/credito.php';
     require ROOT_PATH . 'models/persona.php';
+    require ROOT_PATH . 'models/operador.php';
+    require ROOT_PATH . 'models/operador_cliente.php';
     global $returnView_float;
     $returnView_float = true;
 	
@@ -1486,7 +1509,7 @@ function post_Cliente_Mantenimiento_Editar($id) {
     $banco=trim($_POST['txtBanco']);
     $numero_cuenta_soles = $_POST['txtNumero_Cuenta_Soles'];
     $numero_cuenta_dolares = $_POST['txtNumero_Cuenta_Dolares'];
-   
+    $operador_ID=$_POST['selOperador'];
     
     if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
         $persona_ID=$_POST['txtPersona_ID'];
@@ -1522,7 +1545,7 @@ function post_Cliente_Mantenimiento_Editar($id) {
         $oCliente->usuario_mod_id = $_SESSION['usuario_ID'];
         
         $retorna = $oCliente->actualizar1();
-
+        
         if ($retorna==-2) {
             $resultado= -1;
             $mensaje="Ya existe un cliente con la misma razon social..";
@@ -1530,34 +1553,52 @@ function post_Cliente_Mantenimiento_Editar($id) {
         }else{
             if ($retorna==-3)
              {
-            $resultado= -1;
-            $mensaje="Ya existe un cliente con el mismo ruc..";
+                $resultado= -1;
+                $mensaje="Ya existe un cliente con el mismo ruc..";
             
              }else{  
-    
-        if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
-            if($oCliente->ID>0){
-                $oCliente_Contacto->persona_ID=$persona_ID;
-                $oCliente_Contacto->codigo=$oCliente_Contacto->getCodigo();
-                $oCliente_Contacto->cliente_ID=$oCliente->ID;
-                $oCliente_Contacto->cargo=$cargo;
-                
-                $oCliente_Contacto->telefono=$telefono1;
-                $oCliente_Contacto->celular=$celular1;
-                $oCliente_Contacto->correo=$correo1;
-                $oCliente_Contacto->estado_ID=$estado_ID1;
-                $oCliente_Contacto->usuario_id=$_SESSION['usuario_ID'];
-                if($oCliente_Contacto->verificarDuplicado()>0){
-                    throw new Exception($oCliente_Contacto->getMessage);
-                }
-                $oCliente_Contacto->insertar();
-                $resultado= 1;
-                $mensaje=$oCliente_Contacto->getMessage; 
-            }
-        }else{
-            $resultado=1;
-            $mensaje="Se actualizó correctamente";  
-            }
+                 if($operador_ID>0){
+                        $operador_cliente=operador_cliente::getByOperador($id);
+                        if(isset($operador_cliente)){
+                            $operador_cliente=new operador_cliente();
+                            $operador_cliente->estado_ID=74;
+                            $operador_cliente->operador_ID=$operador_ID;
+                            $operador_cliente->insertar();
+                        }else{
+                            
+                          
+                            $operador_cliente->operador_ID=$operador_ID;
+                            $operador_cliente->actualizar();
+                        }    
+                 }else{
+                     $operador_cliente=operador_cliente::getByOperador($id);
+                     if(isset($operador_cliente)){
+                        $operador_cliente->eliminar(); 
+                     }
+                 }
+                if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
+                    if($oCliente->ID>0){
+                        $oCliente_Contacto->persona_ID=$persona_ID;
+                        $oCliente_Contacto->codigo=$oCliente_Contacto->getCodigo();
+                        $oCliente_Contacto->cliente_ID=$oCliente->ID;
+                        $oCliente_Contacto->cargo=$cargo;
+
+                        $oCliente_Contacto->telefono=$telefono1;
+                        $oCliente_Contacto->celular=$celular1;
+                        $oCliente_Contacto->correo=$correo1;
+                        $oCliente_Contacto->estado_ID=$estado_ID1;
+                        $oCliente_Contacto->usuario_id=$_SESSION['usuario_ID'];
+                        if($oCliente_Contacto->verificarDuplicado()>0){
+                            throw new Exception($oCliente_Contacto->getMessage);
+                        }
+                        $oCliente_Contacto->insertar();
+                        $resultado= 1;
+                        $mensaje=$oCliente_Contacto->getMessage; 
+                    }
+                }else{
+                    $resultado=1;
+                    $mensaje="Se actualizó correctamente";  
+                    }
                  
              }
              
@@ -2983,7 +3024,7 @@ function post_ajaxCbo_Categoria_Seleccionar(){
     require ROOT_PATH.'models/categoria.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='upper(ca.nombre) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
+        $filtro='upper(ca.nombre) like "%'.strtoupper(utf8_encode($buscar)).'%"';
     }else{
         $filtro='ca.ID=0';
     }
@@ -2992,9 +3033,10 @@ function post_ajaxCbo_Categoria_Seleccionar(){
 
     $i=1;
     $resultado='<ul class="cbo-ul">';
+    //print_r($dtCategoria);
     if(count($dtCategoria)>0){			
             foreach($dtCategoria as $iCategoria){
-                    $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.FormatTextViewHtml($iCategoria['nombre']).'&#39;);"><span id="'.$iCategoria['ID'].'" title="'.FormatTextViewHtml($iCategoria['nombre']).'">'.FormatTextViewHtml($iCategoria['nombre']).'</span></li>';
+                    $resultado.='<li id="li_'.$i.'" onclick="subirValorCaja(&#39;'.test_input($iCategoria['nombre']).'&#39;);"><span id="'.$iCategoria['ID'].'" title="'.test_input($iCategoria['nombre']).'">'.test_input($iCategoria['nombre']).'</span></li>';
                     $i++;
             }
     }
@@ -4781,18 +4823,21 @@ function post_Linea_Mantenimiento_Nuevo() {
             $resultado= 1;
             $mensaje=$oLinea->getMessage;
             $dir_subida = $_SERVER['DOCUMENT_ROOT'].'/files/imagenes/linea/';
-            $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
-            //$extension=$nombre_temporal[1];
-            $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
-            $nombre2=$oLinea->ID.'.'.$extension;
-            $fichero_subido = $dir_subida .basename($nombre2);
-            //$nombre_archivo=$oWeb_Banner_Imagen->ID.".".$fichero_subido[1];
-            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
-                $oLinea->imagen=$nombre2;
-                $oLinea->usuario_mod_id=$_SESSION['usuario_ID'];
-                $oLinea->actualizar();
-                
-            }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}	
+            if ($_FILES['imagen']['name']){
+                $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
+                //$extension=$nombre_temporal[1];
+                $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
+                $nombre2=$oLinea->ID.'.'.$extension;
+                $fichero_subido = $dir_subida .basename($nombre2);
+                //$nombre_archivo=$oWeb_Banner_Imagen->ID.".".$fichero_subido[1];
+                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
+                    $oLinea->imagen=$nombre2;
+                    $oLinea->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oLinea->actualizar();
+
+                }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
+            }
+            	
         }
 		
     } catch (Exception $ex) {
@@ -4830,8 +4875,8 @@ function post_Linea_Mantenimiento_Editar($id) {
     global $returnView_float;
     $returnView_float = true;
     
-    $nombre = FormatTextSave(strtoupper(trim($_POST['txtNombre'])));
-    $descripcion = FormatTextSave(strtoupper(trim($_POST['txtDescripcion'])));
+    $nombre = trim($_POST['txtNombre']);
+    $descripcion = trim($_POST['txtDescripcion']);
     $tipo=$_POST['selTipo'];
     $oLinea = linea::getByID($id);
     if ($oLinea == null) {
@@ -4930,10 +4975,10 @@ function post_ajaxLinea_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . sprintf("%'.06d",$item['ID']) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode(ucfirst(mb_strtolower($item['nombre']))) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode(ucfirst(mb_strtolower($item['descripcion']))) . '</td>';     
+            $resultado.='<td class="tdLeft">' . ucfirst(mb_strtolower($item['nombre'])) . '</td>';
+            $resultado.='<td class="tdLeft">' . ucfirst(mb_strtolower($item['descripcion'])) . '</td>';     
             $botones=array();
-            array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
+            array_push($botones,'<a onclick="fncEditar('. $item['ID'].');" ><span class="glyphicon glyphicon-pencil">Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Línea&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar línea"><span class="glyphicon glyphicon-trash">Eliminar</a>');
             $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
             
@@ -5572,9 +5617,9 @@ function post_Numero_Cuenta_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/moneda.php';
     global $returnView_float;
     $returnView_float = true;
-    $nombre_banco=FormatTextSave($_POST['txtNombre_Banco']);
-    $numero=FormatTextSave($_POST['txtNumero']);
-    $cci=FormatTextSave($_POST['txtCci']);
+    $nombre_banco=$_POST['txtNombre_Banco'];
+    $numero=$_POST['txtNumero'];
+    $cci=$_POST['txtCci'];
     $moneda_ID=$_POST['selMoneda_ID'];
     $oNumero_Cuenta=new numero_cuenta();
     
@@ -5584,7 +5629,7 @@ function post_Numero_Cuenta_Mantenimiento_Nuevo() {
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
        $oNumero_Cuenta->usuario_id=$_SESSION['usuario_ID'];
-       $oNumero_Cuenta->insertar();
+       $oNumero_Cuenta->insertar1();
        $resultado=1;
        $mensaje=$oNumero_Cuenta->getMessage;
    }catch(Exception $ex){
@@ -5627,7 +5672,7 @@ function post_Numero_Cuenta_Mantenimiento_Editar($id) {
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
        $oNumero_Cuenta->usuario_mod_id=$_SESSION['usuario_ID'];
-       $oNumero_Cuenta->actualizar();
+       $oNumero_Cuenta->actualizar1();
        $resultado=1;
        $mensaje=$oNumero_Cuenta->getMessage;
    }catch(Exception $ex){
@@ -5694,9 +5739,9 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
             $oMoneda=moneda::getByID($item['moneda_ID']);
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
-            $resultado.='<td class="tdleft">' . utf8_encode($item['nombre_banco']). '</td>';
-            $resultado.='<td class="tdLeft">' . $item['numero']. '</td>';
-            $resultado.='<td class="tdLeft">' . $item['cci'] . '</td>';
+            $resultado.='<td class="tdleft">' . test_input($item['nombre_banco']). '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['numero']). '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['cci']). '</td>';
             $resultado.='<td class="tdLeft">' . utf8_encode($oMoneda->descripcion). '</td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar numero de cuenta"><span class="glyphicon glyphicon-pencil"></span>Editar</a>');

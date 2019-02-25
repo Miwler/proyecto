@@ -32,8 +32,8 @@ function fncPage() { ?>
                 <lable>Nombre: </lable>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                <input type="text" id="txtNombre" name="txtNombre"   onkeyup="MostrarLista(this.id,'divLinea');" autocomplete="off" value="<?php echo $GLOBALS['oLinea']->nombre; ?>" class="form-control form-requerido text-uppercase" style="margin-bottom:0;"/>
-                <div id="divLinea" style="position:absolute;width:400px;z-index: 10;"></div>
+                <input type="text" id="txtNombre" name="txtNombre"   onkeyup="MostrarLista(this.id,'divLinea');" autocomplete="off" value="<?php echo $GLOBALS['oLinea']->nombre; ?>" class="form-control form-requerido" style="margin-bottom:0;"/>
+                <div id="divLinea" style="position:absolute;width:400px;z-index: 10;background:#37BC9B;color:#fff;"></div>
             </div>
         </div>
         <div class="form-group">
@@ -41,7 +41,7 @@ function fncPage() { ?>
                 <lable>Descripción: </lable>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" >
-                <input type="text" id="txtDescripcion" name="txtDescripcion"   autocomplete="off" value="<?php echo $GLOBALS['oLinea']->descripcion; ?>" class="form-control text-uppercase"/>
+                <input type="text" id="txtDescripcion" name="txtDescripcion"   autocomplete="off" value="<?php echo $GLOBALS['oLinea']->descripcion; ?>" class="form-control"/>
             </div>
         </div>
         <div class="form-group">
@@ -105,12 +105,12 @@ function fncPage() { ?>
                 mensaje.error('Mensaje de error','Debe seleccionar un tipo.','selTipo');
                 return false;
             }
-            if(imagen==""){
+            /*if(imagen==""){
                 if(file.files.length==0){
                     mensaje.error('Mensaje de error','Debe adjuntar una imagen.','imagen');
                     return false;
                 }
-            }
+            }*/
             
         }
         var MostrarLista=function(buscador,contenedorLista){

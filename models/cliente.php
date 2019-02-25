@@ -34,7 +34,7 @@ class cliente {
     Private $dtForma_Pago;
     Private $dtCredito;
     private $tipo_documento_ID;
-    
+    private $operador_ID;
 	
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower

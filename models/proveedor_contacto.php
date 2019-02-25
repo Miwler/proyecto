@@ -239,7 +239,7 @@ class proveedor_contacto {
             if($this->ID!=""){
                 $q.=" and ID<>".$this->ID;
             }
-            $this->Message="La persona ya se encuentra asignado";
+            $this->getMessage="La persona ya se encuentra asignado";
             return $retornar;
         } catch (Exception $ex) {
             throw new Exception("Ocurrio un error en la consulta");

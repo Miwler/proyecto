@@ -90,7 +90,36 @@ class numero_cuenta {
         } catch (Exeption $ex) {
             throw new Exception("Ocurrio un error en la consulta");
         }
-    }   
+    }
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_numero_cuenta_Insert",
+            array(
+            "iID"=>0,
+            "inumero"=>$this->numero,
+            "icci"=>$this->cci,
+            "inombre_banco"=>$this->nombre_banco,
+            "imoneda_ID"=>$this->moneda_ID,
+            "iabreviatura"=>$this->abreviatura,
+            "iusuario_id"=>$this->usuario_id,
+
+        ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "numero_cuenta.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar() {
         $cn = new connect_new();
         try {
@@ -107,6 +136,34 @@ class numero_cuenta {
             throw new Exception("Ocurrio un error en la consulta");
         }
     }  
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_numero_cuenta_Update",
+            array(
+              "retornar"=>$retornar,
+            "iID"=>$this->ID,
+            "inumero"=>$this->numero,
+            "icci"=>$this->cci,
+            "inombre_banco"=>$this->nombre_banco,
+            "imoneda_ID"=>$this->moneda_ID,
+            "iabreviatura"=>$this->abreviatura,
+            "iusuario_mod_id"=>$this->usuario_mod_id
+        ),0);
+      if($retornar>0){
+          $this->getMessage="Se actualizó correctamente";
+      }
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "numero_cuenta.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function eliminar() {
         $cn = new connect_new();
         $retornar = -1;

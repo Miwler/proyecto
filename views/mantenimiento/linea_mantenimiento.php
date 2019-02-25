@@ -58,7 +58,8 @@
     <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
     <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
     <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
-    <input id="chkOrdenASC" name="chkOrdenDESC" type="checkbox" checked style="display:none;">
+    <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
+   
 </form>
 <script type="text/javascript">
    $('.nav  a').on('show.bs.tab', function(event){
@@ -88,7 +89,23 @@
             $('#websendeos').stacktable();
             grids.fncPaginacionTabs(f,'num_page');	
     }
-   
+   var fncOrden=function(col){
+
+                var col_old=$('#txtOrden').val();
+
+                if(col_old==col){
+                        if($('#chkOrdenASC').is(':checked')){
+                                $('#chkOrdenASC').prop('checked',false);
+                        }else{
+                                $('#chkOrdenASC').prop('checked',true);
+                        }
+                }else{
+                        $('#txtOrden').val(col);
+                        $('#chkOrdenASC').prop('checked',true);
+                }		
+
+                f.enviar();
+        }
     $('#txtBuscar,#txtMostrar').keypress(function(e){
         
     if (e.which==13){

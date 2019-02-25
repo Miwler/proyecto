@@ -1095,3 +1095,614 @@ METODO: connect_new.store_procedure_getGrid
 ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
 
 >>>>>>> 761ae3379fb7422020e9fc5a1c201e28dd8a5a50
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:50
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 12:02:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 16:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: ()
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 17:02:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '9';
+SET @_inumero = '561651651653';
+SET @_icci = '789498484';
+SET @_inombre_banco = 'Nación';
+SET @_imoneda_ID = '2';
+SET @_iabreviatura = '';
+SET @_iusuario_mod_id = '0';
+CALL `sp_numero_cuenta_Update`( @_retornar, @_iID, @_inumero, @_icci, @_inombre_banco, @_imoneda_ID, @_iabreviatura, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 17:02:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '9';
+SET @_inumero = '561651651653';
+SET @_icci = '789498484';
+SET @_inombre_banco = 'Nación';
+SET @_imoneda_ID = '2';
+SET @_iabreviatura = '';
+SET @_iusuario_mod_id = '0';
+CALL `sp_numero_cuenta_Update`( @_retornar, @_iID, @_inumero, @_icci, @_inombre_banco, @_imoneda_ID, @_iabreviatura, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 17:02:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '9';
+SET @_inumero = '561651651653';
+SET @_icci = '789498484';
+SET @_inombre_banco = 'Nación';
+SET @_imoneda_ID = '2';
+SET @_iabreviatura = '';
+SET @_iusuario_mod_id = '0';
+CALL `sp_numero_cuenta_Update`( @_retornar, @_iID, @_inumero, @_icci, @_inombre_banco, @_imoneda_ID, @_iabreviatura, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 17:02:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '9';
+SET @_inumero = '561651651653';
+SET @_icci = '789498484';
+SET @_inombre_banco = 'Nación';
+SET @_imoneda_ID = '2';
+SET @_iabreviatura = '';
+SET @_iusuario_mod_id = '0';
+CALL `sp_numero_cuenta_Update`( @_retornar, @_iID, @_inumero, @_icci, @_inombre_banco, @_imoneda_ID, @_iabreviatura, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 17:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '9';
+SET @_inumero = '561651651653';
+SET @_icci = '789498484';
+SET @_inombre_banco = 'Nación';
+SET @_imoneda_ID = '2';
+SET @_iabreviatura = '';
+SET @_iusuario_mod_id = '0';
+CALL `sp_numero_cuenta_Update`( @_retornar, @_iID, @_inumero, @_icci, @_inombre_banco, @_imoneda_ID, @_iabreviatura, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 18:02:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '410';
+SET @_ilinea_ID = '54';
+SET @_inombre = 'Condiccade';
+SET @_idescripcion = 'dedeed';
+SET @_iimagen = '';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 18:02:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '379';
+SET @_ilinea_ID = '49';
+SET @_inombre = 'ETIQUETAS';
+SET @_idescripcion = 'condd';
+SET @_iimagen = '';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 18:02:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '379';
+SET @_ilinea_ID = '49';
+SET @_inombre = 'ETIQUETAS';
+SET @_idescripcion = 'condd';
+SET @_iimagen = '';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 23 02 2019 18:02:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_retornar = '0';
+SET @_iID = '379';
+SET @_ilinea_ID = '49';
+SET @_inombre = 'ETIQUETAS';
+SET @_idescripcion = 'ffrfr';
+SET @_iimagen = '';
+SET @_iusuario_mod_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar

@@ -313,9 +313,58 @@ function fncPage() { ?>
     .divBuscador{
     position:absolute!important;
     z-index: 10;background:#7FFFD4;
+     .ui-autocomplete-loading {
+    background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+  }
 }
 </style>
 <script type="text/javascript">
+    /*
+    $(document).ready(function(){
+         $("#listaPersonas").autocomplete({
+            //showNoSuggestionNotice:true,
+            //noSuggestionNotice: 'No hay resultados',
+            source: function (request, response) {
+                //clear_data();
+               
+                $.ajax({
+                    url: '/funcion/ajaxListarPersonas',
+                    data: {buscar:request.term},
+                    dataType: "json",
+                    type: "POST",
+                    //contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //console.log(data);
+                        //alert(data);
+
+                        response($.map(data, function (item) {
+
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        console.log(response.responseText);
+                        //alert("Error");
+                        //alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (e, i) {
+                var ID = i.item.val;
+                //alert(ID);
+               
+                //$('#'+id_txt).val(ID);
+                //alert(persona_ID);
+                //$("#hfALUMNAS").val(alumna_ID);
+                //fnDatosAlumna(alumna_ID);
+            }
+           
+        });
+    });*/
     $('.nav-tabs a').on('shown.bs.tab', function(event){
         var x = $(event.target).text();         // active tab
         var y = $(event.relatedTarget).text();  // previous tab

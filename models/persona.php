@@ -57,7 +57,7 @@ class persona {
             return null;
     }
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -80,7 +80,7 @@ class persona {
     }
     static function getByID($ID)
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='Select ID,apellido_paterno,apellido_materno,nombres,direccion,ifnull(distrito_ID,0) as distrito_ID';
@@ -117,11 +117,45 @@ class persona {
         }
     }
     
-    
+    static function getByID1($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_persona_getByID",
+          array("iID"=>$ID));
+      //print_r($dt);
+      $opersona=null;
+      foreach($dt as $item)
+        {
+          $opersona= new persona();
+          $opersona->ID=$item["ID"];
+          $opersona->apellido_paterno=test_input($item["apellido_paterno"]);
+          $opersona->apellido_materno=$item["apellido_materno"];
+          $opersona->nombres=$item["nombres"];
+          $opersona->direccion=test_input($item["direccion"]);
+          $opersona->distrito_ID=$item["distrito_ID"];
+          $opersona->fecha_nacimiento=$item["fecha_nacimiento"];
+          $opersona->telefono=$item["telefono"];
+          $opersona->celular=$item["celular"];
+          $opersona->correo=$item["correo"];
+          $opersona->sexo_ID=$item["sexo_ID"];
+          $opersona->usuario_id=$item["usuario_id"];
+          $opersona->usuario_mod_id=$item["usuario_mod_id"];
+
+        }
+      return $opersona;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "persona.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 
     static function getCount($filtro='')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(ID) ';
@@ -147,7 +181,7 @@ class persona {
     
         static function getCount_PersonaDocumento($filtro='')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(pe.ID) ';
@@ -174,7 +208,7 @@ class persona {
     
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='Select ID,apellido_paterno,apellido_materno,nombres,concat(apellido_paterno," ",apellido_materno,", ",nombres) as datos,direccion,ifnull(distrito_ID,0) as distrito_ID';
@@ -203,7 +237,7 @@ class persona {
     
         static function getGrid_PersonaDocumento($filtro='',$desde=-1,$hasta=-1,$order='pe.ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='Select pdc.persona_ID,pdc.tipo_documento_ID,pdc.numero as numero,pe.ID,pe.apellido_paterno,pe.apellido_materno,pe.nombres,pe.direccion';
@@ -233,7 +267,7 @@ class persona {
     
     function verificarDuplicado()
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='select count(ID) from persona_documento ';
@@ -258,12 +292,18 @@ class persona {
     }
     static function geListaPersonas($buscar='')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
-            $q='call getListaPersonas("'.$buscar.'");';
+            $dt=$cn->store_procedure_getGridParse(
+                    "getListaPersonas",
+                    array("buscar"=>$buscar)
+                    );
+            
             //echo $q;
-            $dt=$cn->getGrid($q);									
+            
+            
+            //$dt=$cn->getGrid($q);									
             return $dt;												
         }catch(Exception $ex)
         {

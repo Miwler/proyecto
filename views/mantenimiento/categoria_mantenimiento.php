@@ -2,7 +2,7 @@
 	require ROOT_PATH."views/shared/content.php";	
 ?>	
 <?php function fncTitle(){?>
-		Información para producto
+		Categorías
 <?php } ?>
 <?php function fncHead(){?>
     <script type="text/javascript" src="include/js/jForm.js"></script>
@@ -45,7 +45,7 @@
                             <select id="selLinea" name="selLinea" onchange="fncLinea(this.value);" style="width:100%;" class="form-control">
                                 <option value="0">TODOS</option>
                         <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                                <option value="<?php echo $iLinea['ID']; ?>"><?php echo $iLinea['nombre']; ?></option>
                         <?php } ?>
 
                             </select>
@@ -56,7 +56,7 @@
                             <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" style="width:100%;" class="form-control">
                                 <option value="0" selected>TODOS</option>
                         <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                                <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                                <option value="<?php echo $iCategoria['ID']; ?>"><?php echo $iCategoria['nombre']; ?></option>
                         <?php } ?>
                             </select>
                         </div>
@@ -82,7 +82,7 @@
     <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
     <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
     <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
-    <input id="chkOrdenASC" name="chkOrdenDESC" type="checkbox" checked style="display:none;">
+    <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
 </form>
 <script type="text/javascript">
    $('.nav  a').on('show.bs.tab', function(event){
@@ -112,18 +112,8 @@
             $('#websendeos').stacktable();
             grids.fncPaginacionTabs(f,'num_page');
     }
-   
-    $('#txtBuscar,#txtMostrar').keypress(function(e){
-        
-    if (e.which==13){
-            $('#num_page').val(1);
-            f.enviar();
-            return false;
-        }
-    });    
-    f.enviar();
     var fncOrden=function(col){
-
+        
         var col_old=$('#txtOrden').val();
 
         if(col_old==col){
@@ -139,6 +129,16 @@
 
         f.enviar();
     }
+    $('#txtBuscar,#txtMostrar').keypress(function(e){
+        
+    if (e.which==13){
+            $('#num_page').val(1);
+            f.enviar();
+            return false;
+        }
+    });    
+    f.enviar();
+    
 
     var fncNuevo=function(){
 

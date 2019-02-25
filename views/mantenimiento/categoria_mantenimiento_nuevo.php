@@ -34,7 +34,7 @@ function fncPage() { ?>
                     <select id="selLinea" name="selLinea"  class="form-control form-requerido">
                         <option value="0">SELECCIONAR</option>
                     <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                        <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                        <option value="<?php echo $iLinea['ID']; ?>"><?php echo $iLinea['nombre']; ?></option>
                     <?php } ?>
                     </select> 
                     <script type="text/javascript">
@@ -47,8 +47,8 @@ function fncPage() { ?>
                     <label>Nombre: </label>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <input type="text" id="txtNombre" name="txtNombre"   onkeyup="MostrarLista(this.id,'divCategoria');" autocomplete="off" value="<?php echo FormatTextView($GLOBALS['oCategoria']->nombre); ?>" class="form-control text-uppercase form-requerido" style="margin-bottom:1px;"/>
-                    <div id="divCategoria" style="position:absolute;width:100%;z-index: 10;"></div>
+                    <input type="text" id="txtNombre" name="txtNombre"   onkeyup="MostrarLista(this.id,'divCategoria');" autocomplete="off" value="<?php echo $GLOBALS['oCategoria']->nombre; ?>" class="form-control form-requerido" style="margin-bottom:1px;"/>
+                    <div id="divCategoria" style="position:absolute;width:100%;z-index: 10;background:#37BC9B;color:#fff;"></div>
                 </div>
             </div>
             <div class="form-group">
@@ -56,7 +56,7 @@ function fncPage() { ?>
                     <label>Descripción: </label>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <input type="text" id="txtDescripcion" name="txtDescripcion"  autocomplete="off" value="<?php echo $GLOBALS['oCategoria']->descripcion; ?>" class="form-control text-uppercase form-requerido"/>
+                    <input type="text" id="txtDescripcion" name="txtDescripcion"  autocomplete="off" value="<?php echo $GLOBALS['oCategoria']->descripcion; ?>" class="form-control form-requerido"/>
                 </div>
             </div>
             <div class="form-group">
@@ -103,11 +103,11 @@ function fncPage() { ?>
                 
                 return false;
             }
-            if(file.files.length==0){
+           /* if(file.files.length==0){
                 mensaje.error('Mensaje de error','Debe adjuntar una imagen.','imagen');
 
                 return false;
-             }
+             }*/
         }
         var MostrarLista=function(buscador,contenedorLista){
             var valor_buscar=$('#'+buscador).val();

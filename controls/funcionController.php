@@ -452,7 +452,7 @@
         require ROOT_PATH.'models/persona.php';
         $persona_ID=$_POST['id'];
         try {
-            $oPersona=persona::getByID($persona_ID);
+            $oPersona=persona::getByID1($persona_ID);
             $mesanje="";
         }catch(Exception $ex){
             $mesanje=$ex->getMessage();
@@ -678,9 +678,17 @@
         echo json_encode($retornar);
     }
     function post_ajaxListarPersonas($texto){
+       
         require ROOT_PATH.'models/persona.php';
         $buscar=$_POST['buscar'];
-        $dtPersona=persona::geListaPersonas($buscar);
+        
+        try{
+             
+            $dtPersona=persona::geListaPersonas($buscar);
+        }catch(Exception $ex){
+            
+        }
+        
        
         //$retornar=Array('valor1'=>$linea_ID,'valor2'=>$categoria_ID);
         echo json_encode($dtPersona);

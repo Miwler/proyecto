@@ -89,14 +89,14 @@ class linea {
       $ID=$cn->store_procedure_transa(
           "sp_linea_Insert",
             array(
-    "iID"=>0,
-    "inombre"=>$this->nombre,
-    "idescripcion"=>$this->descripcion,
-    "itipo"=>$this->tipo,
-    "iimagen"=>$this->imagen,
-    "iusuario_id"=>$this->usuario_id,
-    "iempresa_ID"=>$this->empresa_ID
-),0);
+                "iID"=>0,
+                "inombre"=>$this->nombre,
+                "idescripcion"=>$this->descripcion,
+                "itipo"=>$this->tipo,
+                "iimagen"=>$this->imagen,
+                "iusuario_id"=>$this->usuario_id,
+                "iempresa_ID"=>$this->empresa_ID
+            ),0);
       if($ID>0){
         $this->getMessage="El registro se guard? correctamente.";
         $this->ID=$ID;

@@ -3,7 +3,7 @@ require ROOT_PATH . "views/shared/content-float-modal.php";
 ?>	
 <?php
 
-function fncTitle() { ?>Nuevo Producto<?php } ?>
+function fncTitle() { ?>Editar Producto<?php } ?>
 
 <?php
 
@@ -131,10 +131,10 @@ function fncMenu() { ?>
 
                         </div>
                         <div class="form-group">
-                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                            <div class="col-md-3 col-sm-3">
                                 <label>Unidad de medida: </label>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                            <div class="col-md-9 col-sm-3">
                                <select id="selUnidad_Medida" name="selUnidad_Medida" class="form-control form-requerido">
                                     <option value="0">--</option>
                                     <?php foreach($GLOBALS['dtUnidad_Medida'] as $item){ ?>
@@ -146,31 +146,30 @@ function fncMenu() { ?>
                                     $('#selUnidad_Medida').val(<?php echo $GLOBALS['oProducto']->unidad_medida_ID;?>);
                                 </script>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                            <div class="col-md-3 col-sm-3">
                                 <label>Marca: </label>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                            <div class="col-sm-3">
                                <input id="txtMarca" name="txtMarca" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->marca; ?>" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                            
+                            <div class="col-md-3 col-sm-3">
                                 <label>Modelo: </label>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                            <div class="col-md-9 col-sm-3">
                                <input id="txtModelo" name="txtModelo" type="text" autocomplete="off" value="<?php echo $GLOBALS['oProducto']->modelo; ?>" class="form-control"/>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
+                            <div class="col-md-3 col-sm-3">
                                 <label>Color: </label>
                             </div>
-                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-9">
+                            <div class="col-md-9 col-sm-3">
                               <input id="txtColor" name="txtColor" type="text" autocomplete="off"  value="<?php echo $GLOBALS['oProducto']->color; ?>" class="form-control"/>        
                             </div>
                         </div>
+                        
+                      
                     </div>
                     <div id="divWeb" class="tab-pane fade inner-all">
                         <div class="form-group">

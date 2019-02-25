@@ -31,6 +31,7 @@ function fncPage() { ?>
             <ul class="nav nav-tabs">
             <li class="active"><a href="#cliente" data-toggle="tab"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Empresa</a></li>
             <li><a href="#cliente_contacto" data-toggle="tab"><i class="fa fa-users" aria-hidden="true"></i> Persona contacto</a></li>
+            <li><a href="#ejecutivo" data-toggle="tab"><i class="fa fa-users" aria-hidden="true"></i> Ejecutivo</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="cliente">
@@ -315,6 +316,20 @@ function fncPage() { ?>
                                 </select>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="ejecutivo">
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Ejecutivo de venta:</label>
+                    <div class="col-sm-8">
+                        <select id="selOperador" name="selOperador" class="form-control chosen-select mb-15" >
+                            <option value="0">--Ninguno-</option>
+                            <?php foreach($GLOBALS['dtOperador'] as $operador) {?>
+                            <option value="<?php echo $operador['ID']?>"><?php echo $operador['apellido_paterno']." ".$operador['apellido_materno']." ".$operador['nombres']?></option>
+                            <?php }?>
+                        </select>
+                        
                     </div>
                 </div>
             </div>

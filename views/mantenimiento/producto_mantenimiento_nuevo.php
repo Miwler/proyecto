@@ -72,7 +72,7 @@ function fncMenu() { ?>
                             <label class="col-sm-3 control-label">Nombre:<span class="asterisk">*</span> </label>
                             <div class="col-sm-9">
                                 <input id="txtNombre" name="txtNombre"  onkeyup="MostrarLista(this.id,'divProducto');" type="text"  autocomplete="off" value="<?php echo $GLOBALS['oProducto']->nombre; ?>" class="form-control form-requerido" />
-                                <div id="divProducto" style="position:absolute;width:350px;z-index: 10;top:35;background:#7FFFD4;"></div>
+                                <div id="divProducto" style="position:absolute;width:350px;z-index: 10;top:35;background:#37BC9B;color:#fff;"></div>
                             </div>
                         </div>
                         <div class="form-group">

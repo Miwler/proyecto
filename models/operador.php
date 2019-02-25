@@ -281,7 +281,7 @@ static function getByID($ID)
         try {
             $q = 'select op.ID';
             $q.=' from operador op, usuario us,persona pe ';
-            $q.=' where us.persona_ID=pe.ID and op.persona_ID=pe.ID and us.del=0 and us.ID='.$usuario_ID;
+            $q.=' where us.persona_ID=pe.ID and op.persona_ID=pe.ID and op.del=0 and us.del=0 and us.ID='.$usuario_ID;
 
             $retorna = $cn->getData($q);
             return $retorna;

@@ -246,7 +246,7 @@ function fncPage() { ?>
                             <input type="text" id="listaPersonas" class="form-control form-requerido">
                             <script>
                                 $(document).ready(function(){
-                                    lista('/funcion/ajaxListarPersonas','listaPersonas','txtPersona_ID',mostrar_informacion_persona);
+                                   // lista('/funcion/ajaxListarPersonas','listaPersonas','txtPersona_ID',mostrar_informacion_persona);
                                 });
 
                             </script>
@@ -329,7 +329,50 @@ function fncPage() { ?>
 
 </form>
 <script type="text/javascript">
-    
+    $(document).ready(function(){
+         $("#listaPersonas").autocomplete({
+            //showNoSuggestionNotice:true,
+            //noSuggestionNotice: 'No hay resultados',
+            source: function (request, response) {
+                //clear_data();
+               
+                $.ajax({
+                    url: 'funcion/ajaxListarPersonas',
+                    data: {buscar:request.term},
+                    dataType: "json",
+                    type: "POST",
+                    //contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //alert(data);
+
+                        response($.map(data, function (item) {
+
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        //alert("Error");
+                        //alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                var ID = i.item.val;
+                //alert(ID);
+               
+                //$('#'+id_txt).val(ID);
+                //alert(persona_ID);
+                //$("#hfALUMNAS").val(alumna_ID);
+                //fnDatosAlumna(alumna_ID);
+            },
+            minLength: 1
+        });
+    });
+   
+        
     $('.nav-tabs a').on('shown.bs.tab', function(event){
         var x = $(event.target).text();         // active tab
         var y = $(event.relatedTarget).text();  // previous tab
