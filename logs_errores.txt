@@ -1706,3 +1706,13 @@ SET @_iimagen = '';
 SET @_iusuario_mod_id = '0';
 SET @_iempresa_ID = '2';
 CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 23:02:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into persona(ID,apellido_paterno,apellido_materno,nombres,direccion,distrito_ID,fecha_nacimiento,telefono,celular,correo,sexo_ID,usuario_id) values (57,"tahua","takusi","manuel","",1261,"","","","",1,0);
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 23:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into persona(ID,apellido_paterno,apellido_materno,nombres,direccion,distrito_ID,fecha_nacimiento,telefono,celular,correo,sexo_ID,usuario_id) values (57,"iglesias","bustamante","manuel","",1261,"","","","",1,0);

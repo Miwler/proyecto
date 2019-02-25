@@ -6367,7 +6367,7 @@ function post_Persona_Mantenimiento_Nuevo() {
         if ($oPersona->verificarDuplicado() > 0) {
               throw new Exception($oPersona->getMessage);             
         }  
-        if($oPersona->insertar()>0){
+        if($oPersona->insertar1()>0){
             $oPersona_Documento=new persona_documento();
             $oPersona_Documento->persona_ID=$oPersona->ID;
             $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
