@@ -35,12 +35,13 @@ function fncPage() { ?>
             <label>Persona: </label>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" title="Agregar persona nueva" onclick="fncAgregar_Persona();"><img src="/include/img/boton/add_user-20.png"></a>
         </div>
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <select id="selPersona" name="selPersona" class="chosen-select">
-               <option value="0">--Seleccionar--</option>
-                <?php foreach($GLOBALS['dtPersona'] as $persona){?>
-               <option value="<?php echo $persona['ID']?>"><?php echo strtoupper($persona['apellido_paterno']. ' '. $persona['apellido_materno']. ' ' . $persona['nombres']);?></option>
-                <?php }?>
-            </select>
+            <input type="hidden" id="txtPersona_ID" name="txtPersona_ID" class="form-control form-requerido" >
+            <input type="text" id="listaPersonas" name="listaPersonas" class="form-control">
+            <script>
+            $(document).ready(function(){
+                lista('/funcion/ajaxListarPersonas','listaPersonas','txtPersona_ID',mostrar_informacion_persona);
+            });
+            </script>
         </div>
 
     </div>
@@ -95,7 +96,13 @@ function fncPage() { ?>
 <?php } ?>
 <script type="text/javascript">
     var validar=function(){
+        var persona_ID=$.trim($("#txtPersona_ID").val());
         var licencia_conducir=$.trim($('#txtLicencia_Conducir').val());
+        
+        if(persona_ID=="" || persona_ID == '0'){
+            mensaje.error("Mensaje de error","Debe seleccionar una persona",'txtPersona_ID');
+            return false;
+        }
        
         if(typeof($('#sendtxtPersona_ID'))=="undefined"){
             mensaje.error("Mensaje de error","Debe seleccionar una persona",'txtPersona_ID');
@@ -108,15 +115,20 @@ function fncPage() { ?>
         }
     }
     var fncAgregar_Persona=function(){
-//       window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
-         parent.window_float_open_modal_hijo("AGREGAR NUEVA PERSONA",'Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,850,500);
+       parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
+        
     } 
     var fncCargarPersona=function(id){
-        cargarValores("/funcion/ajaxOption_Persona",id,function(resultado){
-            $('#selPersona').html(resultado.html);
-            $('#selPersona').val(id);
-            $('#selPersona').trigger("chosen:updated");
-            
+       cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtPersona_ID').val(id);
+            $('#listaPersonas').val(resultado.oPersona.apellido_paterno+' '+resultado.oPersona.apellido_materno+' '+resultado.oPersona.nombres);
+            mostrar_informacion_persona(id);
+        }); 
+    }
+    
+    var mostrar_informacion_persona=function(id){
+        cargarValores('/Funcion/ajaxExtraerInformacionPersona',id,function(resultado){
+            $('#txtCelular').val(resultado.oPersona.celular);
         });
     }
     

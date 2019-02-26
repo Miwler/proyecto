@@ -13,6 +13,7 @@ class chofer {
     private $getMessage;
     private $dtEstado;
     private $nombres;
+    private $nombres_completo;
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
@@ -166,7 +167,7 @@ class chofer {
 
     function verificarDuplicado() {
         $cn = new connect_new();
-        $retornar = -1;
+        
         try {
             $q="select count(ID) from chofer where del=0 and persona_ID=".$this->persona_ID;
            
@@ -176,10 +177,10 @@ class chofer {
 
             $retornar=$cn->getData($q);			
 
-            if ($retornar>0){
-                $this->getMessage='Ya existe el chofer';
-                return $retornar;
-            }
+           if ($retornar>0){
+             $this->getMessage='Ya existe el chofer';
+               
+           }
             return $retornar;
         } catch (Exception $ex) {
             throw new Exception("Ocurrio un error en la consulta");

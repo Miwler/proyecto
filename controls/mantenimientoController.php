@@ -2153,7 +2153,7 @@ function post_Chofer_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/estado.php';
     global $returnView_float;
     $returnView_float = true;
-    $persona_ID=$_POST['selPersona'];
+    $persona_ID=$_POST['txtPersona_ID'];
     $licencia_conducir = trim($_POST['txtLicencia_Conducir']);
     $celular = trim($_POST['txtCelular']);
     $estado_ID = $_POST['selEstado_ID'];
@@ -2162,14 +2162,15 @@ function post_Chofer_Mantenimiento_Nuevo() {
 
     try {
         $oChofer->persona_ID =$persona_ID;
+        if ($oChofer->verificarDuplicado() > 0) {
+            throw new Exception('Ya existe el chofer');
+        }
         $oChofer->empresa_ID = $_SESSION['empresa_ID'];
         $oChofer->licencia_conducir = $licencia_conducir;
         $oChofer->celular = $celular;
         $oChofer->estado_ID = $estado_ID;
         $oChofer->usuario_id = $_SESSION['usuario_ID'];
-        if ($oChofer->verificarDuplicado() > 0) {
-            throw new Exception($oChofer->getMessage);
-        }
+
         $oChofer->insertar();
         $GLOBALS['resultado'] = 1;
         $GLOBALS['mensaje'] = $oChofer->getMessage;
@@ -2190,6 +2191,7 @@ function get_Chofer_Mantenimiento_Editar($id) {
     global $returnView_float;
     $returnView_float = true;
     $oChofer = chofer::getByID($id);
+    $oPersona=persona::getByID($oChofer->persona_ID);
     if ($oChofer == null) {
         $GLOBALS['resultado'] = -2;
         $GLOBALS['mensaje'] = "El chofer ha sido eliminado por otro usuario.";
@@ -2201,6 +2203,7 @@ function get_Chofer_Mantenimiento_Editar($id) {
     $oChofer->nombres=$dtPersona[0]['datos'];
     $oChofer->dtEstado=$dtEstado;
 
+    $oChofer->nombres_completo=test_input($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
     $GLOBALS['oChofer'] = $oChofer;
     $GLOBALS['dtPersona'] = $dtPersona;
     
@@ -2214,14 +2217,14 @@ function post_Chofer_Mantenimiento_Editar($id) {
     global $returnView_float;
     $returnView_float = true;
     $oChofer = chofer::getByID($id);
-
+    $oPersona=persona::getByID($oChofer->persona_ID);    
     if ($oChofer == null) {
         $GLOBALS['resultado'] = -2;
         $GLOBALS['mensaje'] = "El chofer ha sido eliminado por otro usuario.";
         return;
         
     }
-    $persona_ID=$_POST['selPersona'];
+    $persona_ID=$_POST['txtPersona_ID'];
     $licencia_conducir = FormatTextSave(strtoupper($_POST['txtLicencia_Conducir']));
     $celular = FormatTextSave($_POST['txtCelular']);
     $estado_ID = $_POST['selEstado_ID'];
@@ -2232,21 +2235,28 @@ function post_Chofer_Mantenimiento_Editar($id) {
         $oChofer->estado_ID = $estado_ID;
         $oChofer->usuario_mod_id = $_SESSION['usuario_ID'];
         if($oChofer->verificarDuplicado() > 0){
-           throw new Exception($oChofer->getMessage); 
+           $mensaje=$oChofer->getMessage;
+           $resultado=-1;
             
+        }else{
+            $oChofer->actualizar();
+            $mensaje = $oChofer->getMessage;
+            $resultado = 1;
         }
-        $oChofer->actualizar();
-        $GLOBALS['mensaje'] = $oChofer->getMessage;
-        $GLOBALS['resultado'] = 1;
+        
     } catch (Exception $ex) {
-        $GLOBALS['resultado'] = -1;
-        $GLOBALS['mensaje'] = $ex->getMessage();
+        $resultado = -1;
+        $mensaje = utf8_encode(mensaje_error);
+        log_error(__FILE__, 'mantenimiento/post_Chofer_Mantenimiento_Editar', $ex->getMessage());
     }
     $dtPersona=persona::getGrid("ID=".$oChofer->persona_ID);
     $oChofer->nombres=$dtPersona[0]['datos'];
+    $oChofer->nombres_completo=test_input($oPersona->apellido_paterno." ". $oPersona->apellido_materno." ".$oPersona->nombres);
     $dtEstado=estado::getGrid('est.tabla="chofer"',-1,-1,"est.nombre");
     $oChofer->dtEstado=$dtEstado;
     $GLOBALS['oChofer'] = $oChofer;
+    $GLOBALS['mensaje'] = $mensaje;
+    $GLOBALS['resultado']=$resultado;
 }
 
 //muestra la grilla cargada con datos de proveedor,trabaja con ajax
