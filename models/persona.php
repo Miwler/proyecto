@@ -68,6 +68,10 @@ class persona {
             $q.= 'celular,correo,sexo_ID,usuario_id) values ('.$ID.',"'.$this->apellido_paterno.'","'.$this->apellido_materno.'",';
             $q.='"'.$this->nombres.'","'.$this->direccion.'",'.$this->distrito_ID.',"'.$this->fecha_nacimiento.'","'.$this->telefono.'",';
             $q.='"'.$this->celular.'","'.$this->correo.'",'.$this->sexo_ID.','.$this->usuario_id.');';
+<<<<<<< HEAD
+=======
+            //echo $q;
+>>>>>>> 9ca7ce16eaf61c0713a4eebf222fb3b2f271412b
             $cn = new connect_new();
             $retornar = $cn->transa($q);
             $this->ID = $ID;
@@ -78,6 +82,41 @@ class persona {
             throw new Exception($q);
         }
     }
+    
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_persona_Insert",
+            array(
+    "iID"=>0,
+    "iapellido_paterno"=>$this->apellido_paterno,
+    "iapellido_materno"=>$this->apellido_materno,
+    "inombres"=>$this->nombres,
+    "idireccion"=>$this->direccion,
+    "idistrito_ID"=>$this->distrito_ID,
+    "ifecha_nacimiento"=>$this->fecha_nacimiento,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "isexo_ID"=>$this->sexo_ID,
+    "iusuario_id"=>$this->usuario_id,
+
+),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+      } 
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "persona.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
     static function getByID($ID)
     {
         $cn =new connect_new();

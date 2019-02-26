@@ -1707,6 +1707,7 @@ SET @_iusuario_mod_id = '0';
 SET @_iempresa_ID = '2';
 CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
 ============================ERROR====================================
+<<<<<<< HEAD
 FECHA Y HORA: 25 02 2019 17:02:53
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.transa
@@ -1976,3 +1977,14 @@ SET @_icodigo = '0';
 SET @_itipo_movimiento_ID = '1';
 SET @_iusuario_id = '0';
 CALL `sp_ingreso_Insert`( @_iID, @_iempresa_ID, @_iperiodo, @_idescripcion, @_iproveedor_ID, @_inumero, @_inumero_guia, @_iforma_pago_ID, @_imoneda_ID, @_iestado_ID, @_ifecha_vencimiento, @_icon_igv, @_itipo_cambio, @_itipo_comprobante_ID, @_iserie, @_ifecha_emision, @_ivigv, @_iigv, @_idescuento, @_irecargo, @_isubtotal, @_itotal, @_imonto_pendiente, @_iorden_ingreso_ID, @_ioperador_ID_anulacion, @_ifecha_anulacion, @_imotivo_anulacion_ID, @_icodigo, @_itipo_movimiento_ID, @_iusuario_id)SELECT @_iID AS iID
+=======
+FECHA Y HORA: 25 02 2019 23:02:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into persona(ID,apellido_paterno,apellido_materno,nombres,direccion,distrito_ID,fecha_nacimiento,telefono,celular,correo,sexo_ID,usuario_id) values (57,"tahua","takusi","manuel","",1261,"","","","",1,0);
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 23:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into persona(ID,apellido_paterno,apellido_materno,nombres,direccion,distrito_ID,fecha_nacimiento,telefono,celular,correo,sexo_ID,usuario_id) values (57,"iglesias","bustamante","manuel","",1261,"","","","",1,0);
+>>>>>>> 9ca7ce16eaf61c0713a4eebf222fb3b2f271412b
