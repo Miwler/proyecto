@@ -94,9 +94,8 @@ function fncPage() { ?>
                         
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <select id="cboComprobante_Tipo" name="cboComprobante_Tipo" disabled class="form-control">
-                                <?php foreach($GLOBALS['oCompra']->dtTipo_Comprobante as $iComprobante){ ?>
-                                <option value="<?php echo $iComprobante['ID']; ?>"><?php echo FormatTextView($iComprobante['nombre']); ?></option>
-                                <?php } ?>       
+                                <?php echo $GLOBALS['oCompra']->dtTipo_Comprobante;?>
+                                     
                             </select>
                             <script type="text/javascript">
                                 $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->tipo_comprobante_ID;?>);

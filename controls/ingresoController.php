@@ -212,7 +212,7 @@ function get_Compra_Mantenimiento_Nuevo(){
     
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
-    require ROOT_PATH.'models/tipo_comprobante_empresa.php';
+    require ROOT_PATH.'models/tipo_comprobante.php';
     require ROOT_PATH.'models/forma_pago.php';
     if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
     require ROOT_PATH.'models/proveedor.php';
@@ -224,7 +224,8 @@ function get_Compra_Mantenimiento_Nuevo(){
     $oCompra->oEstado=estado::getByID(estado_compra);
     $oCompra->dtEstado=estado::getGrid("est.ID in (".estado_compra.")",-1,-1);
     $oCompra->dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
-    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.accion="compra"');
+    //$dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('accion="compra"');
+    $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,compra_tipo_comprobante_ID,"tipo_comprobantes_sinserie");
     $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
     $oCompra->moneda_ID=moneda;
     $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
@@ -268,7 +269,7 @@ function post_Compra_Mantenimiento_Nuevo(){
     $vigv=$_POST['txtVigv']/100;
     $moneda_ID=$_POST['cboMoneda'];
     $tipo_cambio=$_POST['txtTipo_Cambio'];
-    $descripcion=  FormatTextSave($_POST['txtComentario']);
+    $descripcion=  $_POST['txtComentario'];
     //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
     
     try{
@@ -314,7 +315,7 @@ function post_Compra_Mantenimiento_Nuevo(){
             $oCompra->periodo=date('Y');
             $oCompra->monto_pendiente=0;
             $oCompra->usuario_id=$_SESSION['usuario_ID'];
-            $oCompra->insertar();
+            $oCompra->insertar1();
             $oCompra->orden_ingreso_ID='-1';
         }else {
             $oCompra->usuario_mod_id=$_SESSION['usuario_ID'];
@@ -2584,10 +2585,10 @@ function post_ajaxOrden_Compra_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . sprintf("%',05d",$item['numero_orden']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(strtoupper($item['proveedor'])) . '</td>';           
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']) . '</td>';
-            $resultado.='<td class="text-center">' . FormatTextViewHtml(date("d/m/Y",strtotime($item['fecha']))) . '</td>';
-            $resultado.='<td class="text-right">' . FormatTextViewHtml($item['simbolo']) . '</td>';
+            $resultado.='<td class="tdLeft">' . strtoupper($item['proveedor']) . '</td>';           
+            $resultado.='<td class="tdLeft">' . $item['estado'] . '</td>';
+            $resultado.='<td class="text-center">' . date("d/m/Y",strtotime($item['fecha'])) . '</td>';
+            $resultado.='<td class="text-right">' . $item['simbolo'] . '</td>';
             $resultado.='<td class="text-right">' . number_format($item['total'],2,'.',',') . '</td>';
             $i++;
             $botones=array();
@@ -2677,7 +2678,7 @@ function post_orden_compra_mantenimiento_nuevo_producto($orden_compra_ID){
         $linea_ID=$_POST['selLinea'];
         $categoria_ID=$_POST['selCategoria'];
         $producto_ID=$_POST['selProducto'];
-        $descripcion=  FormatTextSave($_POST['txtDescripcion']);
+        $descripcion= $_POST['txtDescripcion'];
         $cantidad=$_POST['txtCantidad'];
         $precio=$_POST['txtPrecioUnitario'];
         $subtotal=$_POST['txtSubTotal'];
@@ -2699,7 +2700,7 @@ function post_orden_compra_mantenimiento_nuevo_producto($orden_compra_ID){
             $oOrden_compra_detalle->total=$total;
             $oOrden_compra_detalle->usuario_id=$_SESSION['usuario_ID'];
             
-          $oOrden_compra_detalle->insertar();
+          $oOrden_compra_detalle->insertar1();
 
             $resultado=1;
             $mensaje=$oOrden_compra_detalle->getMessage;
@@ -2814,10 +2815,10 @@ function post_Orden_Compra_Mantenimiento_Nuevo(){
         }*/
         if($oOrden_Compra->ID==0){
             $oOrden_Compra->total=0;
-            $oOrden_Compra->insertar();
+            $oOrden_Compra->insertar1();
         }else {
             $oOrden_Compra->usuario_mod_id=$_SESSION['usuario_ID'];
-            $oOrden_Compra->actualizar();
+            $oOrden_Compra->actualizar1();
         }
        $GLOBALS['resultado']=1;
        $GLOBALS['mensaje'] =$oOrden_Compra->getMessage;
@@ -2910,14 +2911,14 @@ function post_Orden_Compra_Mantenimiento_Editar(){
 
     $oOrden_Compra->usuario_id=$_SESSION['usuario_ID'];
     $oOrden_Compra->usuario_mod_id=$_SESSION['usuario_ID'];
-    $oOrden_Compra->actualizar();
+    $oOrden_Compra->actualizar1();
 
 
    $GLOBALS['resultado']=1;
    $GLOBALS['mensaje'] =$oOrden_Compra->getMessage;
 
 
-}catch(Exception $ex){
+    }catch(Exception $ex){
         $GLOBALS['resultado'] = -1;
         $GLOBALS['mensaje'] = $ex->getMessage();
     } 
@@ -2929,7 +2930,7 @@ function post_Orden_Compra_Mantenimiento_Editar(){
     $dtMoneda=moneda::getGrid();
     $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_ingreso"');
 
-    $oProveedor=proveedor::getByID($oOrden_Compra->proveedor_ID);
+   
     $oOrden_Compra->dtProveedor=$dtProveedor;
     $oOrden_Compra->vigv=round($oOrden_Compra->vigv,2);
     $oOrden_Compra->oProveedor=$oProveedor;
@@ -3035,7 +3036,7 @@ function post_ajaxOrden_Compra_Mantenimiento_Producto(){
         $oOrden_Compra->igv=$igv;
         $oOrden_Compra->total=$total;
         $oOrden_Compra->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oOrden_Compra->actualizar();
+        $oOrden_Compra->actualizar1();
         $mensaje=1;
         
     } catch (Exception $ex) {
@@ -3103,7 +3104,7 @@ function post_Orden_Compra_Mantenimiento_Editar_Producto($id){
     $linea_ID=$_POST['selLinea'];
     $categoria_ID=$_POST['selCategoria'];
     $producto_ID=$_POST['selProducto'];
-    $descripcion=FormatTextSave($_POST['txtDescripcion']);
+    $descripcion=$_POST['txtDescripcion'];
     $cantidad=$_POST['txtCantidad'];
     $precio=$_POST['txtPrecioUnitario'];
     $subtotal=$_POST['txtSubTotal'];
@@ -3120,12 +3121,13 @@ function post_Orden_Compra_Mantenimiento_Editar_Producto($id){
         $oOrden_compra_detalle->igv=$igv;
         $oOrden_compra_detalle->total=$total;
         $oOrden_compra_detalle->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oOrden_compra_detalle->actualizar();
+        $oOrden_compra_detalle->actualizar1();
         $resultado=1;
         $mensaje=$oOrden_compra_detalle->getMessage;
     } catch (Exception $ex) {
         $resultado=-1;
-        $mensaje=$ex->getMessage();
+        log_error(__FILE__,"ingreso/post_Orden_Compra_Mantenimiento_Editar_Producto",$ex->getMessage());
+        $mensaje= utf8_encode(mensaje_error);
     }
     $dtLinea=linea::getGrid();
     if($linea_ID!=0){

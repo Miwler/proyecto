@@ -1706,3 +1706,273 @@ SET @_iimagen = '';
 SET @_iusuario_mod_id = '0';
 SET @_iempresa_ID = '2';
 CALL `sp_categoria_Update`( @_retornar, @_iID, @_ilinea_ID, @_inombre, @_idescripcion, @_iimagen, @_iusuario_mod_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 17:02:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into persona(ID,apellido_paterno,apellido_materno,nombres,direccion,distrito_ID,fecha_nacimiento,telefono,celular,correo,sexo_ID,usuario_id) values (57,"chachez","tinoco","saul","",1261,"","","","",1,0);
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 17:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: ()insert into persona(ID,apellido_paterno,apellido_materno,nombres,direccion,distrito_ID,fecha_nacimiento,telefono,celular,correo,sexo_ID,usuario_id) values (57,"teto","deee","deded","",1261,"","","","",2,0);
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso_detalle SET producto_ID=2091, descripcion='Condición '',cantidad=2,precio='200.00',subtotal='400.00',igv='72.00',total='472.00',usuario_mod_id=0, fdm=Now() WHERE ID=137
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso_detalle SET producto_ID=2091, descripcion='Condición '',cantidad=2,precio='200.00',subtotal='400.00',igv='72.00',total='472.00',usuario_mod_id=0, fdm=Now() WHERE ID=137
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '138';
+SET @_iorden_ingreso_ID = '81';
+SET @_iproducto_ID = '2612';
+SET @_idescripcion = 'Consición de cm\'\'';
+SET @_icantidad = '2';
+SET @_iprecio = '2000';
+SET @_isubtotal = '4000';
+SET @_iigv = '720';
+SET @_itotal = '4720';
+SET @_iusuario_mod_id = '0';
+CALL `sp_orden_ingreso_detalle_Update`( @_retornar, @_iID, @_iorden_ingreso_ID, @_iproducto_ID, @_idescripcion, @_icantidad, @_iprecio, @_isubtotal, @_iigv, @_itotal, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_retornar = '0';
+SET @_iID = '137';
+SET @_iorden_ingreso_ID = '81';
+SET @_iproducto_ID = '2091';
+SET @_idescripcion = 'Condición \'\'';
+SET @_icantidad = '2';
+SET @_iprecio = '200.00';
+SET @_isubtotal = '400.00';
+SET @_iigv = '72.00';
+SET @_itotal = '472.00';
+SET @_iusuario_mod_id = '0';
+CALL `sp_orden_ingreso_detalle_Update`( @_retornar, @_iID, @_iorden_ingreso_ID, @_iproducto_ID, @_idescripcion, @_icantidad, @_iprecio, @_isubtotal, @_iigv, @_itotal, @_iusuario_mod_id)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingreso/post_Orden_Compra_Mantenimiento_Editar_Producto
+ERROR: exception 'Exception' with message 'Falló la ejecución: (1305)' in C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php:374
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\models\orden_ingreso_detalle.php(101): connect_new->store_procedure_transa('sp_orden_ingres...', Array, 0)
+#1 C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php(3123): orden_ingreso_detalle->actualizar1()
+#2 [internal function]: post_Orden_Compra_Mantenimiento_Editar_Producto('137')
+#3 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(162): call_user_func_array('post_orden_comp...', Array)
+#4 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#5 {main}
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='0',fecha="-0001-11-30", proveedor_ID=500,moneda_ID=2,estado_ID=55,tipo_cambio='3.32',vigv='0.18',subtotal='1000',igv='180',total='1180',comentario='Condición '',usuario_mod_id=0, fdm=Now() WHERE ID=82
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='0',igv='774',total='0',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-25", proveedor_ID=500,moneda_ID=2,estado_ID=56,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 18:02:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='0',fecha="-0001-11-30", proveedor_ID=474,moneda_ID=2,estado_ID=55,tipo_cambio='3.32',vigv='0.18',subtotal='600',igv='108',total='708',comentario='condicioón '',usuario_mod_id=0, fdm=Now() WHERE ID=83
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 23:02:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_iperiodo = '2019';
+SET @_idescripcion = '';
+SET @_iproveedor_ID = '522';
+SET @_inumero = '8888';
+SET @_inumero_guia = '';
+SET @_iforma_pago_ID = '';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '9';
+SET @_ifecha_vencimiento = '2019-02-25';
+SET @_icon_igv = '1';
+SET @_itipo_cambio = '3.32';
+SET @_itipo_comprobante_ID = '1';
+SET @_iserie = '055';
+SET @_ifecha_emision = '2019-02-25';
+SET @_ivigv = '0.18';
+SET @_iigv = '0';
+SET @_idescuento = '0';
+SET @_irecargo = '0';
+SET @_isubtotal = '0';
+SET @_itotal = '0';
+SET @_imonto_pendiente = '0';
+SET @_iorden_ingreso_ID = '';
+SET @_ioperador_ID_anulacion = '0';
+SET @_ifecha_anulacion = null;
+SET @_imotivo_anulacion_ID = '';
+SET @_iusuario_id = '0';
+SET @_icodigo = '0';
+SET @_itipo_movimiento_ID = '1';
+CALL `sp_ingreso_Insert`( @_iID, @_iempresa_ID, @_iperiodo, @_idescripcion, @_iproveedor_ID, @_inumero, @_inumero_guia, @_iforma_pago_ID, @_imoneda_ID, @_iestado_ID, @_ifecha_vencimiento, @_icon_igv, @_itipo_cambio, @_itipo_comprobante_ID, @_iserie, @_ifecha_emision, @_ivigv, @_iigv, @_idescuento, @_irecargo, @_isubtotal, @_itotal, @_imonto_pendiente, @_iorden_ingreso_ID, @_ioperador_ID_anulacion, @_ifecha_anulacion, @_imotivo_anulacion_ID, @_iusuario_id, @_icodigo, @_itipo_movimiento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 25 02 2019 23:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la ejecución: (1305)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_iperiodo = '2019';
+SET @_idescripcion = '';
+SET @_iproveedor_ID = '500';
+SET @_inumero = '5555';
+SET @_inumero_guia = '';
+SET @_iforma_pago_ID = '';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '9';
+SET @_ifecha_vencimiento = '2019-02-25';
+SET @_icon_igv = '1';
+SET @_itipo_cambio = '3.32';
+SET @_itipo_comprobante_ID = '1';
+SET @_iserie = '555';
+SET @_ifecha_emision = '2019-02-25';
+SET @_ivigv = '0.18';
+SET @_iigv = '0';
+SET @_idescuento = '0';
+SET @_irecargo = '0';
+SET @_isubtotal = '0';
+SET @_itotal = '0';
+SET @_imonto_pendiente = '0';
+SET @_iorden_ingreso_ID = '';
+SET @_ioperador_ID_anulacion = '0';
+SET @_ifecha_anulacion = null;
+SET @_imotivo_anulacion_ID = null;
+SET @_iusuario_id = '0';
+SET @_icodigo = '0';
+SET @_itipo_movimiento_ID = '1';
+CALL `sp_ingreso_Insert`( @_iID, @_iempresa_ID, @_iperiodo, @_idescripcion, @_iproveedor_ID, @_inumero, @_inumero_guia, @_iforma_pago_ID, @_imoneda_ID, @_iestado_ID, @_ifecha_vencimiento, @_icon_igv, @_itipo_cambio, @_itipo_comprobante_ID, @_iserie, @_ifecha_emision, @_ivigv, @_iigv, @_idescuento, @_irecargo, @_isubtotal, @_itotal, @_imonto_pendiente, @_iorden_ingreso_ID, @_ioperador_ID_anulacion, @_ifecha_anulacion, @_imotivo_anulacion_ID, @_iusuario_id, @_icodigo, @_itipo_movimiento_ID)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 00:02:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_iperiodo = '2019';
+SET @_idescripcion = '';
+SET @_iproveedor_ID = '522';
+SET @_inumero = '5555';
+SET @_inumero_guia = '';
+SET @_iforma_pago_ID = null;
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '9';
+SET @_ifecha_vencimiento = '2019-02-25';
+SET @_icon_igv = '1';
+SET @_itipo_cambio = '3.32';
+SET @_itipo_comprobante_ID = '';
+SET @_iserie = '555';
+SET @_ifecha_emision = '2019-02-25';
+SET @_ivigv = '0.18';
+SET @_iigv = '0';
+SET @_idescuento = '0';
+SET @_irecargo = '0';
+SET @_isubtotal = '0';
+SET @_itotal = '0';
+SET @_imonto_pendiente = '0';
+SET @_iorden_ingreso_ID = '';
+SET @_ioperador_ID_anulacion = null;
+SET @_ifecha_anulacion = null;
+SET @_imotivo_anulacion_ID = null;
+SET @_icodigo = '0';
+SET @_itipo_movimiento_ID = '1';
+SET @_iusuario_id = '0';
+CALL `sp_ingreso_Insert`( @_iID, @_iempresa_ID, @_iperiodo, @_idescripcion, @_iproveedor_ID, @_inumero, @_inumero_guia, @_iforma_pago_ID, @_imoneda_ID, @_iestado_ID, @_ifecha_vencimiento, @_icon_igv, @_itipo_cambio, @_itipo_comprobante_ID, @_iserie, @_ifecha_emision, @_ivigv, @_iigv, @_idescuento, @_irecargo, @_isubtotal, @_itotal, @_imonto_pendiente, @_iorden_ingreso_ID, @_ioperador_ID_anulacion, @_ifecha_anulacion, @_imotivo_anulacion_ID, @_icodigo, @_itipo_movimiento_ID, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 00:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_iperiodo = '2019';
+SET @_idescripcion = '';
+SET @_iproveedor_ID = '474';
+SET @_inumero = '3333';
+SET @_inumero_guia = '';
+SET @_iforma_pago_ID = null;
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '9';
+SET @_ifecha_vencimiento = '2019-02-26';
+SET @_icon_igv = '1';
+SET @_itipo_cambio = '3.32';
+SET @_itipo_comprobante_ID = '1';
+SET @_iserie = '022';
+SET @_ifecha_emision = '2019-02-26';
+SET @_ivigv = '0.18';
+SET @_iigv = '0';
+SET @_idescuento = '0';
+SET @_irecargo = '0';
+SET @_isubtotal = '0';
+SET @_itotal = '0';
+SET @_imonto_pendiente = '0';
+SET @_iorden_ingreso_ID = '';
+SET @_ioperador_ID_anulacion = null;
+SET @_ifecha_anulacion = null;
+SET @_imotivo_anulacion_ID = null;
+SET @_icodigo = '0';
+SET @_itipo_movimiento_ID = '1';
+SET @_iusuario_id = '0';
+CALL `sp_ingreso_Insert`( @_iID, @_iempresa_ID, @_iperiodo, @_idescripcion, @_iproveedor_ID, @_inumero, @_inumero_guia, @_iforma_pago_ID, @_imoneda_ID, @_iestado_ID, @_ifecha_vencimiento, @_icon_igv, @_itipo_cambio, @_itipo_comprobante_ID, @_iserie, @_ifecha_emision, @_ivigv, @_iigv, @_idescuento, @_irecargo, @_isubtotal, @_itotal, @_imonto_pendiente, @_iorden_ingreso_ID, @_ioperador_ID_anulacion, @_ifecha_anulacion, @_imotivo_anulacion_ID, @_icodigo, @_itipo_movimiento_ID, @_iusuario_id)SELECT @_iID AS iID

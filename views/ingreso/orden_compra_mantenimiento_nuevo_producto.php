@@ -76,7 +76,12 @@
             <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Precio unitario <?php echo FormatTextView($GLOBALS['oOrden_Compra_detalle']->oMoneda->simbolo);?>:<span class="asterisk">*</span></label>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <input type="text" id="txtPrecioUnitario" name="txtPrecioUnitario"  autocomplete="off" class="decimal form-control" value="<?php echo $GLOBALS['oOrden_Compra_detalle']->precio?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
+                
             </div>
+            <div class="col-sm-12 text-right">
+                <label class="label label-danger">El precio unitario no incluye IGV.</label>
+            </div>
+            
         </div>
 
         <div class="form-group">
@@ -101,7 +106,7 @@
                 <input type="text" id="txtTotal" name="txtTotal" class="form-control" value="<?php echo $GLOBALS['oOrden_Compra_detalle']->total?>" disabled> 
 
             </div>
-            <div class="col-sm-12"><label class="label label-danger">El precio unitario no incluye IGV.</label></div>
+            
         </div>
     </div>
     <div class="form-footer">

@@ -48,7 +48,83 @@ class orden_ingreso {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+    {
+        $this->empresa_ID=$_SESSION["empresa_ID"];
+        $this->numero_orden=0;
+        $this->fecha=NULL;
+        $this->proveedor_ID=0;
+        $this->moneda_ID=0;
+        $this->estado_ID=0;
+        $this->con_igv=0;
+        $this->tipo_cambio=0;
+        $this->vigv=0;
+        $this->subtotal=0;
+        $this->igv=0;
+        $this->total=0;
+        $this->comentario="";
+        $this->usuario_id=$_SESSION["usuario_ID"];
+        $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
+    }
+  function __destruct()
+    {
+        $this->empresa_ID;
+        $this->numero_orden;
+        $this->fecha;
+        $this->proveedor_ID;
+        $this->moneda_ID;
+        $this->estado_ID;
+        $this->con_igv;
+        $this->tipo_cambio;
+        $this->vigv;
+        $this->subtotal;
+        $this->igv;
+        $this->total;
+        $this->comentario;
+        $this->usuario_id;
+        $this->usuario_mod_id;
+
+    }
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_orden_ingreso_Insert",
+            array(
+                "iID"=>0,
+                "iempresa_ID"=>$this->empresa_ID,
+                "itipo_orden_ID"=>$this->tipo_orden_ID,
+                "inumero_orden"=>$this->numero_orden,
+                "ifecha"=>$this->fecha,
+                "iproveedor_ID"=>$this->proveedor_ID,
+                "imoneda_ID"=>$this->moneda_ID,
+                "iestado_ID"=>$this->estado_ID,
+                "icon_igv"=>$this->con_igv,
+                "itipo_cambio"=>$this->tipo_cambio,
+                "ivigv"=>$this->vigv,
+                "isubtotal"=>$this->subtotal,
+                "iigv"=>$this->igv,
+                "itotal"=>$this->total,
+                "icomentario"=>$this->comentario,
+                "iusuario_id"=>$this->usuario_id,
+
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registró");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "orden_ingreso.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function insertar() {
         
         $retornar = -1;
@@ -99,7 +175,43 @@ class orden_ingreso {
                     throw new Exception($q);
             }
     }
-
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_orden_ingreso_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iempresa_ID"=>$this->empresa_ID,
+                "itipo_orden_ID"=>$this->tipo_orden_ID,
+                "inumero_orden"=>$this->numero_orden,
+                "ifecha"=>$this->fecha,
+                "iproveedor_ID"=>$this->proveedor_ID,
+                "imoneda_ID"=>$this->moneda_ID,
+                "iestado_ID"=>$this->estado_ID,
+                "icon_igv"=>$this->con_igv,
+                "itipo_cambio"=>$this->tipo_cambio,
+                "ivigv"=>$this->vigv,
+                "isubtotal"=>$this->subtotal,
+                "iigv"=>$this->igv,
+                "itotal"=>$this->total,
+                "icomentario"=>$this->comentario,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
+      if($retornar>0){
+          $this->getMessage="Se actualizó correctamente";
+      }
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "orden_ingreso.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar2() {
         $cn = new connect_new();
         $retornar = -1;
@@ -216,7 +328,7 @@ class orden_ingreso {
             throw new Exception($q);
         }
     }
-    static function getGrid1($filtro = '', $inicio = -1, $fin = -1, $orden = 'oc.ID asc') {
+    /*static function getGrid1($filtro = '', $inicio = -1, $fin = -1, $orden = 'oc.ID asc') {
         $cn = new connect_new();
         try {
             $q = 'call getTabla_Orden_Compra("'.$filtro.'",'.$inicio.','.$fin.',"'.$orden.'");';
@@ -228,7 +340,27 @@ class orden_ingreso {
             throw new Exception("Ocurrió un error en el la conexión");
             log_error(__FILE__, "orden_ingreso.getGrid1", $ex->getMessage());
         }
-    }
+    }*/
+    static function getGrid1($filtro="",$inicio=-1,$fin=-1,$orden="oc.ID asc")
+    {
+        $cn =new connect_new();
+        $retornar =0;
+        try
+        {
+            $dt=$cn->store_procedure_getGrid(
+                "getTabla_Orden_Compra",
+                array(
+                  "filtro"=>$filtro,
+                  "inicio"=>$inicio,
+                  "fin"=>$fin,
+                  "orden"=>$orden));
+          return $dt;
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "orden_ingreso.getGrid", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+      }
     function verificarDuplicado() {
         $cn = new connect_new();
         $retornar = -1;
