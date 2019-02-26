@@ -403,6 +403,7 @@ function get_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
         $oCompra_detalle->oMoneda=moneda::getByID($oCompra->moneda_ID);
         $GLOBALS['fecha']=$oCompra->fecha_emision;
         $oCompra_detalle->stock=0;
+        $oCompra_detalle->oProducto=new producto();
         $GLOBALS['compra_ID']=$compra_ID;
         $GLOBALS['dtCategoria']=$dtCategoria;
         $GLOBALS['categoria_ID']=0;
@@ -410,7 +411,7 @@ function get_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
         $GLOBALS['linea_ID']=0;
        
         //$GLOBALS['dtEstado']=$dtEstado;
-        $GLOBALS['dtProducto']=$dtProducto;
+        //$GLOBALS['dtProducto']=$dtProducto;
         $GLOBALS['oCompra_Detalle']=$oCompra_detalle;
         
     }

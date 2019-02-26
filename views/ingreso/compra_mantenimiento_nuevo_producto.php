@@ -95,22 +95,21 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Producto:<span class="asterisk">*</span></label>
                                 <div class="col-sm-9 lista_producto" id="tdProducto" >
-                                   <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                        <option value='0'>--SELECCIONAR--</option>
-                                        <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                        <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                        <?php } ?>
-                                    </select>
+                                   <input type="hidden" id="selProducto" name="selProducto" value="<?php echo $GLOBALS['oCompra_Detalle']->producto_ID;?>">
+                                    <input type="text" id="listaProducto" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->oProducto->nombre;?>">
+                                   <script type="text/javascript">
+                                      $(document).ready(function(){
+                                       listar_productos();
+                                       });
+                                   </script>
                                 </div>
-                                <script type="text/javascript">
-                                    <?php if($GLOBALS['oCompra_Detalle']->ID>0){ ?>
-                                        $("#selProducto").val(<?php echo $GLOBALS['oCompra_detalle']->producto_ID;?>);
-
-                                    <?php } else {?>
-
-                                    <?php } ?> 
-
-                                </script>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Código:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtCodigo" name="txtCodigo" placeholder="Código" autocomplete="off" value="<?php echo $GLOBALS['oCompra_Detalle']->oProducto->codigo;?>">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Descripción:</label>
@@ -241,7 +240,18 @@
     $('#txtSubTotal').attr('disabled');
     $('#txtIgv').attr('disabled');
     $('#txtTotal').attr('disabled');
-    
+    var listar_productos=function(){
+        lista_producto('/funcion/ajaxListarProductos','listaProducto','selProducto',$("#selLinea").val(),$("#selCategoria").val(),fncProducto,fncLimpiar);
+    }
+    var fncLimpiar=function(){
+       
+       
+       $('#txtDescripcion').val('');
+       $('#txtStock').val('');
+       $("#selProducto").val('');
+        $("#tableDestino tbody").html('');
+       
+   }
     var fncLinea=function(){
         var linea_ID = $('#selLinea').val();
 
