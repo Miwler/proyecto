@@ -9,15 +9,15 @@ class tipo_comprobante {
   private $getMessage;
   public function __set($var, $valor)
     {
-      $temporal = $var;
-      if (property_exists("tipo_comprobante",$temporal))
-      {
-        $this->$temporal = $valor;
-      }
-      else
-      {
-        echo $var . " No existe.";
-      }
+        $temporal = $var;
+        if (property_exists("tipo_comprobante",$temporal))
+        {
+          $this->$temporal = $valor;
+        }
+        else
+        {
+          echo $var . " No existe.";
+        }
     }
   public function __get($var)
   {

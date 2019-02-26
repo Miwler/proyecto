@@ -51,7 +51,38 @@ class orden_ingreso_detalle {
             return null;
     }
     
-   
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_orden_ingreso_detalle_Insert",
+            array(
+                "iID"=>0,
+                "iorden_ingreso_ID"=>$this->orden_ingreso_ID,
+                "iproducto_ID"=>$this->producto_ID,
+                "idescripcion"=>$this->descripcion,
+                "icantidad"=>$this->cantidad,
+                "iprecio"=>$this->precio,
+                "isubtotal"=>$this->subtotal,
+                "iigv"=>$this->igv,
+                "itotal"=>$this->total,
+                "iusuario_id"=>$this->usuario_id,
+
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        
+      }
+      return $ID;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "orden_ingreso_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function insertar(){
 		
 		$retornar=-1;
@@ -78,7 +109,37 @@ class orden_ingreso_detalle {
 			throw new Exception("Ocurrio un error en la consulta insertar compradetalle");
 		}
 	}	
-		
+    function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+        try
+        {
+            $retornar=$cn->store_procedure_transa(
+              "sp_orden_ingreso_detalle_Update",
+                array(
+                    "retornar"=>$retornar,
+                    "iID"=>$this->ID,
+                    "iorden_ingreso_ID"=>$this->orden_ingreso_ID,
+                    "iproducto_ID"=>$this->producto_ID,
+                    "idescripcion"=>$this->descripcion,
+                    "icantidad"=>$this->cantidad,
+                    "iprecio"=>$this->precio,
+                    "isubtotal"=>$this->subtotal,
+                    "iigv"=>$this->igv,
+                    "itotal"=>$this->total,
+                    "iusuario_mod_id"=>$this->usuario_mod_id
+                ),0);
+            if($retornar>0){
+                 $this->getMessage='Se actualizó correctamente.';
+            }
+          return $retornar;
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "orden_ingreso_detalle.actualizar", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+    }    
     function actualizar(){
             $cn =new connect_new();
             $retornar=-1;

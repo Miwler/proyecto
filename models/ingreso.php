@@ -30,6 +30,7 @@ class ingreso {
     private $periodo;
     private $monto_pendiente;
     private $orden_ingreso_ID;
+    private $empresa_ID;
     private $message;
     private $estado;
     private $moneda;
@@ -69,8 +70,65 @@ class ingreso {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+    {
+        $this->periodo=0;
+        $this->descripcion="";
+        $this->numero=0;
+        $this->numero_guia="";
+        $this->fecha_vencimiento=NULL;
+        $this->con_igv=0;
+        $this->tipo_cambio=0;
+        $this->serie="";
+        $this->fecha_emision=NULL;
+        $this->vigv=0;
+        $this->igv=0;
+        $this->descuento=0;
+        $this->recargo=0;
+        $this->subtotal=0;
+        $this->total=0;
+        $this->monto_pendiente=0;
+        $this->operador_ID_anulacion=0;
+        $this->forma_pago_ID='null';
+        $this->operador_ID_anulacion='null';
+        $this->fecha_anulacion="";
+        $this->motivo_anulacion_ID='NULL';
+        $this->orden_ingreso_ID='null';
+        $this->usuario_id=$_SESSION["usuario_ID"];
+        $this->usuario_mod_id=$_SESSION["usuario_ID"];
+        $this->empresa_ID=$_SESSION["empresa_ID"];
+        $this->codigo=0;
 
-   function insertar(){
+    }
+    function __destruct()
+    {
+        $this->periodo;
+        $this->descripcion;
+        $this->numero;
+        $this->numero_guia;
+        $this->fecha_vencimiento;
+        $this->con_igv;
+        $this->tipo_cambio;
+        $this->serie;
+        $this->fecha_emision;
+        $this->vigv;
+        $this->igv;
+        $this->descuento;
+        $this->recargo;
+        $this->subtotal;
+        $this->total;
+        $this->monto_pendiente;
+        $this->operador_ID_anulacion;
+        $this->fecha_anulacion;
+        $this->motivo_anulacion_ID;
+        $this->usuario_id;
+        $this->usuario_mod_id;
+        $this->codigo;
+        $this->forma_pago_ID;
+        $this->empresa_ID;
+
+    }
+    function insertar(){
         
         $retornar=-1;
         try{
@@ -118,7 +176,58 @@ class ingreso {
                 throw new Exception($q);
         }
     }	
-		
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_ingreso_Insert",
+            array(
+                "iID"=>0,
+                "iempresa_ID"=>$this->empresa_ID,
+                "iperiodo"=>$this->periodo,
+                "idescripcion"=>$this->descripcion,
+                "iproveedor_ID"=>$this->proveedor_ID,
+                "inumero"=>$this->numero,
+                "inumero_guia"=>$this->numero_guia,
+                "iforma_pago_ID"=>$this->forma_pago_ID,
+                "imoneda_ID"=>$this->moneda_ID,
+                "iestado_ID"=>$this->estado_ID,
+                "ifecha_vencimiento"=>FormatTextToDate($this->fecha_vencimiento,'Y-m-d'),
+                "icon_igv"=>$this->con_igv,
+                "itipo_cambio"=>$this->tipo_cambio,
+                "itipo_comprobante_ID"=>$this->tipo_comprobante_ID,
+                "iserie"=>$this->serie,
+                "ifecha_emision"=>FormatTextToDate($this->fecha_emision,'Y-m-d'),
+                "ivigv"=>$this->vigv,
+                "iigv"=>$this->igv,
+                "idescuento"=>$this->descuento,
+                "irecargo"=>$this->recargo,
+                "isubtotal"=>$this->subtotal,
+                "itotal"=>$this->total,
+                "imonto_pendiente"=>$this->monto_pendiente,
+                "iorden_ingreso_ID"=>$this->orden_ingreso_ID,
+                "ioperador_ID_anulacion"=>$this->operador_ID_anulacion,
+                "ifecha_anulacion"=>($this->fecha_anulacion!="")?FormatTextToDate($this->fecha_anulacion,'Y-m-d'):"NULL",
+                "imotivo_anulacion_ID"=>$this->motivo_anulacion_ID,
+                "icodigo"=>$this->codigo,
+                "itipo_movimiento_ID"=>$this->tipo_movimiento_ID,
+                "iusuario_id"=>$this->usuario_id
+            ),0);
+      if($ID>0){
+        $this->message="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "ingreso.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar(){
             $cn =new connect_new();
             $retornar=-1;

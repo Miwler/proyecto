@@ -68,7 +68,10 @@ class persona {
             $q.= 'celular,correo,sexo_ID,usuario_id) values ('.$ID.',"'.$this->apellido_paterno.'","'.$this->apellido_materno.'",';
             $q.='"'.$this->nombres.'","'.$this->direccion.'",'.$this->distrito_ID.',"'.$this->fecha_nacimiento.'","'.$this->telefono.'",';
             $q.='"'.$this->celular.'","'.$this->correo.'",'.$this->sexo_ID.','.$this->usuario_id.');';
+<<<<<<< HEAD
+=======
             //echo $q;
+>>>>>>> 9ca7ce16eaf61c0713a4eebf222fb3b2f271412b
             $cn = new connect_new();
             $retornar = $cn->transa($q);
             $this->ID = $ID;

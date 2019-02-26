@@ -2,6 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/orden_compra_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/tipo_comprobante_empresa.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/ingreso.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/logs_errores.txt</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/orden_ingreso.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/tipo_comprobante.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/ingresoController.php</file>
+        </group>
+=======
         <group/>
+>>>>>>> 9ca7ce16eaf61c0713a4eebf222fb3b2f271412b
     </open-files>
 </project-private>

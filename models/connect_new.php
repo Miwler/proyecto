@@ -207,7 +207,7 @@ class connect_new
                 }
                 $lv_call   = substr($lv_call, 0, -1).")";
                 $lv_select = substr($lv_select, 0, -1);
-                $lv_log .= $lv_call;
+                $lv_log.= $lv_call;
                //echo $lv_log;
                 if (!($sentencia = $this->connect_new->prepare($lv_call))) 
                 {

@@ -202,7 +202,7 @@ class tipo_comprobante_empresa
 			if($desde!=-1&&$hasta!=-1){
 				$q.=' Limit '.$desde.','.$hasta;
 			}			
-			//echo $q;
+			echo $q;
 			$dt=$cn->getGrid($q);									
 			return $dt;												
 		}catch(Exception $ex)

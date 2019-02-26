@@ -23,7 +23,7 @@
                 <select id="selLinea" name="selLinea" onchange="fncLinea();" class="chosen-select form-control filtroLista" >
                     <option value="0">TODOS</option>
                 <?php foreach($GLOBALS['dtLinea'] as $iLinea){ ?>
-                    <option value="<?php echo $iLinea['ID']; ?>"><?php echo FormatTextView($iLinea['nombre']); ?></option>
+                    <option value="<?php echo $iLinea['ID']; ?>"><?php echo $iLinea['nombre']; ?></option>
                 <?php } ?>
                 </select>
                 <script type="text/javascript">
@@ -37,7 +37,7 @@
                 <select id="selCategoria" name="selCategoria" onchange="fncCategoria();" class="chosen-select form-control filtroLista">
                     <option value="0" selected>TODOS</option>
                 <?php foreach($GLOBALS['dtCategoria'] as $iCategoria){ ?>
-                        <option value="<?php echo $iCategoria['ID']; ?>"><?php echo FormatTextView($iCategoria['nombre']); ?></option>
+                        <option value="<?php echo $iCategoria['ID']; ?>"><?php echo $iCategoria['nombre']; ?></option>
                 <?php } ?>
 
                 </select> 
@@ -53,7 +53,7 @@
                 <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
                     <option value='0'>--SELECCIONAR--</option>
                     <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                    <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
+                    <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".$item['producto'];?></option>
                     <?php } ?>
                  </select>
             </div>
@@ -74,7 +74,7 @@
                 <input type="text" id="txtCantidad" name="txtCantidad"  class="int form-control" style="width:80px;text-align: center;" autocomplete="off" value="<?php echo $GLOBALS['oOrden_Compra_detalle']->cantidad;?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
 
             </div>
-            <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Precio unitario <?php echo FormatTextView($GLOBALS['oOrden_Compra_detalle']->oMoneda->simbolo);?>:<span class="asterisk">*</span></label>
+            <label class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">Precio unitario <?php echo $GLOBALS['oOrden_Compra_detalle']->oMoneda->simbolo;?>:<span class="asterisk">*</span></label>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <input type="text" id="txtPrecioUnitario" name="txtPrecioUnitario"  autocomplete="off" class="decimal form-control" value="<?php echo $GLOBALS['oOrden_Compra_detalle']->precio?>" onkeyup="ProductoValores($('#txtCantidad').val(),$('#txtPrecioUnitario').val(),'#txtSubTotal');">
             </div>
@@ -271,9 +271,10 @@
  <?php } ?>
    <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==-1){ ?>
             
-            <script type="text/javascript">
-               // alert('-1');
-           $('#divMensaje').html(' <?php  echo $GLOBALS['mensaje']; ?>');
+        <script type="text/javascript">
+              
+              mensaje.error('Ocurrió un error','<?php  echo $GLOBALS['mensaje']; ?>');
+          
            // setTimeout('window_float_save();', 1000);
         </script>
     <?php } ?>
