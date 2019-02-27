@@ -2761,7 +2761,7 @@ function get_Orden_Compra_Mantenimiento_Nuevo(){
     $oOrden_Compra->moneda_ID=$_SESSION['moneda'];
     $oOrden_Compra->estado_ID=55;
     $oOrden_Compra->dtProveedor=proveedor::getGrid("ID<>0 and empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"razon_social");
-    
+    $oOrden_Compra->fecha=date('d/m/Y');
     $oOrden_Compra->ID=0;
     //$oOrden_Compra->comentario='';
     $oOrden_Compra->vigv=round($oDatos_generales->vigv,2);
@@ -2788,7 +2788,7 @@ function post_Orden_Compra_Mantenimiento_Nuevo(){
     $vigv=$_POST['txtVigv'];
     $comentario=  $_POST['txtComentario'];
     
-    if($orden_compra_ID==0){
+    if($orden_compra_ID=='0'){
         $oOrden_Compra = new orden_ingreso();
         $oOrden_Compra->ID=0;
     }else {
