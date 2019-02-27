@@ -78,7 +78,7 @@ function fncPage() { ?>
                     <div class="form-group">
                         <label class="col-lg-3 col-md-3 col-sm-3 control-label">Fecha:<span class="asterisk">*</span></label>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <input id="txtFecha" name="txtFecha" type="text" class="form-control date-range-picker-single" value="<?php if(isset($GLOBALS['oOrden_Compra']->fecha)){ echo $GLOBALS['oOrden_Compra']->fecha;} else{ echo date("d/m/Y");} ?>" />
+                            <input id="txtFecha" name="txtFecha" type="text" class="form-control date-range-picker-single" value="<?php echo $GLOBALS['oOrden_Compra']->fecha; ?>" />
                         </div>
                         <label class="col-lg-3 col-md-3 col-sm-3  control-label">Nro de orden:</label>
                         <div class="col-lg-3 col-md-3 col-sm-3">

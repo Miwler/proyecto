@@ -73,7 +73,7 @@ function post_ajaxInventario_Mantenimiento() {
             
             //$resultado.='<td>'.$impresion.'</td>';
             $resultado.='<td class="text-center">' .sprintf("%'.05d", $item['codigo']). '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['producto']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['producto']) . '</td>';
             $resultado.='<td class="text-center">' . FormatTextViewHtml($item['total']) . '</td>';
             $resultado.='<td class="text-center" ><a onclick="fncInventarioKardex(' . $item['codigo'] . ');"><img title="Kardex" src="/include/img/boton/details_14x14.png" />&nbsp;Kardex</a>';
             $resultado.='</td>';
