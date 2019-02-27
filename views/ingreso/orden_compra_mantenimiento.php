@@ -50,7 +50,7 @@
                                     <select id="selProveedor" name="selProveedor" class="chosen-select">
                                         <option value="0">-TODOS-</option>
                                          <?php foreach($GLOBALS['dtProveedor'] as $proveedor){?>
-                                        <option value="<?php echo $proveedor['ID']?>"><?php echo FormatTextView(strtoupper($proveedor['razon_social']));?></option>
+                                        <option value="<?php echo $proveedor['ID']?>"><?php echo $proveedor['razon_social'];?></option>
                                          <?php }?>
                                      </select>
                                 </div>
@@ -96,10 +96,10 @@
                                      <label>Estado: </label>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <select id="selEstado" name="selEstado"  class="form-control text-uppercase">
+                                    <select id="selEstado" name="selEstado"  class="form-control">
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtEstado'] as $estado){?>
-                                        <option value="<?php echo $estado['ID'] ;?>"><?php echo FormatTextView($estado['nombre']) ;?></option>
+                                        <option value="<?php echo $estado['ID'] ;?>"><?php echo $estado['nombre'] ;?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -111,7 +111,7 @@
                                      <label>Moneda: </label>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <select id="selMoneda" name="selMoneda" class="form-control text-uppercase" >
+                                    <select id="selMoneda" name="selMoneda" class="form-control" >
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtMoneda'] as $moneda){?>
                                         <option value="<?php echo $moneda['ID'] ;?>"><?php echo utf8_encode($moneda['descripcion']) ;?></option>
@@ -128,7 +128,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2 col-lg-2 col-sm-2 col-xs-6">Número: </label>
                         <div class="col-md-4 col-lg-4 col-sm-4 col-xs-6">
-                             <input  type="text" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off" onchange="">
+                             <input  type="number" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off" onchange="">
                         </div>
                     </div>
                 </div>

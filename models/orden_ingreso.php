@@ -86,7 +86,8 @@ class orden_ingreso {
         $this->usuario_mod_id;
 
     }
-    function insertar1()
+    
+  function insertar1()
     {
     $cn =new connect_new();
     try
@@ -94,30 +95,30 @@ class orden_ingreso {
       $ID=$cn->store_procedure_transa(
           "sp_orden_ingreso_Insert",
             array(
-                "iID"=>0,
-                "iempresa_ID"=>$this->empresa_ID,
-                "itipo_orden_ID"=>$this->tipo_orden_ID,
-                "inumero_orden"=>$this->numero_orden,
-                "ifecha"=>$this->fecha,
-                "iproveedor_ID"=>$this->proveedor_ID,
-                "imoneda_ID"=>$this->moneda_ID,
-                "iestado_ID"=>$this->estado_ID,
-                "icon_igv"=>$this->con_igv,
-                "itipo_cambio"=>$this->tipo_cambio,
-                "ivigv"=>$this->vigv,
-                "isubtotal"=>$this->subtotal,
-                "iigv"=>$this->igv,
-                "itotal"=>$this->total,
-                "icomentario"=>$this->comentario,
-                "iusuario_id"=>$this->usuario_id,
+    "iID"=>0,
+    "iempresa_ID"=>$this->empresa_ID,
+    "itipo_orden_ID"=>$this->tipo_orden_ID,
+    "inumero_orden"=>$this->numero_orden,
+    "ifecha"=>FormatTextToDate($this->fecha,'Y-m-d'),
+    "iproveedor_ID"=>$this->proveedor_ID,
+    "imoneda_ID"=>$this->moneda_ID,
+    "iestado_ID"=>$this->estado_ID,
+    "icon_igv"=>$this->con_igv,
+    "itipo_cambio"=>$this->tipo_cambio,
+    "ivigv"=>$this->vigv,
+    "isubtotal"=>$this->subtotal,
+    "iigv"=>$this->igv,
+    "itotal"=>$this->total,
+    "icomentario"=>$this->comentario,
+    "iusuario_id"=>$this->usuario_id,
 
-            ),0);
+),0);
       if($ID>0){
-        $this->getMessage="El registro se guardó correctamente.";
+        $this->getMessage="El registro se guard? correctamente.";
         $this->ID=$ID;
         return $ID;
       } else {
-          throw new Exception("No se registró");
+          throw new Exception("No se registr?");
       }
     }catch(Exeption $ex)
     {

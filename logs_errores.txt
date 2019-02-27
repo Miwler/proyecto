@@ -1278,7 +1278,30 @@ METODO: ingresoController
 ERROR: Falló la preparación: (1064)
 =======
 >>>>>>> 4b3cd6363412fdad0230536a5e269c77001bae37
+<<<<<<< HEAD
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 23:02:43
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)SELECT  count(oc.ID) FROM orden_ingreso oc,proveedor prv,estado es,moneda mo  where oc.empresa_ID=2 and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID and oc.numero_orden=d
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 23:02:03
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1064)SELECT  count(oc.ID) FROM orden_ingreso oc,proveedor prv,estado es,moneda mo  where oc.empresa_ID=2 and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID and oc.numero_orden=ñ
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 23:02:46
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1064)SELECT  count(oc.ID) FROM orden_ingreso oc,proveedor prv,estado es,moneda mo  where oc.empresa_ID=2 and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID and oc.numero_orden=ñ
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 00:02:20
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: Falló la preparación: (1054)SELECT  count(oc.ID) FROM orden_ingreso oc,proveedor prv,estado es,moneda mo  where oc.empresa_ID=2 and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID and oc.numero_orden=k
+=======
 >>>>>>> 1af90db6800da489abf4f3270e0657aa4730a40d
+<<<<<<< HEAD
 ============================ERROR====================================
 FECHA Y HORA: 26 02 2019 18:02:11
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
@@ -1383,3 +1406,6 @@ FECHA Y HORA: 26 02 2019 20:02:16
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
 METODO: ingresoController
 ERROR: Falló la preparación: (1064)
+=======
+>>>>>>> 860c811ceb506aaf624edfc7b0debb7b78cad79a
+>>>>>>> 7bd16bcd9bb630b3de6dcff0098679f4c92f0e45
