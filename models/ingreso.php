@@ -163,7 +163,7 @@ class ingreso {
             $q.=$this->proveedor_ID.','.$fecha_emision_save.','.$fecha_vencimiento_save.','.number_format($this->tipo_cambio,2,'.','').',';
             $q.= number_format($this->vigv,2,'.','').','.$this->con_igv.','.$this->estado_ID.','.number_format($this->descuento,2,'.','').','.number_format($this->recargo,2,'.','').',';
             $q.=number_format($this->subtotal,2,'.','').','.number_format($this->igv,2,'.','').','.number_format($this->total,2,'.','').','.$this->usuario_id.',"'.$this->numero_guia.'",';
-            $q.=$this->moneda_ID.','.$orden_ingreso_ID.',"'.$this->descripcion.'",'.$this->periodo.','.number_format($this->monto_pendiente,2,'.','').','.$forma_pago.');';
+            $q.=$this->moneda_ID.','.$orden_ingreso_ID.',"'.FormatTextSave($this->descripcion).'",'.$this->periodo.','.number_format($this->monto_pendiente,2,'.','').','.$forma_pago.');';
             $cn =new connect_new();
             $retornar=$cn->transa($q);
 

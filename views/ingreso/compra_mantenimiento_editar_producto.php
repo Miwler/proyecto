@@ -404,7 +404,8 @@
             $('#tbdocumentos td').css('background','#fff');
             var cantidad=$('#txtCantidad').val();
                 if(cantidad==""||cantidad==0){
-                    $('#divMensaje').html('<label style="color:red;">Debe ingresar una cantidad.</label>');
+                    mensaje.error("Validación de datos",'Debe ingresar una cantidad.');
+                    //$('#divMensaje').html('<label style="color:red;">Debe ingresar una cantidad.</label>');
                 }else {
                    
                     var i=0;

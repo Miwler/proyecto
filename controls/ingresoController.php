@@ -1359,6 +1359,7 @@ function get_Compra_Mantenimiento_Editar($id){
 
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $oCompra=ingreso::getByID($id);
+    
     if($oCompra==null){
         $GLOBALS['resultado'] = -2;
         $GLOBALS['mensaje'] = "La compra ha sido eliminado por otro usuario";
@@ -3325,6 +3326,7 @@ function post_ajaxComprar_Orden(){
         $oCompra->numero=0;
         $oCompra->proveedor_ID=$oOrden_Compra->proveedor_ID;
         $oCompra->fecha_emision=date('d/m/Y');
+        $oCompra->fecha_vencimiento=date('d/m/Y');
         $oCompra->tipo_cambio=$oOrden_Compra->tipo_cambio;
         $oCompra->vigv=$oOrden_Compra->vigv;
         $oCompra->con_igv=1;
@@ -3342,7 +3344,8 @@ function post_ajaxComprar_Orden(){
         $oCompra->periodo=date('Y');
         $oCompra->descripcion=$oOrden_Compra->comentario;
         $oCompra->monto_pendiente=$oOrden_Compra->total;
-        $oCompra->insertar();
+        
+        $oCompra->insertar1();
         $compra_ID=$oCompra->ID;
         //Actualizamos el estado de la orden de compra
         $oOrden_Compra->estado_ID=59;
@@ -3355,7 +3358,7 @@ function post_ajaxComprar_Orden(){
             $oCompra_Detalle=new ingreso_detalle();
             $oCompra_Detalle->ingreso_ID=$oCompra->ID;
             $oCompra_Detalle->producto_ID=$item['producto_ID'];
-            $oCompra_Detalle->descripcion=  FormatTextSave($item['descripcion']);
+            $oCompra_Detalle->descripcion=  $item['descripcion'];
             $oCompra_Detalle->cantidad=$item['cantidad'];
             $oCompra_Detalle->precio=$item['precio'];
             $oCompra_Detalle->subtotal=$item['subtotal'];
@@ -3364,12 +3367,12 @@ function post_ajaxComprar_Orden(){
             $oCompra_Detalle->usuario_id=$_SESSION['usuario_ID'];
             //Enviamos todos los detalles para stock
             $oCompra_Detalle->destino=1;
-            $oCompra_Detalle->insertar();
+            $oCompra_Detalle->insertar1();
             //registramos en la tabla inventario
             for ($i=0;$i<$item['cantidad'];$i++){
                 $oInventario=new inventario();
                 $oInventario->ingreso_detalle_ID=$oCompra_Detalle->ID;
-                $oInventario->descripcion=  FormatTextSave($oCompra_Detalle->descripcion);
+                $oInventario->descripcion=$oCompra_Detalle->descripcion;
                 $oInventario->producto_ID=$oCompra_Detalle->producto_ID;
                 //se pone estado stock
                 $oInventario->estado_ID=48;

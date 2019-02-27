@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/orden_compra_mantenimiento_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/operador.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/orden_ingreso.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/orden_compra_mantenimiento_editar.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/controls/ingresoController.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/orden_compra_mantenimiento.php</file>
+=======
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/ingreso.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect_new.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/tipo_comprobante.php</file>
+>>>>>>> 601adc70ac184c1d8e8db1ba6d646bf162cae314
         </group>
     </open-files>
 </project-private>

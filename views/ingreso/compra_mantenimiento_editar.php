@@ -134,7 +134,7 @@ function fncPage() { ?>
                     <div class="form-group">
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Fecha emisión:<span class="asterisk">*</span></label>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input id="txtFecha_Emision" name="txtFecha_Emision" type="text" class="form-control date-range-picker-single" value="<?php if(isset($GLOBALS['oCompra']->fecha_emision)){ echo $GLOBALS['oCompra']->fecha_emision;} else{ echo date("d/m/Y");} ?>" />
+                            <input id="txtFecha_Emision" name="txtFecha_Emision" type="text" class="form-control date-range-picker-single" value="<?php $GLOBALS['oCompra']->fecha_emision ?>" />
                             
                         </div>
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Fecha vencimiento:<span class="asterisk">*</span></label>
