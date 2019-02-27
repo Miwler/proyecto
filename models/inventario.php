@@ -97,7 +97,7 @@ class inventario {
             }     
             $q = 'insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,';
             $q.= 'utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )';
-            $q.='values('.$ID.','.$_SESSION['empresa_ID'].','. $ingreso_detalle_ID .','.$salida_detalle_ID. ',"'. $this->descripcion. '",' .$this->producto_ID.
+            $q.='values('.$ID.','.$_SESSION['empresa_ID'].','. $ingreso_detalle_ID .','.$salida_detalle_ID. ',"'.FormatTextSave($this->descripcion). '",' .$this->producto_ID.
                 ','.$this->estado_ID.','.$utilidad_soles.','.$utilidad_dolares.','.$comision_soles.','.$comision_dolares.',"'.$serie.'",'.$cotizacion_detalle_ID.','.$this->usuario_id . ')';
             //echo $q;
             $cn = new connect_new();
@@ -128,7 +128,7 @@ class inventario {
                 }
                 $q="UPDATE inventario SET producto_ID=".$this->producto_ID.",ingreso_detalle_ID=".$ingreso_detalle_ID;
                 $q.=",salida_detalle_ID=".$salida_detalle_ID;
-                $q.=",descripcion='".  $this->descripcion."',estado_ID=".$this->estado_ID.", utilidad_soles=".$this->utilidad_soles.",utilidad_dolares=".$this->utilidad_dolares;
+                $q.=",descripcion='".  FormatTextSave($this->descripcion)."',estado_ID=".$this->estado_ID.", utilidad_soles=".$this->utilidad_soles.",utilidad_dolares=".$this->utilidad_dolares;
                 $q.=",comision_soles=".$this->comision_soles.", comision_dolares=".$this->comision_dolares.",serie='".$this->serie."',cotizacion_detalle_ID=".$cotizacion_detalle_ID.",";
                 $q.=" usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
                 $q.=" WHERE ID=".$this->ID;

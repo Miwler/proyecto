@@ -1279,3 +1279,107 @@ ERROR: Falló la preparación: (1064)
 =======
 >>>>>>> 4b3cd6363412fdad0230536a5e269c77001bae37
 >>>>>>> 1af90db6800da489abf4f3270e0657aa4730a40d
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 18:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 18:02:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 18:02:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 18:02:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 18:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 18:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE ingreso SET orden_ingreso_ID=NULL, tipo_comprobante_ID=<br />
+<b>Notice</b>:  Undefined index: ID in <b>C:\xampp\htdocs\proyecto\proyecto\views\ingreso\compra_mantenimiento_editar.php</b> on line <b>119</b><br />
+,serie='f56',numero='161651',numero_guia='',proveedor_ID=474,fecha_emision="2019-02-26",fecha_vencimiento="2019-02-26",tipo_cambio='3.32',con_igv='1',vigv='0.18',estado_ID=9,descuento='0',recargo='0',subtotal='10000',igv='1800',total='11800',usuario_mod_id=0,moneda_ID=2,periodo=1969,monto_pendiente=11800,descripcion='CNoición ''', fdm=Now() WHERE ID=369
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE ingreso SET orden_ingreso_ID=NULL, tipo_comprobante_ID=<br />
+<b>Notice</b>:  Undefined index: ID in <b>C:\xampp\htdocs\proyecto\proyecto\views\ingreso\compra_mantenimiento_editar.php</b> on line <b>119</b><br />
+,serie='f56',numero='161651',numero_guia='',proveedor_ID=474,fecha_emision="2019-02-26",fecha_vencimiento="2019-02-26",tipo_cambio='3.32',con_igv='1',vigv='0.18',estado_ID=9,descuento='0',recargo='0',subtotal='10000',igv='1800',total='11800',usuario_mod_id=0,moneda_ID=2,periodo=1969,monto_pendiente=11800,descripcion='', fdm=Now() WHERE ID=369
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 19:02:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE ingreso SET orden_ingreso_ID=NULL, tipo_comprobante_ID=,serie='f56',numero='161651',numero_guia='',proveedor_ID=474,fecha_emision="2019-02-26",fecha_vencimiento="2019-02-26",tipo_cambio='3.32',con_igv='1',vigv='0.18',estado_ID=9,descuento='0',recargo='0',subtotal='10000',igv='1800',total='11800',usuario_mod_id=0,moneda_ID=2,periodo=1969,monto_pendiente=11800,descripcion='Condición \'\'', fdm=Now() WHERE ID=369
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 20:02:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE ingreso SET orden_ingreso_ID=NULL, tipo_comprobante_ID=1,serie='f56',numero='161651',numero_guia='',proveedor_ID=474,fecha_emision="2019-02-26",fecha_vencimiento="2019-02-26",tipo_cambio='3.32',con_igv='1',vigv='0.18',estado_ID=9,descuento='0',recargo='0',subtotal='10000',igv='1800',total='11800',usuario_mod_id=0,moneda_ID=2,periodo=1969,monto_pendiente=11800,descripcion='de condición '''', fdm=Now() WHERE ID=369
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 20:02:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 26 02 2019 20:02:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)

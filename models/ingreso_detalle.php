@@ -80,13 +80,46 @@ class ingreso_detalle {
 			throw new Exception("Ocurrio un error en la consulta insertar ingresodetalle");
 		}
 	}	
-		
+    function insertar1()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_ingreso_detalle_Insert",
+            array(
+                "iID"=>0,
+                "iingreso_ID"=>$this->ingreso_ID,
+                "iproducto_ID"=>$this->producto_ID,
+                "idescripcion"=>$this->descripcion,
+                "icantidad"=>$this->cantidad,
+                "iprecio"=>$this->precio,
+                "isubtotal"=>$this->subtotal,
+                "iigv"=>$this->igv,
+                "itotal"=>$this->total,
+                "idestino"=>$this->destino,
+                "iusuario_id"=>$this->usuario_id,
+
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "ingreso_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }	
     function actualizar(){
             $cn =new connect_new();
             $retornar=-1;
             try{
 
-                    $q="UPDATE ingreso_detalle SET producto_ID=".$this->producto_ID.", descripcion='".$this->descripcion."',cantidad=".$this->cantidad.",precio='".number_format($this->precio,2,'.','')."',subtotal='".number_format($this->subtotal,2,'.','')."',";
+                    $q="UPDATE ingreso_detalle SET producto_ID=".$this->producto_ID.", descripcion='".FormatTextSave($this->descripcion)."',cantidad=".$this->cantidad.",precio='".number_format($this->precio,2,'.','')."',subtotal='".number_format($this->subtotal,2,'.','')."',";
                     $q.="igv='".number_format($this->igv,2,'.','')."',total='".number_format($this->total,2,'.','')."',destino=".$this->destino.",usuario_mod_id=".$this->usuario_mod_id.", fdm=Now()";
                     $q.=" WHERE ID=".$this->ID;
 
@@ -100,7 +133,35 @@ class ingreso_detalle {
                     throw new Exception("Ocurrio un error en la consulta");
             }
     }
-
+     function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_ingreso_detalle_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iingreso_ID"=>$this->ingreso_ID,
+                "iproducto_ID"=>$this->producto_ID,
+                "idescripcion"=>$this->descripcion,
+                "icantidad"=>$this->cantidad,
+                "iprecio"=>$this->precio,
+                "isubtotal"=>$this->subtotal,
+                "iigv"=>$this->igv,
+                "itotal"=>$this->total,
+                "idestino"=>$this->destino,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "ingreso_detalle.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function eliminar(){
             $cn =new connect_new();
             $retornar=-1;

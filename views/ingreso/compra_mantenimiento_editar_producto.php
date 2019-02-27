@@ -91,23 +91,27 @@
                                 <label class="col-lg-4 col-md-4 col-sm-4 control-label">Producto:<span class="asterisk">*</span></label>
 
                                 <div class="col-lg-8 col-md-8 col-sm-8 lista_producto" id="tdProducto" >
-                                    <select id='selProducto' name='selProducto' onchange='fncProducto();' class="chosen-select">
-                                        <option value='0'>--SELECCIONAR--</option>
-                                        <?php foreach($GLOBALS['dtProducto'] as $item){?>
-                                        <option value="<?php echo $item['ID']?>"><?php echo sprintf("%'.07d",$item['codigo'])." - ".FormatTextView($item['producto']);?></option>
-                                        <?php } ?>
-                                     </select>
+                                    <input type="hidden" id="selProducto" name="selProducto" value="<?php echo $GLOBALS['oCompra_Detalle']->producto_ID;?>">
+                                    <input type="text" id="listaProducto" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->oProducto->nombre;?>">
+                                   <script type="text/javascript">
+                                      $(document).ready(function(){
+                                       listar_productos();
+                                       });
+                                   </script>
                                 </div>
-                                <script type="text/javascript">
-                                    $("#selProducto").val(<?php echo $GLOBALS['oCompra_Detalle']->producto_ID;?>);
-
-                                </script>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Código:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtCodigo" name="txtCodigo" placeholder="Código" autocomplete="off" value="<?php echo $GLOBALS['oCompra_Detalle']->oProducto->codigo;?>">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-12 control-label">Descripción:</label>
 
                                 <div class="col-sm-12 ">
-                                    <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" style="height: 100px;overflow:auto;resize:none;" ><?php echo FormatTextView($GLOBALS['oCompra_Detalle']->descripcion); ?></textarea>
+                                    <textarea id="txtDescripcion" name="txtDescripcion" class="form-control" style="height: 100px;overflow:auto;resize:none;" ><?php echo $GLOBALS['oCompra_Detalle']->descripcion; ?></textarea>
 
                                 </div>
 
@@ -242,7 +246,18 @@
     $('#txtSubTotal').attr('disabled');
     $('#txtIgv').attr('disabled');
     $('#txtTotal').attr('disabled');
-    
+    var listar_productos=function(){
+        lista_producto('/funcion/ajaxListarProductos','listaProducto','selProducto',$("#selLinea").val(),$("#selCategoria").val(),fncProducto,fncLimpiar);
+    }
+    var fncLimpiar=function(){
+       
+       
+       $('#txtDescripcion').val('');
+       $('#txtStock').val('');
+       $("#selProducto").val('');
+        $("#tableDestino tbody").html('');
+       $("#txtCodigo").val('');
+   }
     var fncLinea=function(){
         var linea_ID = $('#selLinea').val();
 
@@ -274,7 +289,7 @@
     
     var fncProducto=function(producto_ID){
         
-        var producto_ID=$("#selProducto").val();
+       
         if(producto_ID>0){
             //$('#tbdocumentos').html('<div style="background:#000;opacity:0.7;width:100%;height:100%;text-align:center;" ><img width="80px" src="/include/img/loader-Login.gif"></div>');
             cargarValores('/Funcion/ajaxSeleccionar_Producto1',producto_ID,function(resultado){
@@ -282,7 +297,14 @@
                 //$('#selCategoria').val(resultado.categoria_ID);
                 //$('#selProducto').val(resultado.producto_ID);
                 if(resultado.resultado==1){
+                    $("#selLinea").val(resultado.linea_ID);
+                    $("#selCategoria").html(resultado.html);
+                    $("#selLinea").trigger("chosen:updated");
+                    $("#selCategoria").trigger("chosen:updated");
                     $('#txtStock').val(resultado.stock);
+                    $('#txtDescripcion').val(resultado.descripcion);
+                    $('#txtCodigo').val(resultado.codigo);
+                    fncListaProductosVendidos(producto_ID);
                 }else{
                     mensaje.error(resultado.mensaje);
                 }
@@ -291,6 +313,41 @@
             });
         }
     }
+    function buscarProducto(codigo){
+        if($.trim(codigo)==""){
+            toastem.error("Debe registrar un código.");
+            return false;
+        }
+        $("#listaProducto").val('');
+        $("#selProducto").val(0);
+        $("#selLinea").val(0);
+        $("#selCategoria").val(0);
+        fncLimpiar();
+        
+        cargarValores('/funcion/ajaxBuscarProductos',codigo,function(resultado){
+            if(resultado.resultado==0){
+                toastem.error("No existe el producto");
+                $("#selLinea").trigger("chosen:updated");
+                $("#selCategoria").trigger("chosen:updated");
+                
+            }else if(resultado.resultado==1){
+                 $("#listaProducto").val(resultado.producto);
+                 $("#selProducto").val(resultado.producto_ID);
+                 fncProducto(resultado.producto_ID);
+            }else{
+                 toastem.error("Ocurrió un error en el sistema.");
+            }
+           
+        });
+   }
+    $('#txtCodigo').keypress(function(e){
+
+            if (e.which==13){
+                buscarProducto($('#txtCodigo').val());
+
+                    return false;
+            }
+    });
     var limpiarPadre=function(){
         $('#txtStock').val('');
         $('#tbdocumentos').html('');

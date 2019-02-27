@@ -252,7 +252,7 @@ class ingreso {
                     $q.="tipo_cambio='".round($this->tipo_cambio,2)."',con_igv='".$this->con_igv."',vigv='".round($this->vigv,2)."',estado_ID=".$this->estado_ID;
                     $q.=",descuento='".round($this->descuento,2)."',recargo='".round($this->recargo,2)."',";
                     $q.="subtotal='".round($this->subtotal,2)."',igv='".round($this->igv,2)."',total='".round($this->total,2);
-                    $q.="',usuario_mod_id=".$this->usuario_mod_id.",moneda_ID=".$this->moneda_ID.",periodo=".$this->periodo.",monto_pendiente=".round($this->monto_pendiente,2).",descripcion='".$this->descripcion."', fdm=Now()";
+                    $q.="',usuario_mod_id=".$this->usuario_mod_id.",moneda_ID=".$this->moneda_ID.",periodo=".$this->periodo.",monto_pendiente=".round($this->monto_pendiente,2).",descripcion='".FormatTextSave($this->descripcion)."', fdm=Now()";
                     $q.=" WHERE ID=".$this->ID;
                     //echo $q;
                     $retornar=$cn->transa($q);

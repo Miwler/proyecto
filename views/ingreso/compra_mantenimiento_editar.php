@@ -115,9 +115,8 @@ function fncPage() { ?>
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Tipo comprobante:</label>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <select id="cboComprobante_Tipo" name="cboComprobante_Tipo" disabled class="form-control">
-                                <?php foreach($GLOBALS['oCompra']->dtTipo_Comprobante as $iComprobante){ ?>
-                                <option value="<?php echo $iComprobante['ID']; ?>"><?php echo FormatTextView($iComprobante['nombre']); ?></option>
-                                <?php } ?>       
+                                <?php echo $GLOBALS['oCompra']->dtTipo_Comprobante; ?>
+                                      
                             </select>
                             <script type="text/javascript">
                                 $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->comprobante_tipo_ID;?>);
@@ -187,7 +186,7 @@ function fncPage() { ?>
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Comentario:</label>
                        
                         <div id="tdComentario" class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 80px;overflow:auto;resize:none;"><?php echo $GLOBALS['oCompra']->descripcion;?></textarea>
+                            <textarea id="txtComentario" name="txtComentario" class="form-control comentario" rows="4"  cols="5" maxlength="300" style="height: 80px;overflow:auto;resize:none;"><?php echo htmlspecialchars($GLOBALS['oCompra']->descripcion);?></textarea>
                         </div>
                     </div>
                 </div>

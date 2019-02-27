@@ -437,7 +437,7 @@ function post_Compra_Mantenimiento_Nuevo_Producto($ID){
     $linea_ID=$_POST['selLinea'];
     $categoria_ID=$_POST['selCategoria'];
     $producto_ID=$_POST['selProducto'];
-    $descripcion=  FormatTextSave($_POST['txtDescripcion']);
+    $descripcion=  $_POST['txtDescripcion'];
     $cantidad=$_POST['txtCantidad'];
     $precio=$_POST['txtPrecioUnitario'];
     $subtotal=$_POST['txtSubTotal'];
@@ -460,7 +460,7 @@ function post_Compra_Mantenimiento_Nuevo_Producto($ID){
         $oCompra_detalle->total=$total;
         $oCompra_detalle->destino=$destino;
         $oCompra_detalle->usuario_id=$_SESSION['usuario_ID'];
-        $oCompra_detalle->insertar();
+        $oCompra_detalle->insertar1();
         
         actualizar_costo_compra($oCompra);
         if($destino==1){
@@ -968,7 +968,7 @@ function post_Compra_Mantenimiento_Editar_Producto($id){
     $linea_ID=$_POST['selLinea'];
     $categoria_ID=$_POST['selCategoria'];
     $producto_ID=$_POST['selProducto'];
-    $descripcion=FormatTextSave($_POST['txtDescripcion']);
+    $descripcion=$_POST['txtDescripcion'];
     $cantidad=$_POST['txtCantidad'];
     $precio=$_POST['txtPrecioUnitario'];
     $subtotal=$_POST['txtSubTotal'];
@@ -1341,7 +1341,7 @@ echo json_encode($retornar);
 
 
 function get_Compra_Mantenimiento_Editar($id){
-    require ROOT_PATH.'models/tipo_comprobante_empresa.php';
+    require ROOT_PATH.'models/tipo_comprobante.php';
     require ROOT_PATH.'models/orden_ingreso.php';
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/estado.php';
@@ -1376,7 +1376,7 @@ function get_Compra_Mantenimiento_Editar($id){
     $dtMoneda=moneda::getGrid();
 
 //    $dtComprobante_tipo=comprobante_tipo::getGrid('ct.en_compra=1');
-    $dtTipo_Comprobante = tipo_comprobante_empresa::getGrid('tce.accion="compra"');
+    $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,$oCompra->tipo_comprobante_ID,"tipo_comprobantes_sinserie");
     $oCompra->oEstado=estado::getByID($oCompra->estado_ID);
     $oCompra->dtMoneda=$dtMoneda;
     //$GLOBALS['dtMoneda']=$dtMoneda;
@@ -1399,13 +1399,13 @@ function get_Compra_Mantenimiento_Editar($id){
 function post_Compra_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/orden_ingreso.php';
-    require ROOT_PATH.'models/tipo_comprobante_empresa.php';
+    require ROOT_PATH.'models/tipo_comprobante.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/forma_pago.php';
     require ROOT_PATH.'models/proveedor.php';
 
-     if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
+    if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
     global $returnView_float;
     $returnView_float=true;
     $tipo_comprobante_ID=$_POST['cboComprobante_Tipo'];
@@ -1419,7 +1419,7 @@ function post_Compra_Mantenimiento_Editar($id){
     $fecha_vencimiento=$_POST['txtFecha_Vencimiento'];
     $proveedor_ID=$_POST['selProveedor'];
     $con_igv=1;
-    $descripcion=$_POST['txtComentario'];
+    $descripcion= $_POST['txtComentario'];
     if(isset($_POST['chkCon_Igv'])){
             $con_igv=1;
     }
@@ -1439,7 +1439,7 @@ function post_Compra_Mantenimiento_Editar($id){
         $oCompra->tipo_cambio=$tipo_cambio;
         $oCompra->estado_ID=$estado_ID;
         $oCompra->fecha_emision=$fecha_emision;
-        $oCompra->fecha_vencimiento=$fecha_vencimiento;
+        $oCompra->fecha_vencimiento= $fecha_vencimiento;
         $oCompra->proveedor_ID=$proveedor_ID;
         $oCompra->vigv=$vigv;
         $oCompra->con_igv=$con_igv;
@@ -1475,9 +1475,10 @@ function post_Compra_Mantenimiento_Editar($id){
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $dtMoneda=moneda::getGrid();
     $oCompra->dtMoneda=$dtMoneda;
-    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.accion="compra"');;
+    $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,$oCompra->tipo_comprobante_ID,"tipo_comprobantes_sinserie");
 
     $dtEstado=estado::getGrid('est.ID in (9,10)');
+    
     $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
     //$GLOBALS['dtMoneda']=$dtMoneda;   
     $GLOBALS['tipo_cambio']=$oDatos_generales->tipo_cambio;

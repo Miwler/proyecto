@@ -69,9 +69,12 @@ function cargarInformacion($empresa_ID){
 	}
 	
 	function FormatTextSave($text){
-		$text=str_replace('"','""',$text);
+                $cn = new connect_new();
+		//$text=str_replace('"','""',$text);
+                
+                $text= mysqli_real_escape_string($cn->connect_new,$text);
 		//$text=mysql_real_escape_string(utf8_decode($text));
-                $text=utf8_encode($text);
+                //$text=utf8_encode($text);
 		return $text;
 	}
 	function FormatTextSaveP($text){
