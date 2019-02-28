@@ -59,7 +59,7 @@ class comprobante_regula_detalle {
             $cn =new connect_new();
             $ID=$cn->getData($q);
             $q='INSERT INTO comprobante_regula_detalle(ID,producto_ID,comprobante_regula_ID,descripcion,cantidad,precio_unitario,subtotal,total,igv,vigv,tipo_impuestos_ID,factura_venta_detalle_ID,usuario_id) ';
-            $q.='VALUES ('.$ID.','.$this->producto_ID.','.$this->comprobante_regula_ID.',"'.$this->descripcion.'",'.$this->cantidad.','.$this->precio_unitario.','.$this->subtotal.','.$this->total.','.$this->igv;
+            $q.='VALUES ('.$ID.','.$this->producto_ID.','.$this->comprobante_regula_ID.',"'.FormatTextSave($this->descripcion).'",'.$this->cantidad.','.$this->precio_unitario.','.$this->subtotal.','.$this->total.','.$this->igv;
             $q.=','.$this->vigv.','.$this->tipo_impuestos_ID.','.$this->factura_venta_detalle_ID.','.$this->usuario_id.');';
             //echo $q;
             $cn =new connect_new();

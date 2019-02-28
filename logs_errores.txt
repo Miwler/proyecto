@@ -67,7 +67,45 @@ SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-20'';
 
 =======
 ERROR: Falló la preparación: (1064)UPDATE ingreso SET orden_ingreso_ID=NULL, tipo_comprobante_ID=,serie='de',numero='785',numero_guia='4585858',proveedor_ID=500,fecha_emision="2019-02-27",fecha_vencimiento="2019-02-27",tipo_cambio='3.32',con_igv='1',vigv='0.18',estado_ID=9,descuento='0',recargo='0',subtotal='5000',igv='900',total='5900',usuario_mod_id=0,moneda_ID=2,periodo=2019,monto_pendiente=5900,descripcion='', fdm=Now() WHERE ID=379
+<<<<<<< HEAD
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la ejecución: (1305)
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: La factura no se encuentra disponible.
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: La factura no se encuentra disponible.
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:41
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: La factura no se encuentra disponible.
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: La factura no se encuentra disponible.
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: La factura no se encuentra disponible.
+============================ERROR====================================
+FECHA Y HORA: 27 02 2019 22:02:20
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: La factura no se encuentra disponible.
+=======
 >>>>>>> cdbb62c6e4232b82fb60eafc42766a29bf6f792f
+<<<<<<< HEAD
 ============================ERROR====================================
 FECHA Y HORA: 28 02 2019 04:02:17
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
@@ -107,3 +145,6 @@ RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.store_procedure_getGrid
 ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
 
+=======
+>>>>>>> df98052f0941c4b902d67d1f1af746b39a25b64b
+>>>>>>> 0472ddbf9e42a9851e3e2874d983ed2d07318250

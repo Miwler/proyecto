@@ -13508,7 +13508,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     $gratuitas=0;
     $otros_cargos=($_POST['txtOtros_Cargos']=="")? 0:$_POST['txtOtros_Cargos'];
     $descuento_global=($_POST['txtDescuentoTotal']=="")? 0:$_POST['txtDescuentoTotal'];
-    $observacion=FormatTextSave($_POST['txtObservacion']);
+    $observacion=$_POST['txtObservacion'];
     $monto_detraccion=0;
     $cliente_ID=$_POST['txtCliente_ID'];
     $factura=$_POST['txtFactura'];

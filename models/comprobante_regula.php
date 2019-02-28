@@ -94,7 +94,7 @@ class comprobante_regula {
             $q.='anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,tipo_cambio,usuario_id) ';
             $q.='VALUES ('.$ID.','.$this->documento_relacionado_ID.','.$this->cliente_ID.','.$this->tipo_ID.',"'.$this->serie.'",'.$this->numero.',"'.$this->numero_concatenado.'","'.$this->fecha_emision.'","'.$this->fecha_vencimiento.'"';
             $q.=','.$this->estado_ID.','.$this->moneda_ID.','.$this->monto_total_neto.','.$this->monto_total_igv.','.$this->monto_total.','.$this->monto_pendiente.','.$this->empresa_ID.','.$this->correlativos_ID.','.$this->porcentaje_descuento.',';
-            $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.',"'.$this->observacion.'",'.$this->tipo_cambio.','.$this->usuario_id.');';
+            $q.=$this->anticipo.','.$this->exoneradas.','.$this->inafectas.','.$this->gravadas.','.$this->gratuitas.','.$this->otros_cargos.','.$this->descuento_global.','.$this->monto_detraccion.',"'.FormatTextSave($this->observacion).'",'.$this->tipo_cambio.','.$this->usuario_id.');';
             //echo $q;
             $cn =new connect_new();
             $retornar=$cn->transa($q);
@@ -389,7 +389,7 @@ class comprobante_regula {
         $retornar=-1;
         try{
             $q="select count(ID) from factura_venta where del=0 and  estado_ID=53 and ID=".$this->documento_relacionado_ID;
-            //echo $q;
+            echo $q;
             $retornar=$cn->getData($q);
             return $retornar;
         }

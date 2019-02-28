@@ -152,7 +152,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-2">Observacion:</label>
                                 <div class="col-md-10 col-sm-10 col-xs-10">
-                                    <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height: 50px;overflow:auto;resize:none;"><?php echo FormatTextView($GLOBALS['ob']->observacion);?></textarea>
+                                    <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height: 50px;overflow:auto;resize:none;"><?php echo $GLOBALS['ob']->observacion;?></textarea>
                                 </div>
 
                             </div>

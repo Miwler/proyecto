@@ -344,7 +344,7 @@ function extraerProductoMovimiento($producto_ID){
             $resultado.="<td class='center'>".date('d/m/Y',strtotime($item['fecha']))."</td>";
             $resultado.="<td>".$item['movimiento']." con Factura ".$item['serie']."-".$item['numero']."</td>";
             $precio_unitario=$item['precio']+$item['igv']/$item['cantidad'];
-            $link_Cantidad='<a onclick="fncVerSeries(&#39;'.$item['movimiento'].'&#39;,'.$item['movimiento_ID'].');">'.$item['cantidad'].'</a>';
+            $link_Cantidad='<a class="btn btn-teal" title="Ver series" onclick="fncVerSeries(&#39;'.$item['movimiento'].'&#39;,'.$item['movimiento_ID'].');">'.$item['cantidad'].'</a>';
             if($item['movimiento']=="Ingreso"){
                 $resultado.="<td class='text-center'>".$link_Cantidad."</td>";
                 $resultado.="<td>".$item['moneda']."</td>";
@@ -370,7 +370,7 @@ function extraerProductoMovimiento($producto_ID){
             }
             $link_existencia_cantidad=$existencia_cantidad;
             if($i==$total){
-                $link_existencia_cantidad='<a onclick="fncVerSeries(&#39;Existencia&#39;,'.$item['producto_ID'].');">'.$existencia_cantidad.'</a>';
+                $link_existencia_cantidad='<a class="btn btn-teal" title="Ver series" onclick="fncVerSeries(&#39;Existencia&#39;,'.$item['producto_ID'].');">'.$existencia_cantidad.'</a>';
             }
            
             $resultado.="<td class='text-center'>".$link_existencia_cantidad."</td>";
