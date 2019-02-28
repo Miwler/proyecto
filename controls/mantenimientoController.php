@@ -2889,7 +2889,7 @@ function post_ajaxProducto_Mantenimiento() {
     }
     switch ($txtOrden) {
         case 0:
-            $orden = 'pr.ID ' . $orden_tipo;
+            $orden = 'pr.codigo ' . $orden_tipo;
             break;
         case 1:
             $orden = 'pr.nombre ' . $orden_tipo;
@@ -2908,14 +2908,14 @@ function post_ajaxProducto_Mantenimiento() {
             break;
         
         default:
-            $orden = 'pr.ID ' . $orden_tipo;
+            $orden = 'pr.codigo ' . $orden_tipo;
             break;
     }
    $filtro='';
    if($opcion_tipo=="buscar"){
        $filtro.=((trim($filtro)!="")?" and ":""). ' upper(pr.nombre) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
         if($_POST['txtCodigo']!=""){
-            $filtro='pr.ID='.$_POST['txtCodigo'];
+            $filtro='pr.codigo='.$_POST['txtCodigo'];
         }
    }else{
        if($linea_ID>0){
@@ -2956,7 +2956,7 @@ function post_ajaxProducto_Mantenimiento() {
         foreach ($dtProducto as $item) {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
-            $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['ID']) . '</td>';
+            $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['codigo']) . '</td>';
             $resultado.='<td class="tdLeft">' . $item['producto'] . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower(trim($item['categoria'])))) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower(trim($item['linea'])))) . '</td>';
