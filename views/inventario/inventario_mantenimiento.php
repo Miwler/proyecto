@@ -13,6 +13,10 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
         <i class="fa fa-cube"></i>Inventario de Productos
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" >Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+         </div>
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -26,13 +30,12 @@
                 <li class="active nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+            
         </div>
         <div class="panel-body"> 
             <div class="tab-content">
@@ -73,7 +76,7 @@
                 <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
             </div>
             <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-            <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
+            <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
             <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
                
            

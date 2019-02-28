@@ -144,7 +144,7 @@
 
             <input id="rbOpcion" name="rbOpcion" type="text" value="filtrar" style="display:none;">
             <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-            <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
+            <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
             <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
 
            

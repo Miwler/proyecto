@@ -11,7 +11,7 @@
     $(document).ready(function(){
         <?php if($GLOBALS['oOrden_Venta_Detalle']->componente==1){?>
                 
-             fncCargarPrecioCompra(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
+            fncCargarPrecioCompra(<?php echo $GLOBALS['oOrden_Venta_Detalle']->producto_ID;?>);
             $('#ckComponente').prop('checked',true);
             $('#txtPrecioUnitarioDolares').prop('disabled', true);
             $('#txtPrecioUnitarioSoles').prop('disabled', true);
@@ -664,7 +664,7 @@
         }
         var precioCompraUnitarioDolares=$('#txtPrecioCompraDolares').val();
         if(componente==0){
-            if(PrecioUnitarioSoles=="0"){
+            if(PrecioUnitarioSoles=="0"||PrecioUnitarioSoles==""){
                 mensaje.advertencia("VALIDACIÓN DE DATOS",'Registre un precio unitario (S/.).','txtPrecioUnitarioDolares');
                 $('.nav-tabs a[href="#divCostos"]').tab('show');
                 return false;
