@@ -67,8 +67,8 @@ function fncPage() { ?>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <div class="ckbox ckbox-theme">
-                                <input  type="checkbox" id="checkbox-checked1"  name="ckPago_Total" value="1" >
-                                <label for="checkbox-checked1"></label>
+                                <input  type="checkbox" id="ckPago_Total"  name="ckPago_Total" value="1" >
+                                <label for="ckPago_Total"></label>
                             </div>
                             <!--<input type="checkbox" name="" id="ckPago_Total" value="1" onclick="fncMarcarTotal();">-->
                         </div>
@@ -282,7 +282,7 @@ function fncPage() { ?>
         }
         fncDesactivarBtnDetalle();
     }*/
-    $("#checkbox-checked1").click(function(){
+    $("#ckPago_Total").click(function(){
         if($(this).is(':checked')){
             
             $('#txtMonto_Pendiente').removeAttr('disabled');

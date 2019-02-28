@@ -39,7 +39,7 @@ function post_ajaxInventario_Mantenimiento() {
             break;   
        
         default:
-            $orden = 'pro.nombre ' . $orden_tipo;
+            $orden = 'pro.ID ' . $orden_tipo;
             break;
     }
     $filtro="";
@@ -74,8 +74,8 @@ function post_ajaxInventario_Mantenimiento() {
             //$resultado.='<td>'.$impresion.'</td>';
             $resultado.='<td class="text-center">' .sprintf("%'.05d", $item['codigo']). '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['producto']) . '</td>';
-            $resultado.='<td class="text-center">' . FormatTextViewHtml($item['total']) . '</td>';
-            $resultado.='<td class="text-center" ><a onclick="fncInventarioKardex(' . $item['codigo'] . ');"><img title="Kardex" src="/include/img/boton/details_14x14.png" />&nbsp;Kardex</a>';
+            $resultado.='<td class="text-center">' . $item['total'] . '</td>';
+            $resultado.='<td class="text-center" ><a onclick="fncInventarioKardex(' . $item['ID'] . ');"><img title="Kardex" src="/include/img/boton/details_14x14.png" />&nbsp;Kardex</a>';
             $resultado.='</td>';
             $resultado.='</tr>';
         }
@@ -300,10 +300,10 @@ function post_Ventas_Mantenimiento_Nuevo($id){
     $GLOBALS['mensaje']=$mensaje;
 }
 function extraerProductoMovimiento($producto_ID){
-     $resultado="<table class='table table-hover table-bordered'><thead><tr>";
+     $resultado="<table class='table table-hover table-bordered table-teal'><thead><tr>";
         $resultado.="<th rowspan='2'>Fecha</th>";
         $resultado.="<th rowspan='2'>Detalle</th>";
-        $resultado.="<th colspan='4' class='text-center'>Entredas</th>";
+        $resultado.="<th colspan='4' class='text-center'>Entradas</th>";
         $resultado.="<th colspan='4' class='text-center'>Salidas</th>";
         $resultado.="<th rowspan='2' class='text-center'>Existencia</th>";
         $resultado.="</tr>";
@@ -345,9 +345,9 @@ function extraerProductoMovimiento($producto_ID){
             $resultado.="<td>".$item['movimiento']." con Factura ".$item['serie']."-".$item['numero']."</td>";
             $precio_unitario=$item['precio']+$item['igv']/$item['cantidad'];
             $link_Cantidad='<a onclick="fncVerSeries(&#39;'.$item['movimiento'].'&#39;,'.$item['movimiento_ID'].');">'.$item['cantidad'].'</a>';
-            if($item['movimiento']=="Compra"){
+            if($item['movimiento']=="Ingreso"){
                 $resultado.="<td class='text-center'>".$link_Cantidad."</td>";
-                $resultado.="<td>".FormatTextViewHtml($item['moneda'])."</td>";
+                $resultado.="<td>".$item['moneda']."</td>";
                 $resultado.="<td class='text-right' >".number_format($precio_unitario,2,'.',',')."</td>";
                 $resultado.="<td class='text-right' >".number_format($item['total'],2,'.',',')."</td>";
                 $resultado.="<td></td>";

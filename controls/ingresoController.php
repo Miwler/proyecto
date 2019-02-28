@@ -80,7 +80,7 @@ function post_ajaxCompra_Mantenimiento() {
             $orden = 'co.ID ' . $orden_tipo;
             break;
     }
-    $filtro="co.tipo_movimiento_ID=1";
+    $filtro="co.tipo_movimiento_ID=10";
     if($opcion_tipo=="buscar"){
         
         
@@ -130,7 +130,7 @@ function post_ajaxCompra_Mantenimiento() {
         if($todos==0){
             if($fecha_inicio!="" &&$fecha_fin!="" ){
 
-                $filtro.=((trim($filtro)!="")?" and ":"")." co.fecha_emision between '".FormatTextToDate($fecha_inicio, "Y-m-d")."' and '". FormatTextToDate($fecha_fin,"Y-m-d"). "'";
+                $filtro.=((trim($filtro)!="")?" and ":"").' co.fecha_emision between "'.FormatTextToDate($fecha_inicio, "Y-m-d").'" and "'. FormatTextToDate($fecha_fin,"Y-m-d"). '"';
             }
         }
         
@@ -307,7 +307,7 @@ function post_Compra_Mantenimiento_Nuevo(){
                 throw new Exception($oCompra->message);
         }
         if($ID==0){
-            $oCompra->tipo_movimiento_ID=1;
+            $oCompra->tipo_movimiento_ID=10;//INGRESO DE INVENTARIO FISICO;
             $oCompra->descuento=0;
             $oCompra->recargo=0;
             $oCompra->subtotal=0;
@@ -344,7 +344,7 @@ function post_Compra_Mantenimiento_Nuevo(){
     $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $oCompra->dtMoneda=moneda::getGrid();
     $dtFormaPago=forma_pago::getGrid();
-    $dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('tce.accion="compra"');
+    $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,$tipo_comprobante_ID,"tipo_comprobantes_sinserie");
     $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
     $oCompra->oEstado=estado::getByID($oCompra->estado_ID);
     $oCompra->numero=sprintf("%'.09d",$oCompra->numero);
@@ -2193,9 +2193,9 @@ function post_ajaxPagos_Mantenimiento() {
             $filtro.=" and co.estado_ID=".$estado_ID ;
         }
         if($todos==0){
-            if($fecha_inicio!="__/__/____" &&$fecha_fin!="__/__/____" ){
+            if($fecha_inicio!="" &&$fecha_fin!="" ){
         
-                $filtro.=" and  co.fecha_emision between '".FormatTextToDate($fecha_inicio, "Y-m-d")."' and '". FormatTextToDate($fecha_fin, "Y-m-d")."'";
+                $filtro.=' and  co.fecha_emision between "'.FormatTextToDate($fecha_inicio, "Y-m-d").'" and "'. FormatTextToDate($fecha_fin, "Y-m-d").'"';
             }
         }
         
@@ -2539,12 +2539,14 @@ function post_ajaxOrden_Compra_Mantenimiento() {
         }
        
     } else{
+        
         $proveedor_ID=$_POST['selProveedor'];
         $estado_ID=$_POST['selEstado'];
         $fecha_inicio=$_POST['txtFechaInicio'];
         $fecha_fin=$_POST['txtFechaFin'];
         $moneda_ID=$_POST['selMoneda'];
         $todos=(isset($_POST['ckTodos']))? 1 : 0;
+        
         if($proveedor_ID!=0){
             $filtro.="oc.proveedor_ID=".$proveedor_ID;
         }
@@ -2558,7 +2560,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
         if($todos==0){
             if($fecha_inicio!="" &&$fecha_fin!="" ){
 
-                $filtro.=((trim($filtro)!="")?" and ":"")." oc.fecha between '".FormatTextToDate($fecha_inicio,'Y-m-d')."' and '". FormatTextToDate($fecha_fin,'Y-m-d'). "'";
+                $filtro.=((trim($filtro)!="")?" and ":"").' oc.fecha between "'.FormatTextToDate($fecha_inicio,'Y-m-d').'" and "'. FormatTextToDate($fecha_fin,'Y-m-d'). '"';
             }
         }
     }
@@ -2613,6 +2615,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
         $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
 
     } catch (Exception $ex) {
+        log_error(__FILE__, "Ingreso/post_ajaxOrden_Compra_Mantenimiento", $ex->getMessage());
         $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
     }
     $resultado.='</tbody>';

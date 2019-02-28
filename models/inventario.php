@@ -335,7 +335,7 @@ class inventario {
      static function getGridProductos($filtro = '', $desde = -1, $hasta = -1, $order = 'pro.nombre asc') {
         $cn = new connect_new();
         try {
-            $q='select pro.ID as codigo,pro.nombre as producto,(select count(ID) from inventario where producto_ID=pro.ID and estado_ID=48) as total';
+            $q='select pro.ID, pro.codigo as codigo,pro.nombre as producto,(select count(ID) from inventario where producto_ID=pro.ID and estado_ID=48) as total';
             $q.=' from producto pro';
             $q.=' where pro.del=0 and estado_ID<>54';
             if ($filtro != '') {
