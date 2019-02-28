@@ -1444,3 +1444,24 @@ FECHA Y HORA: 26 02 2019 22:02:02
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
 METODO: ingresoController
 ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 01:02:04
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Los parámetros son incorrectos
+SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-28'';
+
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 01:02:48
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Los parámetros son incorrectos
+SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-28'';
+
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 03:02:36
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Los parámetros son incorrectos
+SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-20'';
+
