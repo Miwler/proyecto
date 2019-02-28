@@ -30,23 +30,20 @@ function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
     <form id="frm1" name="frm1" method="POST"  action="/Inventario/inventario_mantenimiento_producto/<?php echo $GLOBALS['oInventario']->producto_ID;?>" class="form-horizontal" >
         <div class="form-group">
-            <label class="control-label col-sm-3">Producto:</label>
-            <div class="col-sm-3">
-                <?php echo FormatTextViewHtml($GLOBALS['oProducto']->nombre)?>
-            </div>
+            <label class="control-label col-sm-2">Producto:</label>
+            <label class="col-sm-4"><b> <?php echo $GLOBALS['oProducto']->nombre?></b></label>
+            
             <label class="control-label col-sm-3">Unidad medida:</label>
-            <div class="col-sm-3">
-                <?php echo FormatTextViewHtml($GLOBALS['oProducto']->unidad_medida)?>
-            </div>
+            <label class="col-sm-3"><b><?php echo $GLOBALS['oProducto']->unidad_medida?></b></label>
+            
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-3">Código:</label>
-            <div class="col-sm-3">
-                <?php echo sprintf("%'.05d",$GLOBALS['oProducto']->ID);?>
-            </div>
+            <label class="control-label col-sm-2">Código:</label>
+            <label class="col-sm-4"><b><?php echo sprintf("%'.05d",$GLOBALS['oProducto']->codigo);?></b></label>
+           
             <label class="control-label col-sm-3">Método:</label>
             <div class="col-sm-3">
-                Promedio
+                <b>Promedio</b>
             </div>
         </div>
         <div class="form-group">

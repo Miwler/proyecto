@@ -596,7 +596,7 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
         $cn =new connect_new();
         try
         {
-            $dt=$cn->store_procedure_getGrid("getTabla_Factura_Emitida_SNC",
+            $dt=$cn->store_procedure_getGridParse("getTabla_Factura_Emitida_SNC",
                     array(
                         "iempresa_ID"=>$_SESSION['empresa_ID'],
                         "iperiodo"=>$periodo,

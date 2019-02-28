@@ -3,20 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/orden_compra_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/models/operador.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/models/orden_ingreso.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/orden_compra_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/controls/ingresoController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/orden_compra_mantenimiento.php</file>
-=======
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/ingreso.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect_new.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/tipo_comprobante.php</file>
->>>>>>> 601adc70ac184c1d8e8db1ba6d646bf162cae314
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/factura_venta_emitidas.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/inventario/inventario_mantenimiento_producto.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/logs_errores.txt</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jscript.js</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula_detalle.php</file>
         </group>
     </open-files>
 </project-private>

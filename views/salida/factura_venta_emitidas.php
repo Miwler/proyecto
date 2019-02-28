@@ -52,8 +52,9 @@
             <table id="datatable-ajax" class="table table-primary  table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
                 <thead>
                     <tr>
-                        <th>Serie</th>
-                        <th>Número</th>
+                        <th>N°</th>
+                        <th>Fact.</th>
+   
                         <th>Fecha</th>
                         <th>Cliente</th>
                         <th>Total</th>
@@ -82,8 +83,8 @@
                     var result = jsonObject.map(function (item) {
                          
                         var result = [];
-                        result.push(item.serie);
-                        result.push(item.numero_concatenado);
+                        result.push(item.num);
+                        result.push(item.comprobante);
                         result.push(item.fecha_emision);
                         result.push(item.cliente);
                         result.push(item.total);
@@ -108,12 +109,11 @@
                     { "width": "5%", "targets": 0,"className":"text-center" },
                     { "width": "5%", "targets": 1,"className":"text-center"},
                     { "width": "10%", "targets": 2,"className":"text-center" },
-                    { "width": "70%", "targets": 3 },
-                    { "width": "10%", "targets": 4,"className":"text-center" },
+                    { "width": "80%", "targets": 3 },
                     { 'targets': [5], 'orderable': false, 'searchable': false, "width": "10%","className":"text-center" }
                 ];
 
-            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "desc"]]);
+            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "asc"]]);
 
         } catch (e) {
             //alert(e.message);
