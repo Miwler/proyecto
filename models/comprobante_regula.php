@@ -362,8 +362,11 @@ class comprobante_regula {
         $cn =new connect_new();
         try
         {
-        $q='call comprobante_regula_getByID('.$ID.')';
-        $dt=$cn->getGrid($q);
+            $dt=$cn->store_procedure_getGrid("sp_comprobante_regula_getByID", array(
+                "ID"=>$ID
+            ));
+        //$q='call sp_comprobante_regula_getByID('.$ID.')';
+        //$dt=$cn->getGrid($q);
         return $dt;
         }catch(Exception $ex)
         {
@@ -389,7 +392,7 @@ class comprobante_regula {
         $retornar=-1;
         try{
             $q="select count(ID) from factura_venta where del=0 and  estado_ID=53 and ID=".$this->documento_relacionado_ID;
-            echo $q;
+            //echo $q;
             $retornar=$cn->getData($q);
             return $retornar;
         }

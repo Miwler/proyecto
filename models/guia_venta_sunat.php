@@ -24,6 +24,7 @@ class guia_venta_sunat {
   private $codigo_estado;
   private $descripcion_estado;
   private $cdr_sunat;
+  private $observacion;
   private $usuario_id;
   private $getMessage;
   public function __set($var, $valor)
@@ -59,6 +60,7 @@ class guia_venta_sunat {
     $this->codigo_estado="";
     $this->descripcion_estado="";
     $this->cdr_sunat="";
+    $this->observacion="";
     $this->usuario_id=$_SESSION["usuario_ID"];
 
   }
@@ -74,6 +76,7 @@ class guia_venta_sunat {
     $this->codigo_estado;
     $this->descripcion_estado;
     $this->cdr_sunat;
+    $this->observacion;
     $this->usuario_id;
 
   }
@@ -131,6 +134,7 @@ class guia_venta_sunat {
             "icodigo_estado"=>$this->codigo_estado,
             "idescripcion_estado"=>$this->descripcion_estado,
             "icdr_sunat"=>$this->cdr_sunat,
+            "iobservacion"=>$this->observacion,
             "iusuario_id"=>$this->usuario_id
         ),0);
       if($ID>0){

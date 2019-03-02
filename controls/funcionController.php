@@ -637,7 +637,7 @@
         }
         $retornar = Array('resultado'=>$resultado,
             'mensaje' => $mensaje,'stock' => $stock,
-            'descripcion'=>FormatTextView($oProducto->descripcion),'codigo'=>$codigo,
+            'descripcion'=>$oProducto->descripcion,'codigo'=>$codigo,
              'linea_ID'=>$linea_ID, 'html'=>$html);
         //$retorn="<h1>Hola</h1>";
 

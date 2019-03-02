@@ -1096,8 +1096,13 @@
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
                 $.unblockUI();
 
-                if (resultado.resultado == 1) {
-                    toastem.success(resultado.mensaje);
+                if (resultado.resultado == 1||resultado.resultado == 2) {
+					if(resultado.resultado == 1){
+						 toastem.success(resultado.mensaje);
+					}else{
+						mensaje.info("Resultado",resultado.mensaje);
+					}
+                   
                     $("#btnEnviarFactura").remove();
                     $('#txtEstado').val('Enviado a SUNAT');
                     $('#tdfacturas_detalle').html(resultado.facturas_detalle);

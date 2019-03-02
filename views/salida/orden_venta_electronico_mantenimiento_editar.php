@@ -331,6 +331,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
+                            <button type="button" onclick="fncEnviarGuiaSUNAT(1571);">Enviar guia</button>
+                             <button type="button" onclick="fncRegistrar_Guia();">Enviar guia</button>
                             <button  type="button" id="btnComprobantes" name="btnComprobantes" class='btn btn-info' onclick="fncRegistrar_Comprobante();" title="Agregar comprobante de venta" >
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Agregar
@@ -954,20 +956,19 @@
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
                 $.unblockUI();
 
-                if (resultado.resultado == 1) {
-                    toastem.success(resultado.mensaje);
+                if (resultado.resultado == 1||resultado.resultado == 2) {
+                   if(resultado.resultado == 1){
+						 toastem.success(resultado.mensaje);
+					}else{
+						mensaje.info("Resultado",resultado.mensaje);
+					}
+                   
                     $("#btnEnviarFactura").remove();
                     $('#txtEstado').val('Enviado a SUNAT');
                     $('#tdfacturas_detalle').html(resultado.facturas_detalle);
                     fncCargar_Comprobantes_Ventas();
                     
                     //alert(obj.MensajeRespuesta);
-                }else if(resultado.resultado==2){
-                    mensaje.advertencia("ADVERTENCIA",resultado.mensaje);
-                    $("#btnEnviarFactura").remove();
-                    $('#txtEstado').val('Enviado a SUNAT');
-                    $('#tdfacturas_detalle').html(resultado.facturas_detalle);
-                    fncCargar_Comprobantes_Ventas();
                 }else{
                     mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
                 }
@@ -1104,17 +1105,19 @@
     }
     function fncEnviarGuiaSUNAT(id) {
         try {
-            block_ui(function () {
+            block_ui(function(){
                 cargarValores('Salida/ajaxEnviarGuiaSUNAT',id,function(resultado){
-                $.unblockUI();
-                if (resultado.resultado == 1) {
-                    toastem.success(resultado.mensaje);
-                    //alert(obj.MensajeRespuesta);
-                }else{
-                    mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
-                }
+
+                    $.unblockUI();
+                     if (resultado.resultado == 1) {
+                         toastem.success(resultado.mensaje);
+                         //alert(obj.MensajeRespuesta);
+                     }else{
+                         mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
+                     }
+                 });
             });
-            });
+           
         } catch (e) {
                 //$.unblockUI();
                 console.log(e);

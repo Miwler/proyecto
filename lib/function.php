@@ -116,7 +116,7 @@ function cargarInformacion($empresa_ID){
 		return $date->format($format);
 	}
 	function saltoLineHtml($str){
-           return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
+           return str_replace(array("\r\n", "\r", "\n"),"<br>", $str);
 	}
 	function nombremes($mes){
 		 setlocale(LC_TIME, 'spanish');  

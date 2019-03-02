@@ -114,9 +114,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="display:none">
-                        <div class="col-lg-6 col-md-6 col-sm-6 ">
-                            <div class="ckbox ckbox-theme">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="ckbox ckbox-theme" style="display:none">
                                 <input type="checkbox" id="ckGenerar" name="ckGenerar" checked value="93" <?php  echo(($GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94||$GLOBALS['oFactura_Venta']->estado_ID==95||$GLOBALS['oFactura_Venta']->estado_ID==96)?" checked ":"")?>>
                                 <label for="ckGenerar">Generar factura electrónica</label>
                             </div>
@@ -273,7 +273,7 @@
                    </button>
                <?php } ?>
                <?php  if($GLOBALS['oFactura_Venta']->ver_imprimir==1){?>
-                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Vista previa" class="btn btn-warning" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la factura?','Imprimir factura',fncImprimirFactura);">
+                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Imprimir" class="btn btn-warning" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la factura?','Imprimir factura',fncImprimirFactura);">
                        <span class="glyphicon glyphicon-print"></span>
                       Imprimir
                    </button>
@@ -549,7 +549,7 @@
      $.unblockUI();
 
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
-   setTimeout('parent.windos_float_save_modal_hijo();', 1000);
+	setTimeout('parent.windos_float_save_modal_hijo();', 1000);
     
 });
 

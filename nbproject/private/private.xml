@@ -3,15 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/factura_venta_emitidas.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/inventario/inventario_mantenimiento_producto.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/logs_errores.txt</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_guia_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/salida_detalle.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect_new.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/files/SUNAT/XML/2/guiaremision/20536781499-09-T001-9.xml</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/files/SUNAT/XML/2/guiaremision/10474911085-09-T001-9.xml</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/guia_venta.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_guia_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/firmar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_factura.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_comprobante_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jscript.js</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula_detalle.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/function.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/guia_venta_detalle.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/cliente.php</file>
         </group>
     </open-files>
 </project-private>

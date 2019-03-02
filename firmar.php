@@ -12,9 +12,9 @@ use RobRichards\XMLSecLibs\XMLSecurityKey;
     //include (dirname(__FILE__).'/include/xmlseclibs-master/src/xmlsecuritykey.php');
     
     
-$xmlstr='20536781499-01-F001-92.xml';
+$xmlstr='20536781499-09-T001-16.xml';
 
-signBill($xmlstr,'clave_publica.pem','clave_privada.pem','','20536781499-01-F001-92.xml');
+signBill($xmlstr,'clave_publica.pem','clave_privada.pem','','10474911085-09-T001-4.xml');
    
 
         function signBill($xmlFile,$publicPath,$privatePath,$xmlpath,$xmlName){

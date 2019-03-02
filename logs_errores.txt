@@ -1,150 +1,265 @@
 ============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:07
+FECHA Y HORA: 28 02 2019 19:02:21
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
+ERROR: Falló la preparación: (1054)
 ============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:07
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
-METODO: ingresoController
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 19:02:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
 ============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:31
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-<<<<<<< HEAD
-ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="-0001-11-30", proveedor_ID=500,moneda_ID=2,estado_ID=59,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+FECHA Y HORA: 28 02 2019 20:02:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El valor del atributo no se encuentra en el catálogo - Detalle: xxx.xxx.xxx value='ticket: 1551402341677 error: : 3027: Valor no se encuentra en el catalogo: 52 (nodo: "cbc:Note/languageLocaleID" valor: "3000")'
 ============================ERROR====================================
-FECHA Y HORA: 26 02 2019 22:02:05
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 20:02:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El valor del atributo no se encuentra en el catálogo - Detalle: xxx.xxx.xxx value='ticket: 1551403505247 error: : 3027: Valor no se encuentra en el catalogo: 52 (nodo: "cbc:Note/languageLocaleID" valor: "3000")'
 ============================ERROR====================================
-FECHA Y HORA: 26 02 2019 22:02:05
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
-METODO: ingresoController
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 20:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El valor del atributo no se encuentra en el catálogo - Detalle: xxx.xxx.xxx value='ticket: 1551403645858 error: : 3027: Valor no se encuentra en el catalogo: 52 (nodo: "cbc:Note/languageLocaleID" valor: "3000")'
 ============================ERROR====================================
-FECHA Y HORA: 26 02 2019 22:02:03
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 20:02:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
 ============================ERROR====================================
-FECHA Y HORA: 26 02 2019 22:02:03
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
-METODO: ingresoController
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 20:02:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
 ============================ERROR====================================
-FECHA Y HORA: 26 02 2019 22:02:02
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
-============================ERROR====================================
-FECHA Y HORA: 26 02 2019 22:02:02
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
-METODO: ingresoController
-ERROR: Falló la preparación: (1064)
-============================ERROR====================================
-FECHA Y HORA: 28 02 2019 01:02:04
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Los parámetros son incorrectos
-SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-28'';
-
-============================ERROR====================================
-FECHA Y HORA: 28 02 2019 01:02:48
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Los parámetros son incorrectos
-SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-28'';
-
-============================ERROR====================================
-FECHA Y HORA: 28 02 2019 03:02:36
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Los parámetros son incorrectos
-SET @_filtro = ' oc.fecha between '2019-02-01' and '2019-02-20'';
-
-=======
-ERROR: Falló la preparación: (1064)UPDATE ingreso SET orden_ingreso_ID=NULL, tipo_comprobante_ID=,serie='de',numero='785',numero_guia='4585858',proveedor_ID=500,fecha_emision="2019-02-27",fecha_vencimiento="2019-02-27",tipo_cambio='3.32',con_igv='1',vigv='0.18',estado_ID=9,descuento='0',recargo='0',subtotal='5000',igv='900',total='5900',usuario_mod_id=0,moneda_ID=2,periodo=2019,monto_pendiente=5900,descripcion='', fdm=Now() WHERE ID=379
-<<<<<<< HEAD
-============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:25
+FECHA Y HORA: 28 02 2019 20:02:15
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: Falló la ejecución: (1305)
+ERROR: Falló la preparación: (1054)
 ============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:16
+FECHA Y HORA: 28 02 2019 20:02:41
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: La factura no se encuentra disponible.
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.
 ============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:33
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: La factura no se encuentra disponible.
-============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:41
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: La factura no se encuentra disponible.
-============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:01
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: La factura no se encuentra disponible.
-============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:14
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: La factura no se encuentra disponible.
-============================ERROR====================================
-FECHA Y HORA: 27 02 2019 22:02:20
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: La factura no se encuentra disponible.
-=======
->>>>>>> cdbb62c6e4232b82fb60eafc42766a29bf6f792f
-<<<<<<< HEAD
-============================ERROR====================================
-FECHA Y HORA: 28 02 2019 04:02:17
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
-
-============================ERROR====================================
-FECHA Y HORA: 28 02 2019 04:02:16
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
-
-============================ERROR====================================
-FECHA Y HORA: 28 02 2019 05:02:06
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+FECHA Y HORA: 28 02 2019 20:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
+ERROR: Falló la preparación: (1054)
 ============================ERROR====================================
-FECHA Y HORA: 28 02 2019 05:02:26
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 22:02:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El XML no contiene el tag o no existe informacion de UBLVersionID - Detalle: xxx.xxx.xxx value='ticket: 1551410531129 error: No existe el tag UBLVersionID'
 ============================ERROR====================================
-FECHA Y HORA: 28 02 2019 05:02:30
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: Falló la preparación: (1064)
+FECHA Y HORA: 28 02 2019 22:02:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El valor del atributo no se encuentra en el catálogo - Detalle: xxx.xxx.xxx value='ticket: 1551410700419 error: : 3027: Valor no se encuentra en el catalogo: 52 (nodo: "cbc:Note/languageLocaleID" valor: "3000")'
 ============================ERROR====================================
-FECHA Y HORA: 28 02 2019 05:02:31
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
-
+FECHA Y HORA: 28 02 2019 22:02:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551411144620 error: Validation ZIP Filename error: 20536781499-07-F001-105.zip'
 ============================ERROR====================================
-FECHA Y HORA: 28 02 2019 05:02:34
-RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
-
-=======
->>>>>>> df98052f0941c4b902d67d1f1af746b39a25b64b
->>>>>>> 0472ddbf9e42a9851e3e2874d983ed2d07318250
+FECHA Y HORA: 28 02 2019 22:02:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551411353687 error: Validation ZIP Filename error: 20536781499-07-F001-106.zip'
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 22:02:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551411445369 error: Validation ZIP Filename error: 20536781499-07-F001-107.zip'
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 22:02:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El XML no contiene el tag o no existe informacion de UBLVersionID - Detalle: xxx.xxx.xxx value='ticket: 1551411525110 error: No existe el tag UBLVersionID'
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 22:02:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551411635315 error: Validation ZIP Filename error: 20536781499-07-F001-109.zip'
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 22:02:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El producto del factor y monto base de la afectación del IGV/IVAP no corresponde al monto de afectacion de linea. - Detalle: xxx.xxx.xxx value='ticket: 1551411723464 error: Error en la linea: 1 Tributo: 1000: 3103 (nodo: "cac:TaxSubtotal/cbc:TaxAmount" valor: "0.18")'
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 23:02:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551414164134 error: Validation ZIP Filename error: 20536781499-07-F001-110.zip'
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 23:02:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551416174813 error: Validation ZIP Filename error: 20536781499-07-F001-111.zip'
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551417263158 error: Validation ZIP Filename error: 20536781499-07-F001-112.zip'
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551417654792 error: Validation ZIP Filename error: 20536781499-07-F001-113.zip'
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket: 1551419163234 error: Validation ZIP Filename error: 20536781499-07-F001-115.zip'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 00:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 00:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No se ha registrado ningún producto
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 09:03:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 09:03:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:41
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:42
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 10:03:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 11:03:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcó la opción con guía.
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 11:03:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 11:03:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 11:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 11:03:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcó la opción con guía.
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 12:03:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: El nombre del archivo ZIP es incorrecto - Detalle: xxx.xxx.xxx value='ticket:  error: Error de nombre archivo "20536781499-09-T001-16.zip codigo cpe: 09" no es un cpe valido'
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 13:03:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcó la opción con guía.
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 17:03:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: 0306
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 17:03:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: 0306
+============================ERROR====================================
+FECHA Y HORA: 02 03 2019 17:03:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.enviar_documento
+ERROR: 0306

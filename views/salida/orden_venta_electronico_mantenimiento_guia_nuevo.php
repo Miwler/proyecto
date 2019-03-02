@@ -47,7 +47,8 @@
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['resultado']==1){ ?>
 <form id="frm1" method="post" role="form" action="Salida/Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo/<?php echo $GLOBALS['oOrden_Venta']->ID;?>" onsubmit="return validar();" class="form-horizontal">
-    <input type="hidden" id="txtSalida_ID" name="txtSalida_ID" value="<?php echo $GLOBALS['oOrden_Venta']->ID;?>">            
+    <input type="hidden" id="txtSalida_ID" name="txtSalida_ID" value="<?php echo $GLOBALS['oOrden_Venta']->ID;?>">   
+    <input type="hidden" id="ID" name="ID" value="<?php echo $GLOBALS['oGuia_Venta']->ID;?>">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -62,11 +63,11 @@
            
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
-                    <div class="form-group" style="display:none">
+                    <div class="form-group">
                         <label class="control-label col-sm-3">Tipo documento:<span class="asterisk">*</span></label>
                         <div class="col-sm-9">
                             <select class="form-control" id="selTipoDocumento" name="selTipoDocumento">
-                                <!--<option value="1">Eléctronico</option>-->
+                                <option value="1">Eléctronico</option>
                                 <option value="0">Físico</option>
                             </select>
                             <script type="text/javascript"> 
@@ -140,6 +141,7 @@
                         <label class="control-label col-sm-3">Chofer:<span class="asterisk">*</span></label>
                         <div class="col-sm-3">
                             <select id="selChofer_ID" name="selChofer_ID" class="form-control">
+                                <option value="0">--Seleccionar--</option>
                                 <?php foreach($GLOBALS['oGuia_Venta']->dtChofer as $item1){ ?>
                                 <option value="<?php echo $item1["ID"]?>"><?php echo FormatTextViewHtml($item1["nombres"]);?>, <?php echo FormatTextViewHtml($item1["apellido_paterno"]);?></option>
                                 <?php } ?>
@@ -353,10 +355,16 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
-                <?php if($GLOBALS['oGuia_Venta']->estado_ID!=38){?>
+                 <?php if($GLOBALS['oGuia_Venta']->estado_ID!=98){?>   
                     <button type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Generar Guía">
+                        <span class="fa fa-save"></span>
+                      Grabar
+                   </button>
+                 <?php }?>
+                <?php if($GLOBALS['oGuia_Venta']->estado_ID==97 && $GLOBALS['oGuia_Venta']->ID>0){?>
+                    <button type="button" id="btnRemitir" name="btnRemitir" onclick="fncEnviarGuiaSUNAT();" class="btn btn-success" title="Remitir a SUNAT">
                         <span class="glyphicon glyphicon-ok"></span>
-                      Imprimir
+                      Remitir SUNAT
                    </button>
                 <?php } ?>
                     
@@ -688,9 +696,14 @@
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
                     $.unblockUI();
 
-                    if (resultado.resultado == 1) {
+                    if (resultado.resultado == 1||resultado.resultado == 2) {
+                        if(resultado.resultado == 1){
+						 toastem.success(resultado.mensaje);
+						}else{
+							mensaje.info("Resultado",resultado.mensaje);
+						}
+					
                         
-                        toastem.success(resultado.mensaje);
                         $("#btn_EnviarFactura").css("display","none");
                         setTimeout(function(){
                             parent.fParent1.call(this,id);
@@ -702,23 +715,42 @@
                         //fncCargar_Comprobantes_Ventas();
 
                         //alert(obj.MensajeRespuesta);
-                    }else if(resultado.resultado==2){
-                        toastem.info(resultado.mensaje);
-                        $("#btn_EnviarFactura").css("display","none");
-                        //$("#btnEnviarFactura").remove();
-                        //$('#txtEstado').val('Enviado a SUNAT');
-                        //$('#tdfacturas_detalle').html(resultado.facturas_detalle);
-                        //fncCargar_Comprobantes_Ventas();
-                         setTimeout(function(){
-                            parent.fParent1.call(this,id);
-                            parent.float_close_modal_hijo();
-                        },1000);
-                        
                     }else{
                         mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
                     }
                 });
             });
+        } catch (e) {
+                //$.unblockUI();
+                console.log(e);
+        } finally {
+
+        }
+    }
+    function fncEnviarGuiaSUNAT() {
+        var id=$("#ID").val();
+        
+        try {
+            if(id>0){
+                block_ui(function(){
+                        cargarValores('Salida/ajaxEnviarGuiaSUNAT',id,function(resultado){
+
+                            $.unblockUI();
+                             if (resultado.resultado == 1) {
+                                 toastem.success(resultado.mensaje);
+                                 bloquear_guia();
+                                 fncEnviarFacturaSUNAT();
+                                 
+                             }else{
+                                 mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
+                             }
+                         });
+                });
+            }else{
+                mensaje.error("Debe registrar la guía");
+            }
+            
+           
         } catch (e) {
                 //$.unblockUI();
                 console.log(e);
@@ -793,6 +825,34 @@
         $("#selNuevaImpresion").prop('disabled', true);
         $("#divCargandoVerificacion").css("display",'none');
     }
+     $(document).ready(function () {
+        $("#selEstadoImpresion").change(function(){
+        
+        var valor=this.value;
+        $("#selEstadoHoja").val(-1);
+         $("#selNuevaImpresion").val(-1);
+        if(valor==0){
+            $("#selEstadoHoja").prop('disabled',false);
+            $("#selNuevaImpresion").prop('disabled',false);
+            $("#selEstadoHoja").focus();
+            
+        }else{
+            $("#selEstadoHoja").prop('disabled',true);
+            $("#selNuevaImpresion").prop('disabled',true);
+        }
+    });
+    $("#selEstadoHoja").change(function(){
+        var valor=this.value;
+        if(valor==1){
+            $("#txtNumero_Hojas").prop('disabled',false);
+            $("#txtNumero_Hojas").focus();
+        }else{
+            $("#txtNumero_Hojas").prop('disabled',true);
+            $("#txtNumero_Hojas").val('');
+        }
+    });
+    });
+</script>    
     </script>
  
  <?php } ?>
@@ -812,9 +872,10 @@
  $(document).ready(function () {
      $.unblockUI();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
+    <?php if($GLOBALS['oGuia_Venta']->tipo_documento==0){?>
     fncImprimirGuia();
   
-    
+    <?php }?>
 });
 
 //setTimeout('window_deslizar_save();', 1000);

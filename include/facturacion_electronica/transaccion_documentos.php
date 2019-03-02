@@ -44,6 +44,9 @@ class transaccion_documentos
     private $fecha_resultado;
     private $codigo_hash;
     private $observacion;
+    private $error;
+    
+    
         public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
         $temporal = $var;
@@ -135,7 +138,7 @@ class transaccion_documentos
         $password=$array['ClaveSol'];
         
         //Creamos el archivo zip
-       $zip=new ZipArchive();
+        $zip=new ZipArchive();
         $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/ZIP_ENVIADOS/".$_SESSION['empresa_ID']."/";
         
         $nombre_zip=$this->nombre_documento.".zip";
@@ -149,15 +152,31 @@ class transaccion_documentos
         
         //=======================
         $wsse_header = new WsseAuthHeader($username, $password);
+        $ws="";
+        if($this->documento=="guia_venta"){
+            if(conexion_ws_sunat=="beta"){
+                $ws=beta_ws_guia;
+            }else{
+                $ws=produccion_ws_guia;
+            }
+            
+        }else{
+           if(conexion_ws_sunat=="beta"){
+                $ws=beta_ws_factura;
+            }else{
+                $ws=produccion_ws_factura;
+            } 
+        }
+        
         //print_r($wsse_header);
         //Producción
         //$x = new SoapClient('https://e-factura.sunat.gob.pe/ol-ti-itcpfegem/billService?wsdl', array("trace" => 1, "exception" => 0));
         //$x = new SoapClient($_SERVER['DOCUMENT_ROOT'].'\include\facturacion_electronica\xml_sunat\billService.wsdl', array("trace" => 1, "exception" => 0));
         
         //Desarrollo
-        $x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
+        //$x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
         //Beta guia
-        //$x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
+        $x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
         
         $x->__setSoapHeaders(array($wsse_header));
         $parametro=array();
@@ -174,7 +193,7 @@ class transaccion_documentos
                 
                  
                 $array[]= $x->sendBill($parametros);
-               
+               //print_r($array);
                 $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/".$nombre_zip;
                 
                 file_put_contents($ZIP_resultado, $array[0]->applicationResponse);
@@ -244,10 +263,82 @@ XML;
                 break;
             case "sendsummary":
                 $array[]= $x->sendSummary($parametros);
-                //print_r($array);
+                print_r($array);
                 $ticket=$array[0]->ticket;
                 
                 return $ticket;
+                break;
+            case "sendPack":
+                
+                 
+                $array[]= $x->sendBill($parametros);
+               //print_r($array[]);
+                $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/".$nombre_zip;
+                
+                file_put_contents($ZIP_resultado, $array[0]->applicationResponse);
+                //$ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-20536781499-01-F001-0000001.zip";
+                $string=file_get_contents($ZIP_resultado);
+              
+                $this->cdr_sunat= base64_encode($string);
+                
+                //Nuevo codigo
+                $zip=zip_open($ZIP_resultado);
+                if($zip){
+                   
+                    while ($zip_entry = zip_read($zip)){
+                        $nombre_resultado=zip_entry_name($zip_entry);
+                        $contenido = zip_entry_read($zip_entry,100000000);
+                       
+                        if($contenido!=""){
+                            $string1 = <<< XML
+$contenido
+XML;
+                            // echo $string1;
+                            $sxe = new SimpleXMLElement($string1);
+                             
+                             
+                            $ns = $sxe->getNamespaces(true);
+                            $child = $sxe->children($ns['cbc']);
+                            $fecha_respuesta=$child->ResponseDate.' '.$child->ResponseTime;
+                            $this->fecha_resultado=$fecha_respuesta;
+                            $array=array();
+                            $array=$child->Note;
+                            $observacion="";
+                            for($i=0;$i<count($array);$i++){
+                                $observacion.=$array[$i]."<br>";
+                            }
+                            $this->observacion=$observacion; 
+                            
+                            //echo $observacion;
+                            
+                            $Document = $sxe->children($ns['cac']);
+                            $DocumentResponse=$Document->DocumentResponse;
+                            $response=$DocumentResponse->children($ns['cac']);
+                            $response1=$response->Response;
+                            $res=$response1->children($ns['cbc']);
+                            //var_dump($Document);
+                            $descripcion_estado=$res->Description;
+                            $codigo_estado=$res->ResponseCode;
+                            $this->descripcion_estado=$descripcion_estado;
+                            $this->codigo_estado=$codigo_estado;
+                            
+                            
+                            $info=$sxe->children($ns['ext']);
+                            $UBLExtensions=$info->UBLExtensions;
+                            $info2=$UBLExtensions->children($ns['ext']);
+                            $UBLExtension=$info2->UBLExtension;
+                            $info3=$UBLExtension->children($ns['ext']);
+                            $ExtensionContent=$info3->ExtensionContent;
+                            $ExtensionContent1=$ExtensionContent->children();
+                            $Signature=$ExtensionContent1->Signature->children();
+                            $SignedInfo=$Signature->SignedInfo->children();
+                            $Reference=$SignedInfo->Reference->children();
+                            $this->codigo_hash=$Reference->DigestValue;
+                        }
+
+                    }
+                }
+                //
                 break;
         }
         //$array[]= $x->sendBill($parametros);
@@ -256,6 +347,194 @@ XML;
             log_error(__FILE__,"transaccion_documento.enviar_documento",$ex->getMessage());
         }
         
+    }
+    function enviar_documento_sunat($ruta_xml,$documento,$metodo){
+        try{
+            $array=$this->getParamEmisor($_SESSION['empresa_ID']);
+            $username=$array['RUC'].$array['UsuarioSol'];
+            $password=$array['ClaveSol'];
+        
+        //Creamos el archivo zip
+        $zip=new ZipArchive();
+        $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/ZIP_ENVIADOS/".$_SESSION['empresa_ID']."/";
+        
+        $nombre_zip=$this->nombre_documento.".zip";
+        $ruta_archivo_zip=$xmlpath.$nombre_zip;
+        $xmlName=$this->nombre_documento.".xml";
+        if($zip->open($ruta_archivo_zip,ZipArchive::CREATE)===TRUE){
+            $zip->addFile($ruta_xml,$xmlName);
+            $zip->close();
+        }
+        $xml_post_string="";
+        switch(strtolower($metodo)){
+             case "sendbill":
+                $xml_post_string = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+                    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.sunat.gob.pe" 
+                    xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                    <soapenv:Header>
+                        <wsse:Security>
+                            <wsse:UsernameToken>
+                                <wsse:Username>'.$username.'</wsse:Username>
+                                <wsse:Password>'.$password.'</wsse:Password>
+                            </wsse:UsernameToken>
+                        </wsse:Security>
+                    </soapenv:Header>
+                    <soapenv:Body>
+                        <ser:sendBill>
+                            <fileName>' . $nombre_zip. '</fileName>
+                            <contentFile>' . base64_encode(file_get_contents($ruta_archivo_zip)) . '</contentFile>
+                        </ser:sendBill>
+                    </soapenv:Body>
+                    </soapenv:Envelope>';
+                 break;
+        }
+        if($xml_post_string==""){
+            throw new Exception("No existe la cabecera");
+        }
+        $headers = array(
+            "Content-type: text/xml;charset=\"utf-8\"",
+            "Accept: text/xml",
+            "Cache-Control: no-cache",
+            "Pragma: no-cache",
+            "SOAPAction: ",
+            "Content-length: " . strlen($xml_post_string),
+        );
+        $ws="";
+         switch($this->documento){
+            case "guia_venta":
+                 if(conexion_ws_sunat=="beta"){
+                        $ws=beta_ws_guia;
+                    }else{
+                        $ws=produccion_ws_guia;
+                    }
+                break;
+            default:
+                if(conexion_ws_sunat=="beta"){
+                    $ws=beta_ws_factura;
+                }else{
+                    $ws=produccion_ws_factura;
+                } 
+                
+         }
+        
+        if($ws==""){throw new Exception("No existe la ebs ervices");}
+        $url = $ws;
+
+        // PHP cURL  for https connection with auth
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml_post_string); // the SOAP request
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        //cambio
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        // converting
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //print_r($response);
+        curl_close($ch);
+        if ($httpcode == 200) {
+            $doc = new DOMDocument();
+            $doc->loadXML($response);
+            if (isset($doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue)) {
+                switch(strtolower($metodo)){
+                    case "sendbill":
+                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-".$nombre_zip;
+                        $xmlCDR = $doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue;
+                        file_put_contents($ZIP_resultado, base64_decode($xmlCDR));
+                        $string=file_get_contents($ZIP_resultado);
+              
+                            $this->cdr_sunat= base64_encode($string);
+
+                            //Nuevo codigo
+                            $zip=zip_open($ZIP_resultado);
+                            if($zip){
+
+                                while ($zip_entry = zip_read($zip)){
+                                    $nombre_resultado=zip_entry_name($zip_entry);
+                                    $contenido = zip_entry_read($zip_entry,100000000);
+
+                                    if($contenido!=""){
+$string1 = <<< XML
+$contenido
+XML;
+                                        // echo $string1;
+                                        $sxe = new SimpleXMLElement($string1);
+
+
+                                        $ns = $sxe->getNamespaces(true);
+                                        $child = $sxe->children($ns['cbc']);
+                                        $fecha_respuesta=$child->ResponseDate.' '.$child->ResponseTime;
+                                        $this->fecha_resultado=$fecha_respuesta;
+                                        $array=array();
+                                        $array=$child->Note;
+                                        $observacion="";
+                                        for($i=0;$i<count($array);$i++){
+                                            $observacion.=$array[$i]."<br>";
+                                        }
+                                        $this->observacion=$observacion; 
+
+                                        echo $observacion;
+
+                                        $Document = $sxe->children($ns['cac']);
+                                        $DocumentResponse=$Document->DocumentResponse;
+                                        $response=$DocumentResponse->children($ns['cac']);
+                                        $response1=$response->Response;
+                                        $res=$response1->children($ns['cbc']);
+                                        //var_dump($Document);
+                                        $descripcion_estado=$res->Description;
+                                        $codigo_estado=$res->ResponseCode;
+                                        $this->descripcion_estado=$descripcion_estado;
+                                        $this->codigo_estado=$codigo_estado;
+
+
+                                        $info=$sxe->children($ns['ext']);
+                                        $UBLExtensions=$info->UBLExtensions;
+                                        $info2=$UBLExtensions->children($ns['ext']);
+                                        $UBLExtension=$info2->UBLExtension;
+                                        $info3=$UBLExtension->children($ns['ext']);
+                                        $ExtensionContent=$info3->ExtensionContent;
+                                        $ExtensionContent1=$ExtensionContent->children();
+                                        $Signature=$ExtensionContent1->Signature->children();
+                                        $SignedInfo=$Signature->SignedInfo->children();
+                                        $Reference=$SignedInfo->Reference->children();
+                                        $this->codigo_hash=$Reference->DigestValue;
+                                    }
+
+                                }
+                            }
+                        break;
+                        case "sendsummary":
+                            $array[]= $x->sendSummary($parametros);
+                            print_r($array);
+                            $ticket=$array[0]->ticket;
+
+                            return $ticket;
+                            break;
+                        
+                }
+                
+            }else{
+                $this->error=1;
+                $this->observacion=$doc->getElementsByTagName('faultstring')->item(0)->nodeValue;
+                $this->codigo_estado=$doc->getElementsByTagName('faultcode')->item(0)->nodeValue;
+            }
+        }else{
+            $this->error="Código de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la información llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT";
+            $this->observacion="";
+        }
+        
+    
+        
+        }catch(Exception $ex){
+            log_error(__FILE__,"transaccion_documento.enviar_documento",$ex->getMessage());
+        }
     }
     function generar_xml(){
         $ruta="";

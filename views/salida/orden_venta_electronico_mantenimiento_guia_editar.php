@@ -635,9 +635,14 @@
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
                     $.unblockUI();
 
-                    if (resultado.resultado == 1) {
+                    if (resultado.resultado == 1||resultado.resultado == 2) {
+                        if(resultado.resultado == 1){
+						 toastem.success(resultado.mensaje);
+						}else{
+							mensaje.info("Resultado",resultado.mensaje);
+						}
+					
                         
-                        toastem.success(resultado.mensaje);
                         $("#btn_EnviarFactura").css("display","none");
                         setTimeout(function(){
                             parent.fParent1.call(this,id);
@@ -649,18 +654,6 @@
                         //fncCargar_Comprobantes_Ventas();
 
                         //alert(obj.MensajeRespuesta);
-                    }else if(resultado.resultado==2){
-                        toastem.info(resultado.mensaje);
-                        $("#btn_EnviarFactura").css("display","none");
-                        //$("#btnEnviarFactura").remove();
-                        //$('#txtEstado').val('Enviado a SUNAT');
-                        //$('#tdfacturas_detalle').html(resultado.facturas_detalle);
-                        //fncCargar_Comprobantes_Ventas();
-                         setTimeout(function(){
-                            parent.fParent1.call(this,id);
-                            parent.float_close_modal_hijo();
-                        },1000);
-                        
                     }else{
                         mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
                     }
@@ -740,6 +733,33 @@
         $("#selNuevaImpresion").prop('disabled', true);
         $("#divCargandoVerificacion").css("display",'none');
     }
+    $(document).ready(function () {
+        $("#selEstadoImpresion").change(function(){
+        
+        var valor=this.value;
+        $("#selEstadoHoja").val(-1);
+         $("#selNuevaImpresion").val(-1);
+        if(valor==0){
+            $("#selEstadoHoja").prop('disabled',false);
+            $("#selNuevaImpresion").prop('disabled',false);
+            $("#selEstadoHoja").focus();
+            
+        }else{
+            $("#selEstadoHoja").prop('disabled',true);
+            $("#selNuevaImpresion").prop('disabled',true);
+        }
+    });
+        $("#selEstadoHoja").change(function(){
+            var valor=this.value;
+            if(valor==1){
+                $("#txtNumero_Hojas").prop('disabled',false);
+                $("#txtNumero_Hojas").focus();
+            }else{
+                $("#txtNumero_Hojas").prop('disabled',true);
+                $("#txtNumero_Hojas").val('');
+            }
+        });
+    });
     </script>
  
  <?php } ?>
