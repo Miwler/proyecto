@@ -88,6 +88,10 @@ function cargarInformacion($empresa_ID){
 		$text=htmlspecialchars(utf8_decode($text));
 		return $text;
 	}
+        function FormatTextXML($text){
+		$text=preg_replace('/[\r\n|\n|\r]+/','&lt;',$text);
+		return $text;
+	}
 	function test_input($data) {
             $data = trim($data);
             $data = stripslashes($data);

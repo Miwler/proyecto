@@ -263,7 +263,7 @@ XML;
                 break;
             case "sendsummary":
                 $array[]= $x->sendSummary($parametros);
-                print_r($array);
+                //print_r($array);
                 $ticket=$array[0]->ticket;
                 
                 return $ticket;
@@ -387,6 +387,27 @@ XML;
                     </soapenv:Body>
                     </soapenv:Envelope>';
                  break;
+             case "sendsummary":
+                 $xml_post_string = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+                    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.sunat.gob.pe" 
+                    xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                    <soapenv:Header>
+                        <wsse:Security>
+                            <wsse:UsernameToken>
+                                <wsse:Username>'.$username.'</wsse:Username>
+                                <wsse:Password>'.$password.'</wsse:Password>
+                            </wsse:UsernameToken>
+                        </wsse:Security>
+                    </soapenv:Header>
+                    <soapenv:Body>
+                        <ser:sendSummary>
+                            <fileName>' . $nombre_zip. '</fileName>
+                            <contentFile>' . base64_encode(file_get_contents($ruta_archivo_zip)) . '</contentFile>
+                        </ser:sendSummary>
+                    </soapenv:Body>
+                    </soapenv:Envelope>';
+                 break;
+                 
         }
         if($xml_post_string==""){
             throw new Exception("No existe la cabecera");
@@ -418,6 +439,7 @@ XML;
          }
         
         if($ws==""){throw new Exception("No existe la ebs ervices");}
+        
         $url = $ws;
 
         // PHP cURL  for https connection with auth
@@ -442,10 +464,9 @@ XML;
         if ($httpcode == 200) {
             $doc = new DOMDocument();
             $doc->loadXML($response);
-            if (isset($doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue)) {
-                switch(strtolower($metodo)){
-                    case "sendbill":
-                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-".$nombre_zip;
+            if(strtolower($metodo)=="sendbill"){
+                if (isset($doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue)) {
+                    $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-".$nombre_zip;
                         $xmlCDR = $doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue;
                         file_put_contents($ZIP_resultado, base64_decode($xmlCDR));
                         $string=file_get_contents($ZIP_resultado);
@@ -509,25 +530,31 @@ XML;
 
                                 }
                             }
-                        break;
-                        case "sendsummary":
-                            $array[]= $x->sendSummary($parametros);
-                            print_r($array);
-                            $ticket=$array[0]->ticket;
-
-                            return $ticket;
-                            break;
-                        
-                }
+                            
+                
                 
             }else{
-                $this->error=1;
-                $this->observacion=$doc->getElementsByTagName('faultstring')->item(0)->nodeValue;
-                $this->codigo_estado=$doc->getElementsByTagName('faultcode')->item(0)->nodeValue;
+                    $this->error=1;
+                    $this->observacion=$doc->getElementsByTagName('faultstring')->item(0)->nodeValue;
+                    $this->codigo_estado=$doc->getElementsByTagName('faultcode')->item(0)->nodeValue;
+                }
+            }
+            if(strtolower($metodo)=="sendsummary"){
+                $ticket="";
+                if(isset($doc->getElementsByTagName('ticket')->item(0)->nodeValue)){
+                    $ticket= $doc->getElementsByTagName('ticket')->item(0)->nodeValue;
+                }else{
+                    $this->error=1;
+                    $this->observacion="No se recibió ninguna respuesta";
+                    
+                }
+                
+                         
+                return $ticket;
             }
         }else{
-            $this->error="Código de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la información llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT";
-            $this->observacion="";
+            $this->error=1;
+            $this->observacion="Código de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la información llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT";
         }
         
     

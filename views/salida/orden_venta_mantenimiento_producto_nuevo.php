@@ -505,6 +505,7 @@
   </style>
     <script type="text/javascript">
         
+        
         function fncISCIngresarMonto(valor){
             var moneda_ID=<?php  echo $GLOBALS['oOrden_Venta']->moneda_ID?>; 
             var moneda=(moneda_ID==1)?"S/":"USD";

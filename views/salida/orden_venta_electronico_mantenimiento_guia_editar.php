@@ -340,15 +340,15 @@
                 <button type="button" id="btn_EnviarFactura" class="btn btn-primary" style="display:none;" onclick="fncEnviarFacturaSUNAT();">
                     Enviar Fact/Boleta a SUNAT
                 </button>
-
+                    <!--
                 <button id="btnAnular" type="button" title="Anular guía" class="btn btn-danger" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de anular la guía?','Anular Guía',fncAnularGuia);">
                     <span class="glyphicon glyphicon-ban-circle"></span>
                      Anular
-                </button> 
+                </button> -->
             
-                <button id="btnRegresar" type="button" title="Regresar" class="cancelar" onclick="parent.float_close_modal_hijo();">
+                <button id="btnRegresar" type="button" title="Regresar" class="cancelar" onclick="salir();">
                     <span class="glyphicon glyphicon-arrow-left"></span>
-                    Regresar
+                    Salir
                </button>   
                 </div>
             </div>
@@ -356,6 +356,11 @@
     </div>
 </form>
 <script type="text/javascript">
+    
+    function salir(){
+        parent.fParent1.call(this,<?php echo $GLOBALS['oGuia_Venta']->factura_venta_ID;?>,<?php echo $GLOBALS['oGuia_Venta']->ID;?>);
+         parent.float_close_modal_hijo();
+    }
   $("#selTipoDocumento").change(function(){
         var electronico=this.value;
        if(electronico==1){

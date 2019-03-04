@@ -263,3 +263,113 @@ FECHA Y HORA: 02 03 2019 17:03:30
 RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
 METODO: transaccion_documento.enviar_documento
 ERROR: 0306
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcó la opción con guía.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No se ha registrado ningún producto
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No se ha registrado ningún producto
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 09:03:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 12:03:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 13:03:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 15:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1052)
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 15:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 15:03:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1052)
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 16:03:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcó la opción con guía.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 16:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 16:03:50
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcó la opción con guía.
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 16:03:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: CÃ³digo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaciÃ³n llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C�digo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci�n llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C�digo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci�n llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C�digo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci�n llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 21:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ningún producto.

@@ -12322,274 +12322,7 @@ function post_ajaxGuia_Venta_Numero_Ultimo() {
     echo json_encode($retornar);
 }
 
-function post_ajaxEnviarSUNAT1() {
 
-    require ROOT_PATH.'models/factura_venta_sunat.php';
-    require ROOT_PATH.'models/salida.php';
-    require ROOT_PATH.'models/factura_venta.php';
-    require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'include/lib_fecha_texto.php';
-    require_once('include/URL_API.php');
-
-    $new = new api_SUNAT();
-    $id=$_POST['id'];
-
-    //$oSalida=salida::getByID($id);
-  
-    try {
-        $oFactura_venta=factura_venta::getFactura_SUNAT($id,"cabecera");
-        if (count($oFactura_venta)==0) {
-            throw new Exception("No existe la factura.");
-        }
-        $oFactura_Detalle=factura_venta::getFactura_SUNAT($id,"detalle");
-        if(count($oFactura_Detalle)==0){
-            throw new Exception("La factura no tiene detalles.");
-        }
-
-        $DocumentoDetalle = array();
-        $Discrepancias = array();
-        $DocumentoRelacionado = array();
-        $i=0;
-        $total_venta=0;
-        foreach($oFactura_Detalle as $item){
-            $DocumentoDetalle[] = array (
-                'Id' => $i+1,
-                'Cantidad' => $item['cantidad'],
-                'UnidadMedida' => $item['unidad_medida'],
-                'CodigoItem' => $item['producto_ID'],
-                'Descripcion' => $item['producto_nombre'],
-                'PrecioUnitario' =>$item['precio_unitario'],
-                'PrecioReferencial' => $item['PrecioReferencial'],
-                'TipoPrecio' => $item['tipoprecio'],
-                'TipoImpuesto' => $item['tipoimpuesto'],
-                'Impuesto' => $item['impuesto'],
-                'ImpuestoSelectivo' => $item['ImpuestoSelectivo'],
-                'OtroImpuesto' => $item['OtroImpuesto'],
-                'Descuento' => $item['Descuento'],
-                'PlacaVehiculo' => $item['PlacaVehiculo'],
-                'TotalVenta' => $item['totalventa'],
-                'Suma' => $item['Suma'],
-            );
-            
-            $i++;
-        }
-        $total_facturado=explode(".",$oFactura_venta[0]['monto_total']);
-        //$oMoneda=moneda::getByID($oFactura_Venta->moneda_ID);
-        $decimal="00";
-        if(isset($total_facturado[1])){
-            if(strlen($total_facturado[1])==1){
-                $decimal=$total_facturado[1].'0';
-            }else {
-                $decimal=$total_facturado[1];
-            }
-
-        }
-        $total_texto="SON: ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper(FormatTextView($oFactura_venta[0]['moneda']))).".";
-    
-        $param_emisor = $new->getParamEmisor($oFactura_venta[0]['empresa_ID']);
-        $data = array (
-        'IdDocumento' => $oFactura_venta[0]['serie'].'-'.$oFactura_venta[0]['numero_concatenado'],
-        'TipoDocumento' =>$oFactura_venta[0]['codigo_documento'],
-        'Emisor' => $param_emisor["Emisor"],
-        'Receptor' =>  array (
-          'NroDocumento' => $oFactura_venta[0]['ruc'],
-          'TipoDocumento' => $oFactura_venta[0]['TipoDocumento'],//SOLO FACTURA  06
-          'NombreLegal' => $oFactura_venta[0]['cliente'],
-        ),
-        'FechaEmision' => $oFactura_venta[0]['fecha_emision'],
-        'Moneda' => $oFactura_venta[0]['codigo_moneda'],
-        'TipoOperacion' => '',
-        'Gravadas' => $oFactura_venta[0]['monto_total_neto'],//$oFactura_venta[0]['gravadas']
-        'Gratuitas' => $oFactura_venta[0]['gratuitas'],
-        'Inafectas' => $oFactura_venta[0]['inafectas'],
-        'Exoneradas' => $oFactura_venta[0]['exoneradas'],
-        'DescuentoGlobal' => $oFactura_venta[0]['descuento_global'],
-        'TotalVenta' => $oFactura_venta[0]['monto_total'],
-        'TotalIgv' => $oFactura_venta[0]['monto_total_igv'],
-        'TotalIsc' => 0,
-        'TotalOtrosTributos' => 0,
-        'MontoEnLetras' => $total_texto,
-        'PlacaVehiculo' => '',
-        'MontoPercepcion' => 0,
-        'MontoDetraccion' => $oFactura_venta[0]['monto_detraccion'],
-        'TipoDocAnticipo' => '',
-        'DocAnticipo' => '',
-        'MonedaAnticipo' => '',
-        'MontoAnticipo' => 0,
-        'CalculoIgv' => $oFactura_venta[0]['CalculoIgv'],
-        'CalculoIsc' => $oFactura_venta[0]['CalculoIsc'],
-        'CalculoDetraccion' => $oFactura_venta[0]['CalculoDetraccion'],
-        'Items' => $DocumentoDetalle,
-        );
-       
-        $carpeta='';
-        $metodo = '';
-        switch ($data['TipoDocumento']) {
-            case '01':
-                $metodo = 'GenerarFactura';
-                $carpeta="factura";
-                break;
-            case '03':
-                $metodo = 'GenerarFactura';
-                $carpeta="boleta";
-                break;
-            case '07':
-                $metodo = 'GenerarNotaCredito';
-                break;
-            case '08':
-                $metodo = 'GenerarNotaDebito';
-                break;
-            default:
-              $metodo = 'GenerarFactura';
-              break;
-        }
-        //echo json_encode($data);
-        $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
-        $resultado_GFactura = $new->sendPostCPE(json_encode($data),$metodo);
-        $data_GFactura = json_decode($resultado_GFactura);
-        //print_r($resultado_GFactura);
-      //{
-      //  "TramaXmlSinFirma": "string",
-      //  "Exito": true,
-      //  "MensajeError": "string",
-      //  "Pila": "string"
-      //}
-      //echo ($resultado_GFactura);
-        $array_sunat=array();
-      if ($data_GFactura->Exito==true) {
-
-        $firma=array (
-            'CertificadoDigital' => $param_emisor["Certificado"],
-            'PasswordCertificado' => $param_emisor["PasswordCertificado"],
-            'TramaXmlSinFirma' => $data_GFactura->TramaXmlSinFirma,
-            'UnSoloNodoExtension' => false,
-        );
-        //echo $param_emisor["Certificado"];
-        
-        $resultado_firma = $new->sendPostCPE(json_encode($firma),'Firmar');
-        $data_firma = json_decode($resultado_firma);
-
-        //echo json_encode($resultado_firma);
-        if ($data_firma->Exito==true) {
-          // {
-          //   "TramaXmlFirmado": "string",
-          //   "ResumenFirma": "string",
-          //   "ValorFirma": "string",
-          //   "Exito": true,
-          //   "MensajeError": "string",
-          //   "Pila": "string"
-          // }
-
-          $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'].'.xml';
-          
-          $new->EscribirArchivoXML($nombreArchivo,$data_firma->TramaXmlFirmado,$carpeta);
-            $enviar_sunat=array (
-                'TramaXmlFirmado' => $data_firma->TramaXmlFirmado,
-                'Ruc' => $param_emisor["RUC"],
-                'UsuarioSol' => $param_emisor["UsuarioSol"],
-                'ClaveSol' => $param_emisor["ClaveSol"],
-                'IdDocumento' => $data['IdDocumento'],
-                'TipoDocumento' => $data['TipoDocumento'],
-                'EndPointUrl' => $param_emisor["UrlSunat"],
-            );
-
-            //var_dump($enviar_sunat);
-          //echo json_encode($enviar_sunat);
-
-          $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
-          $data_sunat = json_decode($resultado_sunat);
-
-          
-          $sunat_respuesta='';
-          if ($data_sunat->Exito==true) {
-            // echo 'CodigoRespuesta : '.$data_sunat->CodigoRespuesta.'<br>';
-            // echo 'MensajeRespuesta : '.$data_sunat->MensajeRespuesta.'<br>';
-            // echo 'NombreArchivo : '.$data_sunat->NombreArchivo.'<br>';
-            // echo 'TramaZipCdr : '.$data_sunat->TramaZipCdr.'<br>';
-                            
-            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
-            $oFactura_Venta1->estado_ID=94;//Estado emitido electronico;
-            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oFactura_Venta1->actualizar();
-            $sunat_respuesta = $data_sunat->MensajeRespuesta;
-            if ($data_sunat->CodigoRespuesta==0) {
-              $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr,$carpeta);
-              
-            }
-            $mensaje="El comprobante de venta se envió correctamente a la SUNAT.";
-            $resultado=1;
-            $array_sunat=json_encode($resultado_sunat);
-            //echo json_encode($resultado_sunat);
-          }else{
-            $mensaje="El comprobante no se envió correctamente, no se creó el archivo CDR.";
-            $resultado=-1;
-            $array_sunat=json_encode($resultado_sunat);
-            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
-            $oFactura_Venta1->estado_ID=96;//Estado error de envío electronico;
-            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oFactura_Venta1->actualizar();
-          }
-          
-            $oFactura_Venta_Sunat=new factura_venta_sunat();
-            $oFactura_Venta_Sunat->factura_venta_ID=$oFactura_venta[0]['ID'];
-            $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
-            $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
-            $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
-            $oFactura_Venta_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
-            $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
-            $oFactura_Venta_Sunat->representacion_impresa='';
-            $oFactura_Venta_Sunat->estado_envio=1;
-            $oFactura_Venta_Sunat->codigo_estado=$data_sunat->CodigoRespuesta;
-            $oFactura_Venta_Sunat->descripcion_estado=FormatTextSave($sunat_respuesta);
-            $oFactura_Venta_Sunat->cdr_sunat = $data_sunat->TramaZipCdr;
-            $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
-            $oFactura_Venta_Sunat->insertar();
-
-        } else {
-            $nombreArchivo = $data['Emisor']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
-            $oFactura_Venta_Sunat=new factura_venta_sunat();
-            $oFactura_Venta_Sunat->factura_venta_ID=$oFactura_venta[0]['ID'];
-            $oFactura_Venta_Sunat->fecha_generacion=$FechaRespuesta;
-            $oFactura_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
-            $oFactura_Venta_Sunat->hash=$data_firma->ResumenFirma;
-            $oFactura_Venta_Sunat->nombre_archivo=$nombreArchivo;
-            $oFactura_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
-            $oFactura_Venta_Sunat->representacion_impresa='';
-            $oFactura_Venta_Sunat->estado_envio=0;
-            $oFactura_Venta_Sunat->codigo_estado="";
-            $oFactura_Venta_Sunat->descripcion_estado="Ocurrió un error al firmar la trama xml";
-            $oFactura_Venta_Sunat->cdr_sunat="";
-            $oFactura_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
-            $oFactura_Venta_Sunat->insertar();
-            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
-            $oFactura_Venta1->estado_ID=96;//Estado error de envío electronico;
-            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oFactura_Venta1->actualizar();
-          $resultado=-1;
-          $mensaje="El comprobante no se envió a la SUNAT, hubo un error al firmar la trama xml.";
-          $array_sunat=json_encode($resultado_firma);
-        }
-
-
-
-      }else {
-          $mensaje="El comprobante no se envió a la SUNAT, hubo un error en el servicio";
-          $resultado=-1;
-        //echo json_encode($resultado_GFactura);
-      }
-
-    } catch (Exception $ex) {
-        $resultado=-1;
-        log_error(__FILE__,"salidaController.post_ajaxEnviarSUNAT",$ex->getMessage());
-        $mensaje=$ex->getMessage();
-
-    }
-
-    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje,'array_sunat'=>$array_sunat);
-   
-
-    echo json_encode($retornar);
-}
 function post_ajaxEnviarSUNAT() {
 
     require ROOT_PATH.'models/factura_venta_sunat.php';
@@ -12645,7 +12378,7 @@ function post_ajaxEnviarSUNAT() {
                 'Cantidad' => $item['cantidad'],
                 'UnidadMedida' => trim($item['unidad_medida']),
                 'CodigoItem' => $item['codigo'],
-                'Descripcion' => preg_replace('/[\r\n|\n|\r]+/','&lt;', trim(substr($item['producto_descripcion'],0,250))),
+                'Descripcion' => FormatTextXML(trim(substr($item['producto_descripcion'],0,250))),
                 'ValorUnitario' =>$item['valor_unitario'],
                 'PrecioUnitario' =>$item['precio_unitario'],
                 'PrecioVentaUnitario' =>$item['precio_venta_unitario'],
@@ -12914,8 +12647,8 @@ function post_ajaxEnviarGuiaSUNAT() {
             $DocumentoDetalle[] = array (
                 'Correlativo' => $item['Correlativo'],
                 'CodigoItem' => $item['CodigoItem'],
-                'Descripcion' => "Memoria RAM",
-                'UnidadMedida' => 'NIU',//$item['UnidadMedida'],
+                'Descripcion' =>FormatTextXML(substr(trim($item['Descripcion']),0,250)),
+                'UnidadMedida' =>($item['UnidadMedida']=="")?"NIU":$item['UnidadMedida'],
                 'Cantidad' => $item['Cantidad'],
                 'LineaReferencia' => $item['LineaReferencia']
             ); 
@@ -12925,7 +12658,7 @@ function post_ajaxEnviarGuiaSUNAT() {
             'FechaEmision' =>$oGuia_Venta[0]['FechaEmision'],
             'HoraEmision' =>date("H:i:s"),
             'TipoDocumento'=>$oGuia_Venta[0]['TipoDocumento'],
-            'Observacion'=>"Nota de prueba",//$oGuia_Venta[0]['Observacion'],
+            'Observacion'=>FormatTextXML(trim($oGuia_Venta[0]['Observacion'])),
             'Glosa'=>$oGuia_Venta[0]['Glosa'],
             'Remitente'=>array(
                 'NroDocumento'=>$oGuia_Venta[0]['Remitente_NroDocumento'],
@@ -12944,7 +12677,7 @@ function post_ajaxEnviarGuiaSUNAT() {
                 'TipoDocumento'=>$oGuia_Venta[0]['Destinatario_TipoDocumento'],
                 'NombreLegal'=>$oGuia_Venta[0]['Destinatario_NombreLegal'],
                 'NombreComercial'=>$oGuia_Venta[0]['Destinatario_NombreComercial'],
-                'Ubigeo'=>'150102',//$oGuia_Venta[0]['Destinatario_Ubigeo'],
+                'Ubigeo'=>$oGuia_Venta[0]['Destinatario_Ubigeo'],
                 'Direccion'=>$oGuia_Venta[0]['Destinatario_Direccion'],
                 'Urbanizacion'=>$oGuia_Venta[0]['Destinatario_Urbanizacion'],
                 'Departamento'=>$oGuia_Venta[0]['Destinatario_Departamento'],
@@ -12967,25 +12700,25 @@ function post_ajaxEnviarGuiaSUNAT() {
                 'TipoDocumento'=>''
             ),           
             'CodigoMotivoTraslado'=>$oGuia_Venta[0]['CodigoMotivoTraslado'],
-            'DescripcionMotivo'=>'Venta interna de productos',
+            'DescripcionMotivo'=>FormatTextXML(trim($oGuia_Venta[0]['DescripcionMotivo'])),//'Venta interna de productos',
             'Transbordo'=>'0',
-            'PesoBrutoTotal'=>'10.00',
+            'PesoBrutoTotal'=>$oGuia_Venta[0]['PesoBrutoTotal'],
             'UnidadMedida'=>'KGM',
             'NroPallets'=>1,
-            'ModalidadTraslado'=>'01',//$oGuia_Venta[0]['ModalidadTraslado'],
+            'ModalidadTraslado'=>$oGuia_Venta[0]['ModalidadTraslado'],
             'FechaInicioTraslado'=>$oGuia_Venta[0]['FechaInicioTraslado'],
-            'RucTransportista'=>'2147483647',//$oGuia_Venta[0]['RucTransportista'],
-            'RazonSocialTransportista'=>'AGRO INDUSTRIAS MULTI - VIT&quot; EMPRESA INDIVIDUAL DE RESPONSABILIDAD LIMITADA',//$oGuia_Venta[0]['RazonSocialTransportista'],
-            'NroPlacaVehiculo'=>'C1Y143',
-            'NroDocumentoConductor'=>'4523834',
+            'RucTransportista'=>$oGuia_Venta[0]['RucTransportista'],
+            'RazonSocialTransportista'=>FormatTextXML(utf8_decode($oGuia_Venta[0]['RazonSocialTransportista'])),//$oGuia_Venta[0]['RazonSocialTransportista'],
+            'NroPlacaVehiculo'=>$oGuia_Venta[0]['NroPlacaVehiculo'],
+            'NroDocumentoConductor'=>$oGuia_Venta[0]['NroDocumentoConductor'],
             'NroPlacaVehiculoSecundario'=>'',
             'DireccionPartida'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
-                'DireccionCompleta'=>$oGuia_Venta[0]['DireccionPartida_DireccionCompleta']
+                'DireccionCompleta'=>FormatTextXML(utf8_decode($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']))
             ),
             'DireccionLlegada'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],
-                'DireccionCompleta'=>$oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']
+                'DireccionCompleta'=>FormatTextXML(utf8_decode($oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']))
             ),
             'NumeroContenedor'=>$oGuia_Venta[0]['NumeroContenedor'],
             'CodigoPuerto'=>$oGuia_Venta[0]['CodigoPuerto'],
@@ -13004,13 +12737,14 @@ function post_ajaxEnviarGuiaSUNAT() {
                     $resultado=-1;
                     $mensaje=utf8_encode($transacion->observacion);
                 }else{
-                    
+                    $string=file_get_contents($ruta_xml_firmado);
+                    $trama_firmado=base64_encode($string);
                     $oGuia_Venta_Sunat=new guia_venta_sunat();
                     $oGuia_Venta_Sunat->guia_venta_ID=$id;
                     $oGuia_Venta_Sunat->fecha_generacion=date('Y-m-d');
                     $oGuia_Venta_Sunat->fecha_respuesta=$transacion->fecha_resultado;
-                    $oGuia_Venta_Sunat->nombre_archivo="";
-                    $oGuia_Venta_Sunat->xml_firmado=$ruta_xml_firmado;
+                    $oGuia_Venta_Sunat->nombre_archivo=$transacion->nombre_documento;
+                    $oGuia_Venta_Sunat->xml_firmado=$trama_firmado;
                     $oGuia_Venta_Sunat->hash=$transacion->codigo_hash;
                     $oGuia_Venta_Sunat->representacion_impresa="";
                     $oGuia_Venta_Sunat->estado_envio=1;
@@ -13051,6 +12785,60 @@ function post_ajaxEnviarGuiaSUNAT() {
    
 
     echo json_encode($retornar);
+}
+function post_ajaxDownloadXMLGuia() {
+
+  require ROOT_PATH.'models/guia_venta_sunat.php';
+  require_once('include/URL_API.php');
+
+  $id = $_POST['id'];
+  $tipo = $_POST['tipo'];
+
+  try {
+    $oguia_venta_sunat = guia_venta_sunat::getGrid("guia_venta_ID=".$id,0,1,'ID desc');
+    
+    
+    //var_dump($ofactura_venta_sunat);
+
+    //VALIDAR SI ESISTE
+    //var_dump($oFactura_venta);
+    //var_dump($oSalida);
+    $xml_firmado='';
+    $xml_firmado_new = '';
+    $nombre_archivo = '';
+    if (count($oguia_venta_sunat)==0) {
+      throw new Exception("Falta generar la facura");
+    }
+
+    // $nombre_archivo = $ofactura_venta_sunat[0]['nombre_archivo']
+    //$xml_firmado = $ofactura_venta_sunat[0]['xml_firmado']
+    //var_dump($xml_firmado);
+    $nombre_archivo = $oguia_venta_sunat[0]['nombre_archivo'];
+    if ($tipo == 'CDR') {
+        $xml_firmado_new = $oguia_venta_sunat[0]['cdr_sunat'];
+      /*$OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$nombre_archivo.'_NEW.zip';
+      file_put_contents($OUTPUT, base64_decode($ofactura_venta_sunat[0]['cdr_sunat']));*/
+        $archivo=ruta_archivo."/SUNAT/CDR_DESCARGAR/".$_SESSION['empresa_ID'].'/'.$nombre_archivo.'.zip';
+        $OUTPUT =  ROOT_PATH.$archivo;
+        file_put_contents($OUTPUT, base64_decode($oguia_venta_sunat[0]['cdr_sunat']));
+        $nombre_archivo=$archivo;
+    }
+   
+    if ($tipo == 'XML') {
+        //echo "fff". $ofactura_venta_sunat[0]['xml_firmado'];
+      $xml_firmado_new = base64_decode($oguia_venta_sunat[0]['xml_firmado']);
+      //echo $xml_firmado_new;
+      $nombre_archivo = $nombre_archivo.'.xml';
+    }
+
+    $retornar = Array('tipo' => $tipo,'nombre_archivo' => $nombre_archivo,'xml_firmado' => utf8_encode($xml_firmado_new), 'mensaje' => '', 'exito' => 'true');
+    echo json_encode($retornar);
+
+    } catch (Exception $ex) {
+        $retornar = Array('mensaje' => $ex->getMessage(), 'exito' => 'false');
+        echo json_encode($retornar);
+    }
+
 }
 function post_ajaxEnviarGuiaSUNAT1() {
 
@@ -14299,24 +14087,26 @@ function enviarComprobante_RegulaSUNAT($ID){
             $ruta=$transacion->generar_xml();
             $ruta_xml_firmado=$transacion->firmar_documento($ruta,"notacredito");
             //echo $ruta_xml_firmado;
-            $transacion->enviar_documento($ruta_xml_firmado,"notacredito","sendbill");
+            $transacion->enviar_documento_sunat($ruta_xml_firmado,"notacredito","sendbill");
         }else{
             $transacion->documento="nota_debito";
             $ruta=$transacion->generar_xml();
             $ruta_xml_firmado=$transacion->firmar_documento($ruta,"notadebito");
             //echo $ruta_xml_firmado;
-            $transacion->enviar_documento($ruta_xml_firmado,"notadebito","sendbill");
+            $transacion->enviar_documento_sunat($ruta_xml_firmado,"notadebito","sendbill");
+        }
+        if($transacion->error==0){
+            $oComprobante_Regula->estado_ID=92;//Estado enviado
+            $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
+            $oComprobante_Regula->actualizar();
+            $resultado=1;
+            $mensaje="Se guardó correctamente";
+        }else{
+            $resultado=-1;
+            $mensaje= utf8_decode($transacion->observacion);
         }
         
-        $oComprobante_Regula->estado_ID=92;//Estado enviado
-        $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oComprobante_Regula->actualizar();
-            
-            
-        $resultado=1;
-        $mensaje="Se guardó correctamente";
-      
-      
+
     } catch (Exception $ex) {
         $mensaje=utf8_encode(mensaje_error);
         $resultado=-1;
@@ -14960,6 +14750,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['dtMoneda']=moneda::getGrid();
         $GLOBALS['oCotizacion']=$oCotizacion;
         $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
+        $GLOBALS['guia_venta_ID_emitida']=0;
         $GLOBALS['mensaje']=$mensaje;
     }
     function post_Orden_Venta_Electronico_Mantenimiento_Nuevo(){
@@ -14977,6 +14768,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/numero_cuenta.php';
         require ROOT_PATH.'models/salida_numero_cuenta.php';
         require ROOT_PATH.'models/factura_venta.php';
+        require ROOT_PATH.'models/guia_venta.php';
         require ROOT_PATH.'controls/funcionController.php';
         global  $returnView_float;
         $returnView_float=true;
@@ -15117,6 +14909,12 @@ function get_Comprobante_regula_Vista_Previa($id){
         }else {
             $oCotizacion=cotizacion::getByID($osalida->cotizacion_ID);
         }
+        $dtGuia_Venta=guia_venta::getGrid('salida_ID='.$osalida->ID." and estado_ID=98");
+        $guia_venta_ID_emitida=0;
+        if(count($dtGuia_Venta)>0){
+            $guia_venta_ID_emitida=$dtGuia_Venta[0]['ID'];
+            
+        }
         $oFactura_Venta=new factura_venta();
         $oFactura_Venta->ID=0;
         $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(2,$osalida->moneda_ID,null,$osalida);
@@ -15135,6 +14933,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
         $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
+        $GLOBALS['guia_venta_ID_emitida']=$guia_venta_ID_emitida;
+        
     }
     
     function get_Orden_Venta_Electronico_Mantenimiento_Editar($id){
@@ -15151,6 +14951,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/cotizacion.php';
         require ROOT_PATH.'models/numero_cuenta.php';
         require ROOT_PATH.'models/factura_venta.php';
+        require ROOT_PATH.'models/guia_venta.php';
         require ROOT_PATH.'controls/funcionController.php';
         global  $returnView_float;
         $returnView_float=true;
@@ -15160,9 +14961,17 @@ function get_Comprobante_regula_Vista_Previa($id){
         $osalida=salida::getByID($id);
         $contar_hijo=salida_detalle::getCount('salida_ID='.$id);
         $factura_venta_ID_emitida=0;
+        $guia_venta_ID_emitida=0;
         $dtFactura_Venta=factura_venta::getGrid2("fv.estado_ID=94 and fv.salida_ID=".$id,-1,-1,"fv.ID desc");
+       
         if(count($dtFactura_Venta)>0){
             $factura_venta_ID_emitida=$dtFactura_Venta[0]['ID'];
+            
+        }
+        $dtGuia_Venta=guia_venta::getGrid('salida_ID='.$id." and estado_ID=98");
+        if(count($dtGuia_Venta)>0){
+            $guia_venta_ID_emitida=$dtGuia_Venta[0]['ID'];
+            
         }
         /*if($contar_hijo>0){
             $osalida->ver_factura=1;
@@ -15177,7 +14986,7 @@ function get_Comprobante_regula_Vista_Previa($id){
             $osalida->ver_factura=0;
             $osalida->ver_guia=0;
         }*/
-
+        
         $oCliente=cliente::getByID($osalida->cliente_ID);
         $oOperador=operador::getByID($osalida->operador_ID);
         $dtForma_Pago=forma_pago::getGrid();
@@ -15199,6 +15008,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['oNumero_Cuenta']=$oNumero_Cuenta;
         $GLOBALS['dtMoneda']=moneda::getGrid();
         $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
+        $GLOBALS['guia_venta_ID_emitida']=$guia_venta_ID_emitida;
 
 
         $GLOBALS['mensaje']=$mensaje;
@@ -15826,6 +15636,7 @@ function get_Comprobante_regula_Vista_Previa($id){
     }
     function post_ajaxCargarDetalle_Guia_Venta(){
         require ROOT_PATH.'models/salida_detalle.php';
+        
         $salida_ID=$_POST['txtSalida_ID'];
         $ver_descripcion=$_POST['ver_descripcion'];
         $ver_componente=$_POST['ver_componente'];
@@ -15833,9 +15644,11 @@ function get_Comprobante_regula_Vista_Previa($id){
         $ver_serie=$_POST['ver_serie'];
         $incluir_obsequios=$_POST['incluir_obsequios'];
         $html="";
-
+        //echo $salida_ID;
         try{
+            
             $dt= salida_detalle::getFilasDetalleGuia($salida_ID,$ver_descripcion,$ver_componente,$ver_adicional,$ver_serie,$incluir_obsequios);
+            
             $html=str_replace('\r\n','<br>',$dt[0]["filas"]);
       
         }
@@ -15962,7 +15775,55 @@ function get_Comprobante_regula_Vista_Previa($id){
                
             }
             
-            /*$pdf->Ln();
+            $ruta=ruta_archivo."/temp/guia_remision/guia_remision_".$_SESSION['empresa_ID']."_".rand(1,500).".pdf";
+            $pdf->Output($ruta,'F');
+        }catch(Exception $ex){
+            $GLOBALS['error']=$ex->getMessage();
+        }
+       
+        $retornar=Array('ruta'=>$ruta);
+        echo json_encode($retornar);
+   
+    }
+    function get_Guia_Vista_PreviaPDF($id){
+
+    require ROOT_PATH.'models/guia_venta.php';
+    require ROOT_PATH.'models/guia_venta_sunat.php';
+    require ROOT_PATH.'formatos_pdf/guia_venta_pdf_vistaprevia.php';
+    global $returnView_float;
+    $returnView_float=true;
+    $pdf= new PDF2('P','mm',array(216,279));
+    try{
+        $dtCabecera=guia_venta::getVistaDescarga($id,"cabecera");
+        //print_r($dtCabecera);
+        $dtDetalle=guia_venta::getVistaDescarga($id,"detalle");
+        $electronico=1;
+        $numero_pagina=1;
+        $numero=$dtCabecera[0]['numero_concatenado'];
+       $pdf->AddPage();
+       $hash="";
+            $dtGv=guia_venta_sunat::getGrid("guia_venta_ID=".$id,-1,-1,'ID desc');
+            if(count($dtGv)>0){
+                $hash=$dtGv[0]['hash'];
+            }
+       $pdf->hash=$hash;
+            $pdf->cabecera=$dtCabecera;
+            $pdf->numero=$numero;
+            $pdf->electronico=$electronico;
+            //$pdf->numero_cuenta=$numero_cuenta;
+            $pdf->cabecera_header();
+            $pdf->contenedor_detalle(130);
+            
+            
+            
+            $pdf->SetWidths(array(20,120,25,35));
+            $pdf->SetAligns(array('C','L','C','C'));
+            
+            $pdf->contenido_detalle($dtDetalle);
+
+        /*
+      
+            $pdf->Ln();
             $pdf->SetFont('Arial','B',8);
             $pdf->SetTextColor(255,255,255);
             $pdf->SetFillColor(117,179,114);
@@ -15979,7 +15840,8 @@ function get_Comprobante_regula_Vista_Previa($id){
             $array_align=array('C','C','C','L','R','R','J');
             $h_atual=$pdf->GetY();
             $pdf->SetTextColor(0,0,0);
-            /*foreach($dtDetalle as $item){
+            foreach($dtDetalle as $item){
+                $longitud=strlen($item["producto"]);
                 //$h_atual=$pdf->GetY();
                 $pdf->SetXY($x,$y);
                 $costo_unitario=number_format($item['precio_unitario'],2,'.',',');
@@ -16008,39 +15870,26 @@ function get_Comprobante_regula_Vista_Previa($id){
                 if($item["descripcion"]!=""){
                     $pdf->SetFont('Arial','',6);
                     $pdf->SetXY(60,$y);
-                    $pdf->MultiCell($array_width[6],5,$item["descripcion"],0,$array_align[6],false);
+                    $pdf->MultiCell($array_width[6],5,substr($item["descripcion"],0,250-$longitud),0,$array_align[6],false);
                     $y=$pdf->GetY();
                 }
                
                 
                 $x=10;
-            }
-            for ($a=0;$a<count($array_width);$a++){
-                
-                $pdf->Line($x,$h_atual,$x,$y);
-                if($a<count($array_width)-1){
-                    $x=$x+$array_width[$a];
-                }
-                
-                
             }*/
-            //$pdf->Line(10,$y,$x,$y);
+    
             
-            //$pdf->contenedor_detalle(130);
-            //$dtFactura_Venta_Detalle1=factura_venta_detalle::getGrid1('fvd.factura_venta_ID='.$item['ID'],-1,-1,'ovd.ID asc');
-            //$pdf->SetWidths(array(20,15,15,100,25,25));
-            //$pdf->SetAligns(array('C','C','C','L','R','R'));
-            //$pdf->contenido_detalle($dtDetalle);
+            /*$pdf->contenedor_detalle(130);
+            $pdf->SetWidths(array(20,15,15,100,25,25));
+            $pdf->SetAligns(array('C','C','C','L','R','R'));*/
+    }catch(Exception $ex){
+        log_error(__FILE__, "salidaController.get_Factura_Vista_PreviaPDF",$ex);
+        $GLOBALS['error']=$ex->getMessage();
+    }
 
-            $ruta=ruta_archivo."/temp/guia_remision/guia_remision_".$_SESSION['empresa_ID']."_".rand(1,500).".pdf";
-            $pdf->Output($ruta,'F');
-        }catch(Exception $ex){
-            $GLOBALS['error']=$ex->getMessage();
-        }
+    $pdf->Output('D',$dtCabecera[0]['tipo_comprobante'].' Nro'.$dtCabecera[0]['serie'].$dtCabecera[0]['numero_concatenado'].'.pdf',true);
+           
        
-        $retornar=Array('ruta'=>$ruta);
-        echo json_encode($retornar);
-   
     }
     function post_ajaxCargarSerieGuia() {
         require ROOT_PATH.'models/correlativos.php';
@@ -16275,6 +16124,7 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $GLOBALS['mensaje']="No ha generado la factura o no marcó la opción con guía.";
                 throw new Exception("No ha generado la factura o no marcó la opción con guía.");
             }
+            $oGuia_Venta->ID=0;
             $oGuia_Venta->factura_venta_ID=$dtFactura_Venta[0]['ID'];
             $oGuia_Venta->dtFactura_Venta=$dtFactura_Venta;
             $oGuia_Venta->numero_orden_compra=$osalida->numero_orden_compra;
@@ -16300,13 +16150,14 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes($electronico, "guia_remision", correlativos_ID_guia_electronico,0,"series");
             $numero=correlativos::getNumero(correlativos_ID_guia_electronico);
             $oGuia_Venta->numero_concatenado=sprintf("%'.07d",$numero);
-            
+            $oFactura_Venta=factura_venta::getByID($dtFactura_Venta[0]['ID']);
             
             $oGuia_Venta->tipo_documento=$electronico;
 //$oGuia_Venta->dtSerie=$dtSerie;
         }catch(Exception $ex){
             log_error(__FILE__, "salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo", $ex->getMessage());
         }
+        $GLOBALS['oFactura_Venta']=$oFactura_Venta;
         $GLOBALS['oGuia_Venta']=$oGuia_Venta;
         $GLOBALS['oOrden_Venta']=$osalida;
     }
@@ -16337,6 +16188,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         if(isset($_POST['ckOpcion'])){
             $opcion=$_POST['ckOpcion'];
         }
+        $ID=$_POST['ID'];
         $correlativos_ID=$_POST['selSerie'];
         $factura_venta_ID=$_POST['selFactura'];
         $fecha_emision=$_POST['txtFecha_Emision'];
@@ -16386,11 +16238,11 @@ function get_Comprobante_regula_Vista_Previa($id){
             }else{
                 
                 $y=0;
-                foreach($dt as $ID){
+                foreach($dt as $salida_detalle_IDs){
                     if($y==0){
-                        $IDs=$ID['ID'];
+                        $IDs=$salida_detalle_IDs['ID'];
                     }else{
-                       $IDs=",".$ID['ID']; 
+                       $IDs=",".$salida_detalle_IDs['ID']; 
                     }
                     
                            $y++;
@@ -16402,7 +16254,12 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $oCorrelativos=correlativos::getByID($correlativos_ID);
                 $numero= correlativos::getNumero($correlativos_ID);
                 $numero=$numero+$i;
-                $oGuia_Venta=new guia_venta();
+                if($ID>0){
+                    $oGuia_Venta=guia_venta::getByID($ID);
+                }else{
+                    $oGuia_Venta=new guia_venta();
+                }
+                
                 $oGuia_Venta->factura_venta_ID=$factura_venta_ID;
                 $oGuia_Venta->serie=$oCorrelativos->serie;
                 $oGuia_Venta->numero=$numero;
@@ -16457,7 +16314,13 @@ function get_Comprobante_regula_Vista_Previa($id){
                 }
                 $oGuia_Venta->salida_detalle_IDs=$salida_detalle_IDs;
                 $oGuia_Venta->numero_producto=$numero_producto;
-                $ID=$oGuia_Venta->insertar();
+                if($ID>0){
+                    
+                    $oGuia_Venta->actualizar();
+                }else{
+                    $ID=$oGuia_Venta->insertar();
+                }
+                
             }
             
             $oGuia_Venta->tipo_documento=$tipo_documento;
@@ -16484,13 +16347,14 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oGuia_Venta->dtProvincia_llegada=provincia::getOpciones($dtLlegada[0]["provincia_ID"],$dtLlegada[0]["departamento_ID"]);
             $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones($dtLlegada[0]["ID"],$dtLlegada[0]["provincia_ID"]); 
             $oGuia_Venta->punto_llegada=$dtLlegada[0]["direccion"];
-            $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes($tipo_documento, "guia_remision", $correlativos_ID,0,"series");        
+            $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes($tipo_documento, "guia_remision", $correlativos_ID,0,"series");   
+            $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
             
         }catch(Exception $ex){
           $resultado=-1;
           $mensaje=$ex->getMessage();
         }
-       
+        $GLOBALS['oFactura_Venta']=$oFactura_Venta;
         $oGuia_Venta->ver_imprimir=$imprimir;
         $GLOBALS['oGuia_Venta']=$oGuia_Venta;
         $GLOBALS['oOrden_Venta']=$oSalida;
@@ -16785,6 +16649,19 @@ function get_Comprobante_regula_Vista_Previa($id){
         }
         $retornar=array("resultado"=>$resultado,"mensaje"=>$mensaje);
         echo json_encode($retornar);
+    }
+    function post_ajaxVerificarBtn(){
+        require ROOT_PATH.'models/factura_venta.php';
+        require ROOT_PATH.'models/guia_venta.php';
+        $factura_venta_ID=$_POST['id'];
+        $guia_venta_ID=$_POST['id1'];
+        
+        $dt=factura_venta::getGrid2("fv.ID=".$factura_venta_ID." and fv.estado_ID=94");
+        $dt1=guia_venta::getGrid("ID=".$guia_venta_ID." and estado_ID=98");
+        $ver_btn_factura=count($dt);
+        $ver_btn_guia=count($dt1);
+        $retornar=array("ver_btn_factura"=>$ver_btn_factura,"ver_btn_guia"=>$ver_btn_guia);
+        echo(json_encode($retornar));
     }
     function get_Resumen_Diario_Mantenimiento(){
         require ROOT_PATH.'models/estado.php';
@@ -17329,7 +17206,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $ruta=$transacion->generar_xml();
         $ruta_xml_firmado=$transacion->firmar_documento($ruta,"comunicacion_baja");
         //echo $ruta_xml_firmado;
-        $ticket=$transacion->enviar_documento($ruta_xml_firmado,"comunicacion_baja","sendSummary");
+        $ticket=$transacion->enviar_documento_sunat($ruta_xml_firmado,"comunicacion_baja","sendSummary");
         if(isset($ticket)&&$ticket!=""){
             $oComunicacion_Baja_Sunat=new comunicacion_baja_sunat();
             $oComunicacion_Baja_Sunat->comunicacion_baja_ID=$oComunicacion_Baja->ID;

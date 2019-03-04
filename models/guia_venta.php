@@ -315,7 +315,7 @@ class guia_venta {
         $this->ID=$ID;
         return $ID;
       } else {
-          throw new Exception("No se registr?");
+          throw new Exception("No se registró la información");
       }
     }catch(Exeption $ex)
     {
@@ -448,6 +448,25 @@ function actualizar()
                 throw new Exception('Ocurrio un error en el sistema');
             }
 	}
+    static function getVistaDescarga($guia_venta_ID,$tipo)
+    {
+        $cn =new connect_new();
+        try
+        {
+            $dt=$cn->store_procedure_getGrid("sp_guia_venta_getDescargar",
+                array(
+                    "iguia_venta_ID"=>$guia_venta_ID,
+                    "tipo"=>$tipo
+                ));
+
+
+            return $dt;
+        }catch(Exception $ex)
+        {
+            log_error(__FILE__,"guia_venta.getGuia_SUNAT", $ex->getMessage());
+            throw new Exception('Ocurrio un error en el sistema');
+        }
+    }
    function eliminar()
     {
     $cn =new connect_new();

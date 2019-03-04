@@ -155,7 +155,7 @@
                         <label class="control-label col-sm-3">Observación:<span class="asterisk">*</span></label>
                         
                         <div class="col-lg-9 col-md-9 col-sm-9">
-                            <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height: 80px;resize: none;overflow:auto;"></textarea>
+                            <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height: 80px;resize: none;overflow:auto;"><?php echo $GLOBALS['oGuia_Venta']->observacion;?></textarea>
                         </div>
                        
                     </div>
@@ -318,7 +318,7 @@
                         
                         <label class="control-label col-sm-3">Ruc empresa transporta:</label>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <input type="text" id="txtRuc_Empresa_Transporte" name="txtRuc_Empresa_Transporte" disabled autocomplete="off" class="form-control" value="<?php echo FormatTextViewHtml($GLOBALS['oGuia_Venta']->ruc_transportista);?>">
+                            <input type="text" id="txtRuc_Empresa_Transporte" name="txtRuc_Empresa_Transporte" disabled autocomplete="off" class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->ruc_transportista;?>">
                         </div>
                         
                         
@@ -326,18 +326,18 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3">Empresa de transporte:</label>
                         <div class="col-lg-9 col-md-9 col-sm-9">
-                            <input type="text" id="txtEmpresa_Transporte" name="txtEmpresa_Transporte" autocomplete="off" disabled class="form-control" value="<?php echo FormatTextViewHtml($GLOBALS['oGuia_Venta']->razon_social_transportista);?>">
+                            <input type="text" id="txtEmpresa_Transporte" name="txtEmpresa_Transporte" autocomplete="off" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->razon_social_transportista;?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-3">Placa vehículo:</label>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <input type="text" id="txtPlaca_Vehiculo" name="txtPlaca_Vehiculo" autocomplete="off" disabled class="form-control" value="<?php echo FormatTextViewHtml($GLOBALS['oGuia_Venta']->nro_placa_vehiculo);?>">
+                            <input type="text" id="txtPlaca_Vehiculo" name="txtPlaca_Vehiculo" autocomplete="off" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->nro_placa_vehiculo;?>">
                     
                         </div>
                          <label class="control-label col-sm-3">DNI del conductor:</label>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <input type="text" id="txtDNI_Conductor" name="txtDNI_Conductor" autocomplete="off" disabled class="form-control" value="<?php echo FormatTextViewHtml($GLOBALS['oGuia_Venta']->nro_documento_conductor);?>">
+                            <input type="text" id="txtDNI_Conductor" name="txtDNI_Conductor" autocomplete="off" disabled class="form-control" value="<?php echo $GLOBALS['oGuia_Venta']->nro_documento_conductor;?>">
                     
                         </div>
                     </div>
@@ -377,15 +377,15 @@
                     <button type="button" id="btn_EnviarFactura" class="btn btn-primary" style="display:none;" onclick="fncEnviarFacturaSUNAT();">
                         Enviar Fact/Boleta a SUNAT
                     </button>
-
+                    <!--
                    <button id="btnAnular" type="button" title="Anular guía" class="btn btn-danger" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de anular la guía?','Anular Guía',fncAnularGuia);">
                        <span class="glyphicon glyphicon-ban-circle"></span>
                         Anular
                    </button> 
-
-                    <button id="btnRegresar" type="button" title="Regresar" class="btn btn-danger" onclick="parent.windos_float_save_modal_hijo();">
+-->
+                    <button id="btnRegresar" type="button" title="Regresar" class="btn btn-danger" onclick="salir();">
                         <span class="glyphicon glyphicon-arrow-left"></span>
-                        Regresar
+                        Salir
                    </button>   
                     
                 </div>
@@ -394,6 +394,13 @@
     </div>
 </form>
 <script type="text/javascript">
+    function salir(){
+        parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo (($GLOBALS['oGui_Venta']->ID!="")?$GLOBALS['oGui_Venta']->ID:0);?>);
+         parent.float_close_modal_hijo();
+    }
+    $(document).ready(function(){
+         cargar_detalle_guia();
+     });
     $("#selTipoDocumento").change(function(){
         var electronico=this.value;
        if(electronico==1){
@@ -647,16 +654,15 @@
          object['ver_serie']=ver_serie;
          object['incluir_obsequios']=incluir_obsequios;
          block_ui(function(){
-             enviarAjaxParse("salida/ajaxCargarDetalle_Guia_Venta",'frm1',object,function(resultado){
              
-             $("#table_detalle tbody").html(resultado.html);
-             $.unblockUI();
-            });
+             enviarAjaxParse("salida/ajaxCargarDetalle_Guia_Venta",'frm1',object,function(resultado){
+            
+                $("#table_detalle tbody").html(resultado.html);
+                $.unblockUI();
+               });
          });
      }
-     $(document).ready(function(){
-         cargar_detalle_guia();
-     });
+     
      var fncImprimirGuia=function(){
          var salida_ID=$("#txtSalida_ID").val();
         try{
@@ -691,6 +697,7 @@
     }
     function fncEnviarFacturaSUNAT() {
         var id=<?php echo $GLOBALS['oGuia_Venta']->factura_venta_ID?>;
+        var guia_venta_ID=($.trim($("#ID").val())=="")?0:$("#ID").val();
         try {
             block_ui(function () {
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
@@ -706,7 +713,7 @@
                         
                         $("#btn_EnviarFactura").css("display","none");
                         setTimeout(function(){
-                            parent.fParent1.call(this,id);
+                            parent.fParent1.call(this,id,guia_venta_ID);
                             parent.float_close_modal_hijo();
                         },1000);
                         
@@ -872,6 +879,8 @@
  $(document).ready(function () {
      $.unblockUI();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
+    cargar_detalle_guia();
+    
     <?php if($GLOBALS['oGuia_Venta']->tipo_documento==0){?>
     fncImprimirGuia();
   

@@ -2418,10 +2418,10 @@ class formatosxml {
                         $RoadTransport=$TransportMeans->appendChild($RoadTransport);     
                         $LicensePlateID=$xml->createElement('cbc:LicensePlateID',$array['NroPlacaVehiculo']);
                         $LicensePlateID=$RoadTransport->appendChild($LicensePlateID);
-                $TransportHandlingUnit=$xml->createElement('cac:TransportHandlingUnit');
+                /*$TransportHandlingUnit=$xml->createElement('cac:TransportHandlingUnit');
                 $TransportHandlingUnit=$Shipment->appendChild($TransportHandlingUnit);
                     $ID=$xml->createElement('cbc:ID',$array['NroPlacaVehiculo']);
-                    $ID=$TransportHandlingUnit->appendChild($ID);
+                    $ID=$TransportHandlingUnit->appendChild($ID);*/
                         
                 if($array['NroPlacaVehiculoSecundario']!=""){
                     //Vehiculos (Secundarios)        
@@ -2449,10 +2449,10 @@ class formatosxml {
                 $DeliveryAddress =$Delivery->appendChild($DeliveryAddress);
                     $ID=$xml->createElement('cbc:ID',$array['DireccionLlegada']['Ubigeo']);
                     $ID=$DeliveryAddress->appendChild($ID);
-                    $StreetName=$xml->createElement('cbc:StreetName','Direccion');
+                    $StreetName=$xml->createElement('cbc:StreetName');
                     $StreetName=$DeliveryAddress->appendChild($StreetName);
-                        //$direccion_llegada=$xml->createCDATASection($array['DireccionLlegada']['DireccionCompleta']);
-                        //$StreetName->appendChild($direccion_llegada);
+                        $direccion_llegada=$xml->createCDATASection($array['DireccionLlegada']['DireccionCompleta']);
+                        $StreetName->appendChild($direccion_llegada);
                 //Datos del contenedor (Obligatorio si motivo es Importación)
                 if($array['CodigoMotivoTraslado']=='08'){
                 $TransportHandlingUnit=$xml->createElement('cac:TransportHandlingUnit'); 
