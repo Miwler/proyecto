@@ -2,20 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group/>
-=======
-        <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/nota_credito_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/factura_venta_emitidas.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/inventario/inventario_mantenimiento_producto.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/logs_errores.txt</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jscript.js</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/comprobante_regula_detalle.php</file>
-        </group>
->>>>>>> 0472ddbf9e42a9851e3e2874d983ed2d07318250
     </open-files>
 </project-private>

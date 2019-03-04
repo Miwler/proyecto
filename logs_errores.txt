@@ -148,3 +148,155 @@ ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
 =======
 >>>>>>> df98052f0941c4b902d67d1f1af746b39a25b64b
 >>>>>>> 0472ddbf9e42a9851e3e2874d983ed2d07318250
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:12
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:20
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:26
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:16
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:47
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:17
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:20
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:51
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 14:02:26
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:11
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:20
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:01
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:13
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:17
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:43
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:06
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 15:02:22
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 16:02:17
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 16:02:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 28 02 2019 21:02:32
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:26
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:56
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:44
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 00:03:32
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 05:03:10
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 01 03 2019 05:03:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Ocurrió un error al conectarse a la base de datos Error=2002
+
