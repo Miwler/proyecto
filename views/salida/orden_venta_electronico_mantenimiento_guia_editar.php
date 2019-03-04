@@ -487,6 +487,7 @@
        var distrito_partida=$("#selDistrito_Partida").val();
        var distrito_llegada=$("#selDistrito_LLegada").val();
        var modalidad_transporte_ID=$("#selModalidad_Traslado").val();
+       var peso=$.trim($("#txtPeso_Bruto_Total").val());
        if(fecha_emision==""){
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione la fecha de emisión de la guía.','txtFecha_Emision');
            
@@ -494,6 +495,11 @@
        }
        if(factura_venta_ID=="" ||factura_venta_ID<1){
             mensaje.advertencia("VALIDACIÓN DE DATOS",'Debe seleccionar un comprobante de pago.','selFactura');
+           
+           return false;
+       }
+       if(peso=='0'||peso==''){
+           mensaje.advertencia("VALIDACIÓN DE DATOS",'Debe registrar un peso mayor a cero.','txtPeso_Bruto_Total');
            
            return false;
        }

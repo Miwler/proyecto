@@ -395,7 +395,7 @@
 </form>
 <script type="text/javascript">
     function salir(){
-        parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo (($GLOBALS['oGui_Venta']->ID!="")?$GLOBALS['oGui_Venta']->ID:0);?>);
+        parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo $GLOBALS['oGuia_Venta']->ID;?>);
          parent.float_close_modal_hijo();
     }
     $(document).ready(function(){
@@ -527,6 +527,7 @@
        var distrito_partida=$("#selDistrito_Partida").val();
        var distrito_llegada=$("#selDistrito_LLegada").val();
        var modalidad_transporte_ID=$("#selModalidad_Traslado").val();
+       var peso=$.trim($("#txtPeso_Bruto_Total").val());
        if(fecha_emision==""){
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione la fecha de emisión de la guía.','txtFecha_Emision');
            
@@ -534,6 +535,11 @@
        }
        if(factura_venta_ID=="" ||factura_venta_ID<1){
             mensaje.advertencia("VALIDACIÓN DE DATOS",'Debe seleccionar un comprobante de pago.','selFactura');
+           
+           return false;
+       }
+       if(peso=='0'||peso==''){
+           mensaje.advertencia("VALIDACIÓN DE DATOS",'Debe registrar un peso mayor a cero.','txtPeso_Bruto_Total');
            
            return false;
        }
@@ -550,6 +556,7 @@
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione el distrito de llegada.','selDistrito_LLegada');
            return false;
        }
+       
        if(modalidad_transporte_ID==2){
            var vehiculo_ID=$("#selVehiculo_ID").val();
            var chofer_ID=$("#selChofer_ID").val();

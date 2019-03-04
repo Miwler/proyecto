@@ -987,10 +987,10 @@
 
                 if (resultado.resultado == 1||resultado.resultado == 2) {
                    if(resultado.resultado == 1){
-						 toastem.success(resultado.mensaje);
-					}else{
-						mensaje.info("Resultado",resultado.mensaje);
-					}
+                        toastem.success(resultado.mensaje);
+                    }else{
+                            mensaje.info("Resultado",resultado.mensaje);
+                    }
                    
                     $("#btnEnviarFactura").remove();
                     $('#txtEstado').val('Enviado a SUNAT');

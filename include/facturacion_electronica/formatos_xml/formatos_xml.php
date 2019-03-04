@@ -2379,11 +2379,12 @@ class formatosxml {
                     $unitCode=$xml->createAttribute("unitCode");
                     $unitCode->value=$array['UnidadMedida'];
                     $GrossWeightMeasure->appendChild($unitCode);
-                if($array['CodigoMotivoTraslado']!="08"){
-                $TotalTransportHandlingUnitQuantity=$xml->createElement('cbc:TotalTransportHandlingUnitQuantity',$array['NroPallets']); 
-                $TotalTransportHandlingUnitQuantity =$Shipment->appendChild($TotalTransportHandlingUnitQuantity);
-               
-                }    
+                    //Activamos si es importacion
+                if($array['CodigoMotivoTraslado']=="08"){
+                    $TotalTransportHandlingUnitQuantity=$xml->createElement('cbc:TotalTransportHandlingUnitQuantity',$array['NroPallets']); 
+                    $TotalTransportHandlingUnitQuantity =$Shipment->appendChild($TotalTransportHandlingUnitQuantity);
+
+                }  
                 $ShipmentStage=$xml->createElement('cac:ShipmentStage'); 
                 $ShipmentStage =$Shipment->appendChild($ShipmentStage);
                     $TransportModeCode=$xml->createElement('cbc:TransportModeCode',$array['ModalidadTraslado']); 

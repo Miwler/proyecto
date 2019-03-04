@@ -12505,7 +12505,7 @@ function post_ajaxEnviarSUNAT() {
             }else{
                 $estado_envio=2;//Envío con observaciones
                 $resultado=2;
-                $mensaje="<b style='color:red;'>La factura de venta se envió correctamente, pero tiene las siguientes observaciones:</b> <br>".$transacion->observacion; 
+                $mensaje="<b style='color:red;'>La factura de venta se envió correctamente, pero tiene las siguientes observaciones:</b> <br>".utf8_encode($transacion->observacion); 
             }
             
             $oFactura_Venta_Sunat=new factura_venta_sunat();
@@ -12708,13 +12708,13 @@ function post_ajaxEnviarGuiaSUNAT() {
             'ModalidadTraslado'=>$oGuia_Venta[0]['ModalidadTraslado'],
             'FechaInicioTraslado'=>$oGuia_Venta[0]['FechaInicioTraslado'],
             'RucTransportista'=>$oGuia_Venta[0]['RucTransportista'],
-            'RazonSocialTransportista'=>FormatTextXML(utf8_decode($oGuia_Venta[0]['RazonSocialTransportista'])),//$oGuia_Venta[0]['RazonSocialTransportista'],
+            'RazonSocialTransportista'=>FormatTextXML($oGuia_Venta[0]['RazonSocialTransportista']),//$oGuia_Venta[0]['RazonSocialTransportista'],
             'NroPlacaVehiculo'=>$oGuia_Venta[0]['NroPlacaVehiculo'],
             'NroDocumentoConductor'=>$oGuia_Venta[0]['NroDocumentoConductor'],
             'NroPlacaVehiculoSecundario'=>'',
             'DireccionPartida'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
-                'DireccionCompleta'=>FormatTextXML(utf8_decode($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']))
+                'DireccionCompleta'=>FormatTextXML($oGuia_Venta[0]['DireccionPartida_DireccionCompleta'])
             ),
             'DireccionLlegada'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],

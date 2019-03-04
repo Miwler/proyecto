@@ -501,7 +501,7 @@ XML;
                                         }
                                         $this->observacion=$observacion; 
 
-                                        echo $observacion;
+                                        
 
                                         $Document = $sxe->children($ns['cac']);
                                         $DocumentResponse=$Document->DocumentResponse;

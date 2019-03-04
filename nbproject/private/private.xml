@@ -6,13 +6,13 @@
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_nuevo.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/formatos_pdf/factura_venta_pdf_vistaprevia.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/formatos_pdf/factura_venta_pdf.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_guia_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/factura_venta.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/facturacion_electronica/transaccion_documentos.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/formatos_pdf/guia_venta_pdf_vistaprevia.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/facturacion_electronica/formatos_xml/formatos_xml.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/cliente.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_guia_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_editar.php</file>
         </group>
     </open-files>
 </project-private>
