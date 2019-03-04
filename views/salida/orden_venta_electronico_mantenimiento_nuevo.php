@@ -406,6 +406,18 @@
                             <span class="glyphicon glyphicon-plus"></span>
                             Agregar
                             </button>
+                            <button  type="button" id="btnDescargarPDF_Guia"  class='btn btn-danger' style="display:none" onclick="descargar_guia('PDF');" title="Descargar PDF" >
+                                <i class="fa fa-file-pdf-o"></i>
+                                Descargar PDF
+                            </button>
+                            <button  type="button" id="btnDescargarXML_Guia"  class='btn btn-teal' style="display:none"  onclick="descargar_guia('XML');" title="Descargar XML" >
+                                <i class="fa fa-file-pdf-o"></i>
+                                Descargar XML
+                            </button>
+                            <button  type="button" id="btnDescargarCDR_Guia"  class='btn btn-lilac' style="display:none"  onclick="descargar_guia('CDR');" title="Descargar CDR" >
+                                <i class="fa fa-file-code-o"></i>
+                                Descargar CDR
+                            </button>
                             
                         <?php if($GLOBALS['oOrden_Venta']->impresion==1) { ?>
                             <button id='btnImprimiendo' type="button" class="btn btn-info" onclick='$("#ModalResultadoImpresion").modal("show");'>Imprimiendo</button>
@@ -438,11 +450,17 @@
 <div id="divContenedorDetalle" style="display:none;">
     
 </div>
+<iframe id="frmDescargar" style="display:none;"></iframe>
 <script type="text/javascript">
     var factura_venta_ID=<?php echo $GLOBALS['factura_venta_ID_emitida'];?>;
+    var guia_venta_ID=<?php echo $GLOBALS['guia_venta_ID_emitida'];?>;
+    
     $(document).ready(function(){
         if(factura_venta_ID>0){
             mostrar_btn_descargar();
+        }
+        if(guia_venta_ID>0){
+            mostrar_btn_descargar_Guia();
         }
         var moneda_ID=$("#cboMoneda").val();
         if(moneda_ID==1){
@@ -1096,16 +1114,24 @@
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
                 $.unblockUI();
 
-                if (resultado.resultado == 1) {
-                    toastem.success(resultado.mensaje);
+                if (resultado.resultado == 1||resultado.resultado == 2) {
+                    if(resultado.resultado == 1){
+                             toastem.success(resultado.mensaje);
+                    }else{
+                            mensaje.info("Resultado",resultado.mensaje);
+                    }
+                   
                     $("#btnEnviarFactura").remove();
                     $('#txtEstado').val('Enviado a SUNAT');
                     $('#tdfacturas_detalle').html(resultado.facturas_detalle);
+                    mostrar_btn_descargar();
                     fncCargar_Comprobantes_Ventas();
                     
                     //alert(obj.MensajeRespuesta);
                 }else{
+                    fncCargar_Comprobantes_Ventas();
                     mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
+                     
                 }
             });
             });
@@ -1134,6 +1160,75 @@
                     $.ajax({
                 type: "POST",
                 url: 'Salida/ajaxDownloadXML',
+                data: {'id': id,'tipo': tipo},
+                cache: false,
+                success: function(resultado)
+                {
+                $.unblockUI();
+                //console.log(resultado);
+                var obj = $.parseJSON(resultado);
+
+                    if (obj.exito == 'true') {
+                        if (tipo == 'XML') {
+                            var xmlText = formatXml(obj.xml_firmado);
+                            var blob = new Blob([xmlText], { type: 'application/xml' });
+                            var link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            
+                            link.download = obj.nombre_archivo;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+
+                        if (tipo=='CDR') {
+                            $("#frmDescargar").prop("src",obj.nombre_archivo);
+                            //location.href=obj.nombre_archivo;
+                        /*zip.generateAsync({type:"base64"}).then(function (base64) {
+                            data = obj.xml_firmado;
+                            location.href="data:application/zip;base64," + data;
+                        });*/
+                        }
+                    }else{
+                            alert(obj.mensaje);
+                    }
+            },
+                error: function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert('Error occurred while opening fax template'
+                          + getAjaxErrorString(textStatus, errorThrown));
+                }
+            });
+        });
+
+        } catch (e) {
+                $.unblockUI();
+                console_log(e);
+        } finally {
+
+        }
+
+    }
+    
+    var fncDOWNLOAD_XML_GUIA=function(id,tipo) {
+        try {
+            block_ui(function () {
+
+
+            var iframe = document.getElementById("iPDF");
+            if (tipo == 'PDF') {
+                
+                pdf.descargar("salida/Guia_Vista_PreviaPDF/"+id);
+            //fncVerPDF(id);
+
+                $.unblockUI();
+                return false;
+            }
+
+            var zip = new JSZip();
+                    $.ajax({
+                type: "POST",
+                url: 'Salida/ajaxDownloadXMLGuia',
                 data: {'id': id,'tipo': tipo},
                 cache: false,
                 success: function(resultado)
@@ -1254,12 +1349,20 @@
         });
         
     }
-     function fncGenerarComprobantes(){
-       
-        fncCargar_Comprobantes_Ventas();
-        setTimeout(function(){
-            fncRegistrar_Guia();
-        },1000);
+     function fncGenerarComprobantes(ifactura_venta_ID,con_guia){
+        
+         if(con_guia==0){
+             factura_venta_ID=ifactura_venta_ID;
+             fncEnviarSUNAT(ifactura_venta_ID);
+
+         }else{
+              fncCargar_Comprobantes_Ventas();
+             setTimeout(function(){
+                fncRegistrar_Guia();
+            },1000);
+         }
+        
+        
         
     }
     
@@ -1290,7 +1393,7 @@
                     if(respuesta.ver_boton_agregar>0){
                         $("#btnGuia").css("display","none");
                     }
-                    $("#contenedor_imprimir").html(respuesta.boton_imprimir);
+                    //$("#contenedor_imprimir").html(respuesta.boton_imprimir);
                 });
             }catch(e){
                 $.unblockUI();
@@ -1299,20 +1402,25 @@
         });
         
     }
-    function fncEmitirGuia_Factura(factura_ID){
-        console.log(factura_ID);
-        if(factura_ID>0){
-            factura_venta_ID=factura_ID;
-            fncCargar_Guias_Ventas();
-            setTimeout(function(){
-                fncCargar_Comprobantes_Ventas();
-                 mostrar_btn_descargar();
-            });
-           
-        }else{
-            ocultar_btn_descargar();
-        }
+    function fncEmitirGuia_Factura(factura_ID,iguia_venta_ID){
+        console.log(iguia_venta_ID);
+        cargarValores1('salida/ajaxVerificarBtn',factura_ID,iguia_venta_ID,function(resultado){
+            //console.log(resultado);
+            if(resultado.ver_btn_factura>0){
+                factura_venta_ID=factura_ID;
+                mostrar_btn_descargar();
+            }
+            if(resultado.ver_btn_guia>0){
+                guia_venta_ID=iguia_venta_ID;
+                 mostrar_btn_descargar_Guia();
+            }
+            
+            fncCargar_Guias_Ventas(); 
+            fncCargar_Comprobantes_Ventas();
+        });
        
+         
+
     }
     var fncRegistrar_Guia=function(){
         var orden_venta_ID=$('#txtID').val();
@@ -1452,6 +1560,17 @@
         }
         
     }
+    
+    function descargar_guia(tipo){
+        if(guia_venta_ID>0){
+            var id=guia_venta_ID;
+            fncDOWNLOAD_XML_GUIA(id,tipo);
+        }else{
+            mensaje.error("Ocurrió un error","No existe emitido una factura electrónica para esta venta.");
+        }
+        
+    }
+    
     function mostrar_btn_descargar(){
         $("#btnDescargarPDF").css("display","");
         $("#btnDescargarXML").css("display","");
@@ -1462,6 +1581,18 @@
         $("#btnDescargarXML").css("display","none");
         $("#btnDescargarCDR").css("display","none");
     }
+    
+    function mostrar_btn_descargar_Guia(){
+        $("#btnDescargarPDF_Guia").css("display","");
+        $("#btnDescargarXML_Guia").css("display","");
+        $("#btnDescargarCDR_Guia").css("display","");
+    }
+    function ocultar_btn_descargar_Guia(){
+        $("#btnDescargarPDF_Guia").css("display","none");
+        $("#btnDescargarXML_Guia").css("display","none");
+        $("#btnDescargarCDR_Guia").css("display","none");
+    }
+    
     $(document).ready(function () {
         $("#selEstadoImpresion").change(function(){
         
@@ -1489,7 +1620,38 @@
         }
     });
     });
-    
+    function fncEnviarGuiaSUNAT(id) {
+       
+        try {
+            if(id>0){
+                block_ui(function(){
+                        cargarValores('Salida/ajaxEnviarGuiaSUNAT',id,function(resultado){
+
+                            $.unblockUI();
+                             if (resultado.resultado == 1) {
+                                 toastem.success(resultado.mensaje);
+                                
+                                 //fncEnviarFacturaSUNAT();
+                                 mostrar_btn_descargar_Guia();
+                                 fncCargar_Guias_Ventas(); 
+                             }else{
+                                 ocultar_btn_descargar_Guia();
+                                 mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
+                             }
+                         });
+                });
+            }else{
+                mensaje.error("Debe registrar la guía");
+            }
+            
+           
+        } catch (e) {
+                //$.unblockUI();
+                console.log(e);
+        } finally {
+
+        }
+    }
 </script>       
 <?php }?>
             

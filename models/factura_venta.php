@@ -54,6 +54,9 @@ class factura_venta {
     private $estado;
     private $dtTipo_Comprobante;
     private $dtMoneda;
+    private $moneda;
+    private $dtOperador;
+    private $dtMotivo_Anulacion;
     
     private $ver_cambios;
     private $ver_vista_previa;
@@ -662,6 +665,29 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
           throw new Exception($ex->getMessage());
         }
   }
+  
+  
+      function actualizarAnulacion(){
+      $cn =new connect_new();
+      $retornar=-1;
+        try{
+            $fecha_save='NULL';
+            if($this->fecha_anulacion!=null){
+                $fecha_save='"'.FormatTextToDate($this->fecha_anulacion,'Y-m-d').'"';
+            }
+            $q='update factura_venta set fecha_anulacion ='.$fecha_save.',motivo_anulacion_ID='.$this->motivo_anulacion_ID;
+            $q.=',usuario_anulacion_id='.$this->usuario_anulacion_id.', estado_ID=53 where ID='.$this->ID;
+            //echo $q;
+            $retornar=$cn->transa($q);
+            $this->getMessage="Se anuló correctamente.";
+            return $retornar;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+              
+    }
+  
+  
 }  
 
 

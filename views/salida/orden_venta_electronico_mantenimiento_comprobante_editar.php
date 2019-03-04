@@ -552,6 +552,10 @@
             }
         });
     });
+    function salir(){
+        parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo $GLOBALS['oFactura_Venta']->con_guia;?>);
+         parent.float_close_modal_hijo();
+    }
 </script>
  
  <?php } ?>
@@ -577,7 +581,10 @@
      //parent.fParent1.call(this,1);
     //window.parent.crear_boton_guia();
     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
-    setTimeout('parent.windos_float_save_modal_hijo();', 1000);
+    setTimeout(function(){
+         parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo $GLOBALS['oFactura_Venta']->con_guia;?>);
+         parent.float_close_modal_hijo();
+     }, 1000);
     
 });
 

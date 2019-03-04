@@ -88,6 +88,10 @@ function cargarInformacion($empresa_ID){
 		$text=htmlspecialchars(utf8_decode($text));
 		return $text;
 	}
+        function FormatTextXML($text){
+		$text=preg_replace('/[\r\n|\n|\r]+/','&lt;',$text);
+		return $text;
+	}
 	function test_input($data) {
             $data = trim($data);
             $data = stripslashes($data);
@@ -116,7 +120,7 @@ function cargarInformacion($empresa_ID){
 		return $date->format($format);
 	}
 	function saltoLineHtml($str){
-           return str_replace(array("\r\n", "\r", "\n"), "<br />", $str);
+           return str_replace(array("\r\n", "\r", "\n"),"<br>", $str);
 	}
 	function nombremes($mes){
 		 setlocale(LC_TIME, 'spanish');  

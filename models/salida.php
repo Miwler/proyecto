@@ -516,13 +516,7 @@ class salida {
         $q.=' inner join factura_venta fv on ov.ID = fv.salida_ID';
         $q.=' inner join cliente cl on ov.cliente_ID=cl.ID';
         $q.=' inner join estado es on ov.estado_ID=es.ID';
-        $q.=' left join (';
-        $q.='     select  max(ID) max_id,fvs.salida_ID';
-        $q.='     from factura_venta_sunat fvs ';
-        $q.='     where del=0 group by salida_ID ';
-	      $q.='     order by fvs.ID desc ';
-        $q.=' ) as fvs_max on fvs_max.salida_ID=ov.ID';
-        $q.=' left join  factura_venta_sunat fvs ON (fvs.ID = fvs_max.max_id)';
+        $q.=' left join factura_venta_sunat fvs on fvs.factura_venta_ID = fv.ID and fvs.del=0 and fv.ID in (select max(ID) from factura_venta_sunat where del=0 and factura_venta_ID=fv.ID)';
         $q.=' where ov.del=0';
 
         if($filtro!=''){

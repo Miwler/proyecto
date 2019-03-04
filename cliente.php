@@ -32,26 +32,26 @@ $password="Lima1234";
 
 $wsse_header = new WsseAuthHeader($username, $password);
 //$x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
-//$x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
+$x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/billService?wsdl', array("trace" => 1, "exception" => 0));
 //var_dump($x);
 //$x = new SoapClient('https://e-factura.sunat.gob.pe/ol-ti-itcpfegem/billService?wsdl', array("trace" => 1, "exception" => 0));
-$x = new SoapClient($_SERVER['DOCUMENT_ROOT'].'\include\facturacion_electronica\xml_sunat\billService.wsdl', array("trace" => 1, "exception" => 0));
+//$x = new SoapClient($_SERVER['DOCUMENT_ROOT'].'\include\facturacion_electronica\xml_sunat\billService.wsdl', array("trace" => 1, "exception" => 0));
 //$x = new SoapClient($_SERVER['DOCUMENT_ROOT'].'\include\facturacion_electronica\xml_sunat_guia_electronica\billService.wsdl', array("trace" => 1, "exception" => 0));
 
         
 $x->__setSoapHeaders(array($wsse_header));
 $parametro=array();
 
-$handle = fopen("20536781499-01-F001-3.zip", "rb");
-$contents = fread($handle, filesize("20536781499-01-F001-3.zip"));
+$handle = fopen("10474911085-09-T001-9.zip", "rb");
+$contents = fread($handle, filesize("10474911085-09-T001-9.zip"));
 fclose($handle);
-$parametros['fileName']="20536781499-01-F001-3.zip";
+$parametros['fileName']="10474911085-09-T001-9.zip";
 $parametros['contentFile']=$contents;
 
 //$array[]= $x->sendSummary($parametros);
 $array[]= $x->sendBill($parametros);
 print_r($array);
-file_put_contents("R-20536781499-01-F001-3.zip", $array[0]->applicationResponse);
+file_put_contents("R-10474911085-09-T001-9.zip", $array[0]->applicationResponse);
     
 /*
 require_once 'SOAP/Client.php';

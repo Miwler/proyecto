@@ -48,7 +48,7 @@ class formatosxml {
         "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance"
     );
     private $atributos_guia2_1=array(
-        "xmlns"=>"urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2",
+        /*"xmlns"=>"urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2",
         "xmlns:cac"=>"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
         "xmlns:cbc"=>"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
         "xmlns:ccts"=>"urn:un:unece:uncefact:documentation:2",
@@ -57,7 +57,19 @@ class formatosxml {
         "xmlns:qdt"=>"urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2",
         "xmlns:sac"=>"urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1",
         "xmlns:udt"=>"urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2",
-        "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance"
+        "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance"*/
+        
+        "xmlns:ds"=>"http://www.w3.org/2000/09/xmldsig#",
+        "xmlns:cbc"=>"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+        "xmlns:qdt"=>"urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2",
+        "xmlns:ccts"=>"urn:un:unece:uncefact:documentation:2",
+        "xmlns:xsd"=>"http://www.w3.org/2001/XMLSchema",
+        "xmlns:udt"=>"urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2",
+        "xmlns:ext"=>"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2",
+        "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance",
+        "xmlns:cac"=>"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+        "xmlns:sac"=>"urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1",
+        "xmlns"=>"urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2"
     );
     private $atributos_nota_credito2_1=array(
         'xmlns'=>'urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2',
@@ -1475,13 +1487,13 @@ class formatosxml {
             $IssueDate=$CreditNote->appendChild($IssueDate);
             $IssueTime=$xml->createElement('cbc:IssueTime',$array['HoraEmision']); 
             $IssueTime=$CreditNote->appendChild($IssueTime);
-            $Note=$xml->createElement('cbc:Note'); 
+            /*$Note=$xml->createElement('cbc:Note'); 
             $Note=$CreditNote->appendChild($Note);
                 $languageLocaleID=$xml->createAttribute("languageLocaleID");
                 $languageLocaleID->value="3000";
                 $Note->appendChild($languageLocaleID);
                 $total_texto=$xml->createTextNode('0501002017062500125');
-                $Note->appendChild($total_texto);
+                $Note->appendChild($total_texto);*/
             $DocumentCurrencyCode=$xml->createElement('cbc:DocumentCurrencyCode',$array['Moneda']); 
             $DocumentCurrencyCode=$CreditNote->appendChild($DocumentCurrencyCode);
             $DiscrepancyResponse=$xml->createElement('cac:DiscrepancyResponse'); 
@@ -1727,7 +1739,7 @@ class formatosxml {
                         $TaxCategory=$TaxSubtotal->appendChild($TaxCategory);
                             $ID=$xml->createElement('cbc:ID','S');
                             $ID=$TaxCategory->appendChild($ID);
-                                $schemeID=$xml->createAttribute("schemeID");
+                               /* $schemeID=$xml->createAttribute("schemeID");
                                 $schemeID->value="UN/ECE 5305";
                                 $ID->appendChild($schemeID);
                                 $schemeName=$xml->createAttribute("schemeName");
@@ -1735,13 +1747,13 @@ class formatosxml {
                                 $ID->appendChild($schemeName);
                                 $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                                 $schemeAgencyName->value="United Nations Economic Commission for Europe";
-                                $ID->appendChild($schemeAgencyName);
+                                $ID->appendChild($schemeAgencyName);*/
                             $Percent=$xml->createElement('cbc:Percent',$array['CalculoIgv']);
                             $Percent=$TaxCategory->appendChild($Percent);
                             
                             $TaxExemptionReasonCode=$xml->createElement('cbc:TaxExemptionReasonCode',$items['TipoImpuesto']);
                             $TaxExemptionReasonCode=$TaxCategory->appendChild($TaxExemptionReasonCode);
-                                $listAgencyName=$xml->createAttribute("listAgencyName");
+                               /* $listAgencyName=$xml->createAttribute("listAgencyName");
                                 $listAgencyName->value="PE:SUNAT";
                                 $TaxExemptionReasonCode->appendChild($listAgencyName);
                                 $listName=$xml->createAttribute("listName");
@@ -1749,13 +1761,13 @@ class formatosxml {
                                 $TaxExemptionReasonCode->appendChild($listName);
                                 $listURI=$xml->createAttribute("listURI");
                                 $listURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07";
-                                $TaxExemptionReasonCode->appendChild($listURI);
+                                $TaxExemptionReasonCode->appendChild($listURI);*/
                                 
                             $TaxScheme=$xml->createElement('cac:TaxScheme');
                             $TaxScheme=$TaxCategory->appendChild($TaxScheme);
                                 $ID=$xml->createElement('cbc:ID','1000');
                                 $ID=$TaxScheme->appendChild($ID);
-                                    $schemeID=$xml->createAttribute("schemeID");
+                                    /*$schemeID=$xml->createAttribute("schemeID");
                                     $schemeID->value="UN/ECE 5153";
                                     $ID->appendChild($schemeID);
                                     $schemeName=$xml->createAttribute("schemeName");
@@ -1763,7 +1775,7 @@ class formatosxml {
                                     $ID->appendChild($schemeName);
                                     $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                                     $schemeAgencyName->value="United Nations Economic Commission for Europe";
-                                    $ID->appendChild($schemeAgencyName);
+                                    $ID->appendChild($schemeAgencyName);*/
                                 
                                 $Name=$xml->createElement('cbc:Name','IGV');
                                 $Name=$TaxScheme->appendChild($Name);
@@ -2216,7 +2228,12 @@ class formatosxml {
         $DespatchAdvice = $xml->appendChild($DespatchAdvice);
         $this->inyectar_atributo_guia2_1($xml,$DespatchAdvice);
             
-                
+            $UBLExtensions = $xml->createElement('ext:UBLExtensions'); 
+            $UBLExtensions = $DespatchAdvice->appendChild($UBLExtensions);
+                $UBLExtension=$xml->createElement('ext:UBLExtension'); 
+                $UBLExtension =$UBLExtensions->appendChild($UBLExtension);
+                    $ExtensionContent=$xml->createElement('ext:ExtensionContent'); 
+                    $ExtensionContent =$UBLExtension->appendChild($ExtensionContent);    
                             
             $UBLVersionID=$xml->createElement('cbc:UBLVersionID','2.1'); 
             $UBLVersionID =$DespatchAdvice->appendChild($UBLVersionID);
@@ -2266,14 +2283,9 @@ class formatosxml {
                 $DocumentTypeCode=$xml->createElement("cbc:DocumentTypeCode",$array['DocumentoRelacionado']['TipoDocumento']);
                 $DocumentTypeCode=$AdditionalDocumentReference->appendChild($DocumentTypeCode);
             }  
-            $UBLExtensions = $xml->createElement('ext:UBLExtensions'); 
-            $UBLExtensions = $DespatchAdvice->appendChild($UBLExtensions);
-                $UBLExtension=$xml->createElement('ext:UBLExtension'); 
-                $UBLExtension =$UBLExtensions->appendChild($UBLExtension);
-                    $ExtensionContent=$xml->createElement('ext:ExtensionContent'); 
-                    $ExtensionContent =$UBLExtension->appendChild($ExtensionContent);
+            
             //Firma Digital
-            $Signature=$xml->createElement('cac:Signature'); 
+            /*$Signature=$xml->createElement('cac:Signature'); 
             $Signature =$DespatchAdvice->appendChild($Signature);
                 $ID=$xml->createElement('cbc:ID','IDSignKG'); 
                 $ID =$Signature->appendChild($ID);
@@ -2294,7 +2306,7 @@ class formatosxml {
                     $ExternalReference=$xml->createElement('cac:ExternalReference'); 
                     $ExternalReference =$DigitalSignatureAttachment->appendChild($ExternalReference);
                         $URI=$xml->createElement('cbc:URI','#signatureKG'); 
-                        $URI =$ExternalReference->appendChild($URI);
+                        $URI =$ExternalReference->appendChild($URI);*/
             //Datos del Remitente            
             $DespatchSupplierParty=$xml->createElement('cac:DespatchSupplierParty'); 
             $DespatchSupplierParty =$DespatchAdvice->appendChild($DespatchSupplierParty);
@@ -2350,6 +2362,8 @@ class formatosxml {
             
             $Shipment=$xml->createElement('cac:Shipment'); 
             $Shipment =$DespatchAdvice->appendChild($Shipment);
+                $ID=$xml->createElement("cbc:ID",1);
+                $ID=$Shipment->appendChild($ID);
                 $HandlingCode=$xml->createElement('cbc:HandlingCode',$array['CodigoMotivoTraslado']); 
                 $HandlingCode =$Shipment->appendChild($HandlingCode);
                 $Information=$xml->createElement('cbc:Information'); 
@@ -2357,19 +2371,20 @@ class formatosxml {
                     $descripcion_motivo=$xml->createTextNode($array['DescripcionMotivo']);
                     $descripcion_motivo=$Information->appendChild($descripcion_motivo);
                     
-                $SplitConsignmentIndicator=$xml->createElement('cbc:SplitConsignmentIndicator',$array['Transbordo']); 
-                $SplitConsignmentIndicator =$Shipment->appendChild($SplitConsignmentIndicator);
+                //$SplitConsignmentIndicator=$xml->createElement('cbc:SplitConsignmentIndicator',$array['Transbordo']); 
+                //$SplitConsignmentIndicator =$Shipment->appendChild($SplitConsignmentIndicator);
                   
                 $GrossWeightMeasure=$xml->createElement('cbc:GrossWeightMeasure',$array['PesoBrutoTotal']); 
                 $GrossWeightMeasure =$Shipment->appendChild($GrossWeightMeasure);
                     $unitCode=$xml->createAttribute("unitCode");
                     $unitCode->value=$array['UnidadMedida'];
                     $GrossWeightMeasure->appendChild($unitCode);
-                if($array['CodigoMotivoTraslado']!="08"){
-                $TotalTransportHandlingUnitQuantity=$xml->createElement('cbc:TotalTransportHandlingUnitQuantity',$array['NroPallets']); 
-                $TotalTransportHandlingUnitQuantity =$Shipment->appendChild($TotalTransportHandlingUnitQuantity);
-               
-                }    
+                    //Activamos si es importacion
+                if($array['CodigoMotivoTraslado']=="08"){
+                    $TotalTransportHandlingUnitQuantity=$xml->createElement('cbc:TotalTransportHandlingUnitQuantity',$array['NroPallets']); 
+                    $TotalTransportHandlingUnitQuantity =$Shipment->appendChild($TotalTransportHandlingUnitQuantity);
+
+                }  
                 $ShipmentStage=$xml->createElement('cac:ShipmentStage'); 
                 $ShipmentStage =$Shipment->appendChild($ShipmentStage);
                     $TransportModeCode=$xml->createElement('cbc:TransportModeCode',$array['ModalidadTraslado']); 
@@ -2404,10 +2419,10 @@ class formatosxml {
                         $RoadTransport=$TransportMeans->appendChild($RoadTransport);     
                         $LicensePlateID=$xml->createElement('cbc:LicensePlateID',$array['NroPlacaVehiculo']);
                         $LicensePlateID=$RoadTransport->appendChild($LicensePlateID);
-                $TransportHandlingUnit=$xml->createElement('cac:TransportHandlingUnit');
+                /*$TransportHandlingUnit=$xml->createElement('cac:TransportHandlingUnit');
                 $TransportHandlingUnit=$Shipment->appendChild($TransportHandlingUnit);
                     $ID=$xml->createElement('cbc:ID',$array['NroPlacaVehiculo']);
-                    $ID=$TransportHandlingUnit->appendChild($ID);
+                    $ID=$TransportHandlingUnit->appendChild($ID);*/
                         
                 if($array['NroPlacaVehiculoSecundario']!=""){
                     //Vehiculos (Secundarios)        
@@ -2470,17 +2485,18 @@ class formatosxml {
             $DespatchLine=$DespatchAdvice->appendChild($DespatchLine);
                 $ID=$xml->createElement('cbc:ID',$items['Correlativo']);
                 $ID=$DespatchLine->appendChild($ID);
-                $OrderLineReference=$xml->createElement('cac:OrderLineReference');
-                $OrderLineReference=$DespatchLine->appendChild($OrderLineReference);
-                    $ID=$xml->createElement('cbc:ID',$items['Correlativo']); 
-                    $ID=$OrderLineReference->appendChild($ID);
-                
-                
                 $DeliveredQuantity=$xml->createElement('cbc:DeliveredQuantity',$items['Cantidad']); 
                 $DeliveredQuantity=$DespatchLine->appendChild($DeliveredQuantity);
                     $unitCode=$xml->createAttribute("unitCode");
                     $unitCode->value=$items['UnidadMedida'];
                     $DeliveredQuantity->appendChild($unitCode);
+                $OrderLineReference=$xml->createElement('cac:OrderLineReference');
+                $OrderLineReference=$DespatchLine->appendChild($OrderLineReference);
+                    $ID=$xml->createElement('cbc:LineID',$items['Correlativo']); 
+                    $ID=$OrderLineReference->appendChild($ID);
+                
+                
+                
                 $Item=$xml->createElement('cac:Item');
                 $Item=$DespatchLine->appendChild($Item);
                     $name=$xml->createElement("cbc:Name");

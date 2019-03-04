@@ -68,7 +68,7 @@ class XMLSecurityDSig
   </ds:SignedInfo>
 </ds:Signature>';
 
-    const BASE_TEMPLATE = '<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    const BASE_TEMPLATE = '<Signature Id="SignatureSP" xmlns="http://www.w3.org/2000/09/xmldsig#">
   <SignedInfo>
     <SignatureMethod />
   </SignedInfo>
@@ -109,9 +109,11 @@ class XMLSecurityDSig
      */
     public function __construct($prefix='ds')
     {
-        
+       
         $template = self::BASE_TEMPLATE;
-       /* if($idsign != null){
+       //echo BASE_TEMPLATE;
+       $idsign="SignatureSP";
+       if($idsign != null){
             $this->idsign = $idsign;
             $base = '<Signature Id="'.($this->idsign).'" xmlns="http://www.w3.org/2000/09/xmldsig#">
             <SignedInfo>
@@ -122,17 +124,18 @@ class XMLSecurityDSig
             $template = $base;
         }else{
             $template = self::BASE_TEMPLATE;
-        }*/
-        if (! empty($prefix)) {
+        }
+        /*if (! empty($prefix)) {
             $this->prefix = $prefix.':';
             $search = array("<S", "</S", "xmlns=");
             $replace = array("<$prefix:S", "</$prefix:S", "xmlns:$prefix=");
             $template = str_replace($search, $replace, $template);
-        }
+        }*/
         $sigdoc = new DOMDocument();
         //echo $template;
         $sigdoc->loadXML($template);
         $this->sigNode = $sigdoc->documentElement;
+       
     }
 
     /**

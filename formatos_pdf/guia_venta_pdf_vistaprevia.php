@@ -19,7 +19,11 @@ class PDF2 extends FPDF
     public $numero_cuenta;
     public $numero;
     public $electronico;
-    function Row($data,$altura)
+    public $font_size=5;
+    public $subtitle_size=8;
+   
+    public $hash="";
+            function Row($data,$altura)
     {
             //Calculate the height of the row
             $nb=0;
@@ -246,6 +250,9 @@ class PDF2 extends FPDF
        $this->SetXY(10,243);
        $this->Cell(30,5,'R.U.C./D.N.I.:',0,0,'L',false);
        $this->Rect(10,235,80,15);
+       
+       
+      
    }
     function contenido_detalle($dtGuia_Venta_Detalle){
         
@@ -268,7 +275,8 @@ class PDF2 extends FPDF
 
     }
    function Footer(){
-    
+       $this->SetXY(10,270);
+    $this->Cell(200,$this->font_size,"DigestValue: ".$this->hash,0,0,'L');
     }
    
 } 

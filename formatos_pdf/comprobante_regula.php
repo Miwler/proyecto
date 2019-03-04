@@ -135,17 +135,9 @@ class PDF2 extends FPDF
         $this->Cell(70,8,utf8_decode('ELECTRÓNICO'),0,2,'C');
         $this->Cell(70,10,utf8_decode($this->cabecera[0]['serie'].' - N°'. $this->cabecera[0]['numero_concatenado']),0,0,'C');
 
-        //$this->Ln();
+
         $this->Ln();
-       // $this->Cell(155,5,'FECHA',1,0,'R');
-        //$this->Cell(0,10,'Pagina '.$this->PageNo().'/{nb}',0,0,'R');
-        //$this->SetXY(8,50);
-        //$this->SetFont('Arial','',10);
-        //$this->Cell(120,5,utf8_decode('Lima, '.fechaATexto($this->cabecera[0]['fecha_emision'])),0,0,'L');
-        //$this->SetFont('Arial','B',10);
-        //$this->Cell(40,5,'Fecha de vencimiento:',0,0,'L');
-        //$this->SetFont('Arial','',10);
-        //$this->Cell(40,5,$this->cabecera[0]['fecha_vencimiento'],0,0,'L');
+
         
         
         $this->SetFont('Arial','B',10);
@@ -154,18 +146,13 @@ class PDF2 extends FPDF
         $this->Cell(102,7,utf8_decode($this->cabecera[0]['cliente']),0,0,'L');
         $this->SetFont('Arial','B',10);
         $this->Cell(120,7,utf8_decode('Lima, '.fechaATexto($this->cabecera[0]['fecha_emision'])),0,0,'L');
-        //$this->Cell(40,5,utf8_decode('Vendedor(a):'),0,0,'L');
-        //$this->SetFont('Arial','',10);
-        //$this->Cell(40,5,utf8_decode(substr($this->cabecera[0]['operador'],0,22)),0,0,'L');
+
         $this->Ln();
         $this->SetFont('Arial','B',10);
         $this->Cell(25,7,utf8_decode('Dirección:'),0,0,'L');
         $this->SetFont('Arial','',9);
         $this->Cell(102,7,utf8_decode(substr($this->cabecera[0]['direccion'],0,50)),0,0,'L');
-        //$this->SetFont('Arial','B',10);
-        //$this->Cell(40,5,utf8_decode('Referencia:'),0,0,'L');
-        //$this->SetFont('Arial','',10);
-        //$this->Cell(40,5,utf8_decode($this->cabecera[0]['factura']),0,0,'L');
+
         $this->Ln();
         $this->SetFont('Arial','B',10);
         $this->Cell(25,7,utf8_decode('R.U.C.:'),0,0,'L');
@@ -246,24 +233,11 @@ class PDF2 extends FPDF
     $this->Ln();
     $this->Ln(2);
 
-    //cuadro de giro de cheque
-    /*$this->Cell(80,5,utf8_decode('Girar cheque a JJ Soluciones Perú E.I.R.L. o depositar:'),1,0,'C');
-    $this->Ln();
-    $this->Cell(80,17,'',1);
-    $cuenta="";
-    $this->SetXY(10,233);*/
-    /*foreach($this->numero_cuenta as $value){
-        $this->SetFont('Arial','B',7);
-        $this->Cell(80,5,utf8_decode($value['abreviatura'].' '.$value['numero'].'   CCI: '.$value['cci']),0,'L');
-        $this->Ln(5);
-
-    }*/
+  
     $this->Line(80,237,140,237);
     $this->SetFont('Arial','B',10);
     $this->SetXY(80,237);
-    //$this->Cell(60,5,utf8_decode('CANCELADO'),0,2,'C');
-    //$this->Cell(60,5,utf8_decode('Lima         de                de'),0,2,'C');
-   
+    
     $this->Cell(60,15,utf8_decode('p. '.$this->cabecera[0]['razon_empresa']),0,2,'C');
 
     $this->SetXY(160,225);
@@ -284,7 +258,7 @@ class PDF2 extends FPDF
        $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
        $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
        $this->SetXY(40,257);
-       $this->Cell(80,30,utf8_decode('Representación impresa de la '.$this->cabecera[0]['nombre_documento'].' ELECTRÓNICA, visita wwww/comprobante/index'),0,1);
+      // $this->Cell(80,30,utf8_decode('Representación impresa de la '.$this->cabecera[0]['nombre_documento'].' ELECTRoNICA, visita wwww/comprobante/index'),0,1);
     }
 
 }

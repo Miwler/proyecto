@@ -1,7 +1,7 @@
 <?php		
 	require ROOT_PATH . "views/shared/content-float-modal.php";	
 ?>	
-<?php function fncTitle(){?>Registrar Cotización<?php } ?>
+<?php function fncTitle(){?>Registrar Nota de crédito<?php } ?>
 
 <?php function fncHead(){?>
 	<script type="text/javascript" src="include/js/jForm.js"></script>
@@ -11,7 +11,7 @@
 
 <?php } ?>
 
-<?php function fncTitleHead(){ ?>Registrar Cotización<?php } ?>
+<?php function fncTitleHead(){ ?>Registrar Nota de crédito<?php } ?>
 
 <?php function fncMenu(){?>
 <?php } ?>

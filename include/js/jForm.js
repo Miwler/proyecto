@@ -1227,6 +1227,7 @@ var enviarAjaxParse = function (url, divForm, myObject1, resultado) {
 
         success: function (respuesta) {
             var respuesta = $.parseJSON(respuesta);
+            //console.log(respuesta);
             resultado(respuesta);
         },
         complete: function () {

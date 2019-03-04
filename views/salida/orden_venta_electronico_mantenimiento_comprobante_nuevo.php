@@ -114,9 +114,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="display:none">
-                        <div class="col-lg-6 col-md-6 col-sm-6 ">
-                            <div class="ckbox ckbox-theme">
+                    <div class="form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="ckbox ckbox-theme" style="display:none">
                                 <input type="checkbox" id="ckGenerar" name="ckGenerar" checked value="93" <?php  echo(($GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94||$GLOBALS['oFactura_Venta']->estado_ID==95||$GLOBALS['oFactura_Venta']->estado_ID==96)?" checked ":"")?>>
                                 <label for="ckGenerar">Generar factura electrónica</label>
                             </div>
@@ -260,12 +260,13 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tdfacturas_detalle">
-                    <?php if($GLOBALS['oFactura_Venta']->estado_ID!=41){?>
+                <?php if($GLOBALS['oFactura_Venta']->estado_ID!=41){?>
                     <button  id="btnEnviar" name="btnEnviar" title="Generar factura" class="grabar">
                        <span class="glyphicon glyphicon-ok"></span>
                       Generar
                    </button>
                <?php } ?>
+                   
                <?php  if($GLOBALS['oFactura_Venta']->ver_vista_previa==1){?>
                    <button type="button" id="btnVistaprevia" name="btnVistaprevia"  title="Vista previa" class="btn btn-info" onclick="fncVistaPrevia();">
                        <span class="glyphicon glyphicon-eye-open"></span>
@@ -273,17 +274,16 @@
                    </button>
                <?php } ?>
                <?php  if($GLOBALS['oFactura_Venta']->ver_imprimir==1){?>
-                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Vista previa" class="btn btn-warning" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la factura?','Imprimir factura',fncImprimirFactura);">
+                   <button  type="button" id="btnImprimir" name="btnImprimir" title="Imprimir" class="btn btn-warning" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de emitir la factura?','Imprimir factura',fncImprimirFactura);">
                        <span class="glyphicon glyphicon-print"></span>
                       Imprimir
                    </button>
                <?php } ?>
-                <?php  if($GLOBALS['oFactura_Venta']->ver_enviar_SUNAT==1){?>
-                   <button  type="button" id="btnEnviarFactura" name="btnEnviarFactura" title="Enviar SUNAT" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de enviar a la SUNAT la factura?','Enviar SUNAT',fncSUNAT,<?php echo $GLOBALS['oFactura_Venta']->ID;?>);">
+                    <button  type="button" id="btnEnviarFactura" name="btnEnviarFactura" title="Enviar SUNAT" style="display: none;" class="btn btn-primary" onclick="modal.confirmacion('El proceso será irreversible, esta seguro de enviar a la SUNAT la factura?','Enviar SUNAT',fncEnviarSUNAT,<?php echo $GLOBALS['oFactura_Venta']->ID;?>);">
                        <i class="fa fa-angle-double-right"></i>
                       Enviar SUNAT
                    </button>
-               <?php } ?>
+                
                     <button id="btnRegresar" type="button" onclick="parent.float_close_modal_hijo();" class="cancelar">
                         <i class="fa fa-circle-o-notch"></i>
                         Cancelar
@@ -525,9 +525,11 @@
 
          $('#txtFecha_Vencimiento').val(fechaFinal);
     }
+    
 </script>
  
  <?php } ?>
+
 <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==-1){ ?>
 
     <script type="text/javascript">
@@ -547,10 +549,12 @@
  //alert('hola');
  $(document).ready(function () {
      $.unblockUI();
-
-    toastem.success('<?php echo $GLOBALS['mensaje'];?>');
-   setTimeout('parent.windos_float_save_modal_hijo();', 1000);
-    
+     toastem.success('<?php echo $GLOBALS['mensaje'];?>');
+     setTimeout(function(){
+         parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo $GLOBALS['oFactura_Venta']->con_guia;?>);
+         parent.float_close_modal_hijo();
+     }, 1000);
+   
 });
 
 //setTimeout('window_deslizar_save();', 1000);
@@ -567,7 +571,9 @@
      //parent.fParent1.call(this,1);
     //window.parent.crear_boton_guia();
     toastem.advertencia('<?php echo $GLOBALS['mensaje'];?>');
-    setTimeout('parent.windos_float_save_modal_hijo();', 2000);
+    setTimeout(function(){
+         parent.float_close_modal_hijo();
+    }, 2000);
     
 });
 

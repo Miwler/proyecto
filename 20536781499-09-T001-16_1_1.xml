@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<DespatchAdvice xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:sac="urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1" xmlns="urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2">
+  <ext:UBLExtensions>
+    <ext:UBLExtension>
+      <ext:ExtensionContent/>
+    </ext:UBLExtension>
+  </ext:UBLExtensions>
+  <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+  <cbc:CustomizationID>1.0</cbc:CustomizationID>
+  <cbc:ID>T001-16</cbc:ID>
+  <cbc:IssueDate>2019-03-02</cbc:IssueDate>
+  <cbc:DespatchAdviceTypeCode>09</cbc:DespatchAdviceTypeCode>
+  <cbc:Note>Nota de prueba</cbc:Note>
+  <cac:DespatchSupplierParty>
+    <cbc:CustomerAssignedAccountID schemeID="6">20536781499</cbc:CustomerAssignedAccountID>
+    <cac:Party>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName><![CDATA[JJ SOLUCIONES E.I.R.L]]></cbc:RegistrationName>
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:DespatchSupplierParty>
+  <cac:DeliveryCustomerParty>
+    <cbc:CustomerAssignedAccountID schemeID="6">20110378956</cbc:CustomerAssignedAccountID>
+    <cac:Party>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName><![CDATA[AGROMAR INDUSTRIAL S.A.]]></cbc:RegistrationName>
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:DeliveryCustomerParty>
+  <cac:Shipment>
+    <cbc:ID>1</cbc:ID>
+    <cbc:HandlingCode>01</cbc:HandlingCode>
+    <cbc:Information>Venta interna de productos</cbc:Information>
+    <cbc:GrossWeightMeasure unitCode="KGM">10.00</cbc:GrossWeightMeasure>
+    <cbc:TotalTransportHandlingUnitQuantity>1</cbc:TotalTransportHandlingUnitQuantity>
+    <cac:ShipmentStage>
+      <cbc:TransportModeCode>02</cbc:TransportModeCode>
+      <cac:TransitPeriod>
+        <cbc:StartDate>2019-03-02</cbc:StartDate>
+      </cac:TransitPeriod>
+      <cac:TransportMeans>
+        <cac:RoadTransport>
+          <cbc:LicensePlateID>C1Y143</cbc:LicensePlateID>
+        </cac:RoadTransport>
+      </cac:TransportMeans>
+      <cac:DriverPerson>
+        <cbc:ID schemeID="1">4523834</cbc:ID>
+      </cac:DriverPerson>
+    </cac:ShipmentStage>
+    <cac:TransportHandlingUnit>
+      <cbc:ID>C1Y143</cbc:ID>
+    </cac:TransportHandlingUnit>
+    <cac:Delivery>
+      <cac:DeliveryAddress>
+        <cbc:ID>150143</cbc:ID>
+        <cbc:StreetName>Direccion</cbc:StreetName>
+      </cac:DeliveryAddress>
+    </cac:Delivery>
+    <cac:OriginAddress>
+      <cbc:ID>150113</cbc:ID>
+      <cbc:StreetName><![CDATA[Calle San Simón 121 Urb. San Diego - SMP]]></cbc:StreetName>
+    </cac:OriginAddress>
+  </cac:Shipment>
+  <cac:DespatchLine>
+    <cbc:ID>1</cbc:ID>
+    <cac:OrderLineReference>
+      <cbc:ID>1</cbc:ID>
+    </cac:OrderLineReference>
+    <cbc:DeliveredQuantity unitCode="NIU">2</cbc:DeliveredQuantity>
+    <cac:Item>
+      <cbc:Name><![CDATA[Memoria RAM]]></cbc:Name>
+      <cac:SellersItemIdentification>
+        <cbc:ID>2741</cbc:ID>
+      </cac:SellersItemIdentification>
+    </cac:Item>
+  </cac:DespatchLine>
+</DespatchAdvice>
