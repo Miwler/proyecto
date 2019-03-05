@@ -26,6 +26,7 @@ class persona {
     private $provincia_ID;
     private $dtSexo;
     private $dtPersona_Documento;
+    private $persona_documento_ID;
     
     public function __set($var, $valor)
     {
@@ -113,6 +114,37 @@ class persona {
       throw new Exception($ex->getMessage());
     }
   }
+  
+  function actualizar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_persona_Update",
+            array(
+              "retornar"=>$retornar,
+    "iID"=>$this->ID,
+    "iapellido_paterno"=>$this->apellido_paterno,
+    "iapellido_materno"=>$this->apellido_materno,
+    "inombres"=>$this->nombres,
+    "idireccion"=>$this->direccion,
+    "idistrito_ID"=>$this->distrito_ID,
+    "ifecha_nacimiento"=>$this->fecha_nacimiento,
+    "itelefono"=>$this->telefono,
+    "icelular"=>$this->celular,
+    "icorreo"=>$this->correo,
+    "isexo_ID"=>$this->sexo_ID,
+    "iusuario_mod_id"=>$this->usuario_mod_id
+),0);
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "persona.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     
     static function getByID($ID)
     {
@@ -179,6 +211,8 @@ class persona {
           $opersona->sexo_ID=$item["sexo_ID"];
           $opersona->usuario_id=$item["usuario_id"];
           $opersona->usuario_mod_id=$item["usuario_mod_id"];
+          $opersona->numero=$item["numero"];
+          $opersona->tipo_documento_ID=$item["tipo_documento_ID"];
 
         }
       return $opersona;
@@ -242,7 +276,7 @@ class persona {
     
     
     
-    static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
+    static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc')
     {
         $cn =new connect_new();
         try 
@@ -253,10 +287,10 @@ class persona {
             $q.=' where del=0';
 
             if($filtro!=''){
-                    $q.=' and '.$filtro;
+                    $q.=' and ' . $filtro;
             }
 
-            $q.=' Order By '.$order;
+            $q.=' Order By ' . $order;
 
             if($desde!=-1&&$hasta!=-1){
                     $q.=' Limit '.$desde.','.$hasta;

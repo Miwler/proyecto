@@ -58,6 +58,23 @@ class persona_documento {
             throw new Exception($q);
         }
     }
+    
+    function actualizar() {
+        $cn = new connect_new();
+        $retornar = -1;
+        try {
+            $q = 'update persona_documento set persona_ID="' . $this->persona_ID ;
+            $q.= '",tipo_documento_ID="' . $this->tipo_documento_ID. '",numero="' . $this->numero ;
+            $q.= '",usuario_mod_id=' . $this->usuario_mod_id;
+            $q.= ', fdm=now() where del=0 and ID=' . $this->ID;
+            $retornar = $cn->transa($q);
+            $this->getMessage = 'Se actualizó correctamente';
+            return $retornar;
+        } catch (Exception $ex) {
+            
+        }
+    }
+    
     static function getByID($ID)
     {
         $cn =new connect();

@@ -2,7 +2,7 @@
 require ROOT_PATH."views/shared/content-float-modal.php";	
 ?>	
 <?php
-function fncTitle() { ?>Nueva persona<?php } ?>
+function fncTitle() { ?>Editar persona<?php } ?>
 <?php
 function fncHead() { ?>
 
@@ -11,7 +11,7 @@ function fncHead() { ?>
 
 <?php } ?>
 <?php
-function fncTitleHead() { ?><i class="fa fa-address-book-o" aria-hidden="true"></i> Nueva Persona<?php } ?>
+function fncTitleHead() { ?><i class="fa fa-address-book-o" aria-hidden="true"></i> Editar Persona<?php } ?>
 <?php
 function fncMenu() { ?>
 <?php } ?>
@@ -21,7 +21,7 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
 
-<form id="form"  method="POST" action="/Mantenimiento/Persona_Mantenimiento_Nuevo" onsubmit="return validar();" class="form-horizontal">
+<form id="form"  method="POST" action="/Mantenimiento/Persona_Mantenimiento_Editar/<?php echo $GLOBALS['oPersona']->ID;?>" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-success">
         <div class="panel-body">
             <div class="row">
