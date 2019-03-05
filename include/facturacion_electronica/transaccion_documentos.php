@@ -45,7 +45,7 @@ class transaccion_documentos
     private $codigo_hash;
     private $observacion;
     private $error;
-    
+    private $descripcion_estado_documento;
     
         public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -560,6 +560,280 @@ XML;
     
         
         }catch(Exception $ex){
+            log_error(__FILE__,"transaccion_documento.enviar_documento",$ex->getMessage());
+        }
+    }
+    function consultar_documento_sunat($array_parametros,$metodo){
+        try{
+            $array=$this->getParamEmisor($_SESSION['empresa_ID']);
+            $username=$array['RUC'].$array['UsuarioSol'];
+            $password=$array['ClaveSol'];
+            
+            $ws="";
+            $documento="";
+            switch(strtolower($metodo)){
+                case "getstatuscdr":
+                    $documento='R-'.$array_parametros['rucComprobante']."-".$array_parametros['tipoComprobante']."-".$array_parametros['serieComprobante']."-".$array_parametros['numeroComprobante'];
+                    $ws="https://e-factura.sunat.gob.pe/ol-it-wsconscpegem/billConsultService";   
+                    $xml_post_string = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+                        xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                        xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                        <SOAP-ENV:Header xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope">
+                            <wsse:Security>
+                                <wsse:UsernameToken>
+                                    <wsse:Username>'.$username.'</wsse:Username>
+                                    <wsse:Password>'.$password.'</wsse:Password>
+                                </wsse:UsernameToken>
+                            </wsse:Security>
+                        </SOAP-ENV:Header>
+                        <SOAP-ENV:Body>
+                            <m:getStatusCdr xmlns:m="http://service.sunat.gob.pe">
+                                <rucComprobante>'.$array_parametros['rucComprobante'].'</rucComprobante>
+                                <tipoComprobante>'.$array_parametros['tipoComprobante'].'</tipoComprobante>
+                                <serieComprobante>'.$array_parametros['serieComprobante'].'</serieComprobante>
+                                <numeroComprobante>'.$array_parametros['numeroComprobante'].'</numeroComprobante>
+                            </m:getStatusCdr>
+                        </SOAP-ENV:Body>
+                        </SOAP-ENV:Envelope>';
+                    break;
+                case "getstatus":
+                    $ws="https://e-factura.sunat.gob.pe/ol-it-wsconscpegem/billConsultService";  
+                    $xml_post_string = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"  
+                        xmlns:ser="http://service.sunat.gob.pe"
+                        xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                        <soapenv:Header>
+                            <wsse:Security>
+                                <wsse:UsernameToken>
+                                    <wsse:Username>'.$username.'</wsse:Username>
+                                    <wsse:Password>'.$password.'</wsse:Password>
+                                </wsse:UsernameToken>
+                            </wsse:Security>
+                        </soapenv:Header>
+                        <soapenv:Body>
+                            <ser:getStatus>
+                                <ticket>'.$array_parametros['ticket'].'</ticket>
+                            </m:getStatusCdr>
+                        </soapenv:Body>
+                        </soapenv:Envelope>';
+                    break;
+                 
+            }
+            if($xml_post_string==""){
+            throw new Exception("No existe la cabecera");
+            }
+            $headers = array(
+                "Content-type: text/xml;charset=\"utf-8\"",
+                "Accept: text/xml",
+                "Cache-Control: no-cache",
+                "Pragma: no-cache",
+                "SOAPAction: ",
+                "Content-length: " . strlen($xml_post_string),
+            );
+            $url = $ws;
+
+        // PHP cURL  for https connection with auth
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml_post_string); // the SOAP request
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        //cambio
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        // converting
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //print_r($response);
+        curl_close($ch);
+        $array_resultado=array();
+            if ($httpcode == 200) {
+            $doc = new DOMDocument();
+            $doc->loadXML($response);
+            
+                if(strtolower($metodo)=="getstatuscdr"){
+                    if (isset($doc->getElementsByTagName('statusCode')->item(0)->nodeValue)) {
+                        $array_resultado['codigo_estado']=$doc->getElementsByTagName('statusCode')->item(0)->nodeValue;
+                      
+                    }
+                    if (isset($doc->getElementsByTagName('statusMessage')->item(0)->nodeValue)) {
+                        $array_resultado['descripcion_estado']=$doc->getElementsByTagName('statusMessage')->item(0)->nodeValue;
+                        
+                    }
+                    if (isset($doc->getElementsByTagName('content')->item(0)->nodeValue)) {
+                        $ruta_archivo=ruta_archivo."/SUNAT/CDR_consulta/".$_SESSION['empresa_ID']."/".$documento.".zip";
+                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR_consulta/".$_SESSION['empresa_ID']."/".$documento.".zip";
+                            
+                        $xmlCDR = $doc->getElementsByTagName('content')->item(0)->nodeValue;
+                            //echo $xmlCDR;
+                            file_put_contents($ZIP_resultado, base64_decode($xmlCDR));
+                            $array_resultado['ruta_cdr']=$ruta_archivo;
+                            $string=file_get_contents($ZIP_resultado);
+                            
+                                //$this->cdr_sunat= base64_encode($string);
+
+                                //Nuevo codigo
+                                $zip=zip_open($ZIP_resultado);
+                                if($zip){
+
+                                    while ($zip_entry = zip_read($zip)){
+                                        $nombre_resultado=zip_entry_name($zip_entry);
+                                        $contenido = zip_entry_read($zip_entry,100000000);
+
+                                        if($contenido!=""){
+$string1 = <<< XML
+$contenido
+XML;
+                                            // echo $string1;
+                                            $sxe = new SimpleXMLElement($string1);
+
+
+                                            $ns = $sxe->getNamespaces(true);
+                                            $child = $sxe->children($ns['cbc']);
+                                            $fecha_respuesta=$child->ResponseDate.' '.$child->ResponseTime;
+                                            $array_resultado['documento_fecha_resultado']=$fecha_respuesta;
+                                            
+                                            $array=array();
+                                            $array=$child->Note;
+                                            $observacion="";
+                                            for($i=0;$i<count($array);$i++){
+                                                $observacion.=$array[$i]."<br>";
+                                            }
+                                            $array_resultado['documento_observacion']=$observacion; 
+                                            
+                                            $Document = $sxe->children($ns['cac']);
+                                            $DocumentResponse=$Document->DocumentResponse;
+                                            $response=$DocumentResponse->children($ns['cac']);
+                                            $response1=$response->Response;
+                                            $res=$response1->children($ns['cbc']);
+                                            //var_dump($Document);
+                                            $descripcion_estado=$res->Description;
+                                            $codigo_estado=$res->ResponseCode;
+                                            $array_resultado['documento_descripcion_estado']=$descripcion_estado;
+                                            $array_resultado['documento_codigo_estado']=$codigo_estado;
+                                           
+                                            $info=$sxe->children($ns['ext']);
+                                            $UBLExtensions=$info->UBLExtensions;
+                                            $info2=$UBLExtensions->children($ns['ext']);
+                                            $UBLExtension=$info2->UBLExtension;
+                                            $info3=$UBLExtension->children($ns['ext']);
+                                            $ExtensionContent=$info3->ExtensionContent;
+                                            $ExtensionContent1=$ExtensionContent->children();
+                                            $Signature=$ExtensionContent1->Signature->children();
+                                            $SignedInfo=$Signature->SignedInfo->children();
+                                            $Reference=$SignedInfo->Reference->children();
+                                            $array_resultado['documento_codigo_hash']= $Reference->DigestValue;
+                                    
+                                        }
+
+                                    }
+                                }
+
+
+
+                    }else{
+                            $this->error=1;
+                            $this->observacion=$doc->getElementsByTagName('statusMessage')->item(0)->nodeValue;
+                            $this->codigo_estado=$doc->getElementsByTagName('statusCode')->item(0)->nodeValue;
+                    }
+                }
+                if(strtolower($metodo)=="getstatus"){
+                    if (isset($doc->getElementsByTagName('statusCode')->item(0)->nodeValue)) {
+                        $array_resultado['codigo_estado']=$doc->getElementsByTagName('statusCode')->item(0)->nodeValue;
+                      
+                    }
+                    if (isset($doc->getElementsByTagName('statusMessage')->item(0)->nodeValue)) {
+                        $array_resultado['descripcion_estado']=$doc->getElementsByTagName('statusMessage')->item(0)->nodeValue;
+                        
+                    }
+                    if (isset($doc->getElementsByTagName('content')->item(0)->nodeValue)) {
+                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR_consulta/".$_SESSION['empresa_ID']."/".$documento.".zip";
+                            $xmlCDR = $doc->getElementsByTagName('content')->item(0)->nodeValue;
+                            //echo $xmlCDR;
+                            file_put_contents($ZIP_resultado, base64_decode($xmlCDR));
+                            $string=file_get_contents($ZIP_resultado);
+
+                                //$this->cdr_sunat= base64_encode($string);
+
+                                //Nuevo codigo
+                                $zip=zip_open($ZIP_resultado);
+                                if($zip){
+
+                                    while ($zip_entry = zip_read($zip)){
+                                        $nombre_resultado=zip_entry_name($zip_entry);
+                                        $contenido = zip_entry_read($zip_entry,100000000);
+
+                                        if($contenido!=""){
+$string1 = <<< XML
+$contenido
+XML;
+                                            // echo $string1;
+                                            $sxe = new SimpleXMLElement($string1);
+
+
+                                            $ns = $sxe->getNamespaces(true);
+                                            $child = $sxe->children($ns['cbc']);
+                                            $fecha_respuesta=$child->ResponseDate.' '.$child->ResponseTime;
+                                            $array_resultado['documento_fecha_resultado']=$fecha_respuesta;
+                                            
+                                            $array=array();
+                                            $array=$child->Note;
+                                            $observacion="";
+                                            for($i=0;$i<count($array);$i++){
+                                                $observacion.=$array[$i]."<br>";
+                                            }
+                                            $array_resultado['documento_observacion']=$observacion; 
+                                            
+                                            $Document = $sxe->children($ns['cac']);
+                                            $DocumentResponse=$Document->DocumentResponse;
+                                            $response=$DocumentResponse->children($ns['cac']);
+                                            $response1=$response->Response;
+                                            $res=$response1->children($ns['cbc']);
+                                            //var_dump($Document);
+                                            $descripcion_estado=$res->Description;
+                                            $codigo_estado=$res->ResponseCode;
+                                            $array_resultado['documento_descripcion_estado']=$descripcion_estado;
+                                            $array_resultado['documento_codigo_estado']=$codigo_estado;
+                                           
+                                            $info=$sxe->children($ns['ext']);
+                                            $UBLExtensions=$info->UBLExtensions;
+                                            $info2=$UBLExtensions->children($ns['ext']);
+                                            $UBLExtension=$info2->UBLExtension;
+                                            $info3=$UBLExtension->children($ns['ext']);
+                                            $ExtensionContent=$info3->ExtensionContent;
+                                            $ExtensionContent1=$ExtensionContent->children();
+                                            $Signature=$ExtensionContent1->Signature->children();
+                                            $SignedInfo=$Signature->SignedInfo->children();
+                                            $Reference=$SignedInfo->Reference->children();
+                                            $array_resultado['documento_codigo_hash']= $Reference->DigestValue;
+                                    
+                                        }
+
+                                    }
+                                }
+
+
+
+                    }else{
+                            $this->error=1;
+                            $this->observacion=$doc->getElementsByTagName('statusMessage')->item(0)->nodeValue;
+                            $this->codigo_estado=$doc->getElementsByTagName('statusCode')->item(0)->nodeValue;
+                    }
+                }
+            }else{
+                
+                            
+                $this->error=1;
+                $this->observacion="Código de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la información llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT";
+            }
+            return $array_resultado;
+        } catch (Exception $ex){
             log_error(__FILE__,"transaccion_documento.enviar_documento",$ex->getMessage());
         }
     }
