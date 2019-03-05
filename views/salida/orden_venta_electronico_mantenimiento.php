@@ -452,7 +452,19 @@
         return formatted;
     }*/
     var fncEliminar=function(id){
-            gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
+        block_ui(function(){
+            cargarValores('/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar/'+id,id,function(resultado){
+                $.unblockUI();
+                if(resultado.resultado==1){
+                    toastem.success(resultado.mensaje);
+                    fngetData();
+                }else{
+                    mensaje.error("Error",resultado.mensaje);
+                }
+            });
+        });
+        
+            //gridEliminar(f,id,'/Salida/ajaxOrden_Venta_Mantenimiento_Eliminar');
 				    
     }
     

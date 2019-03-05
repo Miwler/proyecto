@@ -4017,11 +4017,13 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/cotizacion.php';
         require ROOT_PATH.'models/salida_detalle.php';
         try{
+            
                 $osalida=salida::getByID($id);
-                $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
+                
                 if($osalida==null){
                         throw new Exception('Parece que el registro ya fue eliminado.');
                 }
+                $osalida->usuario_mod_id=$_SESSION['usuario_ID'];
                 /*Verificamos que no tenga detalle*/
                 $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$id,-1,-1);
                 if(count($dtsalida_Detalle)>0){
@@ -4035,7 +4037,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
                     throw new Exception($oCotizacion_Detalle->message);
                 }
             //Liberamos si la orden viene de una cotización
-                if($osalida->cotizacion_ID!=-1){
+                if($osalida->cotizacion_ID>0){
                     $oCotizacion=cotizacion::getByID($osalida->cotizacion_ID);
                     $oCotizacion->usuario_mod_id=$_SESSION['usuario_ID'];
                     $oCotizacion->estado_ID=2;
@@ -5127,7 +5129,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                     $osalida_Detalle->descuento_soles=0;
                     $osalida_Detalle->descuento_dolares=0;
                     $osalida_Detalle->descuento=0;
-                    $osalida_Detalle->valor_unitario=($osalida->moneda_ID=1)?$item['precio_venta_unitario_soles']:$item['precio_venta_unitario_dolares'];
+                    $osalida_Detalle->valor_unitario=($osalida->moneda_ID==1)?$item['precio_venta_unitario_soles']:$item['precio_venta_unitario_dolares'];
             
                     $osalida_Detalle->insertar_new();
                     $producto_ID_old=$osalida_Detalle->producto_ID;
@@ -17296,5 +17298,72 @@ function get_Comprobante_regula_Vista_Previa($id){
             log_error(__FILE__,"salidaController.post_ajaxComunicacion_Baja_Mantenimiento_Eliminar",$ex->getMessage());
         }
         $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+        echo json_encode($retornar);
+    }
+function get_Consulta_Archivos_Sunat(){
+    
+    
+    global  $returnView;
+    $returnView=true;
+   
+}
+function post_ajaxBuscarDocumentoSunat(){
+        require ROOT_PATH.'include/facturacion_electronica/transaccion_documentos.php';
+        require ROOT_PATH.'models/datos_generales.php';
+        $transacion = new transaccion_documentos();
+        $vista=$_POST['vista'];
+        if($vista=="consulta_cdr"){
+            $tipo_comprobante_ID=$_POST['selTipoComprobante'];
+            $serie=strtoupper(trim($_POST['txtSerie']));
+            $numero=trim($_POST['txtNumero']);
+        }
+        if($vista=="consulta_ticket"){
+            $ticket=trim($_POST['txtTicket']);
+        }
+        try{
+            $array_resultado=array();
+            $odg=datos_generales::getByID1($_SESSION['empresa_ID']);
+            if($vista=="consulta_cdr"){
+                $array_parametros=array("rucComprobante"=>$odg->ruc,
+                "tipoComprobante"=>$tipo_comprobante_ID,
+                "serieComprobante"=>$serie,
+                "numeroComprobante"=>$numero);
+                $array_resultado=$transacion->consultar_documento_sunat($array_parametros,"getstatuscdr");
+            }
+            if($vista=="consulta_ticket"){
+                $array_parametros=array("ticket"=>$ticket);
+                $array_resultado=$transacion->consultar_documento_sunat($array_parametros,"getstatus");
+            }
+            
+            
+            $html="";
+            if($transacion->error==0){
+                $resultado=1;
+                $mensaje="";
+                $html.="<table class='table table-teal'> 
+                            <thead><tr><th>Campos</th><th>Resultado</th></thead>
+                            <tbody>
+                                <tr><th>Estado CDR</th><td>".$array_resultado['codigo_estado']."</td></tr>
+                                <tr><th>Descripcion estado CDR</th><td>".utf8_encode($array_resultado['descripcion_estado'])."</td></tr>
+                                <tr><th colspan='2'>Información del Comprobante</th></tr>    
+                                <tr><th>Fecha respuesta</th><td>".utf8_encode($array_resultado['documento_fecha_resultado'])."</td></tr>
+                                <tr><th>Codigo Estado</th><td>".utf8_encode($array_resultado['documento_codigo_estado'])."</td></tr>
+                                <tr><th>Descripción Estado</th><td>".utf8_encode($array_resultado['documento_descripcion_estado'])."</td></tr>
+                               <tr><th>Codigo Hash</th><td>".utf8_encode($array_resultado['documento_codigo_hash'])."</td></tr>     
+                               <tr><th>Observacion</th><td>".$array_resultado['documento_observacion']."</td></tr>    
+                               <tr><td colspan='2'><button type='button' class='btn btn-teal' onclick='fncDescargar(&#34;".$array_resultado['ruta_cdr']."&#34;)'>Descargar CDR</button></td></tr>    
+                            </tbody>
+                        </table>";
+            }else{
+                $resultado=-1;
+                $mensaje=utf8_encode($transacion->observacion);
+            }
+           
+        }catch(Exception $ex){
+            $resultado=-1;
+            $mensaje=$ex->getMessage();
+            log_error(__FILE__,"salidaController.post_ajaxComunicacion_Baja_Mantenimiento_Eliminar",$ex->getMessage());
+        }
+        $retornar = Array('resultado' => $resultado,'html'=>$html, 'mensaje' => $mensaje);
         echo json_encode($retornar);
     }
