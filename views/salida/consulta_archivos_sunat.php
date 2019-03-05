@@ -43,7 +43,7 @@
                     <a href="#tab2-1" data-toggle="tab" aria-expanded="true" onclick="fnVer('consulta_cdr');">
                         <i class="fa fa-file-zip-o"></i>
                         <div>
-                            <span class="text-strong">Consulta I</span>
+                            <span class="text-strong">Consulta 1</span>
                             <span>Estado de CDR</span>
                         </div>
                     </a>
@@ -68,7 +68,7 @@
                 <div class="tab-pane fade inner-all active in" id="tab2-1">
                     <h5 class="page-header">Consultar el estado de los archivos CDR enviados a la SUNAT</h5>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Tipo de comprobante<span class="asterisk">*</span></label>
+                        <label class="col-sm-2 control-label">Comprobante<span class="asterisk">*</span></label>
                         <div class="col-sm-4">
                             <select id="selTipoComprobante" name="selTipoComprobante" class="form-control">
                                 <option value="01">Factura</option>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label text-uppercase">Serie<span class="asterisk">*</span></label>
+                        <label class="col-sm-2 control-label">Serie<span class="asterisk">*</span></label>
                         <div class="col-sm-4">
                             <input type="text" id="txtSerie" name="txtSerie" autocomplete="off" class="form-control text-uppercase">
                         </div>
