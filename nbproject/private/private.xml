@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/formatos_pdf/factura_venta_pdf_vistaprevia.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/formatos_pdf/factura_venta_pdf.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/consulta_archivos_sunat.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/facturacion_electronica/transaccion_documentos.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_importar_cotizacion.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/files/SUNAT/XML/2/factura/20536781499-01-F001-86.xml</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/persona_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/models/cliente.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/models/departamento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/models/provincia.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/controls/mantenimientoController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/persona_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/views/mantenimiento/persona_mantenimiento_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/models/persona.php</file>
         </group>
     </open-files>
 </project-private>

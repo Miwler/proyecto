@@ -136,7 +136,9 @@ class persona {
     "icelular"=>$this->celular,
     "icorreo"=>$this->correo,
     "isexo_ID"=>$this->sexo_ID,
-    "iusuario_mod_id"=>$this->usuario_mod_id
+    "iusuario_mod_id"=>$this->usuario_mod_id,
+    "itipo_documento_ID"=>$this->tipo_documento_ID,
+     "inumero"=>$this->numero,
 ),0);
       return $retornar;
     }catch(Exeption $ex)

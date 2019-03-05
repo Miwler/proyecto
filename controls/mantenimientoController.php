@@ -6355,6 +6355,8 @@ function post_Persona_Mantenimiento_Nuevo() {
     $nombres=trim($_POST['txtNombres']);
     $fecha_nacimiento=$_POST['txtFecha_Nacimiento'];
     $sexo_ID=$_POST['selSexo_ID'];
+    $departamento_ID=$_POST['selDepartamento'];
+    $provincia_ID=$_POST['selProvincia'];
     $distrito_ID=$_POST['selDistrito'];
     $direccion=trim($_POST['txtDireccion']);
     $correo=trim($_POST['txtCorreo']);
@@ -6394,9 +6396,9 @@ function post_Persona_Mantenimiento_Nuevo() {
         $mensaje= $ex->getMessage();
     }
     $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
-    $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
-    $dtProvincia=provincia::getGrid("departamento_ID=15",-1,-1,"nombre asc");
-    $dtDistrito=distrito::getGrid("provincia_ID=129",-1,-1,"nombre asc");
+    $dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
+    $dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
+    $dtDistrito=distrito::getGrid("provincia_ID=".$provincia_ID,-1,-1,"nombre asc");
     $oPersona->dtTipo_Documento=$dtTipo_Documento;
     $oPersona->dtDepartamento=$dtDepartamento;
     $oPersona->dtProvincia=$dtProvincia;
@@ -6482,6 +6484,7 @@ function post_Persona_Mantenimiento_Editar($id) {
     $correo=trim($_POST['txtCorreo']);
     $telefono=trim($_POST['txtTelefono']);
     $celular=trim($_POST['txtCelular']);
+    
     try {
         $oPersona->apellido_paterno=$apellido_paterno;
         $oPersona->apellido_materno=$apellido_materno;

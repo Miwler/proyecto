@@ -642,3 +642,247 @@ FECHA Y HORA: 05 03 2019 05:03:28
 RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
 METODO: mantenimiento/post_Persona_Mantenimiento_Editar
 ERROR: Ya existe una persona con el mismo número de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 06:03:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 06:03:50
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo número de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:09
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:42
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:45
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:01
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:14
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:40
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:54
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|78|108.00|708.00|03/03/2019|06|20110378956 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 147, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1729')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:29
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:59
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:04
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:07
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:13
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:27
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:29
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:01
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:22
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: temp/test1111.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('temp/test1111.p...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('temp/test1111.p...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:23
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: temp/test1111.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('temp/test1111.p...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('temp/test1111.p...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:01
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: temp/test1111.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('temp/test1111.p...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('temp/test1111.p...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
