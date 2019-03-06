@@ -40,7 +40,7 @@ class unidad_medida {
         return null;
     }
      static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombre,usuario_id';
             $q.=' from unidad_medida ';
@@ -65,7 +65,7 @@ class unidad_medida {
     
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select ID,nombre';

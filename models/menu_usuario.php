@@ -34,13 +34,14 @@ class menu_usuario {
     }
 
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
+			$cn = new connect_new();
             $q = 'SET @maxrow:=(select ifnull(max(ID),0) from menu_usuario);';
-            $cn->transa($q);
+            //$cn->transa($q);
 
-            $q = 'INSERT INTO menu_usuario (ID,usuario_ID, menu_ID, usuario_id_creacion)';
+            $q.= 'INSERT INTO menu_usuario (ID,usuario_ID, menu_ID, usuario_id_creacion)';
             $q.='VALUES ((select @maxrow:=@maxrow+1),' . $this->usuario_ID . ',' . $this->menu_ID . ',' . $this->usuario_id_creacion . ');';
             //echo $q;
             $retornar = $cn->transa($q);
@@ -53,7 +54,7 @@ class menu_usuario {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -70,7 +71,7 @@ class menu_usuario {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -87,7 +88,7 @@ class menu_usuario {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,menu_ID,perfil_ID,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
             $q.='from menu_perfil ';
@@ -112,7 +113,7 @@ class menu_usuario {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -138,7 +139,7 @@ class menu_usuario {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ID) ';
             $q.=' FROM menu_usuario';
@@ -157,7 +158,7 @@ class menu_usuario {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ID, menu_ID from menu_usuario';
            $q.=' where  del=0';
@@ -204,7 +205,7 @@ class menu_usuario {
         }
     }
     static function getGridLista() {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
            // $q='SELECT ID, usuario_ID, menu_ID, usuario_id_creacion, fdc, fdm, usuario_mod_id, del FROM menu_usuario '
              //   . 'inner join menu on menu.ID=menu_ID WHERE usuario_ID='.$id;
@@ -220,7 +221,7 @@ class menu_usuario {
         }
     }
 function verificarExistencia(){
-    $cn = new connect();
+    $cn = new connect_new();
         try {
            
             $q='select count(ID) from menu_usuario';

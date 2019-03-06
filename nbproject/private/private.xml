@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/xampp/htdocs/proyecto/models/tipo_comprobante.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/orden_ingreso.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/models/ingreso.php</file>
@@ -10,6 +11,24 @@
             <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/compra_mantenimiento_nuevo_producto.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/compra_mantenimiento_editar.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/views/ingreso/compra_mantenimiento_nuevo.php</file>
+=======
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect_new.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/ingreso/compra_mantenimiento_nuevo_producto.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/inventarioController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jForm.js</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/menu.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_producto_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/inventario.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/cliente.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/menu.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/lib/function.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/tipo_comprobante.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/ingresoController.php</file>
+>>>>>>> 97c4b93c4fd450ea64c1e53402fe93ee67f9e126
         </group>
     </open-files>
 </project-private>

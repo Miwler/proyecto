@@ -49,11 +49,12 @@ class usuario
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
                     $q='select ifnull(max(ID),0)+1 from usuario;';
                     $ID=$cn->getData($q);
+					$cn =new connect_new();
                     $correo=(isset($this->correo))?$this->correo:"null";
                     $foto=(isset($this->foto))?$this->foto:"user-default.png";
                     $q='INSERT INTO usuario (ID,persona_ID,nombre,password,estado_ID,correo,foto,usuario_id) ';
@@ -69,7 +70,7 @@ class usuario
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
                     $correo=(isset($this->correo))?$this->correo:"null";
@@ -88,7 +89,7 @@ class usuario
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -137,7 +138,7 @@ class usuario
 	
 	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='Select ID,persona_ID,nombre,password,estado_ID,correo,ifnull(foto,"user-default.png") as foto,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id from usuario ';
@@ -168,7 +169,7 @@ class usuario
 	}
 	
 function verificarDuplicado(){
-    $cn =new connect();
+    $cn =new connect_new();
     $retornar=-1;
     try{
 
@@ -186,6 +187,7 @@ function verificarDuplicado(){
                 $this->getMessage='Ya existe un usuario con el mismo nombre ';
                 return $retornar;
         }
+		$cn =new connect_new();
         $q='SELECT count(ID) FROM usuario';
         $q.=' WHERE del=0 and Upper(correo)="'.strtoUpper($this->correo).'"';	
         if($this->ID!=''){
@@ -206,7 +208,7 @@ function verificarDuplicado(){
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(u.ID) ';
@@ -229,7 +231,7 @@ function verificarDuplicado(){
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='u.ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='SELECT u.ID ,u.password,u.nombre as usuario,u.persona_ID,u.estado_ID,';

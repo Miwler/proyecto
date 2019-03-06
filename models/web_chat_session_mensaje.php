@@ -41,11 +41,12 @@ class web_chat_session_mensaje
 	}
 	
 	function insertar(){
-            $cn =new connect();
+            
             $retornar=-1;
-            try{
+            try{	$cn =new connect_new();
                     $q='select ifnull(max(ID),0)+1 from web_chat_session_mensaje';
                     $ID=$cn->getData($q);
+					$cn =new connect_new();
                     $q='INSERT INTO web_chat_session_mensaje (ID,web_chat_session_ID,usuario_ID_chat,mensaje,ruta_archivo,usuario_id)';
                     $q.=' VALUES ('.$ID.','.$this->web_chat_session_ID.','.$this->usuario_ID_chat.',"'.$this->mensaje.'","';
                     $q.=$this->ruta_archivo.'",'.$this->usuario_id.');';
@@ -61,7 +62,7 @@ class web_chat_session_mensaje
 	
 	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='Select ID,nombre_visitante,email_visitante,usuario_remitente_ID,usuario_receptor_ID,';
@@ -96,7 +97,7 @@ class web_chat_session_mensaje
 	
     static function getCount($filtro='')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='select count(ID) ';
@@ -116,7 +117,7 @@ class web_chat_session_mensaje
 	
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='SELECT ID,web_chat_session_ID,usuario_ID_chat,mensaje,ruta_archivo,estado_ID,usuario_id,date_format(fdc,"%d/%m/%Y  %h:%i:%s %p" ) as fdc';
@@ -142,7 +143,7 @@ class web_chat_session_mensaje
     }
     static function getGridChat($filtro='',$group="",$desde=-1,$hasta=-1,$order='wm.ID desc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='select wm.web_chat_session_ID,wm.mensaje,wm.fdc,count(wm.ID) as contador,ifnull(us.foto,"") as foto,';

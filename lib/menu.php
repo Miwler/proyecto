@@ -1,7 +1,8 @@
 <?php
+
 	require ROOT_PATH."models/menu.php";
         $menu=menu::getMenuxUsuarioIDHtml($_SESSION['usuario_ID'],$_SERVER["REQUEST_URI"]);
-        echo utf8_encode($menu);
+        echo $menu;
 	//require ROOT_PATH."models/menu_perfil.php";
 	//require ROOT_PATH."models/modulo.php";
 	

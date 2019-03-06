@@ -168,11 +168,11 @@ function post_ajaxCompra_Mantenimiento() {
             $resultado.='<td class="text-center">' . $item['serie'] . '</td>';
             $resultado.='<td class="text-center">' . sprintf("%'.09d",$item['numero']) . '</td>';
             $resultado.='<td class="tdLeft">' . $item['numero_guia'] . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode(strtoupper($item['proveedor'])) . '</td>';
+            $resultado.='<td class="tdLeft">' . strtoupper($item['proveedor']) . '</td>';
             $resultado.='<td class="text-center">' . date("d/m/Y",strtotime($item['fecha_emision'])) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['moneda']) . '</td>';
+            $resultado.='<td class="tdLeft">' . $item['moneda'] . '</td>';
             $resultado.='<td class="tdLeft">' . number_format($item['total'],2,'.',',') . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['estado']) . '</td>';
+            $resultado.='<td class="tdLeft">' . $item['estado'] . '</td>';
             $botones=array();
             
           
@@ -245,7 +245,7 @@ function post_Compra_Mantenimiento_Nuevo(){
    
     require ROOT_PATH.'models/ingreso.php';
     require ROOT_PATH.'models/orden_ingreso.php';
-   
+    require ROOT_PATH.'models/tipo_comprobante.php';
     require ROOT_PATH.'models/estado.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/forma_pago.php';
@@ -770,7 +770,8 @@ function post_ajaxProductos_Vendidos(){
     $compra_detalle_ID=$_POST['id1'];
     $html="";
     try{
-       $dtInventario_salida=inventario::getsalida_detalle($producto_ID,$compra_detalle_ID);
+        
+       
         $html="<table  class=' table table-hover table-bordered table-teal' id='tableDestino'>";
         $html.="<thead>";
         $html.=" <tr>
@@ -784,7 +785,9 @@ function post_ajaxProductos_Vendidos(){
                 </tr>";
         $html.="</thead>";
         $html.="<tbody>";
-        foreach($dtInventario_salida as $item){
+        if($producto_ID>0){
+            $dtInventario_salida=inventario::getsalida_detalle($producto_ID,$compra_detalle_ID);
+            foreach($dtInventario_salida as $item){
             $cantidad_comprada=count(inventario::getGrid('salida_detalle_ID='.$compra_detalle_ID.' and producto_ID='.$producto_ID.' and salida_detalle_ID='.$item['salida_detalle_ID']));
             $osalida_detalle=salida_detalle::getByID($item['salida_detalle_ID']);
            if($osalida_detalle!=null){
@@ -836,6 +839,8 @@ function post_ajaxProductos_Vendidos(){
             }
 
        }
+        }
+        
     }
     catch(Exception $ex){
         log_error(__FILE__, "ingresoController", $ex->getMessage());

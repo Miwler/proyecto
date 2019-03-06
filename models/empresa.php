@@ -46,7 +46,7 @@ class empresa
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='select ifnull(max(ID),0)+1 from empresa;';
@@ -65,7 +65,7 @@ class empresa
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{					
 			$q='UPDATE empresa SET nombre="'.$this->nombre.'",ruta="'.$this->ruta.'",';
@@ -85,7 +85,7 @@ class empresa
 	}		
 	
 	function eliminar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -104,14 +104,15 @@ class empresa
 
  	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='Select ID,nombre,ruta,stilo_fondo_tabs,stilo_fondo_boton,stilo_fondo_cabecera,ifnull(icono,"") as icono,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id ';
                 $q.='from empresa ';
                 $q.='where del=0 and ID='.$ID;
 
-                $dt=$cn->getGrid($q);			
+                $dt=$cn->getGrid($q);	
+                
                 $oEmpresa=null;
 
                 foreach($dt as $item)
@@ -128,7 +129,8 @@ class empresa
                     $oEmpresa->icono=$item['icono'];
                     $oEmpresa->usuario_id=$item['usuario_id'];
                     $oEmpresa->usuario_mod_id=$item['usuario_mod_id'];
-                }			
+                }	
+                
                 return $oEmpresa;
 
             }catch(Exeption $ex)
@@ -141,7 +143,7 @@ class empresa
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -163,7 +165,7 @@ class empresa
 	} 
 	static function getCount1($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(em.ID) ';
@@ -185,7 +187,7 @@ class empresa
 	} 
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='SELECT ID,nombre,ruta,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -211,7 +213,7 @@ class empresa
 	}
 	static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='SELECT em.ID,em.nombre,em.ruta,em.usuario_id,ifnull(em.usuario_mod_id,-1) as usuario_mod_id,ifnull(dg.favicon,"") as favicon,';
@@ -239,7 +241,7 @@ class empresa
 	}
 	static function getModulosxUsuarioID($usuario_id)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select distinct(m.ID),m.orden,m.nombre,m.usuario_id,ifnull(m.usuario_mod_id ,-1) as usuario_mod_id ';
@@ -257,12 +259,13 @@ class empresa
         
         static function getEmpresaxUsuarioID($usuario_ID)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                     $q='select count(ID) from usuario_empresa';
                     $q.=' where perfil_ID=0 and usuario_ID='.$usuario_ID.' and del=0';
                     $contador_user_admin=$cn->getData($q);
+                    
                     if($contador_user_admin >0){
                         $q='select em.*,ifnull((select razon_social from datos_generales where del=0 and empresa_ID=em.ID limit 0,1),"CONFIGURACIÓN GENERAL") as razon_social from empresa em where em.del=0';
                     }else{
@@ -271,9 +274,9 @@ class empresa
 			$q.='  where ue.empresa_ID=em.ID and ue.del=0 and em.del=0 and ue.usuario_ID='.$usuario_ID;
                         $q.=' Order By em.nombre';	
                     }
-					
+			$cn1 =new connect_new();		
 			//echo $q;
-                    $dt=$cn->getGrid($q);									
+                    $dt=$cn1->getGrid($q);									
                     return $dt;												
 		}catch(Exception $ex)
 		{

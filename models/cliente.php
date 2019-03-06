@@ -364,8 +364,9 @@ class cliente {
             if ($desde != -1 && $hasta != -1) {
                 $q.=' Limit ' . $desde . ',' . $hasta;
             }
-            //echo $q;
+           
             $dt = $cn->getGrid($q);
+           
             return $dt;
         } catch (Exception $ex) {
             throw new Exception('Ocurrio un error en la consulta');

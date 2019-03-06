@@ -525,26 +525,29 @@ function post_Usuario_Mantenimiento_Perfil($id) {
 }
 function post_ajaxExtraer_Menu_Modulo(){
     require ROOT_PATH . 'models/menu.php';
-    require ROOT_PATH . 'models/menu_usuario.php';
-    require ROOT_PATH . 'models/modulo.php';
+    //require ROOT_PATH . 'models/menu_usuario.php';
+    //require ROOT_PATH . 'models/modulo.php';
     $usuario_ID=$_POST['id'];
     $modulo_ID=$_POST['id1'];
     $html="";
     try {
-        $dtMenu=menu::getGrid("mn.modulo_ID=".$modulo_ID,-1,-1,"mn.nombre asc");
+        /*$dtMenu=menu::getGrid("mn.modulo_ID=".$modulo_ID,-1,-1,"mn.nombre asc");
         if(count($dtMenu)>0){
             foreach($dtMenu as $item){
                 $registrado=menu_usuario::getCount("usuario_ID=".$usuario_ID." and menu_ID=".$item['ID']);
                 $html.="<div class='row'>"; 
-                $html.="<div class='col-xs-9'><div class='ckbox ckbox-theme'><input type='checkbox' id='".$item['ID']."' name='".$item['ID']."' ".(($registrado>0)? 'checked':'')."/><label for='".$item['ID']."'>".FormatTextView($item['nombre'])."</label></div></div>"; 
+                $html.="<div class='col-xs-9'><div class='ckbox ckbox-theme'><input type='checkbox' id='".$item['ID']."' name='".$item['ID']."' ".(($registrado>0)? 'checked':'')."/><label for='".$item['ID']."'>".utf8_encode($item['nombre'])."</label></div></div>"; 
                 $html.="</div>"; 
             }
         }else{
             $html.="No tiene menú";
         }
+        */
         
+        $html=utf8_encode(menu::getListaMenuModulo($modulo_ID));
     }catch (Exception $ex) {
-        $html.=$ex->getMessage();
+        log_error(__FILE__,"configuracion_generaleController/post_ajaxExtraer_Menu_Modulo",$ex->getMessage());
+        $html.=utf8_encode(mensaje_error);
     }
     
     $retornar = Array('html' => $html);
@@ -609,7 +612,7 @@ function post_ajaxExtraerModuloEmpresa() {
         $dtModulo=modulo_empresa::getGrid("moe.empresa_ID=".$empresa_ID,-1,-1,"mo.nombre asc");
         
         foreach($dtModulo as $item){
-            $html.="<option value='".$item['modulo_ID']."'>".FormatTextView($item['nombre'])."</option>";
+            $html.="<option value='".$item['modulo_ID']."'>".utf8_encode($item['nombre'])."</option>";
         }
     } catch (Exception $ex) {
         $html.="<option value='0'>".$ex->getMessage()."</option>";  

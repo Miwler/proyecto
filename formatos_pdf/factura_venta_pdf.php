@@ -1,6 +1,6 @@
 <?php
 require('include/fpdf/fpdf.php');
-require("include/phpqrcode/qrlib.php");
+
 
 class PDF2 extends FPDF
 {
@@ -324,26 +324,11 @@ class PDF2 extends FPDF
     $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
     $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
     
-$dir = 'temp/';
-if (!file_exists($dir))
-{
-       mkdir($dir);
-}
-$filename = $dir.'test.png';
-$tamaño = 3; //Tamaño de Pixel
-$level = 'L'; //Precisión Baja
-$framSize = 1; //Tamaño en blanco
-$contenido = "FACTURA VENTA F001-1 2011DEED"; 
-
-QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
-//echo '<img src="'.$dir.basename($filename).'" />';  
-    
-     $this->Image('http://localhost:8081/temp/test.png',100,$y,25,25,'PNG');
-
+    $this->Image(getCodigoQr($variable,"qr",array("size"=>3,"align"=>"L","border"=>1)),100,$y,25,25,'PNG');
 //    $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,100,$y,25,25,'PNG');
     $this->setY($y+25);   
     $this->Cell(200,$this->font_size,utf8_decode('Representacion impresa de la '.$this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA,'.link_comprobante_electronico),0,0,'C');
-   $this->Ln(5);
+        $this->Ln(5);
     
     $this->Cell(200,$this->font_size,"DigestValue: ".$this->hash,0,0,'C');
     
