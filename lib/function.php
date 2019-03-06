@@ -69,10 +69,10 @@ function cargarInformacion($empresa_ID){
 	}
 	
 	function FormatTextSave($text){
-                $cn = new connect_new();
+                //$cn = new connect_new();
 		//$text=str_replace('"','""',$text);
                 
-                $text= mysqli_real_escape_string($cn->connect_new,$text);
+                //$text= mysqli_real_escape_string($cn->connect_new,$text);
 		//$text=mysql_real_escape_string(utf8_decode($text));
                 //$text=utf8_encode($text);
 		return $text;
@@ -85,7 +85,7 @@ function cargarInformacion($empresa_ID){
 	}
 	function FormatTextView($text){
 		$text=str_replace('"','&quot;',$text);
-		$text=htmlspecialchars(utf8_decode($text));
+		$text=htmlspecialchars($text);
 		return $text;
 	}
         function FormatTextXML($text){
@@ -482,5 +482,31 @@ function cargarInformacion($empresa_ID){
         
 
         return $html;
+    }
+    
+    function getCodigoQr($contenido,$grafico,$config){
+        require ROOT_PATH . 'include/phpqrcode/qrlib.php';
+        //require("include/phpqrcode/qrlib.php");
+        $dir = ROOT_PATH.'temp/';
+        if (!file_exists($dir))
+        {
+               mkdir($dir);
+        }
+        if($grafico=="qr"){
+            $filename = $dir.'qrfactura.png';
+            $tamaño = $config['size']; //Tamaño de Pixel
+            $level = $config['align']; //Precisión Baja
+            $framSize = $config['border']; //Tamaño en blanco
+            //$contenido = $variable; 
+
+            QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
+           return $filename;
+        }
+        
+        //echo '<img src="'.$dir.basename($filename).'" />';  
+
+        
+
+
     }
 ?>

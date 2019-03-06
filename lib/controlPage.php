@@ -2,8 +2,9 @@
 	session_start();
 	require ROOT_PATH."lib/pathMVC.php";
 	require ROOT_PATH."lib/function.php";
-	require ROOT_PATH."models/connect.php";
         require ROOT_PATH."models/connect_new.php";
+	//require ROOT_PATH."models/connect.php";
+        
 	require ROOT_PATH."lib/settings.php";
 	$config=json_decode(file_get_contents('lib/config.sm'),true);
 	

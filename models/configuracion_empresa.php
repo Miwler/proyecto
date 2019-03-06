@@ -40,9 +40,10 @@ class configuracion_empresa
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		
 		$retornar=-1;
 		try{
+                    $cn =new connect_new();
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from perfil);';
 			$cn->transa($q);
 			
@@ -155,7 +156,7 @@ class configuracion_empresa
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,nombre,empresa_ID,valor,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';

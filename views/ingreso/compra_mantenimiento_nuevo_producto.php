@@ -216,8 +216,8 @@
         var descripcion= $.trim($('#txtDescripcion').val());
         var cantidad= $.trim($('#txtCantidad').val());
         var precio_unitario=$.trim($('#txtPrecioUnitario').val());
-        if(producto_ID=='0'){
-            mensaje.advertencia('VALIDACIÓN DE DATOS','Seleccione un producto.','selProducto');
+        if(producto_ID=='0'||!producto_ID){
+            mensaje.advertencia('VALIDACIÓN DE DATOS','Seleccione un producto.','listaProducto');
             
             return false;
         }

@@ -601,6 +601,7 @@ class inventario {
          $cn =new connect_new();
          try 
          {
+             
                 $q='select count(inv.ID) as cantidad,group_concat(inv.ID separator"|") as IDs,inv.salida_detalle_ID from inventario inv';
                 $q.=' LEFT JOIN salida_detalle ovd ON inv.salida_detalle_ID=ovd.ID';
                 $q.=' where inv.del=0  and ';
@@ -612,7 +613,7 @@ class inventario {
                 $q.=' and inv.producto_ID='.$producto_ID.' and ovd.del=0';
                 $q.=' group by salida_detalle_ID ';
                 
-                 //echo $q;
+                
                 $dt=$cn->getGrid($q);			
                 $retorna=$dt;
                 return $retorna;

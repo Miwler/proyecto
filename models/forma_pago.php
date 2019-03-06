@@ -40,7 +40,7 @@ class forma_pago {
         return null;
     }
      static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombre,usuario_id';
             $q.=' from forma_pago ';
@@ -65,7 +65,7 @@ class forma_pago {
     
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select ID,nombre';

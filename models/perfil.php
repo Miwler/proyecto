@@ -38,17 +38,17 @@ class perfil
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from perfil);';
-			$cn->transa($q);
+			//$cn->transa($q);
 			
-			$q='INSERT INTO perfil (ID,nombre,usuario_id) ';
+			$q.='INSERT INTO perfil (ID,nombre,usuario_id) ';
 			$q.='VALUES ((select @maxrow:=@maxrow+1),"'.FormatTextSave($this->nombre).'",'.$this->usuario_id.');';
 			
 			$retornar=$cn->transa($q);
-			
+			$cn =new connect_new();
 			$q='select max(ID) from perfil where usuario_id='.$this->usuario_id;
 			$this->ID=$cn->getData($q);
 			
@@ -61,7 +61,7 @@ class perfil
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -79,7 +79,7 @@ class perfil
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -98,7 +98,7 @@ class perfil
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,nombre,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
@@ -125,7 +125,7 @@ class perfil
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			
@@ -153,7 +153,7 @@ class perfil
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(p.ID) ';
@@ -176,7 +176,7 @@ class perfil
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='p.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT p.ID,p.nombre,p.usuario_id,ifnull(p.usuario_mod_id,-1) as usuario_mod_id';

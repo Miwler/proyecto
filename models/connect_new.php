@@ -10,10 +10,10 @@ class connect_new
 
 	function __construct()
 	{
-
+            //echo "conexion";
             //$this->host='200.4.228.195';
             //$this->host='192.168.8.240';
-						//$this->host='192.168.8.240';
+					//$this->host='192.168.8.240';
             $this->host='192.168.1.24';
             //$this->db='bdsystemsales';
             //$this->db='bd_ventas_prueba';
@@ -31,14 +31,15 @@ class connect_new
 	}
         function connect_new(){
             try{
-                $mysqli = new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
-                if($mysqli->connect_errno){
-                    throw new Exception("Ocurrió un error al conectarse a la base de datos Error=".$mysqli->connect_errno);
-                }else{
-                    $this->connect_new=$mysqli;
-                }
+             $arrOptions = array(
+                            PDO::ATTR_EMULATE_PREPARES => true, 
+                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                         );
+                        $this->connect_new=new PDO('mysql:host='.$this->host.';dbname='.$this->db.';charset=utf8',$this->db_user,$this->db_password,$arrOptions);
+			$this->connect_new->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
                 
-            }catch(Exception $ex){
+            }catch(PDOException $ex){
+                
                 throw new Exception($ex->getMessage());
                 log_error(__FILE__,"connect_new.connect_new", $ex->getMessage());
             }
@@ -48,40 +49,28 @@ class connect_new
 	
         function disconnect_new()
 	{
-            $this->connect_new->close();
+            $this->connect_new=null;
 	}
 	function getData($q)
 	{
+            //echo $q;
 		try
 		{
-                    if (!($sentencia = $this->connect_new->prepare($q))) {
-                        throw new Exception("Falló la preparación: (" .$this->connect_new->errno.")".$q);
-                    }
-                    if (!$sentencia->execute()) {
-                        throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
-
-                    }
-                    $resultado =$sentencia->get_result();
+                    $sentencia=$this->connect_new->query($q);
                     
-                    $rows=array();
-                    while($row = $resultado->fetch_row()) 
-                    {
-                        $rows[] = $row;
-
-                    }  
+                    $resultado =$sentencia->fetchAll();
+                    $retorna="";
+                    if(count($resultado)>0){
+                        $retorna=$resultado[0][0];
+                    }
                     
-                    $resultado->free();
-
                     $this->disconnect_new();
-                    if(count($rows)==0)
-                    {
-                        $rows[0][0]='';
-                    }
                     
-                    return $rows[0][0];
+                    
+                    return $retorna;
                     
                   
-		}catch(Exception $ex)
+		}catch(PDOException $ex)
 		{
 			$this->disconnect_new();
                         log_error(__FILE__, "connect_new.getData", $ex->getMessage());
@@ -93,31 +82,27 @@ class connect_new
 	{
 		try
 		{
-                    if (!($sentencia = $this->connect_new->prepare($q))) {
-                        throw new Exception("Falló la preparación: (" .$this->connect_new->errno.")");
+                    
+                    //$resultado=$this->connect_new->query($q);
+                    //$dt=$resultado->fetchAll();
+                    if(!$sentencia = $this->connect_new->prepare($q)){
+                        throw new Exception("Falló en la preparación: ("  .$this->connect_new->errno.")");
                     }
                     if (!$sentencia->execute()) {
                         throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
 
                     }
-                    $resultado =$sentencia->get_result();
-                    $rows=array();
-                    while($row = $resultado->fetch_assoc()) 
-                    {
-                        $rows[] = $row;
-
-                    }  
-
-                    $resultado->free();
+                    $dt =$sentencia->fetchAll();
+                    
 
                     $this->disconnect_new();
-                    return $rows;
+                    return $dt;
 			
-		}catch(Exception $ex)
+		}catch(PDOException $ex)
 		{
 			$this->disconnect_new();
                         log_error(__FILE__,"connect_new.getGrid", $ex->getMessage());
-			throw new Exception($ex->getMessage());
+			throw new Exception("Ocurrió un error en la bd");
 		}
 	}
         function transa($q)
@@ -125,6 +110,7 @@ class connect_new
 		try
 		{
                     $retorna=0;
+                    
                     if (!($sentencia = $this->connect_new->prepare($q))) {
                         throw new Exception("Falló la preparación: (" .$this->connect_new->errno.")");
                     }
@@ -137,11 +123,11 @@ class connect_new
                     $this->disconnect_new();
  
                     return $retorna;
-		}catch(Exception $ex)
+		}catch(PDOException $ex)
 		{
 			$this->disconnect_new();
                         log_error(__FILE__,"connect_new.transa", $ex->getMessage().$q);
-			throw new Exception($ex->getMessage());
+			throw new Exception("Error en la conexion");
 		}
 	}
         function getTabla($q)
@@ -156,7 +142,7 @@ class connect_new
                         throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
 
                     }
-                    $resultado =$sentencia->get_result();
+                    $resultado =$sentencia->fetchAll();
                
                     $rows=array();
                     while($row = mysqli_fetch_assoc($resultado)) 
@@ -164,17 +150,17 @@ class connect_new
                             $rows[] = array_map("utf8_encode",$row);
                     }  
 
-                    $resultado->free();
+                    //$resultado->free();
                 
                 
                     $this->disconnect_new();
                     
                     return $rows;
-		}catch(Exception $ex)
+		}catch(PDOException $ex)
 		{
 			$this->disconnect_new();
                         log_error(__FILE__,"connect_new.getTabla", $ex->getMessage());
-			throw new Exception($ex->getMessage());
+			throw new Exception("Error en la bd");
 		}
                 
 	}
@@ -183,6 +169,8 @@ class connect_new
         function store_procedure_getGrid($pv_proc, $pt_args )
         {
             try{
+             
+                
                 $po_db=$this->connect_new();
                 //$po_db= new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
                 if (empty($pv_proc) || empty($pt_args))
@@ -197,9 +185,11 @@ class connect_new
 
                     $lv_query = "SET @_$lv_key = '$lv_value'";
                     $lv_log .= $lv_query.";\n";
+                    
+                    
                     if (!$lv_result = $this->connect_new->query($lv_query))
                     {
-                        /* Write log */
+                        
                         throw new Exception("Los parámetros son incorrectos");
                     }
                     $lv_call   .= " @_$lv_key,";
@@ -218,37 +208,24 @@ class connect_new
                     throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
                     
                 }
-                $resultado =$sentencia->get_result();
-                $rows=array();
-                while($row = $resultado->fetch_assoc()) 
-                {
-                    $rows[] = $row;
-                    
-                    //$rows[] = $row;
-                }  
+                $resultado =$sentencia->fetchAll();
                 
-                $resultado->free();
-                
-                /*if(count($rows)==0){
-                    $rows=$rows;
-                }*/
                 $this->disconnect_new();
-                return $rows;
+                return $resultado;
 
-            }catch(Exception $ex){
+            }catch(PDOException $ex){
                 log_error(__FILE__,"connect_new.store_procedure_getGrid", $ex->getMessage()."\n".$lv_log);
                 $this->disconnect_new();
                 throw new Exception('Ocurrio un Error en la consulta');
             }
             
             
-            /* Write log */
-            //return false;
-            //$po_db->close();
+         
         }
         function store_procedure_getData($pv_proc,$pt_args)
         {
             try{
+                
                 $po_db=$this->connect_new();
                 //$po_db= new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
                 if (empty($pv_proc) || empty($pt_args))
@@ -284,29 +261,17 @@ class connect_new
                     throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
                     
                 }
-                $resultado =$sentencia->get_result();
-                 
-                 // print_r($resultado->fetch_assoc());
-                //var_dump($rows);
-                $rows=array();
-               
-                while($row = $resultado->fetch_row()) 
-                {
-                    $rows[] = $row;
-                }
-                //print_r($rows[0][0]);
-                $resultado->free();
-                $this->disconnect_new();
-                
-                if(count($rows)==0){
+                $resultado =$sentencia->fetch();
+                $retorna="";
+                if(count($resultado)>0){
                     
-                    $rows[0][0]='';
+                    $retorna=$resultado[0];
                 }
-                
-                return $rows[0][0];
+                $this->disconnect_new();
+                return $retorna;
                 
 
-            }catch(Exception $ex){
+            }catch(PDOException $ex){
                 log_error(__FILE__, "connect_new.store_procedure_getData", $ex->getMessage().$lv_log);
                 $this->disconnect_new();
                 throw new Exception('Ocurrio un Error en la consulta');
@@ -335,7 +300,7 @@ class connect_new
                 {
                     $val.=",'".$lv_value."'";
                     if(strtoupper($lv_value)!='NULL'){
-                        $lv_query = "SET @_".$lv_key." = '".mysqli_real_escape_string($this->connect_new,$lv_value)."'";
+                        $lv_query = "SET @_".$lv_key." = '".$lv_value."'";
                     }else{
                         $lv_query = "SET @_".$lv_key." = null";
                     }
@@ -384,20 +349,17 @@ class connect_new
                     
                 }
                
-                $resultado =$sentencia->get_result();
+                $resultado =$sentencia->fetch();
                  
-                $lt_result=$resultado->fetch_assoc();
-                $resultado->free();
-                
-                
+               
                 $this->disconnect_new();
-                return $lt_result[$campo_retorno];
+                return $resultado[0];
 
-            }catch(Exception $ex){
+            }catch(PDOException $ex){
                 
                 $this->disconnect_new();
                 log_error(__FILE__, "connect_new.store_procedure_transa", $ex->getMessage()."\n".$lv_log);
-                throw new Exception($ex);
+                throw new Exception("Error en la bd");
             }
             
 
@@ -440,24 +402,13 @@ class connect_new
                     throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
                     
                 }
-                $resultado =$sentencia->get_result();
-                $rows=array();
-                while($row = $resultado->fetch_assoc()) 
-                {
-                    $rows[] = array_map("utf8_encode",$row);
-                    
-                    //$rows[] = $row;
-                }  
+                $resultado =$sentencia->fetchAll();
                 
-                $resultado->free();
-                
-                /*if(count($rows)==0){
-                    $rows=$rows;
-                }*/
+               
                 $this->disconnect_new();
-                return $rows;
+                return $resultado;
 
-            }catch(Exception $ex){
+            }catch(PDOException $ex){
                 log_error(__FILE__, "connect_new.store_procedure_getGridParse", $ex->getMessage()."\n".$lv_log);
                 $this->disconnect_new();
                 throw new Exception('Ocurrio un Error en la consulta');
@@ -467,6 +418,63 @@ class connect_new
             /* Write log */
             //return false;
             //$po_db->close();
+        }
+        
+        function store_procedure_getGridValidate($pv_proc, $pt_args )
+        {
+            try{
+             
+                
+                $po_db=$this->connect_new();
+                //$po_db= new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
+                if (empty($pv_proc) || empty($pt_args))
+                {
+                    throw new Exception("Falta parametros");
+                }
+                $lv_call   = "CALL $pv_proc(";
+                $lv_select = "SELECT";
+                $lv_log = "";
+                foreach($pt_args as $lv_key=>$lv_value)
+                {
+                    $lv_call.="?,";
+                    $lv_query = "SET @_$lv_key = '$lv_value'";
+                    $lv_log .= $lv_query.";\n";
+                    
+                    
+                   
+                    $lv_call   .= " @_$lv_key,";
+                    $lv_select .= " @_$lv_key AS $lv_key,";
+                }
+                $lv_call   = substr($lv_call, 0, -1).")";
+                if (!($consulta = $this->connect_new->prepare($lv_call))) 
+                {
+                    throw new Exception("Falló la preparación: (" .$this->connect_new->errno.")");
+                    //echo "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+                }
+                    $i=1;
+                foreach($pt_args as $lv_key=>$lv_value){
+                    $consulta->bindParam($i,$lv_value);
+                }
+                
+               //echo $lv_log;
+                
+                if (!$consulta->execute()) {
+                    throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
+                    
+                }
+                $resultado =$consulta->fetchAll();
+                
+                $this->disconnect_new();
+                return $resultado;
+
+            }catch(PDOException $ex){
+                log_error(__FILE__,"connect_new.store_procedure_getGrid", $ex->getMessage()."\n".$lv_log);
+                $this->disconnect_new();
+                throw new Exception('Ocurrio un Error en la consulta');
+            }
+            
+            
+         
         }
 }
 ?>

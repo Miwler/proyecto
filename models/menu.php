@@ -1,4 +1,5 @@
 <?php
+
 class menu
 {
 	private $ID;
@@ -45,7 +46,7 @@ class menu
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='select ifnull(max(ID),0)+1 from menu;';
@@ -69,7 +70,7 @@ class menu
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -88,7 +89,7 @@ class menu
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -107,7 +108,7 @@ class menu
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,orden,modulo_ID,nombre,menu_ID,descripcion,url,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
@@ -140,7 +141,7 @@ class menu
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			
@@ -182,7 +183,7 @@ class menu
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(mn.ID) ';
@@ -205,7 +206,7 @@ class menu
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='mn.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT mn.ID,ifnull(mn.menu_ID,0) as menu_ID,mn.modulo_ID,mn.orden,m.nombre as modulo,mn.nombre,mn.url,mn.usuario_id,ifnull(mn.usuario_mod_id,-1) as usuario_mod_id';
@@ -232,7 +233,7 @@ class menu
 	
 	static function getMenuxUsuarioID($usuario_id,$modulo_ID)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select me.ID,mu.menu_ID,me.modulo_ID,me.orden,me.nombre,me.url,me.usuario_id,ifnull(me.usuario_mod_id,-1) as usuario_mod_id';
@@ -249,21 +250,50 @@ class menu
 	}
         static function getMenuxUsuarioIDHtml($usuario_id,$ruta)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
-		{
-			$q='call getMenu('.$usuario_id.','.$_SESSION['empresa_ID'].',"'.$ruta.'")';
-					
-			
-			$retorna=$cn->getData($q);
-                        
+		{   
+			//$q='call getMenu('.$usuario_id.',2,"'.$ruta.'")';
+				
+			$retorna=$cn->store_procedure_getData(
+                            "getMenu",
+                              array(
+                                "iusuario_ID"=>$usuario_id,
+                                "iempresa_ID"=>$_SESSION['empresa_ID'],
+                                "iruta"=>$ruta));
+                        //print_r($dt);
+			//$retorna=$cn->getData($q);
+                        //cho $retorna;
+                    //$retorna="";
 			return $retorna;												
 		}catch(Exception $ex)
 		{
 			throw new Exception($q);
 		}
 	}
-        
+        static function getListaMenuModulo($modulo_ID)
+        {
+        //$cn =new connect_new();
+        $cn =new connect_new();
+        $retornar =0;
+        try
+        {
+            $retorna="";
+            
+           $dt=$cn->store_procedure_getGrid(
+              "sp_menu_getLista",array( "imodulo_ID"=>$modulo_ID));
+            //print_r($dt); */
+            $dt=$cn->getGrid($q);
+            if(count($dt)>0){
+                $retorna=$dt[0]['html'];
+            }
+          return $retorna;
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "menu.getGrid", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+  }
         
         
 }

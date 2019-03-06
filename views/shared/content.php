@@ -377,11 +377,42 @@
                         <span><?php echo $_SESSION['empresa']?></span>
                         <span class="pull-right"><i class="<?php echo $_SESSION['icono']?>"></i></span>
                     </li>
+                    
                     <?php
-                        require ROOT_PATH."/lib/menu.php";
+                       require ROOT_PATH."/lib/menu.php";
                     ?>
                 </ul>
-
+                <script>
+                    /*$(document).ready(function(){
+                        $.ajax({
+                            type: "post",
+                            url: "home/ajaxVerMenu",
+                            data: {
+                                id: 0
+                            },
+                            datatype: "json",
+                            success: function (respuesta) {
+                                //console.log(respuesta);
+                                resultado($.parseJSON(respuesta));
+                                $("#div").html(resultado.menu);
+                              /*try {
+                                //console.log(respuesta);
+                                resultado($.parseJSON(respuesta));
+                              } catch (e) {
+                                  $.unblockUI();
+                                  console.log(e);
+                                  //alert(e.message);
+                              }*/
+                          /*  },
+                            error: function (ex) {
+                              console.log(ex);
+                                //alert(ex);
+                                //$('#' + objContent).html('Error al conectarse con el servidor');
+                            }
+                        });
+                    });*/
+                    
+                </script>
                <!-- /.sidebar-menu -->
                 <!--/ End left navigation - menu -->
 

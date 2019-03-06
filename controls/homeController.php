@@ -185,6 +185,7 @@
         $returnView=true;
         
         $oEmpresa=empresa::getByID($id);
+       
         $_SESSION['empresa_ID']=$id;
         //echo $_SESSION['empresa_ID'];
         $_SESSION['icono']=$oEmpresa->icono;
@@ -192,7 +193,10 @@
         $_SESSION['tabs']=$oEmpresa->stilo_fondo_tabs;
         $_SESSION['boton']=$oEmpresa->stilo_fondo_boton;
         $_SESSION['cabecera']=$oEmpresa->stilo_fondo_cabecera;
-        $_SESSION['dtEmpresa']=empresa::getEmpresaxUsuarioID($_SESSION['usuario_ID']);
+        
+        $dtEmpresa=empresa::getEmpresaxUsuarioID($_SESSION['usuario_ID']);
+        //print_r($dtEmpresa);
+        $_SESSION['dtEmpresa']=$dtEmpresa;
         //cargarInformacion($id);
         /*if($_SESSION['usuario_ID']>0){
             $filtro="moe.empresa_ID=".$_SESSION['empresa_ID']." and mu.usuario_ID=".$_SESSION['usuario_ID'];
@@ -213,5 +217,13 @@
     function get_Main1(){
         global $returnView;
         $returnView=true;
+    }
+    function post_ajaxVerMenu(){
+        require ROOT_PATH."models/menu.php";
+        $menu=menu::getMenuxUsuarioIDHtml($_SESSION['usuario_ID'],$_SERVER["REQUEST_URI"]);
+        $retornar = Array('menu' => $menu);
+    //$retorn="<h1>Hola</h1>";
+
+    echo json_encode($retornar);
     }
 ?>

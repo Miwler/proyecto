@@ -13,6 +13,12 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Registro de usuarios
+     <div class="pull-right">
+         <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+           
+         <div class="clearfix"></div>
+     </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm1"  method="post" action="/Configuracion_General/ajaxUsuario_Mantenimiento" class="form-horizontal">
@@ -21,16 +27,13 @@
            <ul class="nav nav-tabs">
                 <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
-               
+                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
-
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-           
         </div>
         <div class="panel-body">
             <div class="tab-content">
@@ -144,7 +147,7 @@
             }
             var fncMenu=function(id){
                
-                window_float_open_modal('<span class="glyphicon glyphicon-user"> ASIGNAR MENÚ','/Configuracion_General/Usuario_mantenimiento_Menu',id,'',f,null,540);
+                window_float_open_modal('<span class="glyphicon glyphicon-user"></span> ASIGNAR MENÚ','/Configuracion_General/Usuario_mantenimiento_Menu',id,'',f,null,540);
                
             }
             var fncPerfil=function(id){

@@ -42,12 +42,13 @@ class cotizacion_numero_cuenta {
         return null;
     }
     function insertar() {
-        $cn = new connect();
+        
         $retornar = -1;
         try {
-
+            $cn = new connect_new();
             $q = 'select ifnull(max(ID),0)+1 from cotizacion_numero_cuenta;';
             $ID=$cn->getData($q);
+            $cn = new connect_new();
             $q = 'insert into cotizacion_numero_cuenta(ID,cotizacion_ID,numero_cuenta_ID,usuario_id)';
             $q.='values('.$ID.',' . $this->cotizacion_ID. ',' .$this->numero_cuenta_ID . ','. $this->usuario_id . ');';
             //echo $q;
@@ -63,7 +64,7 @@ class cotizacion_numero_cuenta {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update cotizacion_numero_cuenta set cotizacion_ID=' . $this->cotizacion_ID . ',numero_cuenta_ID=' . $this->numero_cuenta_ID . ',usuario_mod_id=' . $this->usuario_mod_id;
@@ -77,7 +78,7 @@ class cotizacion_numero_cuenta {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -93,7 +94,7 @@ class cotizacion_numero_cuenta {
         }
     }
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,cotizacion_ID,numero_cuenta_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from cotizacion_numero_cuenta ';
@@ -120,7 +121,7 @@ class cotizacion_numero_cuenta {
      
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select ID,cotizacion_ID,numero_cuenta_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -146,7 +147,7 @@ class cotizacion_numero_cuenta {
 	}
         static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='cnc.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                     $q='select cnc.ID,cnc.cotizacion_ID,cnc.numero_cuenta_ID,cnc.usuario_id,ifnull(cnc.usuario_mod_id,-1) as usuario_mod_id,';

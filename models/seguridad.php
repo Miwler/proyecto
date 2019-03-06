@@ -35,7 +35,7 @@ class seguridad
 	
 	static function getValidarMenuUsuario($usuario_ID,$ruta)
 	{		
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='select count(me.ID)';
@@ -51,7 +51,7 @@ class seguridad
 	}
         static function getGridMenuUsuario($usuario_ID,$ruta)
 	{		
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='select me.*';
@@ -67,7 +67,7 @@ class seguridad
 	}
         static function getValidarModuloUsuario($usuario_ID,$modulo_ID)
 	{		
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='select count(mo.ID)';
