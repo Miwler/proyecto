@@ -118,3 +118,411 @@ SET @_inombre = 'Condici贸n de venta';
 SET @_iestado_ID = '24';
 SET @_idescripcion = 'Condici贸n en compra'dede;';
 
+<<<<<<< HEAD
+=======
+=======
+FECHA Y HORA: 03 03 2019 18:03:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C脙鲁digo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci脙鲁n llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C骴igo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci髇 llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C骴igo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci髇 llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 18:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarNota_CreditoSUNAT
+ERROR: C骴igo de Error: 0000 <br /> Web Service de Prueba SUNAT - Fuera de Servicio: <a href='https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService' target='_blank'>https://e-beta.sunat.gob.pe:443/ol-ti-itcpfegem-beta/billService</a>, Para validar la informaci髇 llamar al: *4000 (Desde Claro, Entel y Movistar) - SUNAT
+============================ERROR====================================
+FECHA Y HORA: 03 03 2019 21:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: No ha registrado ning煤n producto.
+>>>>>>> 333bcc1ce0a75e9d5f1914d69a9aafe889121017
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 22:03:50
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 22:03:40
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 23:03:40
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 23:03:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 23:03:23
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 23:03:26
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 23:03:13
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 04 03 2019 23:03:22
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1054)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 03:03:07
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 03:03:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 03:03:44
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 04:03:52
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 04:03:52
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 04:03:39
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 04:03:59
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 04:03:11
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 05:03:54
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 05:03:42
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="",tipo_documento_ID="1",numero="87878780",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 05:03:11
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="63",tipo_documento_ID="1",numero="34567890",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 05:03:28
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 06:03:18
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Fall贸 la preparaci贸n: (1064)
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 06:03:50
+RUTA: C:\xampp\htdocs\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_Persona_Mantenimiento_Editar
+ERROR: Ya existe una persona con el mismo n煤mero de documento 
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:09
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:42
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:45
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:01
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 16:03:14
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:40
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:54
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|78|108.00|708.00|03/03/2019|06|20110378956 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 147, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1729')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:29
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:59
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 17:03:04
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl=20536781499|01|F001|88|143.10|938.10|05/03/2019|06|20100370426 in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://chart.ap...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(325): FPDF->Image('http://chart.ap...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:07
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:13
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:27
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:29
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:01
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: http://localhost/temp/test.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('http://localhos...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('http://localhos...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:22
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: temp/test1111.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('temp/test1111.p...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('temp/test1111.p...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:23
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: temp/test1111.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('temp/test1111.p...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('temp/test1111.p...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 05 03 2019 19:03:01
+RUTA: C:\xampp\htdocs\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: Exception: FPDF error: Can't open image file: temp/test1111.png in C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(1263): FPDF->Error('Can't open imag...')
+#1 C:\xampp\htdocs\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsepng('temp/test1111.p...')
+#2 C:\xampp\htdocs\proyecto\formatos_pdf\factura_venta_pdf.php(342): FPDF->Image('temp/test1111.p...', 100, 162, 25, 25, 'png')
+#3 C:\xampp\htdocs\proyecto\controls\salidaController.php(13229): PDF2->contenedor_detalle(130)
+#4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
+#5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#6 {main}
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 01:03:14
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Fall贸 la ejecuci贸n: (1305)
+SET @_filtro = 'upper(concat(apellido_paterno," ",nombres)) like "%%"';
+SET @_inicio = '0';
+SET @_fin = '30';
+SET @_orden = ' ID DESC';
+CALL `sp_persona_getGrid`( @_filtro, @_inicio, @_fin, @_orden)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:04
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="65",tipo_documento_ID="1",numero="04534534",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="65",tipo_documento_ID="1",numero="12121232",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:44
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="65",tipo_documento_ID="1",numero="56533434",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="",tipo_documento_ID="1",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:40
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Fall贸 la preparaci贸n: (1064)update persona_documento set persona_ID="",tipo_documento_ID="2",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=
+>>>>>>> 974d3768d97f83f3a820df1b8e0a6b3d37fc05b5
