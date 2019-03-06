@@ -6485,6 +6485,8 @@ function post_Persona_Mantenimiento_Editar($id) {
     $telefono=trim($_POST['txtTelefono']);
     $celular=trim($_POST['txtCelular']);
     
+    
+    $oPersona_Documento = new persona_documento();
     try {
         $oPersona->apellido_paterno=$apellido_paterno;
         $oPersona->apellido_materno=$apellido_materno;
@@ -6499,17 +6501,17 @@ function post_Persona_Mantenimiento_Editar($id) {
         $oPersona->usuario_mod_id = $_SESSION['usuario_ID'];
         $oPersona->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona->numero=$numero;
-        if ($oPersona->verificarDuplicado() > 0) {
-              throw new Exception($oPersona->getMessage);             
-        }  
+//        if ($oPersona->verificarDuplicado() > 0) {
+//              throw new Exception($oPersona->getMessage);             
+//        }  
         $oPersona->actualizar();
-        
-        $oPersona_Documento->persona_ID=$oPersona->ID;
+        if($tipo_documentop_ID>0){
+//        $oPersona_Documento->persona_ID=$oPersona->ID;
         $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona_Documento->numero=$numero;
         $oPersona_Documento->usuario_mod_id=$_SESSION['usuario_ID'];
         $oPersona_Documento->actualizar();
-       
+        }
         
         $mensaje=$oPersona->getMessage;
         $resultado=1;
@@ -6564,12 +6566,9 @@ function post_ajaxPersona_Mantenimiento() {
             $orden = ' direccion ' . $orden_tipo;
             break;
         case 5:
-            $orden = ' telefono ' . $orden_tipo;
-            break;
-        case 6:
             $orden = ' celular ' . $orden_tipo;
             break;
-        case 7:
+        case 6:
             $orden = ' correo ' . $orden_tipo;
             break;
         default:
@@ -6581,32 +6580,33 @@ function post_ajaxPersona_Mantenimiento() {
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
     $resultado.='<th class="text-center">N°</th>';
+    $resultado.='<th>Documento</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Nombres' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Apellido Paterno' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Apellido Materno' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(4);">Direccion' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Telefono' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(6);">Celular' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(7);">Correo' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Celular' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(6);">Correo' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th>Opciones</th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
     $colspanFooter = 10;
     try {
         $cantidadMaxima = persona::getCount($filtro);
-        $dtPersona = persona::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $dtPersona = persona::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtPersona);
         $i=($paginaActual-1)*$cantidadMostrar+1;
         foreach ($dtPersona as $item) {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
+            $resultado.='<td class="text-center">' . test_input($item['documento']) . '</td>';
             $resultado.='<td class="text-center">' . test_input($item['nombres']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['apellido_paterno']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['apellido_materno']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['direccion']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['telefono']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['celular']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['correo']) . '</td>';
+            
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Editar Persona">Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Persona&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar Persona"><span class="glyphicon glyphicon-trash">Eliminar</a>');

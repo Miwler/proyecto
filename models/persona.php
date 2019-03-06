@@ -307,6 +307,27 @@ class persona {
     }
     
     
+    static function getGrid1($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_persona_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "persona.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+    
         static function getGrid_PersonaDocumento($filtro='',$desde=-1,$hasta=-1,$order='pe.ID asc')
     {
         $cn =new connect_new();

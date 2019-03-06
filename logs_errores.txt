@@ -886,3 +886,38 @@ Stack trace:
 #4 C:\xampp\htdocs\proyecto\lib\controlPage.php(162): get_Factura_Vista_PreviaPDF('1739')
 #5 C:\xampp\htdocs\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
 #6 {main}
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 01:03:14
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: Falló la ejecución: (1305)
+SET @_filtro = 'upper(concat(apellido_paterno," ",nombres)) like "%%"';
+SET @_inicio = '0';
+SET @_fin = '30';
+SET @_orden = ' ID DESC';
+CALL `sp_persona_getGrid`( @_filtro, @_inicio, @_fin, @_orden)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:04
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update persona_documento set persona_ID="65",tipo_documento_ID="1",numero="04534534",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:24
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update persona_documento set persona_ID="65",tipo_documento_ID="1",numero="12121232",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:44
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update persona_documento set persona_ID="65",tipo_documento_ID="1",numero="56533434",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update persona_documento set persona_ID="",tipo_documento_ID="1",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 02:03:40
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)update persona_documento set persona_ID="",tipo_documento_ID="2",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=

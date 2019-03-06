@@ -35,6 +35,7 @@ function fncPage() { ?>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select id="selTipo_Documento" name="selTipo_Documento" class="form-control form-requerido">
+                                        <option value="0">SELECCIONAR</option>
                                         <?php foreach($GLOBALS['oPersona']->dtTipo_Documento as $item){ ?>
                                         <option value="<?php echo $item['ID']?>"><?php echo $item['nombre'];?></option>
                                         <?php } ?>
