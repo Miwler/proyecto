@@ -216,11 +216,11 @@ class ingreso {
                 "iusuario_id"=>$this->usuario_id
             ),0);
       if($ID>0){
-        $this->message="El registro se guard? correctamente.";
+        $this->message="El registro se guardó correctamente.";
         $this->ID=$ID;
         return $ID;
       } else {
-          throw new Exception("No se registr?");
+          throw new Exception("No se registró");
       }
     }catch(Exeption $ex)
     {

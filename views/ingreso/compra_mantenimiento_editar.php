@@ -119,7 +119,7 @@ function fncPage() { ?>
                                       
                             </select>
                             <script type="text/javascript">
-                                $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->comprobante_tipo_ID;?>);
+                                $('#cboComprobante_Tipo').val(<?php echo $GLOBALS['oCompra']->tipo_comprobante_ID;?>);
                             </script>
                         </div>
                         <label class="col-sm-2 control-label">Número:<span class="asterisk">*</span></label>

@@ -200,7 +200,7 @@ function fncPage() { ?>
                         <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                         Guardar
                     </button>
-                    <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="parent.float_close_modal_hijo();" >
+                    <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="window_float_close_modal();" >
                         <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
                         Cancelar
                     </button>    

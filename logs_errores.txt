@@ -921,3 +921,132 @@ FECHA Y HORA: 06 03 2019 02:03:40
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.transa
 ERROR: Falló la preparación: (1064)update persona_documento set persona_ID="",tipo_documento_ID="2",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:35
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:35
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:45
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:45
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:19
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iingreso_ID = '379';
+SET @_iproducto_ID = '';
+SET @_idescripcion = '';
+SET @_icantidad = '2';
+SET @_iprecio = '60';
+SET @_isubtotal = '120';
+SET @_iigv = '0';
+SET @_itotal = '120';
+SET @_idestino = '2';
+SET @_iusuario_id = '0';
+CALL `sp_ingreso_detalle_Insert`( @_iID, @_iingreso_ID, @_iproducto_ID, @_idescripcion, @_icantidad, @_iprecio, @_isubtotal, @_iigv, @_itotal, @_idestino, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:21
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:21
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 05:03:38
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: Falló la preparación: (1064)UPDATE orden_ingreso SET tipo_orden_ID=1, numero_orden='81',fecha="2019-02-16", proveedor_ID=500,moneda_ID=2,estado_ID=59,tipo_cambio='3.32',vigv='0.18',subtotal='4300',igv='774',total='5074',comentario='COndicio´'',usuario_mod_id=0, fdm=Now() WHERE ID=81
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:42
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:42
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:57
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: Falló la preparación: (0)
+SET @_iID = '0';
+SET @_iingreso_ID = '384';
+SET @_iproducto_ID = '';
+SET @_idescripcion = '';
+SET @_icantidad = '5';
+SET @_iprecio = '40';
+SET @_isubtotal = '200';
+SET @_iigv = '0';
+SET @_itotal = '200';
+SET @_idestino = '1';
+SET @_iusuario_id = '0';
+CALL `sp_ingreso_detalle_Insert`( @_iID, @_iingreso_ID, @_iproducto_ID, @_idescripcion, @_icantidad, @_iprecio, @_isubtotal, @_iigv, @_itotal, @_idestino, @_iusuario_id)SELECT @_iID AS iID
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:59
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:59
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:15
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:15
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:41
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:41
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:45
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:45
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:38
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: Falló la preparación: (1064)
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 07:03:38
+RUTA: C:\xampp\htdocs\proyecto\controls\ingresoController.php
+METODO: ingresoController
+ERROR: Falló la preparación: (1064)
