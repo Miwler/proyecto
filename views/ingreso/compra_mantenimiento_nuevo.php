@@ -134,7 +134,7 @@ function fncPage() { ?>
                             <select id="selProveedor" name="selProveedor" class="chosen-select">
                                 <option value="0">--Seleccionar--</option>
                                  <?php foreach($GLOBALS['oCompra']->dtProveedor as $proveedor){?>
-                                <option value="<?php echo $proveedor['ID']?>"><?php echo FormatTextView(strtoupper($proveedor['razon_social']));?></option>
+                                <option value="<?php echo $proveedor['ID']?>"><?php echo FormatTextView($proveedor['razon_social']);?></option>
                                  <?php }?>
                             </select>
                             
@@ -151,7 +151,7 @@ function fncPage() { ?>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" >
                                 <?php foreach($GLOBALS['oCompra']->dtMoneda as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo $iMoneda['descripcion'];?> </option>
                                 <?php }?>
                             </select>
                             <script type="text/javascript">
@@ -223,7 +223,7 @@ function fncPage() { ?>
             
             return false;
         }
-        if(numero==''){
+        if(numero=='' || numero ==0){
             mensaje.advertencia("VALIDACIÓN DE DATOS",'Ingrese el nro de factura.',"txtNumero_Factura");
             
             return false;

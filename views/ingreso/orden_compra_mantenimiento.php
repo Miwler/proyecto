@@ -114,7 +114,7 @@
                                     <select id="selMoneda" name="selMoneda" class="form-control" >
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtMoneda'] as $moneda){?>
-                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo utf8_encode($moneda['descripcion']) ;?></option>
+                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo $moneda['descripcion'];?></option>
                                         <?php } ?>
                                     </select>
 
@@ -219,7 +219,7 @@
                 cargarValores('/Ingreso/ajaxOrden_Compra_Mantenimiento_Eliminar',id,function(resultado){
                     if(resultado.resultado==1){
                         f.enviar();
-                        mensaje.info("Ok",resultado.mensaje);
+                        mensaje.info("Mensaje de Respuesta",resultado.mensaje);
                     }else {
                         mensaje.error("Ocurrió un error",resultado.mensaje);
                     }

@@ -61,7 +61,7 @@
                                     <select id="selProveedor" name="selProveedor" class="chosen-select">
                                         <option value="0">-TODOS-</option>
                                         <?php foreach($GLOBALS['dtProveedor'] as $proveedor){?>
-                                        <option value="<?php echo $proveedor['ID']?>"><?php echo strtoupper(utf8_encode($proveedor['razon_social']))?></option>
+                                        <option value="<?php echo $proveedor['ID']?>"><?php echo $proveedor['razon_social'];?></option>
                                         <?php }?>
                                     </select>
 
@@ -126,7 +126,7 @@
                                     <select id="selMoneda" name="selMoneda" class="form-control text-uppercase" >
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtMoneda'] as $moneda){?>
-                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo utf8_encode($moneda['descripcion']) ;?></option>
+                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo $moneda['descripcion'];?></option>
                                         <?php } ?>
                                     </select>
 
@@ -246,7 +246,7 @@
         cargarValores('/Ingreso/ajaxCompra_Mantenimiento_Eliminar',id,function(resultado){
             if(resultado.resultado==1){
                 f.enviar();
-                mensaje.info("OK",resultado.mensaje);
+                mensaje.info("Mensaje de Respuesta",resultado.mensaje);
             }else {
                 mensaje.error("Ocurrió un error",resultado.mensaje);
             }

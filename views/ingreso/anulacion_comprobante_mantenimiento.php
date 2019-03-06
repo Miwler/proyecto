@@ -49,7 +49,7 @@
                                     <select id="selProveedor" name="selProveedor" class="chosen-select">
                                         <option value="0">-TODOS-</option>
                                         <?php foreach($GLOBALS['dtProveedor'] as $proveedor){?>
-                                        <option value="<?php echo $proveedor['ID']?>"><?php echo strtoupper($proveedor['razon_social']);?></option>
+                                        <option value="<?php echo $proveedor['ID']?>"><?php echo $proveedor['razon_social'];?></option>
                                         <?php }?>
                                     </select>
                                 </div>
@@ -98,7 +98,7 @@
                                     <select id="selMoneda" name="selMoneda" class="form-control text-uppercase" >
                                         <option value="0">TODOS</option>
                                         <?php foreach($GLOBALS['dtMoneda'] as $moneda){?>
-                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo utf8_encode($moneda['descripcion']) ;?></option>
+                                        <option value="<?php echo $moneda['ID'] ;?>"><?php echo $moneda['descripcion'];?></option>
                                         <?php } ?>
                                     </select>
 

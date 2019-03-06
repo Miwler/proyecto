@@ -53,7 +53,7 @@ function fncPage() { ?>
                 </div>
                  <label class="col-lg-3 col-md-3 col-sm-3 control-label">Moneda:</label>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <input type="text" name="txtMoneda" id="txtMoneda" disabled value="<?php echo utf8_encode($GLOBALS['oCompra']->moneda);?>" class="form-control">
+                    <input type="text" name="txtMoneda" id="txtMoneda" disabled value="<?php echo $GLOBALS['oCompra']->moneda;?>" class="form-control">
                 </div>
                 
             </div>
@@ -106,7 +106,7 @@ function fncPage() { ?>
                             <select id="selMotivo_Anulacion_ID" name="selMotivo_Anulacion_ID" class="form-control">
                                 <option value="0">--Seleccione--</option>
                                 <?php foreach($GLOBALS['oCompra']->dtMotivo_Anulacion as $ivalue){ ?>
-                                <option value="<?php echo $ivalue['ID']?>"><?php echo utf8_encode($ivalue['nombre']);?></option>
+                                <option value="<?php echo $ivalue['ID']?>"><?php echo $ivalue['nombre'];?></option>
 
                                 <?php } ?>
                             </select>

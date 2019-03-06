@@ -218,7 +218,7 @@ $(document).ready(function(){
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo $iMoneda['descripcion'];?> </option>
                             <?php }?>
                             </select>
                             <script type="text/javascript">

@@ -50,7 +50,7 @@
                                     <select id="selProveedor" name="selProveedor" class="chosen-select">
                                         <option value="0">-TODOS-</option>
                                         <?php foreach($GLOBALS['dtProveedor'] as $proveedor){?>
-                                        <option value="<?php echo $proveedor['ID']?>"><?php echo strtoupper($proveedor['razon_social']);?></option>
+                                        <option value="<?php echo $proveedor['ID']?>"><?php echo $proveedor['razon_social'];?></option>
                                         <?php }?>
                                     </select>
                                 </div>

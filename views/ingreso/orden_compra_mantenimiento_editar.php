@@ -111,7 +111,7 @@ function fncPage() { ?>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <select id="selMoneda" name="selMoneda" class="form-control" >
                             <?php foreach($GLOBALS['oOrden_Compra']->dtMoneda as  $iMoneda){?>
-                            <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
+                            <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo $iMoneda['descripcion'];?> </option>
                             <?php }?>
                         </select>
                         <script type="text/javascript">
