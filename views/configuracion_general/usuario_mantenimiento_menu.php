@@ -36,7 +36,7 @@
                         <div class="col-sm-9">
                             <select id="selEmpresa" name="selEmpresa" class="form-control" onchange="fncSeleccionarModulo();">
                                 <?php foreach($GLOBALS['oUsuario']->dtEmpresa as $item1){?>
-                                <option value="<?php echo $item1['ID']?>"><?php echo utf8_encode($item1['nombre'])?></option>
+                                <option value="<?php echo $item1['ID']?>"><?php echo ($item1['nombre'])?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="col-sm-9">
                             <select id="selModulo" name="selModulo" class="form-control" onchange="cargarMenu();">
                                 <?php foreach($GLOBALS['oUsuario']->dtModulo as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo utf8_encode($item['nombre'])?></option>
+                                <option value="<?php echo $item['ID']?>"><?php echo ($item['nombre'])?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -69,7 +69,7 @@
         
             <div class="form-footer">
                 <div class="pull-left">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success">
+                    <button type="button"  id="btnEnviar" name="btnEnviar" class="btn btn-success" onclick="Grabar();">
                             <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                             Guardar
                         </button>
@@ -91,10 +91,14 @@
     var cargarMenu=function(){
         var usuario_ID=<?php echo $GLOBALS['oUsuario']->ID;?>;
         var modulo_ID=$("#selModulo").val();
-        cargarValores1("Configuracion_General/ajaxExtraer_Menu_Modulo",usuario_ID,modulo_ID,function(resultado){
-            console.log(resultado.html);
-            $("#divMenus").html(resultado.html);
+        block_ui(function(){
+            $("#divMenus").html("");
+            cargarValores1("Configuracion_General/ajaxExtraer_Menu_Modulo",usuario_ID,modulo_ID,function(resultado){
+                $.unblockUI();
+                $("#divMenus").html(resultado.html);
+            });
         });
+        
     }
     var fncSeleccionarModulo=function(){
         var empresa_ID=$("#selEmpresa").val();
@@ -102,7 +106,39 @@
             $("#selModulo").html(resultado.html);
         });
     }
-
+    function Grabar(){
+        var lista_menu="";
+        var i=0;
+        $("#divMenus input:checkbox:checked").each(function(){
+            if(i==0){
+                lista_menu=this.id;
+            }else{
+                lista_menu=lista_menu+','+this.id;
+            }
+            i++;
+        });
+        
+        var usuario_ID=<?php echo $GLOBALS['oUsuario']->ID;?>;
+        var modulo_ID=$("#selModulo").val();
+        if(modulo_ID>0){
+            var object=new Object();
+            object['lista_menu']=lista_menu;
+            object['usuario_ID']=usuario_ID;
+            object['modulo_ID']=modulo_ID;
+            block_ui(function(){
+                enviarAjaxParse('Configuracion_General/ajacGrabarMenu_Usuario','frm',object,function(resul){
+                    $.unblockUI();
+                if(resul.resultado==1){
+                    toastem.success(resul.mensaje);
+                }else{
+                    mensaje.error("Ocurrió un error",resul.mensaje);
+                }
+            });
+            });
+            
+        }
+        
+    }
     </script>
     <?php } ?>  
     <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==1){ ?>

@@ -3333,7 +3333,7 @@ function post_ajaxComprar_Orden(){
     try{
         $oOrden_Compra=orden_ingreso::getByID($orden_compra_ID);
         $oCompra=new ingreso();
-        $oCompra->tipo_movimiento_ID=1;//Tipo movimiento compra
+        $oCompra->tipo_movimiento_ID=10;//Tipo movimiento compra
         $oCompra->tipo_comprobante_ID=1;
         $oCompra->serie='';
         $oCompra->numero=0;
