@@ -160,7 +160,7 @@ function post_ajaxCotizacion_Mantenimiento() {
     $colspanFooter = 10;
     try {
         $cantidadMaxima = cotizacion::getCount($filtro);
-        $dtCotizacion = cotizacion::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $dtCotizacion = cotizacion::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCotizacion);
 
         $clase="";
