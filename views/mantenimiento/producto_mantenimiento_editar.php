@@ -102,7 +102,7 @@ function fncMenu() { ?>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
                                <select id="selMoneda_ID" name="selMoneda_ID"  class="form-control" onchange='fncTipo_Cambio(this.value);'>
                                     <?php foreach($GLOBALS['oProducto']->dtMoneda as $item){?>
-                                    <option value="<?php echo $item['ID']?>"><?php echo utf8_encode($item['descripcion']);?></option>
+                                    <option value="<?php echo $item['ID']?>"><?php echo $item['descripcion'];?></option>
                                     <?php } ?>
                                 </select>
                             </div>
