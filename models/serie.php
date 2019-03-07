@@ -38,7 +38,7 @@ class serie {
     }
 
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -60,7 +60,7 @@ class serie {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update serie set descripcion="' . $this->descripcion . '",nombre="' . $this->nombre . '", comprobante_tipo_ID='.$this->comprobante_tipo_ID.',usuario_mod_id=' . $this->usuario_mod_id;
@@ -74,7 +74,7 @@ class serie {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -91,7 +91,7 @@ class serie {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(se.ID) ';
             $q.=' FROM serie as se, comprobante_tipo ct ';
@@ -110,7 +110,7 @@ class serie {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,descripcion,nombre,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id,comprobante_tipo_ID';
             $q.=' from serie ';
@@ -136,7 +136,7 @@ class serie {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'se.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT se.ID,UPPER(se.nombre) as nombre,se.descripcion,se.comprobante_tipo_ID,UPPER(ct.nombre) as comprobante_tipo';
             $q.=' FROM serie  se , comprobante_tipo ct';
@@ -161,7 +161,7 @@ class serie {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
            $q="select  count(ID) from serie ";
@@ -182,7 +182,7 @@ class serie {
         }
     }
     function verificarHijos($comprobante_tipo_ID){
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
 		//Verifico que no se repita el nombre

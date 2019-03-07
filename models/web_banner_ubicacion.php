@@ -44,7 +44,7 @@ class web_banner_ubicacion
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='select ifnull(max(ID),0)+1 from web_banner_ubicacion;';
@@ -64,7 +64,7 @@ class web_banner_ubicacion
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -83,7 +83,7 @@ class web_banner_ubicacion
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -102,7 +102,7 @@ class web_banner_ubicacion
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,web_banner_ID,ruta,tipo,efecto,medida_imagen,orden,titulo_encabezado,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -138,7 +138,7 @@ class web_banner_ubicacion
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -161,7 +161,7 @@ class web_banner_ubicacion
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                     $q='SELECT ID,web_banner_ID,titulo_encabezado,ruta,tipo,usuario_id,efecto,medida_imagen,orden,ifnull(usuario_mod_id,-1) as usuario_mod_id';

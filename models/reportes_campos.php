@@ -46,7 +46,7 @@ class reportes_campos
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,provincia_ID,codigo_ubigeo,nombre,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -77,7 +77,7 @@ class reportes_campos
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(dt.ID) ';
@@ -100,7 +100,7 @@ class reportes_campos
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='orden asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,reportes_ID,nombre,orden,tipo,descripcion,valor,nombre_id, usuario_id, ifnull(usuario_mod_id,-1) as usuario_mod_id';

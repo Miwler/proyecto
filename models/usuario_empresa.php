@@ -40,12 +40,12 @@ class usuario_empresa
 	}
 	
 	function insertar(){
-		$cn =new new connect_new();
+		$cn = new connect_new();
 		$retornar=-1;
 		try{
                     $q='select ifnull(max(ID),0)+1 from usuario_empresa;';
                     $ID=$cn->getData($q);
-					$cn =new new connect_new();
+					$cn = new connect_new();
                     $q='INSERT INTO usuario (ID,usuario_ID,empresa_ID,perfil_ID,estado_ID,usuario_id_creacion) ';
                     $q.='VALUES ('.$ID.','.$this->usuario_ID.','.$this->empresa_ID.','.$this->perfil_ID.','.$this->estado_ID.','.$this->usuario_id_creacion.');';
                     $retornar=$cn->transa($q);
@@ -59,7 +59,7 @@ class usuario_empresa
 	}	
 	
 	function actualizar(){
-		$cn =new new connect_new();
+		$cn = new connect_new();
 		$retornar=-1;
 		try{
                     $q='UPDATE usuario_empresa';
@@ -81,7 +81,7 @@ class usuario_empresa
 	}		
 	
 	function eliminar(){
-		$cn =new new connect_new();
+		$cn = new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -100,7 +100,7 @@ class usuario_empresa
 
 	static function getByID($ID)
 	{
-		$cn =new new connect_new();
+		$cn = new connect_new();
 		try 
 		{
 			$q='Select ID,usuario_ID,empresa_ID,perfil_ID,estado_ID,usuario_id_creacion from usuario_empresa ';
@@ -131,7 +131,7 @@ class usuario_empresa
 	}
 	
         function verificarDuplicado(){
-            $cn =new new connect_new();
+            $cn = new connect_new();
             $retornar=-1;
             try{
 
@@ -158,7 +158,7 @@ class usuario_empresa
 	
 	static function getCount($filtro='')
 	{
-		$cn =new new connect_new();
+		$cn = new connect_new();
 		try 
 		{
 			$q='select count(u.ID) ';
@@ -181,7 +181,7 @@ class usuario_empresa
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ue.ID asc')
 	{
-            $cn =new new connect_new();
+            $cn = new connect_new();
             try 
             {
                 $q='SELECT *';

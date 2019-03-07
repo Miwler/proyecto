@@ -41,7 +41,7 @@ class cargo {
     }
 
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -63,7 +63,7 @@ class cargo {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update categoria set descripcion="' . $this->descripcion . '",nombre="' . $this->nombre . '", linea_ID='.$this->linea_ID.',usuario_mod_id=' . $this->usuario_mod_id;
@@ -77,7 +77,7 @@ class cargo {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -94,7 +94,7 @@ class cargo {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ca.ID) ';
             $q.=' FROM categoria as ca, linea li ';
@@ -113,7 +113,7 @@ class cargo {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombre,tabla,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from cargo ';
@@ -139,7 +139,7 @@ class cargo {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,nombre,tabla,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM cargo';
@@ -164,7 +164,7 @@ class cargo {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             return $retornar;

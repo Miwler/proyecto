@@ -39,7 +39,7 @@ class modulo_empresa
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='select ifnull(max(ID),0)+1 from modulo_empresa;';
@@ -60,7 +60,7 @@ class modulo_empresa
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{					
 			$q='UPDATE modulo SET orden='.$this->orden.',nombre="'.FormatTextSave($this->nombre).'",url="'.FormatTextSave($this->url).'",';
@@ -78,7 +78,7 @@ class modulo_empresa
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -97,7 +97,7 @@ class modulo_empresa
 
  	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='Select ID,empresa_ID,modulo_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id ';
@@ -128,7 +128,7 @@ class modulo_empresa
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(moe.ID) ';
@@ -151,7 +151,7 @@ class modulo_empresa
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='moe.ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='SELECT moe.ID,moe.empresa_ID,moe.modulo_ID,moe.usuario_id,ifnull(moe.usuario_mod_id,-1) as usuario_mod_id,';
@@ -180,7 +180,7 @@ class modulo_empresa
 	
 	static function getGridModulosUsuario($filtro='',$desde=-1,$hasta=-1,$order='mo.ID asc')
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select moe.modulo_ID, mo.nombre,mo.nombre_corto,ifnull(mo.color,"#354B8A") as color,mo.imagen,mo.url';

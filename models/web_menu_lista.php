@@ -43,7 +43,7 @@ class web_menu_lista
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='select ifnull(max(ID),0)+1 from web_menu_lista;';
@@ -67,7 +67,7 @@ class web_menu_lista
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -87,7 +87,7 @@ class web_menu_lista
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -106,7 +106,7 @@ class web_menu_lista
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                     $q='Select ID,web_menu_ID,nombre,ruta,web_menu_lista_ID,orden,tabla,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -140,7 +140,7 @@ class web_menu_lista
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(mn.ID) ';
@@ -163,7 +163,7 @@ class web_menu_lista
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,web_menu_ID,nombre,ruta,web_menu_lista_ID,orden,tabla,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -190,7 +190,7 @@ class web_menu_lista
 	
 	static function getMenuxUsuarioID($usuario_id)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select mn.ID,mn.menu_ID,mn.modulo_ID,mn.orden,mn.nombre,mn.url,mn.usuario_id,ifnull(mn.usuario_mod_id,-1) as usuario_mod_id';

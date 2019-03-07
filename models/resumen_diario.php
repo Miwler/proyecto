@@ -217,7 +217,7 @@ class resumen_diario {
   }
   static function getTabla()
     {
-        //$cn =new connect();
+        //$cn =new connect_new();
         $cn=new connect_new();
         try
         {

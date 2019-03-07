@@ -44,7 +44,7 @@ class factura_venta_pagos {
     }
 
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -77,7 +77,7 @@ class factura_venta_pagos {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $fecha_emision_save='NULL';
@@ -104,7 +104,7 @@ class factura_venta_pagos {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -121,7 +121,7 @@ class factura_venta_pagos {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ca.ID) ';
             $q.=' FROM categoria as ca, linea li ';
@@ -140,7 +140,7 @@ class factura_venta_pagos {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,factura_venta_ID,fecha_emision,fecha_pago,monto_total_neto,monto_total_igv,monto_total,monto_pendiente_neto,';
             $q.= 'monto_pendiente_igv,monto_pendiente,monto_pagado_neto,monto_pagado_igv,monto_pagado_detraccion,monto_pagado,usuario_id';
@@ -177,7 +177,7 @@ class factura_venta_pagos {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,factura_venta_ID,fecha_emision,fecha_pago,monto_total_neto,monto_total_igv,';
             $q.='monto_total,monto_pendiente_neto,monto_pendiente_igv,monto_pendiente,monto_pagado_neto,monto_pagado_igv,';
@@ -204,7 +204,7 @@ class factura_venta_pagos {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             return $retornar;

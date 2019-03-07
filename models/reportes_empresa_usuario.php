@@ -39,7 +39,7 @@ class reportes_empresa_usuario
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,nombre,modulo_ID,orden,titulo, usuario_id, ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -71,7 +71,7 @@ class reportes_empresa_usuario
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -94,7 +94,7 @@ class reportes_empresa_usuario
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='reu.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                     $q='SELECT reu.ID,rem.reportes_ID,rem.empresa_ID,reu.usuario_id, ifnull(reu.usuario_mod_id,-1) as usuario_mod_id';
@@ -120,7 +120,7 @@ class reportes_empresa_usuario
 		}
 	}
         static function getComisionesGenerales($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select ov.operador_ID,CONCAT(op.nombres,' ',op.apellido_paterno) as operador,op.comision, sum(inv.utilidad_soles)  as utilidad_soles,";
             $q.="sum(inv.utilidad_dolares)  as utilidad_dolares, sum(inv.comision_soles)  as comision_soles,sum(inv.comision_dolares)  as comision_dolares";
@@ -149,7 +149,7 @@ class reportes_empresa_usuario
         }
     }
      static function getComisionesDetalles($filtro = '', $desde = -1, $hasta = -1, $order = 'inv.ID asc,ov.numero') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select ov.ID as orden_venta_ID,fv.serie,fv.numero_concatenado as numero_factura, ov.numero_concatenado,ov.operador_ID,CONCAT(op.nombres,' ',op.apellido_paterno) as operador,op.comision, sum(inv.utilidad_soles)  as utilidad_soles,";
             $q.="sum(inv.utilidad_dolares)  as utilidad_dolares, sum(inv.comision_soles)  as comision_soles,sum(inv.comision_dolares)  as comision_dolares";
@@ -178,7 +178,7 @@ class reportes_empresa_usuario
         }
     }
     static function getVentasClientes($filtro = '', $desde = -1, $hasta = -1, $order = 'cli.razon_social asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select cli.ID,cli.ruc,cli.razon_social,mo.simbolo,ov.moneda_ID, sum(ov.precio_venta_total_soles)  as precio_venta_total_soles,sum(precio_venta_total_dolares) as precio_venta_total_dolares";
             $q.=" from orden_venta ov, cliente cli, moneda mo";
@@ -203,7 +203,7 @@ class reportes_empresa_usuario
     }
     
     static function getReporteCompras($filtro = '', $desde = -1, $hasta = -1, $order = 'year(co.fecha_emision),month(co.fecha_emision),co.moneda_ID',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select year(co.fecha_emision) as periodo,month(co.fecha_emision) as mes,day(co.fecha_emision) as dia,co.moneda_ID,mo.descripcion as moneda, sum(co.total) as total ";
             $q.=" from compra co, moneda mo";
@@ -230,7 +230,7 @@ class reportes_empresa_usuario
         }
     }
     static function getReporteVentas($filtro = '', $desde = -1, $hasta = -1, $order = 'year(ov.fecha),month(fecha),day(fecha),ov.moneda_ID',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select year(ov.fecha) as periodo,month(fecha)as mes,day(fecha) as dia, ov.moneda_ID,";
             $q.=" (case ov.moneda_ID when 1 then sum(precio_venta_total_soles)  else sum(precio_venta_total_dolares) end) as total";
@@ -258,7 +258,7 @@ class reportes_empresa_usuario
         }
     }
      static function getReporteGanancias($filtro = '', $desde = -1, $hasta = -1, $order = 'year(ov.fecha),month(fecha),day(fecha),ov.moneda_ID',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select year(ov.fecha) as periodo,month(ov.fecha) as mes,day(ov.fecha) as dia,ov.moneda_ID,";
             $q.=" (case ov.moneda_ID when 1 then sum(inv.utilidad_soles) else sum(inv.utilidad_dolares)end ) as total";

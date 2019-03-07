@@ -40,7 +40,7 @@ class tipo_documento {
 
     static function getByID($ID)
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='Select ID,nombre,usuario_id';
@@ -68,7 +68,7 @@ class tipo_documento {
 
     static function getCount($filtro='')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(ID) ';
@@ -91,7 +91,7 @@ class tipo_documento {
 
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='SELECT ID, nombre,usuario_id';

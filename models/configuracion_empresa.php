@@ -64,7 +64,7 @@ class configuracion_empresa
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -82,7 +82,7 @@ class configuracion_empresa
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -101,7 +101,7 @@ class configuracion_empresa
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,nombre,empresa_ID,valor,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
@@ -133,7 +133,7 @@ class configuracion_empresa
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';

@@ -42,7 +42,7 @@ class reportes
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,nombre,modulo_ID,orden,titulo, usuario_id, ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -73,7 +73,7 @@ class reportes
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -96,7 +96,7 @@ class reportes
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='orden asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,modulo_ID,nombre,orden,titulo, usuario_id, ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -121,7 +121,7 @@ class reportes
 		}
 	}
         static function getComisionesGenerales($filtro = '', $desde = -1, $hasta = -1, $order = "CONCAT(pe.nombres,' ',pe.apellido_paterno)") {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select   CONCAT(pe.nombres,' ',pe.apellido_paterno) as operador,op.comision, sum(inv.utilidad_soles)  as utilidad_soles,";
             $q.="sum(inv.utilidad_dolares)  as utilidad_dolares, sum(inv.comision_soles)  as comision_soles,sum(inv.comision_dolares)  as comision_dolares";
@@ -151,7 +151,7 @@ class reportes
         }
     }
      static function getComisionesDetalles($filtro = '', $desde = -1, $hasta = -1, $order = "CONCAT(pe.nombres,' ',pe.apellido_paterno),ov.numero") {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q=" select ifnull(fv.serie,'') as serie,ifnull(fv.numero_concatenado,'') as numero_factura, ov.numero_concatenado,";
             $q.="CONCAT(pe.nombres,' ',pe.apellido_paterno) as operador,op.comision, sum(inv.utilidad_soles)  as utilidad_soles,";
@@ -182,7 +182,7 @@ class reportes
         }
     }
     static function getVentasClientes($filtro = '', $desde = -1, $hasta = -1, $order = 'cli.razon_social asc,mo.descripcion asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select cli.ruc,cli.razon_social,mo.descripcion as moneda,(case when ov.moneda_ID=1 then sum(ov.precio_venta_total_soles) else  sum(precio_venta_total_dolares) end) as monto_total";
             $q.=" from salida ov, cliente cli, moneda mo, factura_venta fv";
@@ -206,7 +206,7 @@ class reportes
         }
     }
     static function getVentasClientesDetalle($filtro = '', $desde = -1, $hasta = -1, $order = 'cli.razon_social asc,fv.fecha_emision asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select cli.ruc,cli.razon_social,concat(fv.serie,'-',fv.numero) as factura,DATE_FORMAT(fv.fecha_emision,'%d/%m/%Y')  as fecha,mo.simbolo as moneda,";
             $q.=" (case when ov.moneda_ID=1 then ov.precio_venta_total_soles else  precio_venta_total_dolares end) as monto_total";
@@ -231,7 +231,7 @@ class reportes
     }
     
     static function getReporteCompras($filtro = '', $desde = -1, $hasta = -1, $order = 'year(co.fecha_emision),month(co.fecha_emision),co.moneda_ID',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select year(co.fecha_emision) as periodo,month(co.fecha_emision) as mes,day(co.fecha_emision) as dia,co.moneda_ID,mo.descripcion as moneda, sum(co.total) as total ";
             $q.=" from ingreso co, moneda mo";
@@ -258,7 +258,7 @@ class reportes
         }
     }
     static function getReporteVentas($filtro = '', $desde = -1, $hasta = -1, $order = 'year(ov.fecha),month(fecha),day(fecha),ov.moneda_ID',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select year(ov.fecha) as periodo,month(fecha)as mes,day(fecha) as dia, ov.moneda_ID,";
             $q.=" (case ov.moneda_ID when 1 then sum(precio_venta_total_soles)  else sum(precio_venta_total_dolares) end) as total";
@@ -286,7 +286,7 @@ class reportes
         }
     }
     static function getReporteFacturasCobrarDetalle($filtro = '', $desde = -1, $hasta = -1, $order = 'cl.razon_social,fv.serie,fv.numero,fv.fecha_emision,fv.fecha_vencimiento') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "select cl.ruc, cl.razon_social,concat(fv.serie,'-',fv.numero_concatenado) as factura,DATE_FORMAT(fv.fecha_emision,'%d/%m/%Y') as fecha_emision ,DATE_FORMAT(fv.fecha_vencimiento,'%d/%m/%Y') as fecha_vencimiento,";
             $q.='   mo.simbolo as moneda,fv.monto_total,fv.monto_pendiente';
@@ -310,7 +310,7 @@ class reportes
         }
     }
      static function getReporteCuentasTotaltesCobrar($filtro = '', $desde = -1, $hasta = -1, $order = 'cl.razon_social,ov.moneda_ID') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "select cl.ruc, cl.razon_social,mo.simbolo as moneda,sum(fv.monto_total) as monto_total,sum(fv.monto_pendiente) as monto_pendiente";
             $q.='  from factura_venta fv, salida ov,cliente cl, moneda mo';
@@ -333,7 +333,7 @@ class reportes
         }
     }
    static function getReporteGanancias($filtro = '', $desde = -1, $hasta = -1, $order = 'year(ov.fecha),month(fecha),day(fecha),ov.moneda_ID',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select year(ov.fecha) as periodo,month(ov.fecha) as mes,day(ov.fecha) as dia,ov.moneda_ID,";
             $q.=" (case ov.moneda_ID when 1 then sum(inv.utilidad_soles) else sum(inv.utilidad_dolares)end ) as total";
@@ -364,7 +364,7 @@ class reportes
     
     /*Reportes para compras*/
     static function getReporteCompras_Proveedor($filtro = '', $desde = -1, $hasta = -1, $order = 'pro.razon_social',$group='') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select pro.ruc , upper(pro.razon_social) as razon_social,pro.direccion,mo.simbolo as moneda,sum(co.subtotal) as 'sub_total',";
             $q.="sum(co.igv) as 'igv', sum(co.total) as total";
@@ -393,7 +393,7 @@ class reportes
         }
     }
     static function getReporteCompras_Proveedor_Detalle($filtro = '', $desde = -1, $hasta = -1, $order = 'pro.razon_social,co.fecha_emision') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q="select  pro.ruc,pro.razon_social,ifnull(co.periodo,0)as periodo,co.fecha_emision,concat(co.serie,' - ',co.numero) as factura";
             $q.=",mo.simbolo,co.subtotal as sub_total,co.igv,co.total";
@@ -417,7 +417,7 @@ class reportes
         }
     }
     static function getReporteCuentas_Pagar_Detalle($filtro = '', $desde = -1, $hasta = -1, $order = 'pr.razon_social,co.periodo,co.fecha_emision') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "select pr.ruc,pr.razon_social, ifnull(co.periodo,'') as periodo,DATE_FORMAT(co.fecha_emision,'%d/%m/%Y') AS fecha_emision,concat(co.serie,'-',co.numero) as factura,";
             $q.= "mo.simbolo as moneda,DATE_FORMAT(ifnull(co.fecha_vencimiento,'0000-00-00'),'%d/%m/%Y') as fecha_vencimiento ,";
@@ -442,7 +442,7 @@ class reportes
         }
     }
     static function getReporteCuentas_Pagar($filtro = '', $desde = -1, $hasta = -1, $order = 'pr.razon_social,co.periodo,co.fecha_emision') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "select pr.ruc,pr.razon_social,mo.simbolo as moneda,sum(co.subtotal) as subtotal ,sum(co.igv) as igv,";
             $q.= "sum(co.total) as total,sum(ifnull(co.monto_pendiente,0)) as monto_pendiente";
@@ -466,7 +466,7 @@ class reportes
         }
     }
     static function getReporteAnulacionCompras($filtro = '', $desde = -1, $hasta = -1, $order = 'co.fecha_anulacion,pr.razon_social,co.numero') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = "select  DATE_FORMAT(co.fecha_anulacion,'%d/%m/%Y') as fecha_anulacion,pr.ruc, pr.razon_social,concat(co.serie,'-',co.numero) as comprobante";
             $q.= ",mo.simbolo,co.total,concat(pe.nombres,' ', pe.apellido_paterno) as autorizador,ma.nombre as motivo";

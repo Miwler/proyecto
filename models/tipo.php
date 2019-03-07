@@ -40,7 +40,7 @@ class tipo
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from tipo_comprobante);';
@@ -64,7 +64,7 @@ class tipo
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -84,7 +84,7 @@ class tipo
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -103,7 +103,7 @@ class tipo
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,codigo,nombre,abreviatura,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -133,7 +133,7 @@ class tipo
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			
@@ -160,7 +160,7 @@ class tipo
 	
 	static function getCount($filtro='')
 	{
-		$cn =new 	connect();
+		$cn =new 	connect_new();
 		try 
 		{
 			$q='select count(ct.ID) ';
@@ -183,7 +183,7 @@ class tipo
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,nombre,tabla,orden,codigo,usuario_ID';

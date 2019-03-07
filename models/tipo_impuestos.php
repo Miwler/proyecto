@@ -37,7 +37,7 @@ class tipo_impuestos
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from tipo_comprobante);';
@@ -61,7 +61,7 @@ class tipo_impuestos
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -81,7 +81,7 @@ class tipo_impuestos
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -100,7 +100,7 @@ class tipo_impuestos
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,codigo,nombre,abreviatura,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -130,7 +130,7 @@ class tipo_impuestos
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			
@@ -157,7 +157,7 @@ class tipo_impuestos
 	
 	static function getCount($filtro='')
 	{
-		$cn =new 	connect();
+		$cn =new 	connect_new();
 		try 
 		{
 			$q='select count(ct.ID) ';
@@ -180,7 +180,7 @@ class tipo_impuestos
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='Codigo asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT Id,Codigo,Descripcion';

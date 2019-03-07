@@ -40,7 +40,7 @@ class producto_imagen
 		return null;
 	}
         function insertar() {
-            $cn = new connect();
+            $cn = new connect_new();
             $retornar = -1;
             try {
 
@@ -65,7 +65,7 @@ class producto_imagen
         }
 
         function actualizar() {
-            $cn = new connect();
+            $cn = new connect_new();
             $retornar = -1;
             try {
                 $q = 'update producto_imagen set producto_ID='.$this->producto_ID.', nombre="' . $this->nombre . '",ruta="' . $this->ruta. '",orden=';
@@ -80,7 +80,7 @@ class producto_imagen
             }
         }
         function eliminar() {
-            $cn = new connect();
+            $cn = new connect_new();
             $retornar = -1;
             try {
 
@@ -97,7 +97,7 @@ class producto_imagen
         }
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,nombre,ruta,producto_ID,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -130,7 +130,7 @@ class producto_imagen
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -153,7 +153,7 @@ class producto_imagen
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,nombre,ruta,producto_ID,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -179,7 +179,7 @@ class producto_imagen
 	}
 	static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='proi.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select pro.ID, pro.nombre as producto, pro.descripcion as descripcion,proi.ruta ';

@@ -39,7 +39,7 @@ class textos {
     }
     
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,contenido,nombre,ifnull(tabla,"") as tabla,ifnull(tipo,-1) as tipo,ifnull(usuario_id,-1) as usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from textos ';

@@ -45,7 +45,7 @@ class correo
 	}
 	
 	function insertar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar="";
             try{
                 $q='select ifnull(max(ID),0)+1 from correo;';
@@ -66,7 +66,7 @@ class correo
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -85,7 +85,7 @@ class correo
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -104,7 +104,7 @@ class correo
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,frontname,receptor,asunto,cuerpo,observacion,tabla,enviado,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -142,7 +142,7 @@ class correo
 	
 	static function getCount($filtro='')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='select count(ID) ';
@@ -165,7 +165,7 @@ class correo
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID desc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select ID,frontname,receptor,asunto,cuerpo,observacion,tabla,enviado,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -192,7 +192,7 @@ class correo
 	
 	static function actualizarEnvio($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='update correo set enviado=1 where ID='.$ID;

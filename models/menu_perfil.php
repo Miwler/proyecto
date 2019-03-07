@@ -40,7 +40,7 @@ class menu_perfil
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from menu_perfil);';
@@ -63,7 +63,7 @@ class menu_perfil
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -81,7 +81,7 @@ class menu_perfil
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -100,7 +100,7 @@ class menu_perfil
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,menu_ID,perfil_ID,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';
@@ -129,7 +129,7 @@ class menu_perfil
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			
@@ -157,7 +157,7 @@ class menu_perfil
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(mn.ID) ';
@@ -180,7 +180,7 @@ class menu_perfil
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='mnp.ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT mnp.ID,mnp.menu_ID,mn.nombre as menu,mnp.perfil_ID,p.nombre as perfil,mnp.usuario_id,ifnull(mnp.usuario_mod_id,-1) as usuario_mod_id';

@@ -43,7 +43,7 @@ class modulo
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from modulo);';
@@ -67,7 +67,7 @@ class modulo
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{					
 			$q='UPDATE modulo SET orden='.$this->orden.',nombre="'.FormatTextSave($this->nombre).'",url="'.FormatTextSave($this->url).'",';
@@ -85,7 +85,7 @@ class modulo
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -104,7 +104,7 @@ class modulo
 
  	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='Select ID,nombre,nombre_corto,orden,imagen,url,ifnull(color,"#395479") as color,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id ';
@@ -136,7 +136,7 @@ class modulo
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{			
 			//Verifico que no se repita el nombre
@@ -162,7 +162,7 @@ class modulo
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(m.ID) ';
@@ -185,7 +185,7 @@ class modulo
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='m.ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='SELECT m.ID,m.orden,m.nombre,m.nombre_corto,m.url,m.imagen,ifnull(m.color,"#395479") as color,m.usuario_id,ifnull(m.usuario_mod_id,-1) as usuario_mod_id';
@@ -212,7 +212,7 @@ class modulo
 	
 	static function getModulosxUsuarioID($usuario_id)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select distinct(m.ID),m.orden,m.nombre,m.nombre_corto,m.imagen,m.usuario_id,ifnull(m.usuario_mod_id ,-1) as usuario_mod_id ';
@@ -229,7 +229,7 @@ class modulo
 	}
         static function getModulosLibres($empresa_ID)
 	{		
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select mo.* from modulo mo';

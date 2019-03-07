@@ -39,7 +39,7 @@ class impuestos_tipo {
 
  
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(cho.ID) ';
             $q.=' from chofer cho,persona pe,estado es ';
@@ -58,7 +58,7 @@ class impuestos_tipo {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ID,persona_ID,empresa_ID,licencia_conducir,celular,estado_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from chofer ';
@@ -110,7 +110,7 @@ class impuestos_tipo {
     }
 
     function verificarDuplicado() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q="select count(ID) from chofer where del=0 and persona_ID=".$this->persona_ID;

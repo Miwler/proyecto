@@ -38,7 +38,7 @@ class marca {
     }
 
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -58,7 +58,7 @@ class marca {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update marca set nombre="'.$this->nombre.'",imagen="'.$this->imagen.'",url="'.$this->url.'",orden='.$this->orden.',empresa_ID='.$this->empresa_ID.',usuario_mod_id=' . $this->usuario_mod_id;
@@ -72,7 +72,7 @@ class marca {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -89,7 +89,7 @@ class marca {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ID) ';
             $q.=' FROM marca  ';
@@ -108,7 +108,7 @@ class marca {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ID,nombre,imagen,orden,url,usuario_id,empresa_ID,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from marca ';
@@ -136,7 +136,7 @@ class marca {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'orden asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'SELECT ID,nombre,imagen,orden,url,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM marca';
@@ -163,7 +163,7 @@ class marca {
 
     function verificarDuplicado() {
 		
-        $cn = new connect();     
+        $cn = new connect_new();     
         $retornar = -1;
         try {
 		//Verifico que no se repita el nombre
@@ -184,7 +184,7 @@ class marca {
     }
     
      static function getByID2($producto_ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select li.ID from linea li, categoria ca, producto pr where li.del=0 and ca.del=0 and pr.del=0 and li.ID=ca.linea_ID and ca.ID=pr.categoria_ID and pr.ID='.$producto_ID;
             $linea_ID = $cn->getData($q);

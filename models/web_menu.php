@@ -41,7 +41,7 @@ class web_menu
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='select ifnull(max(ID),0)+1 from web_menu;';
@@ -64,7 +64,7 @@ class web_menu
 	}	
 	
 	function actualizar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
 
@@ -83,7 +83,7 @@ class web_menu
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -102,7 +102,7 @@ class web_menu
 	
 	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='Select ID,nombre,empresa_ID,tipo,ifnull(descripcion,"") as descripcion ,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -134,7 +134,7 @@ class web_menu
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -157,7 +157,7 @@ class web_menu
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ID,nombre,empresa_ID,tipo,ifnull(descripcion,"") as descripcion,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';

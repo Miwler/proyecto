@@ -82,7 +82,7 @@ function __construct()
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'UPDATE guia_venta_detalle set guia_venta_ID='.$this->guia_venta_ID.',salida_detalle_ID='.$this->salida_detalle_ID.',usuario_mod_id='.$this->usuario_mod_id;
@@ -97,7 +97,7 @@ function __construct()
     }*/
 /*
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -194,7 +194,7 @@ function __construct()
     }
   }
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ID) ';
             $q.=' FROM guia_venta_detalle ';
@@ -213,7 +213,7 @@ function __construct()
     }
 /*
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,guia_venta_ID,salida_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
             $q.=' from guia_venta_detalle ';
@@ -271,7 +271,7 @@ function __construct()
     }
   }
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,guia_venta_ID,salida_detalle_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
             $q.=' from Guia_Venta_Detalle ';
@@ -295,7 +295,7 @@ function __construct()
     }
     static function getGrid1($filtro='',$desde=-1,$hasta=-1,$order='ovd.ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
         $q='select ovd.ID, ov.moneda_ID,pro.peso, um.nombre as unidad_medida,ovd.cantidad,ovd.precio_venta_unitario_soles,ovd.precio_venta_unitario_dolares,';

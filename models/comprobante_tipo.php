@@ -46,7 +46,7 @@ class comprobante_tipo
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from comprobante_tipo);';
@@ -70,7 +70,7 @@ class comprobante_tipo
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -90,7 +90,7 @@ class comprobante_tipo
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -109,7 +109,7 @@ class comprobante_tipo
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,documento_identidad_ID,en_compra,en_venta,codigo,nombre,con_igv,con_serie_numero,con_numero,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -144,7 +144,7 @@ class comprobante_tipo
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			
@@ -171,7 +171,7 @@ class comprobante_tipo
 	
 	static function getCount($filtro='')
 	{
-		$cn =new 	connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ct.ID) ';
@@ -194,7 +194,7 @@ class comprobante_tipo
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT ct.ID,ct.documento_identidad_ID,ct.en_venta,ct.en_ingreso,ct.codigo,ct.nombre,ct.con_igv,ct.con_serie_numero,ct.con_numero,';

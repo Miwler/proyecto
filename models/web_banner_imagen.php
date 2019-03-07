@@ -45,7 +45,7 @@ class web_banner_imagen
 	}
 	
 	function insertar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     $q='select ifnull(max(ID),0)+1 from web_banner_imagen;';
@@ -69,7 +69,7 @@ class web_banner_imagen
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -89,7 +89,7 @@ class web_banner_imagen
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -108,7 +108,7 @@ class web_banner_imagen
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,web_banner_ID,nombre,ruta,titulo,resumen,ruta_ver_mas,orden,estado_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id ';
@@ -145,7 +145,7 @@ class web_banner_imagen
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -168,7 +168,7 @@ class web_banner_imagen
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='SELECT ID,web_banner_ID,nombre,ruta,titulo,usuario_id,resumen,ruta_ver_mas,orden,estado_ID,ifnull(usuario_mod_id,-1) as usuario_mod_id';

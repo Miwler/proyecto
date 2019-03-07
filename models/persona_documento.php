@@ -39,7 +39,7 @@ class persona_documento {
             return null;
     }
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -77,7 +77,7 @@ class persona_documento {
     
     static function getByID($ID)
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='Select ID,persona_ID,tipo_documento_ID,numero,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -108,7 +108,7 @@ class persona_documento {
 
     static function getCount($filtro='')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(ID) ';
@@ -131,7 +131,7 @@ class persona_documento {
 
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
     {
-        $cn =new connect();
+        $cn =new connect_new();
         try 
         {
             $q='Select ID,persona_ID,tipo_documento_ID,numero,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';

@@ -45,7 +45,7 @@ class inventario_detalle {
     }
 
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retorna = -1;
         try {
             $ID=0;
@@ -65,7 +65,7 @@ class inventario_detalle {
         }
     }
     function eliminar(){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
 
@@ -82,7 +82,7 @@ class inventario_detalle {
         }
     } 
     function eliminar2(){
-        $cn =new connect();
+        $cn =new connect_new();
         $retornar=-1;
         try{
 
@@ -98,7 +98,7 @@ class inventario_detalle {
     } 
 static function getByID($ID)
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='Select ID,descripcion,serie,ifnull(usuario_id,-1) as usuario_id,ifNull(usuario_mod_id,-1)as usuario_mod_id,inventario_ID';
@@ -128,7 +128,7 @@ static function getByID($ID)
     }
 
     function verificarDuplicado(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     return $retornar;
@@ -140,7 +140,7 @@ static function getByID($ID)
 
     static function getCount($filtro='')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select count(cc.ID) ';
@@ -163,7 +163,7 @@ static function getByID($ID)
 
     static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
     {
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                     $q='select ID,serie,usuario_id,inventario_ID from inventario_detalle ';

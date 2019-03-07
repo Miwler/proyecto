@@ -75,7 +75,7 @@ class salida_numero_cuenta {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $q = 'update salida_numero_cuenta set salida_ID=' . $this->salida_ID . ',numero_cuenta_ID=' . $this->numero_cuenta_ID . ',usuario_mod_id=' . $this->usuario_mod_id;
@@ -89,7 +89,7 @@ class salida_numero_cuenta {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 

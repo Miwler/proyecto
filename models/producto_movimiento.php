@@ -45,7 +45,7 @@ class producto_movimiento {
 
    
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(prom.ID) ';
             $q.=' from producto_movimiento prom,producto pro ,moneda mo';
@@ -64,7 +64,7 @@ class producto_movimiento {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,producto_ID,oferta,nuevo,moneda_ID,estado_ID,tipo_cambio,fecha';
             $q = ',precio,descripcion,orden,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -97,7 +97,7 @@ class producto_movimiento {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'prom.ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select prom.ID,prom.producto_ID,prom.nuevo,prom.oferta,prom.moneda_ID,prom.estado_ID,prom.tipo_cambio,prom.fecha';
             $q.= ',prom.precio,prom.descripcion,prom.orden,prom.usuario_id,ifnull(prom.usuario_mod_id,-1) as usuario_mod_id';

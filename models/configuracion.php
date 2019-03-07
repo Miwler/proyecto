@@ -44,7 +44,7 @@ class configuracion
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='Select ID,nombre,valores,usuario_id,ifnull(usuario_mod_id,0) as usuario_mod_id';

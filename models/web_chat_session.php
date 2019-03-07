@@ -45,7 +45,7 @@ class web_chat_session
 	}
 	
 	function insertar(){
-            $cn =new connect();
+            $cn =new connect_new();
             $retornar=-1;
             try{
                     $q='select ifnull(max(ID),0)+1 from web_chat_session';
@@ -67,7 +67,7 @@ class web_chat_session
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -86,7 +86,7 @@ class web_chat_session
 	}		
 	
     function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -105,7 +105,7 @@ class web_chat_session
 	
 	static function getByID($ID)
 	{
-            $cn =new connect();
+            $cn =new connect_new();
             try 
             {
                 $q='Select ID,nombre_visitante,email_visitante,usuario_remitente_ID,usuario_receptor_ID,';
@@ -142,7 +142,7 @@ class web_chat_session
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(ID) ';
@@ -165,7 +165,7 @@ class web_chat_session
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                     $q='Select ID,nombre_visitante,email_visitante,usuario_remitente_ID,usuario_receptor_ID,';

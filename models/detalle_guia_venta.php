@@ -47,7 +47,7 @@ class detalle_guia_venta
 	}
 	
 	function insertar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			$q='SET @maxrow:=(select ifnull(max(ID),0) from detalle_guia_venta);';
@@ -71,7 +71,7 @@ class detalle_guia_venta
 	}	
 		
 	function actualizar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 				
@@ -90,7 +90,7 @@ class detalle_guia_venta
 	}
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -109,7 +109,7 @@ class detalle_guia_venta
 
  	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
                         $q='Select ID,descripcion,fdc,fdm,cantidad,del,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id,precio_venta_unitario,precio_venta,producto_ID,guia_venta_ID,detalle_guia_venta_ID';
@@ -145,7 +145,7 @@ class detalle_guia_venta
 	}
 	
 	function verificarDuplicado(){
-		$cn =new connect();
+		$cn =new connect_new();
 		$retornar=-1;
 		try{
 			return $retornar;
@@ -157,7 +157,7 @@ class detalle_guia_venta
 	
 	static function getCount($filtro='')
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='select count(dgv.ID) ';
@@ -180,7 +180,7 @@ class detalle_guia_venta
 	
 	static function getGrid($guia)
 	{
-		$cn =new connect();
+		$cn =new connect_new();
 		try 
 		{
 			$q='SELECT dgv.ID,dgv.descripcion,dgv.fdc,dgv.fdm,dgv.cantidad,dgv.del,dgv.usuario_id,ifnull(dgv.usuario_mod_id,-1) as usuario_mod_id,dgv.precio_venta_unitario,dgv.precio_venta,dgv.producto_ID,dgv.guia_venta_ID,dgv.detalle_guia_venta_ID';

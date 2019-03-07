@@ -45,7 +45,7 @@ class mensaje {
     }
 
     function insertar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $remitente="-1";
@@ -79,7 +79,7 @@ class mensaje {
     }
 
     function actualizar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
             $remitente="-1";
@@ -107,7 +107,7 @@ class mensaje {
     }
 
     function eliminar() {
-        $cn = new connect();
+        $cn = new connect_new();
         $retornar = -1;
         try {
 
@@ -124,7 +124,7 @@ class mensaje {
     }
 
     static function getCount($filtro = '') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select count(ID) ';
             $q.=' FROM mensaje  ';
@@ -143,7 +143,7 @@ class mensaje {
     }
 
     static function getByID($ID) {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'Select ID,remitente_ID,nombre,email,asunto,mensaje,archivo,nombre_archivo,email_destinatario,email_amigo,nombre_amigo,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from mensaje ';
@@ -177,7 +177,7 @@ class mensaje {
     }
 
     static function getGrid($filtro = '', $desde = -1, $hasta = -1, $order = 'ID asc') {
-        $cn = new connect();
+        $cn = new connect_new();
         try {
             $q = 'select ID,remitente_ID,nombre,email,asunto,mensaje,archivo,nombre_archivo,email_destinatario,email_amigo,nombre_amigo,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM mensaje';
