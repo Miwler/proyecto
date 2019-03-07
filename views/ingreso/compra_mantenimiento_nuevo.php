@@ -118,7 +118,7 @@ function fncPage() { ?>
                     <div class="form-group">
                         <label class="col-lg-2 col-md-2 col-sm-2 control-label">Fecha emisión:<span class="asterisk">*</span></label>
                         <div class="col-lg-4 col-md-4 col-sm-4">
-                            <input id="txtFecha_Emision" name="txtFecha_Emision" type="text" class="form-control date-range-picker-single" value="<?php if(isset($GLOBALS['oCompra']->fecha_emision)){ echo $GLOBALS['oCompra']->fecha_emision;} else{ echo date("d/m/Y");} ?>" />
+                            <input id="txtFecha_Emision" name="txtFecha_Emision" type="text" class="form-control date-range-picker-single" value="<?php echo $GLOBALS['oCompra']->fecha_emision;?>" />
                             
                         </div>
                         <label class="col-lg-2 col-md-2 col-sm-2 control-label">Fecha vencimiento:<span class="asterisk">*</span></label>
@@ -181,7 +181,7 @@ function fncPage() { ?>
                         </div>
                        <label class="control-label col-sm-2">IGV (<?php echo $GLOBALS['oCompra']->vigv*100; ?>%):</label>
                         <div class="col-lg-2 col-md-2 col-sm-2">
-                            <input type="text" id="txtIGV" disabled class="form-control moneda">
+                            <input type="text" id="txtIGV" name="txtIGV" disabled value="<?php echo $GLOBALS['oCompra']->vigv*100; ?>" class="form-control moneda">
                         </div>
                         <label class="control-label col-sm-2">Total:</label>
                         <div class="col-lg-2 col-md-2 col-sm-2">
@@ -411,7 +411,7 @@ function fncPage() { ?>
                 $('#cboEstado').val(resultado.estado_ID);
                 
                 $('#txtVigv').prop('disabled',false);
-                $('#txtVigv').val(resultado.vigv+'%');
+                $('#txtVigv').val(resultado.vigv);
                 $('#cboMoneda').val(resultado.moneda_ID);
                 $('#txtTipo_Cambio').val(resultado.tipo_cambio);
                 $('#btnBuscarOC').css('display','none');

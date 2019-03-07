@@ -224,6 +224,8 @@ function get_Compra_Mantenimiento_Nuevo(){
     $oCompra->oEstado=estado::getByID(estado_compra);
     $oCompra->dtEstado=estado::getGrid("est.ID in (".estado_compra.")",-1,-1);
     $oCompra->dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
+    $oCompra->fecha_vencimiento=date('d/m/Y');
+    $oCompra->fecha_emision=date('d/m/Y');
     //$dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('accion="compra"');
     $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,compra_tipo_comprobante_ID,"tipo_comprobantes_sinserie");
     $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
@@ -236,6 +238,7 @@ function get_Compra_Mantenimiento_Nuevo(){
     $oCompra->numero_orden_ingreso='';
     $oCompra->tipo_cambio=$oDatos_generales->tipo_cambio;
     //$oCompra->dtForma_Pago=forma_pago::getGrid('ID>0',-1,-1,'ID asc');
+   //print_r($oDatos_generales);
     $oCompra->vigv=$oDatos_generales->vigv;
     $GLOBALS['oCompra']=$oCompra;
  
@@ -266,7 +269,9 @@ function post_Compra_Mantenimiento_Nuevo(){
     $fecha_vencimiento=$_POST['txtFecha_Vencimiento'];
     $proveedor_ID=$_POST['selProveedor'];
     $numero_guia=$_POST['txtNumero_Guia'];
-    $vigv=$_POST['txtVigv']/100;
+    //echo $_POST['txtVigv'];
+    //$vigv=$_POST['txtVigv'];
+    $vigv=($_POST['txtVigv']=="")?0:($_POST['txtVigv']/100);
     $moneda_ID=$_POST['cboMoneda'];
     $tipo_cambio=$_POST['txtTipo_Cambio'];
     $descripcion=  $_POST['txtComentario'];
@@ -322,7 +327,7 @@ function post_Compra_Mantenimiento_Nuevo(){
             $oCompra->actualizar();
             actualizar_costo_compra_detalle($oCompra,$moneda_ID_old);
         }
-        actualizar_costo_compra($oCompra);
+        //actualizar_costo_compra($oCompra);
        $numero_orden_compra='';
        if($oCompra->orden_ingreso_ID!='-1'){
            $oOrden_Compra=orden_ingreso::getByID($oCompra->orden_ingreso_ID);

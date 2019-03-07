@@ -76,7 +76,7 @@ class ingreso {
         $this->descripcion="";
         $this->numero=0;
         $this->numero_guia="";
-        $this->fecha_vencimiento=NULL;
+        $this->fecha_vencimiento=null;
         $this->con_igv=0;
         $this->tipo_cambio=0;
         $this->serie="";
