@@ -108,7 +108,7 @@ class PDF extends FPDF
         $this->Image("./include/img/logopdf.jpg" , 10 ,8, 60, 20 , "JPG" );
         
         //Arial bold 15
-        $this->SetFont('Arial','B',20);
+        $this->SetFont('Arial','B',15);
         //Movernos a la derecha
         $this->Cell(60,20,'',0);
         
@@ -144,34 +144,36 @@ class PDF extends FPDF
         $this->SetFont('Arial','B',10);
         $this->SetTextColor(255,255,255);
         $this->SetFillColor(117,179,114);
-        $this->Cell(80,6,'VENDEDOR',0,2,'C',true);
+        $this->Cell(90,6,'VENDEDOR',0,2,'C',true);
         //$this->Cell(30,6);
         //$this->Ln();
         $this->SetTextColor(0,0,0);
-        $this->SetFont('Arial','',8);
-        $this->Cell(80,5,utf8_decode($this->oProveedor->razon_social),0,2,'L');
+        $this->SetFont('Arial','',6);
         $this->SetFillColor(255,255,255);
-        $this->MultiCell(80,5,utf8_decode($this->oProveedor->direccion),0,'L','J',false);
+        $this->MultiCell(90,5,utf8_decode($this->oProveedor->razon_social),0,'L','J',false);
+        $this->SetFillColor(255,255,255);
+        $this->MultiCell(90,5,utf8_decode($this->oProveedor->direccion),0,'L','J',false);
         //$this->Ln();
         $this->Cell(20,5,utf8_decode('Teléfono: '),0,0,'L');
         $this->Cell(40,5,utf8_decode($this->oProveedor->telefono),0,0,'L');
         
         //Cuadro de envie a
         
-        $this->SetXY(120,55);
+        $this->SetXY(110,55);
         
         $this->SetFont('Arial','B',10);
         $this->SetTextColor(255,255,255);
         $this->SetFillColor(117,179,114);        
-        $this->Cell(80,6,'ENVIE A',0,2,'C',true);
+        $this->Cell(90,6,'ENVIE A',0,2,'C',true);
         
         $this->SetTextColor(0,0,0);
         
-        $this->SetFont('Arial','',8);
-        $this->Cell(80,6,utf8_decode($this->oDatos_Generales->razon_social),0,2,'L',false);
-        $this->Cell(80,6,utf8_decode($this->oDatos_Generales->direccion),0,2,'L',false);
-        $this->Cell(30,6,utf8_decode('Teléfono: '),0,0,'L',false);
-        $this->Cell(50,6,$this->oDatos_Generales->telefono,false);
+        $this->SetFont('Arial','',7);
+        $this->Cell(90,6,utf8_decode($this->oDatos_Generales->razon_social),0,2,'L',false);
+        $this->SetFillColor(255,255,255);
+        $this->MultiCell(90,6,utf8_decode($this->oDatos_Generales->direccion),0,'L','J',false);
+        $this->Cell(20,6,utf8_decode('Teléfono: '),0,0,'L',false);
+        $this->Cell(90,6,$this->oDatos_Generales->telefono,0,0,'L',false);
         //Salto de línea
         $this->Ln(20); 
     }
