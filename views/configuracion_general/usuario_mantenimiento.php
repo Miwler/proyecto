@@ -39,10 +39,9 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="vista_filtrar">
                     <div class="form-group">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Estado: </label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        
+                        <label class="control-label col-sm-2">Estado: </label>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <select id="selEstado" name="selEstado" class="form-control">
                                 <option value="0">Todos</option>
                                 <?php foreach($GLOBALS['oUsuario']->dtEstado as $estado){?>
@@ -50,9 +49,8 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Perfil: </label>
-                        </div>
+                        <label class="control-label col-sm-2">Perfil: </label>
+                        
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <select id="selPerfil" name="selPerfil" class="form-control">
                                  <option value="0">Todos</option>
@@ -67,9 +65,7 @@
                 <div class="tab-pane fade" id="vista_buscar">
                     <div class="form-group">
 
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right">
-                            <label>Buscar: </label>
-                        </div>
+                        <label  class="control-label col-sm-2">Buscar: </label>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                              <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombres del usuario.">
                         </div>
@@ -114,7 +110,9 @@
 
                     grids = new grid(tb);
                     grids.nuevoEvento();
-                    grids.fncPaginacion(f);			
+                    grids.fncPaginacion1(f);
+            $('[data-toggle="tooltip"]').tooltip(); 
+            $('#websendeos').stacktable();			
             }
             f.enviar();
 

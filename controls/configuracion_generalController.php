@@ -92,8 +92,8 @@ function post_ajaxUsuario_Mantenimiento() {
     // $filtro.= 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><thead><tr>';
-    $resultado.='<th  style="display:none;" class="thOrden" onclick="fncOrden(0);">ID' . (($txtOrden == 0 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered table-teal"><thead><tr>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(0);">ID</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Apellido paterno' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Apellido materno' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Nombres' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -105,17 +105,18 @@ function post_ajaxUsuario_Mantenimiento() {
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 8;
+    $colspanFooter = 9;
     try {
         $cantidadMaxima = usuario::getCount($filtro);
+       
         $dtUsuario = usuario::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtUsuario);
         
-       
+       $i=1;
         foreach ($dtUsuario as $item) {
- 
+            
             $resultado.='<tr class="tr-item" >';
-            $resultado.='<td style="display:none;">'.$item['ID'].'</td>';
+            $resultado.='<td>'.$i.'</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['apellido_paterno'])) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['apellido_materno'])). '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView(strtoupper($item['nombres'])) . '</td>';
@@ -127,14 +128,15 @@ function post_ajaxUsuario_Mantenimiento() {
             if($item['ID']>0){
                 $boton='<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar"><span class="glyphicon glyphicon-pencil"></span> Editar</a>';
                 array_push($botones,$boton);
-                array_push($botones,'<a onclick="fncMenu(' . $item['ID'] . ');" title="Asignar menu"><span class="glyphicon glyphicon-align-left"></span> Menu</a>');
-                array_push($botones,'<a onclick="fncPerfil(' . $item['ID'] . ');" title="Asignar perfil"><i class="fa fa-users"></i> Perfil</a>');
+                array_push($botones,'<a onclick="fncMenu(' . $item['ID'] . ');" title="Asignar menu"><span class="glyphicon glyphicon-align-left"></span>Asignar Menu</a>');
+                array_push($botones,'<a onclick="fncPerfil(' . $item['ID'] . ');" title="Asignar perfil"><i class="fa fa-users"></i>Asignar Perfil</a>');
                 array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');" title="Eliminar usuario"><span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</a>');
 
             }
             
             $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
             $resultado.='</tr>';   
+            $i++;
         }
 
         $cantidadPaginas = '';
@@ -417,7 +419,23 @@ function post_Usuario_Mantenimiento_Menu($id) {
     }
     $GLOBALS['oUsuario'] = $oUsuario;
 }
-
+function post_ajacGrabarMenu_Usuario(){
+    require ROOT_PATH . 'models/menu_usuario.php';
+    $lista_menu=$_POST['lista_menu'];
+    $usuario_ID=$_POST['usuario_ID'];
+    $modulo_ID=$_POST['modulo_ID'];
+    try{
+        $retorna=menu_usuario::registrar($usuario_ID,$lista_menu,$modulo_ID);
+        $resultado=1;
+        $mensaje="Se registró correctamente";
+    }catch(Exception $ex){
+        $resultado=-1;
+        $mensaje=mensaje_error;
+    }
+    $retornar = Array('resultado' => $resultado,"mensaje"=>$mensaje);
+    echo json_encode($retornar);
+    
+}
 function get_Usuario_Mantenimiento_Perfil($id) {
     require ROOT_PATH . 'models/perfil.php';
     require ROOT_PATH . 'models/empresa.php';
@@ -544,7 +562,7 @@ function post_ajaxExtraer_Menu_Modulo(){
         }
         */
         
-        $html=utf8_encode(menu::getListaMenuModulo($modulo_ID));
+        $html=menu::getListaMenuModulo($modulo_ID,$usuario_ID);
     }catch (Exception $ex) {
         log_error(__FILE__,"configuracion_generaleController/post_ajaxExtraer_Menu_Modulo",$ex->getMessage());
         $html.=utf8_encode(mensaje_error);
@@ -612,9 +630,10 @@ function post_ajaxExtraerModuloEmpresa() {
         $dtModulo=modulo_empresa::getGrid("moe.empresa_ID=".$empresa_ID,-1,-1,"mo.nombre asc");
         
         foreach($dtModulo as $item){
-            $html.="<option value='".$item['modulo_ID']."'>".utf8_encode($item['nombre'])."</option>";
+            $html.="<option value='".$item['modulo_ID']."'>".($item['nombre'])."</option>";
         }
     } catch (Exception $ex) {
+        log_error(__FILE__, "configuracion_general/post_ajaxExtraerModuloEmpresa", $ex->getMessage());
         $html.="<option value='0'>".$ex->getMessage()."</option>";  
     }
 

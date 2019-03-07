@@ -231,9 +231,10 @@ function verificarDuplicado(){
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='u.ID asc')
 	{
-            $cn =new connect_new();
+            
             try 
             {
+                $cn =new connect_new();
                 $q='SELECT u.ID ,u.password,u.nombre as usuario,u.persona_ID,u.estado_ID,';
                 $q.='es.nombre as estado,pe.apellido_paterno,pe.apellido_materno,pe.nombres';
                 $q.=' FROM usuario as u, estado es,persona pe';
@@ -246,12 +247,13 @@ function verificarDuplicado(){
                 }
 
                 $q.=' Order By '.$order;
-
+                
                 if($desde!=-1&&$hasta!=-1){
                     $q.=' Limit '.$desde.','.$hasta;
                 }			
-                //echo $q;
-                $dt=$cn->getGrid($q);									
+                
+                $dt=$cn->getGrid($q);	
+               
                 return $dt;												
             }catch(Exception $ex)
             {

@@ -271,7 +271,7 @@ class menu
 			throw new Exception($q);
 		}
 	}
-        static function getListaMenuModulo($modulo_ID)
+        static function getListaMenuModulo($modulo_ID,$usuario_ID)
         {
         //$cn =new connect_new();
         $cn =new connect_new();
@@ -281,16 +281,15 @@ class menu
             $retorna="";
             
            $dt=$cn->store_procedure_getGrid(
-              "sp_menu_getLista",array( "imodulo_ID"=>$modulo_ID));
-            //print_r($dt); */
-            $dt=$cn->getGrid($q);
+              "sp_menu_getLista",array( "imodulo_ID"=>$modulo_ID,"iusuario_ID"=>$usuario_ID));
+
             if(count($dt)>0){
                 $retorna=$dt[0]['html'];
             }
           return $retorna;
         }catch(Exeption $ex)
         {
-          log_error(__FILE__, "menu.getGrid", $ex->getMessage());
+          log_error(__FILE__, "menu.getListaMenuModulo", $ex->getMessage());
           throw new Exception($ex->getMessage());
         }
   }

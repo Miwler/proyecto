@@ -33,7 +33,7 @@
 <?php } ?>
 <?php function fncPage(){?>
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?> 
-<form id="frm1" method="post" enctype="multipart/form-data" action="/Configuracion_General/Usuario_Mantenimiento_Perfil/<?php echo $GLOBALS['oUsuario']->ID;?>" onsubmit="return validar();" class="form-horizontal" >
+<form id="frm1" method="post" enctype="multipart/form-data" action="/Configuracion_General/Usuario_Mantenimiento_Perfil/<?php echo $GLOBALS['oUsuario']->ID;?>"  class="form-horizontal" >
     <div class="form-body">
         <div class="form-group">
             <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="overflow:auto;">
@@ -60,42 +60,7 @@
     <script type="text/javascript">
     
 
-    var validar=function(){
-        var persona_ID=$("#selPersona").val();
-        var nombre=$.trim($("#txtNombre").val());
-        var contraseña=$.trim($("#txtPassword").val());
-        var correo=$.trim($("#txtCorreo").val());
-       
-        var estado_ID=$("#selEstado").val();
-        if(persona_ID==""){
-            mensaje.advertencia("VALIDACIÓN DE DATOS","Debe seleccionar una persona.","selPersona");
-            return false;
-        }
-        if(nombre==""){
-            mensaje.advertencia("VALIDACIÓN DE DATOS","Debe registrar el nombre del usuario.","txtNombre");
-            
-            return false;
-        }
-        if(contraseña==""){
-            mensaje.advertencia("VALIDACIÓN DE DATOS","Debe registrar la contraseña.","txtPassword");
-            
-            return false;
-        }
-        if(correo==""){
-            mensaje.advertencia("VALIDACIÓN DE DATOS","Debe registrar un correo.","txtCorreo");
-            return false;
-        }
-        if(validarEmail(correo)==false){
-            mensaje.advertencia("VALIDACIÓN DE DATOS","Debe registrar un correo.","txtCorreo");
-            return false;
-        }
-        
-        if(estado_ID==0){
-            mensaje.advertencia("VALIDACIÓN DE DATOS","Debe seleccionar un estado.","selEstado");
-            return false;
-        }
-     }
-     
+  
     </script>
     <?php } ?>  
     <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==1){ ?>

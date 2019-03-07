@@ -1,34 +1,27 @@
 <?php
 class connect_new
 {
-	var $db;
-	var $sb_user;
-	var $db_password;
-	var $gError;
+	private $db;
+	private $sb_user;
+	private $db_password;
+	private $gError;
 	//var $connect;
-        var $connect_new;
+        private  $connect_new;
 
 	function __construct()
 	{
-            //echo "conexion";
-            //$this->host='200.4.228.195';
-            //$this->host='192.168.8.240';
-					//$this->host='192.168.8.240';
+
             $this->host='192.168.1.24';
-            //$this->db='bdsystemsales';
-            //$this->db='bd_ventas_prueba';
-            //$this->db='bd_jjsoluciones_test' ;
-			$this->db='bd_desarrollo' ;
+            $this->db='bd_desarrollo' ;
             $this->db_user='administrador';
 
             $this->db_password='Lima123';
-            //$this->db_password='';
-
-            //$this->db_password='';
             $this->gError='';
-            //$this->connect();
             $this->connect_new();
 	}
+        function __destruct(){
+            $this->connect_new=null;
+        }
         function connect_new(){
             try{
              $arrOptions = array(
@@ -83,8 +76,16 @@ class connect_new
 		try
 		{
                     
-                    //$resultado=$this->connect_new->query($q);
-                    //$dt=$resultado->fetchAll();
+                    if($this->connect_new==null){
+                        $this->connect_new();
+                    }
+                    /*$resultado=$this->connect_new->query($q);
+                        $dt=$resultado->fetchAll();*/
+                   if (!$lv_result = $this->connect_new->query($q))
+                    {
+                        
+                        throw new Exception("Los parámetros son incorrectos");
+                    }
                     if(!$sentencia = $this->connect_new->prepare($q)){
                         throw new Exception("Falló en la preparación: ("  .$this->connect_new->errno.")");
                     }
@@ -98,7 +99,7 @@ class connect_new
                     $this->disconnect_new();
                     return $dt;
 			
-		}catch(PDOException $ex)
+		}catch(Exception $ex)
 		{
 			$this->disconnect_new();
                         log_error(__FILE__,"connect_new.getGrid", $ex->getMessage());
