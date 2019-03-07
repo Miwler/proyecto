@@ -658,3 +658,91 @@ ERROR: Falló la preparación: (1064)
 =======
 >>>>>>> 974d3768d97f83f3a820df1b8e0a6b3d37fc05b5
 >>>>>>> 97c4b93c4fd450ea64c1e53402fe93ee67f9e126
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 20:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''conciÃ³n ''' at line 1
+SET @_retornar = '0';
+SET @_iID = '78';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '78';
+SET @_ifecha = '2019-02-13';
+SET @_iproveedor_ID = '455';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.40';
+SET @_ivigv = '0.1800';
+SET @_isubtotal = '722.04';
+SET @_iigv = '129.97';
+SET @_itotal = '852.01';
+SET @_icomentario = 'conciÃ³n '';
+
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 20:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''conciÃ³n ''' at line 1
+SET @_retornar = '0';
+SET @_iID = '78';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '78';
+SET @_ifecha = '2019-02-13';
+SET @_iproveedor_ID = '455';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '56';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.40';
+SET @_ivigv = '0.1800';
+SET @_isubtotal = '722.04';
+SET @_iigv = '129.97';
+SET @_itotal = '852.01';
+SET @_icomentario = 'conciÃ³n '';
+
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 20:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''conciÃ³n ''' at line 1
+SET @_retornar = '0';
+SET @_iID = '78';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '78';
+SET @_ifecha = '2019-02-13';
+SET @_iproveedor_ID = '455';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '56';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.40';
+SET @_ivigv = '0.1800';
+SET @_isubtotal = '722.04';
+SET @_iigv = '129.97';
+SET @_itotal = '852.01';
+SET @_icomentario = 'conciÃ³n '';
+
+============================ERROR====================================
+FECHA Y HORA: 06 03 2019 20:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''conciÃ³n ''' at line 1
+SET @_retornar = '0';
+SET @_iID = '78';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '78';
+SET @_ifecha = '2019-02-13';
+SET @_iproveedor_ID = '455';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '56';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.40';
+SET @_ivigv = '0.1800';
+SET @_isubtotal = '722.04';
+SET @_iigv = '129.97';
+SET @_itotal = '852.01';
+SET @_icomentario = 'conciÃ³n '';
+

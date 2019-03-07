@@ -40,12 +40,12 @@ class web_banner
 	}
 	
 	function insertar(){
-            $cn =new connect();
+            $cn =new new connect_new();
             $retornar=-1;
             try{
                 $q='select ifnull(max(ID),0)+1 from web_banner;';
                 $ID=$cn->getData($q);
-
+				$cn =new new connect_new();
                 $q='INSERT INTO web_banner (ID,nombre,descripcion,empresa_ID,usuario_id) ';
                 $q.='VALUES ('.$ID.',"'.$this->nombre.'","'.$this->descripcion.'",'.$this->empresa_ID.','.$this->usuario_id.');';
                 $retornar=$cn->transa($q);
@@ -59,7 +59,7 @@ class web_banner
 	}	
 	
 	function actualizar(){
-		$cn =new connect();
+		$cn =new new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -78,7 +78,7 @@ class web_banner
 	}		
 	
 	function eliminar(){
-		$cn =new connect();
+		$cn =new new connect_new();
 		$retornar=-1;
 		try{
 					
@@ -97,7 +97,7 @@ class web_banner
 	
 	static function getByID($ID)
 	{
-		$cn =new connect();
+		$cn =new new connect_new();
 		try 
 		{
 			$q='Select ID,nombre,descripcion,usuario_id,empresa_ID,ifnull(usuario_mod_id,-1) as usuario_mod_id';
@@ -129,7 +129,7 @@ class web_banner
 	
 	static function getCount($filtro='')
 	{
-            $cn =new connect();
+            $cn =new new connect_new();
             try 
             {
                 $q='select count(ID) ';
@@ -152,7 +152,7 @@ class web_banner
 	
 	static function getGrid($filtro='',$desde=-1,$hasta=-1,$order='ID asc')
 	{
-            $cn =new connect();
+            $cn =new new connect_new();
             try 
             {
                     $q='select ID,nombre,descripcion,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';

@@ -3266,7 +3266,7 @@ function get_Orden_Compra_PDF($id){
     $pdf->SetTextColor(0);
     $pdf->SetFont('Arial','',8);
     $pdf->Rect(10,225,120,20);
-    $pdf->MultiCell(120,5, utf8_decode($oOrden_Compra->comentario),0,'J');
+    $pdf->MultiCell(120,5, $oOrden_Compra->comentario,0,'J');
     $pdf->Ln(20);
     //Firmas
     $pdf->Line(75,265,135,265);
