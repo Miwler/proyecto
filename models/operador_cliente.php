@@ -52,13 +52,13 @@ class operador_cliente {
         $retornar = -1;
         try {
             $q = 'Select ifnull(max(ID),0)+1 from operador_cliente;';
-			$cn = new connect_new();
+            $cn = new connect_new();
             $ID=$cn->getData($q);
 
             $q = 'INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)';
             $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].','.$this->cliente_ID.','.$this->operador_ID.','.$this->estado_ID.','. $this->usuario_id .'); ';
               
-           //echo $q;
+         
             $cn = new connect_new();
             $retornar = $cn->transa($q);
 
@@ -177,7 +177,7 @@ class operador_cliente {
         try {
             $q = 'SELECT ID,cliente_ID,operador_ID,estado_ID,empresa_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id FROM operador_cliente ';
             $q.=' where del=0 and cliente_ID='.$cliente_ID.' and estado_ID=74 order by ID limit 1';
-          //echo $q;
+          
             $dt = $cn->getGrid($q);
             $oOperador_Cliente = null;
 

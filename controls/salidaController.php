@@ -160,7 +160,7 @@ function post_ajaxCotizacion_Mantenimiento() {
     $colspanFooter = 10;
     try {
         $cantidadMaxima = cotizacion::getCount($filtro);
-        $dtCotizacion = cotizacion::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $dtCotizacion = cotizacion::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCotizacion);
 
         $clase="";
@@ -2051,7 +2051,7 @@ function get_Cotizacion_PDF($id){
         }
 
 
-        $dtCotizacion_Detalle=cotizacion_detalle::getGrid('cotizacion_ID='.$oCotizacion->ID.' and pagina_cotizacion='.$i,-1,-1,'pagina_cotizacion asc , orden_cotizacion asc');
+        $dtCotizacion_Detalle=cotizacion_detalle::getGrid2('cotizacion_ID='.$oCotizacion->ID.' and pagina_cotizacion='.$i,-1,-1,'pagina_cotizacion asc , orden_cotizacion asc');
         $alto_contenedor=120;
         $posY=80;
         $y=88;
@@ -2168,7 +2168,7 @@ function get_Cotizacion_PDF($id){
                         $pdf->SetFont('Arial','',6);
 
                         $pdf->SetX(30);
-                        $pdf->MultiCell($ancho,3,  strtoupper($fila['descripcion']),0,'J',false);
+                        $pdf->MultiCell($ancho,3, test_input($fila['descripcion']),0,'J',false);
 
                     }
 //Creamos la cabecera para los componentes o adicionales
@@ -3436,7 +3436,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
                 $oCotizacion_Detalle->adicional=$array['adicional'];
 
                 $oCotizacion_Detalle->usuario_id=$_SESSION['usuario_ID'];
-                $oCotizacion_Detalle->insertar();
+                $oCotizacion_Detalle->insertar1();
 
                 $oCotizacion_Detalle->pagina_cotizacion=$vpadre['pagina_cotizacion'];
                 $oCotizacion_Detalle->orden_cotizacion=$vpadre['orden_cotizacion'];

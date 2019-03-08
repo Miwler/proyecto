@@ -30,6 +30,7 @@ class connect_new
                          );
                         $this->connect_new=new PDO('mysql:host='.$this->host.';dbname='.$this->db.';charset=utf8',$this->db_user,$this->db_password,$arrOptions);
 			$this->connect_new->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+                       
                 
             }catch(PDOException $ex){
                 
@@ -112,7 +113,9 @@ class connect_new
 		try
 		{
                     $retorna=0;
-                    
+                    if($this->connect_new==null){
+                        $this->connect_new();
+                    }
                     if (!($sentencia = $this->connect_new->prepare($q))) {
                         throw new Exception("Falló la preparación: (" .$this->connect_new->errno.")");
                     }
@@ -144,12 +147,12 @@ class connect_new
                         throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
 
                     }
-                    $resultado =$sentencia->fetchAll();
+                    //$resultado =$sentencia->fetchAll();
                
                     $rows=array();
-                    while($row = mysqli_fetch_assoc($resultado)) 
+                    while($row = $sentencia->fetch(PDO::FETCH_ASSOC)) 
                     {
-                            $rows[] = array_map("utf8_encode",$row);
+                            $rows[] = array_map("utf8_decode",$row);
                     }  
 
                     //$resultado->free();
@@ -326,10 +329,11 @@ class connect_new
                 
                 $lv_call   = substr($lv_call, 0, -1).")";
                 $lv_select = substr($lv_select, 0, -1);
+                
                 //$lv_log .= $val;
                 $lv_log .= $lv_call;
                 $lv_log .= $lv_select;
-            
+                //echo $lv_log;
                 //echo $val;
                 //echo $lv_select;
                 if (!($sentencia = $this->connect_new->prepare($lv_call))) 

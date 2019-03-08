@@ -267,7 +267,7 @@ class PDF1 extends FPDF
         $this->SetFont('Arial','B',8);
         $this->Cell(30,5,utf8_decode('Forma pago:'),0,0,'L');
         $this->SetFont('Arial','',8);
-        $this->Cell(50,5,$this->oForma_Pago->nombre,0,0,'L');
+        $this->Cell(50,5,utf8_decode($this->oForma_Pago->nombre),0,0,'L');
         $this->Ln(6);
 
 

@@ -103,6 +103,7 @@ class persona {
     "iusuario_id"=>$this->usuario_id,
 
 ),0);
+      
       if($ID>0){
         $this->getMessage="El registro se guardó correctamente.";
         $this->ID=$ID;
@@ -125,22 +126,25 @@ class persona {
           "sp_persona_Update",
             array(
               "retornar"=>$retornar,
-    "iID"=>$this->ID,
-    "iapellido_paterno"=>$this->apellido_paterno,
-    "iapellido_materno"=>$this->apellido_materno,
-    "inombres"=>$this->nombres,
-    "idireccion"=>$this->direccion,
-    "idistrito_ID"=>$this->distrito_ID,
-    "ifecha_nacimiento"=>$this->fecha_nacimiento,
-    "itelefono"=>$this->telefono,
-    "icelular"=>$this->celular,
-    "icorreo"=>$this->correo,
-    "isexo_ID"=>$this->sexo_ID,
-    "iusuario_mod_id"=>$this->usuario_mod_id,
-    "itipo_documento_ID"=>$this->tipo_documento_ID,
-     "inumero"=>$this->numero,
-),0);
-      return $retornar;
+            "iID"=>$this->ID,
+            "iapellido_paterno"=>$this->apellido_paterno,
+            "iapellido_materno"=>$this->apellido_materno,
+            "inombres"=>$this->nombres,
+            "idireccion"=>$this->direccion,
+            "idistrito_ID"=>$this->distrito_ID,
+            "ifecha_nacimiento"=>$this->fecha_nacimiento,
+            "itelefono"=>$this->telefono,
+            "icelular"=>$this->celular,
+            "icorreo"=>$this->correo,
+            "isexo_ID"=>$this->sexo_ID,
+            "iusuario_mod_id"=>$this->usuario_mod_id,
+            "itipo_documento_ID"=>$this->tipo_documento_ID,
+             "inumero"=>$this->numero,
+        ),0);
+     if($ID>0){
+         $this->getMessage="Se actualizó correctamente.";
+     }
+      return $ID;
     }catch(Exeption $ex)
     {
       log_error(__FILE__, "persona.actualizar", $ex->getMessage());

@@ -449,9 +449,14 @@ class cotizacion {
             $cn =new connect_new();
             try 
             {
-                $q="call getTabla_Cotizacion('".$filtro."',".$desde.",".$hasta.",'".$orden."');";
+                $dt=$cn->store_procedure_getGrid("getTabla_Cotizacion", 
+                        array("ifiltro"=>$filtro,
+                            "desde"=>$desde,
+                            "hasta"=>$hasta,
+                            "orden"=>$orden));
+                //$q="call getTabla_Cotizacion('".$filtro."',".$desde.",".$hasta.",'".$orden."');";
                 
-                $dt=$cn->getGrid($q);									
+                //$dt=$cn->getGrid($q);									
                 return $dt;												
             }catch(Exception $ex)
             {
