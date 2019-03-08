@@ -71,7 +71,7 @@ $(document).ready(function(){
                                    <select id="selCliente" name="selCliente" class="chosen-select">
                                        <option value="0">--Seleccionar--</option>
                                         <?php foreach($GLOBALS['dtCliente'] as $cliente){?>
-                                       <option value="<?php echo $cliente['ID']?>"><?php echo utf8_encode($cliente['ruc'].' - '.strtoupper($cliente['razon_social']));?></option>
+                                       <option value="<?php echo $cliente['ID']?>"><?php echo $cliente['ruc'].' - '.($cliente['razon_social']);?></option>
                                         <?php }?>
                                    </select>
                                    <script type="text/javascript">
@@ -82,7 +82,7 @@ $(document).ready(function(){
                            <div class="form-group">
                                <label class="control-label col-sm-3">Dirección: </label>
                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo utf8_encode(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo $GLOBALS['oCliente']->direccion; ?></textarea>
                                </div>
                            </div>
                            <div class="form-group">
@@ -240,7 +240,7 @@ $(document).ready(function(){
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <select id="selForma_Pago" name="selForma_Pago" class="form-control">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
-                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
+                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo $iForma_Pago['nombre'];?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">

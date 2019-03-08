@@ -453,13 +453,13 @@ function post_ajaxCotizacion_Detalle_Cliente(){
     try{
         $oCliente=cliente::getByID($cliente_ID);
         $Telefono=$oCliente->telefono;
-        $Direccion=utf8_encode($oCliente->direccion);
-        $Tiempo_Credito=utf8_encode($oCliente->tiempo_credito);
+        $Direccion=$oCliente->direccion;
+        $Tiempo_Credito=$oCliente->tiempo_credito;
         $dtRepresentante=cliente_contacto::getGrid('clic.cliente_ID='.$cliente_ID);
         $ListaRepresentate='';
         if($dtRepresentante != null){
             foreach($dtRepresentante as $irepresentante){
-                $ListaRepresentate.='<option value="'.$irepresentante['ID'].'">'.utf8_encode(strtoupper($irepresentante['apellido_paterno']).' '.strtoupper($irepresentante['apellido_materno'])).', '.utf8_encode(strtoupper($irepresentante['nombres'])).'</option>';
+                $ListaRepresentate.='<option value="'.$irepresentante['ID'].'">'.($irepresentante['apellido_paterno']).' '.($irepresentante['apellido_materno']).', '.($irepresentante['nombres']).'</option>';
             }
         }else{$ListaRepresentate="<option value='0'>--</option>";}
         $forma_pago_ID=$oCliente->forma_pago_ID;
@@ -474,7 +474,7 @@ function post_ajaxCotizacion_Detalle_Cliente(){
             $oOperador=operador::getByID($operador_ID);
             //print_r($oOperador);
             $oPersona=persona::getByID($oOperador->persona_ID);
-            $operador=utf8_encode($oPersona->apellido_paterno.' '.$oPersona->apellido_materno.', '.$oPersona->nombres);
+            $operador=($oPersona->apellido_paterno.' '.$oPersona->apellido_materno.', '.$oPersona->nombres);
             $operador_telefono=$oOperador->telefono;
             $operador_celular1=$oOperador->celular;
 

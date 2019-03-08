@@ -77,6 +77,16 @@
         }
         document.onkeypress = stopRKey; 
 	</script>
+        <style>
+            .ui-autocomplete {
+                max-height: 200px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+                /* add padding to account for vertical scrollbar */
+                padding-right: 20px;
+            } 
+        </style>
 	<?php  fncHead();	?>
 </head>
 <body style="width:100%;">

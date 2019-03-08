@@ -102,7 +102,7 @@
                                    <select id="selCliente" name="selCliente" class="chosen-select">
                                        <option value="0">--Seleccionar--</option>
                                         <?php foreach($GLOBALS['dtCliente'] as $cliente){?>
-                                       <option value="<?php echo $cliente['ID']?>"><?php echo utf8_encode($cliente['ruc'].' - '.strtoupper($cliente['razon_social']));?></option>
+                                       <option value="<?php echo $cliente['ID']?>"><?php echo $cliente['ruc'].' - '.($cliente['razon_social']);?></option>
                                         <?php }?>
                                    </select>
                                    <script type="text/javascript">
@@ -113,7 +113,7 @@
                            <div class="form-group">
                                <label class="control-label col-sm-3">Dirección: </label>
                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo utf8_encode(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido" ><?php echo ($GLOBALS['oCliente']->direccion); ?></textarea>
                                </div>
                            </div>
                            <div class="form-group">
@@ -230,7 +230,7 @@
                         <label class="control-label col-sm-3">Lugar de entrega: </label>
                        
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control"><?php echo trim($GLOBALS['oCotizacion']->lugar_entrega); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control"><?php echo ($GLOBALS['oCotizacion']->lugar_entrega); ?></textarea>
                         </div>
                     </div>
                   

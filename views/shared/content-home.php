@@ -66,6 +66,16 @@
         <script type="text/javascript" src="include/js/jscript.js" ></script>  
         <script type="text/javascript" src="include/js/logincerrar.js" ></script>
         <?php  fncHead();	?>
+        <style>
+            .ui-autocomplete {
+                max-height: 200px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+                /* add padding to account for vertical scrollbar */
+                padding-right: 20px;
+            } 
+        </style>
 </head>
 <body class="page-sound page-header-fixed page-sidebar-fixed page-footer-fixed" style='background:url("../include/img/background1.jpg") repeat-x;'>
       <!-- START @WRAPPER -->

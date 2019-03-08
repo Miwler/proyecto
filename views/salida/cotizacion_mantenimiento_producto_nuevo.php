@@ -320,6 +320,7 @@
         </div>
         
     </div>
+    
     <script type="text/javascript">
         
         var mensaje_validacion=function(){
