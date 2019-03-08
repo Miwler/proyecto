@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH."views/shared/content-float-modal.php";	
+require ROOT_PATH."views/shared/content-float-modal-hijo.php";	
 ?>	
 <?php
 function fncTitle() { ?>Nueva persona<?php } ?>
@@ -21,7 +21,7 @@ function fncMenu() { ?>
 function fncPage() { ?>
 <?php if (!isset($GLOBALS['resultado']) || $GLOBALS['resultado'] == -1) { ?>
 
-<form id="form"  method="POST" action="/Mantenimiento/Persona_Mantenimiento_Nuevo_otros" onsubmit="return validar();" class="form-horizontal">
+<form id="form"  method="POST" action="/Mantenimiento/Persona_Mantenimiento_Nuevo_otro" onsubmit="return validar();" class="form-horizontal">
     <div class="panel panel-success">
         <div class="panel-body">
             <div class="row">
@@ -285,8 +285,12 @@ function fncPage() { ?>
 <script type="text/javascript">
     $(document).ready(function(){
         toastem.success("<?php echo $GLOBALS['mensaje']; ?>");
-       
-        setTimeout('window_float_save_modal();', 1000);
+       setTimeout(function(){
+           
+            parent.windos_float_save_modal_hijo(<?php echo $GLOBALS['oPersona']->ID;?>)
+       }, 1000);
+      
+        //setTimeout('parent.windos_float_save_modal_hijo();', 1000);
     });       
 </script>
 <?php } ?>

@@ -6416,6 +6416,113 @@ function post_Persona_Mantenimiento_Nuevo() {
     $GLOBALS['oPersona'] = $oPersona;
 }
 
+function get_Persona_Mantenimiento_Nuevo_Otro() {
+    require ROOT_PATH . 'models/persona.php';
+    require ROOT_PATH . 'models/persona_documento.php';
+    require ROOT_PATH . 'models/tipo_documento.php';
+    require ROOT_PATH . 'models/departamento.php';
+    require ROOT_PATH . 'models/provincia.php';
+    require ROOT_PATH . 'models/distrito.php';
+    require ROOT_PATH . 'models/sexo.php';
+    global $returnView_float;
+    $returnView_float = true;
+    $oPersona=new persona();
+    $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
+    $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
+    $dtProvincia=provincia::getGrid("departamento_ID=15",-1,-1,"nombre asc");
+    $dtDistrito=distrito::getGrid("provincia_ID=129",-1,-1,"nombre asc");
+    $dtSexo=sexo::getGrid("",-1,-1,"nombre asc");
+    $oPersona->dtTipo_Documento=$dtTipo_Documento;
+    $oPersona->dtDepartamento=$dtDepartamento;
+    $oPersona->dtProvincia=$dtProvincia;
+    $oPersona->dtDistrito=$dtDistrito;
+    $oPersona->departamento_ID=15;
+    $oPersona->provincia_ID=129;
+    $oPersona->distrito_ID=1261;
+    $oPersona->tipo_documento_ID=1;
+    $oPersona->dtSexo=$dtSexo;
+    $oPersona->numero='';
+    $GLOBALS['oPersona'] = $oPersona;
+
+}
+
+//graba los datos que se recuperan por el metodo post en editar persona
+function post_Persona_Mantenimiento_Nuevo_Otro() {
+    require ROOT_PATH . 'models/persona.php';
+    require ROOT_PATH . 'models/persona_documento.php';
+    require ROOT_PATH . 'models/tipo_documento.php';
+    require ROOT_PATH . 'models/departamento.php';
+    require ROOT_PATH . 'models/provincia.php';
+    require ROOT_PATH . 'models/distrito.php';
+    require ROOT_PATH . 'models/sexo.php';
+    global $returnView_float;
+    $returnView_float = true;
+    $oPersona=new persona();
+    $tipo_documentop_ID=$_POST['selTipo_Documento'];
+    $numero=trim($_POST['txtNumero']);
+    $apellido_paterno=trim($_POST['txtApellido_Paterno']);
+    $apellido_materno=trim($_POST['txtApellido_Materno']);
+    $nombres=trim($_POST['txtNombres']);
+    $fecha_nacimiento=$_POST['txtFecha_Nacimiento'];
+    $sexo_ID=$_POST['selSexo_ID'];
+    $departamento_ID=$_POST['selDepartamento'];
+    $provincia_ID=$_POST['selProvincia'];
+    $distrito_ID=$_POST['selDistrito'];
+    $direccion=trim($_POST['txtDireccion']);
+    $correo=trim($_POST['txtCorreo']);
+    $telefono=trim($_POST['txtTelefono']);
+    $celular=trim($_POST['txtCelular']);
+    try {
+        $oPersona->apellido_paterno=$apellido_paterno;
+        $oPersona->apellido_materno=$apellido_materno;
+        $oPersona->nombres=$nombres;
+        $oPersona->fecha_nacimiento=$fecha_nacimiento;
+        $oPersona->sexo_ID=$sexo_ID;
+        $oPersona->distrito_ID=$distrito_ID;
+        $oPersona->direccion=$direccion;
+        $oPersona->correo=$correo;
+        $oPersona->telefono=$telefono;
+        $oPersona->celular=$celular;  
+        $oPersona->usuario_id = $_SESSION['usuario_ID'];
+        $oPersona->tipo_documento_ID=$tipo_documentop_ID;
+        $oPersona->numero=$numero;
+        if ($oPersona->verificarDuplicado() > 0) {
+              throw new Exception($oPersona->getMessage);             
+        }  
+        if($oPersona->insertar1()>0){
+            $oPersona_Documento=new persona_documento();
+            $oPersona_Documento->persona_ID=$oPersona->ID;
+            $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
+            $oPersona_Documento->numero=$numero;
+            $oPersona_Documento->usuario_id=$_SESSION['usuario_ID'];
+            $oPersona_Documento->insertar();
+        }
+        
+        $mensaje=$oPersona->getMessage;
+        $resultado=1;
+              
+    } catch (Exception $ex) {
+        $resultado= -1;
+        $mensaje= $ex->getMessage();
+    }
+    $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
+    $dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
+    $dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
+    $dtDistrito=distrito::getGrid("provincia_ID=".$provincia_ID,-1,-1,"nombre asc");
+    $oPersona->dtTipo_Documento=$dtTipo_Documento;
+    $oPersona->dtDepartamento=$dtDepartamento;
+    $oPersona->dtProvincia=$dtProvincia;
+    $oPersona->dtDistrito=$dtDistrito;
+    $oDistrito=distrito::getByID($distrito_ID);
+    $oProvincia=provincia::getByID($oDistrito->provincia_ID);
+    $dtSexo=sexo::getGrid("",-1,-1,"nombre asc");
+    $oPersona->departamento_ID=$oProvincia->departamento_ID;
+    $oPersona->provincia_ID=$oProvincia->ID;
+    $oPersona->dtSexo=$dtSexo;
+    $GLOBALS['resultado']=$resultado;
+    $GLOBALS['mensaje']=$mensaje;
+    $GLOBALS['oPersona'] = $oPersona;
+}
 
 
 //muestra la ventana editar persona
