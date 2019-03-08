@@ -6513,7 +6513,7 @@ function post_Persona_Mantenimiento_Editar($id) {
         $oPersona_Documento->actualizar();
         }
         
-        $mensaje=$oPersona->getMessage;
+        $mensaje="Se actualizó correctamente";  
         $resultado=1;
     } catch (Exception $ex) {
         $resultado = -1;

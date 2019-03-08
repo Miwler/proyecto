@@ -1172,3 +1172,48 @@ FECHA Y HORA: 07 03 2019 19:03:26
 RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 00:03:53
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="23432434",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 00:03:00
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="23432434",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 00:03:17
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="23432434",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 00:03:28
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="46546454",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 00:03:47
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="46546454",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 01:03:10
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="2",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 01:03:30
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="2",numero="90909090",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 01:03:01
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="2",numero="11111111",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 01:03:22
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="2",numero="11111111",usuario_mod_id=0, fdm=now() where del=0 and ID=
