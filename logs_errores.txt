@@ -1188,3 +1188,598 @@ RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
 >>>>>>> a4b755ce88cafad6486dd452117c0aa5b12b0b0d
 METODO: connect_new.getGrid
 ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 16:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 16:03:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 16:03:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 16:03:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 17:03:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''deed''' at line 1
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '0';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '500';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.18';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = 'deed'';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '0';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '522';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.18';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_retornar = '0';
+SET @_iID = '130';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '126';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '500';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.1800';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_retornar = '0';
+SET @_iID = '130';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '126';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '500';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.18';
+SET @_isubtotal = '0';
+SET @_iigv = '0.00';
+SET @_itotal = '0.00';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '0';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '522';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.18';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_retornar = '0';
+SET @_iID = '131';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '127';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '500';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.1800';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:41
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '0';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '500';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.18';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''''' at line 1
+SET @_iID = '0';
+SET @_iempresa_ID = '2';
+SET @_itipo_orden_ID = '1';
+SET @_inumero_orden = '0';
+SET @_ifecha = '2019-03-07';
+SET @_iproveedor_ID = '522';
+SET @_imoneda_ID = '2';
+SET @_iestado_ID = '55';
+SET @_icon_igv = '0';
+SET @_itipo_cambio = '3.35';
+SET @_ivigv = '0.18';
+SET @_isubtotal = '0';
+SET @_iigv = '0';
+SET @_itotal = '0';
+SET @_icomentario = ''';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 18:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:41
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:59
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0''' at line 1
+SET @_iID = ''0'';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0''' at line 1
+SET @_iID = ''0'';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0''' at line 1
+SET @_iID = ''0'';
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+SET @_filtro = ;
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: Ingreso/post_ajaxOrden_Compra_Mantenimiento
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[HY093]: Invalid parameter number: Columns/Parameters are 1-based
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[HY093]: Invalid parameter number: Columns/Parameters are 1-based
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert2 is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_orden_ingreso_Insert2 is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:39
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 19:03:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getSeparaciones; expected 1, got 4
+SET @_iempresa_ID = '2';
+SET @_buscar = 'disco du';
+SET @_ilinea_ID = '0';
+SET @_icategoria_ID = '0';
+CALL `sp_producto_getSeparaciones`( @_iempresa_ID, @_buscar, @_ilinea_ID, @_icategoria_ID)
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:05
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getSeparaciones; expected 1, got 4
+SET @_iempresa_ID = '2';
+SET @_buscar = 'd';
+SET @_ilinea_ID = '0';
+SET @_icategoria_ID = '0';
+CALL `sp_producto_getSeparaciones`( @_iempresa_ID, @_buscar, @_ilinea_ID, @_icategoria_ID)
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getSeparaciones; expected 1, got 4
+SET @_iempresa_ID = '2';
+SET @_buscar = 'du';
+SET @_ilinea_ID = '0';
+SET @_icategoria_ID = '0';
+CALL `sp_producto_getSeparaciones`( @_iempresa_ID, @_buscar, @_ilinea_ID, @_icategoria_ID)
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\producto.php
+METODO: producto.geLista1
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getSeparaciones; expected 1, got 4
+SET @_iempresa_ID = '2';
+SET @_buscar = 'dur';
+SET @_ilinea_ID = '0';
+SET @_icategoria_ID = '0';
+CALL `sp_producto_getSeparaciones`( @_iempresa_ID, @_buscar, @_ilinea_ID, @_icategoria_ID)
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 20:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\producto.php
+METODO: producto.geLista1
+ERROR: Ocurrio un Error en la consulta

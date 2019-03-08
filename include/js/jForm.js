@@ -1037,6 +1037,7 @@ function lista(url,contenedor,id_txt,funcion,funcion_limpiar){
 function lista_producto(url,contenedor,id_txt,ilinea_ID,icategoria_ID,funcion,funcion_limpiar){
     
     $("#"+contenedor).autocomplete({
+        maxShowItems:5,
         showNoSuggestionNotice:true,
         noSuggestionNotice: 'No hay resultados',
         source: function (request, response) {

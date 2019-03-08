@@ -81,6 +81,7 @@ class connect_new
                     }
                     /*$resultado=$this->connect_new->query($q);
                         $dt=$resultado->fetchAll();*/
+                    
                    if (!$lv_result = $this->connect_new->query($q))
                     {
                         
@@ -184,7 +185,7 @@ class connect_new
                 foreach($pt_args as $lv_key=>$lv_value)
                 {
 
-                    $lv_query = "SET @_$lv_key = '$lv_value'";
+                    $lv_query = "SET @_".$lv_key." = ".$this->connect_new->quote($lv_value);
                     $lv_log .= $lv_query.";\n";
                     
                     
@@ -239,7 +240,7 @@ class connect_new
                 foreach($pt_args as $lv_key=>$lv_value)
                 {
 
-                    $lv_query = "SET @_$lv_key = '".$lv_value."'";
+                    $lv_query = "SET @_$lv_key = ".$this->connect_new->quote($lv_value);
                     $lv_log .= $lv_query.";\n";
                     if (!$lv_result = $this->connect_new->query($lv_query))
                     {
@@ -301,7 +302,7 @@ class connect_new
                 {
                     $val.=",'".$lv_value."'";
                     if(strtoupper($lv_value)!='NULL'){
-                        $lv_query = "SET @_".$lv_key." = '".$lv_value."'";
+                        $lv_query = "SET @_".$lv_key." = ".$this->connect_new->quote($lv_value);
                     }else{
                         $lv_query = "SET @_".$lv_key." = null";
                     }
@@ -380,7 +381,7 @@ class connect_new
                 foreach($pt_args as $lv_key=>$lv_value)
                 {
 
-                    $lv_query = "SET @_$lv_key = '$lv_value'";
+                    $lv_query = "SET @_".$lv_key."= ".$this->connect_new->quote($lv_value);
                     $lv_log .= $lv_query.";\n";
                     if (!$lv_result = $this->connect_new->query($lv_query))
                     {
@@ -433,18 +434,11 @@ class connect_new
                     throw new Exception("Falta parametros");
                 }
                 $lv_call   = "CALL $pv_proc(";
-                $lv_select = "SELECT";
-                $lv_log = "";
+                
                 foreach($pt_args as $lv_key=>$lv_value)
                 {
                     $lv_call.="?,";
-                    $lv_query = "SET @_$lv_key = '$lv_value'";
-                    $lv_log .= $lv_query.";\n";
                     
-                    
-                   
-                    $lv_call   .= " @_$lv_key,";
-                    $lv_select .= " @_$lv_key AS $lv_key,";
                 }
                 $lv_call   = substr($lv_call, 0, -1).")";
                 if (!($consulta = $this->connect_new->prepare($lv_call))) 
@@ -477,5 +471,59 @@ class connect_new
             
          
         }
-}
+        function store_procedure_transa1($pv_proc,$pt_args,$out)
+        {
+            try{
+                //$this->connect_new();
+                //$po_db= new mysqli($this->host, $this->db_user, $this->db_password, $this->db);
+                $lv_call   = "CALL $pv_proc(";
+                $lv_call1="";
+                foreach($pt_args as $lv_key=>$lv_value)
+                {
+                    $lv_call1.="?,";
+                    
+                }
+                $lv_call.= substr($lv_call1, 0, -1).")";
+               
+                $consulta = $this->connect_new->prepare($lv_call);
+                $i=1;
+                $retorna=0;
+                
+                foreach($pt_args as $lv_key=>$lv_value){
+                   // $consulta->bindParam($i,$lv_value);
+                    if($out==($i-1)){
+                        
+                        $consulta->bindParam(1,$retorna,PDO::PARAM_STR, 4000);
+                    }else{
+                        
+                        $consulta->bindParam($i,$lv_value);
+                    }
+                    
+                    $i++;
+                }
+                
+               //echo $lv_log;
+                $consulta->execute();
+                /*if (!) {
+                    throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
+                    
+                }*/
+                echo $retorna;
+                
+                $resultado =$consulta->fetch();
+                 
+               
+                $this->disconnect_new();
+                return $resultado[0];
+
+            }catch(PDOException $ex){
+                
+                $this->disconnect_new();
+                log_error(__FILE__, "connect_new.store_procedure_transa", $ex->getMessage()."\n");
+                throw new Exception($ex->getMessage());
+            }
+            
+
+        }
+}       
 ?>

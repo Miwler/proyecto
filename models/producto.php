@@ -540,13 +540,22 @@ function verificarHijos($categoria_ID){
         $cn =new connect_new();
         try 
         {
-            $q='call getListaProductos1('.$_SESSION['empresa_ID'].',"'.$buscar.'",'.$linea_ID.','.$categoria_ID.');';
+            $dt=$cn->store_procedure_getGrid("getListaProductos1",
+            array(
+                "iempresa_ID"=>$_SESSION['empresa_ID'],
+                "buscar"=>$buscar,
+                "ilinea_ID"=>$linea_ID,
+                "icategoria_ID"=>$categoria_ID
+            ));
             
-            $dt=$cn->getGrid($q);									
+            //$q='call getListaProductos1('.$_SESSION['empresa_ID'].",'".FormatTextSave($buscar)."',".$linea_ID.','.$categoria_ID.');';
+            //echo $q;
+            //$dt=$cn->getGrid($q);									
             return $dt;												
         }catch(Exception $ex)
         {
-                throw new Exception($q);
+            log_error(__FILE__,"producto.geLista1", $ex->getMessage());
+                throw new Exception($ex->getMessage());
         }
     }
     static function getFilasHistorial($producto_ID) {

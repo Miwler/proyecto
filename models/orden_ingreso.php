@@ -93,7 +93,7 @@ class orden_ingreso {
     try
     {
       $ID=$cn->store_procedure_transa(
-          "sp_orden_ingreso_Insert",
+          "sp_orden_ingreso_Insert2",
             array(
                 "iID"=>0,
                 "iempresa_ID"=>$this->empresa_ID,

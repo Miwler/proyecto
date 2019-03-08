@@ -112,6 +112,14 @@
             .btn-group li a:hover{
                 cursor:pointer;
             }
+            .ui-autocomplete {
+                max-height: 200px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+                /* add padding to account for vertical scrollbar */
+                padding-right: 20px;
+            } 
         </style>
 </head>
 <body>

@@ -252,7 +252,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <select id="cboMoneda" name="cboMoneda" class="form-control" onchange="fncCargarNumeroCuenta(this.value);" >
                             <?php foreach($GLOBALS['dtMoneda'] as  $iMoneda){?>
-                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo utf8_encode($iMoneda['descripcion']);?> </option>
+                                <option value="<?php echo $iMoneda['ID']; ?>" > <?php echo ($iMoneda['descripcion']);?> </option>
                             <?php }?>
                             </select>
                             <script type="text/javascript">
@@ -272,7 +272,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <select id="selForma_Pago" name="selForma_Pago" class="form-control">
                                 <?php foreach($GLOBALS['dtForma_Pago'] as $iForma_Pago){ ?>
-                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo utf8_encode($iForma_Pago['nombre']);?></option>
+                                <option value="<?php echo $iForma_Pago['ID']; ?>"> <?php echo ($iForma_Pago['nombre']);?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
