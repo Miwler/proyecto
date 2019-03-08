@@ -329,10 +329,11 @@ class connect_new
                 
                 $lv_call   = substr($lv_call, 0, -1).")";
                 $lv_select = substr($lv_select, 0, -1);
+                
                 //$lv_log .= $val;
                 $lv_log .= $lv_call;
                 $lv_log .= $lv_select;
-            
+                //echo $lv_log;
                 //echo $val;
                 //echo $lv_select;
                 if (!($sentencia = $this->connect_new->prepare($lv_call))) 

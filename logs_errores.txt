@@ -1803,3 +1803,38 @@ FECHA Y HORA: 07 03 2019 21:03:11
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.transa
 ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="45616515",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="45616515",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:59
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="45616515",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="5",numero="87887788878778788778",usuario_mod_id=0, fdm=now() where del=0 and ID=
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '18,74,0)' at line 1INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)VALUES (870,2,,18,74,0); 
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_cliente_mantenimiento_editar
+ERROR: INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)VALUES (870,2,,18,74,0); 
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '18,74,0)' at line 1INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)VALUES (870,2,,18,74,0); 
+============================ERROR====================================
+FECHA Y HORA: 07 03 2019 21:03:23
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\mantenimientoController.php
+METODO: mantenimiento/post_cliente_mantenimiento_editar
+ERROR: INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)VALUES (870,2,,18,74,0); 

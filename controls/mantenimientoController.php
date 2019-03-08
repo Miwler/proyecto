@@ -1559,9 +1559,11 @@ function post_Cliente_Mantenimiento_Editar($id) {
              }else{  
                  if($operador_ID>0){
                         $operador_cliente=operador_cliente::getByOperador($id);
-                        if(isset($operador_cliente)){
+                       
+                        if(!isset($operador_cliente)){
                             $operador_cliente=new operador_cliente();
                             $operador_cliente->estado_ID=74;
+                            $operador_cliente->cliente_ID=$id;
                             $operador_cliente->operador_ID=$operador_ID;
                             $operador_cliente->insertar();
                         }else{
@@ -6486,7 +6488,7 @@ function post_Persona_Mantenimiento_Editar($id) {
     $celular=trim($_POST['txtCelular']);
     
     
-    $oPersona_Documento = new persona_documento();
+    
     try {
         $oPersona->apellido_paterno=$apellido_paterno;
         $oPersona->apellido_materno=$apellido_materno;
@@ -6501,17 +6503,18 @@ function post_Persona_Mantenimiento_Editar($id) {
         $oPersona->usuario_mod_id = $_SESSION['usuario_ID'];
         $oPersona->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona->numero=$numero;
+        
 //        if ($oPersona->verificarDuplicado() > 0) {
 //              throw new Exception($oPersona->getMessage);             
 //        }  
         $oPersona->actualizar();
-        if($tipo_documentop_ID>0){
+        /*if($tipo_documentop_ID>0){
 //        $oPersona_Documento->persona_ID=$oPersona->ID;
         $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona_Documento->numero=$numero;
         $oPersona_Documento->usuario_mod_id=$_SESSION['usuario_ID'];
         $oPersona_Documento->actualizar();
-        }
+        }*/
         
         $mensaje=$oPersona->getMessage;
         $resultado=1;
