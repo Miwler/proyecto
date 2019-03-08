@@ -103,6 +103,7 @@ class persona {
     "iusuario_id"=>$this->usuario_id,
 
 ),0);
+      
       if($ID>0){
         $this->getMessage="El registro se guardó correctamente.";
         $this->ID=$ID;
@@ -140,7 +141,8 @@ class persona {
     "itipo_documento_ID"=>$this->tipo_documento_ID,
      "inumero"=>$this->numero,
 ),0);
-      return $retornar;
+      echo $ID;
+      return $ID;
     }catch(Exeption $ex)
     {
       log_error(__FILE__, "persona.actualizar", $ex->getMessage());
