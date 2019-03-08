@@ -1830,3 +1830,8 @@ RUTA: C:\xampp\htdocs\proyecto\proyecto\models\producto.php
 METODO: producto.geLista1
 ERROR: Ocurrio un Error en la consulta
 >>>>>>> 5c7ddd188304674c6c951a7154453c9bd6102681
+============================ERROR====================================
+FECHA Y HORA: 08 03 2019 03:03:50
+RUTA: C:\xampp\htdocs\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1update persona_documento set persona_ID="",tipo_documento_ID="1",numero="45616515",usuario_mod_id=0, fdm=now() where del=0 and ID=
