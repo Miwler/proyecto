@@ -854,10 +854,13 @@ XML;
                     break;
                 case "guia_venta":
                     $guia_venta=new formatosxml();
+                     
                     $xml=$guia_venta->guia_venta2_1($this->array_documento);
+                   
                     $this->nombre_documento=$this->array_documento['Remitente']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
                     $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
+                    
                     $xml->save($OUTPUT);
                     $ruta=$OUTPUT;
                     break;

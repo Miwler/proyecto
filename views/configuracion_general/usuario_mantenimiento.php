@@ -133,9 +133,11 @@
 
                     f.enviar();
             }
-
+            function fncCargar(){
+                f.enviar();
+            }
             var fncNuevo=function(){	
-                window_float_open_modal('NUEVO USUARIO','/Configuracion_General/Usuario_mantenimiento_Nuevo','','',f,null,580);
+                window_float_open_modal('NUEVO USUARIO','/Configuracion_General/Usuario_mantenimiento_Nuevo','','',f,null,300);
                 
             }
 

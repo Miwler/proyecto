@@ -5,16 +5,39 @@ class empresa
 	private $nombre;
 	private $imagen;
         private $ruta;
-        private $icono;
+        
         private $logo;
         private $stilo_fondo_tabs;
         private $stilo_fondo_boton;
         private $stilo_fondo_cabecera;
-       
+        private $icono;
 	private $usuario_id;	
 	private $usuario_mod_id;	
 	private $getMessage;
-		
+        
+	private $moneda;
+        private $periodo_inicio;
+        private $estado_compra;
+        private $compra_tipo_comprobante_ID;
+        private $link_comprobante_electronico;
+        private $departamento_ID_default;
+        private $provincia_ID_default;
+        private $distrito_ID_default;
+        private $configuracion_correo_empresa;
+        private $configuracion_celular_empresa;
+        private $beta_ws_guia;
+        private $beta_ws_factura;
+        private $produccion_ws_factura;
+        private $produccion_ws_guia;
+        private $conexion_ws_sunat;
+        private $lista_modulo;
+        private $correlativos_ID;
+        private $correlativos_ID_nota_credito;
+        private $correlativos_ID_nota_debito;
+        private $correlativos_ID_guia_remision;
+        private $correlativos_ID_fisico;
+        private $correlativos_ID_guia_fisico;
+        private $correlativos_ID_guia_electronico;
 	public function __set($var, $valor)
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
@@ -44,8 +67,31 @@ class empresa
 		// Retorna nulo si no existe
 		return null;
 	}
-	
-	function insertar(){
+	function __construct()
+        {
+            $this->nombre="";
+            $this->ruta="";
+            $this->stilo_fondo_tabs="";
+            $this->stilo_fondo_boton="";
+            $this->stilo_fondo_cabecera="";
+            $this->icono="";
+            $this->usuario_id=$_SESSION["usuario_ID"];
+            $this->usuario_mod_id=$_SESSION["usuario_ID"];
+
+        }
+        function __destruct()
+        {
+            $this->nombre;
+            $this->ruta;
+            $this->stilo_fondo_tabs;
+            $this->stilo_fondo_boton;
+            $this->stilo_fondo_cabecera;
+            $this->icono;
+            $this->usuario_id;
+            $this->usuario_mod_id;
+
+        }
+	/*function insertar(){
 		$cn =new connect_new();
 		$retornar=-1;
 		try{
@@ -62,8 +108,53 @@ class empresa
 		catch(Exception $ex){
 			throw new Exception($q);
 		}
-	}	
-	
+	}	*/
+        function insertar()
+        {
+        $cn =new connect_new();
+        try
+        {
+          $ID=$cn->store_procedure_transa(
+              "sp_empresa_Insert",
+                array(
+                    "iID"=>0,
+                    "inombre"=>$this->nombre,
+                    "iruta"=>$this->ruta,
+                    "istilo_fondo_tabs"=>$this->stilo_fondo_tabs,
+                    "istilo_fondo_boton"=>$this->stilo_fondo_boton,
+                    "istilo_fondo_cabecera"=>$this->stilo_fondo_cabecera,
+                     "iicono"=>$this->icono,
+                    "iusuario_id"=>$this->usuario_id,
+                    "imoneda"=>$this->moneda,
+                    "iperiodo_inicio"=>$this->periodo_inicio,
+                    "iestado_compra"=>$this->estado_compra,
+                    "icompra_tipo_comprobante_ID"=>$this->compra_tipo_comprobante_ID,
+                    "ilink_comprobante_electronico"=>$this->link_comprobante_electronico,
+                    "idepartamento_ID_default"=>$this->departamento_ID_default,
+                    "iprovincia_ID_default"=>$this->provincia_ID_default,
+                    "idistrito_ID_default"=>$this->distrito_ID_default,
+                    "iconfiguracion_correo_empresa"=>$this->configuracion_correo_empresa,
+                    "iconfiguracion_celular_empresa"=>$this->configuracion_celular_empresa,
+                    "ibeta_ws_guia"=>$this->beta_ws_guia,
+                    "ibeta_ws_factura"=>$this->beta_ws_factura,
+                    "iproduccion_ws_factura"=>$this->produccion_ws_factura,
+                    "iproduccion_ws_guia"=>$this->produccion_ws_guia,
+                    "iconexion_ws_sunat"=>$this->conexion_ws_sunat,
+                    "ilista_modulo"=>$this->lista_modulo
+                ),0);
+          if($ID>0){
+            $this->getMessage="El registro se guardó correctamente.";
+            $this->ID=$ID;
+            return $ID;
+            } else {
+                throw new Exception("No se registró");
+            }
+          }catch(Exeption $ex)
+          {
+            log_error(__FILE__, "empresa.insertar", $ex->getMessage());
+            throw new Exception($ex->getMessage());
+          }
+        }
 	function actualizar(){
 		$cn =new connect_new();
 		$retornar=-1;
@@ -102,7 +193,7 @@ class empresa
             }
 	}
 
- 	static function getByID($ID)
+ 	/*static function getByID($ID)
 	{
             $cn =new connect_new();
             try 
@@ -137,9 +228,38 @@ class empresa
             {
                     throw new Exception("Ocurrio un erroren la consulta");
             }
-	}
+	}*/
 	
-	
+	static function getByID($ID)
+        {
+        $cn =new connect_new();
+        try
+        {
+          $dt=$cn->store_procedure_getGrid(
+              "sp_empresa_getByID",
+              array("iID"=>$ID));
+            $oempresa=null;
+            foreach($dt as $item)
+            {
+              $oempresa= new empresa();
+              $oempresa->ID=$item["ID"];
+              $oempresa->nombre=$item["nombre"];
+              $oempresa->ruta=$item["ruta"];
+              $oempresa->stilo_fondo_tabs=$item["stilo_fondo_tabs"];
+              $oempresa->stilo_fondo_boton=$item["stilo_fondo_boton"];
+              $oempresa->stilo_fondo_cabecera=$item["stilo_fondo_cabecera"];
+              $oempresa->icono=$item["icono"];
+              $oempresa->usuario_id=$item["usuario_id"];
+              $oempresa->usuario_mod_id=$item["usuario_mod_id"];
+
+              }
+              return $oempresa;
+            }catch(Exeption $ex)
+            {
+              log_error(__FILE__, "empresa.getByID", $ex->getMessage());
+              throw new Exception($ex->getMessage());
+            }
+        }
 	
 	static function getCount($filtro='')
 	{
@@ -283,6 +403,82 @@ class empresa
 			throw new Exception($q);
 		}
 	}
+        function getConfiguracion()
+        {
+        $cn =new connect_new();
+        $retornar =0;
+        try
+        {
+          $dt=$cn->store_procedure_getGrid(
+              "sp_configuracion_empresa",
+                array("iempresa_ID"=>$this->ID));
+          //print_r($dt);
+         
+          if(count($dt)>0){
+              foreach($dt as $item){
+                if($item['nombre']=="moneda"){
+                    $this->moneda=$item['valor'];
+                }
+                if($item['nombre']=="periodo_inicio"){
+                    $this->periodo_inicio=$item['valor'];
+                }  
+                if($item['nombre']=="estado_compra"){
+                    $this->estado_compra=$item['valor'];
+                }
+                if($item['nombre']=="compra_tipo_comprobante_ID"){
+                    $this->compra_tipo_comprobante_ID=$item['valor'];
+                }
+                if($item['nombre']=="link_comprobante_electronico"){
+                    $this->link_comprobante_electronico=$item['valor'];
+                }
+                if($item['nombre']=="departamento_ID_default"){
+                    $this->departamento_ID_default=$item['valor'];
+                }
+                if($item['nombre']=="provincia_ID_default"){
+                    $this->provincia_ID_default=$item['valor'];
+                }
+                if($item['nombre']=="distrito_ID_default"){
+                    $this->distrito_ID_default=$item['valor'];
+                }
+                if($item['nombre']=="configuracion_correo_empresa"){
+                    $this->configuracion_correo_empresa=$item['valor'];
+                }
+                if($item['nombre']=="configuracion_celular_empresa"){
+                    $this->configuracion_celular_empresa=$item['valor'];
+                }
+                if($item['nombre']=="beta_ws_guia"){
+                    $this->beta_ws_guia=$item['valor'];
+                }
+                
+                if($item['nombre']=="beta_ws_factura"){
+                    $this->beta_ws_factura=$item['valor'];
+                }
+                if($item['nombre']=="produccion_ws_factura"){
+                    $this->produccion_ws_factura=$item['valor'];
+                }
+                if($item['nombre']=="produccion_ws_guia"){
+                    $this->produccion_ws_guia=$item['valor'];
+                }
+                if($item['nombre']=="conexion_ws_sunat"){
+                    $this->conexion_ws_sunat=$item['valor'];
+                }
+                if($item['nombre']=="lista_modulo"){
+                    $this->lista_modulo=$item['valor'];
+                }
+                
+                
+              }
+            
+                    
+          }
+          return $dt;
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "configuracion_empresa.getGrid", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+      }
+        
 }
 
 ?>

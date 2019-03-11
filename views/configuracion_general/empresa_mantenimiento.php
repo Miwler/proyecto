@@ -10,11 +10,13 @@ Empresas
     <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncTituloCabecera(){?>
-    <span class="glyphicon glyphicon-briefcase"></span> Registro de Empresas
-    <div class="pull-right">
-        <button type="button" onclick="fncNuevo();" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
-        <button type="button" onclick="f.enviar();" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>    
-    </div>
+    <i class="fa fa-fax" aria-hidden="true"></i>  Registro de Empresas
+    
+    
+   <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        </div>
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -106,13 +108,17 @@ Empresas
 
                     f.enviar();
             }
-
-            var fncNuevo=function(){			
-                window_float_open('/Configuracion_General/Empresa_Mantenimiento_Nuevo','','',f);
+            function fngetData(){
+                f.enviar();
+            }
+            var fncNuevo=function(){	
+                window_open_view('/Configuracion_General/Empresa_Mantenimiento_Nuevo','',null,fngetData);
+                //window_open_view('REGISTRAR NUEVA EMPRESA','/Configuracion_General/Empresa_Mantenimiento_Nuevo','','',f);
             }
 
-            var fncEditar=function(id){			
-                window_float_open('/Configuracion_General/Empresa_Mantenimiento_Editar',id,'',f);
+            var fncEditar=function(id){	
+                window_open_view('/Configuracion_General/Empresa_Mantenimiento_Editar',id,null,fngetData);
+                //window_float_open('/Configuracion_General/Empresa_Mantenimiento_Editar',id,'',f);
             }
             
            

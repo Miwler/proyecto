@@ -35,7 +35,7 @@ function fncMenu() { ?>
 
 function fncPage() { ?>
 
-<form id="frm1" method="POST"  action="/Salida/Cobranza_Mantenimiento_Registro" onsubmit="return validar();" class="form-horizontal">
+<form id="frm1" method="POST"  action="/Salida/Cobranza_Mantenimiento_Registro" class="form-horizontal">
     <div class="form-body">
         <div class="form-group">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -150,10 +150,13 @@ function fncPage() { ?>
     f.terminado = function () {
         var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
         /*grids = new grid(tb);
-        /*grids.nuevoEvento();
+        grids.nuevoEvento();
         grids.fncPaginacion(f);	*/		
     }
-    f.enviar();    
+    $(document).ready(function(){
+        f.enviar(); 
+    });
+       
     var fncMontoPendiente=function(monto_pendiente){
         $('#txtMonto_Pendiente').val(monto_pendiente);
         monto_pendiente=parseFloat(monto_pendiente.replace(',',''));
@@ -200,8 +203,12 @@ function fncPage() { ?>
              error=1;
         }
         if(error==0){
+           //console.log($('#txtMonto_Pago').val());
             f.enviar();
-            $('#txtMonto_Pago').val('');
+            setTimeout(function(){
+                $('#txtMonto_Pago').val('');
+            },3000);
+            //$('#txtMonto_Pago').val('');
         }
     }
     var fncMarcarTotal=function(){

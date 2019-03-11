@@ -4971,7 +4971,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
     $colspanFooter = 6;
     try {
         $cantidadMaxima = cotizacion::getCount($filtro);
-        $dtCotizacion = cotizacion::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $dtCotizacion = cotizacion::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        
         $rows = count($dtCotizacion);
 
         foreach ($dtCotizacion as $item) {
@@ -4983,9 +4984,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="btnAction"><a title="Generar Orden de Venta" class="btn"   onclick="modal.confirmacion(&#39;El proceso será irreversible, desea generar la venta?&#39;,&#39;Generar venta&#39;,fncVender,' . $item['ID'] . ');">Generar</a></td>';
             $resultado.='<td class="tdCenter">' . $item['numero_concatenado'] . '</td>';
-            $resultado.='<td class="tdCenter">' . FormatTextViewHtml($item['fecha']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['razon_social']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($oMoneda->simbolo) . '</td>';
+            $resultado.='<td class="tdCenter">' . utf8_encode($item['fecha']) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($item['razon_social']) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($oMoneda->simbolo) . '</td>';
             $resultado.='<td class="tdRight">' . $monto . '</td>';
 
             $resultado.='</tr>';
@@ -11843,11 +11844,11 @@ function post_ajaxCobranza_Mantenimiento() {
             $resultado.='<td class="text-center">' . $item['numero_concatenado'] . '</td>';
             $resultado.='<td class="text-center">' .$fecha_emision . '</td>';
             $resultado.='<td class="text-center">' . $fecha_vencimiento . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['cliente']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($oMoneda->descripcion) . '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($item['cliente']) . '</td>';
+            $resultado.='<td class="tdLeft">' . ($oMoneda->simbolo) . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_total'] . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_pendiente'] . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($oEstado->nombre). '</td>';
+            $resultado.='<td class="tdLeft">' . utf8_encode($oEstado->nombre). '</td>';
             $resultado.='<td class="text-left"><a onclick="fncCobrar('. $item['ID'] . ');"><img title="'.$texto.'" style="width:16px;" src="/include/img/boton/dolar.jpg" />'.$texto.'</a></td>';
             $resultado.='</tr>';
         }
@@ -11896,18 +11897,22 @@ function post_Cobranza_Mantenimiento_Registro(){
     $id=$_POST['txtFactura_Venta_ID'];
     $fecha_pago=$_POST['txtFecha_Pago'];
     $monto_pagado=$_POST['txtMonto_Pago'];
-
+    
     $opcion_total=0;
     if(isset($_POST['ckPago_Total'])){
         $opcion_total=$_POST['ckPago_Total'];
     }
 
     $oFactura_Venta=factura_venta::getByID($id);
+   
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+     //print_r($oDatos_Generales);
     $osalida=salida::getByID($oFactura_Venta->salida_ID);
+    
     $funcion="";
     if(trim($monto_pagado)!=""){
         $dtFactura_Venta_Pagos1=factura_venta_pagos::getGrid('factura_venta_ID='.$id,-1,-1,'ID asc');
+       
          if($oFactura_Venta->monto_pendiente>0 && $monto_pagado!=0 ){
             $monto_total_pagado=0;
             foreach($dtFactura_Venta_Pagos1 as $item){
@@ -11921,6 +11926,7 @@ function post_Cobranza_Mantenimiento_Registro(){
                 $oFactura_Venta->actualizarMontoPendiente();
                 $funcion='<script>fncMontoPendiente("'.$monto_total_pendiente.'");</script>';
                 $oMoneda=moneda::getByID($osalida->moneda_ID);
+                
                 $oFactura_Venta_Pagos=new factura_venta_pagos();
                 $oFactura_Venta_Pagos->factura_venta_ID=$oFactura_Venta->ID;
                 $oFactura_Venta_Pagos->fecha_emision=$oFactura_Venta->fecha_emision;
@@ -12636,20 +12642,22 @@ function post_ajaxEnviarGuiaSUNAT() {
         if (count($oGuia_Venta)==0) {
             throw new Exception("No existe la factura.");
         }
+       
         $oGuia_Venta_Detalle=guia_venta::getGuia_SUNAT($id,"detalle");
+        //print_r($oGuia_Venta_Detalle);
         if(count($oGuia_Venta_Detalle)==0){
             throw new Exception("La factura no tiene detalles.");
         }
-
+         
         $DocumentoDetalle = array();
         $Discrepancias = array();
         $DocumentoRelacionado = array();
-      
+     
         foreach($oGuia_Venta_Detalle as $item){
             $DocumentoDetalle[] = array (
                 'Correlativo' => $item['Correlativo'],
                 'CodigoItem' => $item['CodigoItem'],
-                'Descripcion' =>FormatTextXML(substr(trim($item['Descripcion']),0,250)),
+                'Descripcion' =>'papel',//utf8_encode(FormatTextXML(substr(trim($item['Descripcion']),0,250))),
                 'UnidadMedida' =>($item['UnidadMedida']=="")?"NIU":$item['UnidadMedida'],
                 'Cantidad' => $item['Cantidad'],
                 'LineaReferencia' => $item['LineaReferencia']
@@ -12702,7 +12710,7 @@ function post_ajaxEnviarGuiaSUNAT() {
                 'TipoDocumento'=>''
             ),           
             'CodigoMotivoTraslado'=>$oGuia_Venta[0]['CodigoMotivoTraslado'],
-            'DescripcionMotivo'=>FormatTextXML(trim($oGuia_Venta[0]['DescripcionMotivo'])),//'Venta interna de productos',
+            'DescripcionMotivo'=>utf8_decode(FormatTextXML(trim($oGuia_Venta[0]['DescripcionMotivo']))),//'Venta interna de productos',
             'Transbordo'=>'0',
             'PesoBrutoTotal'=>$oGuia_Venta[0]['PesoBrutoTotal'],
             'UnidadMedida'=>'KGM',
@@ -12710,17 +12718,17 @@ function post_ajaxEnviarGuiaSUNAT() {
             'ModalidadTraslado'=>$oGuia_Venta[0]['ModalidadTraslado'],
             'FechaInicioTraslado'=>$oGuia_Venta[0]['FechaInicioTraslado'],
             'RucTransportista'=>$oGuia_Venta[0]['RucTransportista'],
-            'RazonSocialTransportista'=>FormatTextXML($oGuia_Venta[0]['RazonSocialTransportista']),//$oGuia_Venta[0]['RazonSocialTransportista'],
+            'RazonSocialTransportista'=>utf8_decode($oGuia_Venta[0]['RazonSocialTransportista']),//$oGuia_Venta[0]['RazonSocialTransportista'],
             'NroPlacaVehiculo'=>$oGuia_Venta[0]['NroPlacaVehiculo'],
             'NroDocumentoConductor'=>$oGuia_Venta[0]['NroDocumentoConductor'],
             'NroPlacaVehiculoSecundario'=>'',
             'DireccionPartida'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
-                'DireccionCompleta'=>FormatTextXML($oGuia_Venta[0]['DireccionPartida_DireccionCompleta'])
+                'DireccionCompleta'=>utf8_decode(FormatTextXML($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']))
             ),
             'DireccionLlegada'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],
-                'DireccionCompleta'=>FormatTextXML(utf8_decode($oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']))
+                'DireccionCompleta'=>FormatTextXML(utf8_encode($oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']))
             ),
             'NumeroContenedor'=>$oGuia_Venta[0]['NumeroContenedor'],
             'CodigoPuerto'=>$oGuia_Venta[0]['CodigoPuerto'],
@@ -13188,7 +13196,7 @@ function get_Factura_Vista_PreviaPDF($id){
                 $x=$x+$array_width[2];
                 $pdf->SetXY($x,$y);
                 $c=$pdf->getY();
-                $pdf->MultiCell($array_width[3],5,$item["producto"],0,$array_align[3],false);
+                $pdf->MultiCell($array_width[3],5,utf8_decode($item["producto"]),0,$array_align[3],false);
                 $d=$pdf->getY();
                 $x=$x+$array_width[3];
                 $pdf->SetXY($x,$y);
@@ -13201,7 +13209,7 @@ function get_Factura_Vista_PreviaPDF($id){
                 if($item["descripcion"]!=""){
                     $pdf->SetFont('Arial','',6);
                     $pdf->SetXY(60,$y);
-                    $pdf->MultiCell($array_width[6],5,substr($item["descripcion"],0,250-$longitud),0,$array_align[6],false);
+                    $pdf->MultiCell($array_width[6],5,utf8_decode(substr($item["descripcion"],0,250-$longitud)),0,$array_align[6],false);
                     $y=$pdf->GetY();
                 }
                
@@ -15561,7 +15569,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         try{
             $dt=factura_venta::getFilasComprobantes($salida_ID);
             if(count($dt)>0){
-                 $html=utf8_encode($dt[0]["filas"]);
+                 $html=$dt[0]["filas"];
                  $ver_boton_agregar=$dt[0]["ver_boton_agregar"];
                  $bloquear_edicion=$dt[0]["bloquear_edicion"];
             }
@@ -15617,10 +15625,10 @@ function get_Comprobante_regula_Vista_Previa($id){
         try{
             $dt=guia_venta::getFilasGuias($salida_ID);
             if(count($dt)>0){
-                $html=utf8_encode($dt[0]["filas"]);
+                $html=$dt[0]["filas"];
                 $ver_boton_agregar=$dt[0]["ver_boton_agregar"];
                 $bloquear_edicion=$dt[0]["bloquear_edicion"];
-                $boton_imprimir=utf8_encode($dt[0]["boton_imprimir"]);
+                $boton_imprimir=$dt[0]["boton_imprimir"];
             }
            
            

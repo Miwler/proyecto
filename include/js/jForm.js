@@ -110,7 +110,7 @@ var enviar = function (obj,btn)
              $.unblockUI();
              
              respuesta = $.parseJSON(respuesta);
-             
+             //console.log(respuesta);
              $(obj.Div).html(respuesta.resultado);
              if (respuesta.funcion != '') {
                  $('#script').html(respuesta.funcion);

@@ -17,6 +17,9 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-file-text" aria-hidden="true"></i> Registro de cobranzas de facturas
+     <div class="pull-right">
+         <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+     </div>
 <?php } ?>
 <?php function fncPage(){?>
 <form id="frm1"  method="post" action="/Salida/ajaxCobranza_Mantenimiento" class="form-horizontal">
@@ -27,12 +30,12 @@
                 <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
                
             </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <div class="pull-right">
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            
         </div>
         <div class="panel-body">
             <div class="tab-content">

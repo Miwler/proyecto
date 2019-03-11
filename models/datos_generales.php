@@ -43,6 +43,14 @@ class datos_generales {
   private $ruta;
 private $provincia_ID;
 private $departamento_ID;
+
+private $etiquetas_correo;
+private $etiquetas_celulares;
+private $beta_ws_guia;
+private $beta_ws_factura;
+private $prod_ws_guia;
+private $prod_ws_factura;
+private $periodo_defecto;
   public function __set($var, $valor)
     {
       $temporal = $var;
@@ -251,7 +259,7 @@ private $departamento_ID;
       $odatos_generales->passwordcertificado=$item["passwordcertificado"];
       $odatos_generales->visc=$item["visc"];
       $odatos_generales->tasadetraccion=$item["tasadetraccion"];
-
+      
       }
       return $odatos_generales;
     }catch(Exeption $ex)

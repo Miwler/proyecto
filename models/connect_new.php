@@ -206,11 +206,11 @@ class connect_new
                //echo $lv_log;
                 if (!($sentencia = $this->connect_new->prepare($lv_call))) 
                 {
-                    throw new Exception("Falló la preparación: (" .$this->connect_new->errno.")");
+                    throw new Exception("Falló la preparación: (".$this->connect_new->errno.")");
                     //echo "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
                 }
                 if (!$sentencia->execute()) {
-                    throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
+                    throw new Exception("Falló la ejecución: (".$this->connect_new->errno.")");
                     
                 }
                 $resultado =$sentencia->fetchAll();

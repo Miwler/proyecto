@@ -44,10 +44,10 @@ class factura_venta_pagos {
     }
 
     function insertar() {
-        $cn = new connect_new();
+        
         $retornar = -1;
         try {
-
+            $cn = new connect_new();
             $q = 'select ifnull(max(ID),0)+1 from factura_venta_pagos;';
             $ID=$cn->getData($q);
             $fecha_emision_save='NULL';
@@ -64,6 +64,8 @@ class factura_venta_pagos {
             $q.='values('.$ID.','.$this->factura_venta_ID.','.$fecha_emision_save.','.$fecha_pago_save.',';
             $q.=$this->monto_total_neto.','.$this->monto_total_igv.','.$this->monto_total.','.$this->monto_pendiente_neto.','.$this->monto_pendiente_igv.','.$this->monto_pendiente.','.$this->monto_pagado_neto.',';
             $q.=$this->monto_pagado_igv.','.$this->monto_pagado_detraccion.','.$this->monto_pagado.','.$this->usuario_id.')';
+            
+            $cn = new connect_new();
             $retornar = $cn->transa($q);
 
            
@@ -195,7 +197,7 @@ class factura_venta_pagos {
             if ($desde != -1 && $hasta != -1) {
                 $q.=' Limit ' . $desde . ',' . $hasta;
             }
-            //echo $q;
+            
             $dt = $cn->getGrid($q);
             return $dt;
         } catch (Exception $ex) {

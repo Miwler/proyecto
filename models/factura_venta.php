@@ -687,7 +687,35 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
               
     }
   
-  
+  function actualizarMontoPendiente(){
+      $cn =new connect_new();
+      $numero=0;
+        try{
+            $q='update factura_venta set monto_pendiente='.$this->monto_pendiente;
+            $q.=',usuario_mod_id='.$this->usuario_mod_id.', fdm=now() where ID='.$this->ID;
+            $numero=$cn->transa($q);
+           // echo $q;
+            return $numero;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+
+    }
+    function actualizarPago(){
+      $cn =new connect_new();
+      $numero=0;
+        try{
+            $q='update factura_venta set pago='.$this->pago.', estado_ID='.$this->estado_ID;
+            $q.=' where ID='.$this->ID;
+            //echo $q;
+            $numero=$cn->transa($q);
+           // echo $q;
+            return $numero;
+        } catch (Exception $ex) {
+            throw new Exception($q);
+        }
+
+    }
 }  
 
 

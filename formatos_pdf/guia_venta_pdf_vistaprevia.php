@@ -182,12 +182,12 @@ class PDF2 extends FPDF
         $this->Ln(7);
         
         //destinatario
-        
+        $this->SetXY(10,74);
         $this->Cell(99,5,'DESTINATARIO',1,2,'C',true);
-        $this->Cell(40,5,'NOMBRES/RAZON SOCIAL:'.utf8_encode($this->cabecera[0]['cliente']),0,0,'L');
+        $this->MultiCell(80,5,'NOMBRES/RAZON SOCIAL:'.utf8_encode($this->cabecera[0]['cliente']),0,'L',false);
        
         $this->Ln(3);
-        $this->Cell(20,5,'RUC:'.utf8_encode($this->cabecera[0]['cliente_ruc']),0,0,'L');
+        $this->MultiCell(80,5,'RUC:'.utf8_decode($this->cabecera[0]['cliente_ruc']),0,'L',false);
       
         $this->Rect(10,79,99,10);
         $this->SetXY(111,74);

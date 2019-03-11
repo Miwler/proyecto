@@ -2284,29 +2284,7 @@ class formatosxml {
                 $DocumentTypeCode=$AdditionalDocumentReference->appendChild($DocumentTypeCode);
             }  
             
-            //Firma Digital
-            /*$Signature=$xml->createElement('cac:Signature'); 
-            $Signature =$DespatchAdvice->appendChild($Signature);
-                $ID=$xml->createElement('cbc:ID','IDSignKG'); 
-                $ID =$Signature->appendChild($ID);
-                $SignatoryParty=$xml->createElement('cac:SignatoryParty'); 
-                $SignatoryParty =$Signature->appendChild($SignatoryParty);
-                    $PartyIdentification=$xml->createElement('cac:PartyIdentification'); 
-                    $PartyIdentification =$SignatoryParty->appendChild($PartyIdentification);
-                        $ID=$xml->createElement('cbc:ID',$array['Remitente']['NroDocumento']); 
-                        $ID =$PartyIdentification->appendChild($ID);
-                    $PartyName=$xml->createElement('cac:PartyName'); 
-                    $PartyName =$SignatoryParty->appendChild($PartyName);
-                        $Name=$xml->createElement('cbc:Name'); 
-                        $Name =$PartyName->appendChild($Name);
-                            $nombre_legal=$xml->createCDATASection($array['Remitente']['NombreLegal']);
-                            $nombre_legal=$Name->appendChild($nombre_legal);
-                $DigitalSignatureAttachment=$xml->createElement('cac:DigitalSignatureAttachment'); 
-                $DigitalSignatureAttachment =$Signature->appendChild($DigitalSignatureAttachment);
-                    $ExternalReference=$xml->createElement('cac:ExternalReference'); 
-                    $ExternalReference =$DigitalSignatureAttachment->appendChild($ExternalReference);
-                        $URI=$xml->createElement('cbc:URI','#signatureKG'); 
-                        $URI =$ExternalReference->appendChild($URI);*/
+            
             //Datos del Remitente            
             $DespatchSupplierParty=$xml->createElement('cac:DespatchSupplierParty'); 
             $DespatchSupplierParty =$DespatchAdvice->appendChild($DespatchSupplierParty);
@@ -2323,7 +2301,7 @@ class formatosxml {
                         $RegistrationName =$PartyLegalEntity->appendChild($RegistrationName);
                             $razon_social=$xml->createCDATASection($array['Remitente']['NombreLegal']);
                             $razon_social=$RegistrationName->appendChild($razon_social);
-            //Datos del Destinatario                
+                //Datos del Destinatario                
             $DeliveryCustomerParty=$xml->createElement('cac:DeliveryCustomerParty'); 
             $DeliveryCustomerParty =$DespatchAdvice->appendChild($DeliveryCustomerParty);
                 $CustomerAssignedAccountID=$xml->createElement('cbc:CustomerAssignedAccountID',$array['Destinatario']['NroDocumento']); 
@@ -2357,10 +2335,8 @@ class formatosxml {
                         $razon_social=$xml->createTextNode($array['Proveedor']['NombreLegal']);
                         $razon_social=$RegistrationName->appendChild($razon_social);
             }
-            //Datos del envío
-            
-            
-            $Shipment=$xml->createElement('cac:Shipment'); 
+            //Datos d envio
+             $Shipment=$xml->createElement('cac:Shipment'); 
             $Shipment =$DespatchAdvice->appendChild($Shipment);
                 $ID=$xml->createElement("cbc:ID",1);
                 $ID=$Shipment->appendChild($ID);
@@ -2393,7 +2369,7 @@ class formatosxml {
                     $TransitPeriod =$ShipmentStage->appendChild($TransitPeriod);
                         $StartDate=$xml->createElement('cbc:StartDate',$array['FechaInicioTraslado']); 
                         $StartDate =$TransitPeriod->appendChild($StartDate);
-                if($array['ModalidadTraslado']=="01"){
+                 if($array['ModalidadTraslado']=="01"){
                     //Transportista (Transporte Público)
                     $CarrierParty=$xml->createElement('cac:CarrierParty'); 
                     $CarrierParty=$ShipmentStage->appendChild($CarrierParty);
@@ -2441,8 +2417,7 @@ class formatosxml {
                             $schemeID=$xml->createAttribute("schemeID");
                             $schemeID->value='1';
                             $ID->appendChild($schemeID);
-                }        
-                    
+                }  
                 //Direccion punto de llegada  
                 $Delivery=$xml->createElement('cac:Delivery'); 
                 $Delivery=$Shipment->appendChild($Delivery);
@@ -2452,7 +2427,7 @@ class formatosxml {
                     $ID=$DeliveryAddress->appendChild($ID);
                     $StreetName=$xml->createElement('cbc:StreetName');
                     $StreetName=$DeliveryAddress->appendChild($StreetName);
-                        $direccion_llegada=$xml->createCDATASection($array['DireccionLlegada']['DireccionCompleta']);
+                        $direccion_llegada=$xml->createCDATASection(utf8_decode($array['DireccionLlegada']['DireccionCompleta']));
                         $StreetName->appendChild($direccion_llegada);
                 //Datos del contenedor (Obligatorio si motivo es Importación)
                 if($array['CodigoMotivoTraslado']=='08'){
@@ -2461,6 +2436,7 @@ class formatosxml {
                     $ID=$xml->createElement("cbc:ID",$array['NumeroContenedor']);
                     $ID=$TransportHandlingUnit->appendChild($ID);
                 }
+                  
                 //Direccion del punto de partida
                 $OriginAddress=$xml->createElement('cac:OriginAddress'); 
                 $OriginAddress=$Shipment->appendChild($OriginAddress);
@@ -2468,7 +2444,7 @@ class formatosxml {
                     $ID=$OriginAddress->appendChild($ID);
                     $StreetName=$xml->createElement('cbc:StreetName');
                     $StreetName=$OriginAddress->appendChild($StreetName);
-                        $direccion_partida=$xml->createCDATASection($array['DireccionPartida']['DireccionCompleta']);
+                        $direccion_partida=$xml->createCDATASection(utf8_decode($array['DireccionPartida']['DireccionCompleta']));
                         $StreetName->appendChild($direccion_partida);
                 
                 //Puerto o Aeropuerto de embarque/desembarque cuando el motivo de traslado es importacion
@@ -2478,6 +2454,7 @@ class formatosxml {
                     $ID=$xml->createElement('cbc:ID',$array['CodigoPuerto']);
                     $ID=$FirstArrivalPortLocation->appendChild($ID);    
                 }
+                 
                 //BIENES A TRANSPORTAR        
                 
         foreach($array['BienesATransportar'] as $items){
@@ -2507,7 +2484,8 @@ class formatosxml {
                     $SellersItemIdentification=$Item->appendChild($SellersItemIdentification);    
                         $ID=$xml->createElement("cbc:ID",$items['CodigoItem']);
                         $ID=$SellersItemIdentification->appendChild($ID);
-        }   
+        } 
+              
         $xml->formatOutput = true;
         return $xml;
     }

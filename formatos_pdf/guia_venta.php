@@ -180,7 +180,7 @@ class PDF2 extends FPDF
         //destinatario
         
         $this->Cell(99,5,'DESTINATARIO',1,2,'C',true);
-        $this->Cell(40,5,'NOMBRES/RAZON SOCIAL:'.$this->oCliente->razon_social,0,0,'L');
+        $this->MultiCell(99,5,'NOMBRES/RAZON SOCIAL:'.$this->oCliente->razon_social,0,'L',false);
        
         $this->Ln(3);
         $this->Cell(20,5,'RUC:'.$this->oCliente->ruc,0,0,'L');
