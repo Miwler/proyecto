@@ -1799,3 +1799,102 @@ METODO: mantenimiento/post_cliente_mantenimiento_editar
 ERROR: INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)VALUES (870,2,,18,74,0); 
 >>>>>>> 616d41c01bd169a057aaf3c7f175d72b175da77a
 >>>>>>> ed3830b713420ad75539429198233b3870ea87da
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 18:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') Order By prv.razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 18:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') Order By prv.razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 18:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') Order By prv.razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 18:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') Order By prv.razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 18:03:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 18:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') Order By clt.razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 19:03:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'empresa_ID' in where clause is ambiguous
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 19:03:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') Order By clt.razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 20:03:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 20:03:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 21:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 21:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1414 OUT or INOUT argument 1 for routine bd_desarrollo.sp_ingreso_Insert is not a variable or NEW pseudo-variable in BEFORE trigger
+
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 23:03:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: Debe registrar los correlativos del comprobante
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 23:03:59
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: Debe registrar los correlativos del comprobante
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 23:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: Debe registrar los correlativos del comprobante
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 23:03:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: Debe registrar los correlativos del comprobante
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 23:03:50
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: Debe registrar los correlativos del comprobante
+============================ERROR====================================
+FECHA Y HORA: 11 03 2019 23:03:42
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo
+ERROR: Debe registrar los correlativos por defecto de los comprobantes electrónicos en mantenimiento correlativos.
+============================ERROR====================================
+FECHA Y HORA: 12 03 2019 00:03:50
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'ID' cannot be nullINSERT INTO perfil (ID,nombre,usuario_id) VALUES ((select @maxrow:=@maxrow+1),"correlativos_ID_fisico",0);

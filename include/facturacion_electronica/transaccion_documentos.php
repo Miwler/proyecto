@@ -920,12 +920,18 @@ XML;
         /*if(!class_exists("configuracion")){
             require ROOT_PATH.'models/configuracion.php';
         }*/
-        $oDatos_generales=datos_generales::getByID1($empresa_ID);
+        
+        try{
+            $oDatos_generales=datos_generales::getByID1($empresa_ID);
         //$configuracion=configuracion::getGrid();
         $oDistrito=distrito::getByID($oDatos_generales->distrito_ID);
-        
+        if(trim($oDatos_generales->certificado)==""){
+            throw new Exception("No existe el Certificado");
+        }
         $certificateCAcer = ROOT_PATH.ruta_archivo.'/SUNAT/CERTIFICADO/'.$empresa_ID.'/'.$oDatos_generales->certificado;
-        
+        if(!file_exists($certificateCAcer)){
+            throw new Exception("No existe el Certificado");
+        }
         $certificateCAcerContent = file_get_contents($certificateCAcer);
         $certificadostring =  PHP_EOL.chunk_split(base64_encode($certificateCAcerContent), 64, PHP_EOL).PHP_EOL;
         
@@ -958,6 +964,11 @@ XML;
                       "Emisor"=>$Emisor
                     );
         return $data;
+        }catch(Exception $ex){
+            log_error(__FILE__,"transaccion_documento.getParamEmisor", $ex->getMessage());
+        }
+        
+        
 
       }
 }

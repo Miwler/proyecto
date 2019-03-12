@@ -21,6 +21,7 @@ class numero_cuenta {
     private $usuario_id;
     private $usuario_mod_id;
     private $abreviatura;
+    private $empresa_ID;
     Private $getMessage;
     public function __set($var, $valor) {
 // convierte a minúsculas toda una cadena la función strtolower
@@ -105,6 +106,7 @@ class numero_cuenta {
             "inombre_banco"=>$this->nombre_banco,
             "imoneda_ID"=>$this->moneda_ID,
             "iabreviatura"=>$this->abreviatura,
+            "iempresa_ID"=>$this->empresa_ID,
             "iusuario_id"=>$this->usuario_id,
 
         ),0);

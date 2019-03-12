@@ -346,6 +346,8 @@ class orden_ingreso {
     {
         $cn =new connect_new();
         $retornar =0;
+        $filtro="oc.empresa_ID=".$_SESSION['empresa_ID'].(($filtro!="")?(" and ".$filtro):"");
+        
         try
         {
             $dt=$cn->store_procedure_getGrid(

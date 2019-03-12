@@ -4953,7 +4953,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             break;
     }
 
-    $filtro = 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%" and co.estado_ID=2';
+    $filtro = 'co.empresa_ID='.$_SESSION['empresa_ID'].' and upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%" and co.estado_ID=2';
     if($_POST['txtNumero']>0||trim($_POST['txtNumero'])!=""){
        $filtro=' co.numero='.$_POST['txtNumero'].' and co.estado_ID=2';
     }
@@ -4984,9 +4984,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="btnAction"><a title="Generar Orden de Venta" class="btn"   onclick="modal.confirmacion(&#39;El proceso será irreversible, desea generar la venta?&#39;,&#39;Generar venta&#39;,fncVender,' . $item['ID'] . ');">Generar</a></td>';
             $resultado.='<td class="tdCenter">' . $item['numero_concatenado'] . '</td>';
-            $resultado.='<td class="tdCenter">' . utf8_encode($item['fecha']) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['razon_social']) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($oMoneda->simbolo) . '</td>';
+            $resultado.='<td class="tdCenter">' . test_input($item['fecha']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['razon_social']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($oMoneda->simbolo) . '</td>';
             $resultado.='<td class="tdRight">' . $monto . '</td>';
 
             $resultado.='</tr>';
@@ -5055,11 +5055,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 $osalida->descuento_dolares=0;
                 $osalida->estado_ID=28;
                 $osalida->tipo_cambio=$oCotizacion->tipo_cambio;
-                $osalida->plazo_entrega=utf8_decode($oCotizacion->plazo_entrega);
+                $osalida->plazo_entrega=$oCotizacion->plazo_entrega;
                 $osalida->lugar_entrega=$oCotizacion->lugar_entrega;
                 $osalida->validez_oferta=$oCotizacion->validez_oferta;
-                $osalida->garantia=  utf8_decode($oCotizacion->garantia);
-                $osalida->observacion=utf8_decode($oCotizacion->observacion);
+                $osalida->garantia=  $oCotizacion->garantia;
+                $osalida->observacion=$oCotizacion->observacion;
                 $osalida->numero_pagina=1;
                 $osalida->nproducto_pagina="1";
                 $osalida->usuario_id=$_SESSION['usuario_ID'];
@@ -5225,10 +5225,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $osalida=salida::getByID($salida_ID);
             $cotizacion_ID=$osalida->cotizacion_ID;
             $oCliente=cliente::getByID($osalida->cliente_ID);
-            $Razon_Social=  utf8_encode($oCliente->razon_social);
+            $Razon_Social=  test_input($oCliente->razon_social);
             $Ruc=$oCliente->ruc;
             $Telefono=$oCliente->telefono;
-            $Direccion=utf8_encode($oCliente->direccion);
+            $Direccion=test_input($oCliente->direccion);
             $Tipo_Cambio=$osalida->tipo_cambio;
             $Tiempo_Credito=$osalida->tiempo_credito;
             $moneda_ID=$osalida->moneda_ID;
@@ -5238,7 +5238,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
             $ListaRepresentate='';
             if($dtRepresentante != null){
                 foreach($dtRepresentante as $irepresentante){
-                    $ListaRepresentate.='<option value="'.$irepresentante['ID'].'">'.FormatTextView($irepresentante['apellido_paterno']).', '.FormatTextView($irepresentante['nombres']).'</option>';
+                    $ListaRepresentate.='<option value="'.$irepresentante['ID'].'">'.test_input($irepresentante['apellido_paterno']).', '.test_input($irepresentante['nombres']).'</option>';
                 }
             }else{$ListaRepresentate="<option value='0'>--</option>";}
            // $forma_pago_ID=$oCliente->forma_pago_ID;
@@ -5251,7 +5251,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
                 $operador_ID=$oOperador_Cliente->operador_ID;
                 $oOperador=operador::getByID($operador_ID);
                 $oPersona_Operador=persona::getByID($oOperador->persona_ID);
-                $operador=FormatTextView($oPersona_Operador->apellido_paterno.' '.$oPersona_Operador->apellido_materno.', '.$oPersona_Operador->nombres);
+                $operador=test_input($oPersona_Operador->apellido_paterno.' '.$oPersona_Operador->apellido_materno.', '.$oPersona_Operador->nombres);
 
                 $operador_telefono=$oOperador->telefono;
                 $operador_celular=$oOperador->celular;
@@ -5266,10 +5266,10 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
 
             $salida_ID=$osalida->ID;
             $Plazo_Entrega=$osalida->plazo_entrega;
-            $Lugar_Entrega=utf8_encode($osalida->lugar_entrega);
+            $Lugar_Entrega=test_input($osalida->lugar_entrega);
             $Validez_Oferta=$osalida->validez_oferta;
-            $Garantia=utf8_encode($osalida->garantia);
-            $Observacion= utf8_encode($osalida->observacion);
+            $Garantia=test_input($osalida->garantia);
+            $Observacion= test_input($osalida->observacion);
             $Numero_Concatenado=$osalida->numero_concatenado;
             $dtsalida_Numero_Cuenta=salida_numero_cuenta::getGrid('salida_ID='.$osalida->ID);
             //print_r($dtsalida_Numero_Cuenta);
@@ -6203,6 +6203,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         //require ROOT_PATH . 'models/inventario.php';
         //
         try{
+            print_r($oInventario);
             if($oInventario->ingreso_detalle_ID!='NULL'){
             $oCompra_Detalle=ingreso_detalle::getByID($oInventario->ingreso_detalle_ID);
             $oCompra=ingreso::getByID($oCompra_Detalle->ingreso_ID);
@@ -7555,7 +7556,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
-        $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        try{
+            $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
         $osalida=salida::getByID($salida_ID);
         $dtsalida_Detalle=salida_detalle::getGrid('salida_ID='.$salida_ID . " and salida_detalle_ID=0");
         $listaproducto=mostrar_productos($salida_ID,3);
@@ -7564,7 +7566,9 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $dtImpuestos_Tipo=impuestos_tipo::getGrid();
         $mensaje="";
         $informacion="";
-        
+        if(!defined("correlativos_ID_fisico")){
+            throw new Exception("Debe registrar los correlativos y asignar una correlativo por defecto para los comprobantes.");
+        }
         if($ContarFactura_Venta==0||$osalida->estado_ID==58){
             if($osalida->estado_ID==58){
                 $dtFactura_Venta1=factura_venta::getGrid("fv.salida_ID=".$id." and fv.estado_ID=53",-1,-1,"fv.ID desc");
@@ -7687,6 +7691,11 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         $GLOBALS['listaproducto']=$listaproducto;
         $GLOBALS['mensaje']=$mensaje;
         $GLOBALS['selComprobantes']=$dtComprobantes;
+        }catch(Exception $ex){
+            $GLOBALS['resultado']=-2;
+            $GLOBALS['mensaje']=$ex->getMessage();
+        }
+        
 
     }
 
@@ -11674,7 +11683,7 @@ function get_Cobranza_Mantenimiento() {
     global $returnView;
     $returnView = true;
     $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
-    $dtFactura_Venta=factura_venta::getGrid('estado_ID=41',-1,-1,'fecha_emision desc');
+    $dtFactura_Venta=factura_venta::getGrid('estado_ID=41 and fv.empresa_ID='.$_SESSION['empresa_ID'],-1,-1,'fecha_emision desc');
     $cliente_IDs='';
     $a=0;
     $array_periodo=array();
@@ -11695,9 +11704,13 @@ function get_Cobranza_Mantenimiento() {
         $periodo=substr($item['fecha_emision'],0,4);
        $a++;
     }
+    $filtro="clt.empresa_ID=".$_SESSION['empresa_ID'];
+    if($cliente_IDs!=""){
+       $filtro.=' and clt.ID in ('.$cliente_IDs.')';
+    }
     $dtEstado=estado::getGrid('tabla="factura_venta" and ID in (41,60)');
     $GLOBALS['dtEstado']=$dtEstado;
-    $GLOBALS['dtCliente']=cliente::getGrid('clt.ID in ('.$cliente_IDs.')',-1,-1,'clt.razon_social asc');
+    $GLOBALS['dtCliente']=cliente::getGrid($filtro,-1,-1,'clt.razon_social asc');
     $GLOBALS['dtPerido']=$array_periodo;
 }
 function post_ajaxCobranza_Mantenimiento() {
@@ -11996,7 +12009,7 @@ function get_Anulacion_Comprobante_Mantenimiento() {
     global $returnView;
     $returnView = true;
     $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
-    $dtFactura_Venta=factura_venta::getGrid('estado_ID=41',-1,-1,'fecha_emision desc');
+    $dtFactura_Venta=factura_venta::getGrid('estado_ID=41 and fv.empresa_ID='.$_SESSION['empresa_ID'],-1,-1,'fecha_emision desc');
     $cliente_IDs='';
     $a=0;
     $array_periodo=array();
@@ -12017,9 +12030,13 @@ function get_Anulacion_Comprobante_Mantenimiento() {
         $periodo=substr($item['fecha_emision'],0,4);
        $a++;
     }
+    $filtro="clt.empresa_ID=".$_SESSION['empresa_ID'];
+    if($cliente_IDs!=""){
+        $filtro.='clt.ID in ('.$cliente_IDs.')';
+    }
     $dtEstado=estado::getGrid('ID in (41,53,60)');
     $GLOBALS['dtEstado']=$dtEstado;
-    $GLOBALS['dtCliente']=cliente::getGrid('clt.ID in ('.$cliente_IDs.')',-1,-1,'clt.razon_social asc');
+    $GLOBALS['dtCliente']=cliente::getGrid($filtro,-1,-1,'clt.razon_social asc');
     $GLOBALS['dtPeriodo']=$array_periodo;
 }
 function post_ajaxAnulacion_Comprobante_Mantenimiento() {
@@ -14909,7 +14926,15 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['dtCliente_Contacto']=$dtCliente_Contacto;
         $oCliente=cliente::getByID($cliente_ID);
         //$dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
+        
         $oOperador=operador::getByID($osalida->operador_ID);
+        if($oOperador==null){
+            $oOperador=new operador();
+            $oOperador->apellido_paterno="";
+            $oOperador->nombres="";
+            $oOperador->celular="";
+            $oOperador->telefono="";
+        }
         $dtForma_Pago=forma_pago::getGrid();
         $dtCredito=credito::getGrid('id<>0');
         $oNumero_Cuenta=numero_cuenta::getByID(1);
@@ -15220,6 +15245,10 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oFactura_Venta->fecha_emision=date("d/m/Y");
             $oFactura_Venta->fecha_vencimiento=date("d/m/Y");
             $oFactura_Venta->moneda_ID=$oSalida->moneda_ID;
+            
+            if(!defined('correlativos_ID')){
+                throw new Exception("Debe registrar los correlativos por defecto de los comprobantes electrónicos en mantenimiento correlativos.");
+            }
             $numero_temporal=correlativos::getNumero(correlativos_ID);
             
             $oFactura_Venta->numero=$numero_temporal;
@@ -15246,17 +15275,18 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oFactura_Venta->dtMoneda=$dtMoneda;
             $oFactura_Venta->dtTipo_Comprobante=tipo_comprobante::getComprobantes(1, "venta", correlativos_ID,0,"tipo_comprobantes");
             $oFactura_Venta->dtSerie=tipo_comprobante::getComprobantes(1, "venta", correlativos_ID,0,"series");
-            
+            $GLOBALS['oFactura_Venta']=$oFactura_Venta;
+        //$GLOBALS['listaproducto']=$listaproducto;
+            $GLOBALS['oOrden_Venta']=$oSalida;
         //$listaproducto=salida_detalle::getFilasDetalleComprobante(814);
         }catch(Exception $ex){
-            
+            $GLOBALS['resultado']=-2;
+            $GLOBALS['mensaje']=$ex->getMessage();
             log_error(__FILE__,"salidaController.get_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo",$ex->getMessage());
         }
         
         
-        $GLOBALS['oFactura_Venta']=$oFactura_Venta;
-        //$GLOBALS['listaproducto']=$listaproducto;
-        $GLOBALS['oOrden_Venta']=$oSalida;
+       
     }
 
     function post_Orden_Venta_Electronico_Mantenimiento_Comprobante_Nuevo($id){
@@ -16425,9 +16455,9 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones($dtLlegada[0]["ID"],$dtLlegada[0]["provincia_ID"]); 
             $oCorrelativos=correlativos::getByID($oGuia_Venta->correlativos_ID);
             $electronico=$oCorrelativos->electronico;
-            $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes($electronico, "guia_remision", correlativos_ID_guia_remision,0,"series");
+            $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes($electronico, "guia_remision", $oGuia_Venta->correlativos_ID,0,"series");
             if($oGuia_Venta->estado_ID==36||$oGuia_Venta->estado_ID==37){
-                $numero=correlativos::getNumero(correlativos_ID_guia_remision);
+                $numero=correlativos::getNumero($oGuia_Venta->correlativos_ID);
                 $oGuia_Venta->numero_concatenado=sprintf("%'.07d",$numero);
             }
            
@@ -17027,7 +17057,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         }else{
            $filtro = 'empresa_ID='.$_SESSION['empresa_ID'].' and upper(concat(placa," ",marca)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
         }*/
-        $filtro="";
+        $filtro="cb.empresa_ID=".$_SESSION['empresa_ID'];
         //---------------------------------------					 
         $resultado = '<table id="websendeos" class="grid table table-hover table-teal table-bordered"><thead><tr>';
         $resultado.='<th class="text-center">N°</th>';

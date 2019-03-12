@@ -13,7 +13,7 @@
         
         global $returnView;
         $returnView=true;
-        $dtProveedor=proveedor::getGrid('ID<>0',-1,-1,"razon_social asc");
+        $dtProveedor=proveedor::getGrid('ID<>0 and empresa_ID='.$_SESSION['empresa_ID'],-1,-1,"razon_social asc");
         //$dtComprobante_Tipo=comprobante_tipo::getGrid('ID<>0');
         $dtEstado=estado::getGrid('tabla="ingreso" and ID in (9,11)');
         $dtMoneda=moneda::getGrid();
@@ -218,29 +218,40 @@ function get_Compra_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/proveedor.php';
     global $returnView_float;
     $returnView_float=true;
-    //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
-    $oCompra = new ingreso();
-    $oCompra->oEstado=estado::getByID(estado_compra);
-    $oCompra->dtEstado=estado::getGrid("est.ID in (".estado_compra.")",-1,-1);
-    $oCompra->dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
-    $oCompra->fecha_vencimiento=date('d/m/Y');
-    $oCompra->fecha_emision=date('d/m/Y');
-    //$dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('accion="compra"');
-    $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,compra_tipo_comprobante_ID,"tipo_comprobantes_sinserie");
-    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
-    $oCompra->moneda_ID=moneda;
-    $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
-    $oCompra->tipo_comprobante_ID=compra_tipo_comprobante_ID;
-    $oCompra->dtProveedor=$dtProveedor;
-    $oCompra->ID=0;
-    $oCompra->orden_ingreso_ID=0;
-    $oCompra->numero_orden_ingreso='';
-    $oCompra->tipo_cambio=$oDatos_generales->tipo_cambio;
-    //$oCompra->dtForma_Pago=forma_pago::getGrid('ID>0',-1,-1,'ID asc');
-   //print_r($oDatos_generales);
-    $oCompra->vigv=$oDatos_generales->vigv;
-    $GLOBALS['oCompra']=$oCompra;
+    try{
+        //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+        $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        $oCompra = new ingreso();
+        $oCompra->oEstado=estado::getByID(estado_compra);
+        $oCompra->dtEstado=estado::getGrid("est.ID in (".estado_compra.")",-1,-1);
+        $oCompra->dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
+        $oCompra->fecha_vencimiento=date('d/m/Y');
+        $oCompra->fecha_emision=date('d/m/Y');
+        //$dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('accion="compra"');
+        $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,compra_tipo_comprobante_ID,"tipo_comprobantes_sinserie");
+        
+        $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
+        $oCompra->moneda_ID=moneda;
+        $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
+        $oCompra->tipo_comprobante_ID=compra_tipo_comprobante_ID;
+        $oCompra->dtProveedor=$dtProveedor;
+        $oCompra->ID=0;
+        $oCompra->orden_ingreso_ID=0;
+        $oCompra->numero_orden_ingreso='';
+        $oCompra->tipo_cambio=$oDatos_generales->tipo_cambio;
+        //$oCompra->dtForma_Pago=forma_pago::getGrid('ID>0',-1,-1,'ID asc');
+       //print_r($oDatos_generales);
+        $oCompra->vigv=$oDatos_generales->vigv;
+        $GLOBALS['oCompra']=$oCompra;
+        if(count($dtTipo_Comprobante)==0){
+            throw new Exception("No se ha registrado ningún tipo de comprobante.");
+        }
+        
+    }catch(Exception $ex){
+        $GLOBALS['resultado']=-1;
+        $GLOBALS['mensaje']=$ex->getMessage();
+    }
+    
  
     
 }
@@ -2478,7 +2489,7 @@ function get_Orden_Compra_Mantenimiento(){
 
     global $returnView;
     $returnView=true;
-    $dtProveedor=proveedor::getGrid('ID<>0',-1,-1,"razon_social asc");
+    $dtProveedor=proveedor::getGrid('ID<>0 and empresa_ID='.$_SESSION['empresa_ID'],-1,-1,"razon_social asc");
     $dtEstado=estado::getGrid('tabla="orden_ingreso" and ID in (55,56)');
     $dtMoneda=moneda::getGrid();
    
@@ -2544,9 +2555,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
     $filtro="";
     if($opcion_tipo=='buscar'){
         $numero=trim($_POST['txtNumero']);
-        if(trim($numero)!=""){
-            $filtro= "oc.numero_orden=".$numero;
-        }
+        $filtro= " oc.numero_orden=".$numero;
        
     } else{
         
@@ -2558,17 +2567,17 @@ function post_ajaxOrden_Compra_Mantenimiento() {
         $todos=(isset($_POST['ckTodos']))? 1 : 0;
         
         if($proveedor_ID!=0){
-            $filtro.="oc.proveedor_ID=".$proveedor_ID;
+            $filtro.="  oc.proveedor_ID=".$proveedor_ID;
         }
          if($estado_ID!=0){
 
-            $filtro.=((trim($filtro)!="")?" and ":""). "oc.estado_ID=".$estado_ID;
+            $filtro.=((trim($filtro)!="")?" and ":" "). "oc.estado_ID=".$estado_ID;
         }
         if($moneda_ID!=0){
-            $filtro.=((trim($filtro)!="")?" and ":"")."oc.moneda_ID=".$moneda_ID;
+            $filtro.=((trim($filtro)!="")?" and ":" ")."oc.moneda_ID=".$moneda_ID;
         }
         if($todos==0){
-            if($fecha_inicio!="" &&$fecha_fin!="" ){
+            if($fecha_inicio!="" &&$fecha_fin!=" " ){
 
                 $filtro.=((trim($filtro)!="")?" and ":"").' oc.fecha between "'.FormatTextToDate($fecha_inicio,'Y-m-d').'" and "'. FormatTextToDate($fecha_fin,'Y-m-d'). '"';
             }
@@ -2592,6 +2601,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
     $colspanFooter = 8;
     try {
         $cantidadMaxima = orden_ingreso::getCount($filtro);
+       
         $dtOrden_Compra = orden_ingreso::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtOrden_Compra);
         $i=(($paginaActual-1) * $cantidadMostrar)+1;
@@ -2600,7 +2610,7 @@ function post_ajaxOrden_Compra_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="text-center">' . sprintf("%',05d",$item['numero_orden']) . '</td>';
-            $resultado.='<td class="tdLeft">' . strtoupper($item['proveedor']) . '</td>';           
+            $resultado.='<td class="tdLeft">' . ($item['proveedor']) . '</td>';           
             $resultado.='<td class="tdLeft">' . $item['estado'] . '</td>';
             $resultado.='<td class="text-center">' . date("d/m/Y",strtotime($item['fecha'])) . '</td>';
             $resultado.='<td class="text-right">' . $item['simbolo'] . '</td>';
@@ -3462,7 +3472,7 @@ function get_Anulacion_Comprobante_Mantenimiento() {
     global $returnView;
     $returnView = true;
     $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
-    $dtCompra=ingreso::getGrid('',-1,-1,'co.fecha_emision desc');
+    $dtCompra=ingreso::getGrid('co.empresa_ID='.$_SESSION['empresa_ID'],-1,-1,'co.fecha_emision desc');
     $proveedor_IDs='';
     $a=0;
     $array_periodo=array();
@@ -3485,7 +3495,13 @@ function get_Anulacion_Comprobante_Mantenimiento() {
         $periodo=substr($item['fecha_emision'],0,4);
        $a++;
     }
-    $GLOBALS['dtProveedor']=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID']." and prv.ID in (".$proveedor_IDs.")",-1,-1,"prv.razon_social asc");
+    $filtro="prv.empresa_ID=".$_SESSION['empresa_ID'];
+    if($proveedor_IDs!=""){
+        $filtro.=" and prv.ID in (".$proveedor_IDs.")";
+    }
+   
+    
+    $GLOBALS['dtProveedor']=proveedor::getGrid($filtro,-1,-1,"prv.razon_social asc");
     $GLOBALS['dtPeriodo']=$array_periodo;
 }
 function post_ajaxAnulacion_Comprobante_Mantenimiento() {
@@ -3621,12 +3637,12 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
             $resultado.='<td class="text-center">' . $item['numero'] . '</td>';
             $resultado.='<td class="text-center">' .$fecha_emision . '</td>';
             $resultado.='<td class="text-center">' . $fecha_vencimiento . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['proveedor']) . '</td>';
-            $resultado.='<td class="text-right">' . FormatTextViewHtml($item['simbolo']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['proveedor']) . '</td>';
+            $resultado.='<td class="text-right">' . test_input($item['simbolo']) . '</td>';
             $resultado.='<td class="text-right">' . $item['total'] . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_pendiente'] . '</td>';
 
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['estado']). '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['estado']). '</td>';
            $i++;
             $dtInventario=inventario::getGridComprobarVenta('co.ID='.$item['ID']);  
             $botones=array();
@@ -3668,20 +3684,30 @@ function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
     require ROOT_PATH.'models/ingreso_pagos.php';
     global  $returnView_float;
     $returnView_float=true;
-    $oCompra=ingreso::getByID($id);
-    $oMoneda=moneda::getByID($oCompra->moneda_ID);
-    $oCompra->moneda= $oMoneda->descripcion;
-    $dtOperador=operador::getGrid('op.cargo_ID in (1,3)',-1,-1);
-    $oCompra->dtOperador=$dtOperador;
-    $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="ingreso"',-1,-1,'nombre asc');
-    $oCompra->dtMotivo_Anulacion=$dtMotivo_Anulacion;
-    if($oCompra->estado_ID==11){
-        $oCompra->fecha_anulacion=date('d/m/Y');
-        $oCompra->motivo_anulacion_ID=0;
-        $oCompra->operador_ID_anulacion=0;
+    try{
+        $oCompra=ingreso::getByID($id);
+        $oMoneda=moneda::getByID($oCompra->moneda_ID);
+        $oCompra->moneda= $oMoneda->descripcion;
+        $dtOperador=operador::getGrid('op.cargo_ID in (1,3)',-1,-1);
+        
+        $oCompra->dtOperador=$dtOperador;
+        $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="ingreso"',-1,-1,'nombre asc');
+        $oCompra->dtMotivo_Anulacion=$dtMotivo_Anulacion;
+        if($oCompra->estado_ID==11){
+            $oCompra->fecha_anulacion=date('d/m/Y');
+            $oCompra->motivo_anulacion_ID=0;
+            $oCompra->operador_ID_anulacion=0;
+        }
+        $GLOBALS['oCompra']=$oCompra;
+        if(count($dtOperador)==0){
+            throw new Exception("No existen operadores administradores o administrativos");
+        }
+        
+    }catch(Exception $ex){
+        $GLOBALS['mensaje']=$ex->getMessage();
+        $GLOBALS['resultado']=-1;
     }
-
-    $GLOBALS['oCompra']=$oCompra;
+    
 //    $GLOBALS['mensaje']='';
 }
 function post_Anulacion_Comprobante_Mantenimiento_Registro($id){

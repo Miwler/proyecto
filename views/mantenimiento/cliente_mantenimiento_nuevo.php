@@ -413,10 +413,10 @@ function fncPage() { ?>
          var valor_buscar=$('#'+buscador).val();
         if(contenedorLista=='divRuc'){
            
-            cboMostrarTexto('/Mantenimiento/ajaxCbo_ProveedorRuc',valor_buscar,contenedorLista);
+            cboMostrarTexto('/Mantenimiento/ajaxCbo_ClienteRuc',valor_buscar,contenedorLista);
         }else {
              
-            cboMostrarTexto('/Mantenimiento/ajaxCbo_ProveedorRazonSocial',valor_buscar,contenedorLista);
+            cboMostrarTexto('/Mantenimiento/ajaxCbo_ClienteRazonSocial',valor_buscar,contenedorLista);
         }
         
        

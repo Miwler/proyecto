@@ -181,7 +181,7 @@ class ingreso {
     $cn =new connect_new();
     try
     {
-      $ID=$cn->store_procedure_transa1(
+      $ID=$cn->store_procedure_transa(
           "sp_ingreso_Insert",
             array(
                 "iID"=>0,

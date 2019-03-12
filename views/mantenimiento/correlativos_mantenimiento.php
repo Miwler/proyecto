@@ -16,6 +16,7 @@
         <div class="pull-right">
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+            <a onclick="fncDefault();" class="btn btn-lilac btn-add-skills">Asignar por defecto &nbsp;<i class="fa fa-plus"></i></a>
         </div>
 <?php } ?>
 <?php function fncPage(){?>
@@ -93,6 +94,19 @@
 
         var fncEliminar=function(id){			
                 gridEliminar(f,id,'/Mantenimiento/ajaxCorrelativos_Mantenimiento_Eliminar');
+        }
+        function fnRegistrarDefault(correlativos_ID,nombres){
+            var obj=new Object();
+            obj['correlativos_ID']=correlativos_ID;
+            obj['nombres']=nombres;
+            enviarAjaxParse("Mantenimiento/ajaxGrabarCorrelativosDefault","frm",obj,function(resultado){
+                if(resultado.resultado==1){
+                    toastem.success(resultado.mensaje);
+                    f.enviar();
+                }else{
+                    mensaje.error(resultado.mensaje);
+                }
+            });
         }
 
         $('#txtRazon_Social,#txtRUC,#txtMostrar').keypress(function(e){

@@ -123,7 +123,7 @@
          if(!class_exists('cotizacion_numero_cuenta')){
            require ROOT_PATH.'models/cotizacion_numero_cuenta.php'; 
         }
-        $dtNumero_Cuenta=numero_cuenta::getGrid();
+        $dtNumero_Cuenta=numero_cuenta::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
         switch($case){
             case 1:
                 $html='<table class="table table-default" id="tbnumero_cuenta" cellspacing="0">';

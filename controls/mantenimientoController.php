@@ -568,7 +568,7 @@ function post_ajaxCbo_ProveedorRuc(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='upper(prv.ruc) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
+        $filtro='prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.ruc) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
     }else{
         $filtro='prv.ID=0';
     }
@@ -593,7 +593,7 @@ function post_ajaxCbo_ProveedorRazonSocial(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='upper(prv.razon_social) like "%'.strtoupper($buscar).'%"';
+        $filtro='prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.razon_social) like "%'.strtoupper($buscar).'%"';
     }else{
         $filtro='prv.ID=0';
     }
@@ -1918,9 +1918,9 @@ function post_ajaxCliente_Mantenimiento_Contacto_Eliminar()
     require ROOT_PATH.'models/cliente.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='clt.ruc like "%'.test_input($buscar).'%"';
+        $filtro='empresa_ID='.$_SESSION['empresa_ID'].' and clt.ruc like "%'.test_input($buscar).'%"';
     }else{
-        $filtro='clt.ID=0';
+        $filtro='clt.ID=0 and empresa_ID='.$_SESSION['empresa_ID'];
     }
 
     $dtCliente=cliente::getGrid($filtro);
@@ -1945,9 +1945,9 @@ function post_ajaxCbo_ClienteRazonSocial(){
     require ROOT_PATH.'models/cliente.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='clt.razon_social like "%'.test_input($buscar).'%"';
+        $filtro='clt.empresa_ID='.$_SESSION['empresa_ID'].' and clt.razon_social like "%'.test_input($buscar).'%"';
     }else{
-        $filtro='clt.ID=0';
+        $filtro='clt.ID=0 and clt.empresa_ID='.$_SESSION['empresa_ID'];
     }
 
     $dtCliente=cliente::getGrid($filtro);
@@ -2959,10 +2959,10 @@ function post_ajaxProducto_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['codigo']) . '</td>';
-            $resultado.='<td class="tdLeft">' . $item['producto'] . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower(trim($item['categoria'])))) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower(trim($item['linea'])))) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml(ucfirst(mb_strtolower($item['estado']))) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['producto']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input(ucfirst(mb_strtolower(trim($item['categoria'])))) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input(ucfirst(mb_strtolower(trim($item['linea'])))) . '</td>';
+        $resultado.='<td class="tdLeft">' . (ucfirst(mb_strtolower($item['estado']))) . '</td>';
             
             if($item['activo']==1){
                 $condicion = '<div title="Activado"><span style="color:green" class="glyphicon glyphicon-ok"></span></div>';
@@ -5641,6 +5641,7 @@ function post_Numero_Cuenta_Mantenimiento_Nuevo() {
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
        $oNumero_Cuenta->usuario_id=$_SESSION['usuario_ID'];
+       $oNumero_Cuenta->empresa_ID=$_SESSION['empresa_ID'];
        $oNumero_Cuenta->insertar1();
        $resultado=1;
        $mensaje=$oNumero_Cuenta->getMessage;
@@ -5729,7 +5730,7 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
             $orden = 'ID ' . $orden_tipo;
             break;
     }
-    $filtro = '(numero) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    $filtro = 'empresa_ID='.$_SESSION['empresa_ID'].' and (numero) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
@@ -5754,7 +5755,7 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
             $resultado.='<td class="tdleft">' . test_input($item['nombre_banco']). '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['numero']). '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['cci']). '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($oMoneda->descripcion). '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($oMoneda->descripcion). '</td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar numero de cuenta"><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar numero de cuenta&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar numero de cuenta"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
@@ -6084,16 +6085,20 @@ function post_ajaxCorrelativos_Mantenimiento() {
     $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Ultimo número' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th  class="thOrden" onclick="fncOrden(3);">Electrónico' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th  class="thOrden" onclick="fncOrden(4);">Comprobante' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+     $resultado.='<th>Asignar defecto</th>';
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 6;
+    $colspanFooter = 7;
     try {
+        $array_default=array('correlativos_ID','correlativos_ID_fisico','correlativos_ID_guia_electronico','correlativos_ID_guia_fisico','correlativos_ID_nota_credito','correlativos_ID_nota_debito');
+        $dtconfi=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre in ('correlativos_ID','correlativos_ID_fisico','correlativos_ID_guia_electronico','correlativos_ID_guia_fisico','correlativos_ID_nota_credito','correlativos_ID_nota_debito')");
         $cantidadMaxima = count(correlativos::getTabla($filtro));
         
         $dtCorrelativos = correlativos::getTabla($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtCorrelativos);
         $i=($paginaActual-1)*$cantidadMostrar+1;
+        
         foreach ($dtCorrelativos as $item) {
             
             $resultado.='<tr class="tr-item">';
@@ -6101,7 +6106,22 @@ function post_ajaxCorrelativos_Mantenimiento() {
             $resultado.='<td class="text-left">' . $item['serie'] . '</td>';
             $resultado.='<td class="text-center">' . utf8_encode($item['ultimo_numero']) . '</td>';
             $resultado.='<td class="text-center">' . (($item['electronico']==1)?'SI':'NO') . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['comprobante']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['comprobante']) . '</td>';
+            $select="<select   onchange='fnRegistrarDefault(".$item['ID'].",this.value)'>";
+            $select.="<option value='0'>No asignado</option>";
+            for($y=0;$y<count($array_default);$y++){
+                $contar=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre='".$array_default[$y]."' and valor<>'".$item['ID']."'");
+                
+                $contar_select=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre='".$array_default[$y]."' and valor='".$item['ID']."'");
+                
+                if($contar==0){
+                    $select.="<option value='".$array_default[$y]."' ".(($contar_select>0)?"selected":"").">".$array_default[$y]."</option>";
+                }
+                
+            }
+            $select.="</select>";
+            $resultado.='<td class="tdLeft">'.$select.'</td>';
+            
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>');	
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Serie&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar serie"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>');
@@ -6128,6 +6148,33 @@ function post_ajaxCorrelativos_Mantenimiento() {
 
     echo json_encode($retornar);
         
+}
+function post_ajaxGrabarCorrelativosDefault(){
+    $correlativos_ID=$_POST['correlativos_ID'];
+    $nombres=$_POST['nombres'];
+    try{
+        $obj=new configuracion_empresa();
+        $obj->empresa_ID=$_SESSION['empresa_ID'];
+        $obj->valor=$correlativos_ID;
+        $obj->nombre=$nombres;
+        $obj->descripcion="";
+        $obj->usuario_id=$_SESSION['usuario_ID'];
+        $ID=$obj->insertar1();
+        if($ID>0){
+            $resultado=1;
+            $mensaje="Se guardó correctamente";
+        }else{
+            $resultado=-1;
+            $mensaje="No se guardó correctamente";
+        }
+    }catch(Exception $ex){
+        $resultado=-1;
+        $mensaje=$ex->getMessage();
+    }
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+
+    echo json_encode($retornar);
 }
 function get_Correlativos_Mantenimiento_Editar($id) {
     
@@ -6308,113 +6355,6 @@ function post_ajaxSerie_Mantenimiento_Eliminar($id) {
 
     echo json_encode($retornar);
 }
-function get_Persona_Mantenimiento_Nuevo() {
-    require ROOT_PATH . 'models/persona.php';
-    require ROOT_PATH . 'models/persona_documento.php';
-    require ROOT_PATH . 'models/tipo_documento.php';
-    require ROOT_PATH . 'models/departamento.php';
-    require ROOT_PATH . 'models/provincia.php';
-    require ROOT_PATH . 'models/distrito.php';
-    require ROOT_PATH . 'models/sexo.php';
-    global $returnView_float;
-    $returnView_float = true;
-    $oPersona=new persona();
-    $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
-    $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
-    $dtProvincia=provincia::getGrid("departamento_ID=15",-1,-1,"nombre asc");
-    $dtDistrito=distrito::getGrid("provincia_ID=129",-1,-1,"nombre asc");
-    $dtSexo=sexo::getGrid("",-1,-1,"nombre asc");
-    $oPersona->dtTipo_Documento=$dtTipo_Documento;
-    $oPersona->dtDepartamento=$dtDepartamento;
-    $oPersona->dtProvincia=$dtProvincia;
-    $oPersona->dtDistrito=$dtDistrito;
-    $oPersona->departamento_ID=15;
-    $oPersona->provincia_ID=129;
-    $oPersona->distrito_ID=1261;
-    $oPersona->tipo_documento_ID=1;
-    $oPersona->dtSexo=$dtSexo;
-    $oPersona->numero='';
-    $GLOBALS['oPersona'] = $oPersona;
-
-}
-
-//graba los datos que se recuperan por el metodo post en editar persona
-function post_Persona_Mantenimiento_Nuevo() {
-    require ROOT_PATH . 'models/persona.php';
-    require ROOT_PATH . 'models/persona_documento.php';
-    require ROOT_PATH . 'models/tipo_documento.php';
-    require ROOT_PATH . 'models/departamento.php';
-    require ROOT_PATH . 'models/provincia.php';
-    require ROOT_PATH . 'models/distrito.php';
-    require ROOT_PATH . 'models/sexo.php';
-    global $returnView_float;
-    $returnView_float = true;
-    $oPersona=new persona();
-    $tipo_documentop_ID=$_POST['selTipo_Documento'];
-    $numero=trim($_POST['txtNumero']);
-    $apellido_paterno=trim($_POST['txtApellido_Paterno']);
-    $apellido_materno=trim($_POST['txtApellido_Materno']);
-    $nombres=trim($_POST['txtNombres']);
-    $fecha_nacimiento=$_POST['txtFecha_Nacimiento'];
-    $sexo_ID=$_POST['selSexo_ID'];
-    $departamento_ID=$_POST['selDepartamento'];
-    $provincia_ID=$_POST['selProvincia'];
-    $distrito_ID=$_POST['selDistrito'];
-    $direccion=trim($_POST['txtDireccion']);
-    $correo=trim($_POST['txtCorreo']);
-    $telefono=trim($_POST['txtTelefono']);
-    $celular=trim($_POST['txtCelular']);
-    try {
-        $oPersona->apellido_paterno=$apellido_paterno;
-        $oPersona->apellido_materno=$apellido_materno;
-        $oPersona->nombres=$nombres;
-        $oPersona->fecha_nacimiento=$fecha_nacimiento;
-        $oPersona->sexo_ID=$sexo_ID;
-        $oPersona->distrito_ID=$distrito_ID;
-        $oPersona->direccion=$direccion;
-        $oPersona->correo=$correo;
-        $oPersona->telefono=$telefono;
-        $oPersona->celular=$celular;  
-        $oPersona->usuario_id = $_SESSION['usuario_ID'];
-        $oPersona->tipo_documento_ID=$tipo_documentop_ID;
-        $oPersona->numero=$numero;
-        if ($oPersona->verificarDuplicado() > 0) {
-              throw new Exception($oPersona->getMessage);             
-        }  
-        if($oPersona->insertar1()>0){
-            $oPersona_Documento=new persona_documento();
-            $oPersona_Documento->persona_ID=$oPersona->ID;
-            $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
-            $oPersona_Documento->numero=$numero;
-            $oPersona_Documento->usuario_id=$_SESSION['usuario_ID'];
-            $oPersona_Documento->insertar();
-        }
-        
-        $mensaje=$oPersona->getMessage;
-        $resultado=1;
-              
-    } catch (Exception $ex) {
-        $resultado= -1;
-        $mensaje= $ex->getMessage();
-    }
-    $dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
-    $dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
-    $dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
-    $dtDistrito=distrito::getGrid("provincia_ID=".$provincia_ID,-1,-1,"nombre asc");
-    $oPersona->dtTipo_Documento=$dtTipo_Documento;
-    $oPersona->dtDepartamento=$dtDepartamento;
-    $oPersona->dtProvincia=$dtProvincia;
-    $oPersona->dtDistrito=$dtDistrito;
-    $oDistrito=distrito::getByID($distrito_ID);
-    $oProvincia=provincia::getByID($oDistrito->provincia_ID);
-    $dtSexo=sexo::getGrid("",-1,-1,"nombre asc");
-    $oPersona->departamento_ID=$oProvincia->departamento_ID;
-    $oPersona->provincia_ID=$oProvincia->ID;
-    $oPersona->dtSexo=$dtSexo;
-    $GLOBALS['resultado']=$resultado;
-    $GLOBALS['mensaje']=$mensaje;
-    $GLOBALS['oPersona'] = $oPersona;
-}
 
 function get_Persona_Mantenimiento_Nuevo_Otro() {
     require ROOT_PATH . 'models/persona.php';
@@ -6525,221 +6465,6 @@ function post_Persona_Mantenimiento_Nuevo_Otro() {
 }
 
 
-//muestra la ventana editar persona
-function get_Persona_Mantenimiento_Editar($id) {
-    require ROOT_PATH . 'models/persona.php';
-    require ROOT_PATH . 'models/persona_documento.php';
-    require ROOT_PATH . 'models/tipo_documento.php';
-    require ROOT_PATH . 'models/departamento.php';
-    require ROOT_PATH . 'models/provincia.php';
-    require ROOT_PATH . 'models/distrito.php';
-    require ROOT_PATH . 'models/sexo.php';
-    global $returnView_float;
-    $returnView_float = true;
-    $oPersona=persona::getByID1($id);
-    if($oPersona==null){
-        $GLOBALS['resultado'] = -2;
-        $GLOBALS['mensaje'] = "La persona ha sido eliminado por otro usuario.";
-        return;
-    }
-    $oDistrito = distrito::getByID($oPersona->distrito_ID);
-    $oProvincia = provincia::getByID($oDistrito->provincia_ID);
-    $oPersona->departamento_ID=$oProvincia->departamento_ID;
-    $oPersona->provincia_ID=$oProvincia->ID;
-
-    $oPersona->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
-    $oPersona->dtProvincia=provincia::getGrid("departamento_ID=".$oProvincia->departamento_ID,-1,-1,"nombre asc");
-    $oPersona->dtDistrito=distrito::getGrid("provincia_ID=".$oDistrito->provincia_ID,-1,-1,"nombre asc");
-    $oPersona->dtTipo_Documento=tipo_documento::getGrid("",-1,-1,"nombre asc");
-    $oPersona->dtSexo=sexo::getGrid("",-1,-1,"nombre asc");
-    
-    $GLOBALS['oPersona'] = $oPersona;
-    
-    
-        
-}
-
-//graba los datos que se recuperan por el metodo post en editar persona
-function post_Persona_Mantenimiento_Editar($id) {
-    require ROOT_PATH . 'models/persona.php';
-    require ROOT_PATH . 'models/persona_documento.php';
-    require ROOT_PATH . 'models/tipo_documento.php';
-    require ROOT_PATH . 'models/departamento.php';
-    require ROOT_PATH . 'models/provincia.php';
-    require ROOT_PATH . 'models/distrito.php';
-    require ROOT_PATH . 'models/sexo.php';
-    global $returnView_float;
-    $returnView_float = true;
-    
-    $oPersona = persona::getByID1($id);
-    if($oPersona==null){
-        $GLOBALS['resultado'] = -2;
-        $GLOBALS['mensaje'] = "La persona ha sido eliminado por otro usuario.";
-        return;
-    }
-    
-
-    $tipo_documentop_ID=$_POST['selTipo_Documento'];
-    $numero=trim($_POST['txtNumero']);
-    $apellido_paterno=trim($_POST['txtApellido_Paterno']);
-    $apellido_materno=trim($_POST['txtApellido_Materno']);
-    $nombres=trim($_POST['txtNombres']);
-    $fecha_nacimiento=$_POST['txtFecha_Nacimiento'];
-    $sexo_ID=$_POST['selSexo_ID'];
-    $departamento_ID=$_POST['selDepartamento'];
-    $provincia_ID=$_POST['selProvincia'];
-    $distrito_ID=$_POST['selDistrito'];
-    $direccion=trim($_POST['txtDireccion']);
-    $correo=trim($_POST['txtCorreo']);
-    $telefono=trim($_POST['txtTelefono']);
-    $celular=trim($_POST['txtCelular']);
-    
-    
-    
-    try {
-        $oPersona->apellido_paterno=$apellido_paterno;
-        $oPersona->apellido_materno=$apellido_materno;
-        $oPersona->nombres=$nombres;
-        $oPersona->fecha_nacimiento=$fecha_nacimiento;
-        $oPersona->sexo_ID=$sexo_ID;
-        $oPersona->distrito_ID=$distrito_ID;
-        $oPersona->direccion=$direccion;
-        $oPersona->correo=$correo;
-        $oPersona->telefono=$telefono;
-        $oPersona->celular=$celular;  
-        $oPersona->usuario_mod_id = $_SESSION['usuario_ID'];
-        $oPersona->tipo_documento_ID=$tipo_documentop_ID;
-        $oPersona->numero=$numero;
-        
-//        if ($oPersona->verificarDuplicado() > 0) {
-//              throw new Exception($oPersona->getMessage);             
-//        }  
-        $oPersona->actualizar();
-        /*if($tipo_documentop_ID>0){
-//        $oPersona_Documento->persona_ID=$oPersona->ID;
-        $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
-        $oPersona_Documento->numero=$numero;
-        $oPersona_Documento->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oPersona_Documento->actualizar();
-        }*/
-        
-        $mensaje=$oPersona->getMessage;
-        $resultado=1;
-    } catch (Exception $ex) {
-        $resultado = -1;
-        $mensaje = utf8_encode(mensaje_error);
-        log_error(__FILE__, 'mantenimiento/post_Persona_Mantenimiento_Editar', $ex->getMessage());
-    }
-    
-    $oPersona->dtDepartamento=departamento::getGrid("",-1,-1,"nombre asc");
-    $oPersona->dtProvincia=provincia::getGrid("departamento_ID=".$departamento_ID,-1,-1,"nombre asc");
-    $oPersona->dtDistrito=distrito::getGrid("provincia_ID=".$provincia_ID,-1,-1,"nombre asc");
-    $oPersona->dtTipo_Documento=  tipo_documento::getGrid();
-    $oPersona->dtSexo=sexo::getGrid();
-    $oPersona->departamento_ID=$departamento_ID;
-    $oPersona->provincia_ID=$provincia_ID;
-
-    $GLOBALS['oPersona'] = $oPersona;
-    $GLOBALS['mensaje'] = $mensaje;
-    $GLOBALS['resultado']=$resultado;
-}
-
-
-//muestra la grilla cargada con datos de Persona,trabaja con ajax
-function post_ajaxPersona_Mantenimiento() {
-    require ROOT_PATH . 'models/persona.php';
-    require ROOT_PATH . 'controls/funcionController.php';
-    $buscar = $_POST['txtBuscar'];
-    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
-    $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar']==0)? 30 : $_POST['txtMostrar'];
-    $txtOrden = $_POST['txtOrden'];
-    $orden_tipo = 'DESC';
-    $orden_class = 'imgOrden-desc';
-    if (isset($_POST['chkOrdenASC'])) {
-        $orden_class = 'imgOrden-asc';
-        $orden_tipo = 'ASC';
-    }
-    switch ($txtOrden) {
-        case 0:
-            $orden = ' ID ' . $orden_tipo;
-            break;
-        case 1:
-            $orden = ' nombres ' . $orden_tipo;
-            break;
-        case 2:
-            $orden = ' apellido_paterno ' . $orden_tipo;
-            break;
-        case 3:
-            $orden = ' apellido_materno ' . $orden_tipo;
-            break;
-        case 4:
-            $orden = ' direccion ' . $orden_tipo;
-            break;
-        case 5:
-            $orden = ' celular ' . $orden_tipo;
-            break;
-        case 6:
-            $orden = ' correo ' . $orden_tipo;
-            break;
-        default:
-            $orden = ' ID ' . $orden_tipo;
-            break;
-    }
-
-    $filtro = 'upper(concat(apellido_paterno," ",nombres)) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
-    //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
-    $resultado.='<th class="text-center">N°</th>';
-    $resultado.='<th>Documento</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Nombres' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Apellido Paterno' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(3);">Apellido Materno' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(4);">Direccion' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Celular' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(6);">Correo' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th>Opciones</th>';
-    $resultado.='</tr></thead>';
-    $resultado.='<tbody>';
-    $colspanFooter = 10;
-    try {
-        $cantidadMaxima = persona::getCount($filtro);
-        $dtPersona = persona::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
-        $rows = count($dtPersona);
-        $i=($paginaActual-1)*$cantidadMostrar+1;
-        foreach ($dtPersona as $item) {
-            $resultado.='<tr class="tr-item">';
-            $resultado.='<td class="text-center">'.$i.'</td>';
-            $resultado.='<td class="text-center">' . test_input($item['documento']) . '</td>';
-            $resultado.='<td class="text-center">' . test_input($item['nombres']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['apellido_paterno']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['apellido_materno']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['direccion']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['celular']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['correo']) . '</td>';
-            
-            $botones=array();
-            array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil" title="Editar Persona">Editar</a>');
-            array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar Persona&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar Persona"><span class="glyphicon glyphicon-trash">Eliminar</a>');
-            $resultado.='<td class="btnAction" >'.extraerOpcion($botones)."</td>";
-            $resultado.='</tr>';
-            $i++;
-        }
-
-        $cantidadPaginas = '';
-    $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
-    $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
-    } catch (Exception $ex) {
-        $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
-    }
-
-    $resultado.='</table>';
-
-    $mensaje = '';
-    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
-    //$retorn="<h1>Hola</h1>";
-
-    echo json_encode($retornar);
-}
 
 
 

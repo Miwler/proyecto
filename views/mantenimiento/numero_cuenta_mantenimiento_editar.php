@@ -58,7 +58,7 @@ function fncPage() { ?>
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <select id="selMoneda_ID" name="selMoneda_ID" class="form-control form-requerido ">
                         <?php foreach($GLOBALS['oNumero_Cuenta']->dtMoneda as $item){ ?>
-                        <option value="<?php echo $item['ID']?>"><?php echo utf8_encode($item['descripcion']);?></option>
+                        <option value="<?php echo $item['ID']?>"><?php echo ($item['descripcion']);?></option>
                         <?php } ?>
                     </select>
                     <script type="text/javascript">

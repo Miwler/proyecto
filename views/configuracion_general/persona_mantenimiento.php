@@ -2,134 +2,122 @@
 	require ROOT_PATH."views/shared/content.php";	
 ?>	
 <?php function fncTitle(){?>
-		Personas
+    Registro de personas
 <?php } ?>
-<?php function fncHead(){?>
-		<script type="text/javascript" src="include/js/jForm.js"></script>
-		<script type="text/javascript" src="include/js/jGrid.js"></script>
-		<link rel="stylesheet" type="text/css" href="include/css/grid.css" />
+<?php function fncHead(){?>   
+    <script type="text/javascript" src="include/js/jForm.js"></script>
+   <script type="text/javascript" src="include/js/jGrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
+<?php function fncTituloCabecera(){?>
+        <i class="fa fa-users" aria-hidden="true"></i> Registros de personas
+        <div class="pull-right">
+            <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        </div>
+<?php } ?>
 <?php function fncPage(){?>
-<div class="panel panel-success">
-        <div class="panel-heading">
-            <div class="row">
-                <h2 class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><span class="glyphicon glyphicon-user"></span> Registro de personas</h2>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
-                    <button type="button" onclick="fncNuevo();" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
-                    <button type="button" onclick="f.enviar();" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+<form id="frm1"  method="post" action="/Configuracion_General/ajaxPersona_Mantenimiento" class="form-horizontal">
+    <div class="panel panel-tab panel-tab-double shadow">
+       <div class="panel-heading no-padding">
+                <ul class="nav nav-tabs">
+
+                    <li class="active nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
+
+                </ul>
+                <div class="pull-right">
+                    <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
+
                 </div>
-            </div>
+
         </div>
         <div class="panel-body">
-            <center>
-                <form id="frm1"  method="post" action="/Configuracion_General/ajaxPersona_Mantenimiento">
-                    <ul class="nav nav-tabs">
-<!--                        <li class="nav-item active"><a href="#vista_filtrar" data-toggle="tab" class="nav-link" ><i class="fa fa-hourglass" aria-hidden="true"></i> Filtro</a></li>-->
-                        <li class="active"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> Búsqueda</a></li>
-                    </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade in active" id="vista_buscar">
-                        <div class="row">
-                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                         <label>N.Documento: </label>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                        <input type="number" id="txtNumero" name="txtNumero" class="form-control int"  autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                         <label>Buscar: </label>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                         <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar Nombres de Persona.">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                         <label>Filas: </label>
-                                    </div>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="vista_buscar">
+                    <div class="row">
 
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                        <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off">
-                                    </div>
-                                </div> 
+                        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
+                                     <label>Nombres: </label>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                     <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombres">
+                                </div>
                             </div>
                         </div>
 
                     </div>
+
                 </div>
-                    <div class="row">
-                        <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
-                    </div>
-                    
-                    <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-                    <input id="txtOrden" name="txtOrden" type="text" value="1" style="display:none;">
-                    <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
-                </form>
-            </center>
+            </div>
+            <div class="row">
+                <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
+            </div>
+            <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
+            <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
+            <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
+
+
         </div>
     </div>
-    <script type="text/javascript">
+</form>	
+<script type="text/javascript">
+        var f=new form('frm1','div1');
+        f.terminado = function () {
+                var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
+                grids = new grid(tb);
+                grids.nuevoEvento();
+                
+                $('[data-toggle="tooltip"]').tooltip(); 
+                $('#websendeos').stacktable();
+                grids.fncPaginacion1(f);
+        }
+        f.enviar();
 
-            var f=new form('frm1','div1');
-            f.terminado = function () {
+        var fncOrden=function(col){
 
-                    var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
+                var col_old=$('#txtOrden').val();
 
-                    grids = new grid(tb);
-                    grids.nuevoEvento();
-                    grids.fncPaginacion(f);			
-            }
-            f.enviar();
+                if(col_old==col){
+                        if($('#chkOrdenASC').is(':checked')){
+                                $('#chkOrdenASC').prop('checked',false);
+                        }else{
+                                $('#chkOrdenASC').prop('checked',true);
+                        }
+                }else{
+                        $('#txtOrden').val(col);
+                        $('#chkOrdenASC').prop('checked',true);
+                }		
 
-            var fncOrden=function(col){
+                f.enviar();
+        }
 
-                    var col_old=$('#txtOrden').val();
+        var fncNuevo=function(){
+            window_float_open_modal('REGISTRAR NUEVO PERSONA','/Configuracion_General/Persona_Mantenimiento_Nuevo','','',f,800,500);
+        }
 
-                    if(col_old==col){
-                            if($('#chkOrdenASC').is(':checked')){
-                                    $('#chkOrdenASC').prop('checked',false);
-                            }else{
-                                    $('#chkOrdenASC').prop('checked',true);
-                            }
-                    }else{
-                            $('#txtOrden').val(col);
-                            $('#chkOrdenASC').prop('checked',true);
-                    }		
+        var fncEditar=function(id){
+            window_float_open_modal('EDITAR PERSONA','/Configuracion_General/Persona_Mantenimiento_Editar',id,'',f,800,500);   
+        }
 
-                    f.enviar();
-            }
+        var fncEliminar=function(id){			
+                gridEliminar(f,id,'/Configuracion_General/ajaxPersona_mantenimiento_Eliminar');
+        }
 
-            var fncNuevo=function(){			
-                    window_float_open('/Configuracion_General/Persona_mantenimiento_Nuevo','','',f);
-            }
+        $('#txtBuscar,#txtMostrar').keypress(function(e){
 
-            var fncEditar=function(id){			
-                    window_float_open('/Configuracion_General/Persona_mantenimiento_Editar',id,'',f);
-            }
+                if (e.which==13){
+                        $('#num_page').val(1);
+                        f.enviar();
+                        return false;
+                }
+        });
 
-            var fncEliminar=function(id){			
-                    gridEliminar(f,id,'/Mantenimiento/ajaxPersona_mantenimiento_Eliminar');
-            }
+        $('#txtBuscar').focus();
+</script>
+            
 
-            $('#txtBuscar,#txtMostrar,#txtNumero').keypress(function(e){
-
-                    if (e.which==13){
-                            $('#num_page').val(1);
-                            f.enviar();
-                            return false;
-                    }
-            });
-
-            $('#txtBuscar').focus();
-    </script>
 <?php } ?>

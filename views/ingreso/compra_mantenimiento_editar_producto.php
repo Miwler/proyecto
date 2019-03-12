@@ -169,7 +169,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-5 control-label">I.G.V.<?php echo $GLOBALS['oCompra_Detalle']->vigv*100;?>% <?php echo FormatTextView($GLOBALS['oCompra_Detalle']->oMoneda->simbolo);?>:</label>
-
+                                 <input type="hidden" id="txtvigv" name="txtvigv" value="<?php echo $GLOBALS['oCompra_Detalle']->vigv;?>">
                                 <div class="col-sm-7">
                                     <input type="text" id="txtIgv" name="txtIgv" class="form-control" value="<?php echo $GLOBALS['oCompra_Detalle']->igv?>" disabled>
                                 </div>
@@ -388,7 +388,7 @@
 
             var igv=redondear(subtotal*vigv,2);
             $('#txtIgv').val(igv);
-            var Total=subtotal+igv;
+            var Total=redondear(subtotal+igv,2);
             //var Total=redondear(subtotal*(vigv+1),2);
             $('#txtTotal').val(Total);
         }

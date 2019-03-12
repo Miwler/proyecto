@@ -42,7 +42,7 @@ function post_ajaxInventario_Mantenimiento() {
             $orden = 'pro.ID ' . $orden_tipo;
             break;
     }
-    $filtro="";
+    $filtro="pro.empresa_ID=".$_SESSION['empresa_ID'];
     if($codigo!=''){
         $filtro="pro.ID=".$codigo;
     }
