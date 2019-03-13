@@ -35,7 +35,7 @@ function fncPage() { ?>
             <div class="form-group">
                 <label class="control-label col-sm-4">Último número: </label>
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                    <input type="text" id="txtUltimo_Numero" name="txtUltimo_Numero" value="<?php echo $GLOBALS['oCorrelativos']->ultimo_numero;?>" autocomplete="off" class="form-control form-requerido">
+                    <input type="number" min="0" id="txtUltimo_Numero" name="txtUltimo_Numero" value="<?php echo $GLOBALS['oCorrelativos']->ultimo_numero;?>" autocomplete="off" class="form-control form-requerido">
                 </div>
             </div>
             <div class="form-group">
@@ -104,7 +104,7 @@ function fncPage() { ?>
             mensaje.error("Mensaje de error","Debe registrar una serie.",'txtSerie');
             return false;
         }
-        if(ultimo_numero==""||ultimo_numero=="0"){
+        if(ultimo_numero==""||ultimo_numero<0){
             mensaje.error("Mensaje de error","Debe registrar el último número.",'txtUltimo_Numero');
             return false;
         

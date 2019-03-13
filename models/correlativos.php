@@ -248,4 +248,51 @@ class correlativos {
       throw new Exception($ex->getMessage());
     }
   }
+    static function Registrar_Correlativos_Defaul($correlativos_ID,$correlativos_ID_fisico,$correlativos_ID_guia_fisico,$correlativos_ID_guia_electronico,$correlativos_ID_nota_credito,$correlativos_ID_nota_debito,$compra_tipo_comprobante_ID){
+        
+        try{
+            $retorna=0;
+            $cn=new connect_new();
+            $retorna=$cn->store_procedure_transa(
+                    "sp_configuracion_empresa_Registrar",
+                    array(
+                        "iretorna"=>$retorna,
+                        "correlativos_ID"=>$correlativos_ID,
+                        "correlativos_ID_fisico"=>$correlativos_ID_fisico,
+                        "correlativos_ID_guia_fisico"=>$correlativos_ID_guia_fisico,
+                        "correlativos_ID_guia_electronico"=>$correlativos_ID_guia_electronico,
+                        "correlativos_ID_nota_credito"=>$correlativos_ID_nota_credito,
+                        "correlativos_ID_nota_debito"=>$correlativos_ID_nota_debito,
+                        "compra_tipo_comprobante_ID"=>$compra_tipo_comprobante_ID,
+                        "iusuario_id"=>$_SESSION['usuario_ID'],
+                        "iempresa_ID"=>$_SESSION['empresa_ID']
+                    ),0);
+            return $retorna;
+        }catch(Exception $ex){
+            log_error(__FILE__, "correlativos.Registrar_Correlativos_Defaul", $ex->getMessage());
+            throw new Exception('Ocurrio un error en la consulta');
+        }
+    }
+    
+    static function getValorConfiguracion_Empresa($nombre)
+    {
+        
+        try{
+            $retorna='0';
+            $cn=new connect_new();
+            $dt=$cn->store_procedure_getGrid(
+                    "sp_configuracion_empresa_getValor",
+                    array(
+                        "iempresa_ID"=>$_SESSION['empresa_ID'],
+                        "inombre"=>$nombre
+                    ));
+            if(count($dt)>0){
+                $retorna=$dt[0]['valor'];
+            }
+            return $retorna;
+        }catch(Exception $ex){
+            log_error(__FILE__, "correlativos.Registrar_Correlativos_Defaul", $ex->getMessage());
+            throw new Exception('Ocurrio un error en la consulta');
+        }
+    }
 }  

@@ -6068,8 +6068,11 @@ function post_ajaxCorrelativos_Mantenimiento() {
         case 3:
             $orden = 'co.electronico ' . $orden_tipo;
             break;
-        case 3:
+        case 4:
             $orden = 'tc.nombre ' . $orden_tipo;
+            break;
+        case 5:
+            $orden = 'tce.accion ' . $orden_tipo;
             break;
         default:
             $orden = 'co.ID ' . $orden_tipo;
@@ -6085,7 +6088,7 @@ function post_ajaxCorrelativos_Mantenimiento() {
     $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Ultimo número' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th  class="thOrden" onclick="fncOrden(3);">Electrónico' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th  class="thOrden" onclick="fncOrden(4);">Comprobante' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-     $resultado.='<th>Asignar defecto</th>';
+    $resultado.='<th  class="thOrden" onclick="fncOrden(5);">Asignado para' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th></th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
@@ -6108,8 +6111,8 @@ function post_ajaxCorrelativos_Mantenimiento() {
             $resultado.='<td class="text-center">' . (($item['electronico']==1)?'SI':'NO') . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['comprobante']) . '</td>';
             $select="<select   onchange='fnRegistrarDefault(".$item['ID'].",this.value)'>";
-            $select.="<option value='0'>No asignado</option>";
-            for($y=0;$y<count($array_default);$y++){
+            //$select.="<option value='0'>No asignado</option>";
+            /*for($y=0;$y<count($array_default);$y++){
                 $contar=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre='".$array_default[$y]."' and valor<>'".$item['ID']."'");
                 
                 $contar_select=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre='".$array_default[$y]."' and valor='".$item['ID']."'");
@@ -6118,9 +6121,9 @@ function post_ajaxCorrelativos_Mantenimiento() {
                     $select.="<option value='".$array_default[$y]."' ".(($contar_select>0)?"selected":"").">".$array_default[$y]."</option>";
                 }
                 
-            }
-            $select.="</select>";
-            $resultado.='<td class="tdLeft">'.$select.'</td>';
+            }*/
+           /// $select.="</select>";
+            $resultado.='<td class="tdLeft">'.$item['accion'].'</td>';
             
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar" ><span class="glyphicon glyphicon-pencil"></span> Editar</a>');	
@@ -6295,10 +6298,98 @@ function post_Correlativos_Mantenimiento_Nuevo($id) {
 //    $GLOBALS['dtComprobante_tipo']=$dtComprobante_tipo;
    
 }
+function get_Correlativos_Mantenimiento_Defecto() {
+    
+    require ROOT_PATH . 'models/correlativos.php';
+    
+    global $returnView_float;
+    $returnView_float = true;
+    $valores=array(
+        "correlativos_ID"=>correlativos::getValorConfiguracion_Empresa("correlativos_ID"),
+        "correlativos_ID_fisico"=>correlativos::getValorConfiguracion_Empresa("correlativos_ID_fisico"),
+        "correlativos_ID_guia_fisico"=>correlativos::getValorConfiguracion_Empresa("correlativos_ID_guia_fisico"),
+        "correlativos_ID_guia_electronico"=>correlativos::getValorConfiguracion_Empresa("correlativos_ID_guia_electronico"),
+        "correlativos_ID_nota_credito"=>correlativos::getValorConfiguracion_Empresa("correlativos_ID_nota_credito"),
+        "correlativos_ID_nota_debito"=>correlativos::getValorConfiguracion_Empresa("correlativos_ID_nota_debito"),
+        "compra_tipo_comprobante_ID"=>correlativos::getValorConfiguracion_Empresa("compra_tipo_comprobante_ID"),
+    );
+    //print_r($valores);
+    $GLOBALS['valores']=$valores;
+    $dtCorrelativosVentaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosVentaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=0",-1,-1,"co.ID desc");
+    
+    $dtTipoComprobanteCompra=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='compra'",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaCreditoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_credito' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaDebitoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_debito' and co.electronico=1",-1,-1,"co.ID desc");
+    $GLOBALS['dtCorrelativosVentaE'] = $dtCorrelativosVentaE;
+    $GLOBALS['dtCorrelativosVentaF'] = $dtCorrelativosVentaF;
+    $GLOBALS['dtTipoComprobanteCompra'] = $dtTipoComprobanteCompra;
+    $GLOBALS['dtCorrelativosGuiaE'] = $dtCorrelativosGuiaE;
+    $GLOBALS['dtCorrelativosGuiaF'] = $dtCorrelativosGuiaF;
+    $GLOBALS['dtCorrelativosNotaCreditoE'] = $dtCorrelativosNotaCreditoE;
+    $GLOBALS['dtCorrelativosNotaDebitoE'] = $dtCorrelativosNotaDebitoE;
+
+}
+function post_Correlativos_Mantenimiento_Defecto() {
+    require ROOT_PATH . 'models/correlativos.php';
+    
+    
+    global $returnView_float;
+    $returnView_float = true;
+    $correlativos_ID=$_POST['correlativos_ID'];
+    $correlativos_ID_fisico=$_POST['correlativos_ID_fisico'];
+    $correlativos_ID_guia_fisico=$_POST['correlativos_ID_guia_fisico'];
+    $correlativos_ID_guia_electronico=$_POST['correlativos_ID_guia_electronico'];
+    $correlativos_ID_nota_credito=$_POST['correlativos_ID_nota_credito'];
+    $correlativos_ID_nota_debito=$_POST['correlativos_ID_nota_debito'];
+    $compra_tipo_comprobante_ID=$_POST['compra_tipo_comprobante_ID'];
+    $valores=array(
+        "correlativos_ID"=>$correlativos_ID,
+        "correlativos_ID_fisico"=>$correlativos_ID_fisico,
+        "correlativos_ID_guia_fisico"=>$correlativos_ID_guia_fisico,
+        "correlativos_ID_guia_electronico"=>$correlativos_ID_guia_electronico,
+        "correlativos_ID_nota_credito"=>$correlativos_ID_nota_credito,
+        "correlativos_ID_nota_debito"=>$correlativos_ID_nota_debito,
+        "compra_tipo_comprobante_ID"=>$compra_tipo_comprobante_ID
+    );
+    try{
+        $resulta=correlativos::Registrar_Correlativos_Defaul($correlativos_ID,$correlativos_ID_fisico,$correlativos_ID_guia_fisico,$correlativos_ID_guia_electronico,$correlativos_ID_nota_credito,$correlativos_ID_nota_debito,$compra_tipo_comprobante_ID);
+        
+        $mensaje="Se guardó correctamente";
+        $resultado=1;
+    }catch(Exception $ex){
+        $mensaje=mensaje_error;
+        $resultado=-1;
+        log_error(__FILE__, "mantenimiento/post_Correlativos_Mantenimiento_Defecto", $ex->getMessage());
+    }
+    
+    
+    $GLOBALS['$valores']=$valores;
+    $dtCorrelativosVentaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosVentaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosCompra=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='compra'",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaCreditoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_credito' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaDebitoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_debito' and co.electronico=1",-1,-1,"co.ID desc");
+    $GLOBALS['dtCorrelativosVentaE'] = $dtCorrelativosVentaE;
+    $GLOBALS['dtCorrelativosVentaF'] = $dtCorrelativosVentaF;
+    $GLOBALS['dtCorrelativosCompra'] = $dtCorrelativosCompra;
+    $GLOBALS['dtCorrelativosGuiaE'] = $dtCorrelativosGuiaE;
+    $GLOBALS['dtCorrelativosGuiaF'] = $dtCorrelativosGuiaF;
+    $GLOBALS['dtCorrelativosNotaCreditoE'] = $dtCorrelativosNotaCreditoE;
+    $GLOBALS['dtCorrelativosNotaDebitoE'] = $dtCorrelativosNotaDebitoE;
+
+    $GLOBALS['mensaje']=$mensaje;
+    $GLOBALS['resultado']=$resultado;
+//    $GLOBALS['dtComprobante_tipo']=$dtComprobante_tipo;
+   
+}
 function post_ajaxCorrelativos_Mantenimiento_Eliminar($id) {
     require ROOT_PATH . 'models/correlativos.php';
     require ROOT_PATH . 'models/tipo_comprobante_empresa.php';
-
     try {
         $obj = correlativos::getByID($id);
         $obj->usuario_mod_id = $_SESSION['usuario_ID'];

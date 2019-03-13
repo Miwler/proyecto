@@ -1898,3 +1898,48 @@ FECHA Y HORA: 12 03 2019 00:03:50
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.transa
 ERROR: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'ID' cannot be nullINSERT INTO perfil (ID,nombre,usuario_id) VALUES ((select @maxrow:=@maxrow+1),"correlativos_ID_fisico",0);
+============================ERROR====================================
+FECHA Y HORA: 13 03 2019 00:03:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'correlativos co,tipo_comprobante_empresa tce,tipo_comprobante tc where co.tipo_c' at line 1
+SET @_filtro = 'co.empresa_ID=23 and tce.accion=\'venta\' and co.electronico=1';
+SET @_inicio = '-1';
+SET @_fin = '-1';
+SET @_orden = 'co.ID desc';
+CALL `sp_correlativos_getTabla`( @_filtro, @_inicio, @_fin, @_orden)
+============================ERROR====================================
+FECHA Y HORA: 13 03 2019 00:03:32
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\correlativos.php
+METODO: correlativos.getGridCorrelativos
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 13 03 2019 00:03:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'correlativos co,tipo_comprobante_empresa tce,tipo_comprobante tc where co.tipo_c' at line 1
+SET @_filtro = 'co.empresa_ID=23 and tce.accion=\'venta\' and co.electronico=1';
+SET @_inicio = '-1';
+SET @_fin = '-1';
+SET @_orden = 'co.ID desc';
+CALL `sp_correlativos_getTabla`( @_filtro, @_inicio, @_fin, @_orden)
+============================ERROR====================================
+FECHA Y HORA: 13 03 2019 00:03:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\correlativos.php
+METODO: correlativos.getGridCorrelativos
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 13 03 2019 00:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'correlativos co,tipo_comprobante_empresa tce,tipo_comprobante tc where co.tipo_c' at line 1
+SET @_filtro = 'co.empresa_ID=23 and tce.accion=\'venta\' and co.electronico=1';
+SET @_inicio = '-1';
+SET @_fin = '-1';
+SET @_orden = 'co.ID desc';
+CALL `sp_correlativos_getTabla`( @_filtro, @_inicio, @_fin, @_orden)
+============================ERROR====================================
+FECHA Y HORA: 13 03 2019 00:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\correlativos.php
+METODO: correlativos.getGridCorrelativos
+ERROR: Ocurrio un Error en la consulta

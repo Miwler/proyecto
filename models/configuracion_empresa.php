@@ -64,35 +64,35 @@ class configuracion_empresa
 			throw new Exception("Ocurrio un Error en la consulta");
 		}
 	}	
-	function insertar1()
-    {
+function insertar1()
+{
     $cn =new connect_new();
     try
     {
-      $ID=$cn->store_procedure_transa(
-          "sp_configuracion_empresa_Insert",
-            array(
-        "iID"=>0,
-        "iempresa_ID"=>$this->empresa_ID,
-        "ivalor"=>$this->valor,
-        "inombre"=>$this->nombre,
-        "idescripcion"=>$this->descripcion,
-        "iusuario_id"=>$this->usuario_id,
+          $ID=$cn->store_procedure_transa(
+              "sp_configuracion_empresa_Insert",
+                array(
+            "iID"=>0,
+            "iempresa_ID"=>$this->empresa_ID,
+            "ivalor"=>$this->valor,
+            "inombre"=>$this->nombre,
+            "idescripcion"=>$this->descripcion,
+            "iusuario_id"=>$this->usuario_id,
 
-    ),0);
-      if($ID>0){
-        $this->getMessage="El registro se guard? correctamente.";
-        $this->ID=$ID;
-        return $ID;
-      } else {
-          throw new Exception("No se registr?");
-      }
+        ),0);
+          if($ID>0){
+            $this->getMessage="El registro se guard? correctamente.";
+            $this->ID=$ID;
+            return $ID;
+          } else {
+              throw new Exception("No se registr?");
+          }
     }catch(Exeption $ex)
     {
       log_error(__FILE__, "configuracion_empresa.insertar", $ex->getMessage());
       throw new Exception($ex->getMessage());
     }
-  }
+}
 	function actualizar(){
 		$cn =new connect_new();
 		$retornar=-1;

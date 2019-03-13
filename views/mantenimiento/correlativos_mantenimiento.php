@@ -16,7 +16,7 @@
         <div class="pull-right">
             <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
             <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-            <a onclick="fncDefault();" class="btn btn-lilac btn-add-skills">Asignar por defecto &nbsp;<i class="fa fa-plus"></i></a>
+            <a onclick="fncValoresDefecto();" class="btn btn-lilac btn-add-skills">Asignar por defecto &nbsp;<i class="fa fa-plus"></i></a>
         </div>
 <?php } ?>
 <?php function fncPage(){?>
@@ -94,6 +94,9 @@
 
         var fncEliminar=function(id){			
                 gridEliminar(f,id,'/Mantenimiento/ajaxCorrelativos_Mantenimiento_Eliminar');
+        }
+        var fncValoresDefecto=function(){
+            window_float_open_modal('REGISTRAR CORRELATIVO POR DEFECTO','/Mantenimiento/Correlativos_Mantenimiento_Defecto','','',f,400,500);
         }
         function fnRegistrarDefault(correlativos_ID,nombres){
             var obj=new Object();
