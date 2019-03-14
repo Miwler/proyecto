@@ -105,7 +105,7 @@ function get_Inventario_Mantenimiento_Producto($id){
         require ROOT_PATH.'models/estado.php';
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/unidad_medida.php';
 
         global  $returnView_float;
@@ -127,7 +127,7 @@ function post_Ventas_Mantenimiento_Nuevo($id){
     require ROOT_PATH.'models/cliente.php';
     require ROOT_PATH.'models/representantecliente.php';
     require ROOT_PATH.'models/operador.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/forma_pago.php';
     require ROOT_PATH.'models/credito.php';
     require ROOT_PATH.'models/cotizacion.php';

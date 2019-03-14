@@ -24,7 +24,7 @@
         global $returnView;
         $returnView=true;
         
-        $dtReportes=reportes_empresa_usuario::getGrid('re.modulo_ID=2 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.titulo asc");
+        $dtReportes=reportes_empresa_usuario::getGrid('rem.empresa_ID='.$_SESSION['empresa_ID'].' and re.modulo_ID=2 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.titulo asc");
         
         $GLOBALS['dtReportes']=$dtReportes;
         
@@ -212,6 +212,7 @@
             }
             
         }catch(Exception $ex){
+            log_error(__FILE__, "reporteController/post_Reportes_Compras", $ex->getMessage());
             $excel->sheet('Worksheet', function (PHPExcel_Worksheet $sheet) use ($ex)   
             {
             $sheet->setCellValue('A3', $ex->getMessage());
@@ -565,7 +566,7 @@
         global $returnView;
         $returnView=true;
         
-        $dtReportes=reportes_empresa_usuario::getGrid('re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
+        $dtReportes=reportes_empresa_usuario::getGrid('rem.empresa_ID='.$_SESSION['empresa_ID'].' and re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
         
         $GLOBALS['dtReportes']=$dtReportes;
         
@@ -943,8 +944,8 @@
         
         $resultado.= '<div class="form-group">';
         $resultado.='<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">';
-        $resultado.='<button type="button" class="btn btn-success" title="Exportar a PDF" onclick="fncGenerar();"><span class="glyphicon glyphicon-list-alt"></span> Descargar PDF  </button>&nbsp;&nbsp;&nbsp;&nbsp;';
-        $resultado.='<button class="btn btn-success" title="Exportar a excel" ><span class="glyphicon glyphicon-list-alt"></span> Descargar excel  </button>';
+        $resultado.='<button type="button" class="btn btn-danger" title="Exportar a PDF" onclick="fncGenerar();"><i class="fa fa-file-pdf-o"></i> Descargar PDF  </button>&nbsp;&nbsp;&nbsp;&nbsp;';
+        $resultado.='<button class="btn btn-teal" title="Exportar a excel" ><i class="fa fa-file-excel-o"></i> Descargar excel  </button>';
         $resultado.='</div>';
         $resultado.='</div>';
         } catch (Exception $ex) {

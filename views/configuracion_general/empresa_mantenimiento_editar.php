@@ -58,6 +58,7 @@
             <div class="tab-content form-horizontal form-bordered">
             
                 <input type="hidden" id="lista_modulos" name="lista_modulos">
+                <input type="hidden" id="lista_reportes" name="lista_reportes">
                 <div class="tab-pane fade in active inner-all" id="tab1-1">
                     <div class="row">
                         <div class="col-sm-6">
@@ -543,6 +544,17 @@
                                     <small class="form-text text-muted">Seleccionamos beta para realizar pruebas de envío o producción cuando ya este revisado.</small>    
                                 </div>
                             </div>
+                            <div class="form-group form-group-divider">
+                                <div class="form-inner">
+                                    <h4 class="no-margin">Asignar Reportes</h4>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                
+                                <div class="col-sm-12" id="divReportes">
+                                    <?php echo $GLOBALS['lista_reportes'];?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -828,11 +840,29 @@
             }
             i++;
         });
+        
         if(lista_modulos==""){
             mensaje.error("Validación de datos","Debe seleccionar un módulo.");
             $('.nav-tabs a[href="#tab1-2"]').tab('show');
             return false;
         }
+        
+        var lista_reportes="";
+        var y=0;
+        $("#divReportes :input:checkbox:checked").each(function(){
+            if(y==0){
+                lista_reportes=$(this).attr("name");
+            }else{
+                lista_reportes=lista_reportes+','+$(this).attr("name");
+            }
+            y++;
+        });
+        if(lista_reportes==""){
+            mensaje.error("Validación de datos","Debe seleccionar los reportes para la empresa.");
+            $('.nav-tabs a[href="#tab1-2"]').tab('show');
+            return false;
+        }
+        $("#lista_reportes").val(lista_reportes);
         $("#lista_modulos").val(lista_modulos);
         $("#selStilo_fondo_tabs").prop("disabled",false);
         $("#selStilo_fondo_boton").prop("disabled",false);

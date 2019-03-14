@@ -287,6 +287,27 @@ class reportes_empresa
             throw new Exception($q);
         }
     }
+    static function getLista_Reportes($empresa_ID,$usuarioID)
+	{
+		$cn =new connect_new();
+                $retorna="";
+		try 
+		{
+                    $dt=$cn->store_procedure_getGrid("sp_reportes_empresa_getLista", array(
+                        "iempresa_ID"=>$empresa_ID,
+                        "iusuario_ID"=>$usuarioID
+                    ));
+			
+                if(count($dt)>0){
+                    $retorna=$dt[0]['html'];
+                }
+                return $retorna;												
+		}catch(Exception $ex)
+		{
+                    log_error(__FILE__,"reportes_empresa.getLista_Reportes",$ex->getMessage());
+			throw new Exception('Ocurrio un error en la consulta.');
+		}
+	}
 }
 
 ?>

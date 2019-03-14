@@ -58,6 +58,8 @@
             <div class="tab-content form-horizontal form-bordered">
             
                 <input type="hidden" id="lista_modulos" name="lista_modulos">
+                <input type="hidden" id="lista_reportes" name="lista_reportes">
+                
                 <div class="tab-pane fade in active inner-all" id="tab1-1">
                     <div class="row">
                         <div class="col-sm-6">
@@ -225,24 +227,25 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-4">Logo:<span class="asterisk">*</span></label>
+                                <label class="control-label col-sm-4">Logo principal para el sitio:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <img id="imagen_previa" src="<?php echo $GLOBALS['oEmpresa']->ruta;?>/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>" style="height: 80px">
-                                <input type="file" name="logo" id="logo" onchange="fileValidation();">
+                                    <img id="imagen_previaiImagen" src="<?php echo ruta_archivo;?>/imagenes/imagen/<?php echo $GLOBALS['oDatos_Generales']->imagen;?>" style="height: 80px">
+                                <input type="file" name="imagen" id="imagen" onchange="fileValidationImagen();">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Favicon:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <img id="imagen_previaicono" src="<?php echo $GLOBALS['oEmpresa']->ruta;?>/imagenes/favicon/<?php echo $GLOBALS['oDatos_Generales']->favicon;?>" style="height: 40px">
+                                    <img id="imagen_previaicono" src="<?php echo ruta_archivo;?>/imagenes/favicon/<?php echo $GLOBALS['oDatos_Generales']->favicon;?>" style="height: 40px">
                                 <input type="file" name="icono" id="icono" onchange="fileValidationIcono();">
                                 </div>
                             </div>
+                            
                             <div class="form-group">
-                                <label class="control-label col-sm-4">Imagen principal:<span class="asterisk">*</span></label>
+                                <label class="control-label col-sm-4">Logo para los documentos:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <img id="imagen_previaiImagen" src="<?php echo $GLOBALS['oEmpresa']->ruta;?>/imagenes/imagen/<?php echo $GLOBALS['oDatos_Generales']->imagen;?>" style="height: 40px">
-                                <input type="file" name="imagen" id="imagen" onchange="fileValidationImagen();">
+                                    <img id="imagen_previa" src="<?php echo ruta_archivo;?>/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>" style="height: 80px">
+                                <input type="file" name="logo" id="logo" onchange="fileValidation();">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -524,6 +527,18 @@
                                         <option value="produccion">Producción</option>
                                     </select>
                                     <small class="form-text text-muted">Seleccionamos beta para realizar pruebas de envío o producción cuando ya este revisado.</small>    
+                                </div>
+                            </div>
+                            
+                            <div class="form-group form-group-divider">
+                                <div class="form-inner">
+                                    <h4 class="no-margin">Asignar Reportes</h4>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                
+                                <div class="col-sm-12" id="divReportes">
+                                    <?php echo $GLOBALS['lista_reportes'];?>
                                 </div>
                             </div>
                         </div>
@@ -816,6 +831,20 @@
             $('.nav-tabs a[href="#tab1-2"]').tab('show');
             return false;
         }
+        
+        var lista_reportes="";
+        var y=0;
+        $("#divReportes :input:checkbox:checked").each(function(){
+            if(y==0){
+                lista_reportes=$(this).attr("name");
+            }else{
+                lista_reportes=lista_reportes+','+$(this).attr("name");
+            }
+            y++;
+        });
+        
+        $("#lista_reportes").val(lista_reportes);
+        
         $("#lista_modulos").val(lista_modulos);
         $("#selStilo_fondo_tabs").prop("disabled",false);
         $("#selStilo_fondo_boton").prop("disabled",false);

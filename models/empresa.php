@@ -31,6 +31,7 @@ class empresa
         private $produccion_ws_guia;
         private $conexion_ws_sunat;
         private $lista_modulo;
+        private $lista_reportes;
         private $correlativos_ID;
         private $correlativos_ID_nota_credito;
         private $correlativos_ID_nota_debito;
@@ -140,7 +141,8 @@ class empresa
                     "iproduccion_ws_factura"=>$this->produccion_ws_factura,
                     "iproduccion_ws_guia"=>$this->produccion_ws_guia,
                     "iconexion_ws_sunat"=>$this->conexion_ws_sunat,
-                    "ilista_modulo"=>$this->lista_modulo
+                    "ilista_modulo"=>$this->lista_modulo,
+                    "ilista_reportes"=>$this->lista_reportes
                 ),0);
           if($ID>0){
             $this->getMessage="El registro se guardó correctamente.";

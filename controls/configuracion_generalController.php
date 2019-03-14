@@ -130,6 +130,8 @@ function post_ajaxUsuario_Mantenimiento() {
                 $boton='<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar"><span class="glyphicon glyphicon-pencil"></span> Editar</a>';
                 array_push($botones,$boton);
                 array_push($botones,'<a onclick="fncMenu(' . $item['ID'] . ');" title="Asignar menu"><span class="glyphicon glyphicon-align-left"></span>Asignar Menu</a>');
+                array_push($botones,'<a onclick="fncReporte(' . $item['ID'] . ');" title="Asignar reporte"><i class="fa fa-file-pdf-o"></i> Asignar Reporte</a>');
+                
                 array_push($botones,'<a onclick="fncPerfil(' . $item['ID'] . ');" title="Asignar perfil"><i class="fa fa-users"></i>Asignar Perfil</a>');
                 array_push($botones,'<a onclick="fncEliminar(' . $item['ID'] . ');" title="Eliminar usuario"><span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</a>');
 
@@ -466,6 +468,37 @@ function post_Usuario_Mantenimiento_Menu($id) {
     }
     $GLOBALS['oUsuario'] = $oUsuario;
 }
+function get_Usuario_Mantenimiento_Reporte($id) {
+    require ROOT_PATH . 'models/usuario.php';
+    require ROOT_PATH . 'models/persona.php';   
+    require ROOT_PATH . 'models/menu.php';
+    require ROOT_PATH . 'models/empresa.php';
+    require ROOT_PATH . 'models/modulo_empresa.php';
+    require ROOT_PATH . 'models/reportes_empresa.php';
+    global $returnView_float;
+    $returnView_float = true;
+    $oUsuario = usuario::getByID($id);
+    try{
+        
+        $oPersona=persona::getByID($oUsuario->persona_ID);
+        
+        $oUsuario->oPersona=$oPersona;
+        if ($oUsuario == null) {
+           throw new Exception('Parecer que el registro ya fue eliminado.');
+     
+        } 
+        
+        $dtEmpresa=empresa::getGrid("ID<>1",-1,-1,"nombre asc");
+        
+        $oUsuario->dtEmpresa=$dtEmpresa;
+        
+    }catch(Exception $ex){
+        $GLOBALS['mensaje']=$ex->getMessage();
+        $GLOBALS['resultado']=-1;
+    }
+
+    $GLOBALS['oUsuario'] = $oUsuario;
+}
 function post_ajacGrabarMenu_Usuario(){
     require ROOT_PATH . 'models/menu_usuario.php';
     $lista_menu=$_POST['lista_menu'];
@@ -473,6 +506,23 @@ function post_ajacGrabarMenu_Usuario(){
     $modulo_ID=$_POST['modulo_ID'];
     try{
         $retorna=menu_usuario::registrar($usuario_ID,$lista_menu,$modulo_ID);
+        $resultado=1;
+        $mensaje="Se registró correctamente";
+    }catch(Exception $ex){
+        $resultado=-1;
+        $mensaje=mensaje_error;
+    }
+    $retornar = Array('resultado' => $resultado,"mensaje"=>$mensaje);
+    echo json_encode($retornar);
+    
+}
+function post_ajaxGrabarReportes_Usuario(){
+    require ROOT_PATH . 'models/reportes_empresa_usuario.php';
+    $lista_reportes=$_POST['lista_reportes'];
+    $usuario_ID=$_POST['usuario_ID'];
+    
+    try{
+        $retorna=reportes_empresa_usuario::registrar($usuario_ID,$lista_reportes);
         $resultado=1;
         $mensaje="Se registró correctamente";
     }catch(Exception $ex){
@@ -613,6 +663,24 @@ function post_ajaxExtraer_Menu_Modulo(){
     }catch (Exception $ex) {
         log_error(__FILE__,"configuracion_generaleController/post_ajaxExtraer_Menu_Modulo",$ex->getMessage());
         $html.=utf8_encode(mensaje_error);
+    }
+    
+    $retornar = Array('html' => $html);
+    echo json_encode($retornar);
+}
+function post_ajaxExtraer_Reportes_Empresa(){
+    require ROOT_PATH . 'models/reportes_empresa.php';
+   
+    $usuario_ID=$_POST['id'];
+    $empresa_ID=$_POST['id1'];
+    $html="";
+    try {
+        $html=reportes_empresa::getLista_Reportes($empresa_ID,$usuario_ID);
+        
+       
+    }catch (Exception $ex) {
+        log_error(__FILE__,"configuracion_generaleController/post_ajaxExtraer_Reportes_Empresa",$ex->getMessage());
+        $html=(mensaje_error);
     }
     
     $retornar = Array('html' => $html);
@@ -1190,14 +1258,14 @@ function post_ajaxEmpresa_Mantenimiento() {
 }
 function get_Empresa_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/departamento.php';
     require ROOT_PATH . 'models/moneda.php';
     require ROOT_PATH . 'models/estado.php';
     require ROOT_PATH . 'models/tipo_comprobante.php';
-    
+    require ROOT_PATH . 'models/reportes.php';
     require ROOT_PATH . 'models/modulo.php';
     global $returnView_float;
     $returnView_float = true;
@@ -1214,7 +1282,7 @@ function get_Empresa_Mantenimiento_Nuevo() {
     $dtEstadoCompra=estado::getGrid("tabla='ingreso'",-1,-1,"orden asc");
     $dtTipo_Comprobante_Compra=tipo_comprobante::getGrid("ID in(1,3)",-1,-1,"nombre asc");
     $dtModulo=modulo::getGrid("ID not in(select modulo_ID from modulo_empresa where del=0 and empresa_ID=1)",-1,-1,"nombre asc");
-    
+    $lista_reportes=reportes::getLista(0);
     $oDatos_Generales->distrito_ID=distrito_default;//Seleccionamos Lima
     $oDistrito=distrito::getByID(distrito_default);
     $oProvincia=provincia::getByID($oDistrito->provincia_ID);
@@ -1243,13 +1311,14 @@ function get_Empresa_Mantenimiento_Nuevo() {
     $GLOBALS['dtEstadoCompra']=$dtEstadoCompra;
     $GLOBALS['dtTipo_Comprobante_Compra']=$dtTipo_Comprobante_Compra;
     $GLOBALS['dtModulo']=$dtModulo;
+    $GLOBALS['lista_reportes']=$lista_reportes;
     
     
   
 }
 function post_Empresa_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/departamento.php';
@@ -1259,6 +1328,7 @@ function post_Empresa_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/tipo_comprobante.php';
     
     require ROOT_PATH . 'models/modulo.php';
+    require ROOT_PATH . 'models/reportes.php';
     global $returnView_float;
     $returnView_float = true;
     $dtConfiguracion=configuracion::getGrid();
@@ -1326,6 +1396,7 @@ function post_Empresa_Mantenimiento_Nuevo() {
     $conexion_ws_sunat=$_POST['SelWebServis'];
     
     $lista_modulo=$_POST['lista_modulos'];
+    $lista_reportes=$_POST['lista_reportes'];
     $oEmpresa = new empresa(); 
     $oDatos_Generales=new datos_generales();
     try {  
@@ -1354,7 +1425,9 @@ function post_Empresa_Mantenimiento_Nuevo() {
         $oEmpresa->produccion_ws_guia=$produccion_ws_guia;
         $oEmpresa->conexion_ws_sunat=$conexion_ws_sunat;
         $oEmpresa->lista_modulo=$lista_modulo;
+        $oEmpresa->lista_reportes=$lista_reportes;
         $oEmpresa->insertar();
+        $lista_reportes1=reportes::getLista($oEmpresa->ID);
         if($oEmpresa->ID>0){
             crear_ficheros_empresa($oEmpresa->ID);
             //agregamos los valores de datos generales
@@ -1414,19 +1487,19 @@ function post_Empresa_Mantenimiento_Nuevo() {
                         $oDatos_Generales->favicon=$nombre2;
                     }else{$mensaje="Se guardó la información, pero no se subió el icono.";}
                 }  
-                /*if($_FILES['imagen']['tmp_name']!=""){
-                        $dir_subida = ruta_guardar_archivos.'/files/imagenes/logo/';
+                if($_FILES['logo']['tmp_name']!=""){
+                        $dir_subida = ruta_guardar_archivos.'/files/imagenes/logo_comprobantes/';
                         //$dir_subida = $_SERVER['DOCUMENT_ROOT'].'/imagenes/imagen/';
-                        $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
+                        $nombre_temporal=explode('.',basename($_FILES['logo']['name']));
 
-                        $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
+                        $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
                         $nombre3=$oEmpresa->ID.'.'.$extension;
                         $fichero_subido = $dir_subida .basename($nombre3);
 
                         if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
                            $oDatos_Generales->imagen=$nombre3;
                         }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
-                }*/
+                }
                 $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];
                 $oDatos_Generales->actualizar();
                 $resultado=1;
@@ -1468,6 +1541,7 @@ function post_Empresa_Mantenimiento_Nuevo() {
     $GLOBALS['dtEstadoCompra']=$dtEstadoCompra;
     $GLOBALS['dtTipo_Comprobante_Compra']=$dtTipo_Comprobante_Compra;
     $GLOBALS['dtModulo']=$dtModulo;
+    $GLOBALS['lista_reportes']=$lista_reportes1;
     $GLOBALS['resultado']=$resultado;
     $GLOBALS['mensaje']=$mensaje;
 }
@@ -1620,10 +1694,14 @@ function crear_ficheros_empresa($empresa_ID){
     if (!file_exists($ruta_sunat)){
          mkdir($ruta_sunat);
     }
+    $ruta_sunat=ruta_archivo."/temp/pdf/";
+    if (!file_exists($ruta_sunat)){
+         mkdir($ruta_sunat);
+    }
 }
 function get_Empresa_Mantenimiento_Editar($ID) {
     require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/departamento.php';
@@ -1632,6 +1710,7 @@ function get_Empresa_Mantenimiento_Editar($ID) {
     require ROOT_PATH . 'models/tipo_comprobante.php';
     
     require ROOT_PATH . 'models/modulo.php';
+    require ROOT_PATH . 'models/reportes.php';
     global $returnView_float;
     $returnView_float = true;
     $oEmpresa = empresa::getByID($ID);
@@ -1645,7 +1724,7 @@ function get_Empresa_Mantenimiento_Editar($ID) {
     $dtEstadoCompra=estado::getGrid("tabla='ingreso'",-1,-1,"orden asc");
     $dtTipo_Comprobante_Compra=tipo_comprobante::getGrid("ID in(1,3)",-1,-1,"nombre asc");
     $dtModulo=modulo::getGrid("ID not in(select modulo_ID from modulo_empresa where del=0 and empresa_ID=1)",-1,-1,"nombre asc");
-    
+    $lista_reportes=reportes::getLista($oEmpresa->ID);
     //$oDatos_Generales->distrito_ID=distrito_default;//Seleccionamos Lima
     $oDistrito=distrito::getByID($oDatos_Generales->distrito_ID);
     $oProvincia=provincia::getByID($oDistrito->provincia_ID);
@@ -1675,7 +1754,7 @@ function get_Empresa_Mantenimiento_Editar($ID) {
     $GLOBALS['dtTipo_Comprobante_Compra']=$dtTipo_Comprobante_Compra;
     $GLOBALS['dtModulo']=$dtModulo;
     
-    
+    $GLOBALS['lista_reportes']=$lista_reportes;
   
 }
 /*function get_Empresa_Mantenimiento_Editar($id) {
@@ -1857,7 +1936,7 @@ function post_Empresa_Mantenimiento_Editar($id) {
 }*/
 function post_ajaxEmpresa_Mantenimiento_Eliminar($id) {
     require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     try {
         $oEmpresa = empresa::getByID($id);
         $oEmpresa->usuario_mod_id = $_SESSION['usuario_ID'];
@@ -1887,7 +1966,7 @@ function post_ajaxEmpresa_Mantenimiento_Eliminar($id) {
 }
 function get_Empresa_Mantenimiento_Modulo($id) {
     require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     global $returnView_float;
     $returnView_float = true;
     $oEmpresa = empresa::getByID($id);

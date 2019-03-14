@@ -286,6 +286,24 @@ class reportes_empresa_usuario
             throw new Exception($q);
         }
     }
+    function registrar($usuario_ID,$lista_reportes) {
+        $cn = new connect_new();
+        $retornar = 0;
+        try {
+            $retornar=$cn->store_procedure_transa("sp_reportes_empresa_usuario_Registrar", array(
+                "retornar"=>$retornar,
+                "ireportes_empresa_IDs"=>$lista_reportes,
+                "iusuario_ID"=>$usuario_ID,
+                "iusuario_id_reg"=>$_SESSION['usuario_ID']
+            ), 0);
+            
+            //$this->getMessage = 'Se guardó correctamente.';
+            return $retornar;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "menu_usuario.registrar", $ex->getMessage());
+            throw new Exception("Ocurrio un Error en la consulta");
+        }
+    }
 }
 
 ?>

@@ -32,6 +32,7 @@ function post_ajaxGraficos_Estadisticos_Compras(){
     $group="";
     $filtro="";
     if($periodo==0){
+        $filtro="co.empresa_ID=".$_SESSION['empresa_ID'];
         $group="year(co.fecha_emision)";
         $dtPeriodos=getPeriodos(2016,date('Y'));
         $i=0;
@@ -61,10 +62,10 @@ function post_ajaxGraficos_Estadisticos_Compras(){
             
             $i++;
         };
-        $filtro="year(co.fecha_emision)=".$periodo;
+        $filtro="co.empresa_ID=".$_SESSION['empresa_ID']." and year(co.fecha_emision)=".$periodo;
     }else {
         $group="year(co.fecha_emision),year(co.fecha_emision),day(co.fecha_emision)";
-        $filtro="year(co.fecha_emision)=".$periodo." and month(co.fecha_emision)=".$mes;
+        $filtro="co.empresa_ID=".$_SESSION['empresa_ID']." and year(co.fecha_emision)=".$periodo." and month(co.fecha_emision)=".$mes;
         $dtDias=getDiasMes(1,$mes,$periodo);
         $i=0;
         foreach($dtDias as $item){
@@ -280,7 +281,7 @@ function post_ajaxGraficos_Estadisticos_Ventas(){
     $filtro="";
     if($periodo==0){
         $group="year(ov.fecha)";
-        $dtPeriodos=getPeriodos(2016,date('Y'));
+        $dtPeriodos=getPeriodos(periodo_inicio,date('Y'));
         $i=0;
         foreach($dtPeriodos as $val){
             if($labels==""){
@@ -290,6 +291,7 @@ function post_ajaxGraficos_Estadisticos_Ventas(){
             }
           $i++;  
         }
+            $filtro="ov.empresa_ID=".$_SESSION['empresa_ID'];
             
     }else if($mes==0) {
         $group="year(ov.fecha),month(ov.fecha)";
@@ -308,10 +310,10 @@ function post_ajaxGraficos_Estadisticos_Ventas(){
             
             $i++;
         };
-        $filtro="year(ov.fecha)=".$periodo;
+        $filtro="ov.empresa_ID=".$_SESSION['empresa_ID']." and year(ov.fecha)=".$periodo;
     }else {
         $group="year(ov.fecha),year(ov.fecha),day(ov.fecha)";
-        $filtro="year(ov.fecha)=".$periodo." and month(ov.fecha)=".$mes;
+        $filtro="ov.empresa_ID=".$_SESSION['empresa_ID']." and year(ov.fecha)=".$periodo." and month(ov.fecha)=".$mes;
         $dtDias=getDiasMes(1,$mes,$periodo);
         $i=0;
         foreach($dtDias as $item){
@@ -517,6 +519,7 @@ function post_ajaxGraficos_Estadisticos_Ganancias(){
     $group="";
     $filtro="";
     if($periodo==0){
+        $filtro="ov.empresa_ID=".$_SESSION['empresa_ID'];
         $group="year(ov.fecha)";
         $dtPeriodos=getPeriodos(2016,date('Y'));
         $i=0;
@@ -546,10 +549,10 @@ function post_ajaxGraficos_Estadisticos_Ganancias(){
             
             $i++;
         };
-        $filtro="year(ov.fecha)=".$periodo;
+        $filtro="ov.empresa_ID=".$_SESSION['empresa_ID']." and year(ov.fecha)=".$periodo;
     }else {
         $group="year(ov.fecha),year(ov.fecha),day(ov.fecha)";
-        $filtro="year(ov.fecha)=".$periodo." and month(ov.fecha)=".$mes;
+        $filtro="ov.empresa_ID=".$_SESSION['empresa_ID']." and year(ov.fecha)=".$periodo." and month(ov.fecha)=".$mes;
         $dtDias=getDiasMes(1,$mes,$periodo);
         $i=0;
         foreach($dtDias as $item){

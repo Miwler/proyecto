@@ -70,15 +70,16 @@ function extraer_cantidad_notificacion() {
 }
 setTimeout('extraer_notificacion()', 3000);
 function extraer_notificacion() {
-    var tb = document.getElementById('tbNotificacion');
+    //var tb = document.getElementById('tbNotificacion');
     $.ajax({
         type: 'post',
-        url: '/Funcion/ajaxExtraer_Notificacion',
+        url: 'Funcion/ajaxExtraer_Notificacion',
         data: {
            
         },
         datatype: "json",
         success: function (respuesta) {
+            console.log(respuesta);
             var respuesta = $.parseJSON(respuesta);
            $('#contenedorNotificacion').html(respuesta.html);
            $("#contenedorContador").html(respuesta.contador);
@@ -88,7 +89,12 @@ function extraer_notificacion() {
         complete: function () {
             //redimencionarWindow();
         },
-    });
+        error: function (response) {
+            alert(response);
+        }
+    }).fail( function( jqXHR, textStatus, errorThrown ) {
+            alert( 'Error!!' );
+        });
 }
 
 function extraer_notificacion_page()

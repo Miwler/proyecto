@@ -122,7 +122,7 @@ class PDF3 extends FPDF
     }
     function cabecera($oFactura_Venta){
         //require ROOT_PATH . 'include/lib_fecha_texto.php';
-        $this->Image("./files/imagenes/logo_comprobantes/".$_SESSION['empresa_ID'].".jpg" , 8 ,8, 70, 20 , "JPG" );
+        $this->Image(logo_documentos , 8 ,8, 70, 20 , "JPG" );
         $this->SetFont('Arial','',10);
         $this->SetTextColor(0);
         $this->SetXY(8,8);

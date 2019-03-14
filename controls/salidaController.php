@@ -253,7 +253,7 @@ function get_Cotizacion_Mantenimiento_Nuevo(){
         require ROOT_PATH.'models/estado.php';
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/numero_cuenta.php';
@@ -294,7 +294,8 @@ function post_Cotizacion_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/cliente.php';
     require ROOT_PATH.'models/cliente_contacto.php';
     require ROOT_PATH.'models/operador.php';
-    require ROOT_PATH.'models/datos_generales.php';
+   
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/forma_pago.php';
     require ROOT_PATH.'models/credito.php';
     require ROOT_PATH.'models/numero_cuenta.php';
@@ -2040,6 +2041,8 @@ function get_Cotizacion_PDF($id){
     $pdf->oForma_Pago=$oForma_Pago;
     $pdf->oOperador=$oOperador;
     $pdf->dtCotizacion_Numero_Cuenta=$dtCotizacion_Numero_Cuenta;
+    
+    $pdf->logo=logo;
     $pdf->AliasNbPages();
       //Cargamos los detalles
     $numero=0;
@@ -3057,7 +3060,8 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             require ROOT_PATH.'models/cliente.php';
             require ROOT_PATH.'models/cliente_contacto.php';
             require ROOT_PATH.'models/operador.php';
-            require ROOT_PATH.'models/datos_generales.php';
+            if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
+            //require ROOT_PATH.'models/datos_generales.php';
             require ROOT_PATH.'models/forma_pago.php';
             require ROOT_PATH.'models/credito.php';
             require ROOT_PATH.'models/numero_cuenta.php';
@@ -3065,6 +3069,7 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             require ROOT_PATH.'controls/funcionController.php';
             global  $returnView_float;
             $returnView_float=true;
+            
             
             $oCotizacion=cotizacion::getByID($id);
             $oCliente=cliente::getByID($oCotizacion->cliente_ID);
@@ -3112,7 +3117,8 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/numero_cuenta.php';
@@ -3347,7 +3353,8 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/numero_cuenta.php';
@@ -3525,7 +3532,8 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/numero_cuenta.php';
@@ -3697,7 +3705,8 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
         require ROOT_PATH.'models/moneda.php';
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/cliente.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         
         global $returnView;
         $returnView=true;
@@ -4062,7 +4071,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/estado.php';
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -4118,7 +4128,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -4316,7 +4327,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -4376,7 +4388,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Eliminar($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -5013,7 +5026,8 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH.'models/cotizacion_detalle.php';
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/salida_detalle.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/cotizacion_numero_cuenta.php';
         require ROOT_PATH.'models/salida_numero_cuenta.php';
         require ROOT_PATH.'models/producto.php';
@@ -11906,7 +11920,7 @@ function post_Cobranza_Mantenimiento_Registro(){
     require ROOT_PATH.'models/factura_venta.php';
     require ROOT_PATH.'models/factura_venta_pagos.php';
     require ROOT_PATH.'models/moneda.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     $id=$_POST['txtFactura_Venta_ID'];
     $fecha_pago=$_POST['txtFecha_Pago'];
     $monto_pagado=$_POST['txtMonto_Pago'];
@@ -13307,7 +13321,8 @@ function get_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     global  $returnView_float;
     $returnView_float=true;
@@ -13336,7 +13351,8 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     require ROOT_PATH.'models/usuario.php';
@@ -13484,7 +13500,8 @@ function get_Nota_Credito_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     global  $returnView_float;
@@ -13533,7 +13550,8 @@ function post_Nota_Credito_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     require ROOT_PATH.'models/usuario.php';
@@ -14187,7 +14205,8 @@ function get_Nota_Debito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     global  $returnView_float;
     $returnView_float=true;
@@ -14216,7 +14235,8 @@ function post_Nota_Debito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     require ROOT_PATH.'models/usuario.php';
@@ -14356,7 +14376,8 @@ function get_Nota_Debito_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     global  $returnView_float;
@@ -14403,7 +14424,8 @@ function post_Nota_Debito_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
-    require ROOT_PATH.'models/datos_generales.php';
+    
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     require ROOT_PATH.'models/usuario.php';
@@ -14731,7 +14753,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/estado.php';
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -14788,7 +14811,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -14980,7 +15004,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -15056,7 +15081,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -17347,7 +17373,8 @@ function get_Consulta_Archivos_Sunat(){
 }
 function post_ajaxBuscarDocumentoSunat(){
         require ROOT_PATH.'include/facturacion_electronica/transaccion_documentos.php';
-        require ROOT_PATH.'models/datos_generales.php';
+        
+if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         $transacion = new transaccion_documentos();
         $vista=$_POST['vista'];
         if($vista=="consulta_cdr"){

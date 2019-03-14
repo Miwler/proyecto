@@ -5,7 +5,7 @@
 		EMPRESAS
 <?php } ?>
 <?php function fncHead(){?>
-                <script src="../../include/js/jNotificacion.js" type="text/javascript"></script>
+                <!--<script src="../../include/js/jNotificacion.js" type="text/javascript"></script>-->
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>

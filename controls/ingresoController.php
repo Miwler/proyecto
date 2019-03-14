@@ -2771,7 +2771,7 @@ function get_Orden_Compra_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/proveedor.php';
     
-    require ROOT_PATH.'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     
     global $returnView_float;
     $returnView_float=true;

@@ -123,7 +123,7 @@ class PDF2 extends FPDF
     }
     function cabecera($oGuia_Venta){
         //require ROOT_PATH . 'include/lib_fecha_texto.php';
-        $this->Image("./include/img/logopdf.jpg" , 8 ,8, 70, 20 , "JPG" );
+        $this->Image(logo_documentos , 8 ,8, 70, 20 , "JPG" );
         $this->SetFont('Arial','',8);
         $this->SetTextColor(0);
         $this->SetXY(8,8);

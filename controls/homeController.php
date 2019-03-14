@@ -185,7 +185,7 @@
         $returnView=true;
         
         $oEmpresa=empresa::getByID($id);
-       
+        cargarInformacion($id);
         $_SESSION['empresa_ID']=$id;
         //echo $_SESSION['empresa_ID'];
         $_SESSION['icono']=$oEmpresa->icono;

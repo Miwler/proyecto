@@ -11,7 +11,7 @@
 	</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<base href="<?php echo DOMAIN_BASE; ?>">
-	<link type="image/x-icon" href="files/imagenes/favicon/<?php echo $_SESSION['favicon'];?>" rel="icon" />
+	<link type="image/x-icon" href="<?php echo ruta_archivo?>/imagenes/favicon/<?php echo $_SESSION['favicon'];?>" rel="icon" />
 
 
         <!-- START @FONT STYLES -->

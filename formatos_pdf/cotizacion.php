@@ -23,6 +23,7 @@ class PDF1 extends FPDF
     public $oOperador;
     public $oEjecutivo;
     public $dtCotizacion_Numero_Cuenta;
+    public $logo;
     function Row($data,$altura)
     {
             //Calculate the height of the row
@@ -119,7 +120,7 @@ class PDF1 extends FPDF
 
     function Header(){
        
-        $this->Image("./include/img/logopdf.jpg" , 10 ,8, 70, 20 , "JPG" );
+        $this->Image(logo_documentos, 10 ,8, 70, 20 , "jpg" );
         
         //Arial bold 15
         $this->SetFont('Arial','B',20);

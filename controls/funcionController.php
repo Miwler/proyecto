@@ -649,14 +649,15 @@
         $contador=0;
         $html="";
         try {
-           $dtChatSinleer=web_chat_session_mensaje::getGridChat("wm.estado_ID=88 and  ws.usuario_receptor_ID=".$_SESSION['usuario_ID'],"wm.web_chat_session_ID",-1,-1,"wm.ID desc");
+          $dtChatSinleer=web_chat_session_mensaje::getGridChat("wm.estado_ID=88 and  ws.usuario_receptor_ID=".$_SESSION['usuario_ID'],"wm.web_chat_session_ID",-1,-1,"wm.ID desc");
            $contador=count($dtChatSinleer);
+           
            foreach($dtChatSinleer as $item){
                 $html.='<a href="message-detail.html" class="media">';
                 $html.='<div class="pull-left"><img src="'.((trim($item['foto'])=="")?'../../include/img/usuario/user-secret-32.png':'../../files/foto_usuario/'.trim($item['foto'])).'" class="media-object img-circle" alt="John Kribo"/></div>';
                 $html.='<div class="media-body">';
-                $html.='<span class="media-heading">'.FormatTextView($item['remitente']).'</span>';
-                $html.='<span class="media-text">'.FormatTextView($item['mensaje']).'</span>';
+                $html.='<span class="media-heading">'.test_input($item['remitente']).'</span>';
+                $html.='<span class="media-text">'.test_input($item['mensaje']).'</span>';
                 $html.='<span class="media-meta"><i class="fa fa-reply"></i></span>';
                 $html.='<span class="media-meta"><i class="fa fa-paperclip"></i></span>';
                 $html.='<span class="media-meta pull-right">'.$item['fdc'].'</span>';

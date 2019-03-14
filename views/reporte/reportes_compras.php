@@ -29,7 +29,6 @@
                                     <a id="<?php echo $reporte['ID']?>" class="list-group-item list-group-item-action"><?php echo ucfirst(FormatTextView($reporte['nombre']));?> </a>
                                     <?php } ?>
                                 </div>
-                                
                             </div>
                         </div>
                        

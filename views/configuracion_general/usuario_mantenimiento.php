@@ -150,6 +150,11 @@
                 window_float_open_modal('<span class="glyphicon glyphicon-user"></span> ASIGNAR MENÚ','/Configuracion_General/Usuario_mantenimiento_Menu',id,'',f,null,540);
                
             }
+            var fncReporte=function(id){
+               
+                window_float_open_modal('<span class="glyphicon glyphicon-user"></span> ASIGNAR REPORTES','/Configuracion_General/Usuario_mantenimiento_Reporte',id,'',f,null,540);
+               
+            }
             var fncPerfil=function(id){
                 window_float_open_modal('<i class="fa fa-users"></i> ASIGNAR PERFIL','/Configuracion_General/Usuario_mantenimiento_Perfil',id,'',f,900,440);
                

@@ -118,7 +118,7 @@ class PDF extends FPDF
 
     function Header(){
         
-        $this->Image(logo , 10 ,8, 50, 15 , "JPG" );
+        $this->Image(logo_documentos , 10 ,8, 50, 15 , "JPG" );
         $this->SetDrawColor(117,179,114);
         $this->Line(0,25,211,25);
         

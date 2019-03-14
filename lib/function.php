@@ -8,14 +8,16 @@ function cargarInformacion($empresa_ID){
             if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
            
             $oDatos_Generales=datos_generales::getByEmpresa();
-            define('tipo_cambio',$oDatos_Generales->tipo_cambio);
-            define('igv',$oDatos_Generales->vigv);
+            if(!defined('tipo_cambio'))define('tipo_cambio',$oDatos_Generales->tipo_cambio);
+            
+            if(!defined('igv'))define('igv',$oDatos_Generales->vigv);
             //define('datos_genetales_ID',1);
-            define('logo',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/logo/'.$oDatos_Generales->logo_extension);
-            define('favicon',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/favicon/'.$oDatos_Generales->favicon);
+            if(!defined('logo'))define('logo',ruta_archivo.'/imagenes/logo/'.$oDatos_Generales->imagen);
+            if(!defined('logo_documentos'))define('logo_documentos',ruta_archivo.'/imagenes/logo_comprobantes/'.$oDatos_Generales->logo_extension);
+            if(!defined('favicon'))define('favicon','/'.ruta_archivo.'/imagenes/favicon/'.$oDatos_Generales->favicon);
             //define('logo',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/logo/'.$oDatos_Generales->logo_extension);
-            define('razon_social',FormatTextView($oDatos_Generales->razon_social));
-            define('alias',FormatTextView($oDatos_Generales->alias));
+            if(!defined('razon_social'))define('razon_social',FormatTextView($oDatos_Generales->razon_social));
+            if(!defined('alias'))define('alias',FormatTextView($oDatos_Generales->alias));
         }
         if(!class_exists('configuracion_empresa')){
                 require ROOT_PATH . 'models/configuracion_empresa.php';
@@ -312,7 +314,7 @@ function cargarInformacion($empresa_ID){
                 
             }
             $y=1;
-            $sheet->setCellValue('A1', utf8_encode($oReportes->titulo));
+            $sheet->setCellValue('A1', test_input($oReportes->titulo));
             $sheet->setCellValue('A2', $subtitulo);
             $sheet->setCellValue('A3', 'Nº');
             while ($titulo_columna = current($titulo_cabecera)) {
@@ -329,7 +331,7 @@ function cargarInformacion($empresa_ID){
                 $sheet->setCellValueByColumnAndRow(0, $row, $row-3);
                 $z=1;
                 foreach($titulo_cabecera as $key=>$values){
-                    $sheet->setCellValueByColumnAndRow($z, $row, utf8_encode($avance[$key]));
+                    $sheet->setCellValueByColumnAndRow($z, $row, test_input($avance[$key]));
                     $z++;
                 }
                
@@ -423,11 +425,14 @@ function cargarInformacion($empresa_ID){
                 $pdf->Row($array,8);
                $numero++;
             }
+            $nombre_archivo='reporte'.$_SESSION['usuario_ID'].rand().'.pdf';
+            $ruta=ruta_archivo.'/temp/pdf/'.$nombre_archivo;
         }catch(Exception $ex){
+            log_error(__FILE__, "funtion/contructor_pdf_reporte", $ex->getMessage());
             $ruta="ERror-".$ex->getMessage();
+            $ruta="";
         }
-        $nombre_archivo='reporte'.$_SESSION['usuario_ID'].rand().'.pdf';
-        $ruta='include/pdf/'.$nombre_archivo;
+        
         $pdf->Output('F',$ruta);   
         return $ruta;
  

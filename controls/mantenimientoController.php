@@ -2442,7 +2442,7 @@ function get_Producto_Mantenimiento_Nuevo($id) {
     require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'models/unidad_medida.php';
     require ROOT_PATH . 'models/moneda.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     global $returnView_float;
     $returnView_float = true;
     $oProducto = new producto;
@@ -2474,7 +2474,7 @@ function post_Producto_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/producto.php';
     require ROOT_PATH . 'models/unidad_medida.php';
     require ROOT_PATH . 'models/moneda.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/inventario.php';
     global $returnView_float;
     $returnView_float = true;
@@ -2598,7 +2598,7 @@ function get_Producto_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'models/unidad_medida.php';
     require ROOT_PATH . 'models/moneda.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     global $returnView_float;
     $returnView_float = true;
     $oProducto = producto::getByID($id);
@@ -2635,7 +2635,7 @@ function post_Producto_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'models/unidad_medida.php';
     require ROOT_PATH . 'models/moneda.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     global $returnView_float;
     $returnView_float = true;
     $categoria_ID=$_POST['selCategoria'];
@@ -2716,7 +2716,7 @@ function get_Producto_Mantenimiento_Imagen($id) {
     require ROOT_PATH . 'models/linea.php';
     require ROOT_PATH . 'models/unidad_medida.php';
     require ROOT_PATH . 'models/moneda.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     global $returnView_float;
     $returnView_float = true;
     $oProducto = producto::getByID($id);
@@ -5090,7 +5090,7 @@ function post_ajaxSelect_Distrito($provincia_ID) {
 //Inicio Datos generales
 
 function get_Datos_generales_Mantenimiento() {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/departamento.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/distrito.php';
@@ -5115,7 +5115,7 @@ function get_Datos_generales_Mantenimiento() {
     
 }
 function post_Datos_generales_Mantenimiento(){
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/departamento.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/distrito.php';
@@ -5231,7 +5231,7 @@ function post_Datos_generales_Mantenimiento(){
 }
 //muestra la grilla cargada con datos de Datos Generales,trabaja con ajax
 function post_ajaxDatos_generales_Mantenimiento() {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     $buscar = $_POST['txtBuscar'];
     $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
     $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
@@ -5364,7 +5364,7 @@ function post_ajaxDatos_generales_Mantenimiento() {
 
 //muestra la ventana para agregar nuevo Datos Generales
 function get_Datos_generales_Mantenimiento_Nuevo() {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/departamento.php';
     global $returnView_float;
     $returnView_float = true;
@@ -5381,7 +5381,7 @@ function get_Datos_generales_Mantenimiento_Nuevo() {
 
 //graba los datos que se recuperan por el metodo post en nuevo datos_generales
 function post_Datos_generales_Mantenimiento_Nuevo() {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/departamento.php';
     global $returnView_float;
     $returnView_float = true;
@@ -5452,7 +5452,7 @@ function post_Datos_generales_Mantenimiento_Nuevo() {
 
 //muestra la ventana editar Datos_generales
 function get_Datos_generales_Mantenimiento_Editar($id) {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/departamento.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/distrito.php';
@@ -5491,7 +5491,7 @@ function get_Datos_generales_Mantenimiento_Editar($id) {
 
 //graba los datos que se recuperan por el metodo post en editar datos_generales
 function post_Datos_generales_Mantenimiento_Editar($id) {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/departamento.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/distrito.php';
@@ -5586,7 +5586,7 @@ function post_Datos_generales_Mantenimiento_Editar($id) {
 
 //eliminar datos generales
 function post_ajaxDatos_generales_Mantenimiento_Eliminar($id) {
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
 
     try {
         $oDatos_generales = datos_generales::getByID($id);
