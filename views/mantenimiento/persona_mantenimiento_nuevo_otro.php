@@ -82,7 +82,7 @@ function fncPage() { ?>
                                     <label>Fecha nacimiento: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                  <input type='date' id='txtFecha_Nacimiento' name="txtFecha_Nacimiento" class="form-control"  />
+                                  <input type='text' id='txtFecha_Nacimiento' name="txtFecha_Nacimiento" data-inputmask="'alias': 'date'" class="form-control"  />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -227,10 +227,10 @@ function fncPage() { ?>
         }
         
         if(selTipo_Documento==1){
-            if(n < 8){
+            if(n !=8){
             mensaje.error("Mensaje de error","número de DNI no válido.",'txtNumero');
             return false;
-        }
+            }
         }
         
         if(apellido_paterno==""){

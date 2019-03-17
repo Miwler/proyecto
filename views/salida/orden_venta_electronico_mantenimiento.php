@@ -357,6 +357,16 @@
         window_open_view('Salida/Orden_Venta_Electronico_Mantenimiento_Editar',id,null,fngetData);
         // window_float_open_modal('VER ORDEN DE VENTA','Salida/Orden_Venta_Electronico_Mantenimiento_Editar',id,'',f,800,480);
     }
+    function fncAnular(id){
+        cargarValores('Salida/ajaxOrden_Venta_Electronico_Anular',id,function(resultado){
+            if(resultado.resultado){
+                toastem.success(resultado.mensaje);
+                fngetData();
+            }else{
+                mensaje.error("Ocurrió un error", resultado.mensaje);
+            }
+        });
+    }
     /*var fncDOWNLOAD_XML=function(id,tipo) {
         try {
             block_ui(function () {

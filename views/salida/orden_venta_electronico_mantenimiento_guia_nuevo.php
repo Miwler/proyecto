@@ -210,6 +210,10 @@
                         <tbody>
                         </tbody>
                     </table>
+                    
+                    <div class="alert alert-teals">
+                        <strong>Well done!</strong> You successfully read this important alert message.
+                    </div>
                 </div>
                 <div id="divInfoTraslado" class="tab-pane fade inner-all">
                     <div class="form-group">

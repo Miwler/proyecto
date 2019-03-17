@@ -180,6 +180,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-teals">
+                        <strong>Importante!</strong> La longitud máxima del nombre, descripción,componente,adicional y series deben sumar como máximo 250.
+                    </div>
                     <table id="table_detalle" class="table table-hover table-bordered table-teal">
                         <thead>
                             <tr><th class="text-center">N°</th><th class="text-center">COD.</th><th class="text-center">DESCRIPCIÓN</th><th class="text-center">UM</th><th class="text-center">CANT.</th></tr>
@@ -187,6 +190,7 @@
                         <tbody>
                         </tbody>
                     </table>
+                    
                 </div>
                 <div id="divInfoTraslado" class="tab-pane fade inner-all">
                     <div class="form-group">

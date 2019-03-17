@@ -447,7 +447,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Departamento por defecto:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <select id="selDepartamento1" name="selDepartamento1" class="form-control" onclick="fncDepartamento1();">
+                                    <select id="selDepartamento1" name="selDepartamento1" class="form-control" onchange="fncDepartamento1();">
                                         <option id="0">Seleccione</option>
                                         <?php foreach($GLOBALS['dtDepartamento'] as $departamento){?>
                                         <option value="<?php echo $departamento['ID']?>"><?php echo ($departamento['nombre'])?></option>
@@ -459,7 +459,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Provincia por defecto:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <select id="selProvincia1" name="selProvincia1" class="form-control" onclick="fncProvincia1();">
+                                    <select id="selProvincia1" name="selProvincia1" class="form-control" onchange="fncProvincia1();">
                                         <option id="0">Seleccione</option>
                                         
                                     </select>

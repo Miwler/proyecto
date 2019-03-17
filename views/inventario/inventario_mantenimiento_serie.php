@@ -30,7 +30,7 @@
 
  
 <form id="frm2"  class="divRegistrarSeries form-horizontal"  method="post" action="/Inventario/Inventario_Mantenimiento_Serie" onsubmit="return validar();" class="form-horizontal">
-    <div style="heigth:300px;overflow:auto;">
+    <div style="height:470px;overflow:auto;">
         <?php echo $GLOBALS['table'];?>
     </div>
     

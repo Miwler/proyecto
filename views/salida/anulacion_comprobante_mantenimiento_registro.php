@@ -94,7 +94,7 @@ function fncPage() { ?>
                 <label>Moneda:</label>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <input type="text" name="txtMoneda" id="txtMoneda" disabled value="<?php echo $GLOBALS['oFactura_Venta']->moneda;?>" class="form-control">
+                <input type="text" name="txtMoneda" id="txtMoneda" disabled value="<?php echo$GLOBALS['oFactura_Venta']->moneda;?>" class="form-control">
             </div>
         </div>
         <div class="form-group">

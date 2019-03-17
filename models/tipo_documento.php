@@ -94,7 +94,7 @@ class tipo_documento {
         $cn =new connect_new();
         try 
         {
-            $q='SELECT ID, nombre,usuario_id';
+            $q='SELECT ID,nombre,codigo,abreviatura,usuario_id';
             $q.=' FROM tipo_documento';
             $q.=' where del=0 ';
 

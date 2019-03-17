@@ -186,8 +186,8 @@ class PDF2 extends FPDF
         $this->Cell(99,5,'DESTINATARIO',1,2,'C',true);
         $this->MultiCell(80,5,'NOMBRES/RAZON SOCIAL:'.utf8_encode($this->cabecera[0]['cliente']),0,'L',false);
        
-        $this->Ln(3);
-        $this->MultiCell(80,5,'RUC:'.utf8_decode($this->cabecera[0]['cliente_ruc']),0,'L',false);
+        //$this->Ln(3);
+        $this->Cell(80,5,'RUC:'.utf8_decode($this->cabecera[0]['cliente_ruc']),0,1,'L',false);
       
         $this->Rect(10,79,99,10);
         $this->SetXY(111,74);
@@ -259,16 +259,19 @@ class PDF2 extends FPDF
         $this->SetXY(10,100);
         $this->SetFont('Arial','',8);
         foreach($dtGuia_Venta_Detalle as $item){
-            
+            $longitud=250;
+            $largo_prod=strlen(utf8_decode($item['producto']));
+            $longitud=$longitud-$largo_prod;
             $this->SetFont('Arial','B',8);
-            $array=array($item['cantidad'],$item['producto'],$item['unidad_medida'],$item['peso']);
+            $array=array($item['cantidad'],utf8_decode($item['producto']),$item['unidad_medida'],$item['peso']);
             $this->Row($array,5);
             $this->SetX(30);
             $this->SetFont('Arial','',8);
-            if(trim($item['descripcion'])!=''){
-                $this->MultiCell(120,5,utf8_decode($item['producto']).chr(10).utf8_decode($item['descripcion']),0,'J',false);
+            
+                //$this->MultiCell(120,5,utf8_decode($item['producto']).chr(10).utf8_decode($item['descripcion']),0,'J',false);
+                $this->MultiCell(120,5,substr(utf8_decode($item['descripcion']),0,$longitud),0,'J',false);
                 
-            }
+            
             $this->Ln();
 
        }

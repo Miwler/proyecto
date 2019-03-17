@@ -189,11 +189,12 @@
     f.terminado = function () {
             var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
 
-            grids = new grid(tb);
+           grids = new grid(tb);
             grids.nuevoEvento();
-            grids.fncPaginacion1(f);
+            
             $('[data-toggle="tooltip"]').tooltip(); 
-            $('#websendeos').stacktable();		
+            $('#websendeos').stacktable();
+            grids.fncPaginacion1(f);		
     }
     f.enviar();
 

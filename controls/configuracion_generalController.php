@@ -960,7 +960,7 @@ function post_ajaxMenu_Mantenimiento() {
     // $filtro.= 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
-    $resultado = '<table id="websendeos" class="grid table table-hover"><thead><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-teal table-bordered"><thead><tr>';
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">Código' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Nombre' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Url' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -978,7 +978,7 @@ function post_ajaxMenu_Mantenimiento() {
         foreach ($dtUsuario as $item) {
  
             $resultado.='<tr class="tr-item" >';
-            $resultado.='<td class="tdLeft">' . $item['ID'] . '</td>';
+            $resultado.='<td class="text-center">' . $item['ID'] . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView($item['nombre']) . '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView($item['url']). '</td>';
             $resultado.='<td class="tdLeft">' . FormatTextView($item['modulo']) . '</td>';
@@ -2095,8 +2095,11 @@ function post_ajaxQuitarModulosEmpresa() {
 
 
 function get_Persona_Mantenimiento(){
+    require ROOT_PATH . 'models/tipo_documento.php';
     global $returnView;
     $returnView = true;
+    $dtTipo_Documento=tipo_documento::getGrid("ID in (1,2,3,4)",-1,-1,"abreviatura asc");
+    $GLOBALS['dtTipo_Documento']=$dtTipo_Documento;
 }
 /*
 function post_ajaxPersona_Mantenimiento() {
@@ -2512,7 +2515,8 @@ function post_Persona_Mantenimiento_Nuevo() {
         $oPersona->usuario_id = $_SESSION['usuario_ID'];
         $oPersona->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona->numero=$numero;
-        if ($oPersona->verificarDuplicado() > 0) {
+        $retorna=$oPersona->insertar1();
+        /*if ($oPersona->verificarDuplicado() > 0) {
               throw new Exception($oPersona->getMessage);             
         }  
         if($oPersona->insertar1()>0){
@@ -2522,11 +2526,17 @@ function post_Persona_Mantenimiento_Nuevo() {
             $oPersona_Documento->numero=$numero;
             $oPersona_Documento->usuario_id=$_SESSION['usuario_ID'];
             $oPersona_Documento->insertar();
-        }
-        
-        $mensaje=$oPersona->getMessage;
-        $resultado=1;
-              
+        }*/
+        if($retorna==-2){
+            $mensaje="El número de documento ya existe";
+            $resultado=-1;
+        }else if($retorna>0){
+            $mensaje=$oPersona->getMessage;
+            $resultado=1;
+        }else{
+            $mensaje="Ocurrió un error al intentar grabar.";
+            $resultado=-1;
+        }     
     } catch (Exception $ex) {
         $resultado= -1;
         $mensaje= $ex->getMessage();
@@ -2635,20 +2645,17 @@ function post_Persona_Mantenimiento_Editar($id) {
         $oPersona->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona->numero=$numero;
         
-//        if ($oPersona->verificarDuplicado() > 0) {
-//              throw new Exception($oPersona->getMessage);             
-//        }  
-        $oPersona->actualizar();
-        /*if($tipo_documentop_ID>0){
-//        $oPersona_Documento->persona_ID=$oPersona->ID;
-        $oPersona_Documento->tipo_documento_ID=$tipo_documentop_ID;
-        $oPersona_Documento->numero=$numero;
-        $oPersona_Documento->usuario_mod_id=$_SESSION['usuario_ID'];
-        $oPersona_Documento->actualizar();
-        }*/
+  
+       $retorna=$oPersona->actualizar();
+
+        if($retorna==-2){
+            $resultado=-1;
+            $mensaje="Existe una persona con e mismo número de documento.";
+        }else{
+            $mensaje=$oPersona->getMessage;
+            $resultado=1;
+        }
         
-        $mensaje=$oPersona->getMessage;
-        $resultado=1;
     } catch (Exception $ex) {
         $resultado = -1;
         $mensaje = utf8_encode(mensaje_error);
@@ -2709,8 +2716,14 @@ function post_ajaxPersona_Mantenimiento() {
             $orden = ' ID ' . $orden_tipo;
             break;
     }
-
-    $filtro = 'upper(concat(apellido_paterno," ",nombres)) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
+    $selTipo_Documento=$_POST['selTipo_Documento'];
+    IF($selTipo_Documento>0){
+        $numero=trim($_POST['txtNumero']);
+        $filtro="pd.tipo_documento_ID=".$selTipo_Documento." and pd.numero='".$numero."'";
+    }ELSE{
+        $filtro = 'upper(concat(pe.apellido_paterno," ",pe.apellido_materno," ",pe.nombres)) like "%' . str_replace(' ', '%', strtoupper($buscar)) . '%"';
+    }
+    
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
     $resultado.='<th class="text-center">N°</th>';
@@ -2726,7 +2739,7 @@ function post_ajaxPersona_Mantenimiento() {
     $resultado.='<tbody>';
     $colspanFooter = 10;
     try {
-        $cantidadMaxima = persona::getCount($filtro);
+        $cantidadMaxima = count(persona::getGrid1($filtro));
         $dtPersona = persona::getGrid1($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtPersona);
         $i=($paginaActual-1)*$cantidadMostrar+1;
@@ -2764,4 +2777,57 @@ function post_ajaxPersona_Mantenimiento() {
 
     echo json_encode($retornar);
 }
+function post_ajaxPersona_Mantenimiento_Eliminar($id) {
+    require ROOT_PATH . 'models/persona.php';
+    
 
+    try {
+        $oPersona = persona::getByID1($id);
+        
+        if ($oPersona == null) {
+            $resultado=-1;
+            $mensaje="No existe el registro.";
+        }else{
+            $oPersona->usuario_mod_id = $_SESSION['usuario_ID'];
+            $retorna=$oPersona->eliminar();
+            if($retorna==0){
+                $resultado=-1;
+                $mensaje="No se guardó ningún registro.";
+            }
+            if($retorna==-2){
+                $resultado=-1;
+                $mensaje="No se puede eliminar, la persona esta asignado como chofer.";
+            }
+            if($retorna==-3){
+                $resultado=-1;
+                $mensaje="No se puede eliminar, la persona tiene un usuario registrado.";
+            }
+            if($retorna==-4){
+                $resultado=-1;
+                $mensaje="No se puede eliminar, la persona esta registrado como contacto de un cliente.";
+            }
+            if($retorna==-5){
+                $resultado=-1;
+                $mensaje="No se puede eliminar, la persona esta registrado como contacto de un proveedor.";
+            }
+            if($retorna==-6){
+                $resultado=-1;
+                $mensaje="No se puede eliminar, la persona esta registrado como operador.";
+            }
+            if($retorna>0){
+                $resultado=1;
+                $mensaje="Se eliminó correctamente.";
+            }
+        }
+        $funcion = '';
+    } catch (Exception $ex) {
+        $resultado = -1;
+        log_error(__FILE__,"Configuracion_general/post_ajaxPersona_Mantenimiento_Eliminar", $ex->getMessage());
+        $mensaje =mensaje_error;
+        $funcion = '';
+    }
+
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje, 'funcion' => $funcion);
+
+    echo json_encode($retornar);
+}

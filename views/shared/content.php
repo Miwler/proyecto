@@ -148,7 +148,7 @@
                 <!-- Start header right -->
                 <div class="header-right">
                     <!-- Start navbar toolbar -->
-                    <div class="navbar navbar-toolbar" style="background:#2A2A2A;">
+                    <div class="navbar navbar-toolbar <?php echo $_COOKIE["stilo_fondo_cabecera"]?>">
 
                         <!-- Start left navigation -->
                         <ul class="nav navbar-nav navbar-left">
@@ -372,7 +372,7 @@
                 <!--/ End left navigation -  profile shortcut -->
 
                 <!-- Start left navigation - menu -->
-                <ul class="sidebar-menu">
+                <ul class="sidebar-menu" tabindex="0" style="height: 542px; overflow: hidden; outline: none;">
                     <li class="sidebar-category">
                         <span><?php echo $_SESSION['empresa']?></span>
                         <span class="pull-right"><i class="<?php echo $_SESSION['icono']?>"></i></span>
@@ -382,37 +382,7 @@
                        require ROOT_PATH."/lib/menu.php";
                     ?>
                 </ul>
-                <script>
-                    /*$(document).ready(function(){
-                        $.ajax({
-                            type: "post",
-                            url: "home/ajaxVerMenu",
-                            data: {
-                                id: 0
-                            },
-                            datatype: "json",
-                            success: function (respuesta) {
-                                //console.log(respuesta);
-                                resultado($.parseJSON(respuesta));
-                                $("#div").html(resultado.menu);
-                              /*try {
-                                //console.log(respuesta);
-                                resultado($.parseJSON(respuesta));
-                              } catch (e) {
-                                  $.unblockUI();
-                                  console.log(e);
-                                  //alert(e.message);
-                              }*/
-                          /*  },
-                            error: function (ex) {
-                              console.log(ex);
-                                //alert(ex);
-                                //$('#' + objContent).html('Error al conectarse con el servidor');
-                            }
-                        });
-                    });*/
-                    
-                </script>
+               
                <!-- /.sidebar-menu -->
                 <!--/ End left navigation - menu -->
 
@@ -773,6 +743,9 @@
     transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1), cubic-bezier(0.25, 0.8, 0.25, 1);
     transition-delay: initial, initial;
     text-decoration: none!important;
+    }
+    #menu-modulos span{
+        color:#636E7B!important;
     }
     #menu-modulos ul{
         margin-left: 0;

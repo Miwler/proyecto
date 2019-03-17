@@ -73,3 +73,221 @@ FECHA Y HORA: 13 03 2019 23:03:51
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 18:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 18:03:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 18:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 18:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 18:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 18:03:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxEnviarSUNAT
+ERROR: No existe el certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:48
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documentos.generar_xml
+ERROR: Existe un error en la creación del XML
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:00
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.getParamEmisor
+ERROR: No existe el Certificado
+============================ERROR====================================
+FECHA Y HORA: 14 03 2019 22:03:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
+METODO: transaccion_documento.firmar_documento
+ERROR: Failure Signing Data:  - 1
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 00:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'gv.descripcion' in 'field list'
+SET @_iguia_venta_ID = '1641';
+SET @_tipo = 'detalle';
+CALL `sp_guia_venta_getDescargar`( @_iguia_venta_ID, @_tipo)
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 00:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
+METODO: guia_venta.getGuia_SUNAT
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 00:03:19
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: exception 'Exception' with message 'Ocurrio un error en el sistema' in C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php:467
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(15865): guia_venta::getVistaDescarga('1641', 'detalle')
+#1 [internal function]: get_Guia_Vista_PreviaPDF('1641')
+#2 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Guia_Vista_...', Array)
+#3 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 00:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'gv.descripcion' in 'field list'
+SET @_iguia_venta_ID = '1641';
+SET @_tipo = 'detalle';
+CALL `sp_guia_venta_getDescargar`( @_iguia_venta_ID, @_tipo)
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 00:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
+METODO: guia_venta.getGuia_SUNAT
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 00:03:26
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: exception 'Exception' with message 'Ocurrio un error en el sistema' in C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php:467
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(15865): guia_venta::getVistaDescarga('1641', 'detalle')
+#1 [internal function]: get_Guia_Vista_PreviaPDF('1641')
+#2 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Guia_Vista_...', Array)
+#3 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#4 {main}
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 23:03:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 23:03:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 23:03:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 23:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 23:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 15 03 2019 23:03:10
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 13:03:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column '2clt.ID' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 13:03:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column '2clt.ID' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 20:03:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column '2clt.ID' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 22:03:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 22:03:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 22:03:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 22:03:07
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 22:03:50
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+============================ERROR====================================
+FECHA Y HORA: 16 03 2019 22:03:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=2,usuario_anulacion_id=, estado_ID=53 where ID=14

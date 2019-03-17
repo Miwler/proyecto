@@ -579,7 +579,7 @@ function actualizar()
             {
                 $dt=$cn->store_procedure_getGrid("sp_guia_venta_getEmitidos",
                     array(
-                        "$factura_venta_ID"=>$factura_venta_ID
+                        "ifactura_venta_ID"=>$factura_venta_ID
                     ));
                 
                 

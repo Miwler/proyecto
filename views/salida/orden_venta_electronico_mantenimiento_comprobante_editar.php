@@ -144,6 +144,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="alert alert-teals">
+                    <strong>Importante!</strong> La longitud máxima del nombre, descripción,componente,adicional y series deben sumar como máximo 250.
+                </div>
                 <div id="divProductos" class="tab-pane fade inner-all">
                     <div class="form-group">
                         <div class="col-sm-3">

@@ -676,9 +676,10 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
                 $fecha_save='"'.FormatTextToDate($this->fecha_anulacion,'Y-m-d').'"';
             }
             $q='update factura_venta set fecha_anulacion ='.$fecha_save.',motivo_anulacion_ID='.$this->motivo_anulacion_ID;
-            $q.=',usuario_anulacion_id='.$this->usuario_anulacion_id.', estado_ID=53 where ID='.$this->ID;
-            //echo $q;
+            $q.=',operador_ID_anulacion='.$this->operador_ID_anulacion.', estado_ID=53 where ID='.$this->ID;
+          
             $retornar=$cn->transa($q);
+           
             $this->getMessage="Se anuló correctamente.";
             return $retornar;
         } catch (Exception $ex) {

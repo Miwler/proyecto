@@ -1,5 +1,6 @@
 <?php
 require ROOT_PATH.'include/facturacion_electronica/formatos_xml/formatos_xml.php';
+require ROOT_PATH.'include/facturacion_electronica/formatos_xml/validar_formato.php';
 require ROOT_PATH.'include/xmlseclibs-master/xmlseclibs.php';
    
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
@@ -856,12 +857,17 @@ XML;
                     $guia_venta=new formatosxml();
                      
                     $xml=$guia_venta->guia_venta2_1($this->array_documento);
-                   
+                    
                     $this->nombre_documento=$this->array_documento['Remitente']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
                     $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
                     
-                    $xml->save($OUTPUT);
+                    if($xml->save($OUTPUT)==false){
+                        throw  new Exception("Existe un error en la creación del XML");
+                    }
+                    /*if ($xml->validate()) {
+                        echo "¡Este documento es válido!\n";
+                    }*/
                     $ruta=$OUTPUT;
                     break;
                 case "nota_credito":
@@ -942,11 +948,12 @@ XML;
           'NombreComercial' => trim($oDatos_generales->alias),
           'Ubigeo' => $oDistrito->codigo_ubigeo,
           'Direccion' => trim($oDatos_generales->direccion_fiscal),
-          'Urbanizacion' => '',
+          'Urbanizacion' => trim($oDatos_generales->urbanizacion),
           'Departamento' =>$oDistrito->departamento,
           'Provincia' =>$oDistrito->provincia,
           'Distrito' =>$oDistrito->nombre,
-            'Pais'=>'PE'
+           'Pais'=>'PE',
+            'Local'=>'0000'
         );
 
         $data = array( "RUC"=>$oDatos_generales->ruc,

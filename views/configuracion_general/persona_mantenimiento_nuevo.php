@@ -7,7 +7,7 @@ function fncTitle() { ?>Nueva persona<?php } ?>
 function fncHead() { ?>
 
     <script type="text/javascript" src="include/js/jForm.js"></script>
-    <script type="text/javascript" src="include/js/jTeclas.js"></script>
+    <!--<script type="text/javascript" src="include/js/jTeclas.js"></script>-->
 
 <?php } ?>
 <?php
@@ -82,7 +82,8 @@ function fncPage() { ?>
                                     <label>Fecha nacimiento: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                  <input type='date' id='txtFecha_Nacimiento' name="txtFecha_Nacimiento" class="form-control"  />
+                                  <input type='text' id='txtFecha_Nacimiento' name="txtFecha_Nacimiento" class="form-control input-sm" data-inputmask="'alias': 'date'" value="<?php echo $GLOBALS['oPersona']->fecha_nacimiento;?>" autocomplete="off">
+                                  
                                 </div>
                             </div>
                             <div class="form-group">
@@ -184,7 +185,8 @@ function fncPage() { ?>
                                     <label>Celular: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="txtCelular" name="txtCelular" value="<?php echo $GLOBALS['oPersona']->celular;?>" autocomplete="off" class="form-control int">
+                                    <input type="text" id="txtCelular" name="txtCelular" class="form-control input-sm" value="<?php echo $GLOBALS['oPersona']->celular;?>" autocomplete="off" data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999'], 'showTooltip': true" title="(999-999-9999 [x99999])|(+099 99 99 9999[9]-9999)">
+
                                 </div>
                             </div>
                         </div>
@@ -193,18 +195,17 @@ function fncPage() { ?>
             </div>
         </div>
         <div class="panel-footer">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button  id="btnEnviar" name="btnEnviar" class="btn btn-success">
-                        <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
-                        Guardar
-                    </button>
-                    <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="parent.float_close_modal_hijo();" >
-                        <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
-                        Cancelar
-                    </button>    
-                </div>
+            <div class="pull-left">
+                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success">
+                    <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
+                    Guardar
+                </button>
+                <button  id="btnCancelar" name="btnCancelar" class="btn btn-danger" type="button" onclick="window_float_close_modal();" >
+                    <img title="Guardar" alt="" src="/include/img/boton/cancel_14x14.png">
+                    Cancelar
+                </button>
             </div>
+            <div class="clearfix"></div>     
         </div>
     </div>
 </form>
@@ -221,16 +222,16 @@ function fncPage() { ?>
         var selTipo_Documento=$('#selTipo_Documento').val();
         var n = numero.length;
         
-        if(numero==""){
+        if(numero==0){
             mensaje.error("Mensaje de error","Debe registrar un número de documento.",'txtNumero');
             return false;
         }
         
         if(selTipo_Documento==1){
-            if(n < 8){
-            mensaje.error("Mensaje de error","número de DNI no válido.",'txtNumero');
+            if(n !=8){
+            mensaje.error("Mensaje de error","número de DNI no válido, debe tener 8 caractéres.",'txtNumero');
             return false;
-        }
+            }
         }
         
         if(apellido_paterno==""){

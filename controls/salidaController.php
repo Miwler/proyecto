@@ -12028,9 +12028,9 @@ function get_Anulacion_Comprobante_Mantenimiento() {
     $a=0;
     $array_periodo=array();
     $periodo='';
-
+    //print_r($dtFactura_Venta);
     foreach($dtFactura_Venta as $item){
-
+        
         $osalida=salida::getByID($item['salida_ID']);
         if($a==0){
             $cliente_IDs=$osalida->cliente_ID;
@@ -12038,20 +12038,18 @@ function get_Anulacion_Comprobante_Mantenimiento() {
         }else {
             $cliente_IDs.=','.$osalida->cliente_ID;
         }
-         if($periodo!=substr($item['fecha_emision'],0,4)){
-             array_push($array_periodo,substr($item['fecha_emision'],0,4));
-         }
-        $periodo=substr($item['fecha_emision'],0,4);
+        
        $a++;
     }
-    $filtro="clt.empresa_ID=".$_SESSION['empresa_ID'];
+    
     if($cliente_IDs!=""){
-        $filtro.='clt.ID in ('.$cliente_IDs.')';
+        $filtro='clt.ID in ('.$cliente_IDs.')';
     }
+   
     $dtEstado=estado::getGrid('ID in (41,53,60)');
     $GLOBALS['dtEstado']=$dtEstado;
     $GLOBALS['dtCliente']=cliente::getGrid($filtro,-1,-1,'clt.razon_social asc');
-    $GLOBALS['dtPeriodo']=$array_periodo;
+    ///$GLOBALS['dtPeriodo']=array_unique($array_periodo);
 }
 function post_ajaxAnulacion_Comprobante_Mantenimiento() {
     require ROOT_PATH . 'models/salida.php';
@@ -12159,7 +12157,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
     //$filtro = 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------
-    $resultado = '<table class="grid table table-hover table-bordered"><thead><tr>';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
 
     $resultado.='<th class="thOrden" onclick="fncOrden(1);">N° Orden Vta.' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">N° Factura' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -12179,7 +12177,7 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
         $cantidadMaxima = count(factura_venta::getGrid2($filtro,-1,-1,'fv.ID asc'));
         $dtFactura_Venta = factura_venta::getGrid2($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
         $rows = count($dtFactura_Venta);
-
+        $y=($paginaActual-1)*$rows+1;
         foreach ($dtFactura_Venta as $item) {
             $oMoneda=moneda::getByID($item['moneda_ID']);
 
@@ -12193,22 +12191,23 @@ function post_ajaxAnulacion_Comprobante_Mantenimiento() {
            $fecha_vencimiento=date('d/m/Y',strtotime($item['fecha_vencimiento']));
             $resultado.='<tr class="tr-item">';
 
-            $resultado.='<td class="text-center">' . $item['salida'] . '</td>';
+            $resultado.='<td class="text-center">' . $y . '</td>';
             $resultado.='<td class="text-center">' . $item['numero_concatenado'] . '</td>';
             $resultado.='<td class="text-center">' .$fecha_emision . '</td>';
             $resultado.='<td class="text-center">' . $fecha_vencimiento . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($item['cliente']) . '</td>';
-            $resultado.='<td class="tdLeft">' . FormatTextViewHtml($oMoneda->descripcion) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($item['cliente']) . '</td>';
+            $resultado.='<td class="tdLeft">' . test_input($oMoneda->descripcion) . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_total'] . '</td>';
             $resultado.='<td class="text-right">' . $item['monto_pendiente'] . '</td>';
             //$resultado.='<td class="tdLeft">' . $pago. '</td>';
-            $resultado.='<td class="text-center">' . FormatTextViewHtml($item['estado']). '</td>';
+            $resultado.='<td class="text-center">' . test_input($item['estado']). '</td>';
             $boton='<a onclick="fncAnular('. $item['ID'] . ');"><img title="Cobrar"  src="/include/img/boton/cancel_14x14.png" />&nbsp;<span>Anular</span></a>';
             if($item['estado_ID']==53){
                 $boton='';
             }
             $resultado.='<td class="btnAction" style="width:90px;">'.$boton.'</td>';
             $resultado.='</tr>';
+            $y++;
         }
 
         $cantidadPaginas = '';
@@ -12239,7 +12238,7 @@ function get_Anulacion_Comprobante_Mantenimiento_Registro($id){
     $oFactura_Venta=factura_venta::getByID($id);
     $osalida=salida::getByID($oFactura_Venta->salida_ID);
     $oMoneda=moneda::getByID($osalida->moneda_ID);
-    $oFactura_Venta->moneda=  FormatTextViewHtml($oMoneda->descripcion);
+    $oFactura_Venta->moneda= $oMoneda->descripcion;
     $dtOperador=operador::getGrid('op.cargo_ID in (1,3)',-1,-1);
     $oFactura_Venta->dtOperador=$dtOperador;
     $dtMotivo_Anulacion=motivo_anulacion::getGrid('tabla="factura_venta"',-1,-1,'nombre asc');
@@ -12273,13 +12272,16 @@ function post_Anulacion_Comprobante_Mantenimiento_Registro($id){
     $mensaje="";
 
     try {
+        
         $oFactura_Venta->fecha_anulacion=$fecha_anulacion;
         $oFactura_Venta->motivo_anulacion_ID=$motivo_anulacion_ID;
         $oFactura_Venta->operador_ID_anulacion=$operador_ID_anulacion;
+        
         $oFactura_Venta->actualizarAnulacion();
         $mensaje="Se anuló correctamente.";
         //Actualizamo el estado de la salida
         $osalida=salida::getByID($oFactura_Venta->salida_ID);
+       
         //Actualizamos a factura anulado
         $estado_ID=58;
         /*if($osalida->cotizacion_ID!=-1){
@@ -12385,6 +12387,7 @@ function post_ajaxEnviarSUNAT() {
             throw new Exception("No existe la factura.");
         }
         $oFactura_Detalle=factura_venta::getFactura_SUNAT($id,"detalle");
+        
         if(count($oFactura_Detalle)==0){
             throw new Exception("La factura no tiene detalles.");
         }
@@ -12400,6 +12403,7 @@ function post_ajaxEnviarSUNAT() {
         $DocumentoDetalle = array();
         $Discrepancias = array();
         $getGuia=guia_venta::getGridFactura($id);
+        //print_r($getGuia);
         $DocumentoRelacionado = array();
         $DocumentoDespacho=array();
         if(count($getGuia)>0){
@@ -12417,7 +12421,7 @@ function post_ajaxEnviarSUNAT() {
                 'Cantidad' => $item['cantidad'],
                 'UnidadMedida' => trim($item['unidad_medida']),
                 'CodigoItem' => $item['codigo'],
-                'Descripcion' => FormatTextXML(trim(substr($item['producto_descripcion'],0,250))),
+                'Descripcion' => FormatTextXML(trim(substr($item['producto_descripcion'],0,500))),
                 'ValorUnitario' =>$item['valor_unitario'],
                 'PrecioUnitario' =>$item['precio_unitario'],
                 'PrecioVentaUnitario' =>$item['precio_venta_unitario'],
@@ -12688,7 +12692,7 @@ function post_ajaxEnviarGuiaSUNAT() {
             $DocumentoDetalle[] = array (
                 'Correlativo' => $item['Correlativo'],
                 'CodigoItem' => $item['CodigoItem'],
-                'Descripcion' =>'papel',//utf8_encode(FormatTextXML(substr(trim($item['Descripcion']),0,250))),
+                'Descripcion' =>utf8_encode(FormatTextXML(substr(trim($item['Descripcion']),0,250))),
                 'UnidadMedida' =>($item['UnidadMedida']=="")?"NIU":$item['UnidadMedida'],
                 'Cantidad' => $item['Cantidad'],
                 'LineaReferencia' => $item['LineaReferencia']
@@ -12704,11 +12708,11 @@ function post_ajaxEnviarGuiaSUNAT() {
             'Remitente'=>array(
                 'NroDocumento'=>$oGuia_Venta[0]['Remitente_NroDocumento'],
                 'TipoDocumento'=>$oGuia_Venta[0]['Remitente_TipoDocumento'],
-                'NombreLegal'=> utf8_decode($oGuia_Venta[0]['Remitente_NombreLegal']),
-                'NombreComercial'=>utf8_decode($oGuia_Venta[0]['Remitente_NombreComercial']),
+                'NombreLegal'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_NombreLegal'])),
+                'NombreComercial'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_NombreComercial'])),
                 'Ubigeo'=>$oGuia_Venta[0]['Remitente_Ubigeo'],
-                'Direccion'=>$oGuia_Venta[0]['Remitente_Direccion'],
-                'Urbanizacion'=>utf8_decode($oGuia_Venta[0]['Remitente_Urbanizacion']),
+                'Direccion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_Direccion'])),
+                'Urbanizacion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_Urbanizacion'])),
                 'Departamento'=>$oGuia_Venta[0]['Remitente_Departamento'],
                 'Provincia'=>$oGuia_Venta[0]['Remitente_Provincia'],
                 'Distrito'=>$oGuia_Venta[0]['Remitente_Distrito']
@@ -12716,11 +12720,11 @@ function post_ajaxEnviarGuiaSUNAT() {
             'Destinatario'=>array(
                 'NroDocumento'=>$oGuia_Venta[0]['Destinatario_NroDocumento'],
                 'TipoDocumento'=>$oGuia_Venta[0]['Destinatario_TipoDocumento'],
-                'NombreLegal'=>$oGuia_Venta[0]['Destinatario_NombreLegal'],
-                'NombreComercial'=>$oGuia_Venta[0]['Destinatario_NombreComercial'],
+                'NombreLegal'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_NombreLegal'])),
+                'NombreComercial'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_NombreComercial'])),
                 'Ubigeo'=>$oGuia_Venta[0]['Destinatario_Ubigeo'],
-                'Direccion'=>$oGuia_Venta[0]['Destinatario_Direccion'],
-                'Urbanizacion'=>$oGuia_Venta[0]['Destinatario_Urbanizacion'],
+                'Direccion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_Direccion'])),
+                'Urbanizacion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_Urbanizacion'])),
                 'Departamento'=>$oGuia_Venta[0]['Destinatario_Departamento'],
                 'Provincia'=>$oGuia_Venta[0]['Destinatario_Provincia'],
                 'Distrito'=>$oGuia_Venta[0]['Destinatario_Distrito']
@@ -12749,13 +12753,13 @@ function post_ajaxEnviarGuiaSUNAT() {
             'ModalidadTraslado'=>$oGuia_Venta[0]['ModalidadTraslado'],
             'FechaInicioTraslado'=>$oGuia_Venta[0]['FechaInicioTraslado'],
             'RucTransportista'=>$oGuia_Venta[0]['RucTransportista'],
-            'RazonSocialTransportista'=>utf8_decode($oGuia_Venta[0]['RazonSocialTransportista']),//$oGuia_Venta[0]['RazonSocialTransportista'],
+            'RazonSocialTransportista'=>(FormatTextXML($oGuia_Venta[0]['RazonSocialTransportista'])),//$oGuia_Venta[0]['RazonSocialTransportista'],
             'NroPlacaVehiculo'=>$oGuia_Venta[0]['NroPlacaVehiculo'],
             'NroDocumentoConductor'=>$oGuia_Venta[0]['NroDocumentoConductor'],
             'NroPlacaVehiculoSecundario'=>'',
             'DireccionPartida'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
-                'DireccionCompleta'=>utf8_decode(FormatTextXML($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']))
+                'DireccionCompleta'=>(FormatTextXML($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']))
             ),
             'DireccionLlegada'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],
@@ -13243,8 +13247,7 @@ function get_Factura_Vista_PreviaPDF($id){
                     $pdf->MultiCell($array_width[6],5,utf8_decode(substr($item["descripcion"],0,250-$longitud)),0,$array_align[6],false);
                     $y=$pdf->GetY();
                 }
-               
-                
+
                 $x=10;
             }
             /*for ($a=0;$a<count($array_width);$a++){
@@ -14754,7 +14757,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/operador.php';
         
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -14812,7 +14815,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
         
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -15005,7 +15008,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
         
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -15082,7 +15085,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
         
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -15481,6 +15484,37 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         
        
     }
+    function post_ajaxOrden_Venta_Electronico_Anular(){
+        require ROOT_PATH.'models/salida.php';
+        $salida_ID=$_POST['id'];
+        $html="";
+
+        try{
+            $retorna=salida::anular($salida_ID,$_SESSION['usuario_ID']);
+            //print_r($dt);
+            if($retorna>0){
+                $resultado=1;
+                $mensaje="Se anuló correctamente.";
+            }else{
+                $resultado=-1;
+                $mensaje="No se guardó ningún registro.";
+            }
+           
+      
+        }
+        catch(Exception $ex){
+            
+            log_error(__FILE__,"salidaController.post_ajaxCargarDetalle_Comprobante",$ex->getMessage());
+            $resultado=-1;
+            $mensaje=mensaje_error;
+
+        }
+        $retornar=Array('resultado'=>$resultado,"mensaje"=>$mensaje);
+        echo json_encode($retornar);
+        
+        
+       
+    }
     function post_ajaxVistaPrevia_Comprobante_Electronico(){
          require ROOT_PATH.'models/factura_venta.php';
         require ROOT_PATH.'formatos_pdf/factura_venta_pdf_vistaprevia.php';
@@ -15581,7 +15615,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                 if($item["descripcion"]!=""){
                     $pdf->SetFont('Arial','',6);
                     $pdf->SetXY(60,$y);
-                    $pdf->MultiCell($array_width[6],5,substr($item["descripcion"],0,250-$longitud),0,$array_align[6],false);
+                    $pdf->MultiCell($array_width[6],5,substr(utf8_decode($item["descripcion"]),0,250-$longitud),0,$array_align[6],false);
                     $y=$pdf->GetY();
                 }
                
@@ -15863,29 +15897,27 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         $dtCabecera=guia_venta::getVistaDescarga($id,"cabecera");
         //print_r($dtCabecera);
         $dtDetalle=guia_venta::getVistaDescarga($id,"detalle");
+        //print_r($dtDetalle);
         $electronico=1;
         $numero_pagina=1;
         $numero=$dtCabecera[0]['numero_concatenado'];
-       $pdf->AddPage();
-       $hash="";
-            $dtGv=guia_venta_sunat::getGrid("guia_venta_ID=".$id,-1,-1,'ID desc');
-            if(count($dtGv)>0){
-                $hash=$dtGv[0]['hash'];
-            }
-       $pdf->hash=$hash;
-            $pdf->cabecera=$dtCabecera;
-            $pdf->numero=$numero;
-            $pdf->electronico=$electronico;
-            //$pdf->numero_cuenta=$numero_cuenta;
-            $pdf->cabecera_header();
-            $pdf->contenedor_detalle(130);
-            
-            
-            
-            $pdf->SetWidths(array(20,120,25,35));
-            $pdf->SetAligns(array('C','L','C','C'));
-            
-            $pdf->contenido_detalle($dtDetalle);
+        $pdf->AddPage();
+        $hash="";
+             $dtGv=guia_venta_sunat::getGrid("guia_venta_ID=".$id,-1,-1,'ID desc');
+             if(count($dtGv)>0){
+                 $hash=$dtGv[0]['hash'];
+             }
+        $pdf->hash=$hash;
+        $pdf->cabecera=$dtCabecera;
+        $pdf->numero=$numero;
+        $pdf->electronico=$electronico;
+        //$pdf->numero_cuenta=$numero_cuenta;
+        $pdf->cabecera_header();
+        $pdf->contenedor_detalle(130);
+        $pdf->SetWidths(array(20,120,25,35));
+        $pdf->SetAligns(array('C','L','C','C'));
+
+        $pdf->contenido_detalle($dtDetalle);
 
         /*
       

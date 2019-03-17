@@ -36,18 +36,23 @@
         <div class="panel-body">
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="vista_buscar">
-                    <div class="row">
-
-                        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>Nombres: </label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                     <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombres">
-                                </div>
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Nombres: </label>
+                        <div class="col-sm-4">
+                             <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" placeholder="Ingresar nombres">
                         </div>
+                        <div class="col-sm-2">
+                            <select id="selTipo_Documento" class="form-control" name="selTipo_Documento">
+                                <option value="0">Seleccionar</option>
+                                <?Php foreach($GLOBALS['dtTipo_Documento'] as $tipo_documento){?>
+                                <option value="<?php echo $tipo_documento['ID']?>"><?php echo $tipo_documento['abreviatura']?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                             <input  type="text" id="txtNumero" name="txtNumero" class="form-control" autocomplete="off" disabled>
+                        </div>
+
 
                     </div>
 
@@ -96,18 +101,18 @@
         }
 
         var fncNuevo=function(){
-            window_float_open_modal('REGISTRAR NUEVO PERSONA','/Configuracion_General/Persona_Mantenimiento_Nuevo','','',f,800,500);
+            window_float_open_modal('REGISTRAR NUEVO PERSONA','/Configuracion_General/Persona_Mantenimiento_Nuevo','','',f,700,450);
         }
 
         var fncEditar=function(id){
-            window_float_open_modal('EDITAR PERSONA','/Configuracion_General/Persona_Mantenimiento_Editar',id,'',f,800,500);   
+            window_float_open_modal('EDITAR PERSONA','/Configuracion_General/Persona_Mantenimiento_Editar',id,'',f,700,450);   
         }
 
         var fncEliminar=function(id){			
                 gridEliminar(f,id,'/Configuracion_General/ajaxPersona_mantenimiento_Eliminar');
         }
 
-        $('#txtBuscar,#txtMostrar').keypress(function(e){
+        $('#txtBuscar,#txtMostrar,#txtNumero').keypress(function(e){
 
                 if (e.which==13){
                         $('#num_page').val(1);
@@ -115,7 +120,18 @@
                         return false;
                 }
         });
-
+        $("#selTipo_Documento").change(function(){
+                var valor=this.value;
+                if(valor=='0'){
+                    $("#txtBuscar").prop("disabled",false);
+                    $("#txtNumero").val('');
+                    $("#txtNumero").prop("disabled",true);
+                }else{
+                    $("#txtBuscar").prop("disabled",true);
+                    $("#txtBuscar").val("");
+                    $("#txtNumero").prop("disabled",false);
+                }
+            });
         $('#txtBuscar').focus();
 </script>
             

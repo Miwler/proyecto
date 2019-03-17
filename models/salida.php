@@ -943,6 +943,26 @@ class salida {
        log_error(__FILE__,"salida.actualizar_new",$ex->getMessage());
     }
   }
+  static function anular($ID,$usuario_mod_id)
+    {
+    $cn =new connect_new();
+    $retornar=0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_salida_Anular",
+            array(
+                "retornar"=>$retornar,
+                "iID"=>$ID,
+                "iusuario_mod_id"=>$usuario_mod_id),0);
+     
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      throw new Exception();
+       log_error(__FILE__,"salida.actualizar_new",$ex->getMessage());
+    }
+  }
   }
 
 

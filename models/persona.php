@@ -89,20 +89,21 @@ class persona {
       $ID=$cn->store_procedure_transa(
           "sp_persona_Insert",
             array(
-    "iID"=>0,
-    "iapellido_paterno"=>$this->apellido_paterno,
-    "iapellido_materno"=>$this->apellido_materno,
-    "inombres"=>$this->nombres,
-    "idireccion"=>$this->direccion,
-    "idistrito_ID"=>$this->distrito_ID,
-    "ifecha_nacimiento"=>$this->fecha_nacimiento,
-    "itelefono"=>$this->telefono,
-    "icelular"=>$this->celular,
-    "icorreo"=>$this->correo,
-    "isexo_ID"=>$this->sexo_ID,
-    "iusuario_id"=>$this->usuario_id,
-
-),0);
+            "iID"=>0,
+            "iapellido_paterno"=>$this->apellido_paterno,
+            "iapellido_materno"=>$this->apellido_materno,
+            "inombres"=>$this->nombres,
+            "idireccion"=>$this->direccion,
+            "idistrito_ID"=>$this->distrito_ID,
+            "ifecha_nacimiento"=> (trim($this->fecha_nacimiento)=="")?"NULL": FormatTextToDate($this->fecha_nacimiento, 'Y-m-d'),
+            "itelefono"=>$this->telefono,
+            "icelular"=>$this->celular,
+            "icorreo"=>$this->correo,
+            "isexo_ID"=>$this->sexo_ID,
+            "iusuario_id"=>$this->usuario_id,
+            "itipo_documento_ID"=>$this->tipo_documento_ID,
+            "inumero"=>$this->numero   
+        ),0);
       
       if($ID>0){
         $this->getMessage="El registro se guardó correctamente.";
@@ -132,14 +133,14 @@ class persona {
             "inombres"=>$this->nombres,
             "idireccion"=>$this->direccion,
             "idistrito_ID"=>$this->distrito_ID,
-            "ifecha_nacimiento"=>$this->fecha_nacimiento,
+            "ifecha_nacimiento"=> (trim($this->fecha_nacimiento)=="")?"NULL": FormatTextToDate($this->fecha_nacimiento, 'Y-m-d'),
             "itelefono"=>$this->telefono,
             "icelular"=>$this->celular,
             "icorreo"=>$this->correo,
             "isexo_ID"=>$this->sexo_ID,
             "iusuario_mod_id"=>$this->usuario_mod_id,
             "itipo_documento_ID"=>$this->tipo_documento_ID,
-             "inumero"=>$this->numero,
+             "inumero"=>$this->numero
         ),0);
      if($ID>0){
          $this->getMessage="Se actualizó correctamente.";
@@ -407,4 +408,26 @@ class persona {
                 throw new Exception($q);
         }
     }
+    
+     function eliminar()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_persona_Delete",
+            array(
+              "retornar"=>$retornar,
+              "iID"=>$this->ID,
+              "iusuario_mod_id"=>$this->usuario_mod_id ),0
+            );
+      if($retornar>0)$this->getMessage = "Se eliminó correctamente";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "persona.eliminar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 }

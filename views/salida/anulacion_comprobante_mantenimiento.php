@@ -15,6 +15,10 @@
 <?php } ?>
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-cut" aria-hidden="true"></i> Registro de anulación de facturas
+     <div class="pull-right">
+         <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+           
+     </div>
 <?php } ?>
 <?php function fncPage(){?>
      
@@ -22,17 +26,16 @@
 <div class="panel panel-tab panel-tab-double shadow">
     <div class="panel-heading no-padding"> 
         <ul class="nav nav-tabs">
-                <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
-                <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
-               
-            </ul>
-            <div style="position: absolute;right: 260px;top: 12px;display: block;">
+            <li class="active nav-border nav-border-top-success"><a href="#vista_filtrar" data-toggle="tab"><i class="fa fa-hourglass" aria-hidden="true"></i> <div><span class="text-strong">Filtro</span></div></a></li>
+            <li class="nav-border nav-border-top-primary"><a href="#vista_buscar" data-toggle="tab"><i class="fa fa-search-plus" aria-hidden="true"></i> <div><span class="text-strong">Búsqueda</span></div></a></li>
+
+        </ul>
+            <div class='pull-right'>
                 <input id="txtMostrar" name="txtMostrar" type="number"  value="30"   class="form-control int text-center" autocomplete="off" >
 
             </div>
             
-            <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-           
+            
     </div>
     <div class="panel-body">
         <div class="tab-content">
@@ -47,7 +50,7 @@
                                 <select id="selCliente" name="selCliente" class="form-control chosen-select">
                                     <option value="0">Todos</option>
                                     <?php foreach($GLOBALS['dtCliente'] as $item3){ ?>
-                                    <option value="<?php echo $item3['ID'];?>"><?php echo FormatTextViewHtml($item3['razon_social']);?></option>
+                                    <option value="<?php echo $item3['ID'];?>"><?php echo ($item3['razon_social']);?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -130,8 +133,8 @@
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                                 <select id="selPeriodo" name="selPeriodo" class="form-control">
                                     <option value="0">--</option>
-                                    <?php for ($i=0;$i<count($GLOBALS['dtPeriodo']);$i++) { ?>
-                                    <option value="<?php echo $GLOBALS['dtPeriodo'][$i]?>"><?php echo $GLOBALS['dtPeriodo'][$i]?></option>
+                                    <?php for ($i=periodo_inicio;$i<date("Y");$i++) { ?>
+                                    <option value="<?php echo $i?>"><?php echo $i?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -201,12 +204,12 @@
     var f=new form('frm1','div1');
     f.terminado = function () {
         var tb = document.getElementById(this.Div.id).getElementsByClassName('grid')[0];
-
-        grids = new grid(tb);
-        /*grids.nuevoEvento();
-        grids.fncPaginacion1(f);
-        $('[data-toggle="tooltip"]').tooltip(); 
-        $('#websendeos').stacktable();*/
+            grids = new grid(tb);
+            grids.nuevoEvento();
+            
+            $('[data-toggle="tooltip"]').tooltip(); 
+            $('#websendeos').stacktable();
+            grids.fncPaginacion1(f);
     }
     f.enviar();
     var fncCargaValores=function(){
@@ -232,7 +235,7 @@
 
 
     var fncAnular=function(id){
-        window_float_open_modal('ANULACIÓN DE FACTURAS','Salida/anulacion_comprobante_mantenimiento_registro',id,'',f,800,500); 
+        window_float_open_modal('ANULACIÓN DE FACTURAS','Salida/anulacion_comprobante_mantenimiento_registro',id,'',f,800,480); 
         
     }
 

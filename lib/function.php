@@ -8,16 +8,41 @@ function cargarInformacion($empresa_ID){
             if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
            
             $oDatos_Generales=datos_generales::getByEmpresa();
-            if(!defined('tipo_cambio'))define('tipo_cambio',$oDatos_Generales->tipo_cambio);
+            if($oDatos_Generales!=null){
+                if(!defined('tipo_cambio'))define('tipo_cambio',$oDatos_Generales->tipo_cambio);
             
-            if(!defined('igv'))define('igv',$oDatos_Generales->vigv);
-            //define('datos_genetales_ID',1);
-            if(!defined('logo'))define('logo',ruta_archivo.'/imagenes/logo/'.$oDatos_Generales->imagen);
-            if(!defined('logo_documentos'))define('logo_documentos',ruta_archivo.'/imagenes/logo_comprobantes/'.$oDatos_Generales->logo_extension);
-            if(!defined('favicon'))define('favicon','/'.ruta_archivo.'/imagenes/favicon/'.$oDatos_Generales->favicon);
-            //define('logo',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/logo/'.$oDatos_Generales->logo_extension);
-            if(!defined('razon_social'))define('razon_social',FormatTextView($oDatos_Generales->razon_social));
-            if(!defined('alias'))define('alias',FormatTextView($oDatos_Generales->alias));
+                if(!defined('igv'))define('igv',$oDatos_Generales->vigv);
+                //define('datos_genetales_ID',1);
+                if(!defined('logo'))define('logo',ruta_archivo.'/imagenes/logo/'.$oDatos_Generales->imagen);
+                if(!defined('logo_documentos'))define('logo_documentos',ruta_archivo.'/imagenes/logo_comprobantes/'.$oDatos_Generales->logo_extension);
+                if(!defined('favicon'))define('favicon','/'.ruta_archivo.'/imagenes/favicon/'.$oDatos_Generales->favicon);
+                //define('logo',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/logo/'.$oDatos_Generales->logo_extension);
+                if(!defined('razon_social'))define('razon_social',FormatTextView($oDatos_Generales->razon_social));
+                if(!defined('alias'))define('alias',FormatTextView($oDatos_Generales->alias));
+                if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',$oDatos_Generales->stilo_fondo_tabs);
+                if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',$oDatos_Generales->stilo_fondo_boton);
+                if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',$oDatos_Generales->stilo_fondo_cabecera);
+                $_COOKIE["stilo_fondo_cabecera"]=$oDatos_Generales->stilo_fondo_cabecera;
+                $_COOKIE["stilo_fondo_boton"]=$oDatos_Generales->stilo_fondo_boton;
+                $_COOKIE["stilo_fondo_tabs"]=$oDatos_Generales->stilo_fondo_tabs;
+                
+            }else{
+                $_COOKIE["stilo_fondo_cabecera"]="bg-facebook";
+                $_COOKIE["stilo_fondo_boton"]="bg-facebook";
+                $_COOKIE["stilo_fondo_tabs"]="bg-facebook";
+                /*if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',"bg-teal");
+                if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',"bg-teal");
+                if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',"bg-teal");*/
+            }
+            
+        }else{
+            $_COOKIE["stilo_fondo_cabecera"]="bg-facebook";
+            $_COOKIE["stilo_fondo_boton"]="bg-facebook";
+            $_COOKIE["stilo_fondo_tabs"]="bg-facebook";
+            /*if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',"bg-facebook");
+            if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',"bg-teal");
+            if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',"bg-facebook");*/
+           
         }
         if(!class_exists('configuracion_empresa')){
                 require ROOT_PATH . 'models/configuracion_empresa.php';
@@ -92,6 +117,7 @@ function cargarInformacion($empresa_ID){
 	}
         function FormatTextXML($text){
 		$text=preg_replace('/[\r\n|\n|\r]+/','&lt;',$text);
+                $text=utf8_encode($text);
 		return $text;
 	}
 	function test_input($data) {
@@ -112,7 +138,7 @@ function cargarInformacion($empresa_ID){
                 $text=str_replace('"','&quot;',$text);
                 $text=str_replace('ˋ','&apos;',$text);
                 $text=str_replace('&','&amp;',$text);
-		//$text=utf8_decode($text);
+		$text=utf8_encode($text);
 		return $text;
 	}
 	function FormatTextToDate($text,$format){

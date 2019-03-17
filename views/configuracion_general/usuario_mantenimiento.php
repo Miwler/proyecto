@@ -14,8 +14,8 @@
 <?php function fncTituloCabecera(){?>
      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Registro de usuarios
      <div class="pull-right">
-         <a onclick="f.enviar();" class="btn btn-success btn-add-skills" style="position: absolute;right: 120px;top: 12px;display: block;">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
-            <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" style="position: absolute;right: 12px;top: 12px;display: block;">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
+        <a onclick="f.enviar();" class="btn btn-success btn-add-skills" >Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
+        <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills" >Nuevo &nbsp;<i class="fa fa-plus"></i></a>
            
          <div class="clearfix"></div>
      </div>
@@ -142,7 +142,7 @@
             }
 
             var fncEditar=function(id){	
-                 window_float_open_modal('EDITAR USUARIO','/Configuracion_General/Usuario_mantenimiento_Editar',id,'',f,null,580);
+                 window_float_open_modal('EDITAR USUARIO','/Configuracion_General/Usuario_mantenimiento_Editar',id,'',f,null,300);
                   
             }
             var fncMenu=function(id){
@@ -163,8 +163,8 @@
             var fncEliminar=function(id){			
                     gridEliminar(f,id,'/Mantenimiento/ajaxUsuario_mantenimiento_Eliminar');
             }
-
-            $('#txtBuscar,#txtMostrar').keypress(function(e){
+            
+            $('#txtBuscar,#txtMostrar,#txtNumero').keypress(function(e){
 
                     if (e.which==13){
                             $('#num_page').val(1);

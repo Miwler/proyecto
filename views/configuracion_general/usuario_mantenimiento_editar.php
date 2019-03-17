@@ -35,23 +35,87 @@
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?> 
 <form id="frm1" method="post" enctype="multipart/form-data" action="/Configuracion_General/Usuario_Mantenimiento_Editar/<?php echo $GLOBALS['oUsuario']->ID;?>" onsubmit="return validar();" class="form-horizontal" >
     <div class="form-body">
-    <div class="form-group">
-       <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
-            <label>Persona:<span class="asterisk">*</span></label>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Foto:</label>
+                    <div class="col-sm-9">
+                        <label class="control-label">Foto para la cuenta</label>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="files/imagenes/foto_usuario/<?php echo $GLOBALS['oUsuario']->foto;?>" data-src="holder.js/100%x100%/blankon/text:Fluid image" alt="...">
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" data-trigger="fileinput" style="max-width: 200px; max-height: 150px;"></div>
+                            <div>
+                                <span class="btn btn-info btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="foto"></span>
+                                <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
+                         <label>Persona:<span class="asterisk">*</span></label>
+                     </div>
+                     <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
+                        <select id="selPersona" name="selPersona" class="chosen-select">
+                             <option value="0">--Seleccionar--</option>
+                              <?php foreach( $GLOBALS['dtPersona'] as $iPersona){?>
+                             <option value="<?php echo $iPersona['ID']?>"><?php echo FormatTextView(strtoupper($iPersona['apellido_paterno']. " ".$iPersona['apellido_materno']." ".$iPersona['nombres']));?></option>
+                              <?php }?>
+                         </select>
+                         <script>
+                             $("#selPersona").val(<?php echo  $GLOBALS['oUsuario']->persona_ID;?>);
+                         </script>
+                     </div>
+                 </div>
+                <div class="form-group">
+                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
+                        <label>Usuario:<span class="asterisk">*</span></label>
+                    </div>
+                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
+                        <input type="text" id="txtNombre" name="txtNombre" autocomplete="off" value="<?php echo $GLOBALS['oUsuario']->nombre;?>" class="form-control form-requerido">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
+                        <label>Contraseña:<span class="asterisk">*</span></label>
+                    </div>
+                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
+                        <input type="text" id="txtPassword" autocomplete="off" name="txtPassword" value="<?php echo $GLOBALS['oUsuario']->password;?>" class="form-control form-requerido">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
+                        <label>Correo:<span class="asterisk">*</span></label>
+                    </div>
+                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
+                        <input type="text" id="txtCorreo" name="txtCorreo" value="<?php echo $GLOBALS['oUsuario']->correo;?>" class="form-control form-requerido">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
+                        <label>Estado:</label>
+                    </div>
+                    <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
+                        <select id="selEstado" name="selEstado" class="form-control form-requerido text-uppercase">
+                            <option value="0">Seleccionar</option>
+                            <?php foreach($GLOBALS['oUsuario']->dtEstado as $item1){?>
+                            <option value="<?php echo $item1['ID']; ?>"><?php echo FormatTextView($item1['nombre']); ?></option>
+                            <?php }?>
+                        </select>
+                         <script>
+                            $("#selEstado").val(<?php echo  $GLOBALS['oUsuario']->estado_ID;?>);
+                        </script>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
-           <select id="selPersona" name="selPersona" class="chosen-select">
-                <option value="0">--Seleccionar--</option>
-                 <?php foreach( $GLOBALS['dtPersona'] as $iPersona){?>
-                <option value="<?php echo $iPersona['ID']?>"><?php echo FormatTextView(strtoupper($iPersona['apellido_paterno']. " ".$iPersona['apellido_materno']." ".$iPersona['nombres']));?></option>
-                 <?php }?>
-            </select>
-            <script>
-                $("#selPersona").val(<?php echo  $GLOBALS['oUsuario']->persona_ID;?>);
-            </script>
-        </div>
-    </div>
-    <div class="form-group">
+    
+    <!--<div class="form-group">
         <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
             <label>Foto:</label>
         </div>
@@ -68,48 +132,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
-            <label>Usuario:<span class="asterisk">*</span></label>
-        </div>
-        <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
-            <input type="text" id="txtNombre" name="txtNombre" autocomplete="off" value="<?php echo $GLOBALS['oUsuario']->nombre;?>" class="form-control form-requerido">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
-            <label>Contraseña:<span class="asterisk">*</span></label>
-        </div>
-        <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
-            <input type="text" id="txtPassword" autocomplete="off" name="txtPassword" value="<?php echo $GLOBALS['oUsuario']->password;?>" class="form-control form-requerido">
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
-            <label>Correo:<span class="asterisk">*</span></label>
-        </div>
-        <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
-            <input type="text" id="txtCorreo" name="txtCorreo" value="<?php echo $GLOBALS['oUsuario']->correo;?>" class="form-control form-requerido">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-xs-3 col-md-3 col-sm-3 col-lg-3 text-right">
-            <label>Estado:</label>
-        </div>
-        <div class="col-xs-9 col-md-9 col-sm-9 col-lg-9">
-            <select id="selEstado" name="selEstado" class="form-control form-requerido text-uppercase">
-                <option value="0">Seleccionar</option>
-                <?php foreach($GLOBALS['oUsuario']->dtEstado as $item1){?>
-                <option value="<?php echo $item1['ID']; ?>"><?php echo FormatTextView($item1['nombre']); ?></option>
-                <?php }?>
-            </select>
-             <script>
-                $("#selEstado").val(<?php echo  $GLOBALS['oUsuario']->estado_ID;?>);
-            </script>
-        </div>
-    </div>
+    </div>-->
+    
     </div>
     <div class="form-footer">
         <div class="pull-left">
@@ -117,7 +141,7 @@
                 <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                 Guardar
             </button>
-            <button  id="btnCancelar" name="btnCancelar" type="button" title="Salir" onclick="window_float_close();" class="btn btn-danger">
+            <button  id="btnCancelar" name="btnCancelar" type="button" title="Salir" onclick="window_float_close_modal();" class="btn btn-danger">
                 <img  alt="" src="/include/img/boton/cancel_14x14.png">
                 Cancelar
             </button>

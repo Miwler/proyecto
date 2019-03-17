@@ -51,6 +51,9 @@ private $beta_ws_factura;
 private $prod_ws_guia;
 private $prod_ws_factura;
 private $periodo_defecto;
+  private $stilo_fondo_tabs;
+        private $stilo_fondo_boton;
+        private $stilo_fondo_cabecera;
   public function __set($var, $valor)
     {
       $temporal = $var;
@@ -312,6 +315,9 @@ private $periodo_defecto;
                 $oDatos_generales->sitio_web=$item['sitio_web'];
                 $oDatos_generales->nombre=$item['nombre'];
                 $oDatos_generales->ruta=$item['ruta'];
+                $oDatos_generales->stilo_fondo_tabs=$item['stilo_fondo_tabs'];
+                $oDatos_generales->stilo_fondo_boton=$item['stilo_fondo_boton'];
+                $oDatos_generales->stilo_fondo_cabecera=$item['stilo_fondo_cabecera'];
       }
       return $oDatos_generales;
     }catch(Exeption $ex)

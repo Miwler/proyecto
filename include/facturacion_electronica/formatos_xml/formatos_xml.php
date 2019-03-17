@@ -11,6 +11,7 @@
  *
  * @author miwle_000
  */
+
 class formatosxml {
     private $atributos=array(
         'xmlns'=>'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2',
@@ -665,7 +666,15 @@ class formatosxml {
         $xml->formatOutput = true;
         return $xml;
     }
-    function factura_venta_UBL2_1($array){
+
+
+
+
+
+
+
+
+function factura_venta_UBL2_1($array){
         $xml = new DomDocument("1.0", "ISO-8859-1"); 
         
         $Invoice=$xml->createElement('Invoice'); 
@@ -682,25 +691,33 @@ class formatosxml {
             $UBLVersionID =$Invoice->appendChild($UBLVersionID);
             $CustomizationID=$xml->createElement('cbc:CustomizationID','2.0'); 
             $CustomizationID =$Invoice->appendChild($CustomizationID);
-            $ProfileID=$xml->createElement('cbc:ProfileID','0101');
+            
+            //$InvoiceTypeCode=$xml->createElement("cbc:InvoiceTypeCode");
+            
+            
+            /*$ProfileID=$xml->createElement('cbc:ProfileID','0101');
             $ProfileID=$Invoice->appendChild($ProfileID);
                 $schemeName=$xml->createAttribute('schemeName');
                 $schemeName->value='SUNAT:Identificador de Tipo de Operación';
                 $ProfileID->appendChild($schemeName);
+                
                 $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                 $schemeAgencyName->value='PE:SUNAT';
                 $ProfileID->appendChild($schemeAgencyName);
+                
                 $schemeURI=$xml->createAttribute('schemeURI');
                 $schemeURI->value='urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo17';
-                $ProfileID->appendChild($schemeURI);
+                $ProfileID->appendChild($schemeURI);*/
                 
             
             $ID=$xml->createElement('cbc:ID',$array['IdDocumento']); 
             $ID =$Invoice->appendChild($ID);
+            
             $IssueDate=$xml->createElement('cbc:IssueDate',$array['FechaEmision']); 
             $IssueDate=$Invoice->appendChild($IssueDate);
             $IssueTime=$xml->createElement('cbc:IssueTime',$array['HoraEmision']); 
             $IssueTime=$Invoice->appendChild($IssueTime);
+            
             $DueDate=$xml->createElement('cbc:DueDate',$array['FechaVencimiento']); 
             $DueDate=$Invoice->appendChild($DueDate);
             
@@ -709,11 +726,18 @@ class formatosxml {
                 $listID=$xml->createAttribute("listID");
                 $listID->value="0101";
                 $InvoiceTypeCode->appendChild($listID);
+                $name=$xml->createAttribute("name");
+                $name->value="Tipo de Operacion";
+                $InvoiceTypeCode->appendChild($name);
+                $listSchemeURI=$xml->createAttribute("listSchemeURI");
+                $listSchemeURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51";
+                $InvoiceTypeCode->appendChild($listSchemeURI);
+                
                 $listAgencyName=$xml->createAttribute("listAgencyName");
                 $listAgencyName->value="PE:SUNAT";
                 $InvoiceTypeCode->appendChild($listAgencyName);
                 $listName=$xml->createAttribute("listName");
-                $listName->value="SUNAT:Identificador de Tipo de Documento";
+                $listName->value="Tipo de Documento";//16/03/2019SUNAT:Identificador de Tipo de Documento";
                 $InvoiceTypeCode->appendChild($listName);
                 $listURI=$xml->createAttribute("listURI");
                 $listURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01";
@@ -755,7 +779,7 @@ class formatosxml {
                 $listAgencyName->value='PE:SUNAT';
                 $DocumentTypeCode->appendChild($listAgencyName);
                 $listName=$xml->createAttribute('listName');
-                $listName->value='SUNAT:Identificador de Tipo de Documento';
+                $listName->value="Tipo de Documento";//'SUNAT:Identificador de Tipo de Documento';
                 $DocumentTypeCode->appendChild($listName);
                 $listURI=$xml->createAttribute('listURI');
                 $listURI->value='urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01';
@@ -769,24 +793,26 @@ class formatosxml {
                 
                 $DocumentTypeCode=$xml->createElement('cbc:DocumentTypeCode',$array['Relacionados']['TipoDocumento']); 
                 $DocumentTypeCode=$AdditionalDocumentReference->appendChild($DocumentTypeCode);
-                    $listName=$xml->createAttribute("listName");
-                    $listName->value="Documento Relacionado";
-                    $DocumentTypeCode->appendChild($listName);
                     $listAgencyName=$xml->createAttribute("listAgencyName");
                     $listAgencyName->value="PE:SUNAT";
                     $DocumentTypeCode->appendChild($listAgencyName);
+                    $listName=$xml->createAttribute("listName");
+                    $listName->value="Documento Relacionado";
+                    $DocumentTypeCode->appendChild($listName);
+                    
                     $listURI=$xml->createAttribute("listURI");
                     $listURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo12";
                     $DocumentTypeCode->appendChild($listURI);
-                $DocumentStatusCode=$xml->createElement('cbc:DocumentStatusCode',$array['Relacionados']['NroDocumento']); 
+                /*16/06/2019$DocumentStatusCode=$xml->createElement('cbc:DocumentStatusCode',$array['Relacionados']['NroDocumento']); 
                 $DocumentStatusCode=$AdditionalDocumentReference->appendChild($DocumentStatusCode);
                     $listName=$xml->createAttribute("listName");
                     $listName->value="Anticipo";
                     $DocumentTypeCode->appendChild($listName);
                     $listAgencyName=$xml->createAttribute("listAgencyName");
                     $listAgencyName->value="PE:SUNAT";
-                    $DocumentTypeCode->appendChild($listAgencyName);
-                $IssuerParty=$xml->createElement('cac:IssuerParty'); 
+                    $DocumentTypeCode->appendChild($listAgencyName);*/
+                    
+                /*16/06/2019$IssuerParty=$xml->createElement('cac:IssuerParty'); 
                 $IssuerParty=$AdditionalDocumentReference->appendChild($IssuerParty);
                     $PartyIdentification=$xml->createElement('cac:PartyIdentification'); 
                     $PartyIdentification=$IssuerParty->appendChild($PartyIdentification);
@@ -803,7 +829,7 @@ class formatosxml {
                             $ID->appendChild($schemeAgencyName);
                             $schemeURI=$xml->createAttribute("schemeURI");
                             $schemeURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06";
-                            $ID->appendChild($schemeURI);
+                            $ID->appendChild($schemeURI);*/
                     
         }
             
@@ -829,7 +855,7 @@ class formatosxml {
                     $ExternalReference=$DigitalSignatureAttachment->appendChild($ExternalReference);
                         $URI=$xml->createElement('cbc:URI','#LlamaSign'); 
                         $URI=$ExternalReference->appendChild($URI);
-                            
+            //Emisor                
             $AccountingSupplierParty=$xml->createElement('cac:AccountingSupplierParty'); 
             $AccountingSupplierParty=$Invoice->appendChild($AccountingSupplierParty);
                 $Party=$xml->createElement('cac:Party'); 
@@ -842,7 +868,7 @@ class formatosxml {
                             $schemeID->value="6";
                             $ID->appendChild($schemeID);
                             $schemeName=$xml->createAttribute("schemeName");
-                            $schemeName->value="SUNAT:Identificador de Documento de Identidad";
+                            $schemeName->value="Documento de Identidad";//16/03/2019SUNAT:Identificador de Documento de Identidad";
                             $ID->appendChild($schemeName);
                             $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                             $schemeAgencyName->value="PE:SUNAT";
@@ -866,8 +892,58 @@ class formatosxml {
                             $RegistrationName->appendChild($nombre_legal);
                         $RegistrationAddress=$xml->createElement('cac:RegistrationAddress'); 
                         $RegistrationAddress=$PartyLegalEntity->appendChild($RegistrationAddress);
-                            $AddressTypeCode=$xml->createElement('cbc:AddressTypeCode','0000'); 
+                        //16/03/2019
+                            /*$AddressLine=$xml->createElement("cac:AddressLine");
+                            $AddressLine=$RegistrationAddress->appendChild($AddressLine);
+                                $Line=$xml->createElement("cbc:Line");
+                                $Line=$AddressLine->appendChild($Line);
+                                    $direccion_completa=$xml->createCDATASection(substr(FormatTextViewXML($array['Emisor']['Direccion']),0,200));
+                                    $direccion_completa=$Line->appendChild($direccion_completa);
+                                
+                            $CitySubdivisionName=$xml->createElement("cbc:CitySubdivisionName",substr(FormatTextViewXML($array['Emisor']['Urbanizacion']),0,25));
+                            $CitySubdivisionName=$RegistrationAddress->appendChild($CitySubdivisionName);
+                                
+                            $CityName=$xml->createElement("cbc:CityName",substr(FormatTextViewXML($array['Emisor']['Provincia']),0,30));
+                            $CityName=$RegistrationAddress->appendChild($CityName);*/
+                                
+                                
+                                
+                            /*$ID=$xml->createElement("cbc:ID",$array['Emisor']['Ubigeo']);
+                            $ID=$RegistrationAddress->appendChild($ID);
+                                $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
+                                $schemeAgencyName->value="PE:INEI";
+                                $ID->appendChild($schemeAgencyName); 
+                                $schemeName=$xml->createAttribute("schemeName");
+                                $schemeName->value="Ubigeos";
+                                $ID->appendChild($schemeName); 
+                                
+                            $CountrySubentity=$xml->createElement("cbc:CountrySubentity",substr(FormatTextViewXML($array['Emisor']['Departamento']),0,30));
+                            $CountrySubentity=$RegistrationAddress->appendChild($CountrySubentity);
+                            $District=$xml->createElement("cbc:District",substr(FormatTextViewXML($array['Emisor']['Distrito']),0,30));
+                            $District=$RegistrationAddress->appendChild($District);
+                            $Country=$xml->createElement("cac:Country");
+                            $Country=$RegistrationAddress->appendChild($Country);
+                                $IdentificationCode=$xml->createElement("cbc:IdentificationCode",$array['Emisor']['Pais']);
+                                $IdentificationCode=$Country->appendChild($IdentificationCode);
+                                    $listID=$xml->createAttribute("listID");
+                                    $listID->value="ISO 3166-1";
+                                    $IdentificationCode->appendChild($listID);
+                                    $listAgencyName=$xml->createAttribute("listAgencyName");
+                                    $listAgencyName->value="United Nations Economic Commission for Europe";
+                                    $IdentificationCode->appendChild($listAgencyName);
+                                    $listName=$xml->createAttribute("listName");
+                                    $listName->value="Country";
+                                    $IdentificationCode->appendChild($listName);*/
+                                    
+                            //
+                            $AddressTypeCode=$xml->createElement('cbc:AddressTypeCode',$array['Emisor']['Local']); 
                             $AddressTypeCode=$RegistrationAddress->appendChild($AddressTypeCode);
+                                $listAgencyName=$xml->createAttribute("listAgencyName");
+                                $listAgencyName->value="PE:SUNAT";
+                                $AddressTypeCode->appendChild($listAgencyName);
+                                $listName=$xml->createAttribute("listName");
+                                $listName->value="Establecimientos anexos";
+                                $AddressTypeCode->appendChild($listName);
                     
                     
             $AccountingCustomerParty=$xml->createElement('cac:AccountingCustomerParty'); 
@@ -876,14 +952,15 @@ class formatosxml {
                 $Party=$AccountingCustomerParty->appendChild($Party);
                     $PartyIdentification=$xml->createElement('cac:PartyIdentification'); 
                     $PartyIdentification=$Party->appendChild($PartyIdentification);
-                        $ID=$xml->createElement('cbc:ID',$array['Receptor']['NroDocumento']); 
+                        $ID=$xml->createElement('cbc:ID',trim($array['Receptor']['NroDocumento'])); 
                         $ID=$PartyIdentification->appendChild($ID);
                             $schemeID=$xml->createAttribute("schemeID");
                             $schemeID->value="6";
                             $ID->appendChild($schemeID);
                             $schemeName=$xml->createAttribute("schemeName");
-                            $schemeName->value="SUNAT:Identificador de Documento de Identidad";
+                            $schemeName->value="Documento de Identidad";//16/03/209"SUNAT:Identificador de Documento de Identidad";
                             $ID->appendChild($schemeName);
+                            
                             $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                             $schemeAgencyName->value="PE:SUNAT";
                             $ID->appendChild($schemeAgencyName);
@@ -894,9 +971,9 @@ class formatosxml {
                     $PartyLegalEntity=$Party->appendChild($PartyLegalEntity);
                         $RegistrationName=$xml->createElement('cbc:RegistrationName'); 
                         $RegistrationName=$PartyLegalEntity->appendChild($RegistrationName);
-                            $nombre_legal=$xml->createCDATASection($array['Receptor']['NombreLegal']);
+                            $nombre_legal=$xml->createCDATASection(FormatTextViewXML(trim($array['Receptor']['NombreLegal'])));
                             $RegistrationName->appendChild($nombre_legal);
-                            
+        ///final revisado                    
           
         if(isset($array['Delivery']) && count($array['Delivery'])>0){
             $DeliveryTerms=$xml->createElement('cac:DeliveryTerms'); 
@@ -1003,12 +1080,23 @@ class formatosxml {
                         $TaxScheme=$TaxCategory->appendChild($TaxScheme);
                             $ID=$xml->createElement('cbc:ID','1000'); 
                             $ID=$TaxScheme->appendChild($ID);
-                                $schemeID=$xml->createAttribute("schemeID");
+                                $schemeName=$xml->createAttribute("schemeName");
+                                $schemeName->value="Codigo de tributos";
+                                $ID->appendChild($schemeName);
+                                $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
+                                $schemeAgencyName->value="PE:SUNAT";
+                                $ID->appendChild($schemeAgencyName);
+                                
+                                $schemeURI=$xml->createAttribute("schemeURI");
+                                $schemeURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo05";
+                                $ID->appendChild($schemeURI);
+                                
+                                /*$schemeID=$xml->createAttribute("schemeID");
                                 $schemeID->value="UN/ECE 5153";
                                 $ID->appendChild($schemeID);
                                 $schemeAgencyID=$xml->createAttribute("schemeAgencyID");
                                 $schemeAgencyID->value="6";
-                                $ID->appendChild($schemeAgencyID);
+                                $ID->appendChild($schemeAgencyID);*/
                             $name=$xml->createElement('cbc:Name','IGV'); 
                             $name=$TaxScheme->appendChild($name);
                             $TaxTypeCode=$xml->createElement('cbc:TaxTypeCode','VAT'); 
@@ -1235,7 +1323,7 @@ class formatosxml {
                     $currencyID->value=$array['MonedaAnticipo'];
                     $PrepaidAmount->appendChild($currencyID);
             }
-                    
+                    //final porreviar
             
         foreach($array['Items'] as $items){
             $InvoiceLine=$xml->createElement('cac:InvoiceLine'); 
@@ -1247,8 +1335,10 @@ class formatosxml {
                     $unitCode=$xml->createAttribute('unitCode');
                     $unitCode->value=$items['UnidadMedida'];
                     $InvoicedQuantity->appendChild($unitCode);
+                    
                     $unitCodeListID=$xml->createAttribute('unitCodeListID');
                     $unitCodeListID->value="UN/ECE rec 20";
+                    
                     $InvoicedQuantity->appendChild($unitCodeListID);
                     $unitCodeListAgencyName=$xml->createAttribute('unitCodeListAgencyName');
                     $unitCodeListAgencyName->value="United Nations Economic Commission for Europe";
@@ -1327,7 +1417,7 @@ class formatosxml {
                         
                         $TaxCategory=$xml->createElement('cac:TaxCategory');
                         $TaxCategory=$TaxSubtotal->appendChild($TaxCategory);
-                            $ID=$xml->createElement('cbc:ID',$items['codigo_categoria']);
+                            /*$ID=$xml->createElement('cbc:ID',$items['codigo_categoria']);
                             $ID=$TaxCategory->appendChild($ID);
                                 $schemeID=$xml->createAttribute("schemeID");
                                 $schemeID->value="UN/ECE 5305";
@@ -1337,7 +1427,7 @@ class formatosxml {
                                 $ID->appendChild($schemeName);
                                 $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                                 $schemeAgencyName->value="United Nations Economic Commission for Europe";
-                                $ID->appendChild($schemeAgencyName);
+                                $ID->appendChild($schemeAgencyName);*/
                             $Percent=$xml->createElement('cbc:Percent',$array['porcentajeIgv']);
                             $Percent=$TaxCategory->appendChild($Percent);
                             
@@ -1347,7 +1437,7 @@ class formatosxml {
                                 $listAgencyName->value="PE:SUNAT";
                                 $TaxExemptionReasonCode->appendChild($listAgencyName);
                                 $listName=$xml->createAttribute("listName");
-                                $listName->value="SUNAT:Codigo de Tipo de Afectación del IGV";
+                                $listName->value="Afectacion del IGV";//"SUNAT:Codigo de Tipo de Afectación del IGV";
                                 $TaxExemptionReasonCode->appendChild($listName);
                                 $listURI=$xml->createAttribute("listURI");
                                 $listURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07";
@@ -1357,15 +1447,18 @@ class formatosxml {
                             $TaxScheme=$TaxCategory->appendChild($TaxScheme);
                                 $ID=$xml->createElement('cbc:ID',$items['tipo_tributo_codigo']);
                                 $ID=$TaxScheme->appendChild($ID);
-                                    $schemeID=$xml->createAttribute("schemeID");
+                                    /*16/03/2019$schemeID=$xml->createAttribute("schemeID");
                                     $schemeID->value="UN/ECE 5153";
-                                    $ID->appendChild($schemeID);
+                                    $ID->appendChild($schemeID);*/
                                     $schemeName=$xml->createAttribute("schemeName");
-                                    $schemeName->value="Tax Scheme Identifier";
+                                    $schemeName->value="Codigo de tributos";//16/03/2019"Tax Scheme Identifier";
                                     $ID->appendChild($schemeName);
                                     $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
-                                    $schemeAgencyName->value="United Nations Economic Commission for Europe";
+                                    $schemeAgencyName->value="PE:SUNAT";//"United Nations Economic Commission for Europe";
                                     $ID->appendChild($schemeAgencyName);
+                                    $schemeURI=$xml->createAttribute("schemeURI");
+                                    $schemeURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo05";//"United Nations Economic Commission for Europe";
+                                    $ID->appendChild($schemeURI);
                                 
                                 $Name=$xml->createElement('cbc:Name',$items['tipo_tributo_descripcion']);
                                 $Name=$TaxScheme->appendChild($Name);
@@ -1451,6 +1544,8 @@ class formatosxml {
                     $SellersItemIdentification=$Item->appendChild($SellersItemIdentification);
                         $ID=$xml->createElement('cbc:ID',$items['CodigoItem']);
                         $ID=$SellersItemIdentification->appendChild($ID);
+                        
+                        
                 $Price=$xml->createElement('cac:Price');
                 $Price=$InvoiceLine->appendChild($Price);
                     $PriceAmount=$xml->createElement('cbc:PriceAmount',$items['ValorUnitario']);
@@ -1463,6 +1558,7 @@ class formatosxml {
         $xml->formatOutput = true;
         return $xml;
     }
+    
     function nota_credito_UBL2_1($array){
         $xml = new DomDocument("1.0", "ISO-8859-1"); 
         
@@ -2222,7 +2318,9 @@ class formatosxml {
         return $xml;
     }
     function guia_venta2_1($array){
-        $xml = new DomDocument("1.0", "ISO-8859-1"); 
+        try{
+            
+            $xml = new DOMDocument("1.0", "ISO-8859-1"); 
         
         $DespatchAdvice=$xml->createElement('DespatchAdvice'); 
         $DespatchAdvice = $xml->appendChild($DespatchAdvice);
@@ -2452,8 +2550,10 @@ class formatosxml {
                 $FirstArrivalPortLocation=$xml->createElement('cac:FirstArrivalPortLocation');
                 $FirstArrivalPortLocation=$Shipment->appendChild($FirstArrivalPortLocation);
                     $ID=$xml->createElement('cbc:ID',$array['CodigoPuerto']);
-                    $ID=$FirstArrivalPortLocation->appendChild($ID);    
-                }
+                    $ID=$FirstArrivalPortLocation->appendChild($ID);  
+        
+          
+    }
                  
                 //BIENES A TRANSPORTAR        
                 
@@ -2485,9 +2585,21 @@ class formatosxml {
                         $ID=$xml->createElement("cbc:ID",$items['CodigoItem']);
                         $ID=$SellersItemIdentification->appendChild($ID);
         } 
-              
+        /*$myDoc = new MyDOMDocument($xml); // copy constructor
+
+                    // do anything with $myDoc that you would with $doc
+
+        $isValid = $myDoc->validate(); // won't create warnings
+        if (!$isValid) {
+            print_r($myDoc->errors); // the array all warnings are collected in
+        }  */
+        
         $xml->formatOutput = true;
+        
         return $xml;
+        }catch(Exception $ex){
+             log_error(__FILE__,"formatos_xml.guia_venta2_1", $ex->getMessage());
+        }
     }
     function inyectar_atributo($xml,$Invoice){
         foreach($this->atributos as $atributo=>$uri){

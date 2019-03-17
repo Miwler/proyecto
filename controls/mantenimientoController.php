@@ -3338,11 +3338,17 @@ function get_Operador_Mantenimiento_Nuevo() {
     
     global $returnView_float;
     $returnView_float = true;
+    try{
+        $dtCargo = cargo::getGrid("",-1,-1,"nombre asc");
+        $oOperador = new operador;
+        $oOperador->comision=0;
+        $oOperador->dtCargo=$dtCargo;
+    }catch(Exception $ex){
+        log_error(__FILE__,"mantenimientoController/get_Operador_Mantenimiento_Nuevo", $ex->getMessage());
+        $GLOBALS['resultado']=-1;
+        $GLOBALS['mensaje']=mensaje_error;
+    }
     
-    $dtCargo = cargo::getGrid("",-1,-1,"nombre asc");
-    $oOperador = new operador;
-    $oOperador->comision=0;
-    $oOperador->dtCargo=$dtCargo;
     
     $GLOBALS['oOperador'] = $oOperador;
     
@@ -6517,7 +6523,20 @@ function post_Persona_Mantenimiento_Nuevo_Otro() {
         $oPersona->usuario_id = $_SESSION['usuario_ID'];
         $oPersona->tipo_documento_ID=$tipo_documentop_ID;
         $oPersona->numero=$numero;
-        if ($oPersona->verificarDuplicado() > 0) {
+        $oPersona->tipo_documento_ID=$tipo_documentop_ID;
+        $oPersona->numero=$numero;
+        $retorna=$oPersona->insertar1();
+        if($retorna==-2){
+            $mensaje="El número de documento ya existe";
+            $resultado=-1;
+        }else if($retorna>0){
+            $mensaje=$oPersona->getMessage;
+            $resultado=1;
+        }else{
+            $mensaje="Ocurrió un error al intentar grabar.";
+            $resultado=-1;
+        }    
+        /*if ($oPersona->verificarDuplicado() > 0) {
               throw new Exception($oPersona->getMessage);             
         }  
         if($oPersona->insertar1()>0){
@@ -6527,11 +6546,9 @@ function post_Persona_Mantenimiento_Nuevo_Otro() {
             $oPersona_Documento->numero=$numero;
             $oPersona_Documento->usuario_id=$_SESSION['usuario_ID'];
             $oPersona_Documento->insertar();
-        }
+        }*/
         
-        $mensaje=$oPersona->getMessage;
-        $resultado=1;
-              
+      
     } catch (Exception $ex) {
         $resultado= -1;
         $mensaje= $ex->getMessage();

@@ -981,9 +981,9 @@
    }
     function fncEnviarSUNAT(id) {
         try {
-            block_ui(function () {
+           // block_ui(function () {
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
-                $.unblockUI();
+               // $.unblockUI();
 
                 if (resultado.resultado == 1||resultado.resultado == 2) {
                    if(resultado.resultado == 1){
@@ -1004,7 +1004,7 @@
                     mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
                 }
             });
-            });
+            //});
         } catch (e) {
                 //$.unblockUI();
                 console.log(e);

@@ -49,6 +49,9 @@ class datos_generales
         private $passwordcertificado;
         private $visc;
         private $tasadetraccion;
+        private $stilo_fondo_tabs;
+        private $stilo_fondo_boton;
+        private $stilo_fondo_cabecera;
 	public function __set($var, $valor)
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
@@ -382,7 +385,7 @@ static function getByID1($empresa_ID)
             $q='select dg.ID,dg.empresa_ID,dg.ruc,dg.razon_social,dg.alias,dg.direccion,dg.direccion_fiscal,dg.distrito_ID,dg.favicon,dg.logo_extension,dg.imagen,';
             $q.='dg.correo,dg.pagina_web,dg.telefono,dg.celular,dg.tipo_cambio,dg.vigv,dg.observacion,dg.quienes_somos,dg.mision,dg.vision,dg.skype,dg.persona_contacto';
             $q.=',dg.cargo_contacto,dg.mail_webmaster,dg.password_webmaster,dg.servidorSMTP,dg.puertoSMTP,dg.sitio_web,';
-            $q.='em.ruta,em.nombre';
+            $q.='em.ruta,em.nombre,em.stilo_fondo_tabs,em.stilo_fondo_boton,stilo_fondo_cabecera';
             $q.=' from datos_generales dg,empresa em ';
             $q.=' where dg.empresa_ID=em.ID and dg.del=0 and em.del=0 and dg.empresa_ID='.$_SESSION['empresa_ID'];
             //echo $q;
@@ -424,7 +427,9 @@ static function getByID1($empresa_ID)
                 $oDatos_generales->sitio_web=$item['sitio_web'];
                 $oDatos_generales->nombre=$item['nombre'];
                 $oDatos_generales->ruta=$item['ruta'];
-
+                $oDatos_generales->stilo_fondo_tabs=$item['stilo_fondo_tabs'];
+                $oDatos_generales->stilo_fondo_boton=$item['stilo_fondo_boton'];
+                $oDatos_generales->stilo_fondo_cabecera=$item['stilo_fondo_cabecera'];
             }
             return $oDatos_generales;
 
