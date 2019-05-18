@@ -907,24 +907,27 @@ function generador_tabla($dt,$array_cabecera,$campo_orden,$orden,$cantidadMostra
         array_push($array_campo,$column['campo']);
         $y++;  
     }
-   //print_r($array_buscar);
+  
     $array=[];
     if(count($array_buscar)>0){
-        $array_filtrado=[];
+        
         foreach($array_buscar as $bu){
             
             $i=0;
+            $array_filtrado=[];
             foreach($dt as $col){
-                if (strpos(strtoupper($col[$bu['cam']]), strtoupper($bu['valor'])) == true){
+                
+                if (mb_strpos(strtoupper($col[$bu['cam']]), strtoupper($bu['valor']),0,'auto') !==false){
                     array_push($array_filtrado,$dt[$i]);
+                    //print_r($array_filtrado);
                 }
                 $i++;
             }
-           
+            
+            $dt=$array_filtrado;
             
         }
-         //$dt=$array_filtrado;
-            $array=array_filtrado;
+            $array=$dt;
       
     }else{
         $array=$dt;
