@@ -105,16 +105,16 @@ class comunicacion_baja_sunat {
       $ID=$cn->store_procedure_transa(
           "sp_comunicacion_baja_sunat_Insert",
             array(
-        "iID"=>0,
-        "icomunicacion_baja_ID"=>$this->comunicacion_baja_ID,
-        "ifecha_generacion"=>$this->fecha_generacion,
-        "ifecha_respuesta"=>$this->fecha_respuesta,
-        "inombre_archivo"=>$this->nombre_archivo,
-        "idescripcion_resultado"=>$this->descripcion_resultado,
-        "ixml_firmado"=>$this->xml_firmado,
-        "iticket"=>$this->ticket,
-        "iusuario_id"=>$this->usuario_id
-    ),0);
+                "iID"=>0,
+                "icomunicacion_baja_ID"=>$this->comunicacion_baja_ID,
+                "ifecha_generacion"=>$this->fecha_generacion,
+                "ifecha_respuesta"=>$this->fecha_respuesta,
+                "inombre_archivo"=>$this->nombre_archivo,
+                "idescripcion_resultado"=>$this->descripcion_resultado,
+                "ixml_firmado"=>$this->xml_firmado,
+                "iticket"=>$this->ticket,
+                "iusuario_id"=>$this->usuario_id
+            ),0);
       if($ID>0){
         $this->getMessage="El registro se guardó correctamente.";
         $this->ID=$ID;

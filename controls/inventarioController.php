@@ -11,82 +11,34 @@ function get_Inventario_Mantenimiento() {
 }
 function post_ajaxInventario_Mantenimiento() {
     require ROOT_PATH . 'models/inventario.php';
-    
+    require ROOT_PATH . 'models/producto.php';
     require ROOT_PATH . 'controls/funcionController.php';
-    $codigo=$_POST['txtCodigo'];
-    $producto_ID=0;
-    if(isset($_POST['selProducto'])){
-        $producto_ID=$_POST['selProducto'];
-    }
-    
-    
-   
+    $orden=$_POST['orden'];
     $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
     $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
-    $txtOrden = $_POST['txtOrden'];
-    $orden_tipo = 'DESC';
-    $orden_class = 'imgOrden-desc';
-    if (isset($_POST['chkOrdenASC'])) {
-        $orden_class = 'imgOrden-asc';
-        $orden_tipo = 'ASC';
-    }
-    switch ($txtOrden) {
-        case 1:
-            $orden = 'pro.ID ' . $orden_tipo;
-            break;
-        case 2:
-            $orden = 'pro.nombre ' . $orden_tipo;
-            break;   
-       
-        default:
-            $orden = 'pro.ID ' . $orden_tipo;
-            break;
-    }
-    $filtro="pro.empresa_ID=".$_SESSION['empresa_ID'];
-    if($codigo!=''){
-        $filtro="pro.ID=".$codigo;
-    }
-    if($producto_ID!=0){
-        $filtro="pro.ID=".$producto_ID;
-    }
-    //$filtro = 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    $campo_orden = $_POST['campo_orden'];
 
- 				 
-    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><theader><tr>';
-  
-    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Código' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(2);">Productos' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-    $resultado.='<th class="thOrden">Cantidad</th>';
-    $resultado.='<th></th>';
-    $resultado.='</tr><thead><tbody>';
-
-    $colspanFooter = 4;
     try {
-        $cantidadMaxima = inventario::getCountProductos($filtro);
-        $dtInventarioProductos = inventario::getGridProductos($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
-        $rows = count($dtInventarioProductos);
-
-        foreach ($dtInventarioProductos as $item) {
-            $resultado.='<tr class="tr-item">';
-            $texto='Pagar';
-           
-            
-            //$resultado.='<td>'.$impresion.'</td>';
-            $resultado.='<td class="text-center">' .sprintf("%'.05d", $item['codigo']). '</td>';
-            $resultado.='<td class="tdLeft">' . $item['producto']. '</td>';
-            $resultado.='<td class="text-center">' . $item['total'] . '</td>';
-            $resultado.='<td class="text-center" ><a onclick="fncInventarioKardex(' . $item['ID'] . ');"><img title="Kardex" src="/include/img/boton/details_14x14.png" />&nbsp;Kardex</a>';
-            $resultado.='</td>';
-            $resultado.='</tr>';
-        }
-        $cantidadPaginas = '';
-        $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
-        $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
+        $dt =inventario::getProducto($_SESSION['empresa_ID']); 
+        
+        $array_cabecera=array(
+            array("cabecera"=>'N°',"class_alineado"=>'text-center',"campo"=>'ID',"filtro"=>"no"),
+            array("cabecera"=>'Código',"class_alineado"=>'text-center',"campo"=>'codigo',"filtro"=>"si"),
+            array("cabecera"=>'Producto',"class_alineado"=>'text-left',"campo"=>'nombre',"filtro"=>"si"),
+            array("cabecera"=>'Estado',"class_alineado"=>'text-left',"campo"=>'estado',"filtro"=>"si"),
+            array("cabecera"=>'UM',"class_alineado"=>'text-left',"campo"=>'unidad_medida',"filtro"=>"si"),
+            array("cabecera"=>'Ingresos',"class_alineado"=>'text-center',"campo"=>'ingresos',"filtro"=>"si"),
+            array("cabecera"=>'Salidas',"class_alineado"=>'text-center',"campo"=>'salidas',"filtro"=>"si"),
+            array("cabecera"=>'Existencia',"class_alineado"=>'text-center',"campo"=>'existencias',"filtro"=>"si"),
+            array("cabecera"=>'Opcion',"class_alineado"=>'text-center',"campo"=>'opcion',"filtro"=>"no")
+        );
+        
+        $resultado=generador_tabla($dt,$array_cabecera,$campo_orden,$orden,$cantidadMostrar,$paginaActual); 
     } catch (Exception $ex) {
-        $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+        log_error(__FILE__, "inventario/post_ajaxInventario_Mantenimiento", $ex->getMessage());
+        
     }
-     $resultado.='</tbody>';
-    $resultado.='</table>';
+
 
     $mensaje = '';
     $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);

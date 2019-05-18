@@ -125,9 +125,9 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','',8);
         $this->SetTextColor(0);
         $this->SetXY(8,18);
-        $this->Cell(80,30,utf8_decode($this->cabecera[0]['razon_social']),0,1);
+        $this->Cell(80,30,FormatTextViewPDF($this->cabecera[0]['razon_social']),0,1);
         $this->SetXY(8,25);
-        $this->Cell(80,30,utf8_decode($this->cabecera[0]['direccion1']),0,1);
+        $this->Cell(80,30,FormatTextViewPDF($this->cabecera[0]['direccion1']),0,1);
         $this->SetXY(138,8);
         $this->Cell(70,30,'',1);    
         $this->SetXY(138,8);
@@ -135,7 +135,7 @@ class PDF2 extends FPDF
         $this->Cell(70,7,'R.U.C.'.$this->cabecera[0]['ruc'],0,2,'C');
         $this->Cell(70,7,'GUIA DE REMISION',0,2,'C');
         if($this->electronico==1){
-            $this->Cell(70,7,utf8_decode('ELECTRÓNICO'),0,2,'C');
+            $this->Cell(70,7,FormatTextViewPDF('ELECTRÓNICO'),0,2,'C');
         }
         
         $this->Cell(70,7,utf8_decode($this->cabecera[0]['serie'].' - N°'. $this->numero),0,0,'C');
@@ -163,7 +163,7 @@ class PDF2 extends FPDF
         $this->Cell(40,5,$this->cabecera[0]['fecha_inicio_traslado'],0,0,'L');
         
         $this->SetXY(130,45);
-        $this->Cell(40,5,utf8_decode('ORDEN DE PEDIDO N°:'),0,2,'L');
+        $this->Cell(40,5,FormatTextViewPDF('ORDEN DE PEDIDO N°:'),0,2,'L');
         $this->Cell(25,5,'ORDEN DE COMPRA',0,2,'L');
         $this->SetFont('Arial','',7);
         $this->SetXY(170,45);
@@ -173,32 +173,32 @@ class PDF2 extends FPDF
         //domicilio de partida
         $this->SetFillColor(215,215,215);
         $this->Cell(99,5,'DOMICILIO DE PARTIDA',1,2,'C',true);
-        $this->MultiCell(99,10,utf8_decode($this->cabecera[0]['punto_partida']),0,'C',false);
+        $this->MultiCell(99,10,FormatTextViewPDF($this->cabecera[0]['punto_partida']),0,'C',false);
         $this->Rect(10,62,99,10);
         $this->SetXY(111,57);
         $this->Cell(99,5,'DOMICILIO DE LLEGADA',1,2,'C',true);
-        $this->MultiCell(99,5,utf8_decode($this->cabecera[0]['punto_llegada']),0,'C',false);
+        $this->MultiCell(99,5,FormatTextViewPDF($this->cabecera[0]['punto_llegada']),0,'C',false);
         $this->Rect(111,62,99,10);
         $this->Ln(7);
         
         //destinatario
         $this->SetXY(10,74);
         $this->Cell(99,5,'DESTINATARIO',1,2,'C',true);
-        $this->MultiCell(80,5,'NOMBRES/RAZON SOCIAL:'.utf8_encode($this->cabecera[0]['cliente']),0,'L',false);
+        $this->MultiCell(80,5,'NOMBRES/RAZON SOCIAL:'.FormatTextViewPDF($this->cabecera[0]['cliente']),0,'L',false);
        
         //$this->Ln(3);
-        $this->Cell(80,5,'RUC:'.utf8_decode($this->cabecera[0]['cliente_ruc']),0,1,'L',false);
+        $this->Cell(80,5,'RUC:'.FormatTextViewPDF($this->cabecera[0]['cliente_ruc']),0,1,'L',false);
       
         $this->Rect(10,79,99,10);
         $this->SetXY(111,74);
         $this->Cell(99,5,'DATOS DEL TRANSPORTE/CONDUCTOR',1,2,'C',true);
-        $this->Cell(30,5,utf8_decode('VEHICULO MARCA Y PLACA N°:').utf8_encode($this->cabecera[0]['vehiculo']),0,0,'L');
+        $this->Cell(30,5,FormatTextViewPDF('VEHICULO MARCA Y PLACA N°:').utf8_encode($this->cabecera[0]['vehiculo']),0,0,'L');
         $this->Ln(3);
         $this->SetX(111);
-        $this->Cell(30,5,utf8_decode('CERTIFICADO DE INSCRIPCION N°: ').utf8_encode($this->cabecera[0]['certificado_inscripcion']),0,0,'L');
+        $this->Cell(30,5,FormatTextViewPDF('CERTIFICADO DE INSCRIPCION N°: ').utf8_encode($this->cabecera[0]['certificado_inscripcion']),0,0,'L');
         $this->Ln(3);
         $this->SetX(111);
-        $this->Cell(30,5,utf8_decode('LICENCIA DE CONDUCIR N°:').utf8_encode($this->cabecera[0]['licencia_conducir']),0,0,'L');
+        $this->Cell(30,5,FormatTextViewPDF('LICENCIA DE CONDUCIR N°:').utf8_encode($this->cabecera[0]['licencia_conducir']),0,0,'L');
         
         $this->Rect(111,79,99,10);
         $this->Ln(2);
@@ -236,17 +236,17 @@ class PDF2 extends FPDF
        $this->SetTextColor(0);
        $this->Cell(80,5,'TRANSPORTISTA:',1,0,'C',true);
        $this->Ln();
-       $this->Cell(80,5,'NOMBRE: '.utf8_decode($this->cabecera[0]["chofer"]).'   '.utf8_decode($this->cabecera[0]["licencia_conducir"]),0,0,'L',false);
+       $this->Cell(80,5,'NOMBRE: '.FormatTextViewPDF($this->cabecera[0]["chofer"]).'   '.FormatTextViewPDF($this->cabecera[0]["licencia_conducir"]),0,0,'L',false);
 
        $this->Ln();
        $this->SetX(30);
-       $this->Cell(80,5,utf8_decode($this->cabecera[0]["empresa_transporte"]),0,0,'L',false);
+       $this->Cell(80,5,FormatTextViewPDF($this->cabecera[0]["empresa_transporte"]),0,0,'L',false);
        $this->Ln(3);
        $this->SetX(30);
        $this->Cell(80,5,utf8_decode($this->cabecera[0]["ruc_empresa_transporte"]),0,0,'L',false);
        $this->Ln(3);
        $this->SetX(30);
-       $this->Cell(80,5, utf8_decode($this->cabecera[0]["vehiculo"]),0,0,'L',false);
+       $this->Cell(80,5, FormatTextViewPDF($this->cabecera[0]["vehiculo"]),0,0,'L',false);
        $this->SetXY(10,243);
        $this->Cell(30,5,'R.U.C./D.N.I.:',0,0,'L',false);
        $this->Rect(10,235,80,15);
@@ -260,16 +260,16 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','',8);
         foreach($dtGuia_Venta_Detalle as $item){
             $longitud=250;
-            $largo_prod=strlen(utf8_decode($item['producto']));
+            $largo_prod=strlen(FormatTextViewPDF($item['producto']));
             $longitud=$longitud-$largo_prod;
             $this->SetFont('Arial','B',8);
-            $array=array($item['cantidad'],utf8_decode($item['producto']),$item['unidad_medida'],$item['peso']);
+            $array=array($item['cantidad'],FormatTextViewPDF($item['producto']),$item['unidad_medida'],round($item['peso'],2));
             $this->Row($array,5);
             $this->SetX(30);
             $this->SetFont('Arial','',8);
             
                 //$this->MultiCell(120,5,utf8_decode($item['producto']).chr(10).utf8_decode($item['descripcion']),0,'J',false);
-                $this->MultiCell(120,5,substr(utf8_decode($item['descripcion']),0,$longitud),0,'J',false);
+                $this->MultiCell(120,5,substr(FormatTextViewPDF($item['descripcion']),0,$longitud),0,'J',false);
                 
             
             $this->Ln();

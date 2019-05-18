@@ -22,7 +22,7 @@
                         $contrasena=$_POST['txtContrasena'];
 
                         $oUsuario=usuario::validar($nombre,$contrasena);
-
+                        
                         if($oUsuario){
                                 $resultado=1;	
                                 $_SESSION['user-autentication']=true;

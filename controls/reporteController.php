@@ -566,7 +566,8 @@
         global $returnView;
         $returnView=true;
         
-        $dtReportes=reportes_empresa_usuario::getGrid('rem.empresa_ID='.$_SESSION['empresa_ID'].' and re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
+        //$dtReportes=reportes_empresa_usuario::getLista('rem.empresa_ID='.$_SESSION['empresa_ID'].' and re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
+        $dtReportes=reportes_empresa_usuario::getLista($_SESSION['empresa_ID'],$_SESSION['usuario_ID'],3);
         
         $GLOBALS['dtReportes']=$dtReportes;
         
@@ -856,6 +857,7 @@
         require ROOT_PATH . 'models/cliente.php';
         $reportes_ID=$_POST['id'];
         $oReportes=reportes::getByID($reportes_ID);
+        
         try {
         $resultado= '<div class="form-group">';
         $resultado.= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">';
@@ -907,7 +909,7 @@
         $resultado.='<select id="selMoneda" name="selMoneda" class="form-control" disabled>';
         $resultado.='<option value="0">Todos</option>';
         foreach(moneda::getGrid("") as $moneda){
-            $resultado.='<option value="'.$moneda['ID'].'">'.FormatTextView($moneda['descripcion']).'</option>';
+            $resultado.='<option value="'.$moneda['ID'].'">'.utf8_encode($moneda['descripcion']).'</option>';
         }
         
         $resultado.='</select>';

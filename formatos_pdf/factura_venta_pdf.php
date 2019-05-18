@@ -20,8 +20,9 @@ class PDF2 extends FPDF
     public $numero_cuenta;
 
     public $font_size=5;
-    public $subtitle_size=8;
+    public $subtitle_size=7;
     public $hash="";
+    public $color;
     //public $dtOrden_Venta_Numero_Cuenta;
     function Row($data,$altura)
     {
@@ -154,21 +155,14 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('Señor(es):'),0,0,'L');
         $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(95,5,utf8_decode($this->cabecera[0]['cliente']),0,0,'L');
-        $this->SetFont('Arial','B',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode('Vendedor(a):'),0,0,'L');
-        $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode(substr($this->cabecera[0]['operador'],0,22)),0,0,'L');
-        $this->Ln();
+        $this->MultiCell(170,5,FormatTextViewPDF($this->cabecera[0]['cliente']),0,'L',false);
+        
+ 
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('Dirección:'),0,0,'L');
         $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(95,5,utf8_decode(substr($this->cabecera[0]['direccion'],0,50)),0,0,'L');
-        $this->SetFont('Arial','B',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode('N° Pedido:'),0,0,'L');
-        $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_venta']),0,0,'L');
-        $this->Ln();
+        $this->MultiCell(170,4,utf8_decode($this->cabecera[0]['direccion']),0,'L',false);
+        //$this->Ln();
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('R.U.C.:'),0,0,'L');
         $this->SetFont('Arial','',$this->subtitle_size);
@@ -182,14 +176,28 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_compra']),0,0,'L');
         $this->Ln();
+        //$this->SetX(10);
+        
+        
+        $this->SetFont('Arial','B',$this->subtitle_size);
+        $this->Cell(25,5,utf8_decode('Vendedor(a):'),0,0,'L');
+        $this->SetFont('Arial','',$this->subtitle_size);
+        $this->Cell(95,5,utf8_decode(substr($this->cabecera[0]['operador'],0,22)),0,0,'L');
+        
+        $this->SetFont('Arial','B',$this->subtitle_size);
+        $this->Cell(40,5,utf8_decode('N° Pedido:'),0,0,'L');
+        $this->SetFont('Arial','',$this->subtitle_size);
+        $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_venta']),0,0,'L');
+        
+        $this->Ln();
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(200,5,utf8_decode('Por lo siguiente:'),0,1,'L');
     }
-    function contenido_detalle($dtDetalle){
+    /*function contenido_detalle($dtDetalle){
 
         $this->SetXY(10,87);
         foreach($dtDetalle as $item){
-            $costo_unitario=number_format($item['precio_unitario'],2,'.',',');
+            $costo_unitario=number_format($item['precio_unitario'],bd_largo_decimal,'.',',');
             $subtotal=number_format($item['sub_total'],2,'.',',');
             $this->SetFont('Arial','B',10);
             $texto = $item['producto'];
@@ -200,7 +208,7 @@ class PDF2 extends FPDF
             $this->SetFont('Arial','',9);
             $this->Ln();
        }
-    }
+    }*/
     function contenedor_detalle($alto){
     //$this->SetXY(10,$y);
    /* $this->Ln();

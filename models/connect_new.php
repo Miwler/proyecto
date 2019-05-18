@@ -33,9 +33,9 @@ class connect_new
                        
                 
             }catch(PDOException $ex){
-                
-                throw new Exception($ex->getMessage());
                 log_error(__FILE__,"connect_new.connect_new", $ex->getMessage());
+                throw new Exception($ex->getMessage());
+                
             }
             
         }
@@ -213,7 +213,7 @@ class connect_new
                     throw new Exception("Falló la ejecución: (".$this->connect_new->errno.")");
                     
                 }
-                $resultado =$sentencia->fetchAll();
+                $resultado =$sentencia->fetchAll(PDO::FETCH_ASSOC);
                 
                 $this->disconnect_new();
                 return $resultado;
@@ -283,6 +283,7 @@ class connect_new
             }
 
         }
+        
         function store_procedure_transa($pv_proc,$pt_args,$out)
         {
             try{

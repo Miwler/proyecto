@@ -231,7 +231,9 @@ class comunicacion_baja {
                 "ifactura_venta"=>$factura_venta,
                 "inota_credito"=>$nota_credito,
                 "inota_debito"=>$nota_debito,
-                "iID"=>$ID));
+                "iID"=>$ID,
+                "iempresa_ID"=>$_SESSION['empresa_ID']));
+      
       return $retornar;
     }catch(Exeption $ex)
     {

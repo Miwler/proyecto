@@ -99,7 +99,39 @@
         <script src="../../include/jspanel-4.1.2/extensions/contextmenu/jspanel.contextmenu.js" type="text/javascript"></script>
         <script src="../../include/jspanel-4.1.2/extensions/dock/jspanel.dock.js" type="text/javascript"></script>
         -->
-      
+      <script>
+          var bd_largo_decimal=<?php echo (defined('bd_largo_decimal')? bd_largo_decimal:0);?>;
+        var bd_tipo_calculo_precio="<?php echo (defined('bd_tipo_calculo_precio')? bd_tipo_calculo_precio:0);?>";
+       
+        $(function () {
+            $('.moneda').keypress(function (e) {
+                if (e == null) {    
+                    e = window.event;
+                }
+                var str=$(this).val().split('.');
+                if(str.length>1 && str[1].split('').length>=bd_largo_decimal){
+                     return false;
+                 }
+
+                if(e.which==46){
+
+                    var str=$(this).val().split('.');
+                    if(str[0]==''){
+                        $(this).val(0);
+                    }
+
+
+                }
+                if (e.which != 8 && e.which != 45 && e.which != 0 && e.which != 13 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                    toastem.error('La tecla presionada no está permitida');
+                    $(this).focus();
+                    return false;
+                }
+
+        });
+            
+    });
+    </script>
         
         <?php  fncHead();	?>
 </head>

@@ -28,7 +28,9 @@ class cotizacion_detalle {
     private $tipo;
     private $orden_cotizacion;
     private $pagina_cotizacion;
-    
+    private $incluye_igv;
+    private $valor_unit_soles_registrado;
+    private $valor_unit_dolares_registrado;
 //1 producto
 //2 producto con componente (se convierte en una descripción y no descuenta stock)
 //3 Componente (calcula el valor de venta del padre)
@@ -103,6 +105,8 @@ class cotizacion_detalle {
         $this->orden_cotizacion=0;
         $this->pagina_cotizacion=0;
         $this->tipo_ID=0;
+        $this->valor_unit_soles_registrado=0;
+        $this->valor_unit_dolares_registrado=0;
         $this->usuario_id=$_SESSION["usuario_ID"];
         $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
@@ -147,10 +151,10 @@ class cotizacion_detalle {
             }
             $q = 'insert into cotizacion_detalle (ID,producto_ID,cotizacion_ID,descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
-            $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,usuario_id)';
-            $q.=' values('.$ID.',' .$this->producto_ID. ',' .$this->cotizacion_ID.',"'.$this->descripcion.'",'.$this->cantidad.','.$this->precio_venta_unitario_soles.','.$this->precio_venta_unitario_dolares.','.$this->precio_venta_subtotal_soles.','.$this->precio_venta_subtotal_dolares.',';
+            $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,incluye_igv,usuario_id)';
+            $q.=' values('.$ID.',' .$this->producto_ID. ',' .$this->cotizacion_ID.',"'.FormatTextView($this->descripcion).'",'.$this->cantidad.','.$this->precio_venta_unitario_soles.','.$this->precio_venta_unitario_dolares.','.$this->precio_venta_subtotal_soles.','.$this->precio_venta_subtotal_dolares.',';
             $q.=$this->precio_venta_soles . ',' . $this->precio_venta_dolares . ',' . $this->igv . ',' . $this->vigv_soles.','.$this->vigv_dolares.','.$this->cotizacion_detalle_ID.',';
-            $q.=$this->estado_id.','.$this->ver_precio.','.$this->separacion.','.$this->tiempo_separacion.','.$cantidad_separada.','.$this->tipo_ID.','.$this->tipo_ID.','.$this->usuario_id.')';
+            $q.=$this->estado_id.','.$this->ver_precio.','.$this->separacion.','.$this->tiempo_separacion.','.$cantidad_separada.','.$this->tipo_ID.','.$this->tipo_ID.','.$this->incluye_igv.','.$this->usuario_id.')';
            //echo $q;
             $cn = new connect_new();
             $retorna = $cn->transa($q);
@@ -195,6 +199,9 @@ class cotizacion_detalle {
             "iorden_cotizacion"=>$this->orden_cotizacion,
             "ipagina_cotizacion"=>$this->pagina_cotizacion,
             "itipo_ID"=>$this->tipo_ID,
+            "iincluye_igv"=>$this->incluye_igv,
+            "ivalor_unit_soles_registrado"=>$this->valor_unit_soles_registrado,
+            "ivalor_unit_dolares_registrado"=>$this->valor_unit_dolares_registrado,
             "iusuario_id"=>$this->usuario_id,
 
         ),0);
@@ -220,7 +227,7 @@ class cotizacion_detalle {
             $q.=',precio_venta_subtotal_dolares='.$this->precio_venta_subtotal_dolares.',precio_venta_unitario_dolares='.$this->precio_venta_unitario_dolares.',igv='.$this->igv;
             $q.=',vigv_soles='.$this->vigv_soles.',vigv_dolares='.$this->vigv_dolares.',precio_venta_soles='.$this->precio_venta_soles.',precio_venta_dolares='.$this->precio_venta_dolares;
             $q.=',cotizacion_detalle_ID='.$this->cotizacion_detalle_ID.',estado_id='.$this->estado_id.',ver_precio='.$this->ver_precio.',separacion='.$this->separacion.',tiempo_separacion=';
-            $q.=$this->tiempo_separacion.',cantidad_separada='.$this->cantidad_separada.',tipo='.$this->tipo.',usuario_mod_id='.$this->usuario_mod_id;
+            $q.=$this->tiempo_separacion.',cantidad_separada='.$this->cantidad_separada.',tipo='.$this->tipo.',incluye_igv='.$this->incluye_igv.',usuario_mod_id='.$this->usuario_mod_id;
             $q.=', fdm=now() where del=0 and id=' . $this->ID;
             $retornar = $cn->transa($q);
             $this->message = 'Se guardó correctamente';
@@ -264,6 +271,9 @@ class cotizacion_detalle {
                 "iorden_cotizacion"=>$this->orden_cotizacion,
                 "ipagina_cotizacion"=>$this->pagina_cotizacion,
                 "itipo_ID"=>$this->tipo_ID,
+                "iincluye_igv"=>$this->incluye_igv,
+                "ivalor_unit_soles_registrado"=>$this->valor_unit_soles_registrado,
+                "ivalor_unit_dolares_registrado"=>$this->valor_unit_dolares_registrado,
                 "iusuario_mod_id"=>$this->usuario_mod_id
             ),0);
       if($ID>0){
@@ -433,8 +443,8 @@ class cotizacion_detalle {
       $ocotizacion_detalle->cotizacion_ID=$item["cotizacion_ID"];
       $ocotizacion_detalle->descripcion=$item["descripcion"];
       $ocotizacion_detalle->cantidad=$item["cantidad"];
-      $ocotizacion_detalle->precio_venta_unitario_soles=$item["precio_venta_unitario_soles"];
-      $ocotizacion_detalle->precio_venta_unitario_dolares=$item["precio_venta_unitario_dolares"];
+      $ocotizacion_detalle->precio_venta_unitario_soles=round($item["precio_venta_unitario_soles"],bd_largo_decimal);
+      $ocotizacion_detalle->precio_venta_unitario_dolares=round($item["precio_venta_unitario_dolares"],bd_largo_decimal);
       $ocotizacion_detalle->precio_venta_subtotal_soles=$item["precio_venta_subtotal_soles"];
       $ocotizacion_detalle->precio_venta_subtotal_dolares=$item["precio_venta_subtotal_dolares"];
       $ocotizacion_detalle->precio_venta_soles=$item["precio_venta_soles"];
@@ -452,6 +462,9 @@ class cotizacion_detalle {
       $ocotizacion_detalle->orden_cotizacion=$item["orden_cotizacion"];
       $ocotizacion_detalle->pagina_cotizacion=$item["pagina_cotizacion"];
       $ocotizacion_detalle->tipo_ID=$item["tipo_ID"];
+      $ocotizacion_detalle->incluye_igv=$item["incluye_igv"];
+      $ocotizacion_detalle->valor_unit_soles_registrado=round($item["valor_unit_soles_registrado"],bd_largo_decimal);
+      $ocotizacion_detalle->valor_unit_dolares_registrado=round($item["valor_unit_dolares_registrado"],bd_largo_decimal);
       $ocotizacion_detalle->usuario_id=$item["usuario_id"];
       $ocotizacion_detalle->usuario_mod_id=$item["usuario_mod_id"];
 
@@ -469,7 +482,7 @@ class cotizacion_detalle {
             $q = 'SELECT ID,producto_ID,cotizacion_ID,trim(descripcion) as descripcion ,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
             $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,orden_cotizacion,pagina_cotizacion,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id, ';
-             $q.="ifnull((case when tipo_ID=1 then 'Producto' when tipo_ID=2 then 'Producto componente' when tipo_ID=3 then 'Componente' else 'Obsequio' end),'') as tipo_descripcion,tipo_ID";
+             $q.="ifnull((case when tipo_ID=1 then 'Producto' when tipo_ID=2 then 'Producto componente' when tipo_ID=3 then 'Componente' else 'Obsequio' end),'') as tipo_descripcion,tipo_ID,incluye_igv,valor_unit_soles_registrado,valor_unit_dolares_registrado";
             $q.=' FROM cotizacion_detalle ';
             $q.=' where del=0 ';
             
@@ -536,6 +549,7 @@ class cotizacion_detalle {
             }		
 //echo $q;
             $dt = $cn->getTabla($q);
+           // print_r($dt);
             return $dt;
         } catch (Exception $ex) {
             throw new Exception("Ocurrió un error.");

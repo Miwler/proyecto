@@ -15,6 +15,7 @@ class PDF extends FPDF
     $this->aligns=$a;
     }
     public $oOrden_Compra;
+    public $color;
     function Row($data,$altura)
     {
             //Calculate the height of the row
@@ -112,7 +113,8 @@ class PDF extends FPDF
         //Movernos a la derecha
         $this->Cell(60,20,'',0);
         
-        $this->SetTextColor(117,179,114);
+        //$this->SetTextColor(117,179,114);
+        $this->SetTextColor($this->color['r'],$this->color['g'],$this->color['b']);
         //Título
         $this->Cell(130,10,'ORDEN DE COMPRA',0,0,'R');
         $this->Ln();
@@ -143,7 +145,8 @@ class PDF extends FPDF
         
         $this->SetFont('Arial','B',10);
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);
         $this->Cell(90,6,'VENDEDOR',0,2,'C',true);
         //$this->Cell(30,6);
         //$this->Ln();
@@ -163,7 +166,8 @@ class PDF extends FPDF
         
         $this->SetFont('Arial','B',10);
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);        
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);        
         $this->Cell(90,6,'ENVIE A',0,2,'C',true);
         
         $this->SetTextColor(0,0,0);

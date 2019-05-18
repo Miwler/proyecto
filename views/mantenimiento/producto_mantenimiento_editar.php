@@ -105,6 +105,9 @@ function fncMenu() { ?>
                                     <option value="<?php echo $item['ID']?>"><?php echo $item['descripcion'];?></option>
                                     <?php } ?>
                                 </select>
+                                <script>
+                                    $("#selMoneda_ID").val(<?php echo $GLOBALS['oProducto']->moneda_ID?>);
+                                </script>
                             </div>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
                                 <label>Valor de cambio:</label>
@@ -120,13 +123,13 @@ function fncMenu() { ?>
                                 <label>US$: </label>
                             </div>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                               <input type="text" id="txtPrecio_Inicial_Dolares" name="txtPrecio_Inicial_Dolares" class="decimal form-control form-requerido" autocomplete="off"  placeholder="U$S."  value="<?php echo $GLOBALS['oProducto']->precio_inicial_dolares;?>" onchange="calcularTipoCambio('2');">
+                               <input type="text" id="txtPrecio_Inicial_Dolares" name="txtPrecio_Inicial_Dolares" class="decimal form-control form-requerido" autocomplete="off"  <?php echo(($GLOBALS['oProducto']->moneda_ID==2)?"":"disabled"); ?> placeholder="U$S."  value="<?php echo $GLOBALS['oProducto']->precio_inicial_dolares;?>" onchange="calcularTipoCambio('2');">
                             </div>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
                                 <label>S/.: </label>
                             </div>
                             <div class="col-md-3 col-sm-3 col-lg-3 col-xs-3">
-                               <input type="text" id="txtPrecio_Inicial_soles" name="txtPrecio_Inicial_soles" class="decimal form-control form-requerido" autocomplete="off"   placeholder="S/." disabled value="<?php echo $GLOBALS['oProducto']->precio_inicial_soles;?>" onchange="calcularTipoCambio('1');">
+                               <input type="text" id="txtPrecio_Inicial_soles" name="txtPrecio_Inicial_soles" class="decimal form-control form-requerido" autocomplete="off"   placeholder="S/." <?php echo(($GLOBALS['oProducto']->moneda_ID==1)?"":"disabled"); ?> value="<?php echo $GLOBALS['oProducto']->precio_inicial_soles;?>" onchange="calcularTipoCambio('1');">
                             </div>
 
                         </div>

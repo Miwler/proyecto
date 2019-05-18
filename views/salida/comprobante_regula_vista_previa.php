@@ -27,11 +27,11 @@
 
 <form id="frm1"  method="post"  action="Salida/Comprobante_Regula_Vista_Previa/<?php echo $GLOBALS['oComprobante_Regula']->ID;?>" onsubmit="return validar();">
     <div class="form-body">
-        <iframe id="pdf" style='width: 100%; height: 540px;'>
+        <iframe id="pdf" style='width: 100%; height: 530px;'>
         </iframe>
     </div>
     <div class="form-footer">
-        <button  id="btnCancelar" name="btnCancelar" type="button" class="btn btn-warning" title="Regresar" onclick="parent.float_close_modal_hijo_hijo();" >
+        <button  id="btnCancelar" name="btnCancelar" type="button" class="btn btn-warning" title="Regresar" onclick="parent.float_close_modal_hijo();" >
         <span class="glyphicon glyphicon-arrow-left"></span>
             Regresar
         </button>  

@@ -687,7 +687,7 @@ function factura_venta_UBL2_1($array){
                         $PriceTypeCode=$xml->createElement('cbc:PriceTypeCode',$items['TipoPrecio']);
                         $PriceTypeCode=$AlternativeConditionPrice->appendChild($PriceTypeCode);
                             $listName=$xml->createAttribute("listName");
-                            $listName->value="SUNAT:Indicador de Tipo de Precio";
+                            $listName->value="Tipo de Precio";
                             $PriceTypeCode->appendChild($listName);
                             $listAgencyName=$xml->createAttribute("listAgencyName");
                             $listAgencyName->value="PE:SUNAT";

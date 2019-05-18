@@ -83,51 +83,32 @@ $(function () {
     });
   
     $('.moneda').css('text-align', 'right'); 
-    
-    $('.moneda').keypress(function (e) {
-        if (e == null) {    
-            e = window.event;
-        }
-       
-        var str=$(this).val().split('.');
-        
-       /* if(str.length==1){
-            var valor=$(this).val();
-            if(valor.length>1){
-                var val=valor.split('');
-                var numero='';
-                for(var $i=0;$i<val.length;$i++){
-                    numero=numero+val[$i];
-                    if($i%3==0){
-                       numero=numero+','; 
-                    }
-                    
+     $('.moneda').keypress(function (e) {
+                if (e == null) {    
+                    e = window.event;
                 }
-                
-                $(this).val(numero);
-            }
-            
-            
-        }*/
-        if(str.length>1 && str[1].split('').length>1){
-            return false;
-        }
-        if(e.which==46){
-            
-            var str=$(this).val().split('.');
-            if(str[0]==''){
-                $(this).val(0);
-            }
-            
-            
-        }
-        if (e.which != 8 && e.which != 45 && e.which != 0 && e.which != 13 && e.which != 46 && (e.which < 48 || e.which > 57)) {
-            toastem.error('La tecla presionada no está permitida.');
-            $(this).focus();
-            return false;
-        }
-		
-    });
+                var str=$(this).val().split('.');
+                if(str.length>1 && str[1].split('').length>=2){
+                     return false;
+                 }
+
+                if(e.which==46){
+
+                    var str=$(this).val().split('.');
+                    if(str[0]==''){
+                        $(this).val(0);
+                    }
+
+
+                }
+                if (e.which != 8 && e.which != 45 && e.which != 0 && e.which != 13 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                    toastem.error('La tecla presionada no está permitida');
+                    $(this).focus();
+                    return false;
+                }
+
+        });
+    
     
     /*$('.moneda').change(function () {
         $(this).val(formatNumber.new($(this).val()));

@@ -295,7 +295,7 @@ class producto {
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
             }
-            //echo $q;
+           // echo $q;
             $resultado = $cn->getData($q);
 
             return $resultado;

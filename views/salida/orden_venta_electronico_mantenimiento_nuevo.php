@@ -47,19 +47,19 @@
                 <li class="nav-item active"><a data-toggle="tab" href="#divCliente" class="nav-link"><i class="fa fa-users" aria-hidden="true"></i> <span>Cliente</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Generales" class="nav-link"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span>Datos Generales</span></a></li>
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Economicos"><i class="fa fa-cc-visa" aria-hidden="true"></i> <span>Datos económicos</span></a></li>
-                
                 <li id="liproductos" class="nav-item" style="display: none;"><a href="#DivProductos" data-toggle="tab" ><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Productos</span></a></li>
                 <li id="liobsequios" class="nav-item" style="display: none;"><a href="#DivObsequios" data-toggle="tab" ><i class="fa fa-cubes"></i> <span>Obsequios</span></a></li>
-                
                 <li id="licomprobantes" class="nav-item" style="display: none;"><a href="#divComprobante" data-toggle="tab" ><i class="fa fa-file-text-o"></i> <span>Comprobante</span></a></li>
-               
-                
             </ul>
             <div class="pull-right">
                 <?php if($GLOBALS['oOrden_Venta']->ID==0){?>
                     <button type='button'  id="btnImportar" name="btnImportar" class="importar" title="Importar desde una cotización" class='btn btn-info' onclick="fncImportar();" >
                         <span class="glyphicon glyphicon-cloud-download"></span>
                         Importar
+                    </button>
+                    <button type='button'  id="btnImportarGuia" name="btnImportarGuia" class="btn btn-warning" title="Importar desde una guía de remisión" class='btn btn-info' onclick="fncImportarGuia();" >
+                        <span class="glyphicon glyphicon-cloud-download"></span>
+                        Importar de guía
                     </button>
                     <?php } ?>
                     <button  id="btnEnviar" name="btnEnviar" class="grabar" >
@@ -188,7 +188,7 @@
                         <label class="control-label col-sm-3">N° Orden de compra:</label>
                         
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input id="txtNumero_Orden_Compra" name="txtNumero_Orden_Compra" type="text"  class="text-int form-control" autocomplete=off  value="<?php echo $GLOBALS['oOrden_Venta']->numero_orden_compra; ?>" />
+                            <input id="txtNumero_Orden_Compra" name="txtNumero_Orden_Compra" type="text"  class="form-control" autocomplete=off  value="<?php echo $GLOBALS['oOrden_Venta']->numero_orden_compra; ?>" />
                         </div>
                         <label class="control-label col-sm-3">Plazo de entrega:</label>
                         
@@ -559,6 +559,13 @@
         //window_float_deslizar('form','/Ventas/Orden_Venta_Mantenimiento_Importar_Cotizacion','','');
 
     }
+    var fncImportarGuia=function(){
+        var orden_venta_ID=$('#txtID').val();
+        var tipo_ID=28;//Tipo de venta electronica
+        parent.window_float_open_modal_hijo("IMPORTAR INFORMACIÓN DE UNA COTIZACIÓN","Salida/Orden_Venta_Mantenimiento_Importar_Guia",tipo_ID,"",mostrarInformacion,900,600);
+        //window_float_deslizar('form','/Ventas/Orden_Venta_Mantenimiento_Importar_Cotizacion','','');
+
+    }
     var fncRegistrar_Productos=function(){
         var orden_venta_ID=$('#txtID').val();
         //window_float_deslizar('form','/Ventas/orden_venta_mantenimiento_producto_nuevo',orden_venta_ID,'',fncCargar_Detalle_Orden_Venta);
@@ -654,7 +661,7 @@
     var fncSeries=function(id){
         //if(fncValidarDetalle()==1){
             //var orden_venta_detalle_ID=$('#detalle_ID').val();
-            parent.window_float_open_modal_hijo("EDITAR OBSEQUIO","Salida/Orden_Venta_Mantenimiento_Producto_Serie",id,"",fncCargar_Detalle_Orden_Venta,700,500);
+            parent.window_float_open_modal_hijo("REGISTRAR SERIES","Salida/Orden_Venta_Mantenimiento_Producto_Serie",id,"",fncCargar_Detalle_Orden_Venta,700,500);
             
    
         //}
@@ -953,7 +960,7 @@
              $('#btnDescargar').prop('src','');
              var texto=String(resultado.numero_cuenta_IDs);
              var retorna=texto.indexOf(",");
-            
+            fncCargarNumeroCuenta(resultado.moneda_ID);
              if(retorna>-1){
                  var arrayID=resultado.numero_cuenta_IDs.split(",");
                 if(arrayID.length>0){
@@ -1170,11 +1177,11 @@
 
                     if (obj.exito == 'true') {
                         if (tipo == 'XML') {
-                            var xmlText = formatXml(obj.xml_firmado);
+                            /*var xmlText = formatXml(obj.xml_firmado);
                             var blob = new Blob([xmlText], { type: 'application/xml' });
+                          */
                             var link = document.createElement('a');
-                            link.href = window.URL.createObjectURL(blob);
-                            
+                            link.href = obj.ruta;
                             link.download = obj.nombre_archivo;
                             document.body.appendChild(link);
                             link.click();
@@ -1354,7 +1361,7 @@
          if(con_guia==0){
              factura_venta_ID=ifactura_venta_ID;
              fncEnviarSUNAT(ifactura_venta_ID);
-
+             
          }else{
               fncCargar_Comprobantes_Ventas();
              setTimeout(function(){
@@ -1403,9 +1410,9 @@
         
     }
     function fncEmitirGuia_Factura(factura_ID,iguia_venta_ID){
-        console.log(iguia_venta_ID);
+        
         cargarValores1('salida/ajaxVerificarBtn',factura_ID,iguia_venta_ID,function(resultado){
-            //console.log(resultado);
+            
             if(resultado.ver_btn_factura>0){
                 factura_venta_ID=factura_ID;
                 mostrar_btn_descargar();

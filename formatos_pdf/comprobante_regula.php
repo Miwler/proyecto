@@ -17,7 +17,7 @@ class PDF2 extends FPDF
     public $cabecera;
     public $detalle;
     public $numero_cuenta;
-
+    public $color;
 
     //public $dtOrden_Venta_Numero_Cuenta;
     function Row($data,$altura)
@@ -181,9 +181,9 @@ class PDF2 extends FPDF
         $this->SetXY(10,85);
         foreach($dtDetalle as $item){
             $costo_unitario=number_format($item['precio_unitario'],2,'.',',');
-            $subtotal=number_format($item['subtotal'],2,'.',',');
+            $subtotal=number_format($item['sub_total'],2,'.',',');
             $this->SetFont('Arial','B',10);
-            $array=array($item['cantidad'],$item['unidad_medida'],$item['codigo'],$item['producto'],$costo_unitario,$subtotal);
+            $array=array($item['cantidad'],$item['unidad_medida'],$item['codigo'], FormatTextViewPDF($item['producto']),$costo_unitario,$subtotal);
             $this->Row($array,5);
             $this->SetX(30);
             $this->SetFont('Arial','',9);
@@ -195,7 +195,7 @@ class PDF2 extends FPDF
     $this->Ln();
     $this->SetFont('Arial','B',8);
     $this->SetTextColor(255,255,255);
-    $this->SetFillColor(117,179,114);
+    $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
     $this->Cell(20,7,utf8_decode('CANT.'),1,0,'C',true);
     $this->Cell(15,7,utf8_decode('UM'),1,0,'C',true);
     $this->Cell(15,7,utf8_decode('CÓD'),1,0,'C',true);
@@ -256,8 +256,10 @@ class PDF2 extends FPDF
 
        $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
        $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
-       $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
-       $this->SetXY(40,257);
+       $this->Image(getCodigoQr($variable,"qr",array("size"=>3,"align"=>"L","border"=>1)),8,252,25,25,'PNG');
+       //$this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
+       $this->SetXY(35,257);
+       $this->Cell(80,30,"DigestValue: ".$this->cabecera[0]['hash'],0,1);
       // $this->Cell(80,30,utf8_decode('Representación impresa de la '.$this->cabecera[0]['nombre_documento'].' ELECTRoNICA, visita wwww/comprobante/index'),0,1);
     }
 

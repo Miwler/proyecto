@@ -37,9 +37,12 @@ $x = new SoapClient('https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/b
 //$x = new SoapClient('https://e-factura.sunat.gob.pe/ol-ti-itcpfegem/billService?wsdl', array("trace" => 1, "exception" => 0));
 //$x = new SoapClient($_SERVER['DOCUMENT_ROOT'].'\include\facturacion_electronica\xml_sunat\billService.wsdl', array("trace" => 1, "exception" => 0));
 //$x = new SoapClient($_SERVER['DOCUMENT_ROOT'].'\include\facturacion_electronica\xml_sunat_guia_electronica\billService.wsdl', array("trace" => 1, "exception" => 0));
-
+$string=file_get_contents("20536781499-01-F001-86.xml");
+              
+$codigo= base64_encode($string);
+var_dump ($codigo);                
         
-$x->__setSoapHeaders(array($wsse_header));
+/*$x->__setSoapHeaders(array($wsse_header));
 $parametro=array();
 
 $handle = fopen("10474911085-09-T001-9.zip", "rb");
@@ -51,7 +54,7 @@ $parametros['contentFile']=$contents;
 //$array[]= $x->sendSummary($parametros);
 $array[]= $x->sendBill($parametros);
 print_r($array);
-file_put_contents("R-10474911085-09-T001-9.zip", $array[0]->applicationResponse);
+file_put_contents("R-10474911085-09-T001-9.zip", $array[0]->applicationResponse);*/
     
 /*
 require_once 'SOAP/Client.php';

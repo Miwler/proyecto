@@ -145,18 +145,26 @@
                                         <h4>Información Visual</h4>
                                     </div>
                                     <div class="panel-body">
-                                        <div class="row">
-                                            <label class="col-sm-3 control-label">Logo: </label>
-                                            <div class="col-lg-9 col-sm-9">
-                                                <img id="imagen_previa" src="files/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>" style="height: 80px">
-                                                <input type="file" name="imagen" id="imagen" onchange="fileValidation();">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Logo principal para el sitio:<span class="asterisk">*</span></label>
+                                            <div class="col-sm-8">
+                                                <img id="imagen_previaiImagen" src="<?php echo ruta_archivo;?>/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->imagen;?>" style="height: 80px">
+                                            <input type="file" name="imagen" id="imagen" onchange="fileValidationImagen();">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-sm-3 control-label">Favicon: </label>
-                                            <div class="col-lg-9 col-sm-9">
-                                                <img id="imagen_previaicono" src="files/imagenes/favicon/<?php echo $GLOBALS['oDatos_Generales']->favicon;?>" style="height: 40px">
-                                                <input type="file" name="icono" id="icono" onchange="fileValidationIcono();">
+                                            <label class="control-label col-sm-4">Favicon:<span class="asterisk">*</span></label>
+                                            <div class="col-sm-8">
+                                                <img id="imagen_previaicono" src="<?php echo ruta_archivo;?>/imagenes/favicon/<?php echo $GLOBALS['oDatos_Generales']->favicon;?>" style="height: 40px">
+                                            <input type="file" name="icono" id="icono" onchange="fileValidationIcono();">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Logo para los documentos:<span class="asterisk">*</span></label>
+                                            <div class="col-sm-8">
+                                                <img id="imagen_previa" src="<?php echo ruta_archivo;?>/imagenes/logo_comprobantes/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>" style="height: 80px">
+                                            <input type="file" name="logo" id="logo" onchange="fileValidation();">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -262,10 +270,13 @@
         </div>
         <div class="modal-footer">
             <div class="pull-left">
-                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success btn-lg" title="Guardar cambios" >
+                <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" title="Guardar cambios" >
                     <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                     Guardar
                 </button>
+                
+                 <a onclick="fncDefinir();" class="btn btn-primary btn-add-skills" title="Definir formato documentos">Formato PDF &nbsp;<i class="fa fa-clone"></i></a>
+        
             </div>
         </div>
     </div>
@@ -279,11 +290,11 @@
             
         }
         function fileValidation() {
-            var fileInput = document.getElementById('imagen');
+            var fileInput = document.getElementById('logo');
             var filePath = fileInput.value;
-            var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+            var allowedExtensions = /(.jpg)$/i;
             if(!allowedExtensions.exec(filePath)){
-                mensaje.error('Mensaje de error','Solo se aceptan imagenes .jpeg/.jpg/.png/.gif.');
+                mensaje.error('Mensaje de error','Solo se aceptan imagenes .jpg');
                 fileInput.value = '';
                 return false;
             }else{
@@ -320,6 +331,27 @@
             }
 
         }
+        function fileValidationImagen() {
+            var fileInput = document.getElementById('imagen');
+            var filePath = fileInput.value;
+            var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+            if(!allowedExtensions.exec(filePath)){
+                mensaje.error('Mensaje de error','Solo se aceptan imagenes .ico.');
+                fileInput.value = '';
+                return false;
+            }else{
+                //Image preview
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagen_previaiImagen').attr("src",e.target.result);
+                        //document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'" width="250" height="90" class="thumbnail"/>';
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            }
+
+        }
         var fncDepartamento=function(){
             var obj = $('#selDepartamento');
             ajaxSelect('selProvincia', '/Mantenimiento/ajaxSelect_Provincia/' + obj.val(), '',fncProvincia);
@@ -329,18 +361,29 @@
             var obj = $('#selProvincia');
             ajaxSelect('selDistrito', '/Mantenimiento/ajaxSelect_Distrito/' + obj.val(), '',null);
         }
+        function fncDefinir(){
+            window_float_open_modal('DEFINIR FORMATO COTIZACIÓN','Mantenimiento/Documentos_Mantenimiento_Formato','','',null,800,530);
+        }
     </script>
    <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
         
         <script type="text/javascript">
             $(document).ready(function(){
                  mensaje.success("Mensaje de resultado","<?php echo $GLOBALS['mensaje']?>");
-                 var img=document.getElementById("imagen_previa");
+                 var img0=document.getElementById("imagen_previaiImagen");
+                 
+                 img0.src="";
+                 img0.src="<?php echo ruta_archivo;?>/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->imagen;?>";
+                 $("#imagen_previa").prop("src","");
+                 $("#imagen_previa").prop("src","<?php echo ruta_archivo;?>/imagenes/logo_comprobantes/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>");
+                /*var img=document.getElementById("imagen_previa");
                  img.src="";
-                 img.src="files/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>";
-                 var img1=document.getElementById("imagen_previaicono");
+                 img.src="<?php echo ruta_archivo;?>/imagenes/logo_comprobantes/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>";
+                 */
+                var img1=document.getElementById("imagen_previaicono");
                  img1.src="";
                  img1.src="files/imagenes/favicon/<?php echo $GLOBALS['oDatos_Generales']->favicon;?>";
+                 
             });
 
         </script>

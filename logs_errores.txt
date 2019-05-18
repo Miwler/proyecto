@@ -1,293 +1,507 @@
 ============================ERROR====================================
-FECHA Y HORA: 13 03 2019 19:03:56
+FECHA Y HORA: 11 04 2019 23:04:37
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'co.empresa_ID=2 and co.periodo = 2019 group by co.proveedor_ID,co.moneda_ID  Ord' at line 1
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '"F001",148,"000148","2019-04-11","2019-04-11",90,2,600,108,708,0,2,6,0,0,0,0,600' at line 1INSERT INTO comprobante_regula (ID,documento_relacionado_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,tipo_cambio,usuario_id) VALUES (57,1728,199,,"F001",148,"000148","2019-04-11","2019-04-11",90,2,600,108,708,0,2,6,0,0,0,0,600,0,0,0,0,"erre",3.35,0);
 ============================ERROR====================================
-FECHA Y HORA: 13 03 2019 19:03:56
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\reporteController.php
-METODO: reporteController/post_Reportes_Compras
-ERROR: select pr.ruc,pr.razon_social,mo.simbolo as moneda,sum(co.subtotal) as subtotal ,sum(co.igv) as igv,sum(co.total) as total,sum(ifnull(co.monto_pendiente,0)) as monto_pendiente FROM ingreso co,proveedor pr,moneda mo where co.proveedor_ID=pr.ID  and co.moneda_ID=mo.ID  and co.del=0 and co.estado_ID=9 and co.forma_pago_ID=1 co.empresa_ID=2 and co.periodo = 2019 group by co.proveedor_ID,co.moneda_ID  Order By pr.razon_social,co.periodo,co.fecha_emision
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:10
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:57
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:43
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:17
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:34
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:02
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:08
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:43
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:36
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:22
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 22:03:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 13 03 2019 23:03:51
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 18:03:38
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 18:03:38
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 18:03:15
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 18:03:15
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 18:03:15
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 18:03:15
+FECHA Y HORA: 11 04 2019 23:04:37
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_ajaxEnviarSUNAT
-ERROR: No existe el certificado
+METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
+ERROR: INSERT INTO comprobante_regula (ID,documento_relacionado_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,tipo_cambio,usuario_id) VALUES (57,1728,199,,"F001",148,"000148","2019-04-11","2019-04-11",90,2,600,108,708,0,2,6,0,0,0,0,600,0,0,0,0,"erre",3.35,0);
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:16
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
+FECHA Y HORA: 16 04 2019 17:04:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:16
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
+FECHA Y HORA: 16 04 2019 17:04:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:53
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
+FECHA Y HORA: 16 04 2019 17:04:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:53
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
+FECHA Y HORA: 16 04 2019 17:04:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
+FECHA Y HORA: 16 04 2019 17:04:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
+FECHA Y HORA: 16 04 2019 17:04:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:33
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
+FECHA Y HORA: 16 04 2019 22:04:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:33
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:48
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documentos.generar_xml
-ERROR: Existe un error en la creaciÃ³n del XML
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:00
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:00
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:01
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.getParamEmisor
-ERROR: No existe el Certificado
-============================ERROR====================================
-FECHA Y HORA: 14 03 2019 22:03:01
-RUTA: C:\xampp\htdocs\proyecto\proyecto\include\facturacion_electronica\transaccion_documentos.php
-METODO: transaccion_documento.firmar_documento
-ERROR: Failure Signing Data:  - 1
-============================ERROR====================================
-FECHA Y HORA: 15 03 2019 00:03:19
+FECHA Y HORA: 16 04 2019 22:04:06
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'gv.descripcion' in 'field list'
-SET @_iguia_venta_ID = '1641';
-SET @_tipo = 'detalle';
-CALL `sp_guia_venta_getDescargar`( @_iguia_venta_ID, @_tipo)
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
+SET @_isalida_ID = '1855';
+SET @_iserie = 'T001';
+SET @_inumero = '0000126';
+SET @_ifecha_emision = '16/04/2019';
+SET @_inumero_orden_venta = '0001847-2019';
+SET @_inumero_orden_compra = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iincluir_obsequios = '1';
+SET @_ifecha_inicio_traslado = '16/04/2019';
+SET @_distrito_ID_partida = '1303';
+SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
+SET @_distrito_ID_llegada = '1261';
+SET @_punto_llegada = '';
+SET @_motivo_traslado_ID = '1';
+SET @_descripcion_motivo = '';
+SET @_modalidad_traslado_ID = '2';
+SET @_ivehiculo_ID = '6';
+SET @_ichofer_ID = '34';
+SET @_ruc_empresa_transporte = '';
+SET @_empresa_transporte = '';
+SET @_placa_vehiculo = '';
+SET @_documento_conductor = '';
+SET @_ielectronico = '1';
+SET @_ipeso_bruto_total = '2';
+SET @_opcion = 'cabecera';
+CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 00:03:19
+FECHA Y HORA: 16 04 2019 22:04:06
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getGuia_SUNAT
+METODO: guia_venta.getVista_Previa
 ERROR: Ocurrio un Error en la consulta
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 00:03:19
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.get_Factura_Vista_PreviaPDF
-ERROR: exception 'Exception' with message 'Ocurrio un error en el sistema' in C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php:467
-Stack trace:
-#0 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(15865): guia_venta::getVistaDescarga('1641', 'detalle')
-#1 [internal function]: get_Guia_Vista_PreviaPDF('1641')
-#2 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Guia_Vista_...', Array)
-#3 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
-#4 {main}
-============================ERROR====================================
-FECHA Y HORA: 15 03 2019 00:03:26
+FECHA Y HORA: 16 04 2019 22:04:27
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'gv.descripcion' in 'field list'
-SET @_iguia_venta_ID = '1641';
-SET @_tipo = 'detalle';
-CALL `sp_guia_venta_getDescargar`( @_iguia_venta_ID, @_tipo)
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
+SET @_isalida_ID = '1855';
+SET @_iserie = 'T001';
+SET @_inumero = '0000126';
+SET @_ifecha_emision = '16/04/2019';
+SET @_inumero_orden_venta = '0001847-2019';
+SET @_inumero_orden_compra = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iincluir_obsequios = '1';
+SET @_ifecha_inicio_traslado = '16/04/2019';
+SET @_distrito_ID_partida = '1303';
+SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
+SET @_distrito_ID_llegada = '1261';
+SET @_punto_llegada = '';
+SET @_motivo_traslado_ID = '1';
+SET @_descripcion_motivo = '';
+SET @_modalidad_traslado_ID = '2';
+SET @_ivehiculo_ID = '6';
+SET @_ichofer_ID = '34';
+SET @_ruc_empresa_transporte = '';
+SET @_empresa_transporte = '';
+SET @_placa_vehiculo = '';
+SET @_documento_conductor = '';
+SET @_ielectronico = '1';
+SET @_ipeso_bruto_total = '2';
+SET @_opcion = 'cabecera';
+CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 00:03:26
+FECHA Y HORA: 16 04 2019 22:04:27
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getGuia_SUNAT
+METODO: guia_venta.getVista_Previa
 ERROR: Ocurrio un Error en la consulta
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 00:03:26
+FECHA Y HORA: 16 04 2019 22:04:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
+SET @_isalida_ID = '1855';
+SET @_iserie = 'T001';
+SET @_inumero = '0000126';
+SET @_ifecha_emision = '16/04/2019';
+SET @_inumero_orden_venta = '0001847-2019';
+SET @_inumero_orden_compra = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iincluir_obsequios = '1';
+SET @_ifecha_inicio_traslado = '16/04/2019';
+SET @_distrito_ID_partida = '1303';
+SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
+SET @_distrito_ID_llegada = '1261';
+SET @_punto_llegada = '';
+SET @_motivo_traslado_ID = '1';
+SET @_descripcion_motivo = '';
+SET @_modalidad_traslado_ID = '2';
+SET @_ivehiculo_ID = '6';
+SET @_ichofer_ID = '34';
+SET @_ruc_empresa_transporte = '';
+SET @_empresa_transporte = '';
+SET @_placa_vehiculo = '';
+SET @_documento_conductor = '';
+SET @_ielectronico = '1';
+SET @_ipeso_bruto_total = '2';
+SET @_opcion = 'cabecera';
+CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 16 04 2019 22:04:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
+METODO: guia_venta.getVista_Previa
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 16 04 2019 22:04:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
+SET @_isalida_ID = '1855';
+SET @_iserie = 'T001';
+SET @_inumero = '0000126';
+SET @_ifecha_emision = '16/04/2019';
+SET @_inumero_orden_venta = '0001847-2019';
+SET @_inumero_orden_compra = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iincluir_obsequios = '1';
+SET @_ifecha_inicio_traslado = '16/04/2019';
+SET @_distrito_ID_partida = '1303';
+SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
+SET @_distrito_ID_llegada = '1261';
+SET @_punto_llegada = '';
+SET @_motivo_traslado_ID = '1';
+SET @_descripcion_motivo = '';
+SET @_modalidad_traslado_ID = '2';
+SET @_ivehiculo_ID = '6';
+SET @_ichofer_ID = '34';
+SET @_ruc_empresa_transporte = '';
+SET @_empresa_transporte = '';
+SET @_placa_vehiculo = '';
+SET @_documento_conductor = '';
+SET @_ielectronico = '1';
+SET @_ipeso_bruto_total = '2';
+SET @_opcion = 'cabecera';
+CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 16 04 2019 22:04:12
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
+METODO: guia_venta.getVista_Previa
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 16 04 2019 22:04:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
+SET @_isalida_ID = '1855';
+SET @_iserie = 'T001';
+SET @_inumero = '0000126';
+SET @_ifecha_emision = '16/04/2019';
+SET @_inumero_orden_venta = '0001847-2019';
+SET @_inumero_orden_compra = '';
+SET @_iver_descripcion = '0';
+SET @_iver_componente = '0';
+SET @_iver_adicional = '0';
+SET @_iver_serie = '0';
+SET @_iincluir_obsequios = '1';
+SET @_ifecha_inicio_traslado = '16/04/2019';
+SET @_distrito_ID_partida = '1303';
+SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
+SET @_distrito_ID_llegada = '1261';
+SET @_punto_llegada = '';
+SET @_motivo_traslado_ID = '1';
+SET @_descripcion_motivo = '';
+SET @_modalidad_traslado_ID = '2';
+SET @_ivehiculo_ID = '6';
+SET @_ichofer_ID = '34';
+SET @_ruc_empresa_transporte = '';
+SET @_empresa_transporte = '';
+SET @_placa_vehiculo = '';
+SET @_documento_conductor = '';
+SET @_ielectronico = '1';
+SET @_ipeso_bruto_total = '2';
+SET @_opcion = 'cabecera';
+CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
+============================ERROR====================================
+FECHA Y HORA: 16 04 2019 22:04:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
+METODO: guia_venta.getVista_Previa
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 17 04 2019 20:04:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_desarrollo.tabla_moviminto' doesn't exist
+============================ERROR====================================
+FECHA Y HORA: 17 04 2019 20:04:20
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_desarrollo.tabla_moviminto' doesn't exist
+============================ERROR====================================
+FECHA Y HORA: 22 04 2019 23:04:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGridParse
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_factura_venta_getTabla; expected 11, got 10
+SET @_opcion= 'filtrar';
+SET @_empresa_ID= '2';
+SET @_cliente_ID= '0';
+SET @_periodo= '2019';
+SET @_fecha_inicio= '2019-04-22';
+SET @_fecha_fin= '2019-04-22';
+SET @_estado_ID= '0';
+SET @_moneda_ID= '0';
+SET @_periodo2= '2019';
+SET @_inumero_factura= '0';
+CALL `sp_factura_venta_getTabla`( @_opcion, @_empresa_ID, @_cliente_ID, @_periodo, @_fecha_inicio, @_fecha_fin, @_estado_ID, @_moneda_ID, @_periodo2, @_inumero_factura);
+============================ERROR====================================
+FECHA Y HORA: 22 04 2019 23:04:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\factura_venta.php
+METODO: salida.getTabla
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 22 04 2019 23:04:16
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.get_Factura_Vista_PreviaPDF
-ERROR: exception 'Exception' with message 'Ocurrio un error en el sistema' in C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php:467
-Stack trace:
-#0 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(15865): guia_venta::getVistaDescarga('1641', 'detalle')
-#1 [internal function]: get_Guia_Vista_PreviaPDF('1641')
-#2 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Guia_Vista_...', Array)
-#3 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
-#4 {main}
+METODO: salidaController.post_ajaxOrden_Venta_Electronico_Mantenimiento
+ERROR: OcurriÃ³ un error en el sistema
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 23:03:53
+FECHA Y HORA: 23 04 2019 00:04:29
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+METODO: connect_new.store_procedure_getGridParse
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_desarrollo.guia_veta' doesn't exist
+SET @_opcion= 'filtrar';
+SET @_empresa_ID= '2';
+SET @_cliente_ID= '0';
+SET @_periodo= '2019';
+SET @_fecha_inicio= '2019-04-23';
+SET @_fecha_fin= '2019-04-23';
+SET @_estado_ID= '0';
+SET @_moneda_ID= '0';
+SET @_periodo2= '2019';
+SET @_inumero_factura= '0';
+CALL `sp_factura_venta_getTabla`( @_opcion, @_empresa_ID, @_cliente_ID, @_periodo, @_fecha_inicio, @_fecha_fin, @_estado_ID, @_moneda_ID, @_periodo2, @_inumero_factura);
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 23:03:55
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+FECHA Y HORA: 23 04 2019 00:04:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\factura_venta.php
+METODO: salida.getTabla
+ERROR: Ocurrio un Error en la consulta
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 23:03:08
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+FECHA Y HORA: 23 04 2019 00:04:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_ajaxOrden_Venta_Electronico_Mantenimiento
+ERROR: OcurriÃ³ un error en el sistema
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 23:03:10
+FECHA Y HORA: 23 04 2019 19:04:57
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 23:03:10
+FECHA Y HORA: 23 04 2019 19:04:59
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 15 03 2019 23:03:10
+FECHA Y HORA: 30 04 2019 22:04:30
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 13:03:13
+FECHA Y HORA: 30 04 2019 22:04:34
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column '2clt.ID' in 'where clause'
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 13:03:54
+FECHA Y HORA: 30 04 2019 22:04:25
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column '2clt.ID' in 'where clause'
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 20:03:27
+FECHA Y HORA: 30 04 2019 22:04:27
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column '2clt.ID' in 'where clause'
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 22:03:56
+FECHA Y HORA: 07 05 2019 00:05:50
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 22:03:40
+FECHA Y HORA: 07 05 2019 00:05:58
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 22:03:11
+FECHA Y HORA: 07 05 2019 00:05:13
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 22:03:07
+FECHA Y HORA: 07 05 2019 00:05:20
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 22:03:50
+FECHA Y HORA: 07 05 2019 00:05:25
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=1,usuario_anulacion_id=, estado_ID=53 where ID=14
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 16 03 2019 22:03:18
+FECHA Y HORA: 07 05 2019 00:05:28
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' estado_ID=53 where ID=14' at line 1update factura_venta set fecha_anulacion ="2019-03-16",motivo_anulacion_ID=2,usuario_anulacion_id=, estado_ID=53 where ID=14
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 05 2019 00:05:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 05 2019 00:05:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 05 2019 00:05:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 05 2019 00:05:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 05 2019 21:05:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_cliente_getByID does not exist
+SET @_iID = '746';
+CALL `sp_cliente_getByID`( @_iID)
+============================ERROR====================================
+FECHA Y HORA: 09 05 2019 21:05:38
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
+SET @_iempresa_ID = '';
+CALL `sp_producto_getGrid`( @_iempresa_ID)
+============================ERROR====================================
+FECHA Y HORA: 09 05 2019 21:05:30
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
+SET @_iempresa_ID = '2';
+CALL `sp_producto_getGrid`( @_iempresa_ID)
+============================ERROR====================================
+FECHA Y HORA: 09 05 2019 21:05:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
+SET @_iempresa_ID = '2';
+CALL `sp_producto_getGrid`( @_iempresa_ID)
+============================ERROR====================================
+FECHA Y HORA: 09 05 2019 21:05:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
+SET @_iempresa_ID = '2';
+CALL `sp_producto_getGrid`( @_iempresa_ID)
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:39
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:34
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 13 05 2019 22:05:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
+
+============================ERROR====================================
+FECHA Y HORA: 17 05 2019 21:05:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
+============================ERROR====================================
+FECHA Y HORA: 17 05 2019 21:05:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+

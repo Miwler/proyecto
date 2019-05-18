@@ -40,9 +40,24 @@ function fncPage() { ?>
                     <div class="panel panel-default">
                       <div class="panel-heading">Información SUNAT</div>
                       <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <label>Tipo de documento: <span class="asterisk">*</span></label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                  <select class="form-control" id="selTipoDocumento" name="selTipoDocumento">
+                                      <?php foreach($GLOBALS['dtTipo_Documento'] as $tipo_documento){?>
+                                      <option value="<?php echo $tipo_documento['ID'];?>"><?php echo $tipo_documento['nombre']?></option>
+                                      <?php } ?>
+                                  </select>
+                                <script>
+                                    $("#selTipoDocumento").val(<?php echo $GLOBALS['oCliente']->tipo_documento_ID; ?>);
+                                </script>
+                            </div>
+                        </div>
                           <div class="form-group">
                               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                  <label>RUC: </label>
+                                  <label>Nro: <span class="asterisk">*</span></label>
                               </div>
                               <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                   <input  type="text"  id="txtRuc" name="txtRuc" autocomplete="off" maxlength="11" minlength="11"   onkeyup="MostrarLista(this.id,'divRuc');" value="<?php echo $GLOBALS['oCliente']->ruc; ?>" class="form-control form-requerido text-int"/>
@@ -197,7 +212,14 @@ function fncPage() { ?>
                                     <label>Tiempo crédito: </label>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <input type="number"  id="txtTiempo_Credito" name="txtTiempo_Credito" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->tiempo_credito; ?>" class="form-control int"/>
+                                    <select id="txtTiempo_Credito" name="txtTiempo_Credito" class="form-control">
+                                        <?php foreach($GLOBALS['oCliente']->dtCredito as $credito){?>
+                                        <option value="<?php echo $credito['dias']?>"><?php echo $credito['texto']?></option>
+                                        <?php }?>
+                                    </select>
+                                    <script>
+                                        $("#txtTiempo_Credito").val(<?php echo $GLOBALS['oCliente']->tiempo_credito; ?>);
+                                    </script>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -442,21 +464,30 @@ function fncPage() { ?>
         }
     }
     var validar = function () {
-
+        var tipo_documento_ID=$("#selTipoDocumento").val();
         var ruc = $.trim($('#txtRuc').val());
         var razon_social = $.trim($('#txtRazon_Social').val());
         var correo=$.trim($('#txtCorreo').val());
-        var correo1=$.trim($('#txtCorreo1').val());
+        //var correo1=$.trim($('#txtCorreo1').val());
         if (ruc=="") {
             mensaje.error("Mensaje de error","Debe ingresar un ruc válido","txtRuc");
             mover_scroll_inicio();
             return false;
         }
-        if (ruc.length<11) {
-            mensaje.error("Mensaje de error","El ruc no es válido.","txtRuc");
-            mover_scroll_inicio();
-            return false;
+        if(tipo_documento_ID==6){
+            if (ruc.length<11) {
+                mensaje.error("Mensaje de error","El ruc no es válido.","txtRuc");
+                mover_scroll_inicio();
+                return false;
+            }
+        }else{
+            if (ruc.length<8) {
+                mensaje.error("Mensaje de error","El dni no es válido.","txtRuc");
+                mover_scroll_inicio();
+                return false;
+            }
         }
+        
         if (razon_social=="") {
             mensaje.error("Mensaje de error","Registre una razon social","txtRazon_Social");
             mover_scroll_inicio();
@@ -470,14 +501,14 @@ function fncPage() { ?>
                 return false;
             }
         }
-        if(correo1!=""){
+        /*if(correo1!=""){
             if (!validarEmail(correo1))
             {
                 mensaje.error("Mensaje de error","No es un correo valido.",'txtCorreo1'); 
                 mover_scroll_inicio();
                 return false;
             }
-        }
+        }*/
 
     }
     var fncSeleccionar=function(id){
@@ -587,7 +618,28 @@ function fncPage() { ?>
             
         });
     }
-    
+    function validar_existencia(){
+        var tipo_documento_ID=$("#selTipoDocumento").val();
+        var numero=$("#txtRuc").val();
+        var obj=new Object();
+        
+        enviarAjaxParse('Mantenimiento/ajaxValidar_Existencia','form1',obj,function(resul){
+            if(resul.resultado==1){
+                mensaje.error("Validación","El cliente ya se encuentra registrado");
+                return false;
+            }
+        });
+    }
+   
+    $("#selTipoDocumento").change(function(){
+        if(this.value=="6"){
+            $("#txtRuc").attr('maxlength','11');
+            $("#txtRuc").attr('minlength','11');
+        }else{
+            $("#txtRuc").attr('maxlength','8');
+            $("#txtRuc").attr('minlength','8');
+        }
+    });
     </script> 
     
        <style type="text/css">

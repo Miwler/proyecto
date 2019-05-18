@@ -423,12 +423,30 @@ class inventario {
              $q.=' group by pro.nombre,pro.ID';
             
             $q.=') as TOTAL';
+            //echo $q;
             $resultado = $cn->getData($q);
             return $resultado;
         } catch (Exception $ex) {
             throw new Exception($q);
         }
     }
+    static function getProducto($empresa_ID)
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_inventario_getProducto",
+            array(
+              "iempresa_ID"=>$empresa_ID));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "producto.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     function actualizar2($ingreso_detalle_ID){
         $cn =new connect_new();
         $retornar=-1;

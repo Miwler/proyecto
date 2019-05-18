@@ -606,19 +606,24 @@
         require ROOT_PATH . 'models/categoria.php';
         require ROOT_PATH . 'models/linea.php';
         require ROOT_PATH . 'models/inventario.php';
-        
+        require ROOT_PATH . 'models/unidad_medida.php';
         $producto_ID=$_POST['id'];
         $html="";
         $mensaje="";
         $stock=0;
         $categoria_ID=0;
         $linea_ID=0;
+        $unidad_medida="";
+        $peso=0;
         try {
             $oProducto=producto::getByID($producto_ID);
             
             if($oProducto==null){
-                throw new Exception("No existe el producto");
+                throw new Exception("No existe el producto.");
             }
+            $oUnidad_Medida=unidad_medida::getByID($oProducto->unidad_medida_ID);
+            $peso=$oProducto->peso;
+            $unidad_medida=$oUnidad_Medida->nombre;
             $codigo=$oProducto->codigo;
             $categoria_ID=$oProducto->categoria_ID;
             $oCategoria=categoria::getByID($categoria_ID);
@@ -638,7 +643,7 @@
         $retornar = Array('resultado'=>$resultado,
             'mensaje' => $mensaje,'stock' => $stock,
             'descripcion'=>$oProducto->descripcion,'codigo'=>$codigo,
-             'linea_ID'=>$linea_ID, 'html'=>$html);
+             'linea_ID'=>$linea_ID, 'html'=>$html,'unidad_medida'=>$unidad_medida,'peso'=>$peso);
         //$retorn="<h1>Hola</h1>";
 
         echo json_encode($retornar);
@@ -778,7 +783,7 @@
     function post_ajaxOpcionesProvincias(){
         require ROOT_PATH.'models/provincia.php';
         $departamento_ID=$_POST['id'];
-        $provincias=utf8_encode(provincia::getOpciones(-1,$departamento_ID));
+        $provincias= (provincia::getOpciones(-1,$departamento_ID));
         $retornar=Array('provincias'=>$provincias);
 
         echo json_encode($retornar);
@@ -786,10 +791,177 @@
     function post_ajaxOpcionesDistritos(){
         require ROOT_PATH.'models/distrito.php';
         $provincia_ID=$_POST['id'];
-        $distritos=utf8_encode(distrito::getOpciones(-1,$provincia_ID));
+        $distritos=(distrito::getOpciones(-1,$provincia_ID));
         $retornar=Array('distritos'=>$distritos);
 
         echo json_encode($retornar);
     }
+    function Grilla_Mantenimiento($array_cabecera,$txtOrden,$orden_class,$incluyeOpciones,$dt,$botones,$cantidadMaxima,$cantidadMostrar,$paginaActual){
+    $resultado='';
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
     
+   
+    $array_alineado=array();
+    $array_campo=array();
+    $y=1;
+   
+    foreach($array_cabecera as $column){
+        
+       $resultado.='<th class="thOrden text-center" onclick="fncOrden('.$y.');">'.$column['cabecera'].((($txtOrden == $y) ? "<img class='" . $orden_class . "' />" : "")). '</th>';
+            array_push($array_alineado,$column['class_alineado']);
+            array_push($array_campo,$column['campo']);
+            $y++; 
+    }
+    
+    if($incluyeOpciones==1){
+         $resultado.='<th></th>';
+    }
+   
+    $resultado.='</tr></thead><tbody>';
+    $n=($paginaActual-1)*$cantidadMostrar+1;
+    foreach($dt as $valores){
+        $resultado.='<tr class="tr-item">';
+        
+        for($i=0;$i<count($array_campo);$i++){
+            if($i==0){
+                $resultado.='<td class="'.$array_alineado[$i].'">'.$n.'</td>';
+            }else{
+            $resultado.='<td class="'.$array_alineado[$i].'">' . (isset($valores[$array_campo[$i]])?$valores[$array_campo[$i]]:"") . '</td>';
+            }
+          
+        }
+        $n++;
+        if($incluyeOpciones==1){
+            $array_botones=array();
+           
+            foreach($botones as $btn){
+                array_push($array_botones,'<a title="'.$btn['titulo'].'" onclick="'.$btn['funcion'].'(' . $valores[$btn['campo']] . ');">'.$btn['imagen'].' '.$btn['nombre'].'</a>');
+                
+            }
+            $resultado.='<td class="text-center" >'.((count($array_botones)>0)?extraerOpcion($array_botones):"")."</td>";
+        }
+       
+        $resultado.='</tr>';
+    }
+    $colspanFooter=count($array_campo)+1;
+    $rows=count($dt);
+    $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
+    $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
+    $resultado.='</tbody>';
+    $resultado.='</table>';
+    return $resultado;
+}
+function array_orderby()
+{
+    $args = func_get_args();
+    $data = array_shift($args);
+    foreach ($args as $n => $field) {
+        if (is_string($field)) {
+            $tmp = array();
+            foreach ($data as $key => $row)
+                $tmp[$key] = $row[$field];
+            $args[$n] = $tmp;
+            }
+    }
+    $args[] = &$data;
+    call_user_func_array('array_multisort', $args);
+    return array_pop($args);
+}
+function generador_tabla($dt,$array_cabecera,$campo_orden,$orden,$cantidadMostrar,$paginaActual){
+    
+    $cantidadMaxima=COUNT($dt);
+    $dt = array_orderby($dt, $campo_orden,(($orden=="ASC")? SORT_ASC:SORT_DESC));
+    
+    
+    
+   
+    $orden_class = 'imgOrden-desc';
+    if ($orden=="ASC") {
+        $orden_class = 'imgOrden-asc';
+        
+    }
+    $resultado='';
+   
+    
+    $array_alineado=array();
+    $array_campo=array();
+    $y=1;
+    $r1="";
+    $r2="";
+    $array_buscar=[];
+   
+    foreach($array_cabecera as $column){
+        $valor1=trim(isset($_POST["buscar_".$column['campo']])?$_POST["buscar_".$column['campo']]:"");
+      //echo $valor1;
+        if($valor1!=""){
+            $buscar_ar=array("cam"=>$column['campo'],"valor"=>$valor1);
+            array_push($array_buscar,$buscar_ar);
+        }
+        if($column['filtro']=='si'){
+        $r1.='<th style="padding-top:1px;padding-bottom:1px;"><input type="text" autocomplete="off" name="buscar_'.$column['campo'].'" value="'.$valor1.'" style="background:#EEEDED" class="form-control buscadores" onDblClick="this.value=&#39;&#39;"></th>';
+        }else{
+           $r1.='<th></th>'; 
+        }
+        $r2.='<th class="thOrden text-center"  onclick="fncOrden(&#39;'.$column['campo'].'&#39;);">'.$column['cabecera'].((($campo_orden == $column['campo']) ? "<img class='" . $orden_class . "' />" : "")). '</th>';
+        array_push($array_alineado,$column['class_alineado']);
+        array_push($array_campo,$column['campo']);
+        $y++;  
+    }
+   //print_r($array_buscar);
+    $array=[];
+    if(count($array_buscar)>0){
+        $array_filtrado=[];
+        foreach($array_buscar as $bu){
+            
+            $i=0;
+            foreach($dt as $col){
+                if (strpos(strtoupper($col[$bu['cam']]), strtoupper($bu['valor'])) == true){
+                    array_push($array_filtrado,$dt[$i]);
+                }
+                $i++;
+            }
+           
+            
+        }
+         //$dt=$array_filtrado;
+            $array=array_filtrado;
+      
+    }else{
+        $array=$dt;
+    }
+    //$resultado.='<table></table>';
+    $cantidadMaxima=count($array);
+    $array=array_slice($array,(($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar);
+    
+    $resultado = '<table id="websendeos" class="grid table table-hover table-bordered table-teal"><thead>';
+    $resultado.='<tr>'.$r2.'</tr>';
+    $resultado.='<tr class="fila_buscador">'.$r1.'</tr>';
+    $resultado.='</thead><tbody>';
+    $n=($paginaActual-1)*$cantidadMostrar+1;
+    foreach($array as $valores){
+        $resultado.='<tr class="tr-item">';
+        
+        for($i=0;$i<count($array_campo);$i++){
+            if($i==0){
+                $resultado.='<td class="'.$array_alineado[$i].'">'.$n.'</td>';
+            }else{
+            $resultado.='<td class="'.$array_alineado[$i].'">' . (isset($valores[$array_campo[$i]])?$valores[$array_campo[$i]]:"") . '</td>';
+            }
+          
+        }
+        $n++;
+        
+       
+        $resultado.='</tr>';
+    }
+    //$cantidadMaxima=count($array);
+    $colspanFooter=count($array_campo)+1;
+    $rows=count($array);
+    $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
+    $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
+    $resultado.='</tbody>';
+    $resultado.='</table>';
+    return $resultado;
+}
+
 ?>

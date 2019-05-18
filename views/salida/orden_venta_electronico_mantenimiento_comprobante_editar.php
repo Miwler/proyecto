@@ -100,7 +100,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 ">
                             <select id="selMoneda" name="selMoneda" disabled class="form-control" >
                                 <?php foreach($GLOBALS['oFactura_Venta']->dtMoneda as $moneda){?>
-                                <option value="<?php echo $moneda['ID']?>"><?php echo utf8_encode($moneda['descripcion'])?></option>
+                                <option value="<?php echo $moneda['ID']?>"><?php echo ($moneda['descripcion'])?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">

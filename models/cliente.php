@@ -22,6 +22,7 @@ class cliente {
     private $estado_ID;
     private $descuento;
     private $tiempo_credito;
+    private $correlativo;
     private $usuario_id;
     private $usuario_mod_id;
     Private $getMessage;
@@ -96,29 +97,29 @@ class cliente {
       $ID=$cn->store_procedure_transa(
           "sp_cliente_Insert",
             array(
-    "iID"=>0,
-    "iempresa_ID"=>$this->empresa_ID,
-    "icodigo"=>$this->codigo,
-    "irazon_social"=>$this->razon_social,
-    "inombre_comercial"=>$this->nombre_comercial,
-    "iruc"=>$this->ruc,
-    "idireccion"=>$this->direccion,
-    "idireccion_fiscal"=>$this->direccion_fiscal,
-    "idistrito_ID"=>$this->distrito_ID,
-    "itelefono"=>$this->telefono,
-    "icelular"=>$this->celular,
-    "icorreo"=>$this->correo,
-    "iforma_pago_ID"=>$this->forma_pago_ID,
-    "ibanco"=>$this->banco,
-    "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
-    "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
-    "iestado_ID"=>$this->estado_ID,
-    "idescuento"=>$this->descuento,
-    "itiempo_credito"=>$this->tiempo_credito,
-    "iusuario_id"=>$this->usuario_id,
-    "icorrelativo"=>$this->correlativo,
-    "itipo_documento_ID"=>$this->tipo_documento_ID
-),0);
+                "iID"=>0,
+                "iempresa_ID"=>$this->empresa_ID,
+                "icodigo"=>$this->codigo,
+                "irazon_social"=>$this->razon_social,
+                "inombre_comercial"=>$this->nombre_comercial,
+                "iruc"=>$this->ruc,
+                "idireccion"=>$this->direccion,
+                "idireccion_fiscal"=>$this->direccion_fiscal,
+                "idistrito_ID"=>$this->distrito_ID,
+                "itelefono"=>$this->telefono,
+                "icelular"=>$this->celular,
+                "icorreo"=>$this->correo,
+                "iforma_pago_ID"=>$this->forma_pago_ID,
+                "ibanco"=>$this->banco,
+                "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
+                "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
+                "iestado_ID"=>$this->estado_ID,
+                "idescuento"=>$this->descuento,
+                "itiempo_credito"=>$this->tiempo_credito,
+                "iusuario_id"=>$this->usuario_id,
+                "icorrelativo"=>$this->correlativo,
+                "itipo_documento_ID"=>$this->tipo_documento_ID
+            ),0);
       if($ID>0){
         $this->getMessage="El registro se guardó correctamente.";
         $this->ID=$ID;
@@ -176,30 +177,30 @@ class cliente {
       $retornar=$cn->store_procedure_transa(
           "sp_cliente_Update",
             array(
-              "retornar"=>$retornar,
-    "iID"=>$this->ID,
-    "iempresa_ID"=>$this->empresa_ID,
-    "icodigo"=>$this->codigo,
-    "irazon_social"=>$this->razon_social,
-    "inombre_comercial"=>$this->nombre_comercial,
-    "iruc"=>$this->ruc,
-    "idireccion"=>$this->direccion,
-    "idireccion_fiscal"=>$this->direccion_fiscal,
-    "idistrito_ID"=>$this->distrito_ID,
-    "itelefono"=>$this->telefono,
-    "icelular"=>$this->celular,
-    "icorreo"=>$this->correo,
-    "iforma_pago_ID"=>$this->forma_pago_ID,
-    "ibanco"=>$this->banco,
-    "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
-    "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
-    "iestado_ID"=>$this->estado_ID,
-    "idescuento"=>$this->descuento,
-    "itiempo_credito"=>$this->tiempo_credito,
-    "iusuario_mod_id"=>$this->usuario_mod_id,
-    "icorrelativo"=>$this->correlativo,
-    "itipo_documento_ID"=>$this->tipo_documento_ID
-),0);
+                "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iempresa_ID"=>$this->empresa_ID,
+                "icodigo"=>$this->codigo,
+                "irazon_social"=>$this->razon_social,
+                "inombre_comercial"=>$this->nombre_comercial,
+                "iruc"=>$this->ruc,
+                "idireccion"=>$this->direccion,
+                "idireccion_fiscal"=>$this->direccion_fiscal,
+                "idistrito_ID"=>$this->distrito_ID,
+                "itelefono"=>$this->telefono,
+                "icelular"=>$this->celular,
+                "icorreo"=>$this->correo,
+                "iforma_pago_ID"=>$this->forma_pago_ID,
+                "ibanco"=>$this->banco,
+                "inumero_cuenta_soles"=>$this->numero_cuenta_soles,
+                "inumero_cuenta_dolares"=>$this->numero_cuenta_dolares,
+                "iestado_ID"=>$this->estado_ID,
+                "idescuento"=>$this->descuento,
+                "itiempo_credito"=>$this->tiempo_credito,
+                "iusuario_mod_id"=>$this->usuario_mod_id,
+                "icorrelativo"=>$this->correlativo,
+                "itipo_documento_ID"=>$this->tipo_documento_ID
+            ),0);
       return $retornar;
     }catch(Exeption $ex)
     {
@@ -261,8 +262,8 @@ class cliente {
         $cn = new connect_new();
         try {
             $q = 'Select ID,empresa_ID,codigo,razon_social,nombre_comercial,ruc,direccion, direccion_fiscal,distrito_ID,';
-            $q.= 'telefono, celular,correo, forma_pago_ID,banco, numero_cuenta_soles, numero_cuenta_dolares, estado_ID,';
-            $q.= 'descuento, tiempo_credito, usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
+            $q.= 'telefono, celular,correo, ifnull(forma_pago_ID,0) as forma_pago_ID,banco, numero_cuenta_soles, numero_cuenta_dolares, estado_ID,';
+            $q.= 'descuento, ifnull(tiempo_credito,0) as tiempo_credito, usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' from cliente ';
             $q.=' where del=0 and ID='.$ID;
             //echo $q;
@@ -350,9 +351,9 @@ class cliente {
             $q = 'SELECT clt.ID,clt.empresa_ID,clt.codigo,clt.razon_social,clt.nombre_comercial,clt.ruc,';
             $q.='clt.direccion,clt.direccion_fiscal,clt.distrito_ID,clt.telefono,clt.celular,clt.correo,';
             $q.='clt.forma_pago_ID,clt.banco,clt.numero_cuenta_soles,clt.numero_cuenta_dolares,clt.estado_ID,';
-            $q.='clt.descuento,clt.tiempo_credito,clt.usuario_id';
-            $q.=' FROM cliente as clt ';
-            $q.=' where clt.del=0 and clt.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.='clt.descuento,clt.tiempo_credito,clt.usuario_id,td.abreviatura as documento';
+            $q.=' FROM cliente as clt,tipo_documento td ';
+            $q.=' where clt.tipo_documento_ID=td.ID and clt.del=0 and clt.empresa_ID='.$_SESSION['empresa_ID'];
             
 
             if ($filtro != '') {

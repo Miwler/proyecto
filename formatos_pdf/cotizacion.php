@@ -24,7 +24,9 @@ class PDF1 extends FPDF
     public $oEjecutivo;
     public $dtCotizacion_Numero_Cuenta;
     public $logo;
-    function Row($data,$altura)
+    public $color;
+    public $img_footer;
+            function Row($data,$altura)
     {
             //Calculate the height of the row
             $nb=0;
@@ -127,7 +129,8 @@ class PDF1 extends FPDF
         //Movernos a la derecha
         $this->Cell(60,20,'',0);
         $this->SetXY(130,10);
-        $this->SetTextColor(117,179,114);
+        $this->SetTextColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetTextColor(117,179,114);
         //Título
         $this->Cell(70,10,'COTIZACION',0,2,'C');
         //$this->Ln();
@@ -186,7 +189,8 @@ class PDF1 extends FPDF
     $this->SetXY(10,$y);
     $this->SetFont('Arial','B',10);
     $this->SetTextColor(255,255,255);
-    $this->SetFillColor(117,179,114);
+    //$this->SetFillColor(117,179,114);
+    $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
     $this->Cell(10,7,utf8_decode('#'),1,0,'C',true);
     $this->Cell(120,7,utf8_decode('DESCRIPCIÓN'),1,0,'C',true);
     $this->Cell(15,7,utf8_decode('CANT'),1,0,'C',true);
@@ -242,7 +246,8 @@ class PDF1 extends FPDF
 
         $this->SetFont('Arial','B',8);
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);
         $this->Cell(110,5,'Condiciones generales',0,2,'C',true);
         $this->SetTextColor(0,0,0);
         $this->SetFont('Arial','B',8);
@@ -275,11 +280,13 @@ class PDF1 extends FPDF
         //Numero de cuenta
         $this->SetFont('Arial','B',8);
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);
 
         $this->SetFont('Arial','B',8);
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);
         $this->Cell(30,5,'Banco',0,0,'C',true);
         $this->Cell(40,5,'Nro. de cuenta ('.$this->oMoneda->simbolo.')',0,0,'C',true);
         $this->Cell(40,5,'CCI',0,0,'C',true);
@@ -297,7 +304,8 @@ class PDF1 extends FPDF
 
         //Observación
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);
         $this->SetFont('Arial','B',8);
         $this->Cell(110,5,utf8_decode('Observación'),0,0,'C',true);
         $this->Ln();
@@ -310,7 +318,8 @@ class PDF1 extends FPDF
         //Firmas
         $this->SetXY(130,$h1);
         $this->SetTextColor(255,255,255);
-        $this->SetFillColor(117,179,114);
+        $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+        //$this->SetFillColor(117,179,114);
         $this->Cell(70,5,'Ejecutivo de ventas',0,2,'C',true);
 
         $this->SetTextColor(0);
@@ -346,17 +355,25 @@ class PDF1 extends FPDF
 
        
       //Posición: a 1,5 cm del final
-    $this->SetXY(10,-20);
-   
-    $this->Image("./include/img/logo/logo1.jpg");
-    $this->SetXY(45,-20);
-    $this->Image("./include/img/logo/logo2.jpg");
-    $this->SetXY(80,-20);
-    $this->Image("./include/img/logo/logo3.jpg");
-    $this->SetXY(115,-20);
-    $this->Image("./include/img/logo/logo4.jpg");
-    $this->SetXY(150,-20);
-    $this->Image("./include/img/logo/logo5.jpg");
+    //$this->SetXY(10,-20);
+    if($this->img_footer['imagen1']!=""){
+        $this->Image(ROOT_PATH.ruta_archivo."/imagenes/imagen_documentos/".$this->img_footer['imagen1'],10,277,30,12);
+    }   
+    
+    if($this->img_footer['imagen2']!=""){
+        $this->Image(ROOT_PATH.ruta_archivo."/imagenes/imagen_documentos/".$this->img_footer['imagen2'],45,277,30,12);
+    } 
+    
+    if($this->img_footer['imagen3']!=""){
+        $this->Image(ROOT_PATH.ruta_archivo."/imagenes/imagen_documentos/".$this->img_footer['imagen3'],80,277,30,12);
+    } 
+    if($this->img_footer['imagen4']!=""){
+        $this->Image(ROOT_PATH.ruta_archivo."/imagenes/imagen_documentos/".$this->img_footer['imagen4'],115,277,30,12);
+    } 
+    if($this->img_footer['imagen5']!=""){
+        $this->Image(ROOT_PATH.ruta_archivo."/imagenes/imagen_documentos/".$this->img_footer['imagen5'],150,277,30,12);
+    } 
+    
 
     }
    

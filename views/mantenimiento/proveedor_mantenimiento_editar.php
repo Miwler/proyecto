@@ -402,7 +402,7 @@ function fncPage() { ?>
     }
     var fncAgregar_Persona=function(){
 //        window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
-          parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
+          parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo_otro','','',fncCargarPersona,800,500);
     } 
    /* var fncCargarPersona=function(id,nombres){
         cboPersona.seleccionar(id, nombres);

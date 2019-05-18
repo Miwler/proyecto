@@ -319,7 +319,7 @@ static function getByID1($empresa_ID)
     $cn =new connect();
     try
     {
-        $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,distrito_ID,favicon,ifnull(logo_extension,"") as logo_extension,imagen,';
+        $q='select ID,empresa_ID,ruc,razon_social,alias,direccion,direccion_fiscal,distrito_ID,favicon,ifnull(logo_extension,"") as logo_extension,imagen,ifnull(imagen,"default.jpg") as imagen';
         $q.='correo,pagina_web,telefono,celular,tipo_cambio,vigv,ifnull(visc,0) as visc,ifnull(tasadetraccion,0) as tasadetraccion,observacion,quienes_somos,mision,vision,skype,persona_contacto';
         $q.=',cargo_contacto,mail_webmaster,password_webmaster,servidorSMTP,puertoSMTP,sitio_web,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id';
         $q.=',usuariosol,clavesol,certificado,passwordcertificado';

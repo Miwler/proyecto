@@ -63,10 +63,10 @@
            
             <div class="tab-content">
                 <div id="divDatos_Generales" class="tab-pane fade in active inner-all">
-                    <div class="form-group">
+                    <div class="form-group" >
                         <label class="control-label col-sm-3">Tipo documento:<span class="asterisk">*</span></label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="selTipoDocumento" name="selTipoDocumento">
+                            <select class="form-control" id="selTipoDocumento" name="selTipoDocumento" disabled>
                                 <option value="1">Eléctronico</option>
                                 <option value="0">Físico</option>
                             </select>
@@ -253,7 +253,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-3 col-md-3 col-sm-3">Dirección partida:<span class="asterisk">*</span></label>
                         <div class="col-lg-9 col-md-9 col-sm-9">
-                            <textarea id="txtPunto_Partida" name="txtPunto_Partida" class="form-control input-sm" style="height: 40px;resize: none;overflow:auto;"><?php echo $GLOBALS['oGuia_Venta']->punto_partida;?></textarea>
+                            <textarea id="txtPunto_Partida" name="txtPunto_Partida" maxlength="100" class="form-control input-sm" style="height: 40px;resize: none;overflow:auto;"><?php echo $GLOBALS['oGuia_Venta']->punto_partida;?></textarea>
                             
                         </div>
                         
@@ -268,7 +268,7 @@
                             
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <select id="selProvincia_LLegada" name="selProvincia_LLegada" class="chosen-select form-control" onchange="Opciones_Distrito(this,'selDistrito_LLegada');">
+                            <select id="selProvincia_LLegada" name="selProvincia_LLegada"   class="chosen-select form-control" onchange="Opciones_Distrito(this,'selDistrito_LLegada');">
                                  <?php echo $GLOBALS['oGuia_Venta']->dtProvincia_llegada;?>
                             </select>
                             
@@ -283,7 +283,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-3 col-md-3 col-sm-3">Dirección de llegada:<span class="asterisk">*</span></label>
                         <div class="col-lg-9 col-md-9 col-sm-9">
-                            <textarea id="txtPunto_Llegada" name="txtPunto_Llegada" class="form-control" style="height: 40px;resize: none;overflow:auto;"><?php echo $GLOBALS['oGuia_Venta']->punto_llegada;?></textarea>
+                            <textarea id="txtPunto_Llegada" name="txtPunto_Llegada" maxlength="100" class="form-control" style="height: 40px;resize: none;overflow:auto;"><?php echo $GLOBALS['oGuia_Venta']->punto_llegada;?></textarea>
                             
                         </div>
                     </div>
@@ -399,8 +399,10 @@
 </form>
 <script type="text/javascript">
     function salir(){
+        <?php if(isset($GLOBALS['oGuia_Venta']->ID) and $GLOBALS['oGuia_Venta']->ID>0){ ?>
         parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo $GLOBALS['oGuia_Venta']->ID;?>);
-         parent.float_close_modal_hijo();
+        <?php } ?>
+        parent.float_close_modal_hijo();
     }
     $(document).ready(function(){
          cargar_detalle_guia();
@@ -532,6 +534,8 @@
        var distrito_llegada=$("#selDistrito_LLegada").val();
        var modalidad_transporte_ID=$("#selModalidad_Traslado").val();
        var peso=$.trim($("#txtPeso_Bruto_Total").val());
+       var direccion_llegada=$.trim($("#txtPunto_Llegada").val());
+       var direccion_partida=$.trim($("#txtPunto_Partida").val());
        if(fecha_emision==""){
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione la fecha de emisión de la guía.','txtFecha_Emision');
            
@@ -556,11 +560,18 @@
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione el distrito de partida.','selDistrito_Partida');
            return false;
        }
+       if(direccion_partida==""){
+           mensaje.advertencia("VALIDACIÓN DE DATOS",'Debe registrar una dirección de partida.','txtPunto_Partida');
+           return false;
+       }
        if(distrito_llegada==0){
            mensaje.advertencia("VALIDACIÓN DE DATOS",'Seleccione el distrito de llegada.','selDistrito_LLegada');
            return false;
        }
-       
+       if(direccion_llegada==""){
+           mensaje.advertencia("VALIDACIÓN DE DATOS",'Debe registrar una dirección de llegada.','txtPunto_Llegada');
+           return false;
+       }
        if(modalidad_transporte_ID==2){
            var vehiculo_ID=$("#selVehiculo_ID").val();
            var chofer_ID=$("#selChofer_ID").val();
@@ -603,6 +614,7 @@
        $('#txtEmpresa_Transporte ').prop('disabled', false);
        $('#txtPlaca_Vehiculo ').prop('disabled', false);
        $('#txtDNI_Conductor ').prop('disabled', false);
+       $("#selTipoDocumento").prop('disabled', false);
        block_ui();
        
    }
@@ -871,8 +883,7 @@
     });
     });
 </script>    
-    </script>
- 
+
  <?php } ?>
 <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==-1){ ?>
 

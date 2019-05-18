@@ -436,11 +436,12 @@ function post_Usuario_Mantenimiento_Menu($id) {
                         $oMenu_Usuario->menu_ID=$menu_ID;
                         $oMenu_Usuario->usuario_ID=$id;
                         $oMenu_Usuario->usuario_id_creacion=$_SESSION['usuario_ID'];
+						$oMenu_Usuario->empresa_ID=empresa_ID;
                         $oMenu_Usuario->insertar();
                     }
 
                 }else{
-                    $contar=menu_usuario::getCount("menu_ID=".$item['ID']." and usuario_ID=".$id);
+                    $contar=menu_usuario::getCount("menu_ID=".$item['ID']." and usuario_ID=".$id." and empresa_ID=".$empresa_ID);
                     if($contar>0){
                         $oMenu_Usuario=new menu_usuario();
                         $oMenu_Usuario->usuario_mod_id=$_SESSION['usuario_ID'];
@@ -499,13 +500,14 @@ function get_Usuario_Mantenimiento_Reporte($id) {
 
     $GLOBALS['oUsuario'] = $oUsuario;
 }
-function post_ajacGrabarMenu_Usuario(){
+function post_ajaxGrabarMenu_Usuario(){
     require ROOT_PATH . 'models/menu_usuario.php';
     $lista_menu=$_POST['lista_menu'];
     $usuario_ID=$_POST['usuario_ID'];
     $modulo_ID=$_POST['modulo_ID'];
+	$empresa_ID=$_POST['selEmpresa'];
     try{
-        $retorna=menu_usuario::registrar($usuario_ID,$lista_menu,$modulo_ID);
+        $retorna=menu_usuario::registrar($usuario_ID,$lista_menu,$modulo_ID,$empresa_ID);
         $resultado=1;
         $mensaje="Se registró correctamente";
     }catch(Exception $ex){
@@ -642,8 +644,9 @@ function post_ajaxExtraer_Menu_Modulo(){
     require ROOT_PATH . 'models/menu.php';
     //require ROOT_PATH . 'models/menu_usuario.php';
     //require ROOT_PATH . 'models/modulo.php';
-    $usuario_ID=$_POST['id'];
-    $modulo_ID=$_POST['id1'];
+    $usuario_ID=$_POST['usuario_ID'];
+    $modulo_ID=$_POST['modulo_ID'];
+	$empresa_ID=$_POST['selEmpresa'];
     $html="";
     try {
         /*$dtMenu=menu::getGrid("mn.modulo_ID=".$modulo_ID,-1,-1,"mn.nombre asc");
@@ -659,7 +662,7 @@ function post_ajaxExtraer_Menu_Modulo(){
         }
         */
         
-        $html=menu::getListaMenuModulo($modulo_ID,$usuario_ID);
+        $html=menu::getListaMenuModulo($modulo_ID,$usuario_ID,$empresa_ID);
     }catch (Exception $ex) {
         log_error(__FILE__,"configuracion_generaleController/post_ajaxExtraer_Menu_Modulo",$ex->getMessage());
         $html.=utf8_encode(mensaje_error);
@@ -1274,6 +1277,7 @@ function get_Empresa_Mantenimiento_Nuevo() {
     $oEmpresa->stilo_fondo_tabs="";
     $oEmpresa->stilo_fondo_boton="";
     $oEmpresa->stilo_fondo_cabecera="";
+    $oEmpresa->color_documentos='#848484';
     $oEmpresa->ruta=ruta_archivo;
     $GLOBALS['oEmpresa'] = $oEmpresa;
     $oDatos_Generales=new datos_generales();
@@ -1337,6 +1341,7 @@ function post_Empresa_Mantenimiento_Nuevo() {
     $stilo_fondo_tabs=$_POST['selStilo_fondo_tabs'];
     $stilo_fondo_boton=$_POST['selStilo_fondo_boton'];
     $stilo_fondo_cabecera=$_POST['selStilo_fondo_cabecera'];
+    $color_documentos=$_POST['color_documentos'];
     $clase_icono=$_POST['txtClassIcono'];
     //Valores por defecto
     $dtMoneda=moneda::getGrid("",-1,-1,"descripcion asc");
@@ -1388,7 +1393,7 @@ function post_Empresa_Mantenimiento_Nuevo() {
     $configuracion_celular_empresa=$_POST['txtOpcionesCelular'];
     $beta_ws_guia=$_POST['txtWebServisGuiaBeta'];
     $beta_ws_factura=$_POST['txtWebServisFacturaBeta'];
-    
+    $precio_incluye_igv=$_POST['selIncluyeIgv'];
     $produccion_ws_guia=$_POST['txtWebServisGuiaProd'];
     $produccion_ws_factura=$_POST['txtWebServisFacturaProd'];
     
@@ -1426,6 +1431,8 @@ function post_Empresa_Mantenimiento_Nuevo() {
         $oEmpresa->conexion_ws_sunat=$conexion_ws_sunat;
         $oEmpresa->lista_modulo=$lista_modulo;
         $oEmpresa->lista_reportes=$lista_reportes;
+        $oEmpresa->color_documentos=$color_documentos;
+        $oEmpresa->precio_incluye_igv=$precio_incluye_igv;
         $oEmpresa->insertar();
         $lista_reportes1=reportes::getLista($oEmpresa->ID);
         if($oEmpresa->ID>0){
@@ -1469,9 +1476,9 @@ function post_Empresa_Mantenimiento_Nuevo() {
                     $nombre1=$oEmpresa->ID.'.'.$extension;
                     $fichero_subido = $dir_subida .basename($nombre1);
 
-                    if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
+                    if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido)) {
 
-                        $oDatos_Generales->logo_extension=$nombre1;
+                        $oDatos_Generales->imagen=$nombre1;
 
                     }else{$mensaje="Se guardó la información, pero no se subió el logo.";}
                 }
@@ -1496,8 +1503,8 @@ function post_Empresa_Mantenimiento_Nuevo() {
                         $nombre3=$oEmpresa->ID.'.'.$extension;
                         $fichero_subido = $dir_subida .basename($nombre3);
 
-                        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
-                           $oDatos_Generales->imagen=$nombre3;
+                        if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido)) {
+                           $oDatos_Generales->logo_extension=$nombre3;
                         }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
                 }
                 $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];

@@ -41,8 +41,39 @@ class comprobante_regula_sunat {
         // Retorna nulo si no existe
         return null;
     }
+    function __construct()
+  {
+        $this->comprobante_regula_ID=0;
+    $this->fecha_generacion="";
+    $this->fecha_respuesta="";
+    $this->nombre_archivo="";
+    $this->xml_firmado="";
+    $this->hash="";
+    $this->representacion_impresa="";
+    $this->estado_envio="";
+    $this->codigo_estado="";
+    $this->descripcion_estado="";
+    $this->cdr_sunat="";
+    $this->usuario_id=$_SESSION["usuario_ID"];
 
-    function insertar() {
+  }
+  function __destruct()
+  {
+        $this->comprobante_regula_ID;
+    $this->fecha_generacion;
+    $this->fecha_respuesta;
+    $this->nombre_archivo;
+    $this->xml_firmado;
+    $this->hash;
+    $this->representacion_impresa;
+    $this->estado_envio;
+    $this->codigo_estado;
+    $this->descripcion_estado;
+    $this->cdr_sunat;
+    $this->usuario_id;
+
+  }
+    /*function insertar() {
         
         $retornar = -1;
         try {
@@ -63,9 +94,9 @@ class comprobante_regula_sunat {
             throw new Exception($ex);
             //throw new Exception("Ocurrio un error en la consulta");
         }
-    }
+    }*/
 
-    public function getGrid($comprobante_regula_ID) {
+    /*public function getGrid($comprobante_regula_ID) {
         $cn = new connect_new();
         try {
             $q = 'SELECT * FROM comprobante_regula_sunat WHERE comprobante_regula_ID='.$comprobante_regula_ID.' ORDER BY ID DESC LIMIT 1 ';
@@ -74,7 +105,61 @@ class comprobante_regula_sunat {
         } catch (Exception $ex) {
             throw new Exception('Ocurrio un error en la consulta');
         }
+    }*/
+    function insertar()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_comprobante_regula_sunat_Insert",
+            array(
+                "iID"=>0,
+                "icomprobante_regula_ID"=>$this->comprobante_regula_ID,
+                "ifecha_generacion"=>$this->fecha_generacion,
+                "ifecha_respuesta"=>$this->fecha_respuesta,
+                "inombre_archivo"=>$this->nombre_archivo,
+                "ixml_firmado"=>$this->xml_firmado,
+                "ihash"=>$this->hash,
+                "irepresentacion_impresa"=>$this->representacion_impresa,
+                "iestado_envio"=>$this->estado_envio,
+                "icodigo_estado"=>$this->codigo_estado,
+                "idescripcion_estado"=>$this->descripcion_estado,
+                "icdr_sunat"=>$this->cdr_sunat,
+                "iusuario_id"=>$this->usuario_id
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          log_error(__FILE__,"", $error);
+          throw new Exception("No se registr?");
+      }
+    }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "comprobante_regula_sunat.insertar", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
     }
-
-    
+    static function getGrid($filtro="",$inicio=-1,$fin=-1,$orden="ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_comprobante_regula_sunat_getGrid",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "comprobante_regula_sunat.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 }

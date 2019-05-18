@@ -1248,6 +1248,7 @@ function get_Cliente_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/credito.php';
     require ROOT_PATH . 'models/operador.php';
+    require ROOT_PATH . 'models/tipo_documento.php';
     global $returnView_float;
     $returnView_float = true;
     $oCliente = new cliente();
@@ -1259,7 +1260,7 @@ function get_Cliente_Mantenimiento_Nuevo() {
     $oCliente->departamento_ID=15;
     $oCliente->provincia_ID=129;
     $oCliente->distrito_ID=1261;
-    
+    $dtTipo_Documento=tipo_documento::getGrid('ID in (1,6)',-1,-1,'ID desc');
     $oCliente_Contacto=new cliente_contacto();
     $oCliente_Contacto->dtEstado=estado::getGrid("est.tabla='cliente_contacto'",-1,-1,"est.orden asc");
     
@@ -1268,6 +1269,7 @@ function get_Cliente_Mantenimiento_Nuevo() {
     $GLOBALS['dtOperador'] = $dtOperador;
     $GLOBALS['oCliente'] = $oCliente;
     $GLOBALS['oCliente_Contacto'] = $oCliente_Contacto;
+    $GLOBALS['dtTipo_Documento']=$dtTipo_Documento;
 }
 function post_ajaxCbo_FormaPago() {
     require ROOT_PATH . 'models/forma_pago.php';
@@ -1288,7 +1290,24 @@ function post_ajaxCbo_FormaPago() {
     $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
     echo json_encode($retornar);
 }
-
+function post_ajaxValidar_Existencia() {
+    require ROOT_PATH . 'models/cliente.php';
+    $tipo_documento_ID=$_POST['selTipoDocumento'];
+    $numero=$_POST['txtRuc'];
+    $resultado=0;
+    $mensaje="";
+    try{
+        $contar=cliente::getCount("clt.tipo_documento_ID=".$tipo_documento_ID." and clt.ruc='".$numero."'" );
+        if($contar>0){
+            $resultado=1;
+        }
+    }catch(Exception $ex){
+        $resultado=-1;
+        $mensaje="Ocurrió un error.";
+    }
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    echo json_encode($retornar);
+}
 function post_Cliente_Mantenimiento_Nuevo() {
     require ROOT_PATH . 'models/cliente.php';
     require ROOT_PATH . 'models/cliente_contacto.php';
@@ -1304,6 +1323,7 @@ function post_Cliente_Mantenimiento_Nuevo() {
     global $returnView_float;
     $returnView_float = true;
     $oCliente = new cliente();
+    $tipo_documento_ID=$_POST['selTipoDocumento'];
     $ruc = $_POST['txtRuc'];
     $razon_social = trim($_POST['txtRazon_Social']);
     $direccion_fiscal = trim($_POST['txtDireccion_Fiscal']);
@@ -1353,7 +1373,7 @@ function post_Cliente_Mantenimiento_Nuevo() {
         $oCliente->estado_ID = $estado_ID;
         $oCliente->descuento = $descuento;
         $oCliente->tiempo_credito = $tiempo_credito;
-        $oCliente->tipo_documento_ID=6;
+        $oCliente->tipo_documento_ID=$tipo_documento_ID;
         $oCliente->usuario_id = $_SESSION['usuario_ID'];
         $oCliente->usuario_mod_id = $_SESSION['usuario_ID'];
         
@@ -1439,10 +1459,11 @@ function get_Cliente_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/credito.php';
     require ROOT_PATH . 'models/operador_cliente.php';
     require ROOT_PATH . 'models/operador.php';
+    require ROOT_PATH . 'models/tipo_documento.php';
     
     global $returnView_float;
     $returnView_float = true;
-    $oCliente = cliente::getByID($id);
+    $oCliente = cliente::getByID1($id);
     if($oCliente==null){
         $GLOBALS['resultado'] = -2;
         $GLOBALS['mensaje'] = "El cliente ha sido eliminado por otro usuario.";
@@ -1465,9 +1486,11 @@ function get_Cliente_Mantenimiento_Editar($id) {
     $oCliente->dtForma_Pago = forma_pago::getGrid();
     $oCliente->dtCredito = credito::getGrid();
     $dtOperador=operador::getGrid("",-1,-1,"pe.apellido_paterno asc,pe.apellido_materno asc,pe.nombres asc");
+    $dtTipo_Documento=tipo_documento::getGrid('ID in (1,6)',-1,-1,'ID desc');
     $GLOBALS['oCliente'] = $oCliente;
     $GLOBALS['oCliente_Contacto'] = $oCliente_Contacto;
     $GLOBALS['dtOperador'] = $dtOperador;
+    $GLOBALS['dtTipo_Documento']=$dtTipo_Documento;
 }
 function post_Cliente_Mantenimiento_Editar($id) {
     require ROOT_PATH . 'models/cliente.php';
@@ -1490,7 +1513,7 @@ function post_Cliente_Mantenimiento_Editar($id) {
         $GLOBALS['mensaje'] = "El cliente ha sido eliminado por otro usuario.";
         return;
     }
-   
+    $tipo_documento_ID=$_POST['selTipoDocumento'];
     $ruc = $_POST['txtRuc'];
     $razon_social = test_input($_POST['txtRazon_Social']);
     $direccion_fiscal = test_input($_POST['txtDireccion_Fiscal']);
@@ -1541,7 +1564,7 @@ function post_Cliente_Mantenimiento_Editar($id) {
         $oCliente->estado_ID = $estado_ID;
         $oCliente->descuento = $descuento;
         $oCliente->tiempo_credito = $tiempo_credito;
-        $oCliente->tipo_documento_ID=6;
+        $oCliente->tipo_documento_ID=$tipo_documento_ID;
         $oCliente->usuario_mod_id = $_SESSION['usuario_ID'];
         
         $retorna = $oCliente->actualizar1();
@@ -1775,6 +1798,9 @@ function post_ajaxCliente_Mantenimiento() {
         case 6:
             $orden = 'clt.correo ' . $orden_tipo;
             break;
+        case 7:
+            $orden = 'td.abreviatura ' . $orden_tipo;
+            break;
         default:
             $orden = 'clt.ID ' . $orden_tipo;
             break;
@@ -1787,7 +1813,8 @@ function post_ajaxCliente_Mantenimiento() {
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
     $resultado.='<th class="text-center">N°</th>';
-    $resultado.='<th class="thOrden" onclick="fncOrden(1);">R.u.c.' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(7);">Doc' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(1);">Número' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">Razon social' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Dirección' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(4);">Teléfono' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
@@ -1796,7 +1823,7 @@ function post_ajaxCliente_Mantenimiento() {
     $resultado.='<th>Opciones</th>';
     $resultado.='</tr></thead>';
     $resultado.='<tbody>';
-    $colspanFooter = 9;
+    $colspanFooter = 10;
     try {
         $cantidadMaxima = cliente::getCount($filtro);
         $dtCliente = cliente::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
@@ -1805,6 +1832,7 @@ function post_ajaxCliente_Mantenimiento() {
         foreach ($dtCliente as $item) {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
+            $resultado.='<td class="text-center">' . $item['documento'] . '</td>';
             $resultado.='<td class="text-center">' . $item['ruc'] . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['razon_social']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['direccion']) . '</td>';
@@ -2456,6 +2484,7 @@ function get_Producto_Mantenimiento_Nuevo($id) {
     $dtUnidad_Medida=unidad_medida::getGrid();
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oProducto->dtMoneda=$dtMoneda;
+    $oProducto->moneda_ID=moneda;
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $oProducto->tipo_cambio=$oDatos_Generales->tipo_cambio;
     $GLOBALS['categoria_ID']= $categoria_ID;
@@ -2959,7 +2988,7 @@ function post_ajaxProducto_Mantenimiento() {
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="tdCenter">' . sprintf("%'.06d",$item['codigo']) . '</td>';
-            $resultado.='<td class="tdLeft">' . test_input($item['producto']) . '</td>';
+            $resultado.='<td class="tdLeft">' . FormatTextView($item['producto']) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input(ucfirst(mb_strtolower(trim($item['categoria'])))) . '</td>';
             $resultado.='<td class="tdLeft">' . test_input(ucfirst(mb_strtolower(trim($item['linea'])))) . '</td>';
         $resultado.='<td class="tdLeft">' . (ucfirst(mb_strtolower($item['estado']))) . '</td>';
@@ -5188,30 +5217,55 @@ function post_Datos_generales_Mantenimiento(){
         $oDatos_Generales->actualizar();
         $resultado=1;
         $mensaje=$oDatos_Generales->getMessage;
-        if($_FILES['imagen']['tmp_name']!=""){
-                $dir_subida = $_SERVER['DOCUMENT_ROOT'].'/files/imagenes/logo/';
-                $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
-                
-                $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
-                $nombre2=$oDatos_Generales->ID.'.'.$extension;
-                $fichero_subido = $dir_subida .basename($nombre2);
-                
-                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
-                   
-                }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
-        }
-        if($_FILES['icono']['tmp_name']!=""){
-            $dir_subida = $_SERVER['DOCUMENT_ROOT'].'/files/imagenes/favicon/';
-            $nombre_temporal=explode('.',basename($_FILES['icono']['name']));
+        if($oDatos_Generales->ID>0){
+                if($_FILES['imagen']['tmp_name']!=""){
+                    
+                    $dir_subida1 = ruta_guardar_archivos.'/imagenes/logo/';
+                    $nombre_temporal1=explode('.',basename($_FILES['imagen']['name']));
+                    
+                    $extension1=(strtoupper($nombre_temporal1[1])=="JPG")?$nombre_temporal1[1]:"JPG";
+                    $nombre1=$oDatos_Generales->empresa_ID.'.'.$extension1;
+                    $fichero_subido1 = $dir_subida1 .basename($nombre1);
 
-            $extension=$nombre_temporal[1];
-            $nombre2=$oDatos_Generales->ID.'.'.$extension;
-            $fichero_subido = $dir_subida .basename($nombre2);
+                    if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido1)) {
 
-            if (move_uploaded_file($_FILES['icono']['tmp_name'], $fichero_subido)) {
+                        $oDatos_Generales->imagen=$nombre1;
 
-            }else{$mensaje="Se guardó la información, pero no se subió el icono.";}
-        }    	
+                    }else{$mensaje="Se guardó la información, pero no se subió el logo.";}
+                }
+                if($_FILES['icono']['tmp_name']!=""){
+                    $dir_subida2 = ruta_guardar_archivos.'/imagenes/favicon/';
+                    $nombre_temporal2=explode('.',basename($_FILES['icono']['name']));
+
+                    $extension2=$nombre_temporal2[1];
+                    $nombre2=$oDatos_Generales->empresa_ID.'.'.$extension2;
+                    $fichero_subido2 = $dir_subida2 .basename($nombre2);
+
+                    if (move_uploaded_file($_FILES['icono']['tmp_name'], $fichero_subido2)) {
+                        $oDatos_Generales->favicon=$nombre2;
+                    }else{$mensaje="Se guardó la información, pero no se subió el icono.";}
+                }  
+                if($_FILES['logo']['tmp_name']!=""){
+                        $dir_subida3 = ruta_guardar_archivos.'/imagenes/logo_comprobantes/';
+                        //$dir_subida = $_SERVER['DOCUMENT_ROOT'].'/imagenes/imagen/';
+                        $nombre_temporal3=explode('.',basename($_FILES['logo']['name']));
+
+                        $extension3=(strtoupper($nombre_temporal3[1])=="JPG")?$nombre_temporal3[1]:"JPG";
+                        $nombre3=$oDatos_Generales->empresa_ID.'.'.$extension3;
+                        $fichero_subido3 = $dir_subida3 .basename($nombre3);
+
+                        if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido3)) {
+                           $oDatos_Generales->logo_extension=$nombre3;
+                        }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
+                }
+                $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];
+                $oDatos_Generales->actualizar();
+                $resultado=1;
+                $mensaje=$oDatos_Generales->getMessage;
+            }else{
+                $resultado=-1;
+                $mensaje="Se actualizaron, pero no se subieron las imagenes";
+            }
     }catch(Exception $ex){
         $resultado=-1;
         $mensaje=$ex->getMessage();
@@ -5639,11 +5693,13 @@ function post_Numero_Cuenta_Mantenimiento_Nuevo() {
     $numero=$_POST['txtNumero'];
     $cci=$_POST['txtCci'];
     $moneda_ID=$_POST['selMoneda_ID'];
+    $abreviatura=$_POST['txtAbreviatura'];
     $oNumero_Cuenta=new numero_cuenta();
     
    try {
        $oNumero_Cuenta->nombre_banco=$nombre_banco;
-       $oNumero_Cuenta->numero=$numero;
+       $oNumero_Cuenta->abreviatura= $abreviatura;
+        $oNumero_Cuenta->numero=$numero;
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
        $oNumero_Cuenta->usuario_id=$_SESSION['usuario_ID'];
@@ -5684,10 +5740,11 @@ function post_Numero_Cuenta_Mantenimiento_Editar($id) {
     $cci=$_POST['txtCci'];
     $moneda_ID=$_POST['selMoneda_ID'];
     $oNumero_Cuenta=numero_cuenta::getByID($id);
-    
+    $abreviatura=$_POST['txtAbreviatura'];
    try {
        $oNumero_Cuenta->nombre_banco=$nombre_banco;
        $oNumero_Cuenta->numero=$numero;
+       $oNumero_Cuenta->abreviatura=$abreviatura;
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
        $oNumero_Cuenta->usuario_mod_id=$_SESSION['usuario_ID'];
@@ -6572,7 +6629,103 @@ function post_Persona_Mantenimiento_Nuevo_Otro() {
     $GLOBALS['oPersona'] = $oPersona;
 }
 
+ function get_Documentos_Mantenimiento_Formato(){
+        
+        if(!class_exists('empresa'))require ROOT_PATH.'models/empresa.php';
+        if(!class_exists('imagen_documentos'))require ROOT_PATH.'models/imagen_documentos.php';
+        global  $returnView_float;
+        $returnView_float=true;
+	$oEmpresa=empresa::getByID($_SESSION['empresa_ID']);
+        
+        $dt=imagen_documentos::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+        $imagen_documentos=NEW imagen_documentos();
+        $array=array("imagen1"=>(($imagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])=="")?"D1.jpg":$imagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])),
+            "imagen2"=>(($imagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])=="")?"D2.jpg":$imagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])),
+            "imagen3"=>(($imagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])=="")?"D3.jpg":$imagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])),
+            "imagen4"=>(($imagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])=="")?"D4.jpg":$imagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])),
+            "imagen5"=>(($imagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])=="")?"D5.jpg":$imagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])),
+            ); 
+        $GLOBALS['oEmpresa']=$oEmpresa;
+        $GLOBALS['array']=$array;
+    }
+ function post_ajaxGrabarColores(){
+     
+     $empresa_ID=$_POST['empresa_ID'];
+     $color=$_POST['color'];
+     $oEmpresa=empresa::getByID($empresa_ID);
+     $resultado=0;
+     try{
+         $oEmpresa->color_documentos=$color;
+         $oEmpresa->usuario_id_mod=$_SESSION['usuario_ID'];
+         $oEmpresa->actualizar();
+         $resultado=1;
+         $mesaje="Se actualizó correctamente.";
+     }catch(Exception $ex){
+         $resultado=-1;
+         $mesaje=mensaje_error;
+     }
+     $retornar=Array('mensaje'=>$mensaje,'resultado'=>$resultado);
+    echo json_encode($retornar);
+ }   
+function post_Documentos_Mantenimiento_Formato(){
+     if(!class_exists('imagen_documentos'))require ROOT_PATH.'models/imagen_documentos.php';
+    if(!class_exists('empresa'))require ROOT_PATH.'models/empresa.php';
+    global  $returnView_float;
+    $returnView_float=true;
+    $empresa_ID=$_POST['empresa_ID'];
+     $color=$_POST['color'];
+     $oEmpresa=empresa::getByID($empresa_ID);
+    try{
+        $oEmpresa->color_documentos=$color;
+         $oEmpresa->usuario_mod_id=$_SESSION['usuario_ID'];
+         $oEmpresa->actualizar();
+         $directorio=ruta_archivo.'/imagenes/imagen_documentos/';
+        if (!file_exists($directorio))
+            mkdir($directorio);
+        
+        for($i=1;$i<=5;$i++){
+            if($_FILES['imagen'.$i]['tmp_name']!=""){
+                $dir_subida = ruta_guardar_archivos.'/imagenes/imagen_documentos/';
+                $nombre_temporal=explode('.',basename($_FILES['imagen'.$i]['name']));
+                $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
+                $oimagen_documentos=new imagen_documentos();
+                $oimagen_documentos->orden=$i;
+                $oimagen_documentos->$nombre_temporal[0];
+                $oimagen_documentos->documento='cotizacion';
+                $oimagen_documentos->ubicacion='footer';
+                $oimagen_documentos->empresa_ID=$empresa_ID;
+                $oimagen_documentos->usuario_id=$_SESSION['usuario_ID'];
+                $ID1=$oimagen_documentos->registrar();
+                $nombre1=$ID1.'.'.$extension;
+                $fichero_subido1 = $dir_subida .basename($nombre1);
 
+                if (move_uploaded_file($_FILES['imagen'.$i]['tmp_name'], $fichero_subido1)) {
+
+
+
+                }else{$mensaje="Se guardó la información, pero no se subió el logo.";}
+            }
+        }
+        
+        
+        $resultado=1;
+        $mensaje="Se actualizó correctamente.";
+    }catch(Exception $ex){
+            $resultado=-1;
+            $mensaje=$ex->getMessage();
+    }
+    $oimagen_documentos=new imagen_documentos();
+    $array=array("imagen1"=>(($oimagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])=="")?"D1.jpg":$oimagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])),
+            "imagen2"=>(($oimagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])=="")?"D2.jpg":$oimagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])),
+            "imagen3"=>(($oimagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])=="")?"D3.jpg":$oimagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])),
+            "imagen4"=>(($oimagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])=="")?"D4.jpg":$oimagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])),
+            "imagen5"=>(($oimagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])=="")?"D5.jpg":$oimagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])),
+            ); 
+    $GLOBALS['oEmpresa']=$oEmpresa;
+    $GLOBALS['array']=$array;
+    $GLOBALS['resultado']=$resultado;
+    $GLOBALS['mensaje']=$mensaje;
+}
 
 
 

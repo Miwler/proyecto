@@ -20,7 +20,7 @@
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Nota_Debito_Detalle"  class="form-horizontal" onsubmit="return validar();" >
-    <input type="hidden" id="llave" name="llave" value="<?php echo $GLOBALS['llave'];?>">
+    
     <div class="form-body">
         <div  class="form-group">
             <label class="control-label col-sm-2 col-md-2 col-xs-2">Producto:</label>
@@ -28,9 +28,10 @@
                 
                 <input type="hidden" id="txtProducto_ID" name="txtProducto_ID">
                 <input type="text" id="listaProductos" name="listaProductos" class="form-control">
+               
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        lista('/funcion/ajaxListarProductos','listaProductos','txtProducto_ID');
+                        listar_productos(0,0);
                     });
                 </script>
             </div>
@@ -89,6 +90,9 @@
     
 </form>
  <script type="text/javascript">
+    var listar_productos=function(t1,t2){
+        lista_producto('/funcion/ajaxListarProductos','listaProducto','selProducto',t1,t2,null,null);
+    }
     var validar=function(){
         $("#txtSubTotal").prop('disabled', false);
         $("#txtIGV").prop('disabled', false);

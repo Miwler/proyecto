@@ -41,27 +41,7 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="vista_buscar">
-                    <div class="form-group">
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <div class="form-group">
-                                <label class="control-label col-sm-5">Tipo comprobante: </label>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <select id="selTipoComprobante" name="selTipoComprobante" class="form-control">
-                                        <option></option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <label class="control-label col-sm-5">Número: </label>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                     <input  type="text" id="txtBuscar" name="txtBuscar" class="form-control" autocomplete="off" >
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
+                    
 
                 </div>
             </div>

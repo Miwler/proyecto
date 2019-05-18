@@ -304,6 +304,25 @@ class reportes_empresa_usuario
             throw new Exception("Ocurrio un Error en la consulta");
         }
     }
+    static function getLista($empresa_ID,$usuario_ID,$modulo_ID)
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_reportes_empresa_usuario_getLista",
+            array(
+              "iempresa_ID"=>$empresa_ID,
+              "iusuario_ID"=>$usuario_ID,
+              "imodulo_ID"=>$modulo_ID));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "reportes_empresa_usuario.getLista", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 }
 
 ?>

@@ -7,9 +7,13 @@
 <?php } ?>
 <?php function fncHead(){?>
         <script type="text/javascript" src="include/js/jForm.js"></script>
-        <!--<script type="text/javascript" src="include/js/jGrid.js"></script>
-        
-        <link rel="stylesheet" type="text/css" href="include/css/grid.css" />-->
+       <script type="text/javascript" src="include/js/jPdf.js"></script>
+    <script type="text/javascript" src="include/js/jValidarLargoComentarios.js" ></script>
+    <link rel="stylesheet" type="text/css" href="include/css/factura.css" /> 
+    <script type="text/javascript" src="include/jszip/dist/jszip.js"></script>
+    <script type="text/javascript" src="include/jszip/vendor/FileSaver.js"></script>   
+                                  
+        <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
        
                 
 <?php } ?>
@@ -49,7 +53,7 @@
                                     <select id="selCliente" name="selCliente" class="form-control chosen-select">
                                         <option value="0">Todos</option>
                                         <?php foreach($GLOBALS['dtCliente'] as $item3){ ?>
-                                        <option value="<?php echo $item3['ID'];?>"><?php echo FormatTextViewHtml($item3['razon_social']);?></option>
+                                        <option value="<?php echo $item3['ID'];?>"><?php echo ($item3['razon_social']);?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -152,6 +156,7 @@
                 <table id="datatable-ajax" class="table table-teal table-teal table-middle table-striped table-bordered table-condensed dt-responsive nowrap">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Número</th>
                             <th>Tipo</th>
                             <th>Fecha</th>
@@ -159,6 +164,7 @@
                             <th>Factura</th>
                             <th>Monto</th>
                             <th>Estado</th>
+                            <th>SUNAT</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -167,6 +173,7 @@
                     <!--tfoot section is optional-->
                     <tfoot>
                         <tr>
+                            <th>#</th>
                             <th>Número</th>
                             <th>Tipo</th>
                             <th>Fecha</th>
@@ -174,6 +181,7 @@
                             <th>Factura</th>
                             <th>Monto</th>
                             <th>Estado</th>
+                            <th>SUNAT</th>
                             <th>Acción</th>
                         </tr>
                     </tfoot>
@@ -185,6 +193,7 @@
     </div>
     <input type="hidden" id="rbOpcion" name="rbOpcion" value="filtrar"> 
 </form>
+     <iframe id="frmDescargar" style="display:none;"></iframe>
 <script type="text/javascript">
      $('.nav-tabs a').on('show.bs.tab', function(event){
        
@@ -219,9 +228,11 @@
         enviarAjax('Salida/ajaxNota_Credito_Mantenimiento', 'frm1', myObject, function (res) {
 
             var jsonObject = $.parseJSON(res);
+            var y=1;
             var result = jsonObject.map(function (item) {
                 
                 var result = [];
+                result.push(y);
                 result.push(item.codigo);
                 result.push(item.tipo);
                 result.push(item.fecha_emision);
@@ -229,9 +240,12 @@
                 result.push(item.numero_factura);
                 result.push(item.total);
                 result.push(item.estado);
+                result.push(item.descripcion_estado);
                 result.push(item.accion);
                 result.push("");
+                y++;
                 return result;
+                
             });
             myTable.rows().remove();
             myTable.rows.add(result);
@@ -244,16 +258,17 @@
                 [
 
                     { "width": "5%", "targets": 0,"className":"text-center" },
-                    { "width": "20%", "targets": 1},
-                    { "width": "10%", "targets": 2,"className":"text-center" },
-                    { "width": "20%", "targets": 3 },
-                    { "width": "10%", "targets": 4,"className":"text-center" },
-                    { "width": "10%", "targets": 5,"className":"text-right" },
-                    { "width": "10%", "targets": 6},
-                    { 'targets': [7], 'orderable': false, 'searchable': false, "width": "10%","className":"text-center" }
+                    { "width": "10%", "targets": 1,"className":"text-center"},
+                    { "width": "15%", "targets": 2,"className":"text-center" },
+                    { "width": "5%", "targets": 3 },
+                    { "width": "30%", "targets": 4},
+                    { "width": "10%", "targets": 5,"className":"text-center" },
+                    { "width": "10%", "targets": 6,"className":"text-right"},
+                    { "width": "10%", "targets": 8},
+                    { 'targets': [9], 'orderable': false, 'searchable': false, "width": "5%","className":"text-center" }
                 ];
 
-            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "desc"]]);
+            myTable = build_data_table($('#datatable-ajax'), shadows, [[0, "asc"]]);
 
         } catch (e) {
             //alert(e.message);
@@ -297,7 +312,101 @@
     var fncCargarVista=function(valor){
         $('#rbOpcion').val(valor);
     }
-    
+    function formatXml(xml){
+        var formatted = '';
+        var reg = /(>)(<)(\/*)/g;
+        xml = xml.replace(reg, '$1\r\n$2$3');
+        var pad = 0;
+        jQuery.each(xml.split('\r\n'), function(index, node) {
+            var indent = 0;
+            if (node.match( /.+<\/\w[^>]*>$/ )) {
+                indent = 0;
+            } else if (node.match( /^<\/\w/ )) {
+                if (pad != 0) {
+                    pad -= 1;
+                }
+            } else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+                indent = 1;
+            } else {
+                indent = 0;
+            }
+
+            var padding = '';
+            for (var i = 0; i < pad; i++) {
+                padding += '  ';
+            }
+
+            formatted += padding + node + '\r\n';
+            pad += indent;
+        });
+
+        return formatted;
+    }
+    var fncDOWNLOAD_XML_NOTA=function(id,tipo) {
+        try {
+            block_ui(function () {
+
+
+            var iframe = document.getElementById("iPDF");
+            if (tipo == 'PDF') {
+                
+                pdf.descargar("salida/Comprobante_RegulaDescargarPDF/"+id);
+            //fncVerPDF(id);
+
+                $.unblockUI();
+                return false;
+            }
+
+            var zip = new JSZip();
+                    $.ajax({
+                type: "POST",
+                url: 'Salida/ajaxDownloadXMLNota',
+                data: {'id': id,'tipo': tipo},
+                cache: false,
+                success: function(resultado)
+                {
+                $.unblockUI();
+                //console.log(resultado);
+                var obj = $.parseJSON(resultado);
+
+                    if (obj.exito == 'true') {
+                        if (tipo == 'XML') {
+                            var link = document.createElement('a');
+                            link.href = obj.ruta;
+                            link.download = obj.nombre_archivo;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+
+                        if (tipo=='CDR') {
+                            $("#frmDescargar").prop("src",obj.nombre_archivo);
+                            //location.href=obj.nombre_archivo;
+                        /*zip.generateAsync({type:"base64"}).then(function (base64) {
+                            data = obj.xml_firmado;
+                            location.href="data:application/zip;base64," + data;
+                        });*/
+                        }
+                    }else{
+                            alert(obj.mensaje);
+                    }
+            },
+                error: function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert('Error occurred while opening fax template'
+                          + getAjaxErrorString(textStatus, errorThrown));
+                }
+            });
+        });
+
+        } catch (e) {
+                $.unblockUI();
+                console_log(e);
+        } finally {
+
+        }
+
+    }
     $('#txtBuscar').focus();
 </script>
         <!--<iframe id="iframe2" src="" style="width:1100px; height: 800px; display:none; border:none;">

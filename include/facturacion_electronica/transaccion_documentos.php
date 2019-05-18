@@ -548,9 +548,7 @@ XML;
                     $this->error=1;
                     $this->observacion="No se recibió ninguna respuesta";
                     
-                }
-                
-                         
+                }       
                 return $ticket;
             }
         }else{
@@ -952,8 +950,8 @@ XML;
           'Departamento' =>$oDistrito->departamento,
           'Provincia' =>$oDistrito->provincia,
           'Distrito' =>$oDistrito->nombre,
-           'Pais'=>'PE',
-            'Local'=>'0000'
+          'Pais'=>'PE',
+        'Local'=>'0000'
         );
 
         $data = array( "RUC"=>$oDatos_generales->ruc,

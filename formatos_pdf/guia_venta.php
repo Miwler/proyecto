@@ -188,10 +188,10 @@ class PDF2 extends FPDF
         $this->Rect(10,79,99,10);
         $this->SetXY(111,74);
         $this->Cell(99,5,'DATOS DEL TRANSPORTE/CONDUCTOR',1,2,'C',true);
-        $this->Cell(30,5,utf8_decode('VEHICULO MARCA Y PLACA N°:').$this->oVehiculo->marca.' - '.$this->oVehiculo->placa,0,0,'L');
+        $this->Cell(30,5,utf8_decode('VEHICULO MARCA Y PLACA N°:').(isset($this->oVehiculo)?($this->oVehiculo->marca.' - '.$this->oVehiculo->placa):""),0,0,'L');
         $this->Ln(3);
         $this->SetX(111);
-        $this->Cell(30,5,utf8_decode('CERTIFICADO DE INSCRIPCION N°: ').$this->oVehiculo->certificado_inscripcion,0,0,'L');
+        $this->Cell(30,5,utf8_decode('CERTIFICADO DE INSCRIPCION N°: ').(isset($this->oVehiculo)?$this->oVehiculo->certificado_inscripcion:""),0,0,'L');
         $this->Ln(3);
         $this->SetX(111);
         $this->Cell(30,5,utf8_decode('LICENCIA DE CONDUCIR N°:').$this->oChofer->licencia_conducir,0,0,'L');
@@ -212,7 +212,7 @@ class PDF2 extends FPDF
             $this->SetX(30);
             $this->SetFont('Arial','',8);
             if(trim($item['descripcion'])!=''){
-                $this->MultiCell(120,5,utf8_encode($item['descripcion']),0,'J',false);
+                $this->MultiCell(120,5, FormatTextViewPDF($item['descripcion']),0,'J',false);
                 
             }
             $this->Ln();
@@ -261,7 +261,7 @@ class PDF2 extends FPDF
     $this->Cell(80,5,$this->oDatos_Generales->ruc,0,0,'L',false);
     $this->Ln(3);
     $this->SetX(30);
-    $this->Cell(80,5,$this->oVehiculo->marca.''.$this->oVehiculo->placa,0,0,'L',false);
+    $this->Cell(80,5,(isset($this->oVehiculo)?($this->oVehiculo->marca.''.$this->oVehiculo->placa):""),0,0,'L',false);
     $this->SetXY(10,243);
     $this->Cell(30,5,'R.U.C./D.N.I.:',0,0,'L',false);
     $this->Rect(10,235,80,15);

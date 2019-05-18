@@ -139,7 +139,8 @@ class impuestos_tipo {
                         "itipo_cambio"=>$tipo_cambio,
                         "impuestos_tipo_ID"=>$impuesto_tipo_ID,
                         "imonto"=>$monto,
-                        "igv"=>$igv));
+                        "igv"=>$igv,
+                        "bd_largo_decimal"=>bd_largo_decimal));
             
             return $dt;
         } catch (Exception $ex) {

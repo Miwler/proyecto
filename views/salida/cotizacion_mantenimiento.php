@@ -8,7 +8,7 @@
         <script type="text/javascript" src="include/js/jForm.js"></script>
         <script type="text/javascript" src="include/js/jGrid.js"></script>
         <link rel="stylesheet" type="text/css" href="include/css/grid.css" />
-
+       
 <?php } ?>
 <?php function fncMenu(){?>
 <?php } ?>
@@ -17,7 +17,7 @@
      <div class="pull-right">
          <a onclick="f.enviar();" class="btn btn-success btn-add-skills">Actualizar &nbsp;<i class="fa fa-refresh"></i></a>
         <a onclick="fncNuevo();" class="btn btn-primary btn-add-skills">Nuevo &nbsp;<i class="fa fa-plus"></i></a>
-        
+       
      </div>
 <?php } ?>
 <?php function fncPage(){?>
@@ -264,6 +264,7 @@
     var fncCargarVista=function(valor){
         $('#rbOpcion').val(valor);
     }
+    
 </script>
 
 <?php } ?>

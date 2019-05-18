@@ -195,10 +195,10 @@ class factura_venta {
             $ofactura_venta->impresion=$item["impresion"];
             $ofactura_venta->con_guia=$item["con_guia"];
             $ofactura_venta->pago=$item["pago"];
-            $ofactura_venta->monto_total_neto=$item["monto_total_neto"];
-            $ofactura_venta->monto_total_igv=$item["monto_total_igv"];
-            $ofactura_venta->monto_total=$item["monto_total"];
-            $ofactura_venta->monto_pendiente=$item["monto_pendiente"];
+            $ofactura_venta->monto_total_neto=round($item["monto_total_neto"],2);
+            $ofactura_venta->monto_total_igv=round($item["monto_total_igv"],2);
+            $ofactura_venta->monto_total=round($item["monto_total"],2);
+            $ofactura_venta->monto_pendiente=round($item["monto_pendiente"],2);
             $ofactura_venta->operador_ID_anulacion=$item["operador_ID_anulacion"];
             $ofactura_venta->fecha_anulacion=$item["fecha_anulacion"];
             $ofactura_venta->motivo_anulacion_ID=$item["motivo_anulacion_ID"];
@@ -207,16 +207,16 @@ class factura_venta {
             $ofactura_venta->numero_producto=$item["numero_producto"];
             $ofactura_venta->empresa_ID=$item["empresa_ID"];
             $ofactura_venta->correlativos_ID=$item["correlativos_ID"];
-            $ofactura_venta->gravadas=$item["gravadas"];
-            $ofactura_venta->anticipos=$item["anticipos"];
-            $ofactura_venta->gratuitas=$item["gratuitas"];
-            $ofactura_venta->inafectas=$item["inafectas"];
-            $ofactura_venta->exoneradas=$item["exoneradas"];
-            $ofactura_venta->descuento_global=$item["descuento_global"];
-            $ofactura_venta->monto_detraccion=$item["monto_detraccion"];
+            $ofactura_venta->gravadas=round($item["gravadas"],2);
+            $ofactura_venta->anticipos=round($item["anticipos"],2);
+            $ofactura_venta->gratuitas=round($item["gratuitas"],2);
+            $ofactura_venta->inafectas=round($item["inafectas"],2);
+            $ofactura_venta->exoneradas=round($item["exoneradas"],2);
+            $ofactura_venta->descuento_global=round($item["descuento_global"],2);
+            $ofactura_venta->monto_detraccion=round($item["monto_detraccion"],2);
             $ofactura_venta->impuestos_tipo_ID=$item["impuestos_tipo_ID"];
-            $ofactura_venta->porcentaje_descuento=$item["porcentaje_descuento"];
-            $ofactura_venta->otros_cargos=$item["otros_cargos"];
+            $ofactura_venta->porcentaje_descuento=round($item["porcentaje_descuento"],2);
+            $ofactura_venta->otros_cargos=round($item["otros_cargos"],2);
             $ofactura_venta->ver_descripcion=$item["ver_descripcion"];
             $ofactura_venta->ver_componente=$item["ver_componente"];
             $ofactura_venta->ver_adicional=$item["ver_adicional"];
@@ -233,7 +233,7 @@ class factura_venta {
         throw new Exception($ex->getMessage());
       }
     }
-     static function getByID1($ID)
+    /* static function getByID1($ID)
     {
     $cn =new connect_new();
     try
@@ -304,7 +304,75 @@ class factura_venta {
       log_error(__FILE__, "salida.getByID", $ex->getMessage());
       throw new Exception($ex->getMessage());
     }
-  }
+  }*/
+  static function getByNumero($serie,$numero)
+      {
+      $cn =new connect_new();
+      try
+      {
+        $dt=$cn->store_procedure_getGrid(
+            "sp_factura_venta_getByNumero",
+            array("iSerie"=>$serie,
+                "iNumero"=>$numero,
+                "iempresa_ID"=>$_SESSION['empresa_ID']));
+        $ofactura_venta=null;
+        foreach($dt as $item)
+        {
+          $ofactura_venta= new factura_venta();
+            $ofactura_venta->ID=$item["ID"];
+            $ofactura_venta->salida_ID=$item["salida_ID"];
+            $ofactura_venta->numero=$item["numero"];
+            $ofactura_venta->numero_concatenado=$item["numero_concatenado"];
+            $ofactura_venta->fecha_emision=$item["fecha_emision"];
+            $ofactura_venta->forma_pago_ID=$item["forma_pago_ID"];
+            $ofactura_venta->plazo_factura=$item["plazo_factura"];
+            $ofactura_venta->fecha_vencimiento=$item["fecha_vencimiento"];
+            $ofactura_venta->estado_ID=$item["estado_ID"];
+            $ofactura_venta->observacion=$item["observacion"];
+            $ofactura_venta->moneda_ID=$item["moneda_ID"];
+            $ofactura_venta->numero_orden_venta=$item["numero_orden_venta"];
+            $ofactura_venta->numero_orden_compra=$item["numero_orden_compra"];
+            $ofactura_venta->impresion=$item["impresion"];
+            $ofactura_venta->con_guia=$item["con_guia"];
+            $ofactura_venta->pago=$item["pago"];
+            $ofactura_venta->monto_total_neto=round($item["monto_total_neto"],2);
+            $ofactura_venta->monto_total_igv=round($item["monto_total_igv"],2);
+            $ofactura_venta->monto_total=round($item["monto_total"],2);
+            $ofactura_venta->monto_pendiente=round($item["monto_pendiente"],2);
+            $ofactura_venta->operador_ID_anulacion=$item["operador_ID_anulacion"];
+            $ofactura_venta->fecha_anulacion=$item["fecha_anulacion"];
+            $ofactura_venta->motivo_anulacion_ID=$item["motivo_anulacion_ID"];
+            $ofactura_venta->serie=$item["serie"];
+            $ofactura_venta->opcion=$item["opcion"];
+            $ofactura_venta->numero_producto=$item["numero_producto"];
+            $ofactura_venta->empresa_ID=$item["empresa_ID"];
+            $ofactura_venta->correlativos_ID=$item["correlativos_ID"];
+            $ofactura_venta->gravadas=round($item["gravadas"],2);
+            $ofactura_venta->anticipos=round($item["anticipos"],2);
+            $ofactura_venta->gratuitas=round($item["gratuitas"],2);
+            $ofactura_venta->inafectas=round($item["inafectas"],2);
+            $ofactura_venta->exoneradas=round($item["exoneradas"],2);
+            $ofactura_venta->descuento_global=round($item["descuento_global"],2);
+            $ofactura_venta->monto_detraccion=round($item["monto_detraccion"],2);
+            $ofactura_venta->impuestos_tipo_ID=$item["impuestos_tipo_ID"];
+            $ofactura_venta->porcentaje_descuento=round($item["porcentaje_descuento"],2);
+            $ofactura_venta->otros_cargos=round($item["otros_cargos"],2);
+            $ofactura_venta->ver_descripcion=$item["ver_descripcion"];
+            $ofactura_venta->ver_componente=$item["ver_componente"];
+            $ofactura_venta->ver_adicional=$item["ver_adicional"];
+            $ofactura_venta->ver_serie=$item["ver_serie"];
+            $ofactura_venta->incluir_obsequios=$item["incluir_obsequios"];
+            $ofactura_venta->usuario_id=$item["usuario_id"];
+            $ofactura_venta->usuario_mod_id=$item["usuario_mod_id"];
+
+        }
+        return $ofactura_venta;
+      }catch(Exeption $ex)
+      {
+        log_error(__FILE__, "factura_venta.getByID", $ex->getMessage());
+        throw new Exception($ex->getMessage());
+      }
+    }
     function insertar()
       {
       $cn =new connect_new();
@@ -502,6 +570,7 @@ class factura_venta {
            throw new Exception('Ocurrio un error en la consulta');
        }
     }
+    
     static function getComprobante_Vista_Previa($array) {
        $cn = new connect_new();
        try {
@@ -594,7 +663,7 @@ class factura_venta {
 			throw new Exception($q);
 		}
 	}
-static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
+static function getTablaFactura_VentaSNC($periodo,$serie,$numero,$electronico)
     {
         $cn =new connect_new();
         try
@@ -604,7 +673,8 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
                         "iempresa_ID"=>$_SESSION['empresa_ID'],
                         "iperiodo"=>$periodo,
                         "iserie"=>$serie,
-                        "inumero"=>$numero
+                        "inumero"=>$numero,
+                        "ielectronico"=>$electronico
                     ));
             //$q='call getTabla_Factura_Emitida_SNC('.$_SESSION['empresa_ID'].','.$periodo.',"'.$serie.'",'.$numero.');';
             //echo $q;
@@ -716,6 +786,52 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero)
             throw new Exception($q);
         }
 
+    }
+    static function getVerBotonAgregar($salida_ID)
+	{
+            $cn =new connect_new();
+            try
+            {
+                $resultado= $cn->store_procedure_getData(
+                    "sp_guia_venta_VerBtnAgregar",
+                    array("isalida_ID"=>$salida_ID)
+                    );
+                   
+                    return $resultado;
+            }catch(Exception $ex)
+            {
+                    throw new Exception("Ocurrio un error en la consulta");
+            }
+    }
+    static function getTabla($opcion,$cliente_ID,$todos,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$periodo_texto,$numero_factura)
+    {
+        //$cn =new connect_new();
+        $cn=new connect_new();
+        try
+        {
+            
+      
+        $dt=$cn->store_procedure_getGridParse(
+                'sp_factura_venta_getTabla',
+                array(
+                    'opcion'=>$opcion,
+                    'empresa_ID'=>$_SESSION['empresa_ID'],
+                    'cliente_ID'=>$cliente_ID,
+                    'periodo'=>$todos,
+                    'fecha_inicio'=>$fecha_inicio,
+                    'fecha_fin'=>$fecha_fin,
+                    'estado_ID'=>$estado_ID,
+                    'moneda_ID'=>$moneda_ID,
+                    'periodo2'=>$periodo_texto,
+                    'inumero_factura'=>$numero_factura)
+                );
+        //var_dump($dt);
+        return $dt;
+        }catch(Exception $ex)
+        {
+            log_error(__FILE__, "salida.getTabla", $ex->getMessage());
+                throw new Exception("Ocurrió un error en el sistema");
+        }
     }
 }  
 

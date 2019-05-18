@@ -131,6 +131,7 @@ function redondear(numero, cantidad_decimal) {
     {
         rNumero = 0;
     }
+    new Intl.NumberFormat("en-IN").format(rNumero)
     return rNumero;
 }
 

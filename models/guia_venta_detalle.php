@@ -10,6 +10,9 @@ class guia_venta_detalle {
   private $ver_componente;
   private $ver_adicional;
   private $ver_serie;
+  private $peso;
+  private $cantidad;
+  private $producto_ID;
   private $usuario_id;
   private $usuario_mod_id;
   private $getMessage;
@@ -332,6 +335,48 @@ static function getListaGuia_Venta($guia_venta_ID) {
             return $dt;
         } catch (Exception $ex) {
             log_error(__FILE__, "guia_venta_detalle.getListaGuia_Venta", $ex->getMessage());
+            throw new Exception("Ocurrió un error en la conexión");
+        }
+    }
+    function registrar($opcion)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $ID=$cn->store_procedure_transa(
+          "sp_guia_venta_detalle_Registro",
+            array(
+            "iID"=>$this->ID,
+            "iguia_venta_ID"=>$this->guia_venta_ID,
+            "iproducto_ID"=>$this->producto_ID,
+            "idescripcion"=>$this->descripcion,
+            "icantidad"=>$this->cantidad,
+            "ipeso"=>$this->peso,
+            "iusuario_id"=>$this->usuario_id,
+            "iopcion"=>$opcion
+            ),0);
+      if($ID>0){
+        $this->getMessage="El registro se guard? correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } 
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta_detalle.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  
+  static function getDetalle($guia_venta_ID) {
+        $cn = new connect_new();
+        try {
+            $dt=$cn->store_procedure_getGrid("sp_guia_venta_detalle_getDetalle",
+            array(
+                "iguia_venta_ID"=>$guia_venta_ID
+            ));
+            return $dt;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "guia_venta_detalle.sp_guia_venta_detalle_getDetalle", $ex->getMessage());
             throw new Exception("Ocurrió un error en la conexión");
         }
     }

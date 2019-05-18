@@ -11,6 +11,7 @@ class empresa
         private $stilo_fondo_boton;
         private $stilo_fondo_cabecera;
         private $icono;
+        private $color_documentos;
 	private $usuario_id;	
 	private $usuario_mod_id;	
 	private $getMessage;
@@ -39,6 +40,8 @@ class empresa
         private $correlativos_ID_fisico;
         private $correlativos_ID_guia_fisico;
         private $correlativos_ID_guia_electronico;
+        private $imagen_documentos;
+        private $precio_incluye_igv;
 	public function __set($var, $valor)
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
@@ -76,8 +79,8 @@ class empresa
             $this->stilo_fondo_boton="";
             $this->stilo_fondo_cabecera="";
             $this->icono="";
-            $this->usuario_id=$_SESSION["usuario_ID"];
-            $this->usuario_mod_id=$_SESSION["usuario_ID"];
+            $this->usuario_id=isset($_SESSION["usuario_ID"])?$_SESSION["usuario_ID"]:-1;
+            $this->usuario_mod_id=isset($_SESSION["usuario_ID"])?$_SESSION["usuario_ID"]:-1;
 
         }
         function __destruct()
@@ -124,6 +127,7 @@ class empresa
                     "istilo_fondo_tabs"=>$this->stilo_fondo_tabs,
                     "istilo_fondo_boton"=>$this->stilo_fondo_boton,
                     "istilo_fondo_cabecera"=>$this->stilo_fondo_cabecera,
+                     "icolor_documentos"=>$this->color_documentos,
                      "iicono"=>$this->icono,
                     "iusuario_id"=>$this->usuario_id,
                     "imoneda"=>$this->moneda,
@@ -142,7 +146,8 @@ class empresa
                     "iproduccion_ws_guia"=>$this->produccion_ws_guia,
                     "iconexion_ws_sunat"=>$this->conexion_ws_sunat,
                     "ilista_modulo"=>$this->lista_modulo,
-                    "ilista_reportes"=>$this->lista_reportes
+                    "ilista_reportes"=>$this->lista_reportes,
+                    "iprecio_incluye_igv"=>$this->precio_incluye_igv
                 ),0);
           if($ID>0){
             $this->getMessage="El registro se guardó correctamente.";
@@ -164,6 +169,7 @@ class empresa
 			$q='UPDATE empresa SET nombre="'.$this->nombre.'",ruta="'.$this->ruta.'",';
                         $q.=' stilo_fondo_tabs="'.$this->stilo_fondo_tabs.'", stilo_fondo_boton="'.$this->stilo_fondo_boton.'",';
                         $q.=' stilo_fondo_cabecera="'.$this->stilo_fondo_cabecera.'",'; 
+                        $q.=' color_documentos="'.$this->color_documentos.'",'; 
 			$q.=' usuario_mod_id='.$this->usuario_mod_id.', fdm=Now()';
 			$q.=' WHERE ID='.$this->ID;
 			
@@ -251,6 +257,7 @@ class empresa
               $oempresa->stilo_fondo_boton=$item["stilo_fondo_boton"];
               $oempresa->stilo_fondo_cabecera=$item["stilo_fondo_cabecera"];
               $oempresa->icono=$item["icono"];
+              $oempresa->color_documentos=$item["color_documentos"];
               $oempresa->usuario_id=$item["usuario_id"];
               $oempresa->usuario_mod_id=$item["usuario_mod_id"];
 
@@ -384,7 +391,8 @@ class empresa
 		$cn =new connect_new();
 		try 
 		{
-                    $q='select count(ID) from usuario_empresa';
+			$q="select distinct em.*,ifnull((select razon_social from datos_generales where del=0 and empresa_ID=em.ID limit 0,1),'CONFIGURACIÓN GENERAL') as razon_social   from empresa em inner join menu_usuario um on um.empresa_ID=em.ID and um.del=0 and um.usuario_ID=".$usuario_ID. " where em.del=0";
+                   /* $q='select count(ID) from usuario_empresa';
                     $q.=' where perfil_ID=0 and usuario_ID='.$usuario_ID.' and del=0';
                     $contador_user_admin=$cn->getData($q);
                     
@@ -395,10 +403,10 @@ class empresa
 			$q.='from empresa em,usuario_empresa ue';
 			$q.='  where ue.empresa_ID=em.ID and ue.del=0 and em.del=0 and ue.usuario_ID='.$usuario_ID;
                         $q.=' Order By em.nombre';	
-                    }
-			$cn1 =new connect_new();		
+                    }*/
+			//$cn1 =new connect_new();		
 			//echo $q;
-                    $dt=$cn1->getGrid($q);									
+                    $dt=$cn->getGrid($q);									
                     return $dt;												
 		}catch(Exception $ex)
 		{

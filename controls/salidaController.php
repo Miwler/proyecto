@@ -275,6 +275,7 @@ function get_Cotizacion_Mantenimiento_Nuevo(){
         $oCotizacion->observacion=$oDatos_Generales->observacion;
         $oCotizacion->tipo_cambio=$oDatos_Generales->tipo_cambio;
         $oCotizacion->ID=0;
+        $oCotizacion->moneda_ID=moneda;
         $GLOBALS['oCliente']=new cliente();
         $GLOBALS['dtCliente']=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $GLOBALS['oCotizacion']=$oCotizacion;
@@ -283,7 +284,7 @@ function get_Cotizacion_Mantenimiento_Nuevo(){
         $GLOBALS['oDatos_Generales']=$oDatos_Generales;
         $GLOBALS['dtForma_Pago']=$dtForma_Pago;
         $GLOBALS['dtEstado']=$dtEstado;
-        $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(1,2,null,null);
+        $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(1,moneda,null,null);
         $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
         $GLOBALS['mensaje']='';
     }
@@ -316,7 +317,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $periodo=date("Y");
     $moneda_ID=$_POST['cboMoneda'];
     $fecha=$_POST['txtFecha'];
-    $forma_pago_ID=$_POST['selForma_Pago'];
+    $forma_pago_ID=isset($_POST['selForma_Pago'])?$_POST['selForma_Pago']:0;
     $tiempo_credito=$_POST['selTiempo_Credito'];
     $tardanza=$_POST['txtTiempo_Avance'];
     $plazo_entrega=$_POST['txtPlazo_Entrega'];
@@ -446,11 +447,17 @@ function post_ajaxCotizacion_Detalle_Cliente(){
     require ROOT_PATH.'models/operador.php';
     require ROOT_PATH.'models/operador_cliente.php';
     require ROOT_PATH.'models/persona.php';
+    require ROOT_PATH.'models/distrito.php';
+    require ROOT_PATH.'models/provincia.php';
+    require ROOT_PATH.'models/departamento.php';
     $cliente_ID=$_POST['id'];
     $operador_ID="";
-            $operador="Vendedor no asignado";
-            $operador_telefono="--";
-            $operador_celular1="--";
+    $operador="Vendedor no asignado";
+    $operador_telefono="--";
+    $operador_celular1="--";
+    $dtDepartamento="";
+    $dtProvincia="";
+    $dtDistrito="";
     try{
         $oCliente=cliente::getByID($cliente_ID);
         $Telefono=$oCliente->telefono;
@@ -469,6 +476,13 @@ function post_ajaxCotizacion_Detalle_Cliente(){
         $Forma_pago=$oForma_pago->ID;
 
         $oOperador_Cliente=operador_cliente::getByOperador($cliente_ID);
+        if($oCliente->distrito_ID>0){
+            $oDistrito=distrito::getByID($oCliente->distrito_ID);
+            $oProvincia=provincia::getByID($oDistrito->provincia_ID);
+            $dtDepartamento=departamento::getOpciones($oProvincia->departamento_ID);
+            $dtProvincia=provincia::getOpciones($oDistrito->provincia_ID,$oProvincia->departamento_ID);
+            $dtDistrito=distrito::getOpciones($oCliente->distrito_ID,$oDistrito->provincia_ID);
+        }
         
         if($oOperador_Cliente!=null){
             $operador_ID=$oOperador_Cliente->operador_ID;
@@ -498,7 +512,7 @@ function post_ajaxCotizacion_Detalle_Cliente(){
     $retornar=Array('Telefono'=>$Telefono,'Direccion'=>$Direccion,
         'Forma_pago'=>$Forma_pago,'Tiempo_Credito'=>$Tiempo_Credito,'mensaje'=>$mensaje,'lista_representante'=>$ListaRepresentate,'operador_ID'=>$operador_ID,'operador'=>$operador,
         'operador_telefono'=>$operador_telefono,'operador_celular1'=>$operador_celular1,
-        'resultado'=>$resultado);
+        'resultado'=>$resultado,'dtDepartamento'=>$dtDepartamento,'dtProvincia'=>$dtProvincia,'dtDistrito'=>$dtDistrito);
     //$retorn="<h1>Hola</h1>";
 
     echo json_encode($retornar);
@@ -528,6 +542,7 @@ function get_cotizacion_mantenimiento_producto_nuevo($id){
     $oCotizacion_Detalle->tipo_ID=1;
     $oCotizacion_Detalle->adicional=0;
     $oCotizacion_Detalle->componente=0;
+    $oCotizacion_Detalle->incluye_igv=precio_incluye_igv;
     $oInventario=new inventario();
     $GLOBALS['linea_ID']=0;
     $GLOBALS['categoria_ID']=0;
@@ -566,6 +581,9 @@ function post_cotizacion_mantenimiento_producto_nuevo($id){
     $cantidad=$_POST['txtCantidad'];
     $PrecioUnitarioSoles=$_POST['txtPrecioUnitarioSoles'];
     $PrecioUnitarioDolares=$_POST['txtPrecioUnitarioDolares'];
+    $valor_unit_soles_registrado=$_POST['valor_unit_soles_registrado'];
+    $valor_unit_dolares_registrado=$_POST['valor_unit_dolares_registrado'];
+    
     $SubTotalSoles=$_POST['txtSubTotalSoles'];
     $SubTotalDolares=$_POST['txtSubTotalDolares'];
     $Igv=$_POST['txtValIgv'];
@@ -573,7 +591,7 @@ function post_cotizacion_mantenimiento_producto_nuevo($id){
     $IgvDolares=$_POST['txtIgvDolares'];
     $TotalSoles=$_POST['txtTotalSoles'];
     $TotalDolares=$_POST['txtTotalDolares'];
-
+    $incluye_igv=isset($_POST['ckIncluyeIgv'])?1:0;
     if(isset($_POST['ckSeparacion'])){
         $separacion=$_POST['ckSeparacion'];
     }else {
@@ -603,6 +621,7 @@ function post_cotizacion_mantenimiento_producto_nuevo($id){
         $oCotizacion_Detalle->ver_precio=1;
         $oCotizacion_Detalle->separacion=$separacion;
         $oCotizacion_Detalle->tiempo_separacion=$tiempo_separacion;
+        $oCotizacion_Detalle->incluye_igv=$incluye_igv;
         //$oCotizacion_Detalle->cantidad_separada=$cantidad;
         //Tipo 1, es tipo producto detalle;
         $oCotizacion_Detalle->tipo=$tipo;
@@ -613,6 +632,8 @@ function post_cotizacion_mantenimiento_producto_nuevo($id){
             $oCotizacion_Detalle->precio_venta_unitario_dolares=$PrecioUnitarioDolares;
             $oCotizacion_Detalle->precio_venta_subtotal_soles=$SubTotalSoles;
             $oCotizacion_Detalle->precio_venta_subtotal_dolares=$SubTotalDolares;
+            $oCotizacion_Detalle->valor_unit_soles_registrado=$valor_unit_soles_registrado;
+            $oCotizacion_Detalle->valor_unit_dolares_registrado=$valor_unit_dolares_registrado;
             $oCotizacion_Detalle->igv=$Igv;
             $oCotizacion_Detalle->vigv_soles=$IgvSoles;
             $oCotizacion_Detalle->vigv_dolares=$IgvDolares;
@@ -624,11 +645,13 @@ function post_cotizacion_mantenimiento_producto_nuevo($id){
             $oCotizacion_Detalle->subtotal_dolares1='';
             $oCotizacion_Detalle->adicional_soles='';
             $oCotizacion_Detalle->adicional_dolares='';
-            $oCotizacion_Detalle->insertar();
+            $oCotizacion_Detalle->insertar1();
 
         }else {
 
             $oCotizacion_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
+            $oCotizacion_Detalle->valor_unit_soles_registrado=$valor_unit_soles_registrado;
+            $oCotizacion_Detalle->valor_unit_dolares_registrado=$valor_unit_dolares_registrado;
             $oCotizacion_Detalle->actualizar();
             $oCotizacion_Detalle->precio_venta_unitario_soles=$PrecioUnitarioSoles;
             $oCotizacion_Detalle->precio_venta_unitario_dolares=$PrecioUnitarioDolares;
@@ -1264,6 +1287,8 @@ function post_ajaxValidarCostoCompraMenor(){
         $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje);
 	echo json_encode($retornar);
     }
+    
+
     /*
 function post_ajaxVerSeparaciones(){
     require ROOT_PATH.'models/producto.php';
@@ -1637,7 +1662,7 @@ function post_ajaxCotizacion_Detalle_Productos(){
                 $resultado.='<td class="tdCenter">'.$i.'</td>';
                 $resultado.='<td class="tdLeft">'. test_input($oProducto->nombre).'</td>';
                 $resultado.='<td class="tdCenter">'.$item['cantidad'].'</td>';
-                $resultado.='<td class="tdRight" style="padding-right:8px;">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
+                $resultado.='<td class="tdRight" style="padding-right:8px;">'.number_format($costo_venta_unitario_padre,bd_largo_decimal,".",",").'</td>';
                 $resultado.='<td class="tdRight" style="padding-right:8px;">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
                 $botones=array();
                 array_push($botones,'<a title="Editar Producto" onclick="fncEditarProducto(' . $item['ID'] . ');" ><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
@@ -1983,13 +2008,15 @@ function post_Cotizacion_Mantenimiento_Registro_Adicional_Nuevo($id){
     $GLOBALS['mensaje']=$mensaje;
 
 }
+
 function get_Cotizacion_PDF($id){
-    require ('./formatos_PDF/cotizacion.php');
+    require ROOT_PATH.'formatos_PDF/cotizacion.php';
     require ROOT_PATH.'models/cotizacion.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/cotizacion_detalle.php';
     require ROOT_PATH.'models/producto.php';
-    if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
+    if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
+    if(!class_exists('empresa'))require ROOT_PATH."models/empresa.php";
     require ROOT_PATH . 'models/cliente.php';
     require ROOT_PATH . 'include/lib_fecha_texto.php';
     require ROOT_PATH . 'models/cliente_contacto.php';
@@ -1997,11 +2024,14 @@ function get_Cotizacion_PDF($id){
     require ROOT_PATH . 'models/forma_pago.php';
     require ROOT_PATH . 'models/operador.php';
     require ROOT_PATH . 'models/cotizacion_numero_cuenta.php';
+    require ROOT_PATH . 'models/imagen_documentos.php';
+    
     global $returnView_float;
     $returnView_float=true;
     $oCotizacion=cotizacion::getByID($id);
     $oMoneda=moneda::getByID($oCotizacion->moneda_ID);
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oEmpresa=empresa::getByID($_SESSION['empresa_ID']);
     $oCliente=cliente::getByID($oCotizacion->cliente_ID);
     if($oCotizacion->cliente_contacto_ID!=0){
         $oCliente_Contacto=cliente_contacto::getByID($oCotizacion->cliente_contacto_ID);
@@ -2041,8 +2071,17 @@ function get_Cotizacion_PDF($id){
     $pdf->oForma_Pago=$oForma_Pago;
     $pdf->oOperador=$oOperador;
     $pdf->dtCotizacion_Numero_Cuenta=$dtCotizacion_Numero_Cuenta;
-    
+    //print_t(hexToRgb($oEmpresa->color_documentos));
+    $pdf->color=hexToRgb($oEmpresa->color_documentos);
     $pdf->logo=logo;
+    $oimagen_documentos=new imagen_documentos();
+    $array=array("imagen1"=>(($oimagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])=="")?"":$oimagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])),
+            "imagen2"=>(($oimagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])=="")?"":$oimagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])),
+            "imagen3"=>(($oimagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])=="")?"":$oimagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])),
+            "imagen4"=>(($oimagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])=="")?"":$oimagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])),
+            "imagen5"=>(($oimagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])=="")?"":$oimagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])),
+            ); 
+    $pdf->img_footer=$array;
     $pdf->AliasNbPages();
       //Cargamos los detalles
     $numero=0;
@@ -2152,10 +2191,10 @@ function get_Cotizacion_PDF($id){
                     $subtotal1=0;
                     if($fila['ver_precio']==1){
                         if($oCotizacion->moneda_ID==1){
-                        $precio_unitario1=number_format($fila['precio_venta_unitario_soles'],2,".",",");
+                        $precio_unitario1=number_format($fila['precio_venta_unitario_soles'],bd_largo_decimal,".",",");
                         $subtotal=number_format($fila['precio_venta_subtotal_soles'],2,".",",");
                         }else {
-                            $precio_unitario1=number_format($fila['precio_venta_unitario_dolares'],2,".",",");
+                            $precio_unitario1=number_format($fila['precio_venta_unitario_dolares'],bd_largo_decimal,".",",");
                             $subtotal1=number_format($fila['precio_venta_subtotal_dolares'],2,".",",");
                         }
                     }else {
@@ -2171,7 +2210,7 @@ function get_Cotizacion_PDF($id){
                         $pdf->SetFont('Arial','',6);
 
                         $pdf->SetX(30);
-                        $pdf->MultiCell($ancho,3, test_input($fila['descripcion']),0,'J',false);
+                        $pdf->MultiCell($ancho,3, ($fila['descripcion']),0,'J',false);
 
                     }
 //Creamos la cabecera para los componentes o adicionales
@@ -2197,13 +2236,13 @@ function get_Cotizacion_PDF($id){
                 }
                 $pdf->SetFont('Arial','B',8);
                 $pdf->SetTextColor(0);
-                $pdf->Row(array($numero, strtoupper($oProducto->nombre), $fila['cantidad'], number_format($precio_unitario,2,".",","),number_format($subtotal,2,".",",")),5);
+                $pdf->Row(array($numero, FormatTextViewPDF($oProducto->nombre), $fila['cantidad'], number_format($precio_unitario,bd_largo_decimal,".",","),number_format($subtotal,2,".",",")),5);
                 //$pdf->SetTextColor(99,98,98);
                 if(trim($fila['descripcion'])!=''){
                     $pdf->SetTextColor(99,98,98);
                     $pdf->SetFont('Arial','',6);
                     $pdf->SetX(20);
-                    $pdf->MultiCell(120,3,  strtoupper($fila['descripcion']),0,'J',false);
+                    $pdf->MultiCell(120,3,  ($fila['descripcion']),0,'J',false);
 
                 }
 
@@ -2250,7 +2289,7 @@ function get_Cotizacion_Mantenimiento_Producto_Editar($id){
     $dtLinea=linea::getGrid();
     //$dtProducto=producto::getGrid();
 
-    $oCotizacion_Detalle=cotizacion_detalle::getByID($id);
+    $oCotizacion_Detalle=cotizacion_detalle::getByID1($id);
 
 //        $dtCotizacion_Detalle_Hijo=cotizacion_detalle::getGrid('cotizacion_detalle_ID='.$id);
 //        $contar=count($dtCotizacion_Detalle_Hijo);
@@ -2304,6 +2343,9 @@ function post_cotizacion_mantenimiento_producto_editar($id){
     $cantidad=$_POST['txtCantidad'];
     $PrecioUnitarioSoles=$_POST['txtPrecioUnitarioSoles'];
     $PrecioUnitarioDolares=$_POST['txtPrecioUnitarioDolares'];
+    $valor_unit_dolares_registrado=$_POST['valor_unit_dolares_registrado'];
+    $valor_unit_soles_registrado=$_POST['valor_unit_soles_registrado'];
+    $incluye_igv=isset($_POST['ckIncluyeIgv'])?1:0;
     $SubTotalSoles=$_POST['txtSubTotalSoles'];
     $SubTotalDolares=$_POST['txtSubTotalDolares'];
     $Igv=$_POST['txtValIgv'];
@@ -2337,7 +2379,10 @@ function post_cotizacion_mantenimiento_producto_editar($id){
         $oCotizacion_Detalle->tiempo_separacion=$tiempo_separacion;
         //Tipo 1, es tipo producto detalle;
         $oCotizacion_Detalle->tipo_ID=$tipo;
+        $oCotizacion_Detalle->incluye_igv=$incluye_igv;
         $oCotizacion_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
+        $oCotizacion_Detalle->valor_unit_soles_registrado=$valor_unit_soles_registrado;
+        $oCotizacion_Detalle->valor_unit_dolares_registrado=$valor_unit_dolares_registrado;
         $oCotizacion_Detalle->actualizar1();
         //$oCotizacion_Detalle->actualizar();
         $oCotizacion_Detalle->precio_venta_unitario_soles=$PrecioUnitarioSoles;
@@ -3441,8 +3486,10 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                 $array=retornar_valores($oCotizacion_Detalle->tipo_ID);
                 $oCotizacion_Detalle->componente=$array['componente'];
                 $oCotizacion_Detalle->adicional=$array['adicional'];
-
+                $oCotizacion_Detalle->valor_unit_soles_registrado=$vpadre['valor_unit_soles_registrado'];
+                $oCotizacion_Detalle->valor_unit_dolares_registrado=$vpadre['valor_unit_dolares_registrado'];
                 $oCotizacion_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                $oCotizacion_Detalle->incluye_igv=$vpadre['incluye_igv'];
                 $oCotizacion_Detalle->insertar1();
 
                 $oCotizacion_Detalle->pagina_cotizacion=$vpadre['pagina_cotizacion'];
@@ -3474,6 +3521,10 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                         $oCotizacion_Detalle_Hijo->tiempo_separacion=0;
                         $oCotizacion_Detalle_Hijo->cantidad_separada=0;
                         $oCotizacion_Detalle_Hijo->tipo_ID=$vHijo['tipo'];
+                        $oCotizacion_Detalle_Hijo->valor_unit_soles_registrado=$vHijo['valor_unit_soles_registrado'];
+                        $oCotizacion_Detalle_Hijo->valor_unit_dolares_registrado=$vHijo['valor_unit_dolares_registrado'];
+                        $oCotizacion_Detalle_Hijo->incluye_igv=$vHijo['incluye_igv'];
+                
                         $oCotizacion_Detalle_Hijo->usuario_id=$_SESSION['usuario_ID'];
                         $oCotizacion_Detalle_Hijo->insertar();
                         $oCotizacion_Detalle_Hijo->orden_cotizacion=$vHijo['orden_cotizacion'];
@@ -3487,14 +3538,14 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
 
         $oCliente=cliente::getByID($oCotizacion->cliente_ID);
         $operador_ID=0;
-        if($oCotizacion->operador_ID==null){
+        if($oCotizacion->operador_ID==null||$oCotizacion->operador_ID==-1){
             $oOperador= new operador();
             $oOperador->nombres="Vendedor";
             $oOperador->apellido_paterno="no asignado";
-            $oOperador->direccion="--";
+            //$oOperador->direccion="--";
             $oOperador->telefono="--";
             $oOperador->celular="--";
-            $oOperador->email="--";
+            //$oOperador->email="--";
 
         }else {
             $oOperador=operador::getByID($oCotizacion->operador_ID);
@@ -4087,7 +4138,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         $osalida->ID=0;
         $osalida->garantia= "1 año";
         $osalida->validez_oferta=7;
-        $osalida->moneda_ID=moneda;
+        
         $osalida->ver_adicional=1;
         $osalida->adicional="Nueva Central Telefónica ".$oDatos_Generales->telefono;
         $osalida->tipo_cambio=$oDatos_Generales->tipo_cambio;
@@ -4096,6 +4147,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         $osalida->ver_guia=0;
         $osalida->impresion=0;
         $osalida->forma_pago_ID=0;
+        $osalida->moneda_ID=moneda;
         $oCliente=new cliente();
         //$dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
         $oOperador=new operador();
@@ -4327,8 +4379,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'models/cliente.php';
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
-        
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/cotizacion.php';
@@ -4769,11 +4820,11 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                 if($salida_detalle_ID==0){
                 $oProducto=producto::getByID($item['producto_ID']);
                     if($osalida->moneda_ID==1){
-                        $costo_venta_unitario_padre=$item['precio_venta_unitario_soles'];
-                        $precio_venta_subtotal_padre=$item['precio_venta_subtotal_soles'];
+                        $costo_venta_unitario_padre=round($item['precio_venta_unitario_soles'],bd_largo_decimal);
+                        $precio_venta_subtotal_padre=round($item['precio_venta_subtotal_soles'],2);
                     }else {
-                        $costo_venta_unitario_padre=$item['precio_venta_unitario_dolares'];
-                        $precio_venta_subtotal_padre=$item['precio_venta_subtotal_dolares'];
+                        $costo_venta_unitario_padre=round($item['precio_venta_unitario_dolares'],bd_largo_decimal);
+                        $precio_venta_subtotal_padre=round($item['precio_venta_subtotal_dolares'],2);
                     }
 
 
@@ -4797,7 +4848,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                     $resultado.='<td class="text-center">'.$item['cantidad'].'</td>';
                     $resultado.='<td class="tdLeft">'.utf8_encode(strtoupper($oProducto->nombre)).'</td>';
                     //$resultado.='<td class="text-right">'.number_format($costo_venta_unitario_padre,2,".",",").'</td>';
-                    $resultado.='<td class="text-right">'.number_format($item['valor_unitario'],2,".",",").'</td>';
+                    $resultado.='<td class="text-right">'.number_format($item['valor_unitario'],bd_largo_decimal,".",",").'</td>';
                     $resultado.='<td class="text-right">'.number_format($precio_venta_subtotal_padre,2,".",",").'</td>';
                     $botones=array();
                     if($osalida->estado_ID==40||$osalida->estado_ID==42){
@@ -5027,7 +5078,7 @@ function post_ajaxOrden_Venta_Mantenimiento_Importar_Cotizacion() {
         require ROOT_PATH.'models/salida.php';
         require ROOT_PATH.'models/salida_detalle.php';
         
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/cotizacion_numero_cuenta.php';
         require ROOT_PATH.'models/salida_numero_cuenta.php';
         require ROOT_PATH.'models/producto.php';
@@ -5108,8 +5159,8 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                     $osalida_Detalle->salida_ID=$osalida->ID;
                     $osalida_Detalle->descripcion=$item['descripcion'];
                     $osalida_Detalle->cantidad=$item['cantidad'];
-                    $osalida_Detalle->precio_venta_unitario_soles=$item['precio_venta_unitario_soles'];
-                    $osalida_Detalle->precio_venta_unitario_dolares=$item['precio_venta_unitario_dolares'];
+                    $osalida_Detalle->precio_venta_unitario_soles=($item['incluye_igv']==1)?round($item['valor_unit_soles_registrado'],bd_largo_decimal):round($item['precio_venta_unitario_soles']*(1+$item['igv']),bd_largo_decimal);
+                    $osalida_Detalle->precio_venta_unitario_dolares=($item['incluye_igv']==1)?round($item['valor_unit_dolares_registrado'],bd_largo_decimal):round($item['precio_venta_unitario_dolares']*(1+$item['igv']),bd_largo_decimal);
                     $osalida_Detalle->precio_venta_subtotal_soles=$item['precio_venta_subtotal_soles'];
                     $osalida_Detalle->precio_venta_subtotal_dolares=$item['precio_venta_subtotal_dolares'];
                     $osalida_Detalle->precio_venta_soles=$item['precio_venta_soles'];
@@ -5130,7 +5181,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                     $osalida_Detalle->peso=$oProducto->peso;
                     $osalida_Detalle->tipo_sistema_calculo_isc_ID=null;
                     $osalida_Detalle->descuento_unitario=0;
-                    $osalida_Detalle->pu_incluye_igv=0;
+                    $osalida_Detalle->pu_incluye_igv=$item['incluye_igv'];
                     $osalida_Detalle->pu_incluye_isc=0;
                     $osalida_Detalle->descuento_porcentaje=0;
                     
@@ -5144,7 +5195,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                     $osalida_Detalle->descuento_soles=0;
                     $osalida_Detalle->descuento_dolares=0;
                     $osalida_Detalle->descuento=0;
-                    $osalida_Detalle->valor_unitario=($osalida->moneda_ID==1)?$item['precio_venta_unitario_soles']:$item['precio_venta_unitario_dolares'];
+                    $osalida_Detalle->valor_unitario=($item['incluye_igv']==1)?(($osalida->moneda_ID==1)?$item['precio_venta_unitario_soles']:$item['precio_venta_unitario_dolares']):(($osalida->moneda_ID==1)?$item['valor_unit_soles_registrado']:$item['valor_unit_dolares_registrado']);
             
                     $osalida_Detalle->insertar_new();
                     $producto_ID_old=$osalida_Detalle->producto_ID;
@@ -6217,7 +6268,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         //require ROOT_PATH . 'models/inventario.php';
         //
         try{
-            print_r($oInventario);
+            
             if($oInventario->ingreso_detalle_ID!='NULL'){
             $oCompra_Detalle=ingreso_detalle::getByID($oInventario->ingreso_detalle_ID);
             $oCompra=ingreso::getByID($oCompra_Detalle->ingreso_ID);
@@ -7540,7 +7591,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                         $mensaje=$osalida_Detalle->message;
                         $resultado=1;
                 }
-               eliminar_inventario($osalida_Detalle);
+              eliminar_inventario($osalida_Detalle);
                actualizar_costos_padre($osalida_Detalle);
 
         }catch(Exception $ex){
@@ -8859,7 +8910,8 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'models/moneda.php';
         require ROOT_PATH.'models/salida_detalle.php';
         require ROOT_PATH.'models/producto.php';
-        if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
+        if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
+        
         require ROOT_PATH . 'models/cliente.php';
         require ROOT_PATH . 'include/lib_fecha_texto.php';
         require ROOT_PATH . 'models/cliente_contacto.php';
@@ -8869,12 +8921,16 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'formatos_pdf/factura_venta.php';
         //global $returnView_float;
         $pdf= new PDF3('P','mm',array(216,279));
+        
         try{
+            
             $osalida=salida::getByID($id);
             $oMoneda=moneda::getByID($osalida->moneda_ID);
+           
+            
             $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
             $oCliente=cliente::getByID($osalida->cliente_ID);
-            $oCliente_Contacto=  cliente_contacto::getByID($osalida->cliente_contacto_ID);
+            $oCliente_Contacto=cliente_contacto::getByID($osalida->cliente_contacto_ID);
             $oForma_Pago=forma_pago::getByID($osalida->forma_pago_ID);
             if($osalida->forma_pago_ID==0){
                 $oForma_Pago=new forma_pago();
@@ -8898,10 +8954,12 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
             $pdf->oForma_Pago=$oForma_Pago;
             $pdf->oOperador=$oOperador;
             $pdf->dtOrden_Venta_Numero_Cuenta=$dtsalida_Numero_Cuenta;
+            $pdf->color=hexToRgb($_COOKIE["color_documentos"]);
             foreach($dtFactura_Venta as $item){
                 $oFactura_Venta=factura_venta::getByID($item['ID']);
                 $pdf->AddPage();
                 $pdf->cabecera($oFactura_Venta);
+                
                 $pdf->contenedor_detalle(130,$oFactura_Venta);
                 $dtFactura_Venta_Detalle1=factura_venta_detalle::getGrid1('fvd.factura_venta_ID='.$item['ID'],-1,-1,'ovd.ID asc');
                 $pdf->SetWidths(array(20,120,25,35));
@@ -11788,7 +11846,7 @@ function post_ajaxCobranza_Mantenimiento() {
             $orden = 'fv.fecha_emision ' . $orden_tipo;
             break;
     }
-    $filtro="fv.estado_ID in (41,60)";
+    $filtro="fv.estado_ID in (41,60,93,94)";
      if($opcion_tipo=="buscar"){
         if($periodo!=0){
             $filtro.=($filtro!='')?" and ":"";
@@ -11828,9 +11886,11 @@ function post_ajaxCobranza_Mantenimiento() {
             $filtro.="ov.moneda_ID=".$moneda_ID;
         }
      }
-
-
-
+     /*if($filtro!=''){
+         $filtro.=" and ";
+     }
+     $filtro.="fv.ID in (select tabla_ID  from tabla_movimiento where del=0 and tabla='factura_venta' and estado_ID<>60)";
+*/
     //$filtro = 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------
@@ -12364,7 +12424,7 @@ function post_ajaxGuia_Venta_Numero_Ultimo() {
 }
 
 
-function post_ajaxEnviarSUNAT() {
+function post_ajaxEnviarSUNAT(){
 
     require ROOT_PATH.'models/factura_venta_sunat.php';
     require ROOT_PATH.'models/salida.php';
@@ -12394,7 +12454,7 @@ function post_ajaxEnviarSUNAT() {
         if($oFactura_venta[0]['con_guia']>0){
             $Guia_emitida=guia_venta::getCount("factura_venta_ID=".$id." and estado_ID in (38,97,98)");
             if($Guia_emitida==0){
-                throw new Exception("La factura tiene marcado 'Con guía', debe imprimir la guía antes de enviar la factura a la SUNAT.");
+                throw new Exception("La factura tiene marcado 'Con guía', debe enviar la guía antes de enviar la factura a la SUNAT.");
             }
             //$dtGuia_Venta=guia_venta::getGrid("factura_venta_ID=".$id." and estado_ID=38");
         }
@@ -12428,8 +12488,8 @@ function post_ajaxEnviarSUNAT() {
                 'PrecioReferencial' => $item['PrecioReferencial'],
                 'TipoPrecio' => $item['tipoprecio'],
                 'TipoImpuesto' => $item['tipoimpuesto'],
-                'Impuesto' => $item['impuesto'],
-                'ImpuestoSelectivo' => $item['ImpuestoSelectivo'],
+                'Impuesto' => round($item['impuesto'],2),
+                'ImpuestoSelectivo' => round($item['ImpuestoSelectivo'],2),
                 'OtroImpuesto' => $item['OtroImpuesto'],
                 'Descuento' => $item['Descuento'],
                 'DescuentoFactor' => $item['descuento_factor'],
@@ -12526,31 +12586,64 @@ function post_ajaxEnviarSUNAT() {
         $trama_firmado=base64_encode($string);
         $estado_envio=0;
         if($transacion->error==0){
-            $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
-            $oFactura_Venta1->estado_ID=94;//Estado emitido electronico;
-            $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oFactura_Venta1->actualizar();
-            
-            $oTabla_Movimiento=new tabla_movimiento();
-            $oTabla_Movimiento->tabla_ID=$oFactura_venta[0]['ID'];
-            $oTabla_Movimiento->tabla="factura_venta";
-            $oTabla_Movimiento->estado_ID=94;
-            $oTabla_Movimiento->fecha=date('Y-m-d H:i:s');
-            $oTabla_Movimiento->observacion="Factura electrónica emitido a SUNAT";
-            $oTabla_Movimiento->usuario_ID_creacion=$_SESSION['usuario_ID'];
-            $oTabla_Movimiento->empresa_ID=$_SESSION['empresa_ID'];
-            $oTabla_Movimiento->usuario_id=$_SESSION['usuario_ID'];
-            $oTabla_Movimiento->insertar();
-            if($transacion->observacion==""){
+            if($transacion->codigo_estado=='0'){
+                $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
+                $oFactura_Venta1->estado_ID=94;//Estado emitido electronico;
+                $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
+                $oFactura_Venta1->actualizar();
+
+                $oTabla_Movimiento=new tabla_movimiento();
+                $oTabla_Movimiento->tabla_ID=$oFactura_venta[0]['ID'];
+                $oTabla_Movimiento->tabla="factura_venta";
+                $oTabla_Movimiento->estado_ID=94;
+                $oTabla_Movimiento->fecha=date('Y-m-d H:i:s');
+                $oTabla_Movimiento->observacion="Factura electrónica emitido a SUNAT";
+                $oTabla_Movimiento->usuario_ID_creacion=$_SESSION['usuario_ID'];
+                $oTabla_Movimiento->empresa_ID=$_SESSION['empresa_ID'];
+                $oTabla_Movimiento->usuario_id=$_SESSION['usuario_ID'];
+                $oTabla_Movimiento->insertar();
                 $estado_envio=1;
                 $resultado=1;
-                $mensaje="La factura de venta se envió correctamente"; 
-            }else{
-                $estado_envio=2;//Envío con observaciones
-                $resultado=2;
-                $mensaje="<b style='color:red;'>La factura de venta se envió correctamente, pero tiene las siguientes observaciones:</b> <br>".utf8_encode($transacion->observacion); 
+                if($transacion->observacion!=""){
+                    $estado_envio=2;//Envío con observaciones
+                    $resultado=2;
+                    $mensaje="<b style='color:red;'>La factura de venta se envió correctamente, pero tiene las siguientes observaciones:</b> <br>".utf8_encode($transacion->observacion); 
+
+                }else{
+                    if($oFactura_venta[0]['codigo_documento']=='03'){
+                        $mensaje="La boleta de venta se envió correctamente"; 
+                    }else{
+                    $mensaje="La factura de venta se envió correctamente"; 
+                    }
+                }
+                
+            }
+            if($transacion->codigo_estado=='2'){
+                $oFactura_Venta1=factura_venta::getByID($oFactura_venta[0]['ID']);
+                $oFactura_Venta1->estado_ID=95;//Estado emitido rechazado SUNAT;
+                $oFactura_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
+                $oFactura_Venta1->actualizar();
+
+                $oTabla_Movimiento=new tabla_movimiento();
+                $oTabla_Movimiento->tabla_ID=$oFactura_venta[0]['ID'];
+                $oTabla_Movimiento->tabla="factura_venta";
+                $oTabla_Movimiento->estado_ID=95;
+                $oTabla_Movimiento->fecha=date('Y-m-d H:i:s');
+                $oTabla_Movimiento->observacion=$transacion->descripcion_estado;
+                $oTabla_Movimiento->usuario_ID_creacion=$_SESSION['usuario_ID'];
+                $oTabla_Movimiento->empresa_ID=$_SESSION['empresa_ID'];
+                $oTabla_Movimiento->usuario_id=$_SESSION['usuario_ID'];
+                $oTabla_Movimiento->insertar();
+                $estado_envio=-1;
+                $resultado=-1;
+                if($oFactura_venta[0]['codigo_documento']=='03'){
+                    $mensaje="La boleta de venta ha sido rechazado por SUNAT <br>".$transacion->descripcion_estado; 
+                }else{
+                $mensaje="La factura de venta ha sido rechazado por SUNAT <br>".$transacion->descripcion_estado; 
+                }
             }
             
+           
             $oFactura_Venta_Sunat=new factura_venta_sunat();
             $oFactura_Venta_Sunat->factura_venta_ID=$oFactura_venta[0]['ID'];
             $oFactura_Venta_Sunat->fecha_generacion=date("Y-m-d");
@@ -12621,6 +12714,7 @@ function post_ajaxDownloadXML() {
     //VALIDAR SI ESISTE
     //var_dump($oFactura_venta);
     //var_dump($oSalida);
+    $ruta="";
     $xml_firmado='';
     $xml_firmado_new = '';
     $nombre_archivo = '';
@@ -12643,13 +12737,19 @@ function post_ajaxDownloadXML() {
     }
    
     if ($tipo == 'XML') {
+       
+    
         //echo "fff". $ofactura_venta_sunat[0]['xml_firmado'];
       $xml_firmado_new = base64_decode($ofactura_venta_sunat[0]['xml_firmado']);
       //echo $xml_firmado_new;
-      $nombre_archivo = $nombre_archivo.'.xml';
+       
+     $nombre_archivo = $nombre_archivo.'.xml';
+        $ruta = DOMAIN_BASE.'/'.ruta_archivo."/SUNAT/XML/".$_SESSION['empresa_ID']."/factura/".$nombre_archivo;
+   //$xml_firmado_new=file_get_contents($ruta);
+      
     }
 
-    $retornar = Array('tipo' => $tipo,'nombre_archivo' => $nombre_archivo,'xml_firmado' => utf8_encode($xml_firmado_new), 'mensaje' => '', 'exito' => 'true');
+    $retornar = Array('tipo' => $tipo,'nombre_archivo' => $nombre_archivo,'ruta'=>$ruta,'xml_firmado' => utf8_encode($xml_firmado_new), 'mensaje' => '', 'exito' => 'true');
     echo json_encode($retornar);
 
     } catch (Exception $ex) {
@@ -12681,7 +12781,7 @@ function post_ajaxEnviarGuiaSUNAT() {
         $oGuia_Venta_Detalle=guia_venta::getGuia_SUNAT($id,"detalle");
         //print_r($oGuia_Venta_Detalle);
         if(count($oGuia_Venta_Detalle)==0){
-            throw new Exception("La factura no tiene detalles.");
+            throw new Exception("La guía no tiene detalles.");
         }
          
         $DocumentoDetalle = array();
@@ -12711,7 +12811,7 @@ function post_ajaxEnviarGuiaSUNAT() {
                 'NombreLegal'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_NombreLegal'])),
                 'NombreComercial'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_NombreComercial'])),
                 'Ubigeo'=>$oGuia_Venta[0]['Remitente_Ubigeo'],
-                'Direccion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_Direccion'])),
+                'Direccion'=>FormatTextXML($oGuia_Venta[0]['Remitente_Direccion']),
                 'Urbanizacion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_Urbanizacion'])),
                 'Departamento'=>$oGuia_Venta[0]['Remitente_Departamento'],
                 'Provincia'=>$oGuia_Venta[0]['Remitente_Provincia'],
@@ -12723,7 +12823,7 @@ function post_ajaxEnviarGuiaSUNAT() {
                 'NombreLegal'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_NombreLegal'])),
                 'NombreComercial'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_NombreComercial'])),
                 'Ubigeo'=>$oGuia_Venta[0]['Destinatario_Ubigeo'],
-                'Direccion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_Direccion'])),
+                'Direccion'=>FormatTextXML($oGuia_Venta[0]['Destinatario_Direccion']),
                 'Urbanizacion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_Urbanizacion'])),
                 'Departamento'=>$oGuia_Venta[0]['Destinatario_Departamento'],
                 'Provincia'=>$oGuia_Venta[0]['Destinatario_Provincia'],
@@ -12759,11 +12859,11 @@ function post_ajaxEnviarGuiaSUNAT() {
             'NroPlacaVehiculoSecundario'=>'',
             'DireccionPartida'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
-                'DireccionCompleta'=>(FormatTextXML($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']))
+                'DireccionCompleta'=>FormatTextXML(substr(trim($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']),0,99))
             ),
             'DireccionLlegada'=>array(
                 'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],
-                'DireccionCompleta'=>FormatTextXML(utf8_encode($oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']))
+                'DireccionCompleta'=>FormatTextXML(substr(trim($oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']),0,99))
             ),
             'NumeroContenedor'=>$oGuia_Venta[0]['NumeroContenedor'],
             'CodigoPuerto'=>$oGuia_Venta[0]['CodigoPuerto'],
@@ -12885,256 +12985,7 @@ function post_ajaxDownloadXMLGuia() {
     }
 
 }
-function post_ajaxEnviarGuiaSUNAT1() {
 
-    require ROOT_PATH.'models/guia_venta_sunat.php';
-    
-    require ROOT_PATH.'models/guia_venta.php';
-   
-    require ROOT_PATH.'include/lib_fecha_texto.php';
-    require_once('include/URL_API.php');
-
-    $new = new api_SUNAT();
-    $id=$_POST['id'];
-
-    //$oSalida=salida::getByID($id);
-  
-    try {
-        $oGuia_Venta=guia_venta::getGuia_SUNAT($id,"cabecera");
-        if (count($oGuia_Venta)==0) {
-            throw new Exception("No existe la factura.");
-        }
-        $oGuia_Venta_Detalle=guia_venta::getGuia_SUNAT($id,"detalle");
-        if(count($oGuia_Venta_Detalle)==0){
-            throw new Exception("La factura no tiene detalles.");
-        }
-
-        $DocumentoDetalle = array();
-        $Discrepancias = array();
-        $DocumentoRelacionado = array();
-      
-        foreach($oGuia_Venta_Detalle as $item){
-            $DocumentoDetalle[] = array (
-                'Correlativo' => $item['Correlativo'],
-                'CodigoItem' => $item['CodigoItem'],
-                'Descripcion' => $item['Descripcion'],
-                'UnidadMedida' => $item['UnidadMedida'],
-                'Cantidad' => $item['Cantidad'],
-                'LineaReferencia' => $item['LineaReferencia']
-            ); 
-        }
-        $data = array (
-            'IdDocumento' => $oGuia_Venta[0]['IdDocumento'],
-            'FechaEmision' =>$oGuia_Venta[0]['FechaEmision'],
-            'TipoDocumento'=>$oGuia_Venta[0]['TipoDocumento'],
-            'Glosa'=>$oGuia_Venta[0]['Glosa'],
-            'Remitente'=>array(
-                'NroDocumento'=>$oGuia_Venta[0]['Remitente_NroDocumento'],
-                'TipoDocumento'=>$oGuia_Venta[0]['Remitente_TipoDocumento'],
-                'NombreLegal'=> utf8_decode($oGuia_Venta[0]['Remitente_NombreLegal']),
-                'NombreComercial'=>utf8_decode($oGuia_Venta[0]['Remitente_NombreComercial']),
-                'Ubigeo'=>$oGuia_Venta[0]['Remitente_Ubigeo'],
-                'Direccion'=>$oGuia_Venta[0]['Remitente_Direccion'],
-                'Urbanizacion'=>utf8_decode($oGuia_Venta[0]['Remitente_Urbanizacion']),
-                'Departamento'=>$oGuia_Venta[0]['Remitente_Departamento'],
-                'Provincia'=>$oGuia_Venta[0]['Remitente_Provincia'],
-                'Distrito'=>$oGuia_Venta[0]['Remitente_Distrito']
-            ),
-            'Destinatario'=>array(
-                'NroDocumento'=>$oGuia_Venta[0]['Destinatario_NroDocumento'],
-                'TipoDocumento'=>$oGuia_Venta[0]['Destinatario_TipoDocumento'],
-                'NombreLegal'=>$oGuia_Venta[0]['Destinatario_NombreLegal'],
-                'NombreComercial'=>$oGuia_Venta[0]['Destinatario_NombreComercial'],
-                'Ubigeo'=>$oGuia_Venta[0]['Destinatario_Ubigeo'],
-                'Direccion'=>$oGuia_Venta[0]['Destinatario_Direccion'],
-                'Urbanizacion'=>$oGuia_Venta[0]['Destinatario_Urbanizacion'],
-                'Departamento'=>$oGuia_Venta[0]['Destinatario_Departamento'],
-                'Provincia'=>$oGuia_Venta[0]['Destinatario_Provincia'],
-                'Distrito'=>$oGuia_Venta[0]['Destinatario_Distrito']
-            ),
-            'DocumentoRelacionado'=>array(
-                'NroDocumento'=>$oGuia_Venta[0]['DocumentoRelacionado_NroDocumento'],
-                'TipoDocumento'=>$oGuia_Venta[0]['DocumentoRelacionado_TipoDocumento']
-            ),
-            'CodigoMotivoTraslado'=>$oGuia_Venta[0]['CodigoMotivoTraslado'],
-            'DescripcionMotivo'=>$oGuia_Venta[0]['DescripcionMotivo'],
-            'Transbordo'=>($oGuia_Venta[0]['Transbordo']=="0")? true:false,
-            'PesoBrutoTotal'=>$oGuia_Venta[0]['PesoBrutoTotal']."KG",
-            'NroPallets'=>$oGuia_Venta[0]['NroPallets'],
-            'ModalidadTraslado'=>$oGuia_Venta[0]['ModalidadTraslado'],
-            'FechaInicioTraslado'=>$oGuia_Venta[0]['FechaInicioTraslado'],
-            'RucTransportista'=>$oGuia_Venta[0]['RucTransportista'],
-            'RazonSocialTransportista'=>$oGuia_Venta[0]['RazonSocialTransportista'],
-            'NroPlacaVehiculo'=>$oGuia_Venta[0]['NroPlacaVehiculo'],
-            'NroDocumentoConductor'=>$oGuia_Venta[0]['NroDocumentoConductor'],
-            'DireccionPartida'=>array(
-                'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
-                'DireccionCompleta'=>$oGuia_Venta[0]['DireccionPartida_DireccionCompleta']
-            ),
-            'DireccionLlegada'=>array(
-                'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],
-                'DireccionCompleta'=>$oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']
-            ),
-            'NumeroContenedor'=>$oGuia_Venta[0]['NumeroContenedor'],
-            'CodigoPuerto'=>$oGuia_Venta[0]['CodigoPuerto'],
-            'BienesATransportar'=>$DocumentoDetalle
-        );
-        //print_r($data);
-        $carpeta='guiaremision';
-        $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time() );
-        echo(json_encode($data));
-        $resultado_GFactura = $new->sendPostCPE(json_encode($data),'GenerarGuiaRemision');
-        $data_GFactura = json_decode($resultado_GFactura);
-        
-        //print_r($resultado_GFactura);
-      //{
-      //  "TramaXmlSinFirma": "string",
-      //  "Exito": true,
-      //  "MensajeError": "string",
-      //  "Pila": "string"
-      //}
-      //echo ($resultado_GFactura);
-        $array_sunat=array();
-        $param_emisor = $new->getParamEmisor($oGuia_Venta[0]['empresa_ID']);
-       
-      if ($data_GFactura->Exito==true) {
-
-        $firma=array (
-            'CertificadoDigital' => $param_emisor["Certificado"],
-            'PasswordCertificado' => $param_emisor["PasswordCertificado"],
-            'TramaXmlSinFirma' => $data_GFactura->TramaXmlSinFirma,
-            'UnSoloNodoExtension' => true,
-        );
-        
-        print_r(json_encode($firma));
-        $resultado_firma = $new->sendPostCPE(json_encode($firma),'Firmar');
-        $data_firma = json_decode($resultado_firma);
-         
-        //echo json_encode($resultado_firma);
-        if ($data_firma->Exito==true) {
-          // {
-          //   "TramaXmlFirmado": "string",
-          //   "ResumenFirma": "string",
-          //   "ValorFirma": "string",
-          //   "Exito": true,
-          //   "MensajeError": "string",
-          //   "Pila": "string"
-          // }
-
-          $nombreArchivo = $data['Remitente']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'].'.xml';
-          
-          $new->EscribirArchivoXML($nombreArchivo,$data_firma->TramaXmlFirmado,$carpeta);
-            $enviar_sunat=array (
-                'TramaXmlFirmado' => $data_firma->TramaXmlFirmado,
-                'Ruc' => $param_emisor["RUC"],
-                'UsuarioSol' => $param_emisor["UsuarioSol"],
-                'ClaveSol' => $param_emisor["ClaveSol"],
-                'IdDocumento' => $data['IdDocumento'],
-                'TipoDocumento' => $data['TipoDocumento'],
-                'EndPointUrl' => $param_emisor["UrlGuia"],
-            );
-           //print_r(json_encode($enviar_sunat));
-            //var_dump($enviar_sunat);
-          //echo json_encode($enviar_sunat);
-
-          $resultado_sunat = $new->sendPostCPE(json_encode($enviar_sunat),'EnviarDocumento');
-          $data_sunat = json_decode($resultado_sunat);
-
-          
-          $sunat_respuesta='';
-          if ($data_sunat->Exito==true) {
-            // echo 'CodigoRespuesta : '.$data_sunat->CodigoRespuesta.'<br>';
-            // echo 'MensajeRespuesta : '.$data_sunat->MensajeRespuesta.'<br>';
-            // echo 'NombreArchivo : '.$data_sunat->NombreArchivo.'<br>';
-            // echo 'TramaZipCdr : '.$data_sunat->TramaZipCdr.'<br>';
-                            
-            $oGuia_Venta1=guia_venta::getByID($id);
-            $oGuia_Venta1->estado_ID=98;//Estado emitido electronico;
-            $oGuia_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oGuia_Venta1->actualizar();
-            $sunat_respuesta = $data_sunat->MensajeRespuesta;
-            if ($data_sunat->CodigoRespuesta==0) {
-              $new->EscribirArchivoCDR($data_sunat->NombreArchivo.'.zip',$data_sunat->TramaZipCdr,$carpeta);
-              
-            }
-            $mensaje="La guía de remisión se envió correctamente a la SUNAT.";
-            $resultado=1;
-            $array_sunat=json_encode($resultado_sunat);
-            //echo json_encode($resultado_sunat);
-          }else{
-            $mensaje="La guía de remisión no se envió correctamente, no se creó el archivo CDR.";
-            $resultado=-1;
-            $array_sunat=json_encode($resultado_sunat);
-            $oGuia_Venta1=guia_venta::getByID($id);
-            $oGuia_Venta1->estado_ID=100;//Estado error de envío electronico;
-            $oGuia_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oGuia_Venta1->actualizar();
-          }
-          
-            $oGuia_Venta_Sunat=new guia_venta_sunat();
-            $oGuia_Venta_Sunat->guia_venta_ID=$id;
-            $oGuia_Venta_Sunat->fecha_generacion=$FechaRespuesta;
-            $oGuia_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
-            $oGuia_Venta_Sunat->hash=$data_firma->ResumenFirma;
-            $oGuia_Venta_Sunat->nombre_archivo=$data_sunat->NombreArchivo;
-            $oGuia_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
-            $oGuia_Venta_Sunat->representacion_impresa='';
-            $oGuia_Venta_Sunat->estado_envio=1;
-            $oGuia_Venta_Sunat->codigo_estado=$data_sunat->CodigoRespuesta;
-            $oGuia_Venta_Sunat->descripcion_estado=FormatTextSave($sunat_respuesta);
-            $oGuia_Venta_Sunat->cdr_sunat = $data_sunat->TramaZipCdr;
-            $oGuia_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
-            $oGuia_Venta_Sunat->insertar();
-
-        } else {
-            $nombreArchivo = $data['Remitente']['NroDocumento'].'-'.$data['TipoDocumento'].'-'.$data['IdDocumento'];
-            $oGuia_Venta_Sunat=new guia_venta_sunat();
-            $oGuia_Venta_Sunat->guia_venta_ID=$id;
-            $oGuia_Venta_Sunat->fecha_generacion=$FechaRespuesta;
-            $oGuia_Venta_Sunat->fecha_respuesta=$FechaRespuesta;
-            $oGuia_Venta_Sunat->hash=$data_firma->ResumenFirma;
-            $oGuia_Venta_Sunat->nombre_archivo=$nombreArchivo;
-            $oGuia_Venta_Sunat->xml_firmado=$data_firma->TramaXmlFirmado;
-            $oGuia_Venta_Sunat->representacion_impresa='';
-            $oGuia_Venta_Sunat->estado_envio=0;
-            $oGuia_Venta_Sunat->codigo_estado="";
-            $oGuia_Venta_Sunat->descripcion_estado="Ocurrió un error al firmar la trama xml";
-            $oGuia_Venta_Sunat->cdr_sunat="";
-            $oGuia_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
-            $oGuia_Venta_Sunat->insertar();
-            $oGuia_Venta1=guia_venta::getByID($id);
-            $oGuia_Venta1->estado_ID=100;//Estado error de envío electronico;
-            $oGuia_Venta1->usuario_mod_id=$_SESSION['usuario_ID'];  
-            $oGuia_Venta1->actualizar();
-          $resultado=-1;
-          $mensaje="La guía de remisión no se envió a la SUNAT, hubo un error al firmar la trama xml.";
-          $array_sunat=json_encode($resultado_firma);
-        }
-
-
-
-      }else {
-          $mensaje="El comprobante no se envió a la SUNAT, hubo un error en el servicio";
-          $resultado=-1;
-        //echo json_encode($resultado_GFactura);
-      }
-
-    } catch (Exception $ex) {
-        $resultado=-1;
-        log_error(__FILE__,"salidaController.post_ajaxEnviarSUNAT",$ex->getMessage());
-        $mensaje=$ex->getMessage();
-        
-        //$retornar = Array('resultado' => '-1', 'mensaje' => $ex->getMessage());
-        //echo json_encode($retornar);
-
-        //$resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
-    }
-
-    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje,'array_sunat'=>$array_sunat);
-   
-
-    echo json_encode($retornar);
-}
 function post_AjaxMarcarConGuia(){
     require ROOT_PATH.'models/factura_venta.php';
     require ROOT_PATH.'models/guia_venta.php';
@@ -13180,16 +13031,19 @@ function get_Factura_Vista_PreviaPDF($id){
     require ROOT_PATH.'models/factura_venta.php';
     require ROOT_PATH.'models/factura_venta_sunat.php';
     require ROOT_PATH.'formatos_pdf/factura_venta_pdf.php';
+    
     global $returnView_float;
     $returnView_float=true;
     $pdf= new PDF2('P','mm',array(216,279));
     try{
+        
         $dtCabecera=factura_venta::getComprobante_Electronico($id,"cabecera");
         $dtDetalle=factura_venta::getComprobante_Electronico($id,"detalle");
         $numero_cuenta=factura_venta::getComprobante_Electronico($id,"numero_cuenta");
-
+        
 
         $pdf->AddPage();
+        $color=hexToRgb($_COOKIE["color_documentos"]);
         $pdf->cabecera=$dtCabecera;
         $pdf->numero_cuenta=$numero_cuenta;
         $pdf->cabecera_header();
@@ -13200,7 +13054,8 @@ function get_Factura_Vista_PreviaPDF($id){
         $pdf->Ln();
             $pdf->SetFont('Arial','B',8);
             $pdf->SetTextColor(255,255,255);
-            $pdf->SetFillColor(117,179,114);
+            $pdf->SetFillColor($color['r'],$color['g'],$color['b']);
+            //$pdf->SetFillColor(117,179,114);
             $pdf->Cell(20,7,utf8_decode('CANT.'),1,0,'C',true);
             $pdf->Cell(15,7,utf8_decode('UM'),1,0,'C',true);
             $pdf->Cell(15,7,utf8_decode('CÓD'),1,0,'C',true);
@@ -13208,17 +13063,18 @@ function get_Factura_Vista_PreviaPDF($id){
             $pdf->Cell(25,7,utf8_decode('P/U'),1,0,'C',true);
             $pdf->Cell(25,7,utf8_decode('IMPORTE'),1,0,'C',true);
             
-            $y=87;
+            $y=$pdf->GetY()+10;//$y=90;
             $x=10;
             $array_width=array(20,15,15,100,25,25,100);
             $array_align=array('C','C','C','L','R','R','J');
             $h_atual=$pdf->GetY();
             $pdf->SetTextColor(0,0,0);
+            
             foreach($dtDetalle as $item){
                 $longitud=strlen($item["producto"]);
                 //$h_atual=$pdf->GetY();
                 $pdf->SetXY($x,$y);
-                $costo_unitario=number_format($item['precio_unitario'],2,'.',',');
+                $costo_unitario=number_format($item['precio_unitario'],bd_largo_decimal,'.',',');
                 $pdf->SetFont('Arial','B',8);
                 $subtotal=number_format($item['sub_total'],2,'.',',');
                 $pdf->MultiCell($array_width[0],5,$item["cantidad"],0,$array_align[0],false);
@@ -13250,18 +13106,7 @@ function get_Factura_Vista_PreviaPDF($id){
 
                 $x=10;
             }
-            /*for ($a=0;$a<count($array_width);$a++){
-                
-                $pdf->Line($x,$h_atual,$x,$y);
-                if($a<count($array_width)-1){
-                    $x=$x+$array_width[$a];
-                }
-                
-                
-            }
-            $pdf->Line(10,$y,$x,$y);*/
             
-        //$pdf->contenido_detalle($dtDetalle);
             $hash="";
             $dtFv=factura_venta_sunat::getGrid2($id);
             if(count($dtFv)>0){
@@ -13339,15 +13184,13 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $oComprobante_Regula->serie=$oCorrelativos->serie;
     $oComprobante_Regula->dtSerie=correlativos::getGridCorrelativos("nota_credito",1);
     $oComprobante_Regula->numero=sprintf("%',06d",$oCorrelativos->ultimo_numero+1);
+    $oComprobante_Regula->documento_relacionado_ID=0;
     $GLOBALS['dtTipo']=$dtTipo;
     $GLOBALS['dtMoneda']=$dtMoneda;
 
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
     $GLOBALS['ob']=$oComprobante_Regula;
-    $valor=rand();
-    $identificador='dtDetalleNotaCredito'.$valor;
-    $GLOBALS['llave']=$identificador;
-    $_SESSION[$identificador]=array();
+    
   
 }
 function post_Nota_Credito_Mantenimiento_Nuevo(){
@@ -13355,7 +13198,7 @@ function post_Nota_Credito_Mantenimiento_Nuevo(){
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
     
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     require ROOT_PATH.'models/usuario.php';
@@ -13365,13 +13208,15 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
  
     global  $returnView_float;
     $returnView_float=true;
+    $dt=json_decode($_POST['data_table'], true);
+    
     $documento_relacionado_ID=$_POST['txtFactura_Venta_ID'];
-    $identificador=$_POST['llave'];
+    
     $tipo_ID=$_POST['selTipo'];
-    $fecha_emision1=$_POST['txtFecha_Emision'];
-    $fecha_emision=FormatTextToDate($fecha_emision1,'Y-m-d');
-    $fecha_vencimiento1=$_POST['txtFecha_vencimiento'];
-    $fecha_vencimiento=FormatTextToDate($fecha_vencimiento1,'Y-m-d');
+    $fecha_emision=$_POST['txtFecha_Emision'];
+    //$fecha_emision=FormatTextToDate($fecha_emision1,'Y-m-d');
+    $fecha_vencimiento=$_POST['txtFecha_vencimiento'];
+    //$fecha_vencimiento=FormatTextToDate($fecha_vencimiento1,'Y-m-d');
     $moneda_ID=$_POST['selMoneda'];
     $monto_total_neto=$_POST['txtSubTotal'];
     $monto_total_igv=$_POST['txtIGV'];
@@ -13397,7 +13242,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     try{
         //print_r($_SESSION[$identificador]);
-        $dt=$_SESSION[$identificador];
+        
         if(count($dt)==0){
             throw new Exception("No se puede generar la nota de crédito, no tiene detalle.");
         }
@@ -13431,52 +13276,81 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         $oComprobante_Regula->tipo_cambio=$tipo_cambio;
         
         $oComprobante_Regula->usuario_id=$_SESSION['usuario_ID'];
-        if($oComprobante_Regula->verificarFactura()==0){
+        
+        if($documento_relacionado_ID>0){
+            if($oComprobante_Regula->verificarFactura()==0){
+                if($oComprobante_Regula->insertar()>0){
+               
+                    $resultado=1;
+                    $mensaje=$oComprobante_Regula->getMessage;
+
+                    //$dt=factura_venta_detalle::getGrid1("fvd.factura_venta_ID=".$documento_relacionado_ID,-1,-1);
+                    foreach($dt as $valor){
+                        $oComprobante_Regula_Detalle=new comprobante_regula_detalle();
+                        $oComprobante_Regula_Detalle->producto_ID=$valor['producto_ID'];
+                        $oComprobante_Regula_Detalle->comprobante_regula_ID=$oComprobante_Regula->ID;
+                        $oComprobante_Regula_Detalle->descripcion=$valor['descripcion'];
+                        $oComprobante_Regula_Detalle->cantidad=$valor['cantidad'];
+                        $oComprobante_Regula_Detalle->precio_unitario=$valor['precio_unitario'];
+                        $oComprobante_Regula_Detalle->subtotal=$valor['sub_total'];
+                        $oComprobante_Regula_Detalle->total=$valor['total'];
+                        $oComprobante_Regula_Detalle->vigv=$oDatos_Generales->vigv;
+                        $oComprobante_Regula_Detalle->igv=$valor['igv'];
+                        $oComprobante_Regula_Detalle->factura_venta_detalle_ID=$valor['ID'];;
+                        $oComprobante_Regula_Detalle->impuestos_tipo_ID=$valor['impuestos_tipo_ID'];
+                        $oComprobante_Regula_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                        $oComprobante_Regula_Detalle->insertar();
+
+                    }
+                    $oCorrelativos=correlativos::getByID($oComprobante_Regula->correlativos_ID);
+                $oCorrelativos->ultimo_numero=$oComprobante_Regula->numero;
+                $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                $oCorrelativos->actualizar();
+                //Actualizamos el estado del documento
+                $oComprobante_Regula->estado_ID=91;
+                $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
+                $oComprobante_Regula->actualizar();
+                }
+            }
+        }else{
             if($oComprobante_Regula->insertar()>0){
                
                 $resultado=1;
                 $mensaje=$oComprobante_Regula->getMessage;
-                
+
                 //$dt=factura_venta_detalle::getGrid1("fvd.factura_venta_ID=".$documento_relacionado_ID,-1,-1);
                 foreach($dt as $valor){
-                   
                     $oComprobante_Regula_Detalle=new comprobante_regula_detalle();
                     $oComprobante_Regula_Detalle->producto_ID=$valor['producto_ID'];
                     $oComprobante_Regula_Detalle->comprobante_regula_ID=$oComprobante_Regula->ID;
                     $oComprobante_Regula_Detalle->descripcion=$valor['descripcion'];
                     $oComprobante_Regula_Detalle->cantidad=$valor['cantidad'];
                     $oComprobante_Regula_Detalle->precio_unitario=$valor['precio_unitario'];
-                    $oComprobante_Regula_Detalle->subtotal=$valor['subtotal'];
+                    $oComprobante_Regula_Detalle->subtotal=$valor['sub_total'];
                     $oComprobante_Regula_Detalle->total=$valor['total'];
                     $oComprobante_Regula_Detalle->vigv=$oDatos_Generales->vigv;
                     $oComprobante_Regula_Detalle->igv=$valor['igv'];
-                    $oComprobante_Regula_Detalle->factura_venta_detalle_ID=$valor['factura_venta_detalle_ID'];;
-                    $oComprobante_Regula_Detalle->tipo_impuestos_ID=$valor['tipo_impuestos_ID'];
+                    $oComprobante_Regula_Detalle->factura_venta_detalle_ID=$valor['ID'];;
+                    $oComprobante_Regula_Detalle->impuestos_tipo_ID=$valor['impuestos_tipo_ID'];
                     $oComprobante_Regula_Detalle->usuario_id=$_SESSION['usuario_ID'];
                     $oComprobante_Regula_Detalle->insertar();
-                    
+
                 }
+                $oCorrelativos=correlativos::getByID($oComprobante_Regula->correlativos_ID);
+                $oCorrelativos->ultimo_numero=$oComprobante_Regula->numero;
+                $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
+                $oCorrelativos->actualizar();
+                //Actualizamos el estado del documento
+                $oComprobante_Regula->estado_ID=91;
+                $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
+                $oComprobante_Regula->actualizar();
             }
-            $oCorrelativos=correlativos::getByID($oComprobante_Regula->correlativos_ID);
-            $oCorrelativos->ultimo_numero=$oComprobante_Regula->numero;
-            $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
-            $oCorrelativos->actualizar();
-            //Actualizamos el estado del documento
-            $oComprobante_Regula->estado_ID=91;
-            $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
-            $oComprobante_Regula->actualizar();
-            /*$array_resultado_sunat=enviarComprobante_RegulaSUNAT($oComprobante_Regula->ID);
-            
-            if($array_resultado_sunat['resultado_final']!=1){
-                $mensaje=$array_resultado_sunat['mensaje'];
-            }*/
-        }else{
-            throw new Exception("La factura no se encuentra disponible.");
         }
+        
         
     }catch(Exception $ex){
         log_error(__FILE__,"salidaController.post_Nota_Credito_Mantenimiento_Nuevo",$ex->getMessage());
-       $mensaje= utf8_encode(mensaje_error);
+       $mensaje=mensaje_error;
        $resultado=-1;
     }
     
@@ -13484,19 +13358,20 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $dtTipo=tipo::getGrid("tabla='nota_credito'",-1,-1,"orden asc");
     $dtMoneda=moneda::getGrid("",-1,-1,"descripcion asc");
     $oComprobante_Regula->dtSerie=correlativos::getGridCorrelativos("nota_credito",0);
-    $oComprobante_Regula->fecha_emision=$fecha_emision1;
-    $oComprobante_Regula->fecha_vencimiento=$fecha_vencimiento1;
+    $oComprobante_Regula->fecha_emision=$fecha_emision;
+    $oComprobante_Regula->fecha_vencimiento=$fecha_vencimiento;
     $oComprobante_Regula->dtSerie=correlativos::getGridCorrelativos("nota_credito",1);
     $oComprobante_Regula->factura=$factura;
     $oComprobante_Regula->cliente_descripcion=$cliente_descripcion;
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $GLOBALS['dtTipo']=$dtTipo;
     $GLOBALS['dtMoneda']=$dtMoneda;
-    $GLOBALS['llave']=$identificador;
+   
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
     $GLOBALS['ob']=$oComprobante_Regula;
     $GLOBALS['resultado']=$resultado;
     $GLOBALS['mensaje']=$mensaje;
+    $GLOBALS['dt']=$dt;
     
 }
 function get_Nota_Credito_Mantenimiento_Editar($id){
@@ -13517,23 +13392,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $oComprobante_Regula=comprobante_regula::getByID($id);
     $array_general=array();
     $dt=comprobante_regula_detalle::getGrid($id);
-    foreach($dt as $valor){
-        $array=array(
-            "factura_venta_detalle_ID"=>$valor['factura_venta_detalle_ID'],
-            "producto"=>$valor['producto'],
-            "producto_ID"=>$valor['producto_ID'],
-            "cantidad"=>$valor['cantidad'],
-            "precio_unitario"=>$valor['precio_unitario'],
-            "subtotal"=>$valor['subtotal'],
-            "igv"=>$valor['vigv'],
-            "total"=>$valor['total'],
-            "tipo_impuestos_ID"=>$valor['tipo_impuestos_ID'],
-            "descripcion"=>$valor['descripcion'],
-            "accion"=>$valor['accion'],
-            "estado_ID"=>$valor['estado_ID']//estado borrador
-        ); 
-        array_push($array_general,$array);
-    }
+    //print_r($dt);
     $oCorrelativos=correlativos::getByID($oComprobante_Regula->correlativos_ID);
     //$oComprobante_Regula->correlativos_ID=correlativos_ID_nota_credito;
     //$oComprobante_Regula->serie=$oCorrelativos->serie;
@@ -13544,17 +13403,16 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
 
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
     $GLOBALS['ob']=$oComprobante_Regula;
-    $valor=rand();
-    $identificador='dtDetalleNotaCredito'.$valor;
-    $GLOBALS['llave']=$identificador;
-    $_SESSION[$identificador]=$array_general;
+    
+    $GLOBALS['dt']=json_encode($dt);
+    
 }
 function post_Nota_Credito_Mantenimiento_Editar($id){
     require ROOT_PATH.'models/tipo.php';
     require ROOT_PATH.'models/moneda.php';
     require ROOT_PATH.'models/correlativos.php';
     
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH.'models/comprobante_regula.php';
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     require ROOT_PATH.'models/usuario.php';
@@ -13564,13 +13422,13 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
  
     global  $returnView_float;
     $returnView_float=true;
-    $identificador=$_POST['llave'];
+    //$identificador=$_POST['llave'];
     $documento_relacionado_ID=$_POST['txtFactura_Venta_ID'];
     $tipo_ID=$_POST['selTipo'];
-    $fecha_emision1=$_POST['txtFecha_Emision'];
-    $fecha_emision=FormatTextToDate($fecha_emision1,'Y-m-d');
-    $fecha_vencimiento1=$_POST['txtFecha_vencimiento'];
-    $fecha_vencimiento=FormatTextToDate($fecha_vencimiento1,'Y-m-d');
+    $fecha_emision=$_POST['txtFecha_Emision'];
+    //$fecha_emision=FormatTextToDate($fecha_emision1,'Y-m-d');
+    $fecha_vencimiento=$_POST['txtFecha_vencimiento'];
+    //$fecha_vencimiento=FormatTextToDate($fecha_vencimiento1,'Y-m-d');
     $moneda_ID=$_POST['selMoneda'];
     $monto_total_neto=$_POST['txtSubTotal'];
     $monto_total_igv=$_POST['txtIGV'];
@@ -13667,7 +13525,8 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
             $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
             $oComprobante_Regula->actualizar();
             //$array_resultado_sunat=enviarComprobante_RegulaSUNAT($oComprobante_Regula->ID);
-            
+            $resultado=1;
+            $mensaje="Se actualizó correctamente";
            
         }else{
             throw new Exception("La factura no se encuentra disponible.");
@@ -13681,20 +13540,87 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     
     $dtTipo=tipo::getGrid("tabla='nota_credito'",-1,-1,"orden asc");
     $dtMoneda=moneda::getGrid("",-1,-1,"descripcion asc");
-    $oComprobante_Regula->dtSerie=correlativos::getGridCorrelativos("nota_credito");
-    $oComprobante_Regula->fecha_emision=$fecha_emision1;
-    $oComprobante_Regula->fecha_vencimiento=$fecha_vencimiento1;
+    $oComprobante_Regula->dtSerie=correlativos::getGridCorrelativos("nota_credito",1);
+    //$oComprobante_Regula->fecha_emision=$fecha_emision1;
+    //$oComprobante_Regula->fecha_vencimiento=$fecha_vencimiento1;
+    $dt=comprobante_regula_detalle::getGrid($id);
+    $GLOBALS['dt']=json_encode($dt);
     $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
     $GLOBALS['dtTipo']=$dtTipo;
     $GLOBALS['dtMoneda']=$dtMoneda;
-    $GLOBALS['llave']=$identificador;
+   // $GLOBALS['llave']=$identificador;
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
     $GLOBALS['ob']=$oComprobante_Regula;
     $GLOBALS['resultado']=$resultado;
     $GLOBALS['mensaje']=$mensaje;
     
 }
-function estructura_tabla_detalle($identificador){
+function post_ajaxDownloadXMLNota() {
+
+  require ROOT_PATH.'models/comprobante_regula_sunat.php';
+  require ROOT_PATH.'models/comprobante_regula.php';
+  require_once('include/URL_API.php');
+
+  $id = $_POST['id'];
+  $tipo = $_POST['tipo'];
+
+  try {
+    $ocomprobante_regula_sunat = comprobante_regula_sunat::getGrid("comprobante_regula_ID=".$id,0,1,'ID desc');
+    
+   
+    $oComprobante_Regula=comprobante_regula::getByIDSUNAT($ocomprobante_regula_sunat[0]['comprobante_regula_ID']);
+    //var_dump($ofactura_venta_sunat);
+
+    //VALIDAR SI ESISTE
+    //var_dump($oFactura_venta);
+    //var_dump($oSalida);
+    $xml_firmado='';
+    $xml_firmado_new = '';
+    $nombre_archivo = '';
+    if (count($ocomprobante_regula_sunat)==0) {
+      throw new Exception("Falta generar el comprobante regulador");
+    }
+
+    // $nombre_archivo = $ofactura_venta_sunat[0]['nombre_archivo']
+    //$xml_firmado = $ofactura_venta_sunat[0]['xml_firmado']
+    //var_dump($xml_firmado);
+    $nombre_archivo = $ocomprobante_regula_sunat[0]['nombre_archivo'];
+    if ($tipo == 'CDR') {
+        $xml_firmado_new = $ocomprobante_regula_sunat[0]['cdr_sunat'];
+      /*$OUTPUT =  ROOT_PATH."files/SUNAT/CDR/".$nombre_archivo.'_NEW.zip';
+      file_put_contents($OUTPUT, base64_decode($ofactura_venta_sunat[0]['cdr_sunat']));*/
+        $archivo=ruta_archivo."/SUNAT/CDR_DESCARGAR/".$_SESSION['empresa_ID'].'/'.$nombre_archivo.'.zip';
+        $OUTPUT =  ROOT_PATH.$archivo;
+        file_put_contents($OUTPUT, base64_decode($ocomprobante_regula_sunat[0]['cdr_sunat']));
+        $nombre_archivo=$archivo;
+    }
+   
+    if ($tipo == 'XML') {
+        //echo "fff". $ofactura_venta_sunat[0]['xml_firmado'];
+     
+       $xml_firmado_new = base64_decode($ocomprobante_regula_sunat[0]['xml_firmado']);
+      //echo $xml_firmado_new;
+       
+        $nombre_archivo = $nombre_archivo.'.xml';
+        $carpeta="notadebito";
+        if($oComprobante_Regula->codigo_comprobante=='07'){
+            $carpeta='notacredito';
+        }
+        $ruta = DOMAIN_BASE.'/'.ruta_archivo."/SUNAT/XML/".$_SESSION['empresa_ID']."/".$carpeta."/".$nombre_archivo;
+   //$xml_firmado_new=file_get_contents($ruta);
+    }
+
+    $retornar = Array('tipo' => $tipo,'nombre_archivo' => $nombre_archivo,'ruta'=>$ruta,'xml_firmado' => utf8_encode($xml_firmado_new), 'mensaje' => '', 'exito' => 'true');
+    echo json_encode($retornar);
+
+    } catch (Exception $ex) {
+        $retornar = Array('mensaje' => $ex->getMessage(), 'exito' => 'false');
+        echo json_encode($retornar);
+    }
+
+}
+
+function estructura_tabla_detalle($dt){
     $html='<table id="tbDetalle" class="table table-bordered">
                 <thead>
                     <tr>
@@ -13707,7 +13633,7 @@ function estructura_tabla_detalle($identificador){
                         <th>Opción</th>
                     </tr> 
                 </thead>';
-    $dt=$_SESSION[$identificador];
+    //$dt=$_SESSION[$identificador];
     
     $val=1;
     $i=0;
@@ -13715,7 +13641,7 @@ function estructura_tabla_detalle($identificador){
         
         if($item['accion']!="eliminar"){
             $html.='<tr>';
-            $html.='<td class="text-center">'.$val.'</td><td>'.FormatTextView($item['producto']).'</td><td class="text-center">'.$item['cantidad'].'</td><td>'.$item['precio_unitario'].'</td><td>'.$item['subtotal'].'</td><td>'.$item['total'].'</td><td class="text-center">'.
+            $html.='<td class="text-center">'.$val.'</td><td>'.FormatTextView($item['producto']).'</td><td class="text-center">'.$item['cantidad'].'</td><td>'.round($item['precio_unitario'],bd_largo_decimal).'</td><td>'.$item['subtotal'].'</td><td>'.$item['total'].'</td><td class="text-center">'.
                 (($item['estado_ID']==92)?'':'<a class="btn btn-danger" title="Eliminar" onclick="fncEliminar('.$i.');"><i class="fa fa-trash"></i></a>').
                 '</td></tr>';
             $val++;
@@ -13731,13 +13657,35 @@ function estructura_tabla_detalle($identificador){
 }
 
 function post_ajaxTablaDetalleComprobanteRegula() {
+    require ROOT_PATH.'models/factura_venta.php';
+    $factura_venta_ID=$_POST['id'];
+    $dtFactura_Venta_Detalle=factura_venta::getComprobante_Electronico($factura_venta_ID,'detalle');
+        $i=0;
+        $dt=array();
+        foreach($dtFactura_Venta_Detalle as $valor){
+            $val=$i+1;
+            $array=array(
+                "factura_venta_detalle_ID"=>$valor['ID'],
+                "producto"=>$valor['producto'],
+                "producto_ID"=>$valor['producto_ID'],
+                "cantidad"=>$valor['cantidad'],
+                "precio_unitario"=>$valor['precio_unitario'],
+                "subtotal"=>$valor['sub_total'],
+                "igv"=>$valor['igv'],
+                "total"=>$valor['total'],
+                "tipo_impuestos_ID"=>1,
+                "descripcion"=>$valor['descripcion'],
+                "accion"=>"insertar",
+                "estado_ID"=>90,//estado borrador
+            );
+            array_push($dt,$array);
+            //$tabla.='<tr id="tr'.$i.'"><td class="text-center">'.$val.'<input name="txt'.$valor['ID'].'" type="hidden" value="'.$valor['ID'].'"></td><td>'.FormatTextView($valor['producto']).'</td><td class="text-center">'.$valor['cantidad'].'</td><td>'.$valor['precio_unitario'].'</td><td>'.$valor['sub_total'].'</td><td>'.$valor['total'].'</td><td class="text-center"><a class="btn btn-danger" title="Eliminar" onclick="fncEliminar('.$i.');"><i class="fa fa-trash"></i></a></td></tr>';
+            $i++;
+        }
+   $html=estructura_tabla_detalle($dt);
     
-    $identificador=$_POST['id'];
    
-   $html=estructura_tabla_detalle($identificador);
-    
-   
-    $retornar = Array('html'=>$html);
+    $retornar = Array('html'=>$html,'dt'=>$dt);
     echo json_encode($retornar);
 }
 function post_ajaxSalirComprobanteRegula() {
@@ -13769,21 +13717,24 @@ function post_ajaxEliminarDetalleComprobanteRegula() {
     echo json_encode($retornar);
 }
 
-function get_Nota_Credito_Detalle($id){
-    require ROOT_PATH.'models/tipo_impuestos.php';
+function get_Nota_Credito_Detalle(){
+    require ROOT_PATH.'models/impuestos_tipo.php';
     global  $returnView_float;
-    $llave=$id;
+    
     $returnView_float=true;
-    $dtTipo_Impuestos=tipo_impuestos::getGrid();
-    $GLOBALS['dtTipo_Impuestos']=$dtTipo_Impuestos;
-    $GLOBALS['llave']=$llave;
+    $dtImpuestos_Tipos=impuestos_tipo::getGrid();
+    //$dtTipo_Impuestos=tipo_impuestos::getGrid();
+    $GLOBALS['dtImpuestos_Tipos']=$dtImpuestos_Tipos;
+   
+    
 }
 function post_Nota_Credito_Detalle(){
     require ROOT_PATH.'models/comprobante_regula_detalle.php';
     global  $returnView_float;
     $returnView_float=true;
     $obj=new comprobante_regula_detalle();
-    $llave=$_POST['llave'];
+    //$dt=json_decode($_POST['dt'], true);
+    
     $producto_ID=$_POST['txtProducto_ID'];
     $producto= FormatTextSave($_POST['listaProductos']);
     $descripcion=FormatTextSave($_POST['txtDescripcion']);
@@ -13792,40 +13743,34 @@ function post_Nota_Credito_Detalle(){
     $subtotal=$_POST['txtSubTotal'];
     $total=$_POST['txtTotal'];
     //$porcentaje_descuento=$_POST['txtDescuento'];
-    $tipo_impuestos_ID=$_POST['selTipo_Impuesto'];
-    
+    $impuestos_tipo_ID=$_POST['selTipo_Impuesto'];
+    $solo_descripcion=isset($_POST['ckDescripcion'])?1:0;
+    if($solo_descripcion==1){
+        $producto_ID=-1;
+    }
     $igv=$_POST['txtIGV'];
     //$otros_cargos=$_POST['txtOtros_Cargos'];
     $total=$_POST['txtTotal'];
-    
-    $obj->producto_ID=$producto_ID;
-    $obj->cantidad=$cantidad;
-    $obj->precio_unitario=$precio_unitario;
-    $obj->subtotal=$subtotal;
-    $obj->total=$total;
-    $obj->igv=$igv;
-    $obj->tipo_impuestos_ID=$tipo_impuestos_ID;
-    //$obj->porcentaje_descuento=$porcentaje_descuento;
-    //$obj->otros_cargos=$otros_cargos;
-    $obj->producto=$producto;
-    $array=array(
-        "factura_venta_detalle_ID"=>-1,
-        "producto"=>$producto,
-        "producto_ID"=>$producto_ID,
-        "cantidad"=>$cantidad,
-        "precio_unitario"=>$precio_unitario,
-        "subtotal"=>$subtotal,
-        "igv"=>$igv,
-        "total"=>$total,
-        "tipo_impuestos_ID"=>$tipo_impuestos_ID,
-        "descripcion"=>$descripcion,
-        "accion"=>"insertar",
-        "estado_ID"=>90,//estado borrador
-    );
-    
-    array_push($_SESSION[$llave],$array);
 
-    $GLOBALS['obj']=$obj;
+    $array=array(
+        "num"=>"-",
+        "ID"=>-1,
+        "cantidad"=>$cantidad,
+        "medida"=>"NIU",
+        "codigo"=>"",
+        "producto"=>(($solo_descripcion=1)?$descripcion:$producto),
+        "descripcion"=>$descripcion,
+        "precio_unitario"=>$precio_unitario,
+        "sub_total"=>$subtotal,
+        "total"=>$total,
+        "producto_ID"=>$producto_ID,
+        "igv"=>$igv,
+        "impuestos_tipo_ID"=>$impuestos_tipo_ID
+    );
+   
+    
+
+    $GLOBALS['array']=$array;
     $GLOBALS['resultado']=1;
     $GLOBALS['mensaje']="Se guardó correctamente";
    
@@ -13841,12 +13786,13 @@ function post_ajaxFacturas_Emitidas() {
     $periodo=$_POST['selPeriodo'];
     $serie=trim($_POST['txtSerie']);
     $numero=(trim($_POST['txtNumero'])=="")?0:trim($_POST['txtNumero']);
+    $electronico=isset($_POST['ck_electronico'])? 1:0;
     try{
          //$dt = comprobante_regula::getTabla($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
-       $dt=factura_venta::getTablaFactura_VentaSNC($periodo,$serie,$numero);
+       $dt=factura_venta::getTablaFactura_VentaSNC($periodo,$serie,$numero,$electronico);
        echo(json_encode($dt, JSON_NUMERIC_CHECK)); 
     }catch(Exception $ex){
-        console_log($ex);
+        log_error(__FILE__,"Salida/post_ajaxFacturas_Emitidas",$ex->getMessage());
     }
     
 }
@@ -13857,7 +13803,7 @@ function post_ajaxExtraerInformacionFacturas_Emitidas() {
     require ROOT_PATH.'models/salida.php';
     require ROOT_PATH.'models/cliente.php';
     $factura_venta_ID=$_POST['id'];
-    $identificador=$_POST['id1'];
+    //$identificador=$_POST['id1'];
     $numero="";
     $moneda_ID=1;
     $cliente="";
@@ -13874,47 +13820,78 @@ function post_ajaxExtraerInformacionFacturas_Emitidas() {
         $oCliente=cliente::getByID($oSalida->cliente_ID);
         $numero=$oFactura_Venta->serie."-".$oFactura_Venta->numero_concatenado;
         $moneda_ID=$oFactura_Venta->moneda_ID;
-        $cliente=FormatTextView($oCliente->ruc.' '.$oCliente->razon_social);
+        $cliente=FormatTextViewPDF($oCliente->ruc.' '.$oCliente->razon_social);
         $cliente_ID=$oCliente->ID;
         $subtotal=$oFactura_Venta->monto_total_neto;
         $igv=$oFactura_Venta->monto_total_igv;
         $total=$oFactura_Venta->monto_total;
+        
         $dtFactura_Venta_Detalle=factura_venta::getComprobante_Electronico($factura_venta_ID,'detalle');
+        //print_r($dtFactura_Venta_Detalle);
+        
         $i=0;
-        $dt=$_SESSION[$identificador];
-        if(count($dt)==0){
-            unset($dt);
-            $dt=array();
-        }
-        foreach($dtFactura_Venta_Detalle as $valor){
-            $val=$i+1;
-            $array=array(
-                "factura_venta_detalle_ID"=>$valor['ID'],
-                "producto"=>$valor['producto'],
-                "producto_ID"=>$valor['producto_ID'],
-                "cantidad"=>$valor['cantidad'],
-                "precio_unitario"=>$valor['precio_unitario'],
-                "subtotal"=>$valor['sub_total'],
-                "igv"=>$valor['igv'],
-                "total"=>$valor['total'],
-                "tipo_impuestos_ID"=>1,
-                "descripcion"=>$valor['descripcion'],
-                "accion"=>"insertar",
-                "estado_ID"=>90,//estado borrador
-            );
-            array_push($dt,$array);
-            //$tabla.='<tr id="tr'.$i.'"><td class="text-center">'.$val.'<input name="txt'.$valor['ID'].'" type="hidden" value="'.$valor['ID'].'"></td><td>'.FormatTextView($valor['producto']).'</td><td class="text-center">'.$valor['cantidad'].'</td><td>'.$valor['precio_unitario'].'</td><td>'.$valor['sub_total'].'</td><td>'.$valor['total'].'</td><td class="text-center"><a class="btn btn-danger" title="Eliminar" onclick="fncEliminar('.$i.');"><i class="fa fa-trash"></i></a></td></tr>';
-            $i++;
-        }
-        $_SESSION[$identificador]=$dt;
         $resultado=1;
     }catch(Exception $ex){
         $resultado=-1;
     }
     
    
-    $retornar = Array('resultado'=>$resultado,'numero' => $numero,'moneda_ID'=>$moneda_ID,'cliente'=>$cliente,'cliente_ID'=>$cliente_ID,
-        'subtotal'=>$subtotal,'igv'=>$igv,'total'=>$total,'tabla'=>$tabla);
+    $retornar = Array('resultado'=>$resultado,'numero' => $numero,'moneda_ID'=>$moneda_ID,'cliente'=>utf8_encode($cliente),'cliente_ID'=>$cliente_ID,
+        'subtotal'=>$subtotal,'igv'=>$igv,'total'=>$total,'tabla'=>$tabla,'dt'=>$dtFactura_Venta_Detalle);
+    echo json_encode($retornar);
+}
+function post_ajaxExtraerInformacionFacturas_Numero_Serie() {
+    require ROOT_PATH.'models/factura_venta.php';
+    require ROOT_PATH.'models/factura_venta_detalle.php';
+    require ROOT_PATH.'models/salida.php';
+    require ROOT_PATH.'models/cliente.php';
+    $numero=explode("-",$_POST['id']);
+    //$identificador=$_POST['id1'];
+    
+    $moneda_ID=1;
+    $cliente="";
+    $cliente_ID="";
+    $tabla="";
+    $subtotal=0;
+    $igv=0;
+    $total=0;
+    
+    $resultado=0;
+    $oFactura_Venta=new factura_venta();
+    $dtFactura_Venta_Detalle=array();
+    try{
+        $oFactura_Venta=factura_venta::getByNumero($numero[0],$numero[1]);
+        if(!isset($oFactura_Venta)){
+            throw new Exception("No existe el comprobante de venta.");
+        }
+        if($oFactura_Venta->estado_ID==115){
+             throw new Exception("El comprobante de venta ya se encuentra anulado");
+        }
+        if($oFactura_Venta->estado_ID!=94){
+             throw new Exception("El comprobante de venta no se encuentra emitido");
+        }
+        $oSalida=salida::getByID($oFactura_Venta->salida_ID);
+        $oCliente=cliente::getByID($oSalida->cliente_ID);
+        
+        $moneda_ID=$oFactura_Venta->moneda_ID;
+        $cliente=FormatTextViewPDF($oCliente->ruc.' '.$oCliente->razon_social);
+        $cliente_ID=$oCliente->ID;
+        $subtotal=$oFactura_Venta->monto_total_neto;
+        $igv=$oFactura_Venta->monto_total_igv;
+        $total=$oFactura_Venta->monto_total;
+        
+        $dtFactura_Venta_Detalle=factura_venta::getComprobante_Electronico($oFactura_Venta->ID,'detalle');
+        $i=0;
+        $resultado=1;
+        $mensaje="";
+    }catch(Exception $ex){
+        $resultado=-1;
+        $mensaje=$ex->getMessage();
+    }
+    
+   
+    $retornar = Array('resultado'=>$resultado,'mensaje'=>$mensaje,'moneda_ID'=>$moneda_ID,'cliente'=>$cliente,'cliente_ID'=>$cliente_ID,
+        'subtotal'=>$subtotal,'igv'=>$igv,'total'=>$total,'factura_venta_ID'=>$oFactura_Venta->ID,'tabla'=>$tabla,'dt'=>$dtFactura_Venta_Detalle);
     echo json_encode($retornar);
 }
 function post_ajaxMostrarDetalleComprobanteRegula() {
@@ -13960,7 +13937,8 @@ function post_ajaxEnviarNota_CreditoSUNAT() {
             $mensaje="La nota de crédito se envió a la SUNAT.";
             //$mensaje= $array['mensaje_final'];
         }else{
-            throw new exception($array['mensaje_final']);
+            $resultado=-1; 
+            $mensaje=$array['mensaje_final'];
         }
     }catch(Exception $ex){
         $resultado=-1;
@@ -13982,7 +13960,9 @@ function enviarComprobante_RegulaSUNAT($ID){
     if(!class_exists("comprobante_regula_detalle")){
         require ROOT_PATH.'models/comprobante_regula_detalle.php';
     }
-    
+    if(!class_exists("factura_venta")){
+        require ROOT_PATH.'models/factura_venta.php';
+    }
     require ROOT_PATH.'include/lib_fecha_texto.php';
     require ROOT_PATH.'models/comprobante_regula_sunat.php';
     require ROOT_PATH.'include/facturacion_electronica/transaccion_documentos.php';
@@ -13999,13 +13979,17 @@ function enviarComprobante_RegulaSUNAT($ID){
         $Discrepancias = array();
         $DocumentoRelacionado = array();
         $DatoAdicionales=array();
+        $DocumentoDespacho=array();
         $i=1;
         
         $Discrepancias[]= array (
             'NroReferencia'=>$oComprobante_Regula->factura,
             'Tipo'=>$oComprobante_Regula->tipo_comprobante_discrepancia,
-            'Descripcion'=>utf8_decode($oComprobante_Regula->motivo_descripcion)
+            'Descripcion'=> FormatTextViewXML($oComprobante_Regula->motivo_descripcion)
                 );//utf8_decode($oComprobante_Regula->motivo_descripcion)
+        $DocumentoDespacho[]= array (
+            'Numero'=>"",
+            'Tipo'=>"");
         $DatoAdicionales[]=array("Codigo"=>"","Contenido"=>"");
               //'NroReferencia'=>$oComprobante_Regula->factura,'Tipo'=>$oComprobante_Regula->tipo,'Descripcion'=>'Anulación de la operación');//utf8_decode($oComprobante_Regula->motivo_descripcion)
   
@@ -14016,8 +14000,10 @@ function enviarComprobante_RegulaSUNAT($ID){
                 'UnidadMedida' => $valor['unidad_medida'],
                 'CodigoItem' => $valor['codigo_producto'],
                 'Descripcion' => $valor['producto'],
-                'PrecioUnitario' => $valor['precio_unitario'],
-                'PrecioReferencial' =>$valor['precio_unitario_incluyeigv'],
+                'PrecioUnitario' => round($valor['precio_unitario'],bd_largo_decimal),
+                'ValorUnitario' => round($valor['precio_unitario'],bd_largo_decimal),
+                'PrecioReferencial' =>round($valor['precio_unitario_incluyeigv'],bd_largo_decimal),
+                'SubTotal' =>$valor['sub_total'],
                 'TipoPrecio' => '01',
                 'TipoImpuesto' =>$valor['tipo_impuesto'], //$valor['tipo_impuesto'],
                 'Impuesto' => $valor['impuesto'],
@@ -14025,7 +14011,7 @@ function enviarComprobante_RegulaSUNAT($ID){
                 'OtroImpuesto' => 0,
                 'Descuento' => 0,
                 'PlacaVehiculo' => $valor['vehiculo'],
-                'TotalVenta' => $valor['subtotal'],
+                'TotalVenta' => $valor['total'],
                 'Suma' => $valor['total']
               );
             $i++;
@@ -14050,7 +14036,7 @@ function enviarComprobante_RegulaSUNAT($ID){
         'Emisor' => $param_emisor["Emisor"],
         'Receptor' =>  array (
             'NroDocumento' => $oComprobante_Regula->ruc,
-            'TipoDocumento' => '6',//RUC
+            'TipoDocumento' => $oComprobante_Regula->tipo_documento,//RUC
             'NombreLegal' => $oComprobante_Regula->razon_social,
             'NombreComercial'=>$oComprobante_Regula->razon_social,
             'Ubigeo'=>$oComprobante_Regula->ubigeo,
@@ -14060,7 +14046,7 @@ function enviarComprobante_RegulaSUNAT($ID){
             'Provincia'=>$oComprobante_Regula->provincia_cliente,
             'Distrito'=>$oComprobante_Regula->distrito_cliente
         ),
-        'FechaEmision' =>$oComprobante_Regula->fecha_emision,// '2018-06-20',//$oComprobante_Regula->fecha_emision
+        'FechaEmision' => FormatTextToDate($oComprobante_Regula->fecha_emision,'Y-m-d'),// '2018-06-20',//$oComprobante_Regula->fecha_emision
         'HoraEmision' =>date("H:i:s"),
         'Motivo'=>$oComprobante_Regula->motivo_descripcion,
         'Moneda' => $oComprobante_Regula->codigo_moneda,
@@ -14124,6 +14110,7 @@ function enviarComprobante_RegulaSUNAT($ID){
         'Relacionados'=>array('NroDocumento'=>$oComprobante_Regula->factura,'TipoDocumento'=>'01'),
         'OtrosDocumentosRelacionados'=>array('NroDocumento'=>'','TipoDocumento'=>''),
         'Discrepancias'=>$Discrepancias,
+        'Despacho'=>$DocumentoDespacho,    
         'CalculoIgv' => 18,//$oComprobante_Regula->igv,
         'CalculoIsc' => 0.10,
         'CalculoDetraccion' => 0.04 
@@ -14134,8 +14121,9 @@ function enviarComprobante_RegulaSUNAT($ID){
             $transacion->documento="nota_credito";
             $ruta=$transacion->generar_xml();
             $ruta_xml_firmado=$transacion->firmar_documento($ruta,"notacredito");
-            //echo $ruta_xml_firmado;
+            
             $transacion->enviar_documento_sunat($ruta_xml_firmado,"notacredito","sendbill");
+            
         }else{
             $transacion->documento="nota_debito";
             $ruta=$transacion->generar_xml();
@@ -14143,20 +14131,48 @@ function enviarComprobante_RegulaSUNAT($ID){
             //echo $ruta_xml_firmado;
             $transacion->enviar_documento_sunat($ruta_xml_firmado,"notadebito","sendbill");
         }
+        
         if($transacion->error==0){
+            if($transacion->observacion==""){
+                $estado_envio=1;
+                $resultado=1;
+                $mensaje="La factura de venta se envió correctamente"; 
+            }else{
+                $estado_envio=2;//Envío con observaciones
+                $resultado=2;
+                $mensaje="<b style='color:red;'>La nota de crédito se envió correctamente, pero tiene las siguientes observaciones:</b> <br>".utf8_encode($transacion->observacion); 
+            }
+            $string=file_get_contents($ruta_xml_firmado);
+            $trama_firmado=base64_encode($string);
+            
             $oComprobante_Regula->estado_ID=92;//Estado enviado
             $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];
             $oComprobante_Regula->actualizar();
+            $obj=new comprobante_regula_sunat();
+            $obj->ID=0;
+            $obj->comprobante_regula_ID=$oComprobante_Regula->ID;
+            $obj->fecha_generacion=date('Y-m-d');
+            $obj->fecha_respuesta=$transacion->fecha_resultado;
+            $obj->nombre_archivo=$transacion->nombre_documento;
+            $obj->xml_firmado=$trama_firmado;
+            $obj->hash=$transacion->codigo_hash;
+            $obj->representacion_impresa="";
+            $obj->estado_envio=$estado_envio;
+            $obj->codigo_estado=$transacion->codigo_estado;
+            $obj->descripcion_estado=$transacion->descripcion_estado;
+            $obj->cdr_sunat=$transacion->cdr_sunat;
+            $obj->usuario_id=$_SESSION['usuario_ID'];
+            $obj->insertar();
             $resultado=1;
             $mensaje="Se guardó correctamente";
         }else{
             $resultado=-1;
-            $mensaje= utf8_decode($transacion->observacion);
+            $mensaje= ($transacion->observacion);
         }
         
 
     } catch (Exception $ex) {
-        $mensaje=utf8_encode(mensaje_error);
+        $mensaje=$ex->getMessage();
         $resultado=-1;
         log_error(__FILE__, "salidaController.enviarComprobante_RegulaSUNAT", $ex->getMessage());
     }
@@ -14255,7 +14271,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $fecha_emision1=$_POST['txtFecha_Emision'];
     $fecha_emision=FormatTextToDate($fecha_emision1,'Y-m-d');
     $fecha_vencimiento1=$_POST['txtFecha_vencimiento'];
-    $fecha_vencimiento=FormatTextToDate($fecha_vencimiento1,'Y-m-d');
+    //$fecha_vencimiento=FormatTextToDate($fecha_vencimiento1,'Y-m-d');
     $moneda_ID=$_POST['selMoneda'];
     $monto_total_neto=$_POST['txtSubTotal'];
     $monto_total_igv=$_POST['txtIGV'];
@@ -14372,7 +14388,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
     $GLOBALS['tipo_cambio']=$oDatos_Generales->tipo_cambio;
     $GLOBALS['ob']=$oComprobante_Regula;
     $GLOBALS['resultado']=$resultado;
-    $GLOBALS['mensaje']=$mensaje;
+    $GLOBALS['mensaje']= FormatTextViewPDF($mensaje);
     
 }
 function get_Nota_Debito_Mantenimiento_Editar($id){
@@ -14679,10 +14695,41 @@ function get_Comprobante_regula_Vista_Previa($id){
         //global $returnView_float;
         $pdf= new PDF2('P','mm',array(216,279));
         try{
-            
+            $color=hexToRgb($_COOKIE["color_documentos"]);
             $dtCabecera=comprobante_regula::getGridByID($id);
             $dtDetalle=comprobante_regula_detalle::getGrid($id);
             
+            //$numero_cuenta=factura_venta::getComprobante_Electronico($id,"numero_cuenta");
+            $pdf->AddPage();
+            $pdf->cabecera=$dtCabecera;
+            $pdf->color=$color;
+            //$pdf->numero_cuenta=$numero_cuenta;
+            $pdf->cabecera_header();
+            $pdf->contenedor_detalle(130);
+            //$dtFactura_Venta_Detalle1=factura_venta_detalle::getGrid1('fvd.factura_venta_ID='.$item['ID'],-1,-1,'ovd.ID asc');
+            $pdf->SetWidths(array(20,15,15,100,25,25));
+            $pdf->SetAligns(array('C','C','C','L','R','R'));
+            $pdf->contenido_detalle($dtDetalle);
+
+        }catch(Exception $ex){
+            log_error(__FILE__,"salida/get_Comprobante_RegulaPDF",$ex->getMessage());
+            $GLOBALS['error']=$ex->getMessage();
+        }
+
+    $pdf->Output('I','Comprobante '.'Nro'.$dtCabecera[0]['serie'].$dtCabecera[0]['numero'].'.pdf',true);
+}
+function get_Comprobante_RegulaDescargarPDF($id){
+        require ROOT_PATH.'models/comprobante_regula.php';
+        require ROOT_PATH.'models/comprobante_regula_detalle.php';
+        require ROOT_PATH.'formatos_pdf/comprobante_regula.php';
+        //global $returnView_float;
+        $pdf= new PDF2('P','mm',array(216,279));
+        try{
+            $color=hexToRgb($_COOKIE["color_documentos"]);
+           
+            $dtCabecera=comprobante_regula::getGridByID($id);
+            $dtDetalle=comprobante_regula_detalle::getGrid($id);
+            $pdf->color=$color;
             //$numero_cuenta=factura_venta::getComprobante_Electronico($id,"numero_cuenta");
             $pdf->AddPage();
             $pdf->cabecera=$dtCabecera;
@@ -14699,7 +14746,7 @@ function get_Comprobante_regula_Vista_Previa($id){
             $GLOBALS['error']=$ex->getMessage();
         }
 
-    $pdf->Output('I','Factura Nro'.sprintf("%'.07d",'5').'.pdf',true);
+    $pdf->Output('D','Comprobante '.'Nro'.$dtCabecera[0]['serie'].'-'.$dtCabecera[0]['numero'].'.pdf',true);
 }
     //============================================
     //Ventas electrónicas
@@ -14774,7 +14821,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $osalida->ID=0;
         $osalida->garantia=  "1 año";
         $osalida->validez_oferta=7;
-        $osalida->moneda_ID=2;
+        $osalida->moneda_ID=moneda;
         $osalida->ver_adicional=1;
         $osalida->adicional="Nueva Central Telefónica ".$oDatos_Generales->telefono;
         $osalida->tipo_cambio=$oDatos_Generales->tipo_cambio;
@@ -15026,7 +15073,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         $factura_venta_ID_emitida=0;
         $guia_venta_ID_emitida=0;
         $dtFactura_Venta=factura_venta::getGrid2("fv.estado_ID=94 and fv.salida_ID=".$id,-1,-1,"fv.ID desc");
-       
+        $ver_agregar=factura_venta::getVerBotonAgregar($id);
+        
         if(count($dtFactura_Venta)>0){
             $factura_venta_ID_emitida=$dtFactura_Venta[0]['ID'];
             
@@ -15052,6 +15100,9 @@ function get_Comprobante_regula_Vista_Previa($id){
         
         $oCliente=cliente::getByID($osalida->cliente_ID);
         $oOperador=operador::getByID($osalida->operador_ID);
+        if($oOperador==null){
+            $oOperador=new operador();
+        }
         $dtForma_Pago=forma_pago::getGrid();
         $dtCredito=credito::getGrid('id<>0');
         $oNumero_Cuenta=numero_cuenta::getByID(1);
@@ -15072,7 +15123,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['dtMoneda']=moneda::getGrid();
         $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
         $GLOBALS['guia_venta_ID_emitida']=$guia_venta_ID_emitida;
-
+        $GLOBALS['ver_agregar']=$ver_agregar;
 
         $GLOBALS['mensaje']=$mensaje;
     }
@@ -15104,7 +15155,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         if(isset($_POST['selRepresentante'])){
             $cliente_contacto_ID= $_POST['selRepresentante'];
         }
-
+        $ver_agregar=factura_venta::getVerBotonAgregar($id);
         $moneda_ID=$_POST['cboMoneda'];
         $tipo_cambio=$_POST['txtTipo_Cambio'];
         $plazo_entrega=$_POST['txtPlazo_Entrega'];
@@ -15234,6 +15285,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $GLOBALS['oNumero_Cuenta']=$oNumero_Cuenta;
         $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
         $GLOBALS['factura_venta_ID_emitida']=$factura_venta_ID_emitida;
+        $GLOBALS['ver_agregar']=$ver_agregar;
         $GLOBALS['resultado']=$resultado;
         $GLOBALS['mensaje']=$mensaje;
     }
@@ -15245,6 +15297,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH . 'models/impuestos_tipo.php';
         require ROOT_PATH . 'models/moneda.php';
         require ROOT_PATH . 'models/tipo_comprobante.php';
+        require ROOT_PATH . 'models/guia_venta.php';
         
         global  $returnView_float;
         $returnView_float=true;
@@ -15270,11 +15323,17 @@ function get_Comprobante_regula_Vista_Previa($id){
             }
             $oFactura_Venta->comprobante="factura_venta";
             $dtImpuestos_Tipo=impuestos_tipo::getGrid();
-            
+            $dtGuia_Venta_Emitidas=guia_venta::getGrid("empresa_ID=".$_SESSION['empresa_ID']." and salida_ID=".$id." and estado_ID=98");
+            $guia_venta_emitido="";
+            $guia_venta_ID_emitido=0;
+            if(count($dtGuia_Venta_Emitidas)>0){
+                $guia_venta_emitido=$dtGuia_Venta_Emitidas[0]['serie'].'-'.$dtGuia_Venta_Emitidas[0]['numero'];
+                $guia_venta_ID_emitido=$dtGuia_Venta_Emitidas[0]['ID'];
+            }
             $oFactura_Venta->fecha_emision=date("d/m/Y");
-            $oFactura_Venta->fecha_vencimiento=date("d/m/Y");
+            $oFactura_Venta->fecha_vencimiento=date("d/m/Y",strtotime(date("d-m-Y")."+ ".$oSalida->tiempo_credito." days"));
             $oFactura_Venta->moneda_ID=$oSalida->moneda_ID;
-            
+            $oFactura_Venta->plazo_factura=$oSalida->tiempo_credito;
             if(!defined('correlativos_ID')){
                 throw new Exception("Debe registrar los correlativos por defecto de los comprobantes electrónicos en mantenimiento correlativos.");
             }
@@ -15307,6 +15366,8 @@ function get_Comprobante_regula_Vista_Previa($id){
             $GLOBALS['oFactura_Venta']=$oFactura_Venta;
         //$GLOBALS['listaproducto']=$listaproducto;
             $GLOBALS['oOrden_Venta']=$oSalida;
+            $GLOBALS['guia_venta_ID_emitido']=$guia_venta_ID_emitido;
+            $GLOBALS['guia_venta_emitido']=$guia_venta_emitido;
         //$listaproducto=salida_detalle::getFilasDetalleComprobante(814);
         }catch(Exception $ex){
             $GLOBALS['resultado']=-2;
@@ -15328,7 +15389,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH . 'models/tabla_movimiento.php';
         require ROOT_PATH . 'models/factura_venta_detalle.php';
         require ROOT_PATH . 'models/tipo_comprobante.php';
-        
+         require ROOT_PATH . 'models/guia_venta.php';
         global  $returnView_float;
         $returnView_float=true;
         $salida_ID=$id;
@@ -15365,6 +15426,12 @@ function get_Comprobante_regula_Vista_Previa($id){
         $estado_ID=isset($_POST['ckGenerar'])?93:35;
         $con_guia=isset($_POST['ckCon_Guia'])?1:0;
         $observacion=$_POST['txtObservacion'];
+        $guia_venta_ID_emitido=isset($_POST['txtGuia_Venta_Emitido'])?$_POST['txtGuia_Venta_Emitido']:0;
+        $guia_venta_emitido=0;
+        IF($guia_venta_ID_emitido>0){
+            $con_guia=1;
+            $guia_venta_emitido=$_POST['txtguia_venta_emitido'];
+        }
         $oFactura_Venta=new factura_venta();
         try{
             $oCorrelativos=correlativos::getByID($correlativos_ID);
@@ -15436,7 +15503,15 @@ function get_Comprobante_regula_Vista_Previa($id){
                     $oCorrelativos->usuario_mod_id=$_SESSION['usuario_ID'];
                     $oCorrelativos->actualizar();
                 }*/
+                
+                if($guia_venta_ID_emitido>0){
+                    $oGuia=guia_venta::getByID($guia_venta_ID_emitido);
+                    $oGuia->factura_venta_ID=$ID;
+                    $oGuia->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oGuia->actualizar();
+                }
             }
+            
              $dtMoneda=moneda::getGrid();
             $oFactura_Venta->dtMoneda=$dtMoneda;
             $oFactura_Venta->dtTipo_Comprobante=tipo_comprobante::getComprobantes(1, "venta", $oFactura_Venta->correlativos_ID,0,"tipo_comprobantes");
@@ -15450,6 +15525,10 @@ function get_Comprobante_regula_Vista_Previa($id){
           $mensaje="Ocurrió un error en el sistema";
           log_error(__FILE__, "salidaController.post_Orden_Venta_Electronico_Mantenimiento_Comprobante", $ex->getMessage());
         }
+        $GLOBALS['guia_venta_ID_emitido']=$guia_venta_ID_emitido;
+            $GLOBALS['guia_venta_emitido']=$guia_venta_emitido;
+            
+        
         $GLOBALS['oFactura_Venta']=$oFactura_Venta;
         $GLOBALS['oOrden_Venta']=$oSalida;
         $GLOBALS['resultado']=$resultado;
@@ -15571,7 +15650,10 @@ function get_Comprobante_regula_Vista_Previa($id){
             $pdf->Ln();
             $pdf->SetFont('Arial','B',8);
             $pdf->SetTextColor(255,255,255);
-            $pdf->SetFillColor(117,179,114);
+            $color_menu=hexToRgb($_COOKIE["color_documentos"]);
+           // print_r($color);
+            //$pdf->SetFillColor(117,179,114);
+            $pdf->SetFillColor($color_menu['r'],$color_menu['g'],$color_menu['b']);
             $pdf->Cell(20,7,utf8_decode('CANT.'),1,0,'C',true);
             $pdf->Cell(15,7,utf8_decode('UM'),1,0,'C',true);
             $pdf->Cell(15,7,utf8_decode('CÓD'),1,0,'C',true);
@@ -15579,17 +15661,17 @@ function get_Comprobante_regula_Vista_Previa($id){
             $pdf->Cell(25,7,utf8_decode('P/U'),1,0,'C',true);
             $pdf->Cell(25,7,utf8_decode('IMPORTE'),1,0,'C',true);
             
-            $y=87;
+            $y=$pdf->GetY()+10;//90;
             $x=10;
             $array_width=array(20,15,15,100,25,25,100);
             $array_align=array('C','C','C','L','R','R','J');
             $h_atual=$pdf->GetY();
             $pdf->SetTextColor(0,0,0);
             foreach($dtDetalle as $item){
-                $longitud=strlen($item["producto"]);
+                $longitud=strlen(FormatTextViewPDF($item["producto"]));
                 //$h_atual=$pdf->GetY();
                 $pdf->SetXY($x,$y);
-                $costo_unitario=number_format($item['precio_unitario'],2,'.',',');
+                $costo_unitario=number_format($item['precio_unitario'],bd_largo_decimal,'.',',');
                 $pdf->SetFont('Arial','B',8);
                 $subtotal=number_format($item['sub_total'],2,'.',',');
                 $pdf->MultiCell($array_width[0],5,$item["cantidad"],0,$array_align[0],false);
@@ -15797,6 +15879,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         $empresa_transporte=$_POST["txtEmpresa_Transporte"];
         $placa_vehiculo=$_POST["txtPlaca_Vehiculo"];
         $documento_conductor=$_POST["txtDNI_Conductor"];
+        $peso_bruto_total=$_POST['txtPeso_Bruto_Total'];
         $ruta="";
         try{
             $array=array(
@@ -15825,7 +15908,8 @@ function get_Comprobante_regula_Vista_Previa($id){
                 "empresa_transporte"=>$empresa_transporte,
                 "placa_vehiculo"=>$placa_vehiculo,
                 "documento_conductor"=>$documento_conductor,
-                "ielectronico"=>$electronico
+                "ielectronico"=>$electronico,
+                "ipeso_bruto_total"=>$peso_bruto_total
             );
            
             $pdf= new PDF2('P','mm',array(216,279));
@@ -16233,16 +16317,16 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oGuia_Venta->dtDepartamento=departamento::getOpciones($dtPartida[0]["departamento_ID"]);
             $oGuia_Venta->dtProvincia=provincia::getOpciones($dtPartida[0]["provincia_ID"],$dtPartida[0]["departamento_ID"]);
             $oGuia_Venta->dtDistrito=distrito::getOpciones($dtPartida[0]["ID"],$dtPartida[0]["provincia_ID"]); 
-            $oGuia_Venta->punto_partida=$dtPartida[0]["direccion"];
+            $oGuia_Venta->punto_partida=substr($dtPartida[0]["direccion"],0,100);
             $oGuia_Venta->dtMotivo_Traslado=motivo_traslado::getGrid("ID in (1,2)");
             $oGuia_Venta->dtModalidad_Traslado=modalidad_traslado::getGrid();
             
-            
+            $oGuia_Venta->peso_bruto_total=salida_detalle::getPesoTotal($salida_ID);
             $dtLlegada=distrito::getUbigeo(0,-1,$osalida->cliente_ID);
             $oGuia_Venta->dtDepartamento_llegada=departamento::getOpciones($dtLlegada[0]["departamento_ID"]);
             $oGuia_Venta->dtProvincia_llegada=provincia::getOpciones($dtLlegada[0]["provincia_ID"],$dtLlegada[0]["departamento_ID"]);
             $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones($dtLlegada[0]["ID"],$dtLlegada[0]["provincia_ID"]); 
-            $oGuia_Venta->punto_llegada=$dtLlegada[0]["direccion"];
+            $oGuia_Venta->punto_llegada=substr($dtLlegada[0]["direccion"],0,100);
             $oCorrelativos=correlativos::getByID(correlativos_ID_guia_electronico);
             $electronico=$oCorrelativos->electronico;
             $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes($electronico, "guia_remision", correlativos_ID_guia_electronico,0,"series");
@@ -16299,11 +16383,12 @@ function get_Comprobante_regula_Vista_Previa($id){
         $ver_adicional=(isset($_POST['ckver_adicional']))?1:0;
         $ver_serie=(isset($_POST['ckver_serie']))?1:0;
         $incluir_obsequios=(isset($_POST['ckincluir_obsequios']))?1:0;
-        if($tipo_documento==1){
+        $estado_ID=97;
+        /*if($tipo_documento==1){
             $estado_ID=(isset($_POST['ckGenerar']))?97:37;//Estado Generado y el estado registrado
         }else{
             $estado_ID=(isset($_POST['ckGenerar']))?44:37;//Estado Por remitir y el estado Registrado
-        }
+        }*/
         
        
         $fecha_inicio_traslado=$_POST['txtFecha_Inicio_Traslado'];
@@ -16325,7 +16410,7 @@ function get_Comprobante_regula_Vista_Previa($id){
         try{
             $numero_pagina=1;
             $nproductoxhoja="";
-            $IDs="";
+            /*$IDs="";
             $dt=salida_detalle::getEstructura($salida_ID,$ver_descripcion,$ver_componente,$ver_adicional,$ver_serie,$incluir_obsequios);
             if($tipo_documento==0){
                 //Documento físico
@@ -16346,12 +16431,12 @@ function get_Comprobante_regula_Vista_Previa($id){
                            $y++;
                 }
                 
-            }
-            for($i=0;$i<$numero_pagina;$i++){
+            }*/
+           // for($i=0;$i<$numero_pagina;$i++){
                 $oSalida=salida::getByID($id);
-                $oCorrelativos=correlativos::getByID($correlativos_ID);
-                $numero= correlativos::getNumero($correlativos_ID);
-                $numero=$numero+$i;
+                //$oCorrelativos=correlativos::getByID($correlativos_ID);
+                //$numero= correlativos::getNumero($correlativos_ID);
+                //$numero=$numero+$i;
                 if($ID>0){
                     $oGuia_Venta=guia_venta::getByID($ID);
                 }else{
@@ -16359,9 +16444,9 @@ function get_Comprobante_regula_Vista_Previa($id){
                 }
                 
                 $oGuia_Venta->factura_venta_ID=$factura_venta_ID;
-                $oGuia_Venta->serie=$oCorrelativos->serie;
-                $oGuia_Venta->numero=$numero;
-                $oGuia_Venta->numero_concatenado=sprintf("%'.07d", $numero);
+                //$oGuia_Venta->serie=$oCorrelativos->serie;
+                //$oGuia_Venta->numero=$numero;
+                //$oGuia_Venta->numero_concatenado=sprintf("%'.07d", $numero);
                 $oGuia_Venta->fecha_emision=$fecha_emision;
                 $oGuia_Venta->numero_orden_compra=$numero_orden_compra;
                 $oGuia_Venta->numero_orden_venta=$numero_orden_venta;
@@ -16391,10 +16476,10 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $oGuia_Venta->nro_documento_conductor=$nro_documento_conductor;
                 $oGuia_Venta->distrito_ID_partida=$distrito_ID_partida;
                 $oGuia_Venta->distrito_ID_llegada=$distrito_ID_llegada;
-                $oGuia_Venta->numero_pagina=$i+1;
-                
-                $numero_producto=0;
-                if($tipo_documento==1){
+                $oGuia_Venta->numero_pagina=1;
+                $salida_detalle_IDs='';
+                $numero_producto=1;
+                /*if($tipo_documento==1){
                     //Electrónico
                     $numero_producto=count($dt);
                     $salida_detalle_IDs=$IDs;
@@ -16409,25 +16494,26 @@ function get_Comprobante_regula_Vista_Previa($id){
                     
                     
                     $numero_producto=$porcion[$i];
-                }
+                }*/
                 $oGuia_Venta->salida_detalle_IDs=$salida_detalle_IDs;
                 $oGuia_Venta->numero_producto=$numero_producto;
                 if($ID>0){
                     
                     $oGuia_Venta->actualizar();
                 }else{
-                    $ID=$oGuia_Venta->insertar();
+                    $oGuia_Venta->insertar_electronico();
+                    
                 }
                 
-            }
+            //}
             
             $oGuia_Venta->tipo_documento=$tipo_documento;
             $mensaje=$oGuia_Venta->getMessage;
             $resultado=1;
             $oFactura_Venta=factura_venta::getByID($factura_venta_ID);
-            if($estado_ID=97 &&($oFactura_Venta->estado_ID=93||$oFactura_Venta->estado_ID=94)){
+            /*if($estado_ID=97 &&($oFactura_Venta->estado_ID=93||$oFactura_Venta->estado_ID=94)){
                 $imprimir=1;
-            }
+            }*/
             $oGuia_Venta->dtVehiculo=vehiculo::getGrid('',-1,-1,'descripcion asc');
             $oGuia_Venta->dtChofer=chofer::getGrid('',-1,-1,'pe.apellido_paterno asc, pe.apellido_materno asc, pe.nombres asc');
             $dtPartida=distrito::getUbigeo(0,$_SESSION['empresa_ID'],-1);
@@ -16486,7 +16572,7 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oGuia_Venta=guia_venta::getByID($id);
             $salida_ID=$oGuia_Venta->salida_ID;
             $osalida=salida::getByID($salida_ID);
-            $contar_producto=salida_detalle::getCount("salida_ID=".$id." and tipo_ID in (1,2,5,6)");
+            $contar_producto=salida_detalle::getCount("salida_ID=".$salida_ID." and tipo_ID in (1,2,5,6)");
             if($contar_producto==0){
                 $GLOBALS['resultado']=-2;
                 $GLOBALS['mensaje']="No se ha registrado ningún producto";
@@ -16949,7 +17035,7 @@ function get_Comprobante_regula_Vista_Previa($id){
             "FechaReferencia"=>$oResumen_Diario->FechaReferencia,
             "Emisor"=>$param_emisor['Emisor']
         );
-       print_r(json_encode($data));
+       //print_r(json_encode($data));
         $carpeta="resumen_diario";
         $FechaRespuesta = strftime( "%Y-%m-%d-%H-%M-%S", time());
         
@@ -17074,8 +17160,8 @@ function get_Comprobante_regula_Vista_Previa($id){
     function post_ajaxComunicacion_Baja_Mantenimiento() {
         require ROOT_PATH . 'models/comunicacion_baja.php';
         require ROOT_PATH . 'controls/funcionController.php';
-        $buscar = trim($_POST['txtBuscar']);
-        $tipo_comprobante_ID=$_POST['selTipoComprobante'];
+        //$buscar = trim($_POST['txtBuscar']);
+        //$tipo_comprobante_ID=$_POST['selTipoComprobante'];
         $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
         $cantidadMostrar = ($_POST['txtMostrar'] == ''||$_POST['txtMostrar'] ==0) ? 30 : $_POST['txtMostrar'];
         $txtOrden = $_POST['txtOrden'];
@@ -17141,8 +17227,8 @@ function get_Comprobante_regula_Vista_Previa($id){
                 $resultado.='<td class="text-center">' . $item['IdDocumento']  . '</td>';
                 $resultado.='<td class="text-center">' . $item['FechaEmision'] . '</td>';
                 $resultado.='<td class="text-center">' . $item['FechaReferencia'] . '</td>';
-                $resultado.='<td class="text-center">' . $item['documento'] . '</td>';
-                $resultado.='<td class="text-center">' . $item['MotivoBaja'] . '</td>';
+                $resultado.='<td class="text-left">' . $item['tipo_comprobante'].' '.$item['documento'] . '</td>';
+                $resultado.='<td class="text-center">' . $item['MotivoBaja']. '</td>';
                 $resultado.='<td class="tdLeft">' . $item['estado'] . '</td>';
                 $botones=array();
                // array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar baja"><span class="glyphicon glyphicon-pencil"></span> Editar</a>');	
@@ -17260,6 +17346,8 @@ function get_Comprobante_regula_Vista_Previa($id){
         require ROOT_PATH.'include/facturacion_electronica/transaccion_documentos.php';
         require ROOT_PATH.'models/factura_venta.php';
         require ROOT_PATH.'models/tabla_movimiento.php';
+        require ROOT_PATH.'models/comprobante_regula.php';
+        
         $id=$_POST['id'];
         $transacion = new transaccion_documentos();
         try {
@@ -17318,6 +17406,7 @@ function get_Comprobante_regula_Vista_Previa($id){
             $oComunicacion_Baja_Sunat->insertar();
             
             foreach($dt as $item){
+               
                 if($item['tabla']=='factura_venta'){
                     $oFactura_Venta1=factura_venta::getByID($item['documento_ID']);
                     $oFactura_Venta1->estado_ID=107;//Estado dado de baja;
@@ -17337,14 +17426,18 @@ function get_Comprobante_regula_Vista_Previa($id){
                     $oComunicacion_Baja->estado_ID=110;//Emitido a SUNAT
                     $oComunicacion_Baja->usuario_mod_id=$_SESSION['usuario_ID'];
                     $oComunicacion_Baja->actualizar();
-                }
-                if($item['tabla']=='comprobante_regula'){
+                }else if($item['tabla']=='comprobante_regula'){
                     $oComprobante_Regula=comprobante_regula::getByID($item['documento_ID']);
+                    //print_r($oComprobante_Regula);
                     $oComprobante_Regula->estado_ID=112;//Estado dado de baja;
                     $oComprobante_Regula->usuario_mod_id=$_SESSION['usuario_ID'];  
                     $oComprobante_Regula->actualizar();
-
+                    
+                    $oComunicacion_Baja->estado_ID=110;//Emitido a SUNAT
+                    $oComunicacion_Baja->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oComunicacion_Baja->actualizar();
                 }
+                
 
             }
             $resultado=1;
@@ -17463,4 +17556,1083 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         }
         $retornar = Array('resultado' => $resultado,'html'=>$html, 'mensaje' => $mensaje);
         echo json_encode($retornar);
+    }
+    
+function get_Guia_Remision_Mantenimiento(){
+    require ROOT_PATH.'models/cotizacion.php';
+    require ROOT_PATH.'models/moneda.php';
+    require ROOT_PATH.'models/cliente.php';
+    require ROOT_PATH.'models/estado.php';
+    global  $returnView;
+    $returnView=true;
+    $oCotizacion=new cotizacion;
+    $dtCliente=cliente::getGrid('',-1,-1,'clt.razon_social ASC');
+    $dtMoneda=moneda::getGrid();
+    $dtEstado=estado::getGrid('tabla="guia_venta"');
+    $GLOBALS['dtCliente']=$dtCliente;
+    $GLOBALS['dtMoneda']=$dtMoneda;
+    $GLOBALS['dtEstado']=$dtEstado;
+    //$GLOBALS['mensaje']='';
+}
+function post_ajaxGuia_Remision_Mantenimiento() {
+    require ROOT_PATH . 'models/guia_venta.php';
+    
+    require ROOT_PATH . 'controls/funcionController.php';
+    //$buscar = $_POST['txtBuscar'];
+    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
+    $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
+    $opcion_tipo=$_POST['rbOpcion'];
+    $txtOrden = $_POST['txtOrden'];
+    $orden_tipo = 'DESC';
+    $orden_class = 'imgOrden-desc';
+    $cliente_ID=$_POST['selCliente'];
+    $estado_ID=$_POST['selEstado'];
+    $fecha_inicio=$_POST['txtFechaInicio'];
+    $fecha_fin=$_POST['txtFechaFin'];
+
+    $numero=Ltrim($_POST['txtNumero'],'0');
+    $periodo=ltrim($_POST['txtPeriodo'],'0');
+    
+
+    if (isset($_POST['chkOrdenASC'])) {
+        $orden_class = 'imgOrden-asc';
+        $orden_tipo = 'ASC';
+    }
+    $todos=0;
+    if(isset($_POST['ckTodos'])){
+        $todos=$_POST['ckTodos'];
+    }
+    $array_orden=array('numero','fecha_emision');
+    
+    switch ($txtOrden) {
+        case 1:
+            $orden = 'gv.ID ' . $orden_tipo;
+            break;
+        case 2:
+            $orden = 'gv.serie ' . $orden_tipo;
+            break;
+        case 3:
+            $orden = 'gv.numero ' . $orden_tipo;
+            break;
+        case 4:
+            $orden = 'gv.fecha_emision ' . $orden_tipo;
+            break;
+        case 5:
+            $orden = 'gv.fecha_inicio_traslado ' . $orden_tipo;
+            break;
+        case 6:
+            $orden = 'cl.razon_social' . $orden_tipo;
+            break;
+        case 7:
+            $orden = 'es.nombre ' . $orden_tipo;
+            break;
+
+        default:
+            $orden = 'gv.ID ' . $orden_tipo;
+            break;
+    }
+    $filtro="gv.empresa_ID=".$_SESSION['empresa_ID'] ." and gv.cliente_ID is not null";
+    if($opcion_tipo=="buscar"){
+        if(trim($periodo)!=""){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro.="year(gv.fecha_emision)=". $periodo;
+        }
+        if(trim($numero)!=""){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro.="gv.numero=".$numero;
+        }
+
+    }else {
+
+        if($cliente_ID!=0){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+        $filtro.="gv.cliente_ID=".$cliente_ID ;
+        }
+        if($estado_ID!=0){
+            if($filtro!=""){
+                $filtro.=" and ";
+            }
+            $filtro.="gv.estado_ID=".$estado_ID;
+        }
+        if($todos==0){
+            if($fecha_inicio!="" &&$fecha_fin!="" ){
+                if($filtro!=""){
+                    $filtro.=" and ";
+                }
+                $filtro.=" gv.fecha_emision between '".FormatTextToDate($fecha_inicio,'Y-m-d')."' and '".FormatTextToDate($fecha_fin,'Y-m-d')."'" ;
+
+
+            }
+        }
+
+        
+    }
+    //echo $filtro;
+    // $filtro.= 'upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+
+    //---------------------------------------
+    
+    try {
+        $cantidadMaxima = count(guia_venta::getTabla($filtro));
+        $dt = guia_venta::getTabla($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+       $array_cabecera=array(
+           array("cabecera"=>'N°',"class_alineado"=>'text-center',"campo"=>'ID'),
+           array("cabecera"=>'Serie',"class_alineado"=>'text-center',"campo"=>'serie'),
+           array("cabecera"=>'Numero',"class_alineado"=>'text-center',"campo"=>'numero'),
+           array("cabecera"=>'Fecha',"class_alineado"=>'text-center',"campo"=>'fecha_emision'),
+           array("cabecera"=>'Fecha tras.',"class_alineado"=>'text-center',"campo"=>'fecha_inicio_traslado'),
+           array("cabecera"=>'Cliente',"class_alineado"=>'text-left',"campo"=>'razon_social'),
+            array("cabecera"=>'Estado',"class_alineado"=>'text-center',"campo"=>'estado'),
+        );
+       $botones=array(
+           array('nombre'=>'Editar','titulo'=>'Editar','funcion'=>'fncEditar','campo'=>'ID','imagen'=>'<img title="Editar" src="/include/img/boton/edit_14x14.png"/>'),
+           //array('nombre'=>'Eliminar','titulo'=>'Eliminar','funcion'=>'fncEliminar','campo'=>'ID','imagen'=>'<img title="Eliminar" src="/include/img/boton/delete_14x14.png" />')
+       );
+        $mensaje = '';
+        $resultado=Grilla_Mantenimiento($array_cabecera,$txtOrden,$orden_class,1,$dt,$botones,$cantidadMaxima,$cantidadMostrar,$paginaActual);
+
+       
+        } catch (Exception $ex) {
+            log_error(__FILE__,"salida/post_ajaxGuia_Remision_Mantenimiento",$ex->getMessage());
+         $mensaje = mensaje_error;
+    }
+   
+   
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    
+
+    echo json_encode($retornar);
+}
+
+function get_Guia_Venta_Mantenimiento_Nuevo(){
+        require ROOT_PATH . 'models/factura_venta.php';
+        require ROOT_PATH . 'models/guia_venta.php';
+        require ROOT_PATH . 'models/moneda.php';
+        require ROOT_PATH . 'models/vehiculo.php';
+        require ROOT_PATH . 'models/chofer.php';
+        require ROOT_PATH . 'models/correlativos.php';
+        require ROOT_PATH . 'models/cliente.php';
+        require ROOT_PATH . 'models/salida.php';
+        require ROOT_PATH . 'models/departamento.php';
+        require ROOT_PATH . 'models/provincia.php';
+        require ROOT_PATH . 'models/distrito.php';
+        require ROOT_PATH . 'models/motivo_traslado.php';
+        require ROOT_PATH . 'models/modalidad_traslado.php';
+        require ROOT_PATH . 'models/tipo_comprobante.php';
+        require ROOT_PATH . 'models/salida_detalle.php';
+        global  $returnView_float;
+        $returnView_float=true;
+        $comprobante_tipo_ID=5;
+        $oGuia_Venta=new guia_venta();
+        
+        try{
+            $osalida=new salida();
+            $oCliente=new cliente();
+            $oGuia_Venta->ID=0;
+            
+            $oCorrelativos=correlativos::getByID(correlativos_ID_guia_electronico);
+            $series=tipo_comprobante::getComprobantes(1, "guia_remision", correlativos_ID_guia_electronico,0,"series");
+          
+            $oGuia_Venta->dtSerie=$series;
+            $oGuia_Venta->dtVehiculo=vehiculo::getGrid('',-1,-1,'descripcion asc');
+            $oGuia_Venta->dtChofer=chofer::getGrid('',-1,-1,'pe.apellido_paterno asc, pe.apellido_materno asc, pe.nombres asc');
+            $dtPartida=distrito::getUbigeo(0,$_SESSION['empresa_ID'],-1);
+          
+            $dtDpto=departamento::getOpciones($dtPartida[0]["departamento_ID"]);
+             
+            $oGuia_Venta->dtDepartamento=$dtDpto;
+           
+            $oGuia_Venta->dtProvincia=provincia::getOpciones($dtPartida[0]["provincia_ID"],$dtPartida[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito=distrito::getOpciones($dtPartida[0]["ID"],$dtPartida[0]["provincia_ID"]); 
+            $oGuia_Venta->punto_partida=substr($dtPartida[0]["direccion"],0,100);
+            $oGuia_Venta->dtMotivo_Traslado=motivo_traslado::getGrid("ID in (1,2)");
+            $oGuia_Venta->dtModalidad_Traslado=modalidad_traslado::getGrid();
+            
+            $oGuia_Venta->peso_bruto_total=0;
+            
+            $oGuia_Venta->dtDepartamento_llegada=departamento::getOpciones(departamento_ID_default);
+            $oGuia_Venta->dtProvincia_llegada=provincia::getOpciones(provincia_ID_default,departamento_ID_default);
+            $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones(distrito_ID_default,provincia_ID_default); 
+            $numero=correlativos::getNumero(correlativos_ID_guia_electronico);
+            $oGuia_Venta->numero_concatenado=sprintf("%'.07d",$numero);
+            $oGuia_Venta->cliente_ID=0;
+            $oGuia_Venta->oCliente=$oCliente;
+           
+            
+//$oGuia_Venta->dtSerie=$dtSerie;
+        }catch(Exception $ex){
+            log_error(__FILE__, "salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo", $ex->getMessage());
+        }
+        $data_table=array();
+        $GLOBALS['data_table']=$data_table;
+        $GLOBALS['oGuia_Venta']=$oGuia_Venta;
+       
+    }
+function post_Guia_Venta_Mantenimiento_Nuevo(){
+
+        require ROOT_PATH . 'models/guia_venta.php';
+        require ROOT_PATH . 'models/moneda.php';
+        require ROOT_PATH . 'models/vehiculo.php';
+        require ROOT_PATH . 'models/chofer.php';
+        require ROOT_PATH . 'models/correlativos.php';
+        require ROOT_PATH . 'models/cliente.php';
+       
+        require ROOT_PATH . 'models/departamento.php';
+        require ROOT_PATH . 'models/provincia.php';
+        require ROOT_PATH . 'models/distrito.php';
+        require ROOT_PATH . 'models/motivo_traslado.php';
+        require ROOT_PATH . 'models/modalidad_traslado.php';
+        require ROOT_PATH . 'models/tipo_comprobante.php';
+        require ROOT_PATH . 'models/guia_venta_detalle.php';
+        
+        global  $returnView_float;
+        $returnView_float=true;
+        $ID=$_POST['ID'];
+        
+        $correlativos_ID=$_POST['selSerie'];
+        $cliente_ID=$_POST['cliente_ID'];
+        $fecha_emision=$_POST['txtFecha_Emision'];
+        $peso_bruto_total=$_POST['txtPeso_Bruto_Total'];
+        $numero_orden_compra=$_POST['txtNumero_Orden_Compra'];
+        $numero_orden_venta=$_POST['txtNumero_Orden_Venta'];
+        $observacion=$_POST['txtObservacion'];
+ 
+        $estado_ID=97;
+        $fecha_inicio_traslado=$_POST['txtFecha_Inicio_Traslado'];
+        $distrito_ID_partida=$_POST['selDistrito_Partida'];
+        $punto_partida=  $_POST['txtPunto_Partida'];
+        $distrito_ID_llegada=$_POST['selDistrito_LLegada'];
+        $punto_llegada=$_POST['txtPunto_Llegada'];
+        $motivo_traslado_ID=$_POST['selMotivo_Traslado'];
+        $descripcion_motivo=$_POST['txtDescripcion_Motivo'];
+        $modalidad_traslado_ID=$_POST['selModalidad_Traslado'];
+        $vehiculo_ID=$_POST['selVehiculo_ID'];
+        $chofer_ID=$_POST['selChofer_ID'];
+        $ruc_transportista=$_POST['txtRuc_Empresa_Transporte'];
+        
+        $razon_social_transportista=$_POST['txtEmpresa_Transporte'];
+        $nro_placa_vehiculo=$_POST['txtPlaca_Vehiculo'];
+        $nro_documento_conductor=$_POST['txtDNI_Conductor'];
+        $data_table=json_decode($_POST['data_table'], true);
+        $oCliente=new cliente();
+        try{
+                /*if($ID>0){
+                    $oGuia_Venta=guia_venta::getByID($ID);
+                }else{
+                    
+                }*/
+                $oGuia_Venta=new guia_venta();
+                $oGuia_Venta->cliente_ID=$cliente_ID;
+                $oGuia_Venta->fecha_emision=$fecha_emision;
+                $oGuia_Venta->numero_orden_compra=$numero_orden_compra;
+                $oGuia_Venta->numero_orden_venta=$numero_orden_venta;
+                $oGuia_Venta->vehiculo_ID=$vehiculo_ID;
+                $oGuia_Venta->chofer_ID=$chofer_ID;
+                $oGuia_Venta->estado_ID=$estado_ID;
+                $oGuia_Venta->observacion=$observacion;
+                $oGuia_Venta->fecha_inicio_traslado=$fecha_inicio_traslado;
+                $oGuia_Venta->punto_partida=$punto_partida;
+                $oGuia_Venta->punto_llegada=$punto_llegada;
+                $oGuia_Venta->empresa_transporte=$razon_social_transportista;
+                
+                $oGuia_Venta->correlativos_ID=$correlativos_ID;
+               
+                $oGuia_Venta->motivo_traslado_ID=$motivo_traslado_ID;
+                $oGuia_Venta->descripcion_motivo=$descripcion_motivo;
+                $oGuia_Venta->peso_bruto_total=$peso_bruto_total;
+                $oGuia_Venta->modalidad_traslado_ID=$modalidad_traslado_ID;
+                $oGuia_Venta->ruc_transportista=$ruc_transportista;
+                $oGuia_Venta->razon_social_transportista=$razon_social_transportista;
+                $oGuia_Venta->nro_placa_vehiculo=$nro_placa_vehiculo;
+                $oGuia_Venta->nro_documento_conductor=$nro_documento_conductor;
+                $oGuia_Venta->distrito_ID_partida=$distrito_ID_partida;
+                $oGuia_Venta->distrito_ID_llegada=$distrito_ID_llegada;
+                $oCliente=cliente::getByID($oGuia_Venta->cliente_ID);
+                
+                if($ID>0){
+                    
+                    $oGuia_Venta->actualizar();
+                }else{
+                    $oGuia_Venta->insertar_guia();
+                    
+                }
+                foreach($data_table as $item){
+                    $oGuia_Venta_Detalle=new guia_venta_detalle();
+                    $oGuia_Venta_Detalle->ID=$item['ID'];
+                    $oGuia_Venta_Detalle->guia_venta_ID=$oGuia_Venta->ID;
+                    $oGuia_Venta_Detalle->producto_ID=$item['producto_ID'];
+                    $oGuia_Venta_Detalle->descripcion=$item['descripcion'];
+                    $oGuia_Venta_Detalle->cantidad=$item['cantidad'];
+                    $oGuia_Venta_Detalle->peso=$item['peso'];
+                    $oGuia_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                    $oGuia_Venta_Detalle->registrar($item['opcion']);
+                }
+            $mensaje=$oGuia_Venta->getMessage;
+            $resultado=1;
+           
+            $oGuia_Venta->dtVehiculo=vehiculo::getGrid('',-1,-1,'descripcion asc');
+            $oGuia_Venta->dtChofer=chofer::getGrid('',-1,-1,'pe.apellido_paterno asc, pe.apellido_materno asc, pe.nombres asc');
+            $dtPartida=distrito::getUbigeo(0,$_SESSION['empresa_ID'],-1);
+            $oGuia_Venta->dtDepartamento=departamento::getOpciones($dtPartida[0]["departamento_ID"]);
+            $oGuia_Venta->dtProvincia=provincia::getOpciones($dtPartida[0]["provincia_ID"],$dtPartida[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito=distrito::getOpciones($dtPartida[0]["ID"],$dtPartida[0]["provincia_ID"]); 
+            $oGuia_Venta->punto_partida=$dtPartida[0]["direccion"];
+            $oGuia_Venta->dtMotivo_Traslado=motivo_traslado::getGrid("ID in (1,2)");
+            $oGuia_Venta->dtModalidad_Traslado=modalidad_traslado::getGrid();
+            
+           
+            $dtLlegada=distrito::getUbigeo(0,-1,$oGuia_Venta->cliente_ID);
+            $oGuia_Venta->dtDepartamento_llegada=departamento::getOpciones($dtLlegada[0]["departamento_ID"]);
+            $oGuia_Venta->dtProvincia_llegada=provincia::getOpciones($dtLlegada[0]["provincia_ID"],$dtLlegada[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones($dtLlegada[0]["ID"],$dtLlegada[0]["provincia_ID"]); 
+            $oGuia_Venta->punto_llegada=$dtLlegada[0]["direccion"];
+            
+            
+        }catch(Exception $ex){
+          $resultado=-1;
+          $mensaje=$ex->getMessage();
+        }
+        $oCorrelativos=correlativos::getByID(correlativos_ID_guia_electronico);
+        $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes(1, "guia_remision", $correlativos_ID,0,"series");   
+        $oGuia_Venta->oCliente=$oCliente;     
+       $GLOBALS['data_table']=json_encode($data_table);
+        $GLOBALS['oGuia_Venta']=$oGuia_Venta;
+        $GLOBALS['mensaje']=$mensaje;
+        $GLOBALS['resultado']=$resultado;
+}
+function get_Guia_Venta_Mantenimiento_Editar($ID){
+        
+        require ROOT_PATH . 'models/guia_venta.php';
+        require ROOT_PATH . 'models/guia_venta_detalle.php';
+        require ROOT_PATH . 'models/moneda.php';
+        require ROOT_PATH . 'models/vehiculo.php';
+        require ROOT_PATH . 'models/chofer.php';
+        require ROOT_PATH . 'models/correlativos.php';
+        require ROOT_PATH . 'models/cliente.php';
+        
+        require ROOT_PATH . 'models/departamento.php';
+        require ROOT_PATH . 'models/provincia.php';
+        require ROOT_PATH . 'models/distrito.php';
+        require ROOT_PATH . 'models/motivo_traslado.php';
+        require ROOT_PATH . 'models/modalidad_traslado.php';
+        require ROOT_PATH . 'models/tipo_comprobante.php';
+        require ROOT_PATH . 'models/salida_detalle.php';
+        global  $returnView_float;
+        $returnView_float=true;
+        $comprobante_tipo_ID=5;
+        $oGuia_Venta=new guia_venta();
+        $data_table=array();
+        try{
+            $oGuia_Venta=guia_venta::getByIDInd($ID);
+            $oCliente=cliente::getByID($oGuia_Venta->cliente_ID);
+            $oGuia_Venta->oCliente=$oCliente;
+            $data_table=guia_venta_detalle::getDetalle($ID);
+            //print_r($data_table);
+            $oCorrelativos=correlativos::getByID($oGuia_Venta->correlativos_ID);
+            $series=tipo_comprobante::getComprobantes(1, "guia_remision", $oGuia_Venta->correlativos_ID,0,"series");
+          
+            $oGuia_Venta->dtSerie=$series;
+            $oGuia_Venta->dtVehiculo=vehiculo::getGrid('',-1,-1,'descripcion asc');
+            $oGuia_Venta->dtChofer=chofer::getGrid('',-1,-1,'pe.apellido_paterno asc, pe.apellido_materno asc, pe.nombres asc');
+            $dtPartida=distrito::getUbigeo($oGuia_Venta->distrito_ID_partida,-1,-1);
+          
+            $dtDpto=departamento::getOpciones($dtPartida[0]["departamento_ID"]);
+             
+            $oGuia_Venta->dtDepartamento=$dtDpto;
+           
+            $oGuia_Venta->dtProvincia=provincia::getOpciones($dtPartida[0]["provincia_ID"],$dtPartida[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito=distrito::getOpciones($dtPartida[0]["ID"],$dtPartida[0]["provincia_ID"]); 
+        
+            $oGuia_Venta->dtMotivo_Traslado=motivo_traslado::getGrid("ID in (1,2)");
+            $oGuia_Venta->dtModalidad_Traslado=modalidad_traslado::getGrid();
+            
+            $dtLLegada=distrito::getUbigeo($oGuia_Venta->distrito_ID_llegada,-1,-1);
+          
+            $oGuia_Venta->dtDepartamento_llegada=departamento::getOpciones($dtLLegada[0]["departamento_ID"]);
+            $oGuia_Venta->dtProvincia_llegada=provincia::getOpciones($dtLLegada[0]["provincia_ID"],$dtLLegada[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones($dtLLegada[0]["ID"],$dtLLegada[0]["provincia_ID"]); 
+          
+        }catch(Exception $ex){
+            log_error(__FILE__, "salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo", $ex->getMessage());
+        }
+        
+        $GLOBALS['data_table']=json_encode($data_table);
+        $GLOBALS['oGuia_Venta']=$oGuia_Venta;
+       
+    }
+function post_Guia_Venta_Mantenimiento_Editar($ID){
+
+        require ROOT_PATH . 'models/guia_venta.php';
+        require ROOT_PATH . 'models/moneda.php';
+        require ROOT_PATH . 'models/vehiculo.php';
+        require ROOT_PATH . 'models/chofer.php';
+        require ROOT_PATH . 'models/correlativos.php';
+        require ROOT_PATH . 'models/cliente.php';
+       
+        require ROOT_PATH . 'models/departamento.php';
+        require ROOT_PATH . 'models/provincia.php';
+        require ROOT_PATH . 'models/distrito.php';
+        require ROOT_PATH . 'models/motivo_traslado.php';
+        require ROOT_PATH . 'models/modalidad_traslado.php';
+        require ROOT_PATH . 'models/tipo_comprobante.php';
+        require ROOT_PATH . 'models/guia_venta_detalle.php';
+        
+        global  $returnView_float;
+        $returnView_float=true;
+        
+        
+        $correlativos_ID=$_POST['selSerie'];
+        $cliente_ID=$_POST['cliente_ID'];
+        $fecha_emision=$_POST['txtFecha_Emision'];
+        $peso_bruto_total=$_POST['txtPeso_Bruto_Total'];
+        $numero_orden_compra=$_POST['txtNumero_Orden_Compra'];
+        $numero_orden_venta=$_POST['txtNumero_Orden_Venta'];
+        $observacion=$_POST['txtObservacion'];
+ 
+        //$estado_ID=97;
+        $fecha_inicio_traslado=$_POST['txtFecha_Inicio_Traslado'];
+        $distrito_ID_partida=$_POST['selDistrito_Partida'];
+        $punto_partida=  $_POST['txtPunto_Partida'];
+        $distrito_ID_llegada=$_POST['selDistrito_LLegada'];
+        $punto_llegada=$_POST['txtPunto_Llegada'];
+        $motivo_traslado_ID=$_POST['selMotivo_Traslado'];
+        $descripcion_motivo=$_POST['txtDescripcion_Motivo'];
+        $modalidad_traslado_ID=$_POST['selModalidad_Traslado'];
+        $vehiculo_ID=$_POST['selVehiculo_ID'];
+        $chofer_ID=$_POST['selChofer_ID'];
+        $ruc_transportista=$_POST['txtRuc_Empresa_Transporte'];
+        
+        $razon_social_transportista=$_POST['txtEmpresa_Transporte'];
+        $nro_placa_vehiculo=$_POST['txtPlaca_Vehiculo'];
+        $nro_documento_conductor=$_POST['txtDNI_Conductor'];
+        $data_table=json_decode($_POST['data_table'], true);
+        
+        $oGuia_Venta=new guia_venta();
+        try{
+                $oGuia_Venta=guia_venta::getByIDInd($ID);
+                if($oGuia_Venta==null){
+                    throw new Exception("No existe el registro.");
+                }
+                
+                
+                
+                $oCliente=cliente::getByID($cliente_ID);
+                if($oCliente==null){
+                    throw new Exception("No existe el cliente.");
+                }
+                $oGuia_Venta->cliente_ID=$cliente_ID;
+                $oGuia_Venta->fecha_emision=$fecha_emision;
+                $oGuia_Venta->numero_orden_compra=$numero_orden_compra;
+                $oGuia_Venta->numero_orden_venta=$numero_orden_venta;
+                $oGuia_Venta->vehiculo_ID=$vehiculo_ID;
+                $oGuia_Venta->chofer_ID=$chofer_ID;
+                //$oGuia_Venta->estado_ID=$estado_ID;
+                $oGuia_Venta->observacion=$observacion;
+                $oGuia_Venta->fecha_inicio_traslado=$fecha_inicio_traslado;
+                $oGuia_Venta->punto_partida=$punto_partida;
+                $oGuia_Venta->punto_llegada=$punto_llegada;
+                $oGuia_Venta->empresa_transporte=$razon_social_transportista;
+                
+                $oGuia_Venta->correlativos_ID=$correlativos_ID;
+               
+                $oGuia_Venta->motivo_traslado_ID=$motivo_traslado_ID;
+                $oGuia_Venta->descripcion_motivo=$descripcion_motivo;
+                $oGuia_Venta->peso_bruto_total=$peso_bruto_total;
+                $oGuia_Venta->modalidad_traslado_ID=$modalidad_traslado_ID;
+                $oGuia_Venta->ruc_transportista=$ruc_transportista;
+                $oGuia_Venta->razon_social_transportista=$razon_social_transportista;
+                $oGuia_Venta->nro_placa_vehiculo=$nro_placa_vehiculo;
+                $oGuia_Venta->nro_documento_conductor=$nro_documento_conductor;
+                $oGuia_Venta->distrito_ID_partida=$distrito_ID_partida;
+                $oGuia_Venta->distrito_ID_llegada=$distrito_ID_llegada;
+                
+                $oGuia_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+                $oGuia_Venta->actualizar_guia();
+                //print_r($data_table);
+                foreach($data_table as $item){
+                    $oGuia_Venta_Detalle=new guia_venta_detalle();
+                    $oGuia_Venta_Detalle->ID=$item['ID'];
+                    $oGuia_Venta_Detalle->guia_venta_ID=$oGuia_Venta->ID;
+                    $oGuia_Venta_Detalle->producto_ID=$item['producto_ID'];
+                    $oGuia_Venta_Detalle->descripcion=$item['descripcion'];
+                    $oGuia_Venta_Detalle->cantidad=$item['cantidad'];
+                    $oGuia_Venta_Detalle->peso=$item['peso'];
+                    $oGuia_Venta_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                    $oGuia_Venta_Detalle->registrar($item['opcion']);
+                }
+            $mensaje=$oGuia_Venta->getMessage;
+            $resultado=1;
+           
+            $oGuia_Venta->dtVehiculo=vehiculo::getGrid('',-1,-1,'descripcion asc');
+            $oGuia_Venta->dtChofer=chofer::getGrid('',-1,-1,'pe.apellido_paterno asc, pe.apellido_materno asc, pe.nombres asc');
+            $dtPartida=distrito::getUbigeo($distrito_ID_partida,-1,-1);
+            $oGuia_Venta->dtDepartamento=departamento::getOpciones($dtPartida[0]["departamento_ID"]);
+            $oGuia_Venta->dtProvincia=provincia::getOpciones($dtPartida[0]["provincia_ID"],$dtPartida[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito=distrito::getOpciones($dtPartida[0]["ID"],$dtPartida[0]["provincia_ID"]); 
+            
+            $oGuia_Venta->dtMotivo_Traslado=motivo_traslado::getGrid("ID in (1,2)");
+            $oGuia_Venta->dtModalidad_Traslado=modalidad_traslado::getGrid();
+            
+           
+            $dtLlegada=distrito::getUbigeo($distrito_ID_llegada,-1,-1);
+            $oGuia_Venta->dtDepartamento_llegada=departamento::getOpciones($dtLlegada[0]["departamento_ID"]);
+            $oGuia_Venta->dtProvincia_llegada=provincia::getOpciones($dtLlegada[0]["provincia_ID"],$dtLlegada[0]["departamento_ID"]);
+            $oGuia_Venta->dtDistrito_llegada=distrito::getOpciones($dtLlegada[0]["ID"],$dtLlegada[0]["provincia_ID"]); 
+            
+            
+        }catch(Exception $ex){
+          $resultado=-1;
+          $mensaje=$ex->getMessage();
+        }
+        
+        $oGuia_Venta->dtSerie=tipo_comprobante::getComprobantes(1, "guia_remision", $oGuia_Venta->correlativos_ID,0,"series");
+        $oGuia_Venta->oCliente=$oCliente;     
+       $GLOBALS['data_table']=json_encode($data_table);
+        $GLOBALS['oGuia_Venta']=$oGuia_Venta;
+        $GLOBALS['mensaje']=$mensaje;
+        $GLOBALS['resultado']=$resultado;
+}
+function get_Guia_Venta_Mantenimiento_Producto(){
+        
+        global  $returnView_float;
+        $returnView_float=true;
+	
+    }
+function post_Guia_Venta_Mantenimiento_Producto(){
+        require ROOT_PATH.'models/cotizacion.php';
+   
+        global  $returnView_float;
+        $returnView_float=true;
+	$producto_ID=$_POST['txtProducto_ID'];
+        $producto=$_POST['listaProductos'];
+        $description=FormatTextXML(str_replace('"','&#34;',str_replace("'","&#39;",$_POST['txtDescripcion'])));
+        $cantidad=$_POST['txtCantidad'];
+        $peso=$_POST['txtPeso'];
+        $codigo=$_POST['txtCodigo'];
+        $unidad_medida=$_POST['txtUnidad_Medida'];
+        $array=array(
+            "ID"=>0,
+            "codigo"=>$codigo,
+            "producto_ID"=>$producto_ID,
+            "producto"=>$producto,
+            "descripcion"=>$description,
+            "cantidad"=>$cantidad,
+            "unidad_medida"=>$unidad_medida,
+            "peso"=>$peso,
+            "opcion"=>"insert"
+        );
+        $GLOBALS['array']=$array;
+        $GLOBALS['resultado']=1;
+        $GLOBALS['mensaje']="Se agregó correctamente";
+    }
+    function get_Guia_Venta_DescargarPDF($id){
+
+    require ROOT_PATH.'models/guia_venta.php';
+    require ROOT_PATH.'models/guia_venta_sunat.php';
+    require ROOT_PATH.'formatos_pdf/guia_venta_pdf_vistaprevia.php';
+    global $returnView_float;
+    $returnView_float=true;
+    $pdf= new PDF2('P','mm',array(216,279));
+    try{
+        $dtCabecera=guia_venta::getVistaDescargaInd($id,"cabecera");
+        //print_r($dtCabecera);
+        $dtDetalle=guia_venta::getVistaDescargaInd($id,"detalle");
+        //print_r($dtDetalle);
+        $electronico=1;
+        $numero_pagina=1;
+        $numero=$dtCabecera[0]['numero_concatenado'];
+        $pdf->AddPage();
+        $hash="";
+             $dtGv=guia_venta_sunat::getGrid("guia_venta_ID=".$id,-1,-1,'ID desc');
+             if(count($dtGv)>0){
+                 $hash=$dtGv[0]['hash'];
+             }
+        $pdf->hash=$hash;
+        $pdf->cabecera=$dtCabecera;
+        $pdf->numero=$numero;
+        $pdf->electronico=$electronico;
+        $pdf->cabecera_header();
+        $pdf->contenedor_detalle(130);
+        $pdf->SetWidths(array(20,120,25,35));
+        $pdf->SetAligns(array('C','L','C','C'));
+
+        $pdf->contenido_detalle($dtDetalle);
+
+    }catch(Exception $ex){
+        log_error(__FILE__, "salidaController.get_Factura_Vista_PreviaPDF",$ex);
+        $GLOBALS['error']=$ex->getMessage();
+    }
+
+    $pdf->Output('D',$dtCabecera[0]['tipo_comprobante'].' Nro'.$dtCabecera[0]['serie'].$dtCabecera[0]['numero_concatenado'].'.pdf',true);
+           
+       
+    }
+function post_ajaxEnviarGuiaIndividualSUNAT() {
+
+    require ROOT_PATH.'models/guia_venta_sunat.php';
+    
+    require ROOT_PATH.'models/guia_venta.php';
+   
+    //require ROOT_PATH.'include/lib_fecha_texto.php';
+    //require_once('include/URL_API.php');
+    require ROOT_PATH.'include/facturacion_electronica/transaccion_documentos.php';
+    ///$new = new api_SUNAT();
+    $id=$_POST['id'];
+
+    //$oSalida=salida::getByID($id);
+    $transacion = new transaccion_documentos();
+    try {
+        $oGuia_Venta=guia_venta::getGuia_Venta_SUNAT($id,"cabecera");
+        if (count($oGuia_Venta)==0) {
+            throw new Exception("No existe la factura.");
+        }
+       
+        $oGuia_Venta_Detalle=guia_venta::getGuia_Venta_SUNAT($id,"detalle");
+        //print_r($oGuia_Venta_Detalle);
+        if(count($oGuia_Venta_Detalle)==0){
+            throw new Exception("La guía no tiene detalles.");
+        }
+         
+        $DocumentoDetalle = array();
+        $Discrepancias = array();
+        $DocumentoRelacionado = array();
+     
+        foreach($oGuia_Venta_Detalle as $item){
+            $DocumentoDetalle[] = array (
+                'Correlativo' => $item['Correlativo'],
+                'CodigoItem' => $item['CodigoItem'],
+                'Descripcion' =>utf8_encode(FormatTextXML(substr(trim($item['Descripcion']),0,250))),
+                'UnidadMedida' =>($item['UnidadMedida']=="")?"NIU":$item['UnidadMedida'],
+                'Cantidad' => $item['Cantidad'],
+                'LineaReferencia' => $item['LineaReferencia']
+            ); 
+        }
+        $data = array (
+            'IdDocumento' => $oGuia_Venta[0]['IdDocumento'],
+            'FechaEmision' =>$oGuia_Venta[0]['FechaEmision'],
+            'HoraEmision' =>date("H:i:s"),
+            'TipoDocumento'=>$oGuia_Venta[0]['TipoDocumento'],
+            'Observacion'=>FormatTextXML(trim($oGuia_Venta[0]['Observacion'])),
+            'Glosa'=>$oGuia_Venta[0]['Glosa'],
+            'Remitente'=>array(
+                'NroDocumento'=>$oGuia_Venta[0]['Remitente_NroDocumento'],
+                'TipoDocumento'=>$oGuia_Venta[0]['Remitente_TipoDocumento'],
+                'NombreLegal'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_NombreLegal'])),
+                'NombreComercial'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_NombreComercial'])),
+                'Ubigeo'=>$oGuia_Venta[0]['Remitente_Ubigeo'],
+                'Direccion'=>FormatTextXML($oGuia_Venta[0]['Remitente_Direccion']),
+                'Urbanizacion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Remitente_Urbanizacion'])),
+                'Departamento'=>$oGuia_Venta[0]['Remitente_Departamento'],
+                'Provincia'=>$oGuia_Venta[0]['Remitente_Provincia'],
+                'Distrito'=>$oGuia_Venta[0]['Remitente_Distrito']
+            ),
+            'Destinatario'=>array(
+                'NroDocumento'=>$oGuia_Venta[0]['Destinatario_NroDocumento'],
+                'TipoDocumento'=>$oGuia_Venta[0]['Destinatario_TipoDocumento'],
+                'NombreLegal'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_NombreLegal'])),
+                'NombreComercial'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_NombreComercial'])),
+                'Ubigeo'=>$oGuia_Venta[0]['Destinatario_Ubigeo'],
+                'Direccion'=>FormatTextXML($oGuia_Venta[0]['Destinatario_Direccion']),
+                'Urbanizacion'=>utf8_encode(FormatTextXML($oGuia_Venta[0]['Destinatario_Urbanizacion'])),
+                'Departamento'=>$oGuia_Venta[0]['Destinatario_Departamento'],
+                'Provincia'=>$oGuia_Venta[0]['Destinatario_Provincia'],
+                'Distrito'=>$oGuia_Venta[0]['Destinatario_Distrito']
+            ),
+            'Proveedor'=>array(
+                'NroDocumento'=>'',
+                'TipoDocumento'=>'',
+                'NombreLegal'=>''
+                
+            ),
+            'DocumentoReferenciaBaja'=>array(
+                'NroDocumento'=>'',
+                'TipoDocumento'=>'',
+                'Descripcion'=>''
+            ),
+            'DocumentoRelacionado'=>array(
+                'NroDocumento'=>'',
+                'TipoDocumento'=>''
+            ),           
+            'CodigoMotivoTraslado'=>$oGuia_Venta[0]['CodigoMotivoTraslado'],
+            'DescripcionMotivo'=>utf8_decode(FormatTextXML(trim($oGuia_Venta[0]['DescripcionMotivo']))),//'Venta interna de productos',
+            'Transbordo'=>'0',
+            'PesoBrutoTotal'=>$oGuia_Venta[0]['PesoBrutoTotal'],
+            'UnidadMedida'=>'KGM',
+            'NroPallets'=>1,
+            'ModalidadTraslado'=>$oGuia_Venta[0]['ModalidadTraslado'],
+            'FechaInicioTraslado'=>$oGuia_Venta[0]['FechaInicioTraslado'],
+            'RucTransportista'=>$oGuia_Venta[0]['RucTransportista'],
+            'RazonSocialTransportista'=>(FormatTextXML($oGuia_Venta[0]['RazonSocialTransportista'])),//$oGuia_Venta[0]['RazonSocialTransportista'],
+            'NroPlacaVehiculo'=>$oGuia_Venta[0]['NroPlacaVehiculo'],
+            'NroDocumentoConductor'=>$oGuia_Venta[0]['NroDocumentoConductor'],
+            'NroPlacaVehiculoSecundario'=>'',
+            'DireccionPartida'=>array(
+                'Ubigeo'=>$oGuia_Venta[0]['DireccionPartida_Ubigeo'],
+                'DireccionCompleta'=>FormatTextXML(substr(trim($oGuia_Venta[0]['DireccionPartida_DireccionCompleta']),0,99))
+            ),
+            'DireccionLlegada'=>array(
+                'Ubigeo'=>$oGuia_Venta[0]['DireccionLlegada_Ubigeo'],
+                'DireccionCompleta'=>FormatTextXML(substr(trim($oGuia_Venta[0]['DireccionLlegada_DireccionCompleta']),0,99))
+            ),
+            'NumeroContenedor'=>$oGuia_Venta[0]['NumeroContenedor'],
+            'CodigoPuerto'=>$oGuia_Venta[0]['CodigoPuerto'],
+            'DescripcionPuerto'=>'',
+            'BienesATransportar'=>$DocumentoDetalle
+        );
+       
+        $transacion->array_documento=$data;
+        $transacion->documento="guia_venta";
+        $ruta=$transacion->generar_xml();
+        if($ruta!=""){
+            $ruta_xml_firmado=$transacion->firmar_documento($ruta,"guiaremision");
+            if($ruta_xml_firmado!=""){
+                $transacion->enviar_documento_sunat($ruta_xml_firmado,"guiaremision",'sendbill');
+                if($transacion->error==1){
+                    $resultado=-1;
+                    $mensaje=utf8_encode($transacion->observacion);
+                }else{
+                    $string=file_get_contents($ruta_xml_firmado);
+                    $trama_firmado=base64_encode($string);
+                    $oGuia_Venta_Sunat=new guia_venta_sunat();
+                    $oGuia_Venta_Sunat->guia_venta_ID=$id;
+                    $oGuia_Venta_Sunat->fecha_generacion=date('Y-m-d');
+                    $oGuia_Venta_Sunat->fecha_respuesta=$transacion->fecha_resultado;
+                    $oGuia_Venta_Sunat->nombre_archivo=$transacion->nombre_documento;
+                    $oGuia_Venta_Sunat->xml_firmado=$trama_firmado;
+                    $oGuia_Venta_Sunat->hash=$transacion->codigo_hash;
+                    $oGuia_Venta_Sunat->representacion_impresa="";
+                    $oGuia_Venta_Sunat->estado_envio=1;
+                    $oGuia_Venta_Sunat->codigo_estado=$transacion->codigo_estado;
+                    $oGuia_Venta_Sunat->descripcion_estado=$transacion->descripcion_estado;
+                    $oGuia_Venta_Sunat->cdr_sunat=$transacion->cdr_sunat;
+                    $oGuia_Venta_Sunat->observacion=$transacion->observacion;
+                    $oGuia_Venta_Sunat->usuario_id=$_SESSION['usuario_ID'];
+                    $oGuia_Venta_Sunat->insertar();
+                    $obj=guia_venta::getByID($id);
+                    $obj->estado_ID=98;
+                    $obj->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $obj->actualizar();
+                    $resultado=1;
+                    $mensaje=utf8_encode($transacion->descripcion_estado);
+                }
+                
+                
+            }else{
+                $resultado=-1;
+                $mensaje="No se firmó ningún documento";
+            }
+            //echo $ruta_xml_firmado;
+            
+        }else{
+            $resultado=-1;
+            $mensaje="No se creó el archivo XML";
+        }
+        
+    } catch (Exception $ex) {
+        $resultado=-1;
+        log_error(__FILE__,"salidaController.post_ajaxEnviarSUNAT",$ex->getMessage());
+        $mensaje=utf8_encode(mensaje_error);
+
+    }
+
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+   
+
+    echo json_encode($retornar);
+}
+
+ function get_Orden_Venta_Mantenimiento_Importar_Guia($ID){
+
+        //require ROOT_PATH.'models/salida.php';
+        global  $returnView_float;
+        $returnView_float=true;
+        $GLOBALS['tipo_ID']=$ID;
+    }
+function post_ajaxOrden_Venta_Mantenimiento_Importar_Guia() {
+    require ROOT_PATH . 'models/guia_venta.php';
+    require ROOT_PATH . 'models/moneda.php';
+    require ROOT_PATH . 'models/estado.php';
+    require ROOT_PATH . 'controls/funcionController.php';
+    $buscar = $_POST['txtBuscar'];
+    $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
+    $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
+    $txtOrden = $_POST['txtOrden'];
+    $orden_tipo = 'DESC';
+    $orden_class = 'imgOrden-desc';
+    if (isset($_POST['chkOrdenASC'])) {
+        $orden_class = 'imgOrden-asc';
+        $orden_tipo = 'ASC';
+    }
+    switch ($txtOrden) {
+        case 1:
+            $orden = 'gv.ID ' . $orden_tipo;
+            break;
+        case 2:
+            $orden = 'gv.serie ' . $orden_tipo;
+            break;
+        case 3:
+            $orden = 'gv.numero ' . $orden_tipo;
+            break;
+        case 4:
+            $orden = 'gv.fecha_emision ' . $orden_tipo;
+            break;
+        case 5:
+            $orden = 'gv.fecha_inicio_traslado ' . $orden_tipo;
+            break;
+        case 6:
+            $orden = 'cl.razon_social' . $orden_tipo;
+            break;
+        case 7:
+            $orden = 'es.nombre ' . $orden_tipo;
+            break;
+
+        default:
+            $orden = 'gv.ID ' . $orden_tipo;
+            break;
+    }
+    $filtro="cliente_ID is not null and gv.factura_venta_ID is null and gv.salida_ID is null and gv.estado_ID=98";
+    $filtro.= ' and upper(concat(cl.razon_social," ",cl.ruc)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    if($_POST['txtNumero']>0||trim($_POST['txtNumero'])!=""){
+       $filtro.=' and gv.numero='.$_POST['txtNumero'];
+    }
+    //---------------------------------------
+    
+    
+    
+    try {
+        
+        $cantidadMaxima = count(guia_venta::getTabla($filtro));
+        $dt = guia_venta::getTabla($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
+        $rows=count($dt);
+        
+       $array_cabecera=array(
+           array("cabecera"=>'N°',"class_alineado"=>'text-center',"campo"=>'ID'),
+           array("cabecera"=>'Serie',"class_alineado"=>'text-center',"campo"=>'serie'),
+           array("cabecera"=>'Numero',"class_alineado"=>'text-center',"campo"=>'numero'),
+           array("cabecera"=>'Fecha',"class_alineado"=>'text-center',"campo"=>'fecha_emision'),
+           array("cabecera"=>'Fecha tras.',"class_alineado"=>'text-center',"campo"=>'fecha_inicio_traslado'),
+           array("cabecera"=>'Cliente',"class_alineado"=>'text-left',"campo"=>'razon_social'),
+            array("cabecera"=>'Estado',"class_alineado"=>'text-center',"campo"=>'estado')
+        );
+       $botones=array(
+           array('nombre'=>'Generar','titulo'=>'Generar','funcion'=>'fncGenerar','campo'=>'ID','imagen'=>'<i class="fa fa-file"></i>'),
+           //array('nombre'=>'Eliminar','titulo'=>'Eliminar','funcion'=>'fncEliminar','campo'=>'ID','imagen'=>'<img title="Eliminar" src="/include/img/boton/delete_14x14.png" />')
+       );
+        $mensaje = '';
+        $resultado=Grilla_Mantenimiento($array_cabecera,$txtOrden,$orden_class,1,$dt,$botones,$cantidadMaxima,$cantidadMostrar,$paginaActual);
+
+        } catch (Exception $ex) {
+        $resultado.='<tr><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+    }
+
+    
+
+    $mensaje = '';
+    $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+    //$retorn="<h1>Hola</h1>";
+
+    echo json_encode($retornar);
+}
+    function post_ajaxExtraerGuia(){
+        require ROOT_PATH.'models/guia_venta.php';
+        require ROOT_PATH.'models/guia_venta_detalle.php';
+        
+        require ROOT_PATH.'models/salida.php';
+        require ROOT_PATH.'models/salida_detalle.php';
+        
+        if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+        
+        //require ROOT_PATH.'models/salida_numero_cuenta.php';
+        require ROOT_PATH.'models/producto.php';
+         $guia_venta_ID=$_POST['guia_venta_ID'];
+         //$tipo_ID_venta=$_POST['tipo_ID'];
+        try {
+            $oGuia_Venta=guia_venta::getByIDInd($guia_venta_ID);
+            
+            $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+
+            $numero_cuenta_IDs="";
+            $impuestos_tipo_ID=1;
+            $tipo_precio_venta_unitario_ID=1;
+            //ingresamos los valores en la tabla orden de venta
+            if($oGuia_Venta!=null){
+                $osalida=new salida();
+                $osalida->tipo_ID=28;//venta electrónica
+                $osalida->cotizacion_ID="NULL";
+                $osalida->cliente_ID=$oGuia_Venta->cliente_ID;
+                $osalida->cliente_contacto_ID="NULL";
+                $osalida->operador_ID="NULL";
+                $osalida->periodo=date("Y");;
+                $osalida->numero=salida::getNumero();
+                $numero_ceros=sprintf("%'.07d", $osalida->numero);
+                $numero_concatenado=$numero_ceros.'-'.$osalida->periodo;
+                $osalida->numero_concatenado=$numero_concatenado;
+                $osalida->numero_orden_compra=$oGuia_Venta->numero_orden_compra;
+                $osalida->moneda_ID=moneda;
+                $osalida->fecha=date('d/m/Y');
+                $osalida->igv=$oDatos_Generales->vigv;
+                $osalida->vigv_soles=0;
+                $osalida->vigv_dolares=0;
+                $osalida->precio_venta_neto_soles=0;
+                $osalida->precio_venta_total_soles=0;
+                $osalida->precio_venta_neto_dolares=0;
+                $osalida->precio_venta_total_dolares=0;
+                $osalida->forma_pago_ID=0;
+                $osalida->tiempo_credito=0;
+                $osalida->descuento_soles=0;
+                $osalida->descuento_dolares=0;
+                $osalida->estado_ID=28;
+                $osalida->tipo_cambio=$oDatos_Generales->tipo_cambio;
+                $osalida->plazo_entrega='2';
+                $osalida->lugar_entrega=$oGuia_Venta->punto_entrega;
+                $osalida->validez_oferta='7';
+                $osalida->garantia=  '1 año';
+                $osalida->observacion=$oDatos_Generales->observacion;
+                $osalida->numero_pagina=1;
+                $osalida->nproducto_pagina="1";
+                $osalida->usuario_id=$_SESSION['usuario_ID'];
+                $osalida->ver_adicional=1;
+                $osalida->adicional="Nueva central telef&oacute;nica ".$oDatos_Generales->telefono;
+                
+                
+                //Registramos los numero de cuentas
+                
+                
+                //$dtCotizacion_Numero_Cuenta=cotizacion_numero_cuenta::getGrid('cotizacion_ID='.$oCotizacion->ID);
+                $cadena_numero_cuenta="";
+                $i=0;
+                
+                $osalida->cadena_numero_cuenta=$cadena_numero_cuenta;
+                $osalida->insertar_new();
+            }
+            $dtGuia_Venta_Detalle=guia_venta_detalle::getDetalle($guia_venta_ID);
+           
+            foreach($dtGuia_Venta_Detalle as $item){
+                    
+                    $osalida_Detalle=new salida_detalle();
+                    $osalida_Detalle->producto_ID=$item['producto_ID'];
+                    $osalida_Detalle->observacion='';
+                    $osalida_Detalle->salida_ID=$osalida->ID;
+                    $osalida_Detalle->descripcion=$item['descripcion'];
+                    $osalida_Detalle->cantidad=$item['cantidad'];
+                    $osalida_Detalle->precio_venta_unitario_soles=0;
+                    $osalida_Detalle->precio_venta_unitario_dolares=0;
+                    $osalida_Detalle->precio_venta_subtotal_soles=0;
+                    $osalida_Detalle->precio_venta_subtotal_dolares=0;
+                    $osalida_Detalle->precio_venta_soles=0;
+                    $osalida_Detalle->precio_venta_dolares=0;
+                    $osalida_Detalle->igv=$oDatos_Generales->vigv;
+                    $osalida_Detalle->vigv_soles=0;
+                    $osalida_Detalle->vigv_dolares=0;
+                    $osalida_Detalle->salida_detalle_ID=0;
+                    $osalida_Detalle->estado_ID=31;
+                    $osalida_Detalle->cotizacion_detalle_ID="NULL";
+                    $osalida_Detalle->ver_precio=1;
+                    $osalida_Detalle->usuario_id=$_SESSION['usuario_ID'];
+                    $osalida_Detalle->tipo_ID=1;
+                    $osalida_Detalle->obsequio=0;
+                   
+                    $osalida_Detalle->impuestos_tipo_ID=$impuestos_tipo_ID;
+                    $osalida_Detalle->tipo_precio_venta_unitario_ID=$tipo_precio_venta_unitario_ID;
+                    $osalida_Detalle->peso=$item['peso'];
+                    $osalida_Detalle->tipo_sistema_calculo_isc_ID=null;
+                    $osalida_Detalle->descuento_unitario=0;
+                    $osalida_Detalle->pu_incluye_igv=precio_incluye_igv;
+                    $osalida_Detalle->pu_incluye_isc=0;
+                    $osalida_Detalle->descuento_porcentaje=0;
+                    
+                    $osalida_Detalle->isc_porcentaje=0;
+                    $osalida_Detalle->isc_valor_referencial=0;
+                    $osalida_Detalle->isc_activo=0;
+                    $osalida_Detalle->valor_venta_soles=0;
+                    $osalida_Detalle->valor_venta_dolares=0;
+                    $osalida_Detalle->visc_soles=0;
+                    $osalida_Detalle->visc_dolares=0;
+                    $osalida_Detalle->descuento_soles=0;
+                    $osalida_Detalle->descuento_dolares=0;
+                    $osalida_Detalle->descuento=0;
+                    $osalida_Detalle->valor_unitario=0;
+            
+                    $osalida_Detalle->insertar_new();
+                    $oGuia_Venta_Detalle=guia_venta_detalle::getByID($item['ID']);
+                    $oGuia_Venta_Detalle->salida_detalle_ID=$osalida_Detalle->ID;
+                    $oGuia_Venta_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
+                    $oGuia_Venta_Detalle->actualizar();
+                    //$producto_ID_old=$osalida_Detalle->producto_ID;
+                    //actualizar_inventario($osalida_Detalle,$producto_ID_old,$_SESSION['usuario_ID'],$_SESSION['empresa_ID']);
+                    //Insertamos los componentes
+
+                    
+                }
+            //$osalida_Detalle->actualizar_costos_padre($osalida_Detalle->salida_ID,$_SESSION['usuario_ID']);
+            //actualizamos el estado de la cotizacion a ganada
+            $oGuia_Venta->salida_ID=$osalida->ID;
+            $oGuia_Venta->usuario_mod_id=$_SESSION['usuario_ID'];
+            $oGuia_Venta->actualizar();
+
+           /*Enviamos informacion a la vista orden de compra*/
+            $resultado=1;
+            $mensaje="Se registró correctamente";
+        }catch(Exception $ex){
+            $resultado=-1;
+            $mensaje=utf8_encode(mensaje_error);
+            log_error(__FILE__,"salida/post_ajaxExtraerGuia",$ex->getMessage());
+        }
+        $salida_ID=$osalida->ID;
+        $retornar=Array('resultado'=>$resultado,'mensaje'=>$mensaje,'salida_ID'=>$salida_ID);
+        echo json_encode($retornar);
+    }
+    
+    function get_Consulta_Factura_Venta(){
+        require ROOT_PATH.'models/estado.php';
+        require ROOT_PATH.'models/moneda.php';
+        require ROOT_PATH.'models/salida.php';
+        require ROOT_PATH.'models/cliente.php';
+        
+        global $returnView;
+        $returnView=true;
+        
+        $dtEstado=estado::getGrid('tabla="factura_venta" and ID in (93,94,95,96,107,115)');
+        $dtMoneda=moneda::getGrid();
+        $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
+        
+        $GLOBALS['dtEstado']=$dtEstado;
+        $GLOBALS['dtMoneda']=$dtMoneda;
+        $GLOBALS['dtPerido']=salida::getPeriodos();
+        $GLOBALS['dtCliente']=$dtCliente;
+        
+    }
+    function post_ajaxConsulta_Factura_Venta() {
+        require ROOT_PATH.'models/factura_venta.php';
+        $cliente=$_POST['selCliente'];
+        $periodo=$_POST['selPeriodo'];
+        $fecha_inicio=FormatTextToDate($_POST['txtFechaInicio'],'Y-m-d');
+        $fecha_fin=FormatTextToDate($_POST['txtFechaFin'],'Y-m-d');
+        $estado_ID=$_POST['selEstado'];
+        $moneda_ID=$_POST['selMoneda'];
+        $periodo_texto=(trim($_POST['txtPeriodo'])=="")?0:trim($_POST['txtPeriodo']);
+        //$numero=(trim($_POST['txtNumero'])=="")?0:trim($_POST['txtNumero']);
+        $numero_factura=(trim($_POST['txtNumero_Factura'])=="")?0:trim($_POST['txtNumero_Factura']);
+        $opcion=$_POST['rbOpcion'];
+        try{
+            
+            
+           $dtfactura=factura_venta::getTabla($opcion,$cliente,$periodo,$fecha_inicio,$fecha_fin,$estado_ID,$moneda_ID,$periodo_texto,$numero_factura);
+           /*if(count($dtSalida)==0){
+              $dtSalida=array();
+            }*/
+           echo(json_encode($dtfactura, JSON_NUMERIC_CHECK)); 
+        }catch(Exception $ex){
+            //echo mensaje_error;
+            $error=array("error_sistema"=>utf8_encode(mensaje_error));
+            echo(json_encode($error));
+            log_error(__FILE__, "salidaController.post_ajaxOrden_Venta_Electronico_Mantenimiento", $ex->getMessage());
+           
+        }
     }

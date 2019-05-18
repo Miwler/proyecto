@@ -76,7 +76,7 @@
                                 <label class="control-label col-lg-3 col-md-3 col-sm-3">Razón social:<span class="asterisk">*</span> </label>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                     <input type="hidden" id="selCliente" name="selCliente" value="<?php echo $GLOBALS['oOrden_Venta']->cliente_ID;?>">
-                                    <input type="text" id="listaCliente" class="form-control" value="<?php echo FormatTextView($GLOBALS['oCliente']->ruc.' - '.$GLOBALS['oCliente']->razon_social);?>">
+                                    <input type="text" id="listaCliente" class="form-control" value="<?php echo ($GLOBALS['oCliente']->ruc.' - '.$GLOBALS['oCliente']->razon_social);?>">
 
                                     <script type="text/javascript">
                                         $(document).ready(function(){
@@ -161,7 +161,7 @@
                         
                        <label class="control-label col-lg-3 col-md-3 col-sm-3">N° Orden de compra: </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input id="txtNumero_Orden_Compra" name="txtNumero_Orden_Compra" type="text"  class="text-int form-control" autocomplete=off  value="<?php echo $GLOBALS['oOrden_Venta']->numero_orden_compra; ?>" />
+                            <input id="txtNumero_Orden_Compra" name="txtNumero_Orden_Compra" type="text"  class="form-control" autocomplete=off  value="<?php echo $GLOBALS['oOrden_Venta']->numero_orden_compra; ?>" />
                         </div>
                         <label class="control-label col-lg-3 col-md-3 col-sm-3">Plazo de entrega:<span class="asterisk">*</span> </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -423,6 +423,9 @@
     var guia_venta_ID=<?php echo $GLOBALS['guia_venta_ID_emitida'];?>;
     
     $(document).ready(function(){
+        <?php if($GLOBALS['ver_agregar']>0){?>
+                $("#btnGuia").css("display","");
+        <?php } ?>
         if(factura_venta_ID>0){
             mostrar_btn_descargar();
         }
@@ -981,9 +984,9 @@
    }
     function fncEnviarSUNAT(id) {
         try {
-           // block_ui(function () {
+            block_ui(function () {
                 cargarValores('Salida/ajaxEnviarSUNAT',id,function(resultado){
-               // $.unblockUI();
+                $.unblockUI();
 
                 if (resultado.resultado == 1||resultado.resultado == 2) {
                    if(resultado.resultado == 1){
@@ -1004,7 +1007,7 @@
                     mensaje.error('OCURRIÓ UN ERROR',resultado.mensaje);
                 }
             });
-            //});
+            });
         } catch (e) {
                 //$.unblockUI();
                 console.log(e);
@@ -1066,10 +1069,10 @@
 
                     if (obj.exito == 'true') {
                         if (tipo == 'XML') {
-                            var xmlText = formatXml(obj.xml_firmado);
-                            var blob = new Blob([xmlText], { type: 'application/xml' });
+                            /*var xmlText = formatXml(obj.xml_firmado);
+                            var blob = new Blob([xmlText], { type: 'application/xml' });*/
                             var link = document.createElement('a');
-                            link.href = window.URL.createObjectURL(blob);
+                            link.href = obj.ruta;
                             link.download = obj.nombre_archivo;
                             document.body.appendChild(link);
                             link.click();

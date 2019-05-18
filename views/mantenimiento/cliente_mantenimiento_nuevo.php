@@ -39,19 +39,32 @@ function fncPage() { ?>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <div class="panel panel-default">
                           <div class="panel-heading">Información SUNAT</div>
+                          
                           <div class="panel-body">
                               <div class="form-group">
                                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                      <label>RUC: </label>
+                                      <label>Tipo de documento: <span class="asterisk">*</span></label>
                                   </div>
                                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                      <input  type="text"  id="txtRuc" name="txtRuc" autocomplete="off" maxlength="11" minlength="11"   onkeyup="MostrarLista(this.id,'divRuc');" value="<?php echo $GLOBALS['oCliente']->ruc; ?>" class="form-control form-requerido text-int"/>
+                                        <select class="form-control" id="selTipoDocumento" name="selTipoDocumento">
+                                            <?php foreach($GLOBALS['dtTipo_Documento'] as $tipo_documento){?>
+                                            <option value="<?php echo $tipo_documento['ID'];?>"><?php echo $tipo_documento['nombre']?></option>
+                                            <?php } ?>
+                                        </select>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                      <label>Nro: <span class="asterisk">*</span></label>
+                                  </div>
+                                  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                      <input  type="text"  id="txtRuc" name="txtRuc" autocomplete="off" maxlength="11" minlength="11"   onkeyup="MostrarLista(this.id,'divRuc');" onfocus="validar_existencia();" value="<?php echo $GLOBALS['oCliente']->ruc; ?>" class="form-control form-requerido text-int"/>
                                       <div id="divRuc" class="divBuscador"></div>
                                   </div>
                               </div>
                               <div class="form-group">
                                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                      <label>Razon Social: </label>
+                                      <label>Razon Social: <span class="asterisk">*</span></label>
                                   </div>
                                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                       <input type="text"  id="txtRazon_Social" name="txtRazon_Social" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->razon_social; ?>" onkeyup="MostrarLista(this.id,'divRazonSocial');" class="form-control form-requerido "/>
@@ -109,7 +122,7 @@ function fncPage() { ?>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <label>Correo: </label>
+                                        <label>Correo: <span class="asterisk">*</span></label>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                         <input type="text"  id="txtCorreo" name="txtCorreo" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->correo; ?>"  class="form-control"/>
@@ -144,7 +157,7 @@ function fncPage() { ?>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                         <select id="selProvincia" name="selProvincia" class="form-control" onchange="fncProvincia();">
                                             <?php foreach($GLOBALS['oCliente']->dtProvincia as $provincia){?>
-                                            <option value="<?php echo $provincia['ID']; ?>"><?php echo $provincia['nombre'];?></option>
+                                            <option value="<?php echo $provincia['ID']; ?>"><?php echo FormatTextViewPDF($provincia['nombre']);?></option>
                                             <?php } ?>
                                         </select>
                                         <script type="text/javascript">
@@ -197,7 +210,15 @@ function fncPage() { ?>
                                         <label>Tiempo crédito: </label>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                        <input type="number"  id="txtTiempo_Credito" name="txtTiempo_Credito" autocomplete="off" value="<?php echo $GLOBALS['oCliente']->tiempo_credito; ?>" class="form-control int"/>
+                                        <select id="txtTiempo_Credito" name="txtTiempo_Credito" class="form-control">
+                                            <?php foreach($GLOBALS['oCliente']->dtCredito as $credito){?>
+                                            <option value="<?php echo $credito['dias']?>"><?php echo $credito['texto']?></option>
+                                            <?php }?>
+                                        </select>
+                                        <script>
+                                            $("#txtTiempo_Credito").val(<?php echo $GLOBALS['oCliente']->tiempo_credito; ?>);
+                                        </script>
+                                        <!--<input type="number"  id="txtTiempo_Credito" name="txtTiempo_Credito" autocomplete="off" value="" class="form-control int"/>-->
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -383,7 +404,7 @@ function fncPage() { ?>
     }
     var fncAgregar_Persona=function(){
        
-        parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
+        parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo_Otro','','',fncCargarPersona,800,500);
              
         //window_float_deslizar('form','/Mantenimiento/Persona_Mantenimiento_Nuevo','','');
     } 
@@ -433,21 +454,30 @@ function fncPage() { ?>
       
     }
     var validar = function () {
-
+        var tipo_documento_ID=$("#selTipoDocumento").val();
         var ruc = $.trim($('#txtRuc').val());
         var razon_social = $.trim($('#txtRazon_Social').val());
         var correo=$.trim($('#txtCorreo').val());
-        var correo1=$.trim($('#txtCorreo1').val());
+        //var correo1=$.trim($('#txtCorreo1').val());
         if (ruc=="") {
             mensaje.error("Mensaje de error","Debe ingresar un ruc válido","txtRuc");
             mover_scroll_inicio();
             return false;
         }
-        if (ruc.length<11) {
-            mensaje.error("Mensaje de error","El ruc no es válido.","txtRuc");
-            mover_scroll_inicio();
-            return false;
+        if(tipo_documento_ID==6){
+            if (ruc.length<11) {
+                mensaje.error("Mensaje de error","El ruc no es válido.","txtRuc");
+                mover_scroll_inicio();
+                return false;
+            }
+        }else{
+            if (ruc.length<8) {
+                mensaje.error("Mensaje de error","El dni no es válido.","txtRuc");
+                mover_scroll_inicio();
+                return false;
+            }
         }
+        
         if (razon_social=="") {
             mensaje.error("Mensaje de error","Registre una razon social","txtRazon_Social");
             mover_scroll_inicio();
@@ -461,14 +491,14 @@ function fncPage() { ?>
                 return false;
             }
         }
-        if(correo1!=""){
+        /*if(correo1!=""){
             if (!validarEmail(correo1))
             {
                 mensaje.error("Mensaje de error","No es un correo valido.",'txtCorreo1'); 
                 mover_scroll_inicio();
                 return false;
             }
-        }
+        }*/
 
     }
     var fncSeleccionar=function(id){
@@ -479,6 +509,28 @@ function fncPage() { ?>
         $('#btnEliminar').css('display','inline');
         //alert(id);
     }
+    function validar_existencia(){
+        var tipo_documento_ID=$("#selTipoDocumento").val();
+        var numero=$("#txtRuc").val();
+        var obj=new Object();
+        
+        enviarAjaxParse('Mantenimiento/ajaxValidar_Existencia','form1',obj,function(resul){
+            if(resul.resultado==1){
+                mensaje.error("Validación","El cliente ya se encuentra registrado");
+                return false;
+            }
+        });
+    }
+   
+    $("#selTipoDocumento").change(function(){
+        if(this.value=="6"){
+            $("#txtRuc").attr('maxlength','11');
+            $("#txtRuc").attr('minlength','11');
+        }else{
+            $("#txtRuc").attr('maxlength','8');
+            $("#txtRuc").attr('minlength','8');
+        }
+    });
     </script>   
 <?php } ?>
 

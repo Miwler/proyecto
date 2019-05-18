@@ -129,7 +129,7 @@ class provincia
                        "idepartamento_ID"=>$departamento_ID
                     ));
            if(count($dt)>0){
-               $opciones= utf8_encode($dt[0]["opciones"]);
+               $opciones= ($dt[0]["opciones"]);
            }
            return $opciones;
        } catch (Exception $ex) {

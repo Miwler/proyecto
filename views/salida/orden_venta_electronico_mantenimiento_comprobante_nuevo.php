@@ -105,7 +105,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <select id="selMoneda" name="selMoneda" disabled class="form-control" >
                                 <?php foreach($GLOBALS['oFactura_Venta']->dtMoneda as $moneda){?>
-                                <option value="<?php echo $moneda['ID']?>"><?php echo utf8_encode($moneda['descripcion'])?></option>
+                                <option value="<?php echo $moneda['ID']?>"><?php echo ($moneda['descripcion'])?></option>
                                 <?php } ?>
                             </select>
                             <script type="text/javascript">
@@ -115,18 +115,29 @@
                     </div>
 
                     <div class="form-group">
+                        <input type="hidden" id="txtGuia_Venta_Emitido" name="txtGuia_Venta_Emitido" value="<?php echo $GLOBALS['guia_venta_ID_emitido']?>">
+                        <?php if($GLOBALS['guia_venta_ID_emitido']>0){?>
+                       
+                        <label class="col-sm-3 control-label">Guía remitida</label>
+                                
+                        <div class="col-sm-3">
+                            <input type="text" name="txtguia_venta_emitido" id="txtguia_venta_emitido" value="<?php echo $GLOBALS['guia_venta_emitido'];?>" class="form-control" disabled>
+                        </div>
+                        <?php }else{ ?>
+                        <div class="col-lg-6 col-md-6 col-sm-6 " >
+                            <div class="ckbox ckbox-theme">
+                                <input type="checkbox" id="ckCon_Guia" name="ckCon_Guia" checked value="1" <?php  echo(($GLOBALS['oFactura_Venta']->con_guia==1)?" checked ":"")?>>
+                                <label for="ckCon_Guia">Con guía?</label>
+                            </div>
+                        </div>
+                        <?php }?>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="ckbox ckbox-theme" style="display:none">
                                 <input type="checkbox" id="ckGenerar" name="ckGenerar" checked value="93" <?php  echo(($GLOBALS['oFactura_Venta']->estado_ID==93||$GLOBALS['oFactura_Venta']->estado_ID==94||$GLOBALS['oFactura_Venta']->estado_ID==95||$GLOBALS['oFactura_Venta']->estado_ID==96)?" checked ":"")?>>
                                 <label for="ckGenerar">Generar factura electrónica</label>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 ">
-                            <div class="ckbox ckbox-theme">
-                                <input type="checkbox" id="ckCon_Guia" name="ckCon_Guia" checked value="1" <?php  echo(($GLOBALS['oFactura_Venta']->con_guia==1)?" checked ":"")?>>
-                                <label for="ckCon_Guia">Con guía?</label>
-                            </div>
-                        </div>
+                        
                        
                     </div>
                     <div class="form-group">
@@ -361,8 +372,9 @@
         $('#txtPorcentaje_Descuento ').prop('disabled',false);
         $('#txtOtros_Cargos ').prop('disabled',false);
         $('#txtDescuento_Total_Items ').prop('disabled',false);
-        block_ui();
        
+       $("#txtguia_venta_emitido").prop("disabled",false);
+        block_ui();
          //$('#fondo_espera').css('display', 'block');
    }
      function vista_previa(){
@@ -554,7 +566,7 @@
      $.unblockUI();
      toastem.success('<?php echo $GLOBALS['mensaje'];?>');
      setTimeout(function(){
-         parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo $GLOBALS['oFactura_Venta']->con_guia;?>);
+         parent.fParent1.call(this,<?php echo $GLOBALS['oFactura_Venta']->ID;?>,<?php echo (($GLOBALS['guia_venta_ID_emitido']==0&& $GLOBALS['oFactura_Venta']->con_guia>0)?1:0);?>);
          parent.float_close_modal_hijo();
      }, 1000);
    

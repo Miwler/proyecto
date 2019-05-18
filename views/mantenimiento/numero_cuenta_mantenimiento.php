@@ -96,12 +96,12 @@
         }
 
         var fncNuevo=function(){
-            window_float_open_modal('REGISTRAR NUEVO NÚMERO DE CUENTA','/Mantenimiento/Numero_Cuenta_Mantenimiento_Nuevo','','',f,700,270);
+            window_float_open_modal('REGISTRAR NUEVO NÚMERO DE CUENTA','/Mantenimiento/Numero_Cuenta_Mantenimiento_Nuevo','','',f,700,300);
 
         }
 
         var fncEditar=function(id){
-           window_float_open_modal('EDITAR NÚMERO DE CUENTA','/Mantenimiento/Numero_Cuenta_Mantenimiento_Editar',id,'',f,700,270);
+           window_float_open_modal('EDITAR NÚMERO DE CUENTA','/Mantenimiento/Numero_Cuenta_Mantenimiento_Editar',id,'',f,700,300);
         }
 
         var fncEliminar=function(id){			

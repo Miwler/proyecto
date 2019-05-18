@@ -312,6 +312,7 @@
                                 </script>
                                 
                             </div>
+                            
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Estilo fondo cabecera:</label>
                                 <div class="col-sm-8">
@@ -338,6 +339,13 @@
                                         $("#selStilo_fondo_cabecera").val(estilo);
                                     });
                                 </script>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Color de Documentos PDF:</label>
+                                <div class="col-sm-8">
+                                    
+                                    <input name="color_documentos" type="color" id="colcolor_documentosor" value="<?php echo$GLOBALS['oEmpresa']->color_documentos;?>" class="form-control"/>
+                                </div>
                             </div>
                             <div class="form-group form-group-divider">
                                 <div class="form-inner">
@@ -483,11 +491,22 @@
                                     <small class="form-text text-muted">Cada etiqueta de correo lo separamos con "|".</small>    
                                 </div>
                             </div>
+                            
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Etiquetas para celulares:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
                                     <input type="text" id="txtOpcionesCelular" name="txtOpcionesCelular"  autocomplete="off" class="form-control" autocomplete="off" value="<?php echo $GLOBALS['oDatos_Generales']->etiquetas_celulares;?>"  >
                                     <small class="form-text text-muted">Cada etiqueta de celular lo separamos con "|".</small>    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Precion incluyen IGV:<span class="asterisk">*</span></label>
+                                <div class="col-sm-8">
+                                    <select id="selIncluyeIgv" name="selIncluyeIgv" class="form-control">
+                                        <option value="1">SI</option>
+                                        <option value="0">NO</option>
+                                    </select>
+                                    <small class="form-text text-muted">Valor por defecto si incluye IGV</small>    
                                 </div>
                             </div>
                             <div class="form-group">

@@ -172,7 +172,7 @@
                                     <input type="hidden" id="valor_unitario" name="valor_unitario" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->valor_unitario;?>">
                                     <div class="input-group">
                                         <span class="input-group-addon bg-success">USD</span>
-                                        <input type="text" id="txtPrecioUnitarioDolares" class="form-control no-border-left moneda" name="txtPrecioUnitarioDolares" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_dolares;?>" onkeyup="calcularTipoCambio('2');" type="text" autocomplete="off">
+                                        <input type="text" id="txtPrecioUnitarioDolares" class="form-control no-border-left moneda_redondeo" name="txtPrecioUnitarioDolares" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_dolares;?>" onkeyup="calcularTipoCambio('2');" type="text" autocomplete="off">
                                         <input type="hidden" id="txtValorUnitarioDolares" name="txtValorUnitarioDolares">
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon bg-success">S/.</span>
-                                        <input type="text" id="txtPrecioUnitarioSoles" class="form-control no-border-left moneda" name="txtPrecioUnitarioSoles" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_soles;?>" onkeyup="calcularTipoCambio('1');" type="text" autocomplete="off">
+                                        <input type="text" id="txtPrecioUnitarioSoles" class="form-control no-border-left moneda_redondeo" name="txtPrecioUnitarioSoles" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_soles;?>" onkeyup="calcularTipoCambio('1');" type="text" autocomplete="off">
                                         <input type="hidden" id="txtValorUnitarioSoles" name="txtValorUnitarioSoles">
                                     </div>
                                 </div>
@@ -244,7 +244,7 @@
                                         <span class="input-group-addon bg-danger">Tipo de IGV:</span>
                                          <select class="form-control no-border-left" id="selImpuestos_Tipo" name="selImpuestos_Tipo" onchange="ProductoValores();">
                                             <?php foreach($GLOBALS['dtImpuestos_Tipo'] as $valor){?>
-                                            <option value="<?php echo $valor['ID'];?>"><?php echo utf8_encode($valor['nombre']);?></option>
+                                            <option value="<?php echo $valor['ID'];?>"><?php echo ($valor['nombre']);?></option>
                                             <?php } ?>
                                         </select>
                                         <script>
@@ -574,7 +574,7 @@
                     $("#txtUnit_Descuento").val(decuento_unitario);
                     break;
                 case "unitario":
-                    porcentaje=redondear((valor/valor_unitario)*100,2);
+                    porcentaje=redondear((valor/valor_unitario)*100,bd_largo_decimal);
                     descuento_total=redondear(valor*cantidad,2); 
                     decuento_unitario=valor;
                     $("#txtPorcentaje_Descuento").val(porcentaje);
@@ -590,7 +590,7 @@
 
                     descuento_total=redondear((sub_total*valor)/100,2); 
                     porcentaje=valor;
-                    decuento_unitario=redondear((descuento_total/cantidad),2);
+                    decuento_unitario=redondear((descuento_total/cantidad),bd_largo_decimal);
                     
                     $("#txtTotal_Descuento").val(descuento_total);
                     $("#txtUnit_Descuento").val(decuento_unitario);
@@ -1032,16 +1032,16 @@
         var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>;
         if(tipo_ID=="1"){
             var valorSoles=$('#txtPrecioUnitarioSoles').val().split(',').join('')*1;
-            var valorDolares=redondear(parseFloat(valorSoles)/tipo_cambio,2);
+            var valorDolares=redondear(parseFloat(valorSoles)/tipo_cambio,bd_largo_decimal);
             $('#txtPrecioUnitarioDolares').val(valorDolares);
         }else{
             var valorDolares=$('#txtPrecioUnitarioDolares').val().split(',').join('')*1;
-            var valorSoles=redondear(parseFloat(valorDolares)*tipo_cambio,2);
+            var valorSoles=redondear(parseFloat(valorDolares)*tipo_cambio,bd_largo_decimal);
             $('#txtPrecioUnitarioSoles').val(valorSoles);
         }
         ProductoValores();
     }
-    function ProductoValores(){
+     function ProductoValores(){
         var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>;
         var incluye_igv=($("#ckIncluyeIgv").is(":checked"))?1:0;
         var PUincluye_isc=($("#ckPUIncluyeIsc").is(":checked"))?1:0;
@@ -1107,7 +1107,7 @@
             }
 
         }
-        valor2=redondear(valor2,2);
+        //valor2=redondear(valor2,bd_largo_decimal);
          var subtotalSoles=redondear(valor1*valor2,2);
          if(isNaN(subtotalSoles)==true){ 
              subtotalSoles="--";
@@ -1136,11 +1136,11 @@
                
             }
         if(moneda_ID==1){
-            $("#valor_unitario").val(redondear(valor2,2));
+            $("#valor_unitario").val(redondear(valor2,bd_largo_decimal));
         }else{
-            $("#valor_unitario").val(redondear(valor3,2));
+            $("#valor_unitario").val(redondear(valor3,bd_largo_decimal));
         }    
-        valor3=redondear(valor3,2);
+        //valor3=redondear(valor3,2);
         var subTotalDolares=redondear(valor1*valor3,2);
         if(isNaN(subTotalDolares)==true){
             subTotalDolares="--";
@@ -1242,8 +1242,8 @@
         enviarAjax('salida/ajaxExtraerIGV','frm',obj,function(res){
             
             var resultado=$.parseJSON(res);
-            valor_igv_dolares=parseFloat(resultado.resultado_dolares);
-            valor_igv_soles=parseFloat(resultado.resultado_soles);
+            valor_igv_dolares=redondear(parseFloat(resultado.resultado_dolares),2);
+            valor_igv_soles=redondear(parseFloat(resultado.resultado_soles),2);
             $('#txtIgvDolares').val(valor_igv_dolares);
             $('#tdIgvDolares').html(valor_igv_dolares);
             $('#txtIgvSoles').val(valor_igv_soles);
@@ -1262,51 +1262,7 @@
         });
         
         }
-    /*function calcularIGV(){
-        var tipo_impuesto=$("#selImpuestos_Tipo").val();
-        var subtotalSoles=$("#txtSubTotalSoles").val();
-        var subtotalDolares=$("#txtSubTotalDolares").val();
-        
-        var valIGV=parseFloat($('#txtValIgv').val());
-        if(tipo_impuesto==1){
-            if(subtotalSoles!=0){
-                var igvSoles=redondear(parseFloat(subtotalSoles)*valIGV,2);
-                $('#txtIgvSoles').val(igvSoles);
-                $('#tdIgvSoles').html(igvSoles);
-                var TotalSoles=redondear(parseFloat(subtotalSoles)+parseFloat(igvSoles),2);
-                $('#txtTotalSoles').val(TotalSoles);
-                $('#tdTotalSoles').html(TotalSoles);
-            }
-            if(subtotalDolares!=0){
-                var igvDolares=redondear(parseFloat(subtotalDolares)*valIGV,2);
-                $('#txtIgvDolares').val(igvDolares);
-                $('#tdIgvDolares').html(igvDolares);
-                var TotalDolares=redondear(parseFloat(subtotalDolares)+parseFloat(igvDolares),2);
-                $('#txtTotalDolares').val(TotalDolares);
-                $('#tdTotalDolares').html(TotalDolares);
-            }
-        }else{
-            if(subtotalSoles!=0){
-                //var igvSoles=redondear(parseFloat(subtotalSoles)*valIGV,2);
-                $('#txtIgvSoles').val(0);
-                $('#tdIgvSoles').html(0);
-                //var TotalSoles=redondear(parseFloat(subtotalSoles)+parseFloat(igvSoles),2);
-                $('#txtTotalSoles').val(subtotalSoles);
-                $('#tdTotalSoles').html(subtotalSoles);
-            }
-            if(subtotalDolares!=0){
-                //var igvDolares=redondear(parseFloat(subtotalDolares)*valIGV,2);
-                $('#txtIgvDolares').val(0);
-                $('#tdIgvDolares').html(0);
-                //var TotalDolares=redondear(parseFloat(subtotalDolares)+parseFloat(igvDolares),2);
-                $('#txtTotalDolares').val(subtotalDolares);
-                $('#tdTotalDolares').html(subtotalDolares);
-            }
-        }
-        
-
-       
-    }*/
+   
     function calcularDescuento(){
         var moneda_ID=<?php  echo $GLOBALS['oOrden_Venta']->moneda_ID?>;
         var igv=parseFloat(<?php  echo $GLOBALS['oOrden_Venta']->igv;?>);

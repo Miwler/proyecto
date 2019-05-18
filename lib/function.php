@@ -1,59 +1,65 @@
 <?php 
-function cargarInformacion($empresa_ID){
-    //echo $empresa_ID.'oooooo';
-    if(isset($_SESSION['empresa_ID'])){
-        //echo $_SESSION['empresa_ID'];
-        
-        if($_SESSION['empresa_ID']!=1){
-            if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
-           
-            $oDatos_Generales=datos_generales::getByEmpresa();
-            if($oDatos_Generales!=null){
-                if(!defined('tipo_cambio'))define('tipo_cambio',$oDatos_Generales->tipo_cambio);
-            
-                if(!defined('igv'))define('igv',$oDatos_Generales->vigv);
-                //define('datos_genetales_ID',1);
-                if(!defined('logo'))define('logo',ruta_archivo.'/imagenes/logo/'.$oDatos_Generales->imagen);
-                if(!defined('logo_documentos'))define('logo_documentos',ruta_archivo.'/imagenes/logo_comprobantes/'.$oDatos_Generales->logo_extension);
-                if(!defined('favicon'))define('favicon','/'.ruta_archivo.'/imagenes/favicon/'.$oDatos_Generales->favicon);
-                //define('logo',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/logo/'.$oDatos_Generales->logo_extension);
-                if(!defined('razon_social'))define('razon_social',FormatTextView($oDatos_Generales->razon_social));
-                if(!defined('alias'))define('alias',FormatTextView($oDatos_Generales->alias));
-                if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',$oDatos_Generales->stilo_fondo_tabs);
-                if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',$oDatos_Generales->stilo_fondo_boton);
-                if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',$oDatos_Generales->stilo_fondo_cabecera);
-                $_COOKIE["stilo_fondo_cabecera"]=$oDatos_Generales->stilo_fondo_cabecera;
-                $_COOKIE["stilo_fondo_boton"]=$oDatos_Generales->stilo_fondo_boton;
-                $_COOKIE["stilo_fondo_tabs"]=$oDatos_Generales->stilo_fondo_tabs;
-                
-            }else{
-                $_COOKIE["stilo_fondo_cabecera"]="bg-facebook";
-                $_COOKIE["stilo_fondo_boton"]="bg-facebook";
-                $_COOKIE["stilo_fondo_tabs"]="bg-facebook";
-                /*if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',"bg-teal");
-                if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',"bg-teal");
-                if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',"bg-teal");*/
+        function cargarInformacion($empresa_ID){
+            //echo $empresa_ID.'oooooo';
+            if(isset($_SESSION['empresa_ID'])){
+                //echo $_SESSION['empresa_ID'];
+
+                if($_SESSION['empresa_ID']!=1){
+                    if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
+                    if(!class_exists('empresa'))require ROOT_PATH."models/empresa.php";
+                    $oEmpresa=empresa::getByID($_SESSION['empresa_ID']);
+                    if($oEmpresa!=null){
+                        $_COOKIE["color_documentos"]=$oEmpresa->color_documentos;
+
+                    }
+                    $oDatos_Generales=datos_generales::getByEmpresa();
+                    if($oDatos_Generales!=null){
+                        if(!defined('tipo_cambio'))define('tipo_cambio',$oDatos_Generales->tipo_cambio);
+
+                        if(!defined('igv'))define('igv',$oDatos_Generales->vigv);
+                        //define('datos_genetales_ID',1);
+                        if(!defined('logo'))define('logo',ruta_archivo.'/imagenes/logo/'.$oDatos_Generales->imagen);
+                        if(!defined('logo_documentos'))define('logo_documentos',ruta_archivo.'/imagenes/logo_comprobantes/'.$oDatos_Generales->logo_extension);
+                        if(!defined('favicon'))define('favicon','/'.ruta_archivo.'/imagenes/favicon/'.$oDatos_Generales->favicon);
+                        //define('logo',$oDatos_Generales->sitio_web.'/'.$oDatos_Generales->ruta.'/imagenes/logo/'.$oDatos_Generales->logo_extension);
+                        if(!defined('razon_social'))define('razon_social',FormatTextView($oDatos_Generales->razon_social));
+                        if(!defined('alias'))define('alias',FormatTextView($oDatos_Generales->alias));
+                        if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',$oDatos_Generales->stilo_fondo_tabs);
+                        if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',$oDatos_Generales->stilo_fondo_boton);
+                        if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',$oDatos_Generales->stilo_fondo_cabecera);
+                        //if(!defined('bd_largo_decimal'))define('bd_largo_decimal',3);
+                        $_COOKIE["stilo_fondo_cabecera"]=$oDatos_Generales->stilo_fondo_cabecera;
+                        $_COOKIE["stilo_fondo_boton"]=$oDatos_Generales->stilo_fondo_boton;
+                        $_COOKIE["stilo_fondo_tabs"]=$oDatos_Generales->stilo_fondo_tabs;
+
+                    }else{
+                        $_COOKIE["stilo_fondo_cabecera"]="bg-facebook";
+                        $_COOKIE["stilo_fondo_boton"]="bg-facebook";
+                        $_COOKIE["stilo_fondo_tabs"]="bg-facebook";
+                        /*if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',"bg-teal");
+                        if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',"bg-teal");
+                        if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',"bg-teal");*/
+                    }
+
+                }else{
+                    $_COOKIE["stilo_fondo_cabecera"]="bg-facebook";
+                    $_COOKIE["stilo_fondo_boton"]="bg-facebook";
+                    $_COOKIE["stilo_fondo_tabs"]="bg-facebook";
+                    /*if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',"bg-facebook");
+                    if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',"bg-teal");
+                    if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',"bg-facebook");*/
+
+                }
+                if(!class_exists('configuracion_empresa')){
+                        require ROOT_PATH . 'models/configuracion_empresa.php';
+                }
+
+                $dtConfiguracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+                foreach($dtConfiguracion_Empresa as $config){
+                    $_SESSION[$config['nombre']]=$config['valor'];
+                }
             }
-            
-        }else{
-            $_COOKIE["stilo_fondo_cabecera"]="bg-facebook";
-            $_COOKIE["stilo_fondo_boton"]="bg-facebook";
-            $_COOKIE["stilo_fondo_tabs"]="bg-facebook";
-            /*if(!defined('stilo_fondo_tabs'))define('stilo_fondo_tabs',"bg-facebook");
-            if(!defined('stilo_fondo_boton'))define('stilo_fondo_boton',"bg-teal");
-            if(!defined('stilo_fondo_cabecera'))define('stilo_fondo_cabecera',"bg-facebook");*/
-           
         }
-        if(!class_exists('configuracion_empresa')){
-                require ROOT_PATH . 'models/configuracion_empresa.php';
-        }
-        
-        $dtConfiguracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
-        foreach($dtConfiguracion_Empresa as $config){
-            $_SESSION[$config['nombre']]=$config['valor'];
-        }
-    }
-}
         function validar_menu($ruta){
            if(!class_exists("seguridad")){
                 require ROOT_PATH . 'models/seguridad.php';
@@ -115,6 +121,12 @@ function cargarInformacion($empresa_ID){
 		$text=htmlspecialchars($text);
 		return $text;
 	}
+        function FormatTextViewPDF($text){
+		$text=utf8_decode($text);
+		$text=html_entity_decode($text);
+                $text=str_replace("&#39;","'",$text);
+		return $text;
+	}
         function FormatTextXML($text){
 		$text=preg_replace('/[\r\n|\n|\r]+/','&lt;',$text);
                 $text=utf8_encode($text);
@@ -133,6 +145,7 @@ function cargarInformacion($empresa_ID){
 		return $text;
 	}
 	function FormatTextViewXML($text){
+                $text=trim($text);
 		$text=str_replace('<','&lt;',$text);
 		$text=str_replace('>','&gt;',$text);
                 $text=str_replace('"','&quot;',$text);
@@ -540,4 +553,15 @@ function cargarInformacion($empresa_ID){
 
 
     }
+    function hexToRgb($hex, $alpha = false) {
+   $hex      = str_replace('#', '', $hex);
+   $length   = strlen($hex);
+   $rgb['r'] = hexdec($length == 6 ? substr($hex, 0, 2) : ($length == 3 ? str_repeat(substr($hex, 0, 1), 2) : 0));
+   $rgb['g'] = hexdec($length == 6 ? substr($hex, 2, 2) : ($length == 3 ? str_repeat(substr($hex, 1, 1), 2) : 0));
+   $rgb['b'] = hexdec($length == 6 ? substr($hex, 4, 2) : ($length == 3 ? str_repeat(substr($hex, 2, 1), 2) : 0));
+   if ( $alpha ) {
+      $rgb['a'] = $alpha;
+   }
+   return $rgb;
+}
 ?>

@@ -40,44 +40,16 @@
         <div class="panel-body"> 
             <div class="tab-content">
                 <div class="tab-pane in active" id="vista_buscar">
-                    <div class="row">
-                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                            <div class="form-group">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>Código: </label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <input type="number" id="txtCodigo" name="txtCodigo" class="form-control int"  autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-                            <div class="form-group">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 text-right">
-                                     <label>Producto: </label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                     <select id="selProveedor" name="selProducto" class="chosen-select">
-                                        <option value="0">-TODOS-</option>
-                                        <?php foreach($GLOBALS['dtProducto'] as $iProducto){?>
-                                        <option value="<?php echo $iProducto['ID']?>"><?php echo FormatTextView(strtoupper($iProducto['producto']));?></option>
-                                        <?php }?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
+                    
 
                 </div>
             </div>
             <div class="row">
                 <div id="div1" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"></div>
             </div>
-            <input id="num_page" name="num_page" type="text" value="1" style="display:none;">
-            <input id="txtOrden" name="txtOrden" type="text" value="0" style="display:none;">
-            <input id="chkOrdenASC" name="chkOrdenASC" type="checkbox"  style="display:none;">
+            <input id="num_page" name="num_page" type="hidden" value="1" style="display:none;">
+            <input id="campo_orden" name="campo_orden" type="hidden" value="ID" style="display:none;">
+            <input id="orden" name="orden" type="hidden" value="ASC"  style="display:none;">
                
            
         </div>
@@ -96,6 +68,14 @@
 			grids.fncPaginacion(f);	
                         $('[data-toggle="tooltip"]').tooltip(); 
                         $('#websendeos').stacktable();
+                        $('.buscadores').keypress(function(e){			
+			if (e.which==13){
+				$('#num_page').val(1);
+				f.enviar();
+				return false;
+			}
+		});
+                
 		}
 		f.enviar();
 		var fncCargaValores=function(){
@@ -103,17 +83,19 @@
                 }
 		var fncOrden=function(col){
                     
-			var col_old=$('#txtOrden').val();
+			var col_old=$('#campo_orden').val();
 			
 			if(col_old==col){
-				if($('#chkOrdenASC').is(':checked')){
-					$('#chkOrdenASC').prop('checked',false);
-				}else{
-					$('#chkOrdenASC').prop('checked',true);
-				}
+                            if($("#orden").val()=='ASC'){
+                                $("#orden").val('DESC');
+                            }else{
+                                $("#orden").val('ASC');
+                            }
+				
 			}else{
-				$('#txtOrden').val(col);
-				$('#chkOrdenASC').prop('checked',true);
+                            $('#campo_orden').val(col)
+                            $("#orden").val('ASC');
+				
 			}		
 			
 			f.enviar();
@@ -127,7 +109,7 @@
 		
 		
 		
-		$('#txtBuscar,#txtMostrar').keypress(function(e){			
+		$('.buscadores,#txtBuscar,#txtMostrar').keypress(function(e){			
 			if (e.which==13){
 				$('#num_page').val(1);
 				f.enviar();

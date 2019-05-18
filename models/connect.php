@@ -21,7 +21,7 @@ class connect
             $this->db_user='administrador';
 
             //$this->db_password='Lima123';
-            $this->db_password='Lima123';
+            $this->db_password='Lima12322';
 
             //$this->db_password='';
             $this->gError='';

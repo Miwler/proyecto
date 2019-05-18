@@ -11,7 +11,7 @@ class comprobante_regula_detalle {
     public $total;
     public $igv;
     public $vigv;
-    public $tipo_impuestos_ID;
+    public $impuestos_tipo_ID;
     public $porcentaje_descuento;
     public $otros_cargos;
     private $factura_venta_detalle_ID ;
@@ -58,9 +58,9 @@ class comprobante_regula_detalle {
             $q='select ifnull(max(ID),0)+1 as ID from comprobante_regula_detalle;';
             $cn =new connect_new();
             $ID=$cn->getData($q);
-            $q='INSERT INTO comprobante_regula_detalle(ID,producto_ID,comprobante_regula_ID,descripcion,cantidad,precio_unitario,subtotal,total,igv,vigv,tipo_impuestos_ID,factura_venta_detalle_ID,usuario_id) ';
+            $q='INSERT INTO comprobante_regula_detalle(ID,producto_ID,comprobante_regula_ID,descripcion,cantidad,precio_unitario,subtotal,total,igv,vigv,impuestos_tipo_ID,factura_venta_detalle_ID,usuario_id) ';
             $q.='VALUES ('.$ID.','.$this->producto_ID.','.$this->comprobante_regula_ID.',"'.FormatTextSave($this->descripcion).'",'.$this->cantidad.','.$this->precio_unitario.','.$this->subtotal.','.$this->total.','.$this->igv;
-            $q.=','.$this->vigv.','.$this->tipo_impuestos_ID.','.$this->factura_venta_detalle_ID.','.$this->usuario_id.');';
+            $q.=','.$this->vigv.','.$this->impuestos_tipo_ID.','.$this->factura_venta_detalle_ID.','.$this->usuario_id.');';
             //echo $q;
             $cn =new connect_new();
             $retornar=$cn->transa($q);
@@ -84,12 +84,12 @@ class comprobante_regula_detalle {
         try
         {
             $dt=$cn->store_procedure_getGrid("sp_comprobante_regula_detalle_getGrid",
-                    array("icomprobante_regula_ID"=>$comprobante_regula_ID));
+            array("icomprobante_regula_ID"=>$comprobante_regula_ID));
             
             return $dt;
         }catch(Exception $ex)
         {
-                throw new Exception($q);
+            throw new Exception($ex->getMessage());
         }
     }
         

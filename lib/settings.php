@@ -9,6 +9,8 @@
         $dtConfiguracion=configuracion::getGrid();
         foreach($dtConfiguracion as $valor){
             if(!defined($valor['nombre_identificador']))define($valor['nombre_identificador'],$valor['valores']);
+            
+            
         }
 
     define('color_menu_principal',"rgba(0, 0, 16, 0.8)");

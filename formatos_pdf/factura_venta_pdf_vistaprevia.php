@@ -18,7 +18,8 @@ class PDF2 extends FPDF
     public $detalle;
     public $numero_cuenta;
     public $font_size=5;
-    public $subtitle_size=8;
+    public $subtitle_size=7;
+    public $color;
     //public $dtOrden_Venta_Numero_Cuenta;
     function Row($data,$altura)
     {
@@ -138,16 +139,16 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','',8);
         $this->SetTextColor(0);
         $this->SetXY(8,18);
-        $this->Cell(80,30,utf8_decode($this->cabecera[0]['razon_social']),0,1);
+        $this->Cell(80,30,FormatTextViewPDF($this->cabecera[0]['razon_social']),0,1);
         $this->SetXY(8,25);
-        $this->Cell(80,30,utf8_decode($this->cabecera[0]['direccion1']),0,1);
+        $this->Cell(80,30,FormatTextViewPDF($this->cabecera[0]['direccion1']),0,1);
         //$this->Cell(50,30,'Nueva central',0,0,'C');
         $this->SetXY(138,8);
         $this->Cell(70,30,'',1);
         $this->SetXY(138,8);
         $this->SetFont('Arial','B',15);
         $this->Cell(70,10,'R.U.C.'.$this->cabecera[0]['ruc'],0,2,'C');
-        $this->Cell(70,10,utf8_decode($this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA'),0,2,'C');
+        $this->Cell(70,10,FormatTextViewPDF($this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA'),0,2,'C');
         $this->Cell(70,10,utf8_decode($this->cabecera[0]['serie'].' - N°'. $this->cabecera[0]['numero_concatenado']),0,0,'C');
 
         $this->Ln();
@@ -165,21 +166,14 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('Señor(es):'),0,0,'L');
         $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(95,5,utf8_decode($this->cabecera[0]['cliente']),0,0,'L');
-        $this->SetFont('Arial','B',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode('Vendedor(a):'),0,0,'L');
-        $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode(substr($this->cabecera[0]['operador'],0,22)),0,0,'L');
-        $this->Ln();
+        $this->MultiCell(170,5,FormatTextViewPDF($this->cabecera[0]['cliente']),0,'L',false);
+        
+ 
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('Dirección:'),0,0,'L');
         $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(95,5,utf8_decode(substr($this->cabecera[0]['direccion'],0,50)),0,0,'L');
-        $this->SetFont('Arial','B',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode('N° pedido:'),0,0,'L');
-        $this->SetFont('Arial','',$this->subtitle_size);
-        $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_venta']),0,0,'L');
-        $this->Ln();
+        $this->MultiCell(170,4,utf8_decode($this->cabecera[0]['direccion']),0,'L',false);
+        //$this->Ln();
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(25,5,utf8_decode('R.U.C.:'),0,0,'L');
         $this->SetFont('Arial','',$this->subtitle_size);
@@ -193,6 +187,20 @@ class PDF2 extends FPDF
         $this->SetFont('Arial','',$this->subtitle_size);
         $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_compra']),0,0,'L');
         $this->Ln();
+        //$this->SetX(10);
+        
+        
+        $this->SetFont('Arial','B',$this->subtitle_size);
+        $this->Cell(25,5,utf8_decode('Vendedor(a):'),0,0,'L');
+        $this->SetFont('Arial','',$this->subtitle_size);
+        $this->Cell(95,5,utf8_decode(substr($this->cabecera[0]['operador'],0,22)),0,0,'L');
+        
+        $this->SetFont('Arial','B',$this->subtitle_size);
+        $this->Cell(40,5,utf8_decode('N° Pedido:'),0,0,'L');
+        $this->SetFont('Arial','',$this->subtitle_size);
+        $this->Cell(40,5,utf8_decode($this->cabecera[0]['numero_orden_venta']),0,0,'L');
+        
+        $this->Ln();
         $this->SetFont('Arial','B',$this->subtitle_size);
         $this->Cell(200,5,utf8_decode('Por lo siguiente:'),0,1,'L');
     }
@@ -205,7 +213,7 @@ class PDF2 extends FPDF
             $this->SetFont('Arial','B',10);
             $texto = $item['producto'];
             //$texto .= ($item['producto']=='')?'':chr(10).$item['descripcion'];
-            $array=array($item['cantidad'],$item['medida'],$item['codigo'],utf8_decode($item['producto']),$costo_unitario,$subtotal,$item['descripcion']);
+            $array=array($item['cantidad'],$item['medida'],$item['codigo'],FormatTextViewPDF($item['producto']),$costo_unitario,$subtotal,FormatTextViewPDF($item['descripcion']));
             $this->Row($array,5);
             $this->SetX(30);
             $this->SetFont('Arial','',9);
@@ -213,28 +221,9 @@ class PDF2 extends FPDF
        }
     }
     function contenedor_detalle($alto){
-    //$this->SetXY(10,$y);
-    /*$this->Ln();
-    $this->SetFont('Arial','B',8);
-    $this->SetTextColor(255,255,255);
-    $this->SetFillColor(117,179,114);
-    $this->Cell(20,7,utf8_decode('CANT.'),1,0,'C',true);
-    $this->Cell(15,7,utf8_decode('UM'),1,0,'C',true);
-    $this->Cell(15,7,utf8_decode('CÓD'),1,0,'C',true);
-    $this->Cell(100,7,utf8_decode('DESCRIPCIÓN'),1,0,'C',true);
-    $this->Cell(25,7,utf8_decode('P/U'),1,0,'C',true);
-    $this->Cell(25,7,utf8_decode('IMPORTE'),1,0,'C',true);
-
-    $this->Ln();
-    // cuerpo del detalle
-    $this->Cell(20,$alto,'',1,0,'C');
-    $this->Cell(15,$alto,'',1,0,'C');
-    $this->Cell(15,$alto,'',1,0,'C');
-    $this->Cell(100,$alto,'',1,0,'C');
-    $this->Cell(25,$alto,'',1,0,'C');
-    $this->Cell(25,$alto,'',1,0,'C');*/
+    
     //pie de pagina
-    $precio_venta_total=$this->cabecera[0]['monto_total'];
+    $precio_venta_total=round($this->cabecera[0]['monto_total'],2);
     $total_facturado=explode(".",$precio_venta_total);
         $decimal="00";
         if(isset($total_facturado[1])){
@@ -245,7 +234,7 @@ class PDF2 extends FPDF
             }
 
         }
-        $numero_texto="SON: ".numtoletras($total_facturado[0])." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper($this->cabecera[0]['moneda'])).".";
+        $numero_texto="SON: ".FormatTextViewPDF(numtoletras($total_facturado[0]))." CON ".$decimal."/100 ".str_replace("ó","O",strtoupper($this->cabecera[0]['moneda'])).".";
 
     $monto_total_neto=number_format($this->cabecera[0]['monto_total_neto'],2,'.',',');
     $monto_total_igv=number_format($this->cabecera[0]['monto_total_igv'],2,'.',',');
@@ -331,7 +320,8 @@ class PDF2 extends FPDF
         
        $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
        $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
-       $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
+       //$this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,8,252,25,25,'PNG');
+       $this->Image(getCodigoQr($variable,"qr",array("size"=>3,"align"=>"L","border"=>1)),100,252,25,25,'PNG');
        $this->SetXY(40,257);
        $this->Cell(80,30,utf8_decode('Representación impresa de la FACTURA ELECTRÓNICA, visita wwww/comprobante/index'),0,1);
     }

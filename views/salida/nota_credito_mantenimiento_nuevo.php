@@ -20,10 +20,11 @@
 
 
 
-<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1||$GLOBALS['resultado']==1){ ?>
+<?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Nota_Credito_Mantenimiento_Nuevo"  class="form-horizontal" >
-    <input type="hidden" id="llave" name="llave" value="<?php echo $GLOBALS['llave'];?>">
-    <input type="hidden" id="txtID" name="txtID" value="<?php echo $GLOBALS['ob']->ID;?>">
+    
+  
+    <input type="hidden" id="data_table" name="data_table">
     <!-- Start default tabs -->
     <div class="panel panel-tab rounded shadow">
         <!-- Start tabs heading -->
@@ -83,11 +84,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Factura:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Factura:<span class="asterisk">*</span></label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <input type="hidden" id="txtFactura_Venta_ID" name="txtFactura_Venta_ID" value="<?php echo $GLOBALS['ob']->documento_relacionado_ID;?>">
                                     <div class="input-group mb-15">
-                                        <input type="text" id="txtFactura" name="txtFactura" class="form-control no-border-right" value="<?php echo $GLOBALS['ob']->factura;?>">
+                                        <input type="text" id="txtFactura" name="txtFactura" class="form-control no-border-right" value="<?php echo $GLOBALS['ob']->factura;?>" autocomplete="off">
                                         <?php if($GLOBALS['ob']->estado_ID!=92){ ?>
                                         <span class="input-group-btn"><button type="button" title="Buscar factura" class="btn btn-theme" onclick="fncBuscarFacturas();"><i class="fa fa-search-plus"></i></button></span>
                                         <?php } ?>
@@ -100,33 +101,34 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">F. Emisión:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">F. Emisión:<span class="asterisk">*</span></label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <input type="text" id="txtFecha_Emision" name="txtFecha_Emision" class="date-range-picker-single form-control" value="<?php echo $GLOBALS['ob']->fecha_emision;?>">
                                 </div>
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">F. Vence:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">F. Vence:<span class="asterisk">*</span></label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <input type="text" id="txtFecha_vencimiento" name="txtFecha_vencimiento" class="date-range-picker-single form-control" value="<?php echo $GLOBALS['ob']->fecha_vencimiento;?>">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Tipo:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Motivo:<span class="asterisk">*</span></label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <select id="selTipo" name="selTipo" class="form-control">
+                                        <option value="0">Seleccionar</option>
                                         <?php foreach($GLOBALS['dtTipo'] as $valor){ ?>
-                                        <option value="<?php echo $valor['ID'];?>"><?php  echo utf8_encode($valor['nombre']); ?></option>
+                                        <option value="<?php echo $valor['ID'];?>"><?php  echo ($valor['nombre']); ?></option>
                                         <?php } ?>
                                     </select>
                                     <script>
                                         $("#selTipo").val(<?php echo $GLOBALS['ob']->tipo_ID;?>);
                                     </script>
                                 </div>
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Moneda:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Moneda:<span class="asterisk">*</span></label>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
                                     <select id="selMoneda" name="selMoneda" class="form-control">
 
                                         <?php foreach($GLOBALS['dtMoneda'] as $valor1){ ?>
-                                        <option value="<?php echo $valor1['ID'];?>"><?php  echo utf8_encode($valor1['descripcion']); ?></option>
+                                        <option value="<?php echo $valor1['ID'];?>"><?php  echo ($valor1['descripcion']); ?></option>
                                         <?php } ?>
 
                                     </select>
@@ -137,7 +139,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Cliente:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Cliente:<span class="asterisk">*</span></label>
                                 <div class="col-md-10 col-sm-10 col-xs-10">
                                     <input type="hidden" id="txtCliente_ID" name="txtCliente_ID" value="<?php echo $GLOBALS['ob']->cliente_ID;?>">
                                     <input type="text" class="form-control" id="listaCliente" name="listaCliente" value="<?php echo $GLOBALS['ob']->cliente_descripcion;?>">
@@ -150,7 +152,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Observacion:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Descripción Motivo:<span class="asterisk">*</span></label>
                                 <div class="col-md-10 col-sm-10 col-xs-10">
                                     <textarea id="txtObservacion" name="txtObservacion" class="form-control" style="height: 50px;overflow:auto;resize:none;"><?php echo $GLOBALS['ob']->observacion;?></textarea>
                                 </div>
@@ -167,13 +169,13 @@
                             
                             
                             <div class="form-group">
-                                <label class="control-label col-sm-5">SubTotal:</label>
+                                <label class="control-label col-sm-5">SubTotal:<span class="asterisk">*</span></label>
                                 <div class="col-sm-7">
                                     <input type="text" id="txtSubTotal" name="txtSubTotal" autocomplete="off" class="form-control decimal" value="<?php echo $GLOBALS['ob']->monto_total_neto;?>">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-5">IGV:</label>
+                                <label class="control-label col-sm-5">IGV:<span class="asterisk">*</span></label>
                                 <div class="col-sm-7">
                                     <input type="text" id="txtIGV" name="txtIGV" autocomplete="off" class="form-control decimal" value="<?php echo $GLOBALS['ob']->monto_total_igv;?>">
                                 </div>
@@ -191,7 +193,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-5">Total:</label>
+                                <label class="control-label col-sm-5">Total:<span class="asterisk">*</span></label>
                                 <div class="col-sm-7">
                                     <input type="text" id="txtTotal" name="txtTotal" autocomplete="off" class="form-control decimal" value="<?php echo $GLOBALS['ob']->monto_total;?>">
                                 </div>
@@ -227,7 +229,7 @@
         </div><!-- /.panel-body -->
         <div class="panel-footer">
             <div class="pull-left">
-                <button type="button" class="btn btn-success" onclick="modal.confirmacion('El proceso es irreversible, esta seguro de generar la nota de crédito.','Generación de nota de crédito',generar);">Guardar</button>
+                <button type="button" class="btn btn-success" onclick="Grabar();">Guardar</button>
                  <?php if($GLOBALS['ob']->estado_ID==91){?>
                 <button type="button" class="btn btn-primary" onclick="modal.confirmacion('El proceso es irreversible, esta seguro de enviar la nota de crédito a la SUNAT.','Envío de nota de crédito',fncEnviar);">Enviar SUNAT</button>
                 <?php } ?>
@@ -244,17 +246,22 @@
     <!--/ End default tabs -->
 </form>
 <script type="text/javascript">
+    var jsonObject=new Array();
+    
     var cerrar=function(){
-        var llave=$("#llave").val();
-        cargarValores('Salida/ajaxSalirComprobanteRegula',llave,function(resultado){
-            if(resultado.resultado==1){
-                window_float_save_modal();
-            }
-        });
+         window_float_save_modal();
     }
-    var generar=function(){
+    var Grabar=function(){
         if(validar()==true){
-            $("#form").submit();
+            modal.confirmacion('El proceso es irreversible, esta seguro de generar la nota de crédito.','Generación de nota de crédito',function(){
+                 var jSON=JSON.stringify(jsonObject);
+                $("#data_table").val(jSON);
+
+                 block_ui();
+               $("#form").submit();
+                
+            });
+           
         }
     }
     var validar=function(){
@@ -262,12 +269,22 @@
         var cliente_ID=$("#txtCliente_ID").val();
         var total=$.trim($("#txtTotal").val());
         var subtotal=$.trim($("#txtSubTotal").val());
+        var motivo=$.trim($("#txtObservacion").val());
+        var tipo=$("#selTipo").val();
+        if(tipo==0){
+            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar el motivo de la anulación.","selTipo");
+            return false;
+        }
         if(factura_venta_ID==""){
             mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar una factura.","txtFactura");
             return false;
         }
         if(cliente_ID==""){
             mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar un cliente.","listaCliente");
+            return false;
+        }
+        if(motivo==""){
+            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe registrar el motivo.","txtObservacion");
             return false;
         }
         if(parseFloat(total)==0){
@@ -281,7 +298,7 @@
             return false; 
         }
         $("#selSerie").prop("disabled", false);
-        block_ui();
+       
         return true
         //modal.confirmacion('El proceso es irreversible, esta seguro de eliminar el registro.','Generar',funcion);
         
@@ -291,13 +308,14 @@
         try{
             block_ui(function(){
                 cargarValores('Salida/ajaxEnviarNota_CreditoSUNAT',id,function(resultado){
+                     $.unblockUI();
                     if(resultado.resultado==1){
                         toastem.success(resultado.mensaje);
                         bloquear();
                         setTimeout(function(){
                             cerrar();
                         }, 1000);
-                        $.unblockUI();
+                       
                     }else{
                         mensaje.error("OCURRIÓ UN ERROR",resultado.mensaje);
                     }
@@ -327,8 +345,12 @@
         $("#ckOpcion").prop('disabled',true);
     }
     var fncAgregar_Detalle=function(){
-        var llave=$("#llave").val();
-        parent.window_float_open_modal_hijo("AGREGAR DETALLE","Salida/nota_credito_detalle",llave,"",cargar_tabla,700,330);
+        //var llave=$("#llave").val();
+        
+        var jSON=JSON.stringify(jsonObject);
+            
+            
+        parent.window_float_open_modal_hijo("AGREGAR DETALLE","Salida/nota_credito_detalle","","",addFila,700,330);
 
     } 
     var fncVista_Previa=function(){
@@ -337,15 +359,15 @@
        
     }
     var fncExtraerTotales=function(){
-        
-        
-        $('#tbDetalle tbody tr').each(function () {
-            subtotal =subtotal+ parseFloat($(this).find("td").eq(4).html()); 
-
-        });
-        $("#txtSubTotal").val(subtotal);
-        var igv=redondear(subtotal*0.18,2);
+        var sub_total=0;
+        var result = jsonObject.map(function (item) {
+                sub_total=sub_total+parseFloat(item.sub_total);
+            });
+        $("#txtSubTotal").val(sub_total);
+        var igv=redondear(sub_total*0.18,2);
+        var total=redondear(sub_total*(1.18),2);
         $("#txtIGV").val(igv);
+        $("#txtTotal").val(total);
     }
     var fncActualizarNumero=function(){
         try{
@@ -371,38 +393,26 @@
     }
     //var myarray=[];
     //var i=0;
-    var cargar_tabla=function(){
-
-        var llave=$("#llave").val();
-        cargarValores('salida/ajaxTablaDetalleComprobanteRegula',llave,function(resultado){
-            
-            //console.log(resultado.html);
-            $("#divDetalle").html(resultado.html);
-            fncExtraerTotales();
-        });
+    function addFila(array){
+        jsonObject.push(array);
+        cargar_tabla(jsonObject);
+        fncExtraerTotales();
     }
-    var fncEliminar=function(i){
-        var identificador=$("#llave").val();
-        cargarValores1('salida/ajaxEliminarDetalleComprobanteRegula',i,identificador,function(resultado){
-            if(resultado.resultado==1){
-                cargar_tabla();
-                toastem.info(resultado.mensaje);
-                
-            }else{
-                mensaje.error(resultado.mensaje);
-            }
-            
-        });
-        //$('#tr'+i).remove();
-       // myarray.splice(i,1);
+   var cargar_tabla=function(dt){
+         var campos=['num','producto','cantidad','precio_unitario','sub_total','total'];
+                var btn=['Eliminar'];
+            jsonContructor_Tabla(dt,campos,btn);
     }
+    
     var fncBuscarFacturas=function(){
         parent.window_float_open_modal_hijo("FACTURAS EMITIDAS","Salida/factura_venta_emitidas",'',"",cargarInformacion,700,430);
 
     }
-    var cargarInformacion=function(factura_venta_ID){
-        var llave=$('#llave').val();
-        cargarValores1('Salida/ajaxExtraerInformacionFacturas_Emitidas',factura_venta_ID,llave,function(resultado){
+    
+    
+    /*var cargarInformacion=function(factura_venta_ID){
+        console.log
+        cargarValores('Salida/ajaxExtraerInformacionFacturas_Emitidas',factura_venta_ID,function(resultado){
             $("#txtFactura").val(resultado.numero);
             $("#selMoneda").val(resultado.moneda_ID);
             $("#txtSubTotal").val(resultado.subtotal);
@@ -411,13 +421,120 @@
             $("#txtIGV").val(resultado.igv);
             $("#txtCliente_ID").val(resultado.cliente_ID);
             $("#listaCliente").val(resultado.cliente);
-            //$("#cuerpo").append(resultado.tabla);
+     
             $("#txtFactura_Venta_ID").val(factura_venta_ID);
-            if(resultado.resultado==1){
-                
-                cargar_tabla();
-            }
+            jsonObject=resultado.dt;
+     
+            cargar_tabla(jsonObject);
+         
+             
+            
+           
         });
+    }*/
+    $('#txtFactura').keypress(function(e){
+
+        if (e.which==13){
+           
+            cargarInformacionNumero();
+            return false;
+        }
+    });
+   
+    function cargarInformacionNumero(){
+        var valor=$("#txtFactura").val();
+        cargarValores('Salida/ajaxExtraerInformacionFacturas_Numero_Serie',valor,function(resultado){
+            if(resultado.resultado==1){
+                $("#selMoneda").val(resultado.moneda_ID);
+                $("#txtSubTotal").val(resultado.subtotal);
+                //subtotal=parseFloat(resultado.subtotal);
+                $("#txtTotal").val(resultado.total);
+                $("#txtIGV").val(resultado.igv);
+                $("#txtCliente_ID").val(resultado.cliente_ID);
+                $("#listaCliente").val(resultado.cliente);
+
+                $("#txtFactura_Venta_ID").val(resultado.factura_venta_ID);
+                jsonObject=resultado.dt;
+
+                cargar_tabla(jsonObject);
+            }else{
+                mensaje.error("Ocurrió un error",resultado.mensaje);
+            }
+            
+
+        });
+    }
+    var cargarInformacion=function(factura_venta_ID){
+        
+        cargarValores('Salida/ajaxExtraerInformacionFacturas_Emitidas',factura_venta_ID,function(resultado){
+            $("#txtFactura").val(resultado.numero);
+            $("#selMoneda").val(resultado.moneda_ID);
+            $("#txtSubTotal").val(resultado.subtotal);
+            //subtotal=parseFloat(resultado.subtotal);
+            $("#txtTotal").val(resultado.total);
+            $("#txtIGV").val(resultado.igv);
+            $("#txtCliente_ID").val(resultado.cliente_ID);
+            $("#listaCliente").val(resultado.cliente);
+     
+            $("#txtFactura_Venta_ID").val(factura_venta_ID);
+            jsonObject=resultado.dt;
+     
+            cargar_tabla(jsonObject);
+         
+             
+            
+           
+        });
+    }
+    var myTable;  
+    $(document).ready(function(){
+        
+        var align=['C','L','C','R','R','R','C'];
+        
+        myTable = build_data_table_default($('#tbDetalle'),align);
+    });
+    function jsonContructor_Tabla(dt,campos,array_btn){
+        try {
+            
+            var a=0;
+            var result = dt.map(function (item) {
+                    
+                    var result = [];
+                    for(i=0;i<campos.length;i++){
+                        result.push(item[campos[i]]);
+                    }
+                    
+                  
+                    var btn='<div class="btn-group"><button type="button" class="btn btn-teal dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i></button><ul class="dropdown-menu pull-right">';
+                    for(y=0;y < array_btn.length;y++){
+                        btn=btn+'<li><a class="dropdown-item" href="javascript:void(0);" onclick="fncDt'+array_btn[y]+'('+a+');">'+array_btn[y]+'</a></li>';
+                    }
+                    btn=btn+'</ul></div>';
+                    btn=btn+'</ul></div>';
+                    result.push(btn);
+                    result.push('');
+                    
+                    a++;
+                    return result;
+                });
+                myTable.rows().remove();
+                myTable.rows.add(result);
+                myTable.draw();
+
+        } catch (e) {
+            //alert(e.message);
+            mensaje.error('Error', e.message);
+        }     
+    }
+    function fncDtEliminar(y){
+        jsonObject.splice(y,1);
+      
+       var campos=['num','producto','cantidad','precio_unitario','sub_total','sub_total'];
+                var btn=['Eliminar'];
+            jsonContructor_Tabla(jsonObject,campos,btn);
+    }
+    function fncDtEditar(y){
+        $("#ModalDataTable").modal("show");
     }
     var subtotal=0;
     function calcular(){  
@@ -466,16 +583,20 @@
         }
     });
     $(document).ready(function(){
+        var factura_venta_ID=$("#txtFactura_Venta_ID").val();
+        if(factura_venta_ID>0){
+            cargar_tabla(factura_venta_ID);
+        }
         
-        cargar_tabla();
     });
 </script>       
 <?php }?>
-            
+         
 <?php if(isset($GLOBALS['resultado'])&&$GLOBALS['resultado']==-1){ ?>
     <script type="text/javascript">
+        $.unblockUI();
         $(document).ready(function () {
-            $.unblockUI();
+          
         mensaje.error('Alerta','<?php echo $GLOBALS['mensaje']; ?>');
         });
     </script>
@@ -485,6 +606,9 @@
      $.unblockUI();
     $(document).ready(function () {
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
+       setTimeout(function(){
+           window_float_save_modal();
+       },2000);
        
        
     });

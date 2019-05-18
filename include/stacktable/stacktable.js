@@ -105,11 +105,11 @@
       $table.addClass('stacktable large-only');
       $caption = $table.find(">caption").clone();
       $topRow = $table.find('>thead>tr,>tbody>tr,>tfoot>tr').eq(0);
-
+      
       displayHeader = $table.data('display-header') === undefined ? settings.displayHeader : $table.data('display-header');
 
       // using rowIndex and cellIndex in order to reduce ambiguity
-      $table.find('>tbody>tr, >thead>tr').each(function(rowIndex) {
+      $table.find('>tbody>tr, >thead>tr').not(".fila_buscador").each(function(rowIndex) {
 
         // declaring headMarkup and bodyMarkup, to be used for separately head and body of single records
         headMarkup = '';
@@ -122,6 +122,7 @@
           if (displayHeader) {
             markup += '<tr class=" '+tr_class +' "><th class="st-head-row st-head-row-main" colspan="2">'+$(this).find('>th,>td').eq(headIndex).html()+'</th></tr>';
           }
+           console.log(markup);
         } else {
           // for the other rows, put the "headIndex" cell as the head for that row
           // then iterate through the key/values
@@ -145,7 +146,7 @@
           markup += headMarkup + bodyMarkup;
         }
       });
-
+     
       $stacktable.prepend($caption);
       $stacktable.append($(markup));
       $table.before($stacktable);

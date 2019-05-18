@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
+	Options +FollowSymLinks
 	RewriteEngine On
 	RewriteBase /
 	RewriteRule ^(\w+)/(\w+)$ index.php?c=$1&v=$2 [QSA,L]	

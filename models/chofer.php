@@ -169,7 +169,7 @@ class chofer {
         $cn = new connect_new();
         
         try {
-            $q="select count(ID) from chofer where del=0 and persona_ID=".$this->persona_ID;
+            $q="select count(ID) from chofer where del=0 and empresa_ID=".$_SESSION['empresa_ID']." and persona_ID=".$this->persona_ID;
            
             if($this->ID!=''&& $this->ID>0){
                 $q.=' and ID<>'.$this->ID;

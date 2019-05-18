@@ -20,26 +20,31 @@
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?>
 <form id="form" method="POST" action="/Salida/Nota_Credito_Detalle"  class="form-horizontal" onsubmit="return validar();" >
-    <input type="hidden" id="llave" name="llave" value="<?php echo $GLOBALS['llave'];?>">
+    
     <div class="form-body">
         <div  class="form-group">
-            <label class="control-label col-sm-2 col-md-2 col-xs-2">Producto:</label>
-            <div class="col-sm-10 col-md-10 col-xs-10">
+            <label class="control-label col-sm-2">Producto:</label>
+            <div class="col-sm-7">
                 
                 <input type="hidden" id="txtProducto_ID" name="txtProducto_ID">
                 <input type="text" id="listaProductos" name="listaProductos" class="form-control">
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        lista('/funcion/ajaxListarProductos','listaProductos','txtProducto_ID');
+                        listar_productos();
                     });
                 </script>
+            </div>
+            <div class="col-sm-3">
+                <div class="ckbox ckbox-teal">
+                    <input id="ckDescripcion" name="ckDescripcion" type="checkbox">
+                    <label for="ckDescripcion">Solo descripcion</label>
+                </div>
             </div>
         </div>
         <div  class="form-group">
             <label class="control-label col-sm-2 col-md-2 col-xs-2">Descripción:</label>
             <div class="col-sm-10 col-md-10 col-xs-10">
-                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control">
-                
+                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" autocomplete="off" disabled>
             </div>
         </div>
         <div  class="form-group">
@@ -50,8 +55,8 @@
             <label class="control-label col-sm-2 col-md-2 col-xs-2">Tipo del IGV.:</label>
             <div class="col-sm-4 col-md-4 col-xs-4">
                 <select id="selTipo_Impuesto" name="selTipo_Impuesto" class="form-control">
-                    <?php foreach($GLOBALS['dtTipo_Impuestos'] as $item){?>
-                    <option value="<?php echo $item['Id']?>"><?php echo FormatTextView($item['Descripcion']);?></option>
+                    <?php foreach($GLOBALS['dtImpuestos_Tipos'] as $item){?>
+                    <option value="<?php echo $item['ID']?>"><?php echo FormatTextView($item['nombre']);?></option>
                     <?php }?>
                 </select>
             </div>
@@ -60,7 +65,7 @@
         <div  class="form-group">
             <label class="control-label col-sm-2 col-md-2 col-xs-2">Precio Unit:</label>
             <div class="col-sm-4 col-md-4 col-xs-4">
-                <input type="text" id="txtValor_Unitario"  name="txtValor_Unitario" onkeyup="ProductoValores();" autocomplete="off" class="form-control decimal">
+                <input type="text" id="txtValor_Unitario"  name="txtValor_Unitario" onkeyup="ProductoValores();" autocomplete="off" class="form-control moneda_redondeo">
             </div>
             <label class="control-label col-sm-2 col-md-2 col-xs-2">Subtotal:</label>
             <div class="col-sm-4 col-md-4 col-xs-4">
@@ -89,6 +94,18 @@
     
 </form>
  <script type="text/javascript">
+     $("#ckDescripcion").click(function(){
+        if($(this).is(":checked")){
+            $("#listaProductos").prop("disabled",true);
+            $("#txtDescripcion").prop("disabled",false);
+        }else{
+            $("#listaProductos").prop("disabled",false);
+            $("#txtDescripcion").prop("disabled",true);
+        }
+     });
+    var listar_productos=function(){
+        lista_producto('/funcion/ajaxListarProductos','listaProductos','txtProducto_ID',0,0,null,null);
+    }
     var validar=function(){
         $("#txtSubTotal").prop('disabled', false);
         $("#txtIGV").prop('disabled', false);
@@ -99,11 +116,20 @@
         var subtotal=$.trim($("#txtSubTotal").val());
         var igv=$.trim($("#txtIGV").val());
         var total=$.trim($("#txtTotal").val());
+        var descripcion=$.trim($("#txtDescripcion").val());
         //var otros_cargos=$.trim($("#txtOtros_Cargos").val());
-        if(producto_ID==""){
-            mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar un producto.",'listaProductos');
-            return false;
+        if($("#ckDescripcion").is(":checked")){
+            if (descripcion==""){
+                mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe registrar la descripción.",'txtDescripcion');
+                return false;
+            }
+        }else{
+            if(producto_ID==""){
+                mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe seleccionar un producto.",'listaProductos');
+                return false;
+            }
         }
+        
         if(cantidad==""||cantidad==0){
             mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Debe registrar una catidad.",'txtCantidad');
             return false;
@@ -124,7 +150,8 @@
             mensaje.advertencia("VALIDACIÓN DE INFORMACIÓN","Existe un error al calcular el total.");
             return false;
         }
-        
+        $("#listaProductos").prop('disabled', false);
+        $("#txtDescripcion").prop("disabled",false);
         
     }
     function ProductoValores(){   
@@ -181,7 +208,7 @@
     $(document).ready(function () {
        toastem.success('<?php echo $GLOBALS['mensaje']; ?>');
     });
-    setTimeout('parent.windos_float_save_modal_hijo(<?php echo json_encode($GLOBALS['obj']);?>);', 1000);
+    setTimeout('parent.windos_float_save_modal_hijo(<?php echo json_encode($GLOBALS['array']);?>);', 1000);
     
   
 </script>

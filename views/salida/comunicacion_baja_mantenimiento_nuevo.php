@@ -69,7 +69,7 @@ function fncPage() { ?>
             </div>
             <div class="col-sm-4">
                 <div class="ckbox ckbox-theme">
-                    <input id="ckNota_Credito" type="checkbox">
+                    <input id="ckNota_Credito" name="ckNota_Credito" type="checkbox">
                     <label for="ckNota_Credito">Nota de crédito</label>
                 </div>
             </div>
@@ -148,6 +148,7 @@ function fncPage() { ?>
         var object=new Object();
         enviarAjax("Salida/ajaxCargarFilarDocumetosBjas",'form',object,function(resultado){
             var resul = $.parseJSON(resultado);
+            console.log(resul);
             if(resul.resultado==1){
                 
                 $("#table_documentos tbody").html(resul.filas);

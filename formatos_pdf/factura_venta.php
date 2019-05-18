@@ -22,7 +22,7 @@ class PDF3 extends FPDF
     public $oMoneda;
     public $oForma_Pago;
     public $oOperador;
-    
+    public $color;
     public $dtOrden_Venta_Numero_Cuenta;
     function Row($data,$altura)
     {
@@ -186,11 +186,11 @@ class PDF3 extends FPDF
             $costo_unitario=0;
             $subtotal=0;
             if($item['moneda_ID']==1){
-                   $costo_unitario=number_format($item['precio_venta_unitario_soles'],2,'.',',');
+                   $costo_unitario=number_format($item['precio_venta_unitario_soles'],bd_largo_decimal,'.',',');
                    $subtotal=number_format($item['precio_venta_subtotal_soles'],2,'.',',');
 
             }else {
-                   $costo_unitario=number_format($item['precio_venta_unitario_dolares'],2,'.',',');
+                   $costo_unitario=number_format($item['precio_venta_unitario_dolares'],bd_largo_decimal,'.',',');
                    $subtotal=number_format($item['precio_venta_subtotal_dolares'],2,'.',',');
 
             }
@@ -220,7 +220,8 @@ class PDF3 extends FPDF
     $this->Ln();
     $this->SetFont('Arial','B',8);
     $this->SetTextColor(255,255,255);
-    $this->SetFillColor(117,179,114);
+    $this->SetFillColor($this->color['r'],$this->color['g'],$this->color['b']);
+    //$this->SetFillColor(117,179,114);
     $this->Cell(20,7,utf8_decode('CANTIDAD'),1,0,'C',true);
     $this->Cell(120,7,utf8_decode('DESCRIPCIÓN'),1,0,'C',true);
     $this->Cell(25,7,utf8_decode('P. UNITARIO'),1,0,'C',true);

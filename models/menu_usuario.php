@@ -7,6 +7,7 @@ class menu_usuario {
     private $menu_ID;
     private $usuario_id_creacion;
     private $usuario_mod_id;
+	private $empresa_ID;
     private $getMessage;
 
     public function __set($var, $valor) {
@@ -41,8 +42,8 @@ class menu_usuario {
             $q = 'SET @maxrow:=(select ifnull(max(ID),0) from menu_usuario);';
             //$cn->transa($q);
 
-            $q.= 'INSERT INTO menu_usuario (ID,usuario_ID, menu_ID, usuario_id_creacion)';
-            $q.='VALUES ((select @maxrow:=@maxrow+1),' . $this->usuario_ID . ',' . $this->menu_ID . ',' . $this->usuario_id_creacion . ');';
+            $q.= 'INSERT INTO menu_usuario (ID,usuario_ID, menu_ID,empresa_ID, usuario_id_creacion)';
+            $q.='VALUES ((select @maxrow:=@maxrow+1),' . $this->usuario_ID . ',' . $this->menu_ID . ','.$this->empresa_ID.','. $this->usuario_id_creacion . ');';
             //echo $q;
             $retornar = $cn->transa($q);
 
@@ -69,7 +70,7 @@ class menu_usuario {
             throw new Exception("Ocurrio un Error en la consulta");
         }
     }
-    function registrar($usuario_ID,$lista_menu,$modulo_ID) {
+    function registrar($usuario_ID,$lista_menu,$modulo_ID,$empresa_ID) {
         $cn = new connect_new();
         $retornar = 0;
         try {
@@ -78,6 +79,7 @@ class menu_usuario {
                 "imenu_IDs"=>$lista_menu,
                 "iusuario_ID"=>$usuario_ID,
                 "imodulo_ID"=>$modulo_ID,
+		"iempresa_ID"=>$empresa_ID,
                 "iusuario_id_reg"=>$_SESSION['usuario_ID']
             ), 0);
             

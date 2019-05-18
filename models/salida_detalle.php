@@ -483,7 +483,7 @@ class salida_detalle {
       throw new Exception($ex->getMessage());
     }
   }
-      static function getByID($ID)
+static function getByID($ID)
     {
     $cn =new connect_new();
     try
@@ -501,15 +501,15 @@ class salida_detalle {
         $osalida_detalle->salida_ID=$item["salida_ID"];
         $osalida_detalle->descripcion=$item["descripcion"];
         $osalida_detalle->cantidad=$item["cantidad"];
-        $osalida_detalle->precio_venta_unitario_soles=$item["precio_venta_unitario_soles"];
-        $osalida_detalle->precio_venta_unitario_dolares=$item["precio_venta_unitario_dolares"];
-        $osalida_detalle->precio_venta_subtotal_soles=$item["precio_venta_subtotal_soles"];
-        $osalida_detalle->precio_venta_subtotal_dolares=$item["precio_venta_subtotal_dolares"];
-        $osalida_detalle->precio_venta_soles=$item["precio_venta_soles"];
-        $osalida_detalle->precio_venta_dolares=$item["precio_venta_dolares"];
-        $osalida_detalle->igv=$item["igv"];
-        $osalida_detalle->vigv_soles=$item["vigv_soles"];
-        $osalida_detalle->vigv_dolares=$item["vigv_dolares"];
+        $osalida_detalle->precio_venta_unitario_soles= round($item["precio_venta_unitario_soles"],bd_largo_decimal);
+        $osalida_detalle->precio_venta_unitario_dolares=round($item["precio_venta_unitario_dolares"],bd_largo_decimal);
+        $osalida_detalle->precio_venta_subtotal_soles=round($item["precio_venta_subtotal_soles"],2);
+        $osalida_detalle->precio_venta_subtotal_dolares=round($item["precio_venta_subtotal_dolares"],2);
+        $osalida_detalle->precio_venta_soles=round($item["precio_venta_soles"],2);
+        $osalida_detalle->precio_venta_dolares=round($item["precio_venta_dolares"],2);
+        $osalida_detalle->igv=round($item["igv"],2);
+        $osalida_detalle->vigv_soles=round($item["vigv_soles"],2);
+        $osalida_detalle->vigv_dolares=round($item["vigv_dolares"],2);
         $osalida_detalle->salida_detalle_ID=$item["salida_detalle_ID"];
         $osalida_detalle->estado_ID=$item["estado_ID"];
         $osalida_detalle->cotizacion_detalle_ID=$item["cotizacion_detalle_ID"];
@@ -517,29 +517,29 @@ class salida_detalle {
         $osalida_detalle->obsequio=$item["obsequio"];
         $osalida_detalle->tipo=$item["tipo"];
         $osalida_detalle->tipo_ID=$item["tipo_ID"];
-        $osalida_detalle->isc=$item["isc"];
-        $osalida_detalle->otro_impuesto=$item["otro_impuesto"];
-        $osalida_detalle->descuento=$item["descuento"];
-        $osalida_detalle->precio_referencial=$item["precio_referencial"];
-        $osalida_detalle->suma=$item["suma"];
+        $osalida_detalle->isc=round($item["isc"],2);
+        $osalida_detalle->otro_impuesto=round($item["otro_impuesto"],2);
+        $osalida_detalle->descuento=round($item["descuento"],2);
+        $osalida_detalle->precio_referencial=round($item["precio_referencial"],2);
+        $osalida_detalle->suma=round($item["suma"],2);
         $osalida_detalle->tipo_precio_venta_unitario_ID=$item["tipo_precio_venta_unitario_ID"];
         $osalida_detalle->impuestos_tipo_ID=$item["impuestos_tipo_ID"];
-        $osalida_detalle->peso=$item["peso"];
+        $osalida_detalle->peso=round($item["peso"],2);
         $osalida_detalle->tipo_sistema_calculo_isc_ID=$item["tipo_sistema_calculo_isc_ID"];
-        $osalida_detalle->descuento_unitario=$item["descuento_unitario"];
+        $osalida_detalle->descuento_unitario=round($item["descuento_unitario"],2);
         $osalida_detalle->pu_incluye_igv=$item["pu_incluye_igv"];
         $osalida_detalle->pu_incluye_isc=$item["pu_incluye_isc"];
-        $osalida_detalle->descuento_porcentaje=$item["descuento_porcentaje"];
-        $osalida_detalle->isc_porcentaje=$item["isc_porcentaje"];
-        $osalida_detalle->isc_valor_referencial=$item["isc_valor_referencial"];
+        $osalida_detalle->descuento_porcentaje=round($item["descuento_porcentaje"],2);
+        $osalida_detalle->isc_porcentaje=round($item["isc_porcentaje"],2);
+        $osalida_detalle->isc_valor_referencial=round($item["isc_valor_referencial"],2);
         $osalida_detalle->isc_activo=$item["isc_activo"];
-        $osalida_detalle->valor_venta_soles=$item["valor_venta_soles"];
-        $osalida_detalle->valor_venta_dolares=$item["valor_venta_dolares"];
-        $osalida_detalle->visc_soles=$item["visc_soles"];
-        $osalida_detalle->visc_dolares=$item["visc_dolares"];
-        $osalida_detalle->descuento_soles=$item["descuento_soles"];
-        $osalida_detalle->descuento_dolares=$item["descuento_dolares"];
-        $osalida_detalle->valor_unitario=$item["valor_unitario"];
+        $osalida_detalle->valor_venta_soles=round($item["valor_venta_soles"],2);
+        $osalida_detalle->valor_venta_dolares=round($item["valor_venta_dolares"],2);
+        $osalida_detalle->visc_soles=round($item["visc_soles"],2);
+        $osalida_detalle->visc_dolares=round($item["visc_dolares"],2);
+        $osalida_detalle->descuento_soles=round($item["descuento_soles"],2);
+        $osalida_detalle->descuento_dolares=round($item["descuento_dolares"],2);
+        $osalida_detalle->valor_unitario=round($item["valor_unitario"],bd_largo_decimal);
         $osalida_detalle->usuario_id=$item["usuario_id"];
         $osalida_detalle->usuario_mod_id=$item["usuario_mod_id"];
 
@@ -760,6 +760,18 @@ class salida_detalle {
         } catch (Exception $ex) {
             log_error(__FILE__, "salida_detalle.getEstructura", $ex->getMessage());
             throw new Exception("Ocurrió un error en la conexión");
+        }
+    }
+    static function getPesoTotal($salida_ID) {
+        $cn = new connect_new();
+        try {
+            $retorna=$cn->store_procedure_getData("sp_salida_detalle_getPesoTotal",
+            array(
+                "isalida_ID"=>$salida_ID
+            ));
+            return $retorna;
+        } catch (Exception $ex) {
+            throw new Exception($ex->getMessage());
         }
     }
 }

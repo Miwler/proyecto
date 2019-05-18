@@ -80,7 +80,7 @@ function post_ajaxCompra_Mantenimiento() {
             $orden = 'co.ID ' . $orden_tipo;
             break;
     }
-    $filtro="co.tipo_movimiento_ID=10";
+    $filtro="co.tipo_movimiento_ID in (10,13)";
     if($opcion_tipo=="buscar"){
         
         
@@ -1980,13 +1980,13 @@ function post_ajaxPrecio_ingreso(){
         if(count($dtPrecio_Compra_Detalle)>0){
 
             foreach($dtPrecio_Compra_Detalle as $item){
-               $precio_compra_soles=$item['precio_soles'];
-               $precio_compra_dolares=$item['precio_dolares'];
+               $precio_compra_soles= round($item['precio_soles'],bd_largo_decimal);
+               $precio_compra_dolares=round($item['precio_dolares'],bd_largo_decimal);
             }
         }else{
             $oProducto=producto::getByID($producto_ID);
-            $precio_compra_soles=$oProducto->precio_inicial_soles;
-            $precio_compra_dolares=$oProducto->precio_inicial_dolares;
+            $precio_compra_soles=round($oProducto->precio_inicial_soles,bd_largo_decimal);
+            $precio_compra_dolares=round($oProducto->precio_inicial_dolares,bd_largo_decimal);
         }
         $resultado=1;
         $mensaje='';
@@ -2782,7 +2782,7 @@ function get_Orden_Compra_Mantenimiento_Nuevo(){
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oOrden_Compra->dtMoneda=$dtMoneda;
     $oOrden_Compra->dtEstado=$dtEstado;
-    $oOrden_Compra->moneda_ID=$_SESSION['moneda'];
+    $oOrden_Compra->moneda_ID=moneda;
     $oOrden_Compra->estado_ID=55;
     $oOrden_Compra->dtProveedor=proveedor::getGrid("ID<>0 and empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"razon_social");
     $oOrden_Compra->fecha=date('d/m/Y');
@@ -3236,14 +3236,17 @@ function get_Orden_Compra_PDF($id){
     $pdf->oOrden_Compra=$oOrden_Compra;
     $pdf->oProveedor=$oProveedor;
     $header=array('Columna 1','Columna 2','Columna 3','Columna 4');
+    $color=hexToRgb($_COOKIE["color_documentos"]);
+     $pdf->color=$color;
     $pdf->AddPage();
-    
+   
     //Creamos el encabezado del detalle
     
     $pdf->SetXY(10,90);
     $pdf->SetFont('Arial','B',10);
     $pdf->SetTextColor(255,255,255);
-    $pdf->SetFillColor(117,179,114);
+    $pdf->SetFillColor($color['r'],$color['g'],$color['b']);
+    //$pdf->SetFillColor(117,179,114);
     $pdf->Cell(20,7,utf8_decode('COD'),1,0,'C',true);
     $pdf->Cell(100,7,utf8_decode('DESCRIPCIÓN'),1,0,'C',true);
     $pdf->Cell(15,7,utf8_decode('CANT'),1,0,'C',true);
@@ -3276,7 +3279,8 @@ function get_Orden_Compra_PDF($id){
     $pdf->SetXY(10,220);
     $pdf->SetFont('Arial','B',8);
     $pdf->SetTextColor(255,255,255);
-    $pdf->SetFillColor(117,179,114);
+    $pdf->SetFillColor($color['r'],$color['g'],$color['b']);
+    //$pdf->SetFillColor(117,179,114);
     $pdf->Cell(120,5,'Comentarios o instrucciones especiales ',1,2,'C',true);
     $pdf->SetTextColor(0);
     $pdf->SetFont('Arial','',8);

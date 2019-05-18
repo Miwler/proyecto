@@ -17,7 +17,7 @@
         <link href="../../include/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="../../include/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         
-        <script src="../../include/dropzone/dropzone.js" type="text/javascript"></script>
+        <!--<script src="../../include/dropzone/dropzone.js" type="text/javascript"></script>
         <link href="../../include/dropzone/dropzone.css" rel="stylesheet" type="text/css"/>
         <!--<script src="../../include/js/jquery.bootstrap-responsive-tabs.min.js" type="text/javascript"></script>
         <link href="../../include/css/bootstrap-responsive-tabs.css.css" rel="stylesheet" type="text/css"/>
@@ -27,7 +27,17 @@
 	<link href="../../include/stacktable/stacktable.css" rel="stylesheet" type="text/css"/>-->
         
 	
-	
+	<script src="../../assets/global/plugins/bower_components/dropzone/downloads/dropzone.min.js"></script>
+<script src="../../assets/global/plugins/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+        <script src="../../assets/global/plugins/bower_components/jquery.inputmask/dist/jquery.inputmask.bundle.min.js"></script>
+        <link href="../../assets/global/plugins/bower_components/dropzone/downloads/css/dropzone.css" rel="stylesheet" type="text/css"/>
+        
+        <link href="../../assets/global/plugins/bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../assets/global/plugins/bower_components/animate.css/animate.min.css" rel="stylesheet">
+        <link href="../../assets/global/plugins/bower_components/dropzone/downloads/css/dropzone.css" rel="stylesheet">
+        <link href="../../assets/global/plugins/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
+        
+        
         <script src="include/jquery-ui-1.12.0/jquery-ui.js"></script>
         
        
@@ -100,6 +110,40 @@
             var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
             if ((evt.keyCode == 13) && (node.type=="text")) {return false;}
         }
+        var bd_largo_decimal=<?php echo (defined('bd_largo_decimal')? bd_largo_decimal:0);?>;
+        var bd_tipo_calculo_precio="<?php echo (defined('bd_tipo_calculo_precio')? bd_tipo_calculo_precio:0);?>";
+       
+        $(function () {
+            $('.moneda_redondeo').css('text-align', 'right'); 
+            $('.moneda_redondeo').keypress(function (e) {
+                if (e == null) {    
+                    e = window.event;
+                }
+                var str=$(this).val().split('.');
+                if(str.length>1 && str[1].split('').length>=bd_largo_decimal){
+                     return false;
+                 }
+
+                if(e.which==46){
+
+                    var str=$(this).val().split('.');
+                    if(str[0]==''){
+                        $(this).val(0);
+                    }
+
+
+                }
+                if (e.which != 8 && e.which != 45 && e.which != 0 && e.which != 13 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                    toastem.error('La tecla presionada no está permitida');
+                    $(this).focus();
+                    return false;
+                }
+
+        });
+        $('.moneda_redondeo').click(function () {
+            $(this).select();
+        });    
+    });
         document.onkeypress = stopRKey; 
 	</script>
         <style>

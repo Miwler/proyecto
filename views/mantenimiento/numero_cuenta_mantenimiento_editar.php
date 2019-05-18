@@ -37,6 +37,14 @@ function fncPage() { ?>
             </div>
             <div class="form-group">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <label>Abreviatura: </label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <input type="text" id="txtAbreviatura" name="txtAbreviatura" value="<?php echo $GLOBALS['oNumero_Cuenta']->abreviatura;?>" autocomplete="off" class="form-control form-requerido ">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <label>Numero Cuenta: </label>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -48,7 +56,7 @@ function fncPage() { ?>
                     <label>N&uacute;mero Cuenta Interbancaria: </label>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                    <input type="text" id="txtCci" name="txtCci" value="<?php echo $GLOBALS['oNumero_Cuenta']->cci;?>" autocomplete="off" class="form-control bfh-number int">
+                    <input type="text" id="txtCci" name="txtCci" value="<?php echo $GLOBALS['oNumero_Cuenta']->cci;?>" autocomplete="off" class="form-control bfh-number">
                 </div>
             </div>
             <div class="form-group">

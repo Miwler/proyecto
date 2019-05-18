@@ -48,7 +48,7 @@ class reportes
 			$q='SELECT ID,nombre,modulo_ID,orden,titulo, usuario_id, ifnull(usuario_mod_id,-1) as usuario_mod_id';
 			$q.=' from reportes ';
 			$q.=' where ID='.$ID;
-			
+			//echo $q;
 			$dt=$cn->getGrid($q);			
 			$oReportes=null;
 			

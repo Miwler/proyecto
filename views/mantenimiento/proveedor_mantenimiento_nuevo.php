@@ -387,7 +387,7 @@ function fncPage() { ?>
         ajaxSelect('selDistrito', '/Mantenimiento/ajaxSelect_Distrito/' + obj.val(), '',null);
     }
     var fncAgregar_Persona=function(){
-         parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo','','',fncCargarPersona,800,500);
+         parent.window_float_open_modal_hijo('REGISTRAR NUEVO PERSONA','/Mantenimiento/Persona_Mantenimiento_Nuevo_otro','','',fncCargarPersona,800,500);
         
        
     } 

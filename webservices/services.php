@@ -17,6 +17,20 @@ function getGrid($sql){
    
     return json_encode($dt);
 }
+function store_procedure_getGrid($pt_args){
+    require_once ('../models/connect_new.php');
+    $cn = new connect_new();
+    $dt=$cn->store_procedure_getGrid("getFactura_Electronica", array(
+                'iempresa_ID'=>empresa_ID,
+                'itipo_comprobante_ID'=>$tipo_comprobante_ID,
+                'iserie'=>$serie,
+                'inumero'=>$numero,
+                'imonto_total'=>$monto_total,
+            ));
+    $dt=utf8_converter($dt);
+   
+    return json_encode($dt);
+}
 function transa($sql){
     require_once ('../models/connect_new.php');
     try{
@@ -59,6 +73,14 @@ $server->register("getGrid",
     array("return" => "xsd:string"),
     "urn:services",
     "urn:services#getGrid",
+    "rpc",
+    "encoded",
+    "Extrae una cadena de registros.");
+$server->register("store_procedure_getGrid",
+    array("pt_args" => "xsd:string"),
+    array("return" => "xsd:string"),
+    "urn:services",
+    "urn:services#store_procedure_getGrid",
     "rpc",
     "encoded",
     "Extrae una cadena de registros.");

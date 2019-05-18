@@ -711,6 +711,7 @@ function redondear(numero, cantidad_decimal) {
     if (isNaN(rNumero)) {
         rNumero = 0;
     }
+    new Intl.NumberFormat("de-DE").format(rNumero)
     return rNumero;
 }
 
@@ -1106,7 +1107,69 @@ function LoadCombo(combo, url, parametro, id, nombre, todos, callBack) {
 
     });
 }
+function build_data_table_default(table,$array_align) {
+   
+       
+        var config="";
+        for(i=0;i<$array_align.length;i++){
+            var clase="text-left";
+            if($array_align[i]=="C"){
+                clase="text-center";
+            }else if($array_align[i]=="R"){
+                clase="text-right";
+            }
+            if(i==0){
+                 config=config+'{ "targets": '+i+',"className":"'+clase+'" }';
+            }else{
+                config=config+',{ "targets": '+i+',"className":"'+clase+'" }';
+            }
+            
+        }
+        config='['+config+']';
+        var columnDefs =JSON.parse(config);
+        
+    columnDefs = (typeof columnDefs === 'undefined') ? [] : columnDefs;
+    order = (typeof order === 'undefined') ? [[0, "asc"]] : order;
+    npageLength = (typeof npageLength === 'undefined') ? 10 : npageLength;
 
+    return table.DataTable({
+        "deferRender": true,
+        "paging": false,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false,
+        "pageLength": 'ALL',
+        "sDom": '<"top"i>rt<"bottom"flp><"clear">',
+        columnDefs: columnDefs,
+        //order: order,
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        language:
+        {
+            emptyTable: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            zeroRecords: "<h5 class='text-center'>No hay registros para mostrar</h5>",
+            processing: 'Procesando',
+            loadingRecords: 'Cargando datos',
+            lengthMenu: 'Mostrando _MENU_ entradas',
+            infoFiltered: '(Filtrado de _MAX_ entradas totales)',
+            info: 'Mostrando _START_ de _END_ de las _TOTAL_ entradas totales',
+            infoEmpty: 'mostrando 0 de 0 de las 0 entradas totales',
+            paginate:
+            {
+                'first': 'Primera',
+                'last': 'Ultima',
+                'next': 'Siguiente',
+                'previous': 'Anterior'
+            }
+        }
+    });
+
+}
+
+
+
+/*===========================Tabla=============================*/
 function cargarCombo(combo, url, parametro, id, nombre, todos, seleccion, callBack) {
 
     if (!seleccion)

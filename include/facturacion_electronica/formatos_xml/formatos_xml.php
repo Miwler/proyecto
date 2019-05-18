@@ -666,14 +666,6 @@ class formatosxml {
         $xml->formatOutput = true;
         return $xml;
     }
-
-
-
-
-
-
-
-
 function factura_venta_UBL2_1($array){
         $xml = new DomDocument("1.0", "ISO-8859-1"); 
         
@@ -833,7 +825,7 @@ function factura_venta_UBL2_1($array){
                     
         }
             
-            $Signature=$xml->createElement('cac:Signature'); 
+            /*$Signature=$xml->createElement('cac:Signature'); 
             $Signature=$Invoice->appendChild($Signature);
                 $ID=$xml->createElement('cbc:ID','LlamaSign'); 
                 $ID=$Signature->appendChild($ID);
@@ -854,7 +846,7 @@ function factura_venta_UBL2_1($array){
                     $ExternalReference=$xml->createElement('cac:ExternalReference'); 
                     $ExternalReference=$DigitalSignatureAttachment->appendChild($ExternalReference);
                         $URI=$xml->createElement('cbc:URI','#LlamaSign'); 
-                        $URI=$ExternalReference->appendChild($URI);
+                        $URI=$ExternalReference->appendChild($URI);*/
             //Emisor                
             $AccountingSupplierParty=$xml->createElement('cac:AccountingSupplierParty'); 
             $AccountingSupplierParty=$Invoice->appendChild($AccountingSupplierParty);
@@ -955,7 +947,7 @@ function factura_venta_UBL2_1($array){
                         $ID=$xml->createElement('cbc:ID',trim($array['Receptor']['NroDocumento'])); 
                         $ID=$PartyIdentification->appendChild($ID);
                             $schemeID=$xml->createAttribute("schemeID");
-                            $schemeID->value="6";
+                            $schemeID->value=$array['Receptor']['TipoDocumento'];
                             $ID->appendChild($schemeID);
                             $schemeName=$xml->createAttribute("schemeName");
                             $schemeName->value="Documento de Identidad";//16/03/209"SUNAT:Identificador de Documento de Identidad";
@@ -1291,7 +1283,7 @@ function factura_venta_UBL2_1($array){
                     $currencyID=$xml->createAttribute('currencyID');
                     $currencyID->value=$array['Moneda'];
                     $LineExtensionAmount->appendChild($currencyID);
-                    $total_precio_venta=round($array['Gravadas']*(1+$array['CalculoIgv']),2);
+                    $total_precio_venta=round($array['Gravadas']+$array['TotalIgv']+$array['TotalIsc']+$array['isc_base'],2);
                 $TaxInclusiveAmount=$xml->createElement('cbc:TaxInclusiveAmount',$total_precio_venta); 
                 $TaxInclusiveAmount=$LegalMonetaryTotal->appendChild($TaxInclusiveAmount);
                     $currencyID=$xml->createAttribute('currencyID');
@@ -1354,7 +1346,7 @@ function factura_venta_UBL2_1($array){
                 $PricingReference=$InvoiceLine->appendChild($PricingReference);
                     $AlternativeConditionPrice=$xml->createElement('cac:AlternativeConditionPrice');
                     $AlternativeConditionPrice=$PricingReference->appendChild($AlternativeConditionPrice);
-                        $PriceAmount=$xml->createElement('cbc:PriceAmount',$items['PrecioVentaUnitario']);
+                        $PriceAmount=$xml->createElement('cbc:PriceAmount',(($items['TipoPrecio']=='01')?$items['PrecioVentaUnitario']:0));
                         $PriceAmount=$AlternativeConditionPrice->appendChild($PriceAmount);
                             $currencyID=$xml->createAttribute('currencyID');
                             $currencyID->value=$array['Moneda'];
@@ -1362,7 +1354,7 @@ function factura_venta_UBL2_1($array){
                         $PriceTypeCode=$xml->createElement('cbc:PriceTypeCode',$items['TipoPrecio']);
                         $PriceTypeCode=$AlternativeConditionPrice->appendChild($PriceTypeCode);
                             $listName=$xml->createAttribute("listName");
-                            $listName->value="SUNAT:Indicador de Tipo de Precio";
+                            $listName->value="Tipo de Precio";
                             $PriceTypeCode->appendChild($listName);
                             $listAgencyName=$xml->createAttribute("listAgencyName");
                             $listAgencyName->value="PE:SUNAT";
@@ -1417,7 +1409,7 @@ function factura_venta_UBL2_1($array){
                         
                         $TaxCategory=$xml->createElement('cac:TaxCategory');
                         $TaxCategory=$TaxSubtotal->appendChild($TaxCategory);
-                            /*$ID=$xml->createElement('cbc:ID',$items['codigo_categoria']);
+                            $ID=$xml->createElement('cbc:ID',$items['codigo_categoria']);
                             $ID=$TaxCategory->appendChild($ID);
                                 $schemeID=$xml->createAttribute("schemeID");
                                 $schemeID->value="UN/ECE 5305";
@@ -1427,7 +1419,7 @@ function factura_venta_UBL2_1($array){
                                 $ID->appendChild($schemeName);
                                 $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                                 $schemeAgencyName->value="United Nations Economic Commission for Europe";
-                                $ID->appendChild($schemeAgencyName);*/
+                                $ID->appendChild($schemeAgencyName);
                             $Percent=$xml->createElement('cbc:Percent',$array['porcentajeIgv']);
                             $Percent=$TaxCategory->appendChild($Percent);
                             
@@ -1557,9 +1549,8 @@ function factura_venta_UBL2_1($array){
             
         $xml->formatOutput = true;
         return $xml;
-    }
-    
-    function nota_credito_UBL2_1($array){
+    }  
+function nota_credito_UBL2_1($array){
         $xml = new DomDocument("1.0", "ISO-8859-1"); 
         
         $CreditNote=$xml->createElement('CreditNote'); 
@@ -1598,9 +1589,19 @@ function factura_venta_UBL2_1($array){
                 $ReferenceID=$DiscrepancyResponse->appendChild($ReferenceID);
                 $ResponseCode=$xml->createElement('cbc:ResponseCode',$array['TipoOperacion']); 
                 $ResponseCode=$DiscrepancyResponse->appendChild($ResponseCode);
+                    $listAgencyName=$xml->createAttribute("listAgencyName");
+                    $listAgencyName->value="PE:SUNAT";
+                        $ResponseCode->appendChild($listAgencyName);
+                    $listName=$xml->createAttribute("listName");
+                    $listName->value="Tipo de nota de credito";
+                        $ResponseCode->appendChild($listName);
+                    $listURI=$xml->createAttribute("listURI");
+                    $listURI->value="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo09";
+                        $ResponseCode->appendChild($listURI);
+                        
                 $Description=$xml->createElement('cbc:Description'); 
                 $Description=$DiscrepancyResponse->appendChild($Description);
-                    $Motivo=$xml->createCDATASection($array['Discrepancias'][0]['Descripcion']);
+                    $Motivo=$xml->createCDATASection(FormatTextViewXML($array['Discrepancias'][0]['Descripcion']));
                     $Description->appendChild($Motivo);///error
             $BillingReference=$xml->createElement('cac:BillingReference'); 
             $BillingReference=$CreditNote->appendChild($BillingReference);        
@@ -1630,7 +1631,7 @@ function factura_venta_UBL2_1($array){
                 $DocumentTypeCode=$xml->createElement('cbc:DocumentTypeCode',$array['OtrosDocumentosRelacionados']['TipoDocumento']); 
                 $DocumentTypeCode=$AdditionalDocumentReference->appendChild($DocumentTypeCode);
         }            
-            $Signature=$xml->createElement('cac:Signature'); 
+           /* $Signature=$xml->createElement('cac:Signature'); 
             $Signature=$CreditNote->appendChild($Signature);
                 $ID=$xml->createElement('cbc:ID','LlamaSign'); 
                 $ID=$Signature->appendChild($ID);
@@ -1652,7 +1653,7 @@ function factura_venta_UBL2_1($array){
                     $ExternalReference=$DigitalSignatureAttachment->appendChild($ExternalReference);
                         $URI=$xml->createElement('cbc:URI','#LlamaSign'); 
                         $URI=$ExternalReference->appendChild($URI);
-                            
+                            */
             $AccountingSupplierParty=$xml->createElement('cac:AccountingSupplierParty'); 
             $AccountingSupplierParty=$CreditNote->appendChild($AccountingSupplierParty);
                 $Party=$xml->createElement('cac:Party'); 
@@ -1665,7 +1666,7 @@ function factura_venta_UBL2_1($array){
                             $schemeID->value="6";
                             $ID->appendChild($schemeID);
                             $schemeName=$xml->createAttribute("schemeName");
-                            $schemeName->value="SUNAT:Identificador de Documento de Identidad";
+                            $schemeName->value="Documento de Identidad";
                             $ID->appendChild($schemeName);
                             $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                             $schemeAgencyName->value="PE:SUNAT";
@@ -1679,7 +1680,7 @@ function factura_venta_UBL2_1($array){
                     $PartyName =$Party->appendChild($PartyName);
                         $Name=$xml->createElement('cbc:Name'); 
                         $Name=$PartyName->appendChild($Name);
-                            $nombre_comercial=$xml->createCDATASection($array['Emisor']['NombreComercial']);
+                            $nombre_comercial=$xml->createCDATASection(FormatTextViewXML($array['Emisor']['NombreComercial']));
                             $nombre_comercial=$Name->appendChild($nombre_comercial);
                     $PartyLegalEntity=$xml->createElement('cac:PartyLegalEntity'); 
                     $PartyLegalEntity=$Party->appendChild($PartyLegalEntity);
@@ -1689,7 +1690,7 @@ function factura_venta_UBL2_1($array){
                             $RegistrationName->appendChild($nombre_legal);
                         $RegistrationAddress=$xml->createElement('cac:RegistrationAddress'); 
                         $RegistrationAddress=$PartyLegalEntity->appendChild($RegistrationAddress);
-                            $AddressTypeCode=$xml->createElement('cbc:AddressTypeCode',$array['Emisor']['Ubigeo']); 
+                            $AddressTypeCode=$xml->createElement('cbc:AddressTypeCode',$array['Emisor']['Local']); 
                             $AddressTypeCode=$RegistrationAddress->appendChild($AddressTypeCode);
                     
                    
@@ -1702,10 +1703,10 @@ function factura_venta_UBL2_1($array){
                         $ID=$xml->createElement('cbc:ID',$array['Receptor']['NroDocumento']); 
                         $ID=$PartyIdentification->appendChild($ID);
                             $schemeID=$xml->createAttribute("schemeID");
-                            $schemeID->value="6";
+                            $schemeID->value=$array['Receptor']['TipoDocumento'];
                             $ID->appendChild($schemeID);
                             $schemeName=$xml->createAttribute("schemeName");
-                            $schemeName->value="SUNAT:Identificador de Documento de Identidad";
+                            $schemeName->value="Documento de Identidad";
                             $ID->appendChild($schemeName);
                             $schemeAgencyName=$xml->createAttribute("schemeAgencyName");
                             $schemeAgencyName->value="PE:SUNAT";
@@ -1717,7 +1718,7 @@ function factura_venta_UBL2_1($array){
                     $PartyLegalEntity=$Party->appendChild($PartyLegalEntity);
                         $RegistrationName=$xml->createElement('cbc:RegistrationName'); 
                         $RegistrationName=$PartyLegalEntity->appendChild($RegistrationName);
-                            $nombre_legal=$xml->createCDATASection($array['Receptor']['NombreLegal']);
+                            $nombre_legal=$xml->createCDATASection(FormatTextViewXML($array['Receptor']['NombreLegal']));
                             $RegistrationName->appendChild($nombre_legal);
 
         
@@ -1736,7 +1737,7 @@ function factura_venta_UBL2_1($array){
                         $currencyID=$xml->createAttribute('currencyID');
                         $currencyID->value=$array['Moneda'];
                         $TaxableAmount->appendChild($currencyID);
-                    $TaxAmount=$xml->createElement('cbc:TaxAmount',$array['TotalIgv']); 
+                    $TaxAmount=$xml->createElement('cbc:TaxAmount',$array['TotalIgv']+$array['TotalIsc']+$array['TotalOtrosTributos']); 
                     $TaxAmount=$TaxSubtotal->appendChild($TaxAmount);
                         $currencyID=$xml->createAttribute('currencyID');
                         $currencyID->value=$array['Moneda'];
@@ -1792,7 +1793,7 @@ function factura_venta_UBL2_1($array){
                     $unitCode=$xml->createAttribute('unitCode');
                     $unitCode->value=$items['UnidadMedida'];
                     $CreditedQuantity->appendChild($unitCode);
-                $LineExtensionAmount=$xml->createElement('cbc:LineExtensionAmount',$items['TotalVenta']); 
+                $LineExtensionAmount=$xml->createElement('cbc:LineExtensionAmount',$items['SubTotal']-$items['Descuento']); 
                 $LineExtensionAmount=$CreditNoteLine->appendChild($LineExtensionAmount);
                     $currencyID=$xml->createAttribute('currencyID');
                     $currencyID->value=$array['Moneda'];
@@ -1820,7 +1821,7 @@ function factura_venta_UBL2_1($array){
                     
                     $TaxSubtotal=$xml->createElement('cac:TaxSubtotal');
                     $TaxSubtotal=$TaxTotal->appendChild($TaxSubtotal);
-                        $TaxableAmount=$xml->createElement('cbc:TaxableAmount',$items['TotalVenta']);
+                        $TaxableAmount=$xml->createElement('cbc:TaxableAmount',$items['SubTotal']);
                         $TaxableAmount=$TaxSubtotal->appendChild($TaxableAmount);
                             $currencyID=$xml->createAttribute('currencyID');
                             $currencyID->value=$array['Moneda'];
@@ -1881,7 +1882,7 @@ function factura_venta_UBL2_1($array){
                 $Item=$CreditNoteLine->appendChild($Item);
                     $Description=$xml->createElement('cbc:Description');
                     $Description=$Item->appendChild($Description);
-                        $descripcion=$xml->createCDATASection($items['Descripcion']);
+                        $descripcion=$xml->createCDATASection(substr(FormatTextViewXML($items['Descripcion']),0,500));
                         $descripcion=$Description->appendChild($descripcion);
                     
                 $Price=$xml->createElement('cac:Price');
@@ -1896,6 +1897,8 @@ function factura_venta_UBL2_1($array){
         $xml->formatOutput = true;
         return $xml;
     }
+  
+ 
     function nota_debito_UBL2_1($array){
         $xml = new DomDocument("1.0", "ISO-8859-1"); 
         
@@ -1937,7 +1940,7 @@ function factura_venta_UBL2_1($array){
                 $ResponseCode=$DiscrepancyResponse->appendChild($ResponseCode);
                 $Description=$xml->createElement('cbc:Description'); 
                 $Description=$DiscrepancyResponse->appendChild($Description);
-                    $Motivo=$xml->createCDATASection($array['Discrepancias'][0]['Descripcion']);
+                    $Motivo=$xml->createCDATASection(FormatTextViewXML(substr($array['Discrepancias'][0]['Descripcion'],0,500)));
                     $Description->appendChild($Motivo);///error
             $BillingReference=$xml->createElement('cac:BillingReference'); 
             $BillingReference=$DebitNote->appendChild($BillingReference);        
@@ -2016,7 +2019,7 @@ function factura_venta_UBL2_1($array){
                     $PartyName =$Party->appendChild($PartyName);
                         $Name=$xml->createElement('cbc:Name'); 
                         $Name=$PartyName->appendChild($Name);
-                            $nombre_comercial=$xml->createCDATASection($array['Emisor']['NombreComercial']);
+                            $nombre_comercial=$xml->createCDATASection(FormatTextViewXML($array['Emisor']['NombreComercial']));
                             $nombre_comercial=$Name->appendChild($nombre_comercial);
                     $PartyLegalEntity=$xml->createElement('cac:PartyLegalEntity'); 
                     $PartyLegalEntity=$Party->appendChild($PartyLegalEntity);
@@ -2218,7 +2221,7 @@ function factura_venta_UBL2_1($array){
                 $Item=$DebitNoteLine->appendChild($Item);
                     $Description=$xml->createElement('cbc:Description');
                     $Description=$Item->appendChild($Description);
-                        $descripcion=$xml->createCDATASection($items['Descripcion']);
+                        $descripcion=$xml->createCDATASection(substr(FormatTextViewXML($items['Descripcion']),0,500));
                         $descripcion=$Description->appendChild($descripcion);
                     
                 $Price=$xml->createElement('cac:Price');
@@ -2233,6 +2236,7 @@ function factura_venta_UBL2_1($array){
         $xml->formatOutput = true;
         return $xml;
     }
+   
     function comunicacion_baja_UBL2_0($array){
         $xml = new DomDocument("1.0", "ISO-8859-1"); 
         $VoidedDocuments=$xml->createElement('VoidedDocuments'); 

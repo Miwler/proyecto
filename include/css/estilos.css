@@ -29,3 +29,6 @@
         overflow: hidden;
         border-top: 1px solid #e9ecef;
     }
+    #websendeos td{
+        font-size:11px !important;
+    }

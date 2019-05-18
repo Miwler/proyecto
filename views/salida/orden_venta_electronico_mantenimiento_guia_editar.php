@@ -812,7 +812,7 @@
      //parent.fParent1.call(this,1);
     //window.parent.crear_boton_guia();
     toastem.advertencia('<?php echo $GLOBALS['mensaje'];?>');
-    setTimeout('parent.windos_float_save_modal_hijo();', 2000);
+    //setTimeout('parent.windos_float_save_modal_hijo();', 2000);
     
 });
 

@@ -26,7 +26,7 @@
 <form id="form" method="POST" action="#"  class="form-horizontal" onsubmit="return validar();" >
     <div class="form-body">
         <div class="form-group">
-            <label class="control-label col-sm-2 col-xs-2">Periodo:</label>
+            <label class="control-label col-sm-1">Periodo:</label>
             <div class="col-sm-2 col-xs-2">
                 <select id="selPeriodo" name="selPeriodo" class="form-control">
                     <option value="0">Todos</option>
@@ -40,9 +40,15 @@
             <div class="col-sm-2 col-xs-2">
                 <input type="text" id="txtSerie" name="txtSerie" autocomplete="off" class="form-control">
             </div>
-            <label class="control-label col-sm-2 col-xs-2">Número</label>
-            <div class="col-sm-2 col-xs-2">
+            <label class="control-label col-sm-1">Número</label>
+            <div class="col-sm-2">
                 <input type="text" id="txtNumero" name="txtNumero" autocomplete="off" class="form-control">
+            </div>
+            <div class="col-sm-2">
+                <div class="ckbox ckbox-theme">
+                    <input id="ck_electronico" name="ck_electronico" checked="checked" type="checkbox">
+                    <label for="ck_electronico">Electrónicos</label>
+                </div>
             </div>
             <div class="col-sm-1 col-xs-1">
                 <button type="button" class="btn btn-success" onclick="fngetData();"><i class="fa fa-search"></i></button>

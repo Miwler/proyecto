@@ -19,7 +19,7 @@
 <?php function fncPage(){?>
     <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==-1){ ?> 
  
-    <form id="frm1" method="post" action="/Configuracion_General/Usuario_Mantenimiento_Menu/<?php echo $GLOBALS['oUsuario']->ID;?>" class="form-horizontal" >
+    <form id="frm" method="post" action="/Configuracion_General/Usuario_Mantenimiento_Menu/<?php echo $GLOBALS['oUsuario']->ID;?>" class="form-horizontal" >
         <div class="form-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -47,7 +47,7 @@
                         <div class="col-sm-9">
                             <select id="selModulo" name="selModulo" class="form-control" onchange="cargarMenu();">
                                 <?php foreach($GLOBALS['oUsuario']->dtModulo as $item){?>
-                                <option value="<?php echo $item['ID']?>"><?php echo ($item['nombre'])?></option>
+                                <option value="<?php echo $item['modulo_ID']?>"><?php echo ($item['nombre'])?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -91,9 +91,13 @@
     var cargarMenu=function(){
         var usuario_ID=<?php echo $GLOBALS['oUsuario']->ID;?>;
         var modulo_ID=$("#selModulo").val();
+		
         block_ui(function(){
             $("#divMenus").html("");
-            cargarValores1("Configuracion_General/ajaxExtraer_Menu_Modulo",usuario_ID,modulo_ID,function(resultado){
+			var obj=new Object();
+			obj['usuario_ID']=usuario_ID;
+			obj['modulo_ID']=modulo_ID;
+            enviarAjaxParse("Configuracion_General/ajaxExtraer_Menu_Modulo",'frm',obj,function(resultado){
                 $.unblockUI();
                 $("#divMenus").html(resultado.html);
             });
@@ -126,7 +130,7 @@
             object['usuario_ID']=usuario_ID;
             object['modulo_ID']=modulo_ID;
             block_ui(function(){
-                enviarAjaxParse('Configuracion_General/ajacGrabarMenu_Usuario','frm',object,function(resul){
+                enviarAjaxParse('Configuracion_General/ajaxGrabarMenu_Usuario','frm',object,function(resul){
                     $.unblockUI();
                 if(resul.resultado==1){
                     toastem.success(resul.mensaje);

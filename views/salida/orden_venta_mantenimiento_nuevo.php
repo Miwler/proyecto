@@ -191,7 +191,7 @@
                             <label>N° Orden de compra: </label>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <input id="txtNumero_Orden_Compra" name="txtNumero_Orden_Compra" type="text"  class="text-int form-control" autocomplete=off  value="<?php echo $GLOBALS['oOrden_Venta']->numero_orden_compra; ?>" />
+                            <input id="txtNumero_Orden_Compra" name="txtNumero_Orden_Compra" type="text"  class="form-control" autocomplete=off  value="<?php echo $GLOBALS['oOrden_Venta']->numero_orden_compra; ?>" />
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <label>Plazo de entrega: </label>

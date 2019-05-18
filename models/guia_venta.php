@@ -71,6 +71,9 @@ class guia_venta {
   Private $ver_vista_previa;
     Private $ver_imprimir;
     private $estado;
+    private $cliente_ID;
+    private $oCliente;
+    
   public function __set($var, $valor)
     {
       $temporal = $var;
@@ -195,6 +198,7 @@ class guia_venta {
           "sp_guia_venta_getByID",
           array("iID"=>$ID));
       $oguia_venta=null;
+     
       foreach($dt as $item)
       {
         $oguia_venta= new guia_venta();
@@ -229,7 +233,7 @@ class guia_venta {
       $oguia_venta->motivo_traslado_ID=$item["motivo_traslado_ID"];
       $oguia_venta->descripcion_motivo=$item["descripcion_motivo"];
       $oguia_venta->transbordo=$item["transbordo"];
-      $oguia_venta->peso_bruto_total=$item["peso_bruto_total"];
+      $oguia_venta->peso_bruto_total= round($item["peso_bruto_total"],2);
       $oguia_venta->nro_pallets=$item["nro_pallets"];
       $oguia_venta->modalidad_traslado_ID=$item["modalidad_traslado_ID"];
       $oguia_venta->ruc_transportista=$item["ruc_transportista"];
@@ -244,8 +248,70 @@ class guia_venta {
       $oguia_venta->guia_baja_ID=$item["guia_baja_ID"];
       $oguia_venta->usuario_id=$item["usuario_id"];
       $oguia_venta->usuario_mod_id=$item["usuario_mod_id"];
-
+      $oguia_venta->cliente_ID= $item['cliente_ID'];
       }
+       
+      return $oguia_venta;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.getByID", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  static function getByIDInd($ID)
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_guia_venta_getByIDInd",
+          array("iID"=>$ID));
+      $oguia_venta=null;
+     
+      foreach($dt as $item)
+      {
+        $oguia_venta= new guia_venta();
+        $oguia_venta->ID=$item["ID"];
+        $oguia_venta->serie=$item["serie"];
+        $oguia_venta->numero=$item["numero"];
+        $oguia_venta->numero_concatenado=$item["numero_concatenado"];
+        $oguia_venta->fecha_emision=$item["fecha_emision"];
+        $oguia_venta->numero_orden_compra=$item["numero_orden_compra"];
+        $oguia_venta->numero_orden_venta=$item["numero_orden_venta"];
+        $oguia_venta->vehiculo_ID=$item["vehiculo_ID"];
+        $oguia_venta->chofer_ID=$item["chofer_ID"];
+        $oguia_venta->estado_ID=$item["estado_ID"];
+        $oguia_venta->observacion=$item["observacion"];
+        $oguia_venta->fecha_inicio_traslado=$item["fecha_inicio_traslado"];
+        $oguia_venta->punto_partida=$item["punto_partida"];
+        $oguia_venta->punto_llegada=$item["punto_llegada"];
+        $oguia_venta->empresa_transporte=$item["empresa_transporte"];
+        $oguia_venta->impresion=$item["impresion"];
+        $oguia_venta->opcion=$item["opcion"];
+        $oguia_venta->numero_producto=$item["numero_producto"];
+        $oguia_venta->empresa_ID=$item["empresa_ID"];
+        $oguia_venta->correlativos_ID=$item["correlativos_ID"];
+        $oguia_venta->motivo_traslado_ID=$item["motivo_traslado_ID"];
+        $oguia_venta->descripcion_motivo=$item["descripcion_motivo"];
+        $oguia_venta->transbordo=$item["transbordo"];
+        $oguia_venta->peso_bruto_total= round($item["peso_bruto_total"],2);
+        $oguia_venta->nro_pallets=$item["nro_pallets"];
+        $oguia_venta->modalidad_traslado_ID=$item["modalidad_traslado_ID"];
+        $oguia_venta->ruc_transportista=$item["ruc_transportista"];
+        $oguia_venta->razon_social_transportista=$item["razon_social_transportista"];
+        $oguia_venta->nro_placa_vehiculo=$item["nro_placa_vehiculo"];
+        $oguia_venta->nro_documento_conductor=$item["nro_documento_conductor"];
+        $oguia_venta->distrito_ID_partida=$item["distrito_ID_partida"];
+        $oguia_venta->distrito_ID_llegada=$item["distrito_ID_llegada"];
+        $oguia_venta->numero_contenedor=$item["numero_contenedor"];
+        $oguia_venta->codigo_puerto=$item["codigo_puerto"];
+        $oguia_venta->cliente_ID_subcotratista=$item["cliente_ID_subcotratista"];
+        $oguia_venta->cliente_ID= $item['cliente_ID'];
+        $oguia_venta->guia_baja_ID= $item['guia_baja_ID'];
+        $oguia_venta->usuario_id=$item["usuario_id"];
+        $oguia_venta->usuario_mod_id=$item["usuario_mod_id"];
+      }
+       
       return $oguia_venta;
     }catch(Exeption $ex)
     {
@@ -387,6 +453,53 @@ function actualizar()
       throw new Exception($ex->getMessage());
     }
   }
+  function actualizar_guia()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_guia_venta_UpdateInd",
+            array(
+                    "retornar"=>$retornar,
+                    "iID"=>$this->ID,
+                    "icliente_ID"=>$this->cliente_ID,
+                    "ifecha_emision"=>FormatTextToDate($this->fecha_emision,'Y-m-d'),
+                    "inumero_orden_compra"=>$this->numero_orden_compra,
+                    "inumero_orden_venta"=>$this->numero_orden_venta,
+                    "ivehiculo_ID"=>$this->vehiculo_ID,
+                    "ichofer_ID"=>$this->chofer_ID,
+                    "iestado_ID"=>$this->estado_ID,
+                    "iobservacion"=>$this->observacion,
+                    "ifecha_inicio_traslado"=>FormatTextToDate($this->fecha_inicio_traslado,'Y-m-d'),
+                    "ipunto_partida"=>$this->punto_partida,
+                    "ipunto_llegada"=>$this->punto_llegada,
+                    "iempresa_transporte"=>$this->empresa_transporte,
+                    "iempresa_ID"=>$this->empresa_ID,
+                    "icorrelativos_ID"=>$this->correlativos_ID,
+                    "imotivo_traslado_ID"=>$this->motivo_traslado_ID,
+                    "idescripcion_motivo"=>$this->descripcion_motivo,
+                    "ipeso_bruto_total"=>$this->peso_bruto_total,
+                    "imodalidad_traslado_ID"=>$this->modalidad_traslado_ID,
+                    "iruc_transportista"=>$this->ruc_transportista,
+                    "irazon_social_transportista"=>$this->razon_social_transportista,
+                    "inro_placa_vehiculo"=>$this->nro_placa_vehiculo,
+                    "inro_documento_conductor"=>$this->nro_documento_conductor,
+                    "idistrito_ID_partida"=>$this->distrito_ID_partida,
+                    "idistrito_ID_llegada"=>$this->distrito_ID_llegada,
+                    "icliente_ID_subcotratista"=>$this->cliente_ID_subcotratista,
+                    "iguia_baja_ID"=>$this->guia_baja_ID,
+                    "iusuario_mod_id"=>$this->usuario_mod_id
+                ),0);
+      $this->getMessage="Se actualizó la información";
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
   static function getCount($filtro="")
     {
     $cn =new connect_new();
@@ -454,6 +567,25 @@ function actualizar()
         try
         {
             $dt=$cn->store_procedure_getGrid("sp_guia_venta_getDescargar",
+                array(
+                    "iguia_venta_ID"=>$guia_venta_ID,
+                    "tipo"=>$tipo
+                ));
+
+
+            return $dt;
+        }catch(Exception $ex)
+        {
+            log_error(__FILE__,"guia_venta.getGuia_SUNAT", $ex->getMessage());
+            throw new Exception('Ocurrio un error en el sistema');
+        }
+    }
+    static function getVistaDescargaInd($guia_venta_ID,$tipo)
+    {
+        $cn =new connect_new();
+        try
+        {
+            $dt=$cn->store_procedure_getGrid("sp_guia_venta_getDescargarInd",
                 array(
                     "iguia_venta_ID"=>$guia_venta_ID,
                     "tipo"=>$tipo
@@ -554,6 +686,27 @@ function actualizar()
       throw new Exception($ex->getMessage());
     }
   }
+  static function getTabla($filtro="",$inicio=-1,$fin=-1,$orden="gv.ID asc")
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+        
+      $dt=$cn->store_procedure_getGrid(
+          "sp_guia_venta_getTabla",
+            array(
+              "filtro"=>$filtro,
+              "inicio"=>$inicio,
+              "fin"=>$fin,
+              "orden"=>$orden));
+      return $dt;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.getGrid", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
     static function getGridSalida($salida_ID)
 	{
             $cn =new connect_new();
@@ -605,4 +758,155 @@ function actualizar()
             throw new Exception($q);
         }
     }
+    function insertar_electronico()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_guia_venta_Insert_Electronico",
+            array(
+            "ifactura_venta_ID"=>$this->factura_venta_ID,
+            "ifecha_emision"=>FormatTextToDate($this->fecha_emision,'Y-m-d'),
+            "inumero_orden_compra"=>$this->numero_orden_compra,
+            "inumero_orden_venta"=>$this->numero_orden_venta,
+            "ivehiculo_ID"=>$this->vehiculo_ID,
+            "ichofer_ID"=>$this->chofer_ID,
+            "iestado_ID"=>$this->estado_ID,
+            "iobservacion"=>$this->observacion,
+            "inumero_pagina"=>$this->numero_pagina,
+            "ifecha_inicio_traslado"=>FormatTextToDate($this->fecha_inicio_traslado,'Y-m-d'),
+            "ipunto_partida"=>$this->punto_partida,
+            "ipunto_llegada"=>$this->punto_llegada,
+            "iempresa_transporte"=>$this->empresa_transporte,
+            "iimpresion"=>$this->impresion,
+            "isalida_ID"=>$this->salida_ID,
+            "iopcion"=>$this->opcion,
+            "inumero_producto"=>$this->numero_producto,
+            "iempresa_ID"=>$this->empresa_ID,
+            "icorrelativos_ID"=>$this->correlativos_ID,
+            "iver_descripcion"=>$this->ver_descripcion,
+            "iver_componente"=>$this->ver_componente,
+            "iver_adicional"=>$this->ver_adicional,
+            "iver_serie"=>$this->ver_serie,
+            "iincluir_obsequios"=>$this->incluir_obsequios,
+            "imotivo_traslado_ID"=>$this->motivo_traslado_ID,
+            "idescripcion_motivo"=>$this->descripcion_motivo,
+            "itransbordo"=>$this->transbordo,
+            "ipeso_bruto_total"=>$this->peso_bruto_total,
+            "inro_pallets"=>$this->nro_pallets,
+            "imodalidad_traslado_ID"=>$this->modalidad_traslado_ID,
+           
+            "iruc_transportista"=>$this->ruc_transportista,
+            "irazon_social_transportista"=>$this->razon_social_transportista,
+            "inro_placa_vehiculo"=>$this->nro_placa_vehiculo,
+            "inro_documento_conductor"=>$this->nro_documento_conductor,
+            "idistrito_ID_partida"=>$this->distrito_ID_partida,
+            "idistrito_ID_llegada"=>$this->distrito_ID_llegada,
+            "inumero_contenedor"=>$this->numero_contenedor,
+            "icodigo_puerto"=>$this->codigo_puerto,
+            "icliente_ID_subcotratista"=>$this->cliente_ID_subcotratista,
+            "iguia_baja_ID"=>$this->guia_baja_ID,
+            "iusuario_id"=>$this->usuario_id
+
+        ));
+      //print_r($dt);
+      if(count($dt)>0){
+          $this->ID=$dt[0]['ID'];
+          $this->serie=$dt[0]['serie'];
+          $this->numero=$dt[0]['numero'];
+          $this->numero_concatenado=$dt[0]['numero_concatenado'];
+          $this->getMessage="Se guardó correctamente";
+      }else{
+          throw new Exception("No se registró la información");
+      }
+      /*if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registró la información");
+      }*/
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+  function insertar_guia()
+    {
+    $cn =new connect_new();
+    try
+    {
+      $dt=$cn->store_procedure_getGrid(
+          "sp_guia_venta_Insert_Individual",
+            array(
+            "icliente_ID"=>$this->cliente_ID,
+            "ifecha_emision"=>FormatTextToDate($this->fecha_emision,'Y-m-d'),
+            "inumero_orden_compra"=>$this->numero_orden_compra,
+            "inumero_orden_venta"=>$this->numero_orden_venta,
+            "ivehiculo_ID"=>$this->vehiculo_ID,
+            "ichofer_ID"=>$this->chofer_ID,
+            "iestado_ID"=>$this->estado_ID,
+            "iobservacion"=>$this->observacion,
+            "ifecha_inicio_traslado"=>FormatTextToDate($this->fecha_inicio_traslado,'Y-m-d'),
+            "ipunto_partida"=>$this->punto_partida,
+            "ipunto_llegada"=>$this->punto_llegada,
+            "iempresa_transporte"=>$this->empresa_transporte,
+            "iempresa_ID"=>$this->empresa_ID,
+            "icorrelativos_ID"=>$this->correlativos_ID,
+            "imotivo_traslado_ID"=>$this->motivo_traslado_ID,
+            "idescripcion_motivo"=>$this->descripcion_motivo,
+            "ipeso_bruto_total"=>$this->peso_bruto_total,
+            "imodalidad_traslado_ID"=>$this->modalidad_traslado_ID,
+            "iruc_transportista"=>$this->ruc_transportista,
+            "irazon_social_transportista"=>$this->razon_social_transportista,
+            "inro_placa_vehiculo"=>$this->nro_placa_vehiculo,
+            "inro_documento_conductor"=>$this->nro_documento_conductor,
+            "idistrito_ID_partida"=>$this->distrito_ID_partida,
+            "idistrito_ID_llegada"=>$this->distrito_ID_llegada,
+            "iusuario_id"=>$this->usuario_id
+
+        ));
+      if(count($dt)>0){
+          $this->ID=$dt[0]['ID'];
+          $this->serie=$dt[0]['serie'];
+          $this->numero=$dt[0]['numero'];
+          $this->numero_concatenado=$dt[0]['numero_concatenado'];
+          $this->getMessage="Se guardó correctamente";
+      }else{
+          throw new Exception("No se registró la información");
+      }
+      /*if($ID>0){
+        $this->getMessage="El registro se guardó correctamente.";
+        $this->ID=$ID;
+        return $ID;
+      } else {
+          throw new Exception("No se registró la información");
+      }*/
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "guia_venta.insertar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
+     static function getGuia_Venta_SUNAT($guia_venta_ID,$tipo)
+	{
+            $cn =new connect_new();
+            try
+            {
+                $dt=$cn->store_procedure_getGrid("sp_guia_venta_EnviarSUNAT",
+                    array(
+                        "iguia_venta_ID"=>$guia_venta_ID,
+                        "tipo"=>$tipo
+                    ));
+                
+                
+                return $dt;
+            }catch(Exception $ex)
+            {
+                log_error(__FILE__,"guia_venta.getGuia_SUNAT", $ex->getMessage());
+                throw new Exception('Ocurrio un error en el sistema');
+            }
+	}
 }  
