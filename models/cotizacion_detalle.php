@@ -384,7 +384,7 @@ class cotizacion_detalle {
         try {
             $q = 'SELECT ID,producto_ID,cotizacion_ID,trim(descripcion) as descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
-            $q.='estado_id,ver_precio,separacion, tiempo_separacion,cantidad_separada,tipo,tipo_ID,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
+            $q.='estado_id,ver_precio,separacion, tiempo_separacion,cantidad_separada,tipo,tipo_ID,incluye_igv,valor_unit_soles_registrado,valor_unit_dolares_registrado,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id ';
             $q.=' FROM cotizacion_detalle ';
             $q.=' where del=0 and ID=' . $ID;
            // echo $q;
@@ -417,6 +417,10 @@ class cotizacion_detalle {
                 $oCotizacion_Detalle->cantidad_separada=$item['cantidad_separada'];
                 $oCotizacion_Detalle->tipo=$item['tipo'];
                 $oCotizacion_Detalle->tipo_ID=$item['tipo_ID'];
+                $oCotizacion_Detalle->incluye_igv=$item['incluye_igv'];
+                
+                $oCotizacion_Detalle->valor_unit_soles_registrado=$item['valor_unit_soles_registrado'];
+                $oCotizacion_Detalle->valor_unit_dolares_registrado=$item['valor_unit_dolares_registrado'];
                 $oCotizacion_Detalle->usuario_id=$item['usuario_id'];
                 $oCotizacion_Detalle->usuario_mod_id=$item['usuario_mod_id'];
 

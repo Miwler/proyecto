@@ -977,107 +977,39 @@
         $returnView=true;
    
     }
-    function post_ajaxWeb_Chat_Session_Configuracion() {
+    
+   function post_ajaxWeb_Chat_Session_Configuracion() {
         require ROOT_PATH . 'models/web_chat_session.php';
-        require ROOT_PATH . 'models/usuario.php';
-        require ROOT_PATH . 'models/estado.php';
-        require ROOT_PATH . 'controls/funcionController.php';
-        $buscar = trim($_POST['txtBuscar']);
         
+        require ROOT_PATH . 'controls/funcionController.php';
+        $orden=$_POST['orden'];
         $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
         $cantidadMostrar = $_POST['txtMostrar'] == '' ? 30 : $_POST['txtMostrar'];
-        $txtOrden = $_POST['txtOrden'];
-        $orden_tipo = 'DESC';
-        $orden_class = 'imgOrden-desc';
-        if (isset($_POST['chkOrdenASC'])) {
-            $orden_class = 'imgOrden-asc';
-            $orden_tipo = 'ASC';
-        }
-        switch ($txtOrden) {
-            
-            case 1:
-                $orden = 'ID ' . "desc";
-                break;
-            case 2:
-                $orden = 'nombre_visitante ' . $orden_tipo;
-                break;
-            case 3:
-                $orden = 'email_visitante ' . $orden_tipo;
-                break;
-            case 4:
-                $orden = 'usuario_remitente_ID ' . $orden_tipo;
-                break;
-            case 5:
-                $orden = 'usuario_receptor_ID ' . $orden_tipo;
-                break;
-            case 6:
-                $orden = 'fecha ' . $orden_tipo;
-                break;
-            case 7:
-                $orden = 'estado_ID ' . $orden_tipo;
-                break;
-            
-            default:
-                $orden = 'ID  ' . $orden_tipo;
-                break;
-        }
-        $filtro='empresa_ID='.$_SESSION['empresa_ID'];
-       
-        if($buscar!=''){
-            
-            $filtro.= " and upper(nombre_visitante) like '%" . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . "%'";
-        }
-
-
-        //---------------------------------------					 
-        $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
-        $resultado.='<th> Acción</th>';
-        $resultado.='<th  style="display:none;" class="thOrden" onclick="fncOrden(1);">ID' . (($txtOrden == 1 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='<th  class="thOrden" onclick="fncOrden(2);">Visitante' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='<th  class="thOrden" onclick="fncOrden(3);">Email Visita.' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='<th  class="thOrden" onclick="fncOrden(4);">Usuario Re.' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='<th  class="thOrden" onclick="fncOrden(5);">Usuario aten.' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='<th  class="thOrden" onclick="fncOrden(6);">Fecha' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='<th  class="thOrden" onclick="fncOrden(7);">Estado' . (($txtOrden == 7 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
-        $resultado.='</tr><t/head>';
-        $resultado.='<tbody>';
-        $colspanFooter = 8;
+        $campo_orden = $_POST['campo_orden'];
+    
+        
         try {
-            $cantidadMaxima = web_chat_session::getCount($filtro);
-            $dtWeb_Chat_Session= web_chat_session::getGrid($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
-            $rows = count($dtWeb_Chat_Session);
+                $dt =web_chat_session::getTabla($_SESSION['empresa_ID']); 
 
-            foreach ($dtWeb_Chat_Session as $item) {
-                $remitente=($item['usuario_remitente_ID']==-1)?"Anonimo":usuario::getByID($item['remitente_ID'])->nombre;
-                $receptor=($item['usuario_receptor_ID']==-1)?"Ninguno":usuario::getByID($item['usuario_receptor_ID'])->nombre;
-                $estado=estado::getByID($item['estado_ID'])->nombre;
-                $titulo=($item['estado_ID']==65)?"Chatear":(($item['estado_ID']==66)?"Ocupado":"Ver chat");
-                $resultado.='<tr class="tr-item">';
-                $resultado.='<td class="btnAction" style="min-width:100px;">'
-                        . '<a onclick="fncEditar(&#39;' . $item['ID'] . '&#39;);"class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="'.$titulo.'" ><span class="glyphicon glyphicon-comment"> '.$titulo.'</a>'
-                        .'</td>';
-                $resultado.='<td style="display:none;">' .$item['ID'] . '</td>';
-                $resultado.='<td>' .FormatTextView($item['nombre_visitante']) . '</td>';
-                $resultado.='<td>' .FormatTextView($item['email_visitante']) . '</td>';
-                $resultado.='<td>' .FormatTextView($remitente) . '</td>';
-                $resultado.='<td>' .FormatTextView($receptor) . '</td>';
-                $resultado.='<td>' .$item['fecha'] . '</td>';
-                $resultado.='<td>' .FormatTextView($estado) . '</td>';
-                $resultado.='</tr>';
-            }
-
-            $cantidadPaginas = '';
-
-            $resultado.=paginacion($cantidadMaxima,$cantidadMostrar,$colspanFooter,$paginaActual);
-
-            $resultado.='<tr class="tr-footer"><th colspan=' . $colspanFooter . '>' . $rows . ' de ' . $cantidadMaxima . ' Registros</th></tr>';
-        } catch (Exception $ex) {
-            $resultado.='<tr ><td colspan=' . $colspanFooter . '>' . $ex->getMessage() . '</td></tr>';
+                $array_cabecera=array(
+                    array("cabecera"=>'N°',"class_alineado"=>'text-center',"campo"=>'ID',"filtro"=>"no"),
+                    array("cabecera"=>'Visitante',"class_alineado"=>'text-left',"campo"=>'nombre_visitante',"filtro"=>"si"),
+                    array("cabecera"=>'Correo',"class_alineado"=>'text-left',"campo"=>'email_visitante',"filtro"=>"si"),
+                    array("cabecera"=>'U. Remitente',"class_alineado"=>'text-left',"campo"=>'remitente',"filtro"=>"si"),
+                    array("cabecera"=>'U. Receptor',"class_alineado"=>'text-left',"campo"=>'receptor',"filtro"=>"si"),
+                    array("cabecera"=>'Fecha',"class_alineado"=>'text-center',"campo"=>'fecha',"filtro"=>"si"),
+                    array("cabecera"=>'Estado',"class_alineado"=>'text-center',"campo"=>'estado',"filtro"=>"si"),
+                    
+                    array("cabecera"=>'Opcion',"class_alineado"=>'text-center',"campo"=>'opcion',"filtro"=>"no")
+                );
+                $resultado=generador_tabla($dt,$array_cabecera,$campo_orden,$orden,$cantidadMostrar,$paginaActual); 
+                $mensaje='';
+            } catch (Exception $ex) {
+                log_error(__FILE__, "inventario/post_ajaxInventario_Mantenimiento", $ex->getMessage());
+            $mensaje=mensaje_error;
         }
-        $resultado.='</tbody>';
-        $resultado.='</table>';
-
-        $mensaje = '';
+       
+       
         $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
         //$retorn="<h1>Hola</h1>";
 
@@ -1106,6 +1038,28 @@
         $GLOBALS['oWeb_chat_Session']=$oWeb_chat_Session;
         $GLOBALS['dtWeb_Chat_Session_Mensaje']=$dtWeb_Chat_Session_Mensaje;
     }
+    function post_ajaxCargarContactos(){
+            require ROOT_PATH . 'models/web_chat_session.php';
+            require ROOT_PATH . 'models/web_chat_session_mensaje.php';
+            $usuario_ID_chat=-1;
+            $web_chat_session_ID=$_POST['txtWeb_Chat_Session_ID'];
+            $texto=FormatTextSave($_POST['texto']);
+            $ruta_archivo="";
+            
+            $resultado=0;
+            $mensaje="";
+            try{
+                
+                $resultado=1;
+                $mensaje=FormatTextView($oWeb_Chat_Session_Mensaje->getMessage);
+            }catch(Exception $ex){
+                $resultado=-1;
+                $mensaje=$ex->getMessage();
+            }
+            $retornar = Array('resultado' => $resultado, 'mensaje' => $mensaje);
+  
+            echo json_encode($retornar);
+        }
     function post_ajaxEnviarChat(){
             require ROOT_PATH . 'models/web_chat_session.php';
             require ROOT_PATH . 'models/web_chat_session_mensaje.php';

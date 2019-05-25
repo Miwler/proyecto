@@ -334,7 +334,7 @@ class connect_new
                 //$lv_log .= $val;
                 $lv_log .= $lv_call;
                 $lv_log .= $lv_select;
-                //echo $lv_log;
+           // echo $lv_log;
                 //echo $val;
                 //echo $lv_select;
                 if (!($sentencia = $this->connect_new->prepare($lv_call))) 
@@ -355,10 +355,10 @@ class connect_new
                     throw new Exception("Falló la ejecución: ("  .$this->connect_new->errno.")");
                     
                 }
-               
+              
                 $resultado =$sentencia->fetch();
                  
-               
+                //print_r($resultado);
                 $this->disconnect_new();
                 return $resultado[0];
 

@@ -2,7 +2,7 @@
     var pdf = (function ($) {
 
         var descargar = function (url) {
-           console.log(url);
+           //console.log(url);
             var i=0;
             $('#pdf').each(function(){
                 i++;

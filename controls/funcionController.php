@@ -897,7 +897,7 @@ function generador_tabla($dt,$array_cabecera,$campo_orden,$orden,$cantidadMostra
             $buscar_ar=array("cam"=>$column['campo'],"valor"=>$valor1);
             array_push($array_buscar,$buscar_ar);
         }
-        if($column['filtro']=='si'){
+        if(strtoupper($column['filtro'])=='SI'){
         $r1.='<th style="padding-top:1px;padding-bottom:1px;"><input type="text" autocomplete="off" name="buscar_'.$column['campo'].'" value="'.$valor1.'" style="background:#EEEDED" class="form-control buscadores" onDblClick="this.value=&#39;&#39;"></th>';
         }else{
            $r1.='<th></th>'; 

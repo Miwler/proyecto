@@ -281,7 +281,8 @@ class menu
             $retorna="";
             
            $dt=$cn->store_procedure_getGrid(
-              "sp_menu_getLista",array( "imodulo_ID"=>$modulo_ID,"iusuario_ID"=>$usuario_ID,"iempresa_ID"=>$empresa_ID));
+              "sp_menu_getLista",
+                   array( "imodulo_ID"=>$modulo_ID,"iusuario_ID"=>$usuario_ID,"iempresa_ID"=>$empresa_ID));
 
             if(count($dt)>0){
                 $retorna=$dt[0]['html'];

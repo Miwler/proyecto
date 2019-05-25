@@ -391,7 +391,7 @@ private $periodo_defecto;
     $retornar =0;
     try
     {
-      $ID=$cn->store_procedure_transa(
+      $retornar=$cn->store_procedure_transa(
           "sp_datos_generales_Update",
             array(
                 "retornar"=>$retornar,
@@ -433,7 +433,7 @@ private $periodo_defecto;
                 "itasadetraccion"=>$this->tasadetraccion,
                 "iusuario_mod_id"=>$this->usuario_mod_id
             ),0);
-      if($ID>0){
+      if($retornar>0){
           $this->getMessage="Se actualizó correctamente.";
       }else{
           $this->getMessage="no se actualizó correctamente.";

@@ -687,108 +687,67 @@ function calcularTipoCambio(tipo){
         }
         ProductoValores();
     }
-    function ProductoValores(){   
+  function ProductoValores(){   
+        var caso="total-detalle";
         var caja1=$('#txtCantidad').val();
         var caja2=$('#valor_unit_soles_registrado').val().split(',').join('');
         var caja3=$('#valor_unit_dolares_registrado').val().split(',').join('');
         var incluye_igv=($("#ckIncluyeIgv").is(":checked"))?1:0;
         var valIGV=parseFloat($('#txtValIgv').val());
-          if($.trim(caja1)==""){
-              var valor1=0;
-          } else {valor1=parseInt(caja1);}
+        
+           var cantidad=$('#txtCantidad').val();
+           var precio_unitario_soles=$('#valor_unit_soles_registrado').val().split(',').join('');
+           var precio_unitario_dolares=$('#valor_unit_dolares_registrado').val().split(',').join('');
+           var total_soles=0;
+           var total_dolares=0;
+           var sub_total_soles=0;
+           var sub_total_dolares=0;
+           var valor_unitario_soles=0;
+           var valor_unitario_dolares=0;
+           var vigv_dolares=0;
+           var vigv_soles=0;
+            if(incluye_igv==1){
+                //if(bd_tipo_calculo_precio=="precio_final"){
+                    total_soles=redondear(cantidad*precio_unitario_soles,2);
+                    total_dolares=redondear(cantidad*precio_unitario_dolares,2);
+                    sub_total_soles=redondear((total_soles/(1+parseFloat(valIGV))),2);
+                    sub_total_dolares=redondear((total_dolares/(1+parseFloat(valIGV))),2);
+                    valor_unitario_soles=redondear((sub_total_soles/cantidad),bd_largo_decimal);
+                    valor_unitario_dolares=redondear((sub_total_dolares/cantidad),bd_largo_decimal);
+                    vigv_dolares=redondear(parseFloat(total_dolares)-parseFloat(sub_total_dolares),2);
+                    //console.log(vigv_dolares) ;
+                    vigv_soles=redondear(parseFloat(total_soles)-parseFloat(sub_total_soles),2);
+                    $("#txtPrecioUnitarioDolares").val(valor_unitario_dolares);
+                    $("#txtPrecioUnitarioSoles").val(valor_unitario_soles);
 
-          if($.trim(caja3)==""){
-               var valor3=0;
-          }else {
-              valor3=parseFloat(caja3);
+                    $('#txtSubTotalSoles').val(sub_total_soles);
+                    $("#txtSubTotalDolares").val(sub_total_dolares);
+                    
+                    $("#txtIgvDolares").val(vigv_dolares);
+                    $("#txtIgvSoles").val(vigv_soles);
+                    $("#txtTotalDolares").val(total_dolares);
+                    $("#txtTotalSoles").val(total_soles);
+                //}
+               // console.log(formatNumber.formatear(105899.5485));
+            }else{
+                sub_total_soles=redondear(precio_unitario_soles*cantidad,2);
+                sub_total_dolares=redondear(precio_unitario_dolares*cantidad,2);
+                vigv_dolares=redondear(sub_total_dolares*valIGV,2);
+                vigv_soles=redondear(sub_total_soles*valIGV,2);
+                total_soles=redondear((parseFloat(sub_total_soles)+parseFloat(vigv_soles)),2);
+                total_dolares=redondear((parseFloat(sub_total_dolares)+parseFloat(vigv_dolares)),2);
+                $("#txtPrecioUnitarioDolares").val(precio_unitario_dolares);
+                $("#txtPrecioUnitarioSoles").val(precio_unitario_soles);
 
-             }
-        if($.trim(caja2)==""){
-          var valor2=0;
-        }else {
-            valor2=caja2;
+                $('#txtSubTotalSoles').val(sub_total_soles);
+                $("#txtSubTotalDolares").val(sub_total_dolares);
 
+                $("#txtIgvDolares").val(vigv_dolares);
+                $("#txtIgvSoles").val(vigv_soles);
+                $("#txtTotalDolares").val(total_dolares);
+                $("#txtTotalSoles").val(total_soles);
+            } 
         }
-        var resultadoSoles=0;
-        var resultadoSoles1=0;
-        var precio_unitario_soles_sinr=0;
-        var precio_unitario_soles=0;
-        if(incluye_igv==0){
-            precio_unitario_soles=valor2;
-            resultadoSoles1=valor1*(valor2);
-            
-        }else{
-            precio_unitario_soles_sinr=valor2/(1+valIGV);
-            precio_unitario_soles=redondear(precio_unitario_soles_sinr,bd_largo_decimal);
-            resultadoSoles1=valor1*precio_unitario_soles_sinr;
-           
-        }
-          resultadoSoles=redondear(resultadoSoles1,2);
-         if(isNaN(resultadoSoles)==false){ 
-         $('#txtSubTotalSoles').val(resultadoSoles); 
-         }else{
-             $('#txtSubTotalSoles').val('--');
-         }
-         var resultadoDolares=0;
-         var resultadoDolares1=0;
-         var precio_unitario_dolares=0;
-         var precio_unitario_dolares_sinr=0;
-         if(incluye_igv==0){
-             precio_unitario_dolares=valor3;
-             resultadoDolares1=valor1*valor3;
-            
-        }else{
-            precio_unitario_dolares_sinr=valor3/(1+valIGV);
-            precio_unitario_dolares=redondear(precio_unitario_dolares_sinr,bd_largo_decimal);
-            resultadoDolares1=valor1*precio_unitario_dolares_sinr;
-            
-        }
-        $('#txtPrecioUnitarioSoles').val(precio_unitario_soles);
-        $('#txtPrecioUnitarioDolares').val(precio_unitario_dolares);
-         resultadoDolares=redondear(resultadoDolares1,2);
-         
-          if(isNaN(resultadoDolares)==false){
-              $('#txtSubTotalDolares').val(resultadoDolares);
-          }else{
-              $('#txtSubTotalDolares').val('--');
-          }
-
-        if(resultadoSoles1>0){
-            var igvSoles=redondear(parseFloat(resultadoSoles1)*valIGV,2);
-            $('#txtIgvSoles').val(igvSoles);
-            var TotalSoles=redondear(parseFloat(resultadoSoles1)+parseFloat(igvSoles),2);
-            $('#txtTotalSoles').val(TotalSoles);
-        }
-        if(resultadoDolares1>0){
-            var igvDolares=redondear(parseFloat(resultadoDolares1)*valIGV,2);
-            $('#txtIgvDolares').val(igvDolares);
-            var TotalDolares=redondear(parseFloat(resultadoDolares1)+parseFloat(igvDolares),2);
-            $('#txtTotalDolares').val(TotalDolares);
-        }
-            
-          //calcularIGV();    
-             
-        }
-    function calcularIGV(){
-
-        var subtotalSoles=$('#txtSubTotalSoles').val();
-        var subtotalDolares=$('#txtSubTotalDolares').val();
-        var valIGV=parseFloat($('#txtValIgv').val());
-        if(subtotalSoles!=0){
-            var igvSoles=redondear(parseFloat(subtotalSoles)*valIGV,2);
-            $('#txtIgvSoles').val(igvSoles);
-            var TotalSoles=redondear(parseFloat(subtotalSoles)+parseFloat(igvSoles),2);
-            $('#txtTotalSoles').val(TotalSoles);
-        }
-        if(subtotalDolares!=0){
-            var igvDolares=redondear(parseFloat(subtotalDolares)*valIGV,2);
-            $('#txtIgvDolares').val(igvDolares);
-            var TotalDolares=redondear(parseFloat(subtotalDolares)+parseFloat(igvDolares),2);
-            $('#txtTotalDolares').val(TotalDolares);
-        }
-
-
-    }
     function VerSeparaciones(producto_ID){
         cargarValores('/Funcion/ajaxVerSeparaciones',producto_ID,function(resultado){
             $("#table_separaciones tbody").html(resultado.html);

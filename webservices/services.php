@@ -17,16 +17,18 @@ function getGrid($sql){
    
     return json_encode($dt);
 }
-function store_procedure_getGrid($pt_args){
+function store_procedure_getGrid($array){
     require_once ('../models/connect_new.php');
     $cn = new connect_new();
-    $dt=$cn->store_procedure_getGrid("getFactura_Electronica", array(
-                'iempresa_ID'=>empresa_ID,
-                'itipo_comprobante_ID'=>$tipo_comprobante_ID,
-                'iserie'=>$serie,
-                'inumero'=>$numero,
-                'imonto_total'=>$monto_total,
-            ));
+    $argumentos=json_decode($array['pt_args'],true);
+    /*$dt=$cn->store_procedure_getGrid($array['pv_proc'], array(
+                'iempresa_ID'=>2,
+                'itipo_comprobante_ID'=>1,
+                'iserie'=>'F001',
+                'inumero'=>'133',
+                'imonto_total'=>94302.5,
+            ));*/
+    $dt=$cn->store_procedure_getGrid($array['pv_proc'], $argumentos);
     $dt=utf8_converter($dt);
    
     return json_encode($dt);
@@ -77,7 +79,7 @@ $server->register("getGrid",
     "encoded",
     "Extrae una cadena de registros.");
 $server->register("store_procedure_getGrid",
-    array("pt_args" => "xsd:string"),
+    array("pv_proc" => "xsd:string","pt_args" => "xsd:string"),
     array("return" => "xsd:string"),
     "urn:services",
     "urn:services#store_procedure_getGrid",

@@ -90,6 +90,27 @@ class menu_usuario {
             throw new Exception("Ocurrio un Error en la consulta");
         }
     }
+    function registrar_menu($usuario_ID,$menu_ID,$modulo_ID,$empresa_ID,$accion) {
+        $cn = new connect_new();
+        $retornar = 0;
+        try {
+            $retornar=$cn->store_procedure_transa("sp_menu_usuario_RegistrarMenu", array(
+                "retornar"=>$retornar,
+                "imenu_ID"=>$menu_ID,
+                "iusuario_ID"=>$usuario_ID,
+                "imodulo_ID"=>$modulo_ID,
+		"iempresa_ID"=>$empresa_ID,
+                "accion"=>$accion,
+                "iusuario_id_reg"=>$_SESSION['usuario_ID'],
+            ), 0);
+            
+            //$this->getMessage = 'Se guardó correctamente.';
+            return $retornar;
+        } catch (Exception $ex) {
+            log_error(__FILE__, "menu_usuario.registrar", $ex->getMessage());
+            throw new Exception("Ocurrio un Error en la consulta");
+        }
+    }
     function eliminar() {
         $cn = new connect_new();
         $retornar = -1;

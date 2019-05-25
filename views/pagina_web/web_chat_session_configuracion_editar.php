@@ -1,5 +1,5 @@
 <?php
-require ROOT_PATH . "views/shared/content-float-modal.php";
+require ROOT_PATH . "views/shared/content-view.php";
 
 ?>	
 <?php

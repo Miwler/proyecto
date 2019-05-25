@@ -26,6 +26,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Usuario:</label>
                         <div class="col-sm-9">
+                            <input type="hidden" id="usuario_ID" name="usuario_ID" value="<?php echo $GLOBALS['oUsuario']->ID;?>">
                             <input type="text" id="txtNombre" name="txtNombre" autocomplete="off" value="<?php echo $GLOBALS['oUsuario']->nombre;?>" class="form-control" disabled>
                         </div>
                     </div>
@@ -69,13 +70,14 @@
         
             <div class="form-footer">
                 <div class="pull-left">
+                    <!--
                     <button type="button"  id="btnEnviar" name="btnEnviar" class="btn btn-success" onclick="Grabar();">
                             <img title="Guardar" alt="" src="/include/img/boton/save_14x14.png">
                             Guardar
-                        </button>
+                        </button>-->
                         <button  id="btnCancelar" name="btnCancelar" type="button" title="Salir" onclick="window_float_close_modal();" class="btn btn-danger">
                             <img  alt="" src="/include/img/boton/cancel_14x14.png">
-                            Cancelar
+                            Cerrar
                         </button>
                 </div>
                 <div class="clearfix"></div>
@@ -142,6 +144,17 @@
             
         }
         
+    }
+    function fncRegistrar_Menu(ID,objeto){
+        var accion=($(objeto).is(":checked"))?"registrar":"eliminar";
+        var obj=new Object(); 
+        obj['menu_ID']=ID;
+        obj['accion']=accion;
+        enviarAjaxParse('/Configuracion_General/ajaxRegistrar_Menu','frm',obj,function(resultado){
+            if(resultado.resultado<0){
+               toastem.error("Ocurrió un error al registrar.");
+            }
+        });
     }
     </script>
     <?php } ?>  

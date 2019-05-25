@@ -704,7 +704,8 @@ function returnPageBack() {
 }
 
 function redondear(numero, cantidad_decimal) {
-    var nDecimal = Math.pow(10, cantidad_decimal);
+   // console.log(numero);
+   /* var nDecimal = Math.pow(10, cantidad_decimal);
     numero = numero + '';
     numero = numero.replace(',', '');
     var rNumero = Math.round(numero * nDecimal) / nDecimal;
@@ -712,9 +713,28 @@ function redondear(numero, cantidad_decimal) {
         rNumero = 0;
     }
     new Intl.NumberFormat("de-DE").format(rNumero)
-    return rNumero;
+   // console.log(rNumero);*/
+    //return rNumero;
+    return Number.parseFloat(numero).toFixed(cantidad_decimal);
 }
-
+function formatear_moneda(numero,cantidad_decimal){
+     return Number.parseFloat(numero).toFixed(cantidad_decimal);
+    /*var retorna=numero.parseFloat;
+    if(numero % 1!=0){
+        var num=numero.toString().split('.');
+        console.log(numero+"deed-"+decimal);
+        if(num.lenght>0){
+            var decimal=num[1];
+            
+            var largo=decimal.toString().length;
+            if(largo<cantidad_decimal){
+                retorna=numero.toString()+'.'+(zero.repeat(cantidad_decimal - largo));
+            }
+        }
+    }
+    return retorna;*/
+    
+}
 
 function financiero(x) {
      x=x+'';

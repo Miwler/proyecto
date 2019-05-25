@@ -184,7 +184,7 @@
                                     <input type="hidden" id="valor_unitario" name="valor_unitario" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->valor_unitario;?>">
                                     <div class="input-group">
                                         <span class="input-group-addon bg-success">USD</span>
-                                        <input type="text" id="txtPrecioUnitarioDolares" class="form-control no-border-left moneda_redondeo" name="txtPrecioUnitarioDolares" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_dolares;?>" onkeyup="calcularTipoCambio('2');" type="text" autocomplete="off">
+                                        <input type="text" id="txtPrecioUnitarioDolares" class="form-control no-border-left moneda_redondeo" name="txtPrecioUnitarioDolares" value="<?php echo (($GLOBALS['oOrden_Venta_Detalle']->pu_incluye_igv==1)?$GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_dolares:(($GLOBALS['oOrden_Venta']->moneda_ID==2?$GLOBALS['oOrden_Venta_Detalle']->valor_unitario:($GLOBALS['oOrden_Venta_Detalle']->precio_venta_subtotal_dolares/$GLOBALS['oOrden_Venta_Detalle']->cantidad)))) ;?>" onkeyup="calcularTipoCambio('2');" type="text" autocomplete="off">
                                         <input type="hidden" id="txtValorUnitarioDolares" name="txtValorUnitarioDolares" >
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@
                                 <div class="col-sm-12">
                                     <div class="input-group">
                                         <span class="input-group-addon bg-success">S/.</span>
-                                        <input type="text" id="txtPrecioUnitarioSoles" class="form-control no-border-left moneda_redondeo" name="txtPrecioUnitarioSoles" value="<?php echo $GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_soles;?>" onkeyup="calcularTipoCambio('1');" type="text" autocomplete="off">
+                                        <input type="text" id="txtPrecioUnitarioSoles" class="form-control no-border-left moneda_redondeo" name="txtPrecioUnitarioSoles" value="<?php echo (($GLOBALS['oOrden_Venta_Detalle']->pu_incluye_igv==1)?$GLOBALS['oOrden_Venta_Detalle']->precio_venta_unitario_soles:($GLOBALS['oOrden_Venta']->moneda_ID==1?$GLOBALS['oOrden_Venta_Detalle']->valor_unitario:($GLOBALS['oOrden_Venta_Detalle']->precio_venta_subtotal_soles/$GLOBALS['oOrden_Venta_Detalle']->cantidad)));?>" onkeyup="calcularTipoCambio('1');" type="text" autocomplete="off">
                                         <input type="hidden" id="txtValorUnitarioSoles" name="txtValorUnitarioSoles">
                                     </div>
                                 </div>
@@ -1202,8 +1202,10 @@ function calcularTipoCambio(tipo){
         enviarAjax('salida/ajaxExtraerIGV','frm',obj,function(res){
             
             var resultado=$.parseJSON(res);
+            
             valor_igv_dolares=redondear(parseFloat(resultado.resultado_dolares),2);
             valor_igv_soles=redondear(parseFloat(resultado.resultado_soles),2);
+            //console.log(valor_igv_soles);
             $('#txtIgvDolares').val(valor_igv_dolares);
             $('#tdIgvDolares').html(valor_igv_dolares);
             $('#txtIgvSoles').val(valor_igv_soles);

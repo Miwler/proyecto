@@ -543,6 +543,9 @@ function get_cotizacion_mantenimiento_producto_nuevo($id){
     $oCotizacion_Detalle->adicional=0;
     $oCotizacion_Detalle->componente=0;
     $oCotizacion_Detalle->incluye_igv=precio_incluye_igv;
+    $oCotizacion_Detalle->cantidad="";
+    $oCotizacion_Detalle->valor_unit_dolares_registrado="";
+    $oCotizacion_Detalle->valor_unit_soles_registrado="";
     $oInventario=new inventario();
     $GLOBALS['linea_ID']=0;
     $GLOBALS['categoria_ID']=0;
@@ -2025,7 +2028,7 @@ function get_Cotizacion_PDF($id){
     require ROOT_PATH . 'models/operador.php';
     require ROOT_PATH . 'models/cotizacion_numero_cuenta.php';
     require ROOT_PATH . 'models/imagen_documentos.php';
-    
+    require ROOT_PATH . 'include/PDFMerger.php';
     global $returnView_float;
     $returnView_float=true;
     $oCotizacion=cotizacion::getByID($id);
@@ -2269,9 +2272,16 @@ function get_Cotizacion_PDF($id){
 
     }
 
-
+ $ruta=ruta_archivo."/temp/cotizacion/cotizacion_".$_SESSION['empresa_ID'].$oCotizacion->numero."_".rand(1,500).".pdf";
+  $ruta2=ruta_archivo."/temp/pdf/reporte010157.pdf";
+ $pdf->Output($ruta,'F');
+ $config = array('myOrientation' => $orientationPage, 'mySheetType' => $sheetType);
+  $pdf1 = new PDFMerger($config);
+  $pdf1->addPDF($ruta,'all');
+  $pdf1->addPDF($ruta2,'all');
+  $pdf1->merge('file', ruta_archivo.'TEST2.pdf');
     //$pdf->Rect(10,88,10,180);
-    $pdf->Output('cotizacion_Nro'.sprintf("%'.07d",$oCotizacion->numero).'.pdf','D');
+    //$pdf->Output('cotizacion_Nro'.sprintf("%'.07d",$oCotizacion->numero).'.pdf','D');
 
 }
 function get_Cotizacion_Mantenimiento_Producto_Editar($id){
@@ -3296,17 +3306,18 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         try{
             if($tipo_cambio!=$oCotizacionold->tipo_cambio){
                 $dtCotizacion_Detalle=cotizacion_detalle::getGrid('cotizacion_ID='.$oCotizacionold->ID.' and tipo_ID in (1,2,5,6)',-1,-1,'ID asc');
+                //print_r($dtCotizacion_Detalle);
                 $sub_total=0;
                 foreach($dtCotizacion_Detalle as $item){
                     //Actualizamos sus hijos
 
                     $precio_venta_unitario=0;
-
+                    $valor_unitario=0;
 
                     $dtCotizacion_Detalle_Hijos=cotizacion_detalle::getGrid('cotizacion_detalle_ID='.$item['ID'],-1,-1,'ID desc');
                     if(count($dtCotizacion_Detalle_Hijos)>0){
                         foreach($dtCotizacion_Detalle_Hijos  as $value){
-                            $oCotizacion_Detalle_Hijo=cotizacion_detalle::getByID($value['ID']);
+                            $oCotizacion_Detalle_Hijo=cotizacion_detalle::getByID1($value['ID']);
 
                              if($oCotizacionold->moneda_ID==1){
                                 $oCotizacion_Detalle_Hijo->precio_venta_unitario_dolares=number_format($oCotizacion_Detalle_Hijo->precio_venta_unitario_soles/$tipo_cambio,2,'.','');
@@ -3314,7 +3325,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                                 $oCotizacion_Detalle_Hijo->precio_venta_dolares=number_format($oCotizacion_Detalle_Hijo->precio_venta_subtotal_dolares*($oCotizacionold->igv+1),2,'.','');
                                 $oCotizacion_Detalle_Hijo->vigv_dolares=number_format($oCotizacion_Detalle_Hijo->precio_venta_subtotal_dolares*$oCotizacionold->igv,2,'.','');
 
-                                if($value['tipo']==3){
+                                if($value['tipo_ID']==3){
                                 //componente
                                     $precio_venta_unitario=$precio_venta_unitario+number_format($oCotizacion_Detalle_Hijo->precio_venta_subtotal_dolares,2,'.','');
                                 }else {
@@ -3327,7 +3338,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                                 $oCotizacion_Detalle_Hijo->precio_venta_soles=number_format($oCotizacion_Detalle_Hijo->precio_venta_subtotal_soles*($oCotizacionold->igv+1),2,'.','');
                                 $oCotizacion_Detalle_Hijo->vigv_soles=number_format($oCotizacion_Detalle_Hijo->precio_venta_subtotal_soles*$oCotizacionold->igv,2,'.','');
 
-                                if($value['tipo']==3){
+                                if($value['tipo_ID']==3){
                                 //componente
                                     $precio_venta_unitario=$precio_venta_unitario+number_format($oCotizacion_Detalle_Hijo->precio_venta_subtotal_soles,2,'.','');
                                 }else {
@@ -3342,29 +3353,33 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                         }
                     }
 
-                    $oCotizacion_Detalle=cotizacion_detalle::getByID($item['ID']);
+                    $oCotizacion_Detalle=cotizacion_detalle::getByID1($item['ID']);
 
                     if($oCotizacionold->moneda_ID==1){
                         if($precio_venta_unitario==0){
                             $precio_venta_unitario=$oCotizacion_Detalle->precio_venta_unitario_soles/$tipo_cambio;
                         }
+                        $valor_unitario=round($oCotizacion_Detalle->valor_unit_soles_registrado/$tipo_cambio,bd_largo_decimal);
                         $oCotizacion_Detalle->precio_venta_unitario_dolares=number_format($precio_venta_unitario,2,'.','');
                         $oCotizacion_Detalle->precio_venta_subtotal_dolares=number_format($oCotizacion_Detalle->precio_venta_unitario_dolares*$item['cantidad'],2,'.','');
                         $oCotizacion_Detalle->precio_venta_dolares=number_format($oCotizacion_Detalle->precio_venta_subtotal_dolares*(1+$oCotizacionold->igv),2,'.','');
                         $oCotizacion_Detalle->vigv_dolares=number_format($oCotizacion_Detalle->precio_venta_subtotal_dolares*$oCotizacionold->igv,2,'.','');
+                        $oCotizacion_Detalle->valor_unit_dolares_registrado=$valor_unitario;
                         $sub_total=$sub_total+$oCotizacion_Detalle->precio_venta_subtotal_dolares;
                     }else {
                         if($precio_venta_unitario==0){
                             $precio_venta_unitario=$oCotizacion_Detalle->precio_venta_unitario_dolares*$tipo_cambio;
                         }
+                        $valor_unitario=round($oCotizacion_Detalle->valor_unit_dolares_registrado*$tipo_cambio,bd_largo_decimal);
                         $oCotizacion_Detalle->precio_venta_unitario_soles=number_format($precio_venta_unitario,2,'.','');
                         $oCotizacion_Detalle->precio_venta_subtotal_soles=number_format($oCotizacion_Detalle->precio_venta_unitario_soles*$item['cantidad'],2,'.','');
                         $oCotizacion_Detalle->precio_venta_soles=number_format( $oCotizacion_Detalle->precio_venta_subtotal_soles*(1+$oCotizacionold->igv),2,'.','');
                         $oCotizacion_Detalle->vigv_soles=number_format($oCotizacion_Detalle->precio_venta_subtotal_soles*$oCotizacionold->igv,2,'.','');
+                        $oCotizacion_Detalle->valor_unit_soles_registrado=$valor_unitario;
                         $sub_total=$sub_total+$oCotizacion_Detalle->precio_venta_subtotal_soles;
                     }
                     $oCotizacion_Detalle->usuario_mod_id=$_SESSION['usuario_ID'];
-                    $oCotizacion_Detalle->actualizar();
+                    $oCotizacion_Detalle->actualizar1();
                 }
                 //Actualizamos en tipo de cambio en la cotizacion
                 if($oCotizacionold->moneda_ID==1){
@@ -3386,7 +3401,8 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
 
             return $oCotizacionold;
         }catch(Exception $ex){
-            return $mensaje->$ex->getMessage();
+            log_error(__FILE__,"salidaController/actualizar_costos_cotizacion_detalle",$ex->getMessage());
+            return $ex->getMessage();
         }
 
     }
@@ -3399,7 +3415,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
         require ROOT_PATH.'models/cliente_contacto.php';
         require ROOT_PATH.'models/operador.php';
         
-if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
         require ROOT_PATH.'models/forma_pago.php';
         require ROOT_PATH.'models/credito.php';
         require ROOT_PATH.'models/numero_cuenta.php';
@@ -3624,6 +3640,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
 
             try{
                     $oCotizacion=cotizacion::getByID($cotizacion_ID);
+                    actualizar_costos_cotizacion_detalle($oCotizacion,$tipo_cambio);
                     $oCotizacion->empresa_ID=$_SESSION['empresa_ID'];
                     $oCotizacion->cliente_ID=$cliente_ID;
                     $oCotizacion->cliente_contacto_ID=$cliente_contacto_ID;
@@ -3724,7 +3741,7 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                 $dtCotizacion_Detalle=cotizacion_detalle::getGrid('cotizacion_ID='.$id);
                 if(count($dtCotizacion_Detalle)>0){
                     foreach($dtCotizacion_Detalle as $item){
-                        $oCotizacion_Detalle=cotizacion_detalle::getByID($item['ID']);
+                        $oCotizacion_Detalle=cotizacion_detalle::getByID1($item['ID']);
                         eliminarSeparacionesProductoCotizacion($oCotizacion_Detalle);
                     }
                 }

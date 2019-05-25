@@ -115,10 +115,10 @@ $(function () {
     });*/
     
   
-
-    $('.moneda').click(function () {
+    
+    /*$('.moneda').click(function () {
         $(this).select();
-    });
+    });*/
 /*
     $('.decimal').focus(function () {
         $(this).select();

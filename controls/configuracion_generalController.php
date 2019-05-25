@@ -671,6 +671,31 @@ function post_ajaxExtraer_Menu_Modulo(){
     $retornar = Array('html' => $html);
     echo json_encode($retornar);
 }
+function post_ajaxRegistrar_Menu(){
+    require ROOT_PATH . 'models/menu_usuario.php';
+   
+    $usuario_ID=$_POST['usuario_ID'];
+    $empresa_ID=$_POST['selEmpresa'];
+    $modulo_ID=$_POST['selModulo'];
+    $menu_ID=$_POST['menu_ID'];
+    
+    $accion=$_POST['accion'];
+    $resultado=1;
+    try {
+        
+        $retorna=menu_usuario::registrar_menu($usuario_ID,$menu_ID,$modulo_ID,$empresa_ID,$accion);
+        
+       if($retorna<=0){
+           $resultado=-1;
+       }
+    }catch (Exception $ex) {
+        log_error(__FILE__,"configuracion_generaleController/post_ajaxExtraer_Reportes_Empresa",$ex->getMessage());
+        $html=(mensaje_error);
+    }
+    
+    $retornar = Array('resultado' => $resultado);
+    echo json_encode($retornar);
+}
 function post_ajaxExtraer_Reportes_Empresa(){
     require ROOT_PATH . 'models/reportes_empresa.php';
    
@@ -689,6 +714,7 @@ function post_ajaxExtraer_Reportes_Empresa(){
     $retornar = Array('html' => $html);
     echo json_encode($retornar);
 }
+
 function post_ajaxExtraer_Menu_Modulo1(){
     require ROOT_PATH . 'models/menu.php';
     require ROOT_PATH . 'models/modulo.php';

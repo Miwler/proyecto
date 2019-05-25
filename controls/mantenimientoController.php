@@ -5260,8 +5260,8 @@ function post_Datos_generales_Mantenimiento(){
                 }
                 $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];
                 $oDatos_Generales->actualizar();
-                $resultado=1;
-                $mensaje=$oDatos_Generales->getMessage;
+                
+                //$mensaje=$oDatos_Generales->getMessage;
             }else{
                 $resultado=-1;
                 $mensaje="Se actualizaron, pero no se subieron las imagenes";

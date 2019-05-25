@@ -505,3 +505,225 @@ RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.connect_new
 ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
 
+============================ERROR====================================
+FECHA Y HORA: 18 05 2019 01:05:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_web_chat_session_Update does not exist
+SET @_retornar = '0';
+SET @_iID = '1';
+SET @_iempresa_ID = '2';
+SET @_inombre_visitante = 'miwler';
+SET @_iemail_visitante = 'miwler0081@gmail.com';
+SET @_iusuario_remitente_ID = '-1';
+SET @_iusuario_receptor_ID = '0';
+SET @_ifecha = '2019-04-25 00:00:00';
+SET @_isession = '19688242845cc28353e1a8d0.24525636';
+SET @_iestado_ID = '66';
+SET @_iusuario_mod_id = '0';
+SET @_idescripcion = 'Chat principal';
+CALL `sp_web_chat_session_Update`( @_retornar, @_iID, @_iempresa_ID, @_inombre_visitante, @_iemail_visitante, @_iusuario_remitente_ID, @_iusuario_receptor_ID, @_ifecha, @_isession, @_iestado_ID, @_iusuario_mod_id, @_idescripcion)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 18 05 2019 01:05:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_web_chat_session_Update does not exist
+SET @_retornar = '0';
+SET @_iID = '1';
+SET @_iempresa_ID = '2';
+SET @_inombre_visitante = 'miwler';
+SET @_iemail_visitante = 'miwler0081@gmail.com';
+SET @_iusuario_remitente_ID = '-1';
+SET @_iusuario_receptor_ID = '0';
+SET @_ifecha = '2019-04-25 00:00:00';
+SET @_isession = '19688242845cc28353e1a8d0.24525636';
+SET @_iestado_ID = '66';
+SET @_iusuario_mod_id = '0';
+SET @_idescripcion = 'Chat principal';
+CALL `sp_web_chat_session_Update`( @_retornar, @_iID, @_iempresa_ID, @_inombre_visitante, @_iemail_visitante, @_iusuario_remitente_ID, @_iusuario_receptor_ID, @_ifecha, @_isession, @_iestado_ID, @_iusuario_mod_id, @_idescripcion)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 18 05 2019 01:05:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_web_chat_session_Update does not exist
+SET @_retornar = '0';
+SET @_iID = '1';
+SET @_iempresa_ID = '2';
+SET @_inombre_visitante = 'miwler';
+SET @_iemail_visitante = 'miwler0081@gmail.com';
+SET @_iusuario_remitente_ID = '-1';
+SET @_iusuario_receptor_ID = '0';
+SET @_ifecha = '2019-04-25 00:00:00';
+SET @_isession = '19688242845cc28353e1a8d0.24525636';
+SET @_iestado_ID = '66';
+SET @_iusuario_mod_id = '0';
+SET @_idescripcion = 'Chat principal';
+CALL `sp_web_chat_session_Update`( @_retornar, @_iID, @_iempresa_ID, @_inombre_visitante, @_iemail_visitante, @_iusuario_remitente_ID, @_iusuario_receptor_ID, @_ifecha, @_isession, @_iestado_ID, @_iusuario_mod_id, @_idescripcion)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '2';
+SET @_iruta = '/home/main/2';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '2';
+SET @_iruta = '/home/main/2';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:39
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '2';
+SET @_iruta = '/home/main/2';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '1';
+SET @_iruta = '/home/main/1';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '23';
+SET @_iruta = '/home/main/23';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '23';
+SET @_iruta = '/files/imagenes/logo/23.jpg';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '23';
+SET @_iruta = '/home/main/23';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '23';
+SET @_iruta = '/files/imagenes/logo/23.jpg';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 19 05 2019 22:05:41
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getData
+ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
+SET @_iempresa_ID = '2';
+SET @_iruta = '/home/main/2';
+CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
+============================ERROR====================================
+FECHA Y HORA: 20 05 2019 22:05:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=13922' at line 1update cotizacion_detalle set producto_ID=330,cotizacion_ID=5192,descripcion="MEM KING 2GB 1333 CL9 RANK X16 
+
+Memoria Kingston KVR13N9S6/2, 2GB, DDR3, 1333MHz, CL9.",cantidad=2,precio_venta_unitario_soles=10084.74600,precio_venta_subtotal_soles=20169.49,precio_venta_subtotal_dolares=5932.20,precio_venta_unitario_dolares=2966.10200,igv=0.18,vigv_soles=3630.51,vigv_dolares=1067.80,precio_venta_soles=23800.00,precio_venta_dolares=7000.00,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=13922
+============================ERROR====================================
+FECHA Y HORA: 20 05 2019 22:05:27
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=13927' at line 1update cotizacion_detalle set producto_ID=79,cotizacion_ID=5195,descripcion="DISCO DURO 1TB SATA3 7200 WESTERN DIGITAL MOD WD10EZEX, 64M BLUE",cantidad=1,precio_venta_unitario_soles=7284.83100,precio_venta_subtotal_soles=7284.83,precio_venta_subtotal_dolares=2174.58,precio_venta_unitario_dolares=2174.57600,igv=0.18,vigv_soles=1311.27,vigv_dolares=391.42,precio_venta_soles=8596.10,precio_venta_dolares=2566.00,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=13927
+============================ERROR====================================
+FECHA Y HORA: 20 05 2019 22:05:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=15819' at line 1update cotizacion_detalle set producto_ID=4907,cotizacion_ID=6107,descripcion="Regulador de voltaje , 1000VA / 600W,",cantidad=4,precio_venta_unitario_soles=45.00000,precio_venta_subtotal_soles=180.00,precio_venta_subtotal_dolares=54.56,precio_venta_unitario_dolares=13.64000,igv=0.18,vigv_soles=32.40,vigv_dolares=9.82,precio_venta_soles=212.40,precio_venta_dolares=64.38,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15819
+============================ERROR====================================
+FECHA Y HORA: 20 05 2019 22:05:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0)' at line 1insert into cotizacion_detalle (ID,producto_ID,cotizacion_ID,descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,incluye_igv,usuario_id) values(15824,2091,6109,"021-05429 OFFICESTD SNGL LICSAPK OLP NL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,,0)
+============================ERROR====================================
+FECHA Y HORA: 20 05 2019 22:05:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0)' at line 1insert into cotizacion_detalle (ID,producto_ID,cotizacion_ID,descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,incluye_igv,usuario_id) values(15824,2091,6109,"021-05429 OFFICESTD SNGL LICSAPK OLP NL",2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,,0)
+============================ERROR====================================
+FECHA Y HORA: 21 05 2019 00:05:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'inv.fdc' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 21 05 2019 00:05:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'inv.fdc' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 21 05 2019 00:05:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'inv.fdc' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 22 05 2019 21:05:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1109 Unknown table 'me' in field list
+SET @_imodulo_ID = '9';
+SET @_iusuario_ID = '32';
+SET @_iempresa_ID = '1';
+CALL `sp_menu_getLista`( @_imodulo_ID, @_iusuario_ID, @_iempresa_ID)
+============================ERROR====================================
+FECHA Y HORA: 22 05 2019 21:05:40
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\configuracion_generalController.php
+METODO: configuracion_generaleController/post_ajaxExtraer_Menu_Modulo
+ERROR: Ocurrio un Error en la consulta
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 00:05:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 00:05:24
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 21:05:20
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=15824' at line 1update cotizacion_detalle set producto_ID=274,cotizacion_ID=6110,descripcion="PR1333-4G200 4GB DDR3 1333 NON ECC SODIMM
+NUEVA",cantidad=2,precio_venta_unitario_soles=788.24,precio_venta_subtotal_soles=1576.48,precio_venta_subtotal_dolares=472.00,precio_venta_unitario_dolares=236.00000,igv=0.18,vigv_soles=283.77,vigv_dolares=84.96,precio_venta_soles=1860.25,precio_venta_dolares=556.96,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15824
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 21:05:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.transa
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=15824' at line 1update cotizacion_detalle set producto_ID=274,cotizacion_ID=6110,descripcion="PR1333-4G200 4GB DDR3 1333 NON ECC SODIMM
+NUEVA",cantidad=2,precio_venta_unitario_soles=788.24,precio_venta_subtotal_soles=1576.48,precio_venta_subtotal_dolares=472.00,precio_venta_unitario_dolares=236.00000,igv=0.18,vigv_soles=283.77,vigv_dolares=84.96,precio_venta_soles=1860.25,precio_venta_dolares=556.96,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15824
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 21:05:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController/actualizar_costos_cotizacion_detalle
+ERROR: update cotizacion_detalle set producto_ID=274,cotizacion_ID=6110,descripcion="PR1333-4G200 4GB DDR3 1333 NON ECC SODIMM
+NUEVA",cantidad=2,precio_venta_unitario_soles=788.24,precio_venta_subtotal_soles=1576.48,precio_venta_subtotal_dolares=472.00,precio_venta_unitario_dolares=236.00000,igv=0.18,vigv_soles=283.77,vigv_dolares=84.96,precio_venta_soles=1860.25,precio_venta_dolares=556.96,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15824
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 23:05:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+
+============================ERROR====================================
+FECHA Y HORA: 23 05 2019 23:05:50
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.connect_new
+ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+

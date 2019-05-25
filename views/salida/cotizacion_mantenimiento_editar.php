@@ -68,6 +68,7 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Economicos"><i class="fa fa-cc-visa" aria-hidden="true"></i><span>Datos económicos</span> </a></li>
                 <li class="nav-item"><a href="#DivProductos" data-toggle="tab" onclick="fncCargar_Detalle_Cotizacion();"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Productos</span></a></li>
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" onclick="fncCargar_Detalle_Obsequios();"><i class="fa fa-cubes"></i><span>Obsequios</span></a></li>
+                 <li class="nav-item"><a href="#anexo" data-toggle="tab" ><i class="fa fa-cubes"></i><span>Documento Anexo</span></a></li>
             </ul>
             <div class="pull-right" id="btns-grupo">
                 
@@ -320,6 +321,9 @@
                     <div class="divCuerpo" id="obsequios">
                         
                     </div>
+                </div>
+                <div class="tab-pane fade inner-all" id="anexo">
+                   
                 </div>
             </div>
         </div>

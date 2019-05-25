@@ -596,9 +596,10 @@
             switch($reportes_ID){
                 case 1://Comisión total por empleado
                     $subtitulo="";
+                     $filtro="cast(inv.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -616,10 +617,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";
                         
                     }
                     $dtReportes=reportes::getComisionesGenerales($filtro,-1,-1);
@@ -634,9 +635,10 @@
                     break;
                 case 2://Comisión detalle por empleado
                     $subtitulo="";
+                     $filtro="cast(inv.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -654,10 +656,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";
                         
                     }
                     $dtReportes1=reportes::getComisionesDetalles($filtro,-1,-1);
@@ -674,9 +676,10 @@
                     break;
                 case 3://Ventas por cliente
                     $subtitulo="";
+                   $filtro="cast(ov.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -694,10 +697,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";
                         
                     }
                     $dtReportes=reportes::getVentasClientes($filtro,-1,-1);
@@ -710,9 +713,10 @@
                     break;
                 case 4://Ventas por cliente detalle
                     $subtitulo="";
+                    $filtro="cast(ov.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -730,10 +734,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";
                         
                     }
                     $dtReportes=reportes::getVentasClientesDetalle($filtro,-1,-1);
@@ -976,7 +980,7 @@
         
         $rango=(isset($_POST['ckRango']))? 1 : 0;
         if(isset($_POST['selPeriodo']))$periodo=$_POST['selPeriodo'];
-        if(isset($_POST['txtFecha_Inicio']))$fecha_inicio=$_POST['txtFecha_Inicio'];
+        if(isset($_POST['txtFecha_Inicio']))$fecha_inicio= $_POST['txtFecha_Inicio'];
     
         if(isset($_POST['txtFecha_Fin'])) $fecha_fin=$_POST['txtFecha_Fin'];
         if(isset($_POST['selCliente']))$cliente_ID=$_POST['selCliente'];
@@ -993,9 +997,10 @@
             switch($reportes_ID){
                 case 1://Comision total por empleado
                     $subtitulo="";
+                    $filtro="cast(inv.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -1013,10 +1018,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";    
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";    
                     }
                     //$dtComisiones_Generales=reportes::getComisionesGenerales($filtro,-1,-1,"CONCAT(op.nombres,' ',op.apellido_paterno)");
                     $dtReportes=reportes::getComisionesGenerales($filtro,-1,-1);
@@ -1035,9 +1040,11 @@
                     break;
                 case 2://Comisión detalle por empleado
                     $subtitulo="";
+                    
+                    $filtro="cast(inv.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -1055,10 +1062,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID  in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";    
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";    
                     }
                     
                     $dtReportes=reportes::getComisionesDetalles($filtro,-1,-1);
@@ -1079,9 +1086,10 @@
                     break;
                 case 3://Ventas por cliente
                     $subtitulo="";
+                    $filtro="cast(ov.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -1099,10 +1107,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";    
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";    
                     }
                     
                     $dtReportes=reportes::getVentasClientes($filtro,-1,-1);
@@ -1119,9 +1127,10 @@
                     break;
                 case 4://Ventas por cliente detalle
                     $subtitulo="";
+                     $filtro="cast(ov.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";
@@ -1139,10 +1148,10 @@
                     }
                     if(isset($_POST['ckEstado'])){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID =60"; 
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)"; 
                     }else{
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="fv.estado_ID in (60,41)";    
+                        $filtro.="fv.estado_ID not in (53,95,96,107,115)";    
                     }
                     
                     $dtReportes=reportes::getVentasClientesDetalle($filtro,-1,-1);
@@ -1161,9 +1170,10 @@
                     break;    
                 case 9://Facturas por cobrar
                     $subtitulo="";
+                    $filtro="cast(ov.fdc as date)>='".fecha_inicio_reportes."'";
                     if($rango==1){
                         $filtro.=($filtro=="")?"":" and ";
-                        $filtro.="ov.fecha between '".$fecha_inicio."' and '".$fecha_fin."'";  
+                        $filtro.="ov.fecha between '".FormatTextToDate($fecha_inicio, 'Y-m-d')."' and '".FormatTextToDate($fecha_fin, 'Y-m-d')."'";  
                         $subtitulo="Desde: ".$fecha_inicio. " Hasta: ". $fecha_fin;
                     }else {
                         $filtro.=($filtro=="")?"":" and ";

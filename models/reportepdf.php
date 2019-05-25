@@ -150,7 +150,7 @@ class PDF1 extends FPDF
             $this->SetXY(10,20);
             $this->SetTextColor(0);
             //Título
-            $this->MultiCell(190,5,strtoupper($this->oReportes->titulo),0,'C',false);
+            $this->MultiCell(190,5,utf8_decode(strtoupper($this->oReportes->titulo)),0,'C',false);
             $this->Ln(4);
             $this->SetFont('Arial','B',10);
             $this->MultiCell(190,5, utf8_decode($this->SubTitulo),0,'L',false);
