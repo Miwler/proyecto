@@ -2028,7 +2028,7 @@ function get_Cotizacion_PDF($id){
     require ROOT_PATH . 'models/operador.php';
     require ROOT_PATH . 'models/cotizacion_numero_cuenta.php';
     require ROOT_PATH . 'models/imagen_documentos.php';
-    require ROOT_PATH . 'include/PDFMerger.php';
+    require ROOT_PATH . 'models/concatpdf.php';
     global $returnView_float;
     $returnView_float=true;
     $oCotizacion=cotizacion::getByID($id);
@@ -2272,16 +2272,18 @@ function get_Cotizacion_PDF($id){
 
     }
 
- $ruta=ruta_archivo."/temp/cotizacion/cotizacion_".$_SESSION['empresa_ID'].$oCotizacion->numero."_".rand(1,500).".pdf";
+    $time = time();
+
+$sesio= date("d_m_Y_H_i_s", $time);
+ $ruta=ruta_archivo."/temp/cotizacion/cotizacion_".$_SESSION['empresa_ID'].$sesio.$oCotizacion->numero."_".rand(1,500).".pdf";
   $ruta2=ruta_archivo."/temp/pdf/reporte010157.pdf";
+  
  $pdf->Output($ruta,'F');
- $config = array('myOrientation' => $orientationPage, 'mySheetType' => $sheetType);
-  $pdf1 = new PDFMerger($config);
-  $pdf1->addPDF($ruta,'all');
-  $pdf1->addPDF($ruta2,'all');
-  $pdf1->merge('file', ruta_archivo.'TEST2.pdf');
-    //$pdf->Rect(10,88,10,180);
-    //$pdf->Output('cotizacion_Nro'.sprintf("%'.07d",$oCotizacion->numero).'.pdf','D');
+
+    $pdf1 = new concatpdf();
+    $pdf1->setFiles(array($ruta, $ruta2));
+    $pdf1->concat();
+    $pdf1->Output('concat.pdf','D');
 
 }
 function get_Cotizacion_Mantenimiento_Producto_Editar($id){
@@ -3256,6 +3258,11 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                     }
 
                 }
+                if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
+                
+                    
+                }
+
                 $mensaje="Se actualizó correctamente";
                 $resultado=1;
             }catch(Exception $ex){

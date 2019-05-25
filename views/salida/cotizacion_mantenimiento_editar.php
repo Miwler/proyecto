@@ -15,7 +15,7 @@
 	
         <script type="text/javascript" src="include/js/jCronometro.js"></script>
         <link rel="stylesheet" type="text/css" href="include/css/cronometro.css" />
-
+        
     <script type="text/javascript">
 //        $('#btnBuscarOC').css('display','none');
         $(document).ready(function () {
@@ -58,7 +58,7 @@
 <?php function fncPage(){?>
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==2||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Editar/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();"  class="form-horizontal form-bordered">
+<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Editar/<?php echo $GLOBALS['oCotizacion']->ID;?>" onsubmit="return validar();"  class="form-horizontal form-bordered" enctype="multipart/form-data">
     
     <div class="panel panel-tab rounded shadow">
          <div class="panel-heading no-padding">
@@ -323,7 +323,17 @@
                     </div>
                 </div>
                 <div class="tab-pane fade inner-all" id="anexo">
-                   
+                   <div class="form-group">
+                        <label class="control-label col-sm-4">Documento anexo(.pdf)</label>
+                        <div class="col-sm-8">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                <span class="input-group-addon btn btn-success btn-file"><span class="fileinput-new">Seleccionar</span><span class="fileinput-exists">Cambiar</span><input type="file" name="file_anexo"></span>
+                                <a href="#" class="input-group-addon btn btn-danger fileinput-exists" data-dismiss="fileinput">Eliminar</a>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>

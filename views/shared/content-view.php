@@ -84,6 +84,9 @@
         <script src="../../../assets/global/plugins/bower_components/datatables/js/dataTables.bootstrap.js"></script>
         <script src="../../../assets/global/plugins/bower_components/datatables/js/datatables.responsive.js"></script>
         <script src="../../../assets/global/plugins/bower_components/fuelux/dist/js/fuelux.min.js"></script>
+         <link rel="stylesheet" type="text/css" href="../../../assets/global/plugins/bower_components/jasny-bootstrap-fileinput//css/jasny-bootstrap-fileinput.min.css" />
+        <script src="../../../assets/global/plugins/bower_components/jasny-bootstrap-fileinput/js/jasny-bootstrap.fileinput.min.js"></script>
+       
         <!---->
         <!--<link rel="stylesheet" type="text/css" href="include/css/estilos-float.css" />
 	<!--<link rel="stylesheet" type="text/css" href="include/css/controles.css" />-->
