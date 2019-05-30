@@ -219,7 +219,7 @@ class comunicacion_baja {
       throw new Exception($ex->getMessage());
     }
   }
-  static function getFilasDocumentos($factura_venta,$nota_credito,$nota_debito,$ID=0)
+  static function getFilasDocumentos($factura_venta,$facturas_erradas,$nota_credito,$nota_debito,$ID=0)
     {
     $cn =new connect_new();
     $retornar ="";
@@ -229,6 +229,7 @@ class comunicacion_baja {
           "sp_comunicacion_baja_getFilasDocumentos",
             array(
                 "ifactura_venta"=>$factura_venta,
+                "ifacturas_erradas"=>$facturas_erradas,
                 "inota_credito"=>$nota_credito,
                 "inota_debito"=>$nota_debito,
                 "iID"=>$ID,

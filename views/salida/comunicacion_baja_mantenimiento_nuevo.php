@@ -61,19 +61,25 @@ function fncPage() { ?>
         </div>
         <h4 class="page-header">Documentos</h4>
         <div class="form-group">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="ckbox ckbox-theme">
                     <input id="ckFacturas" name="ckFacturas" checked="checked" type="checkbox">
                     <label for="ckFacturas">Facturas/Boletas</label>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
+                <div class="ckbox ckbox-danger">
+                    <input id="ckFacturas_Erradas" name="ckFacturas_Erradas" type="checkbox">
+                    <label for="ckFacturas_Erradas">Facturas/Boletas Erradas</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
                 <div class="ckbox ckbox-theme">
                     <input id="ckNota_Credito" name="ckNota_Credito" type="checkbox">
                     <label for="ckNota_Credito">Nota de crédito</label>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="ckbox ckbox-theme">
                     <input id="ckNota_Debito" name="ckNota_Debito" type="checkbox">
                     <label for="ckNota_Debito">Nota de débito</label>
@@ -146,17 +152,21 @@ function fncPage() { ?>
     function cargarFilas(){
        
         var object=new Object();
-        enviarAjax("Salida/ajaxCargarFilarDocumetosBjas",'form',object,function(resultado){
-            var resul = $.parseJSON(resultado);
-            console.log(resul);
-            if(resul.resultado==1){
-                
-                $("#table_documentos tbody").html(resul.filas);
-            }else{
-                mensaje.error("Ocurrió un error",resul.mensaje);
-            }
-            
+        block_ui(function(){
+            enviarAjax("Salida/ajaxCargarFilarDocumetosBjas",'form',object,function(resultado){
+                $.unblockUI();
+                var resul = $.parseJSON(resultado);
+                //console.log(resul);
+                if(resul.resultado==1){
+
+                    $("#table_documentos tbody").html(resul.filas);
+                }else{
+                    mensaje.error("Ocurrió un error",resul.mensaje);
+                }
+
+            });
         });
+        
     }
     function fnVerFecha(fecha){
         $("#txtFechaReferencia").val(fecha);
@@ -165,6 +175,9 @@ function fncPage() { ?>
         cargarFilas();
     }); 
     $("#ckFacturas").click(function(){
+        cargarFilas();
+    });
+    $("#ckFacturas_Erradas").click(function(){
         cargarFilas();
     });
     $("#ckNota_Credito").click(function(){

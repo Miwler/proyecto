@@ -705,7 +705,7 @@ function returnPageBack() {
 
 function redondear(numero, cantidad_decimal) {
    // console.log(numero);
-   /* var nDecimal = Math.pow(10, cantidad_decimal);
+   var nDecimal = Math.pow(10, cantidad_decimal);
     numero = numero + '';
     numero = numero.replace(',', '');
     var rNumero = Math.round(numero * nDecimal) / nDecimal;
@@ -714,8 +714,8 @@ function redondear(numero, cantidad_decimal) {
     }
     new Intl.NumberFormat("de-DE").format(rNumero)
    // console.log(rNumero);*/
-    //return rNumero;
-    return Number.parseFloat(numero).toFixed(cantidad_decimal);
+    return rNumero;
+   // return Number.parseFloat(numero).toFixed(cantidad_decimal);
 }
 function formatear_moneda(numero,cantidad_decimal){
      return Number.parseFloat(numero).toFixed(cantidad_decimal);

@@ -2274,16 +2274,24 @@ function get_Cotizacion_PDF($id){
 
     $time = time();
 
-$sesio= date("d_m_Y_H_i_s", $time);
- $ruta=ruta_archivo."/temp/cotizacion/cotizacion_".$_SESSION['empresa_ID'].$sesio.$oCotizacion->numero."_".rand(1,500).".pdf";
-  $ruta2=ruta_archivo."/temp/pdf/reporte010157.pdf";
+    $sesio= date("d_m_Y_H_i_s", $time);
+    $ruta=ruta_archivo."/temp/cotizacion/cotizacion_".$_SESSION['empresa_ID'].$sesio.$oCotizacion->numero."_".rand(1,500).".pdf";
+    $ruta_anexo=ruta_archivo."/archivos/cotizacion_anexo/".$oCotizacion->ID.".pdf";
+   
+    if(file_exists($ruta_anexo)){
+        $pdf->Output($ruta,'F');
+        $pdf1 = new concatpdf();
+        $pdf1->setFiles(array($ruta, $ruta_anexo));
+        $pdf1->concat();
+        $pdf1->Output('cotizacion_Nro'.sprintf("%'.07d",$oCotizacion->numero).'.pdf','D');
+    }else{
+        $pdf->Output('cotizacion_Nro'.sprintf("%'.07d",$oCotizacion->numero).'.pdf','D');
+    }
+    //$ruta2=ruta_archivo."/temp/pdf/reporte010157.pdf";
   
- $pdf->Output($ruta,'F');
+ 
 
-    $pdf1 = new concatpdf();
-    $pdf1->setFiles(array($ruta, $ruta2));
-    $pdf1->concat();
-    $pdf1->Output('concat.pdf','D');
+    
 
 }
 function get_Cotizacion_Mantenimiento_Producto_Editar($id){
@@ -3153,6 +3161,12 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $dtCredito=credito::getGrid('id<>0');
             $dtCliente=cliente::getGrid("",-1,-1,"clt.razon_social asc");
             $oNumero_Cuenta=numero_cuenta::getByID(1);
+            $ruta_anexo=ruta_archivo."/archivos/cotizacion_anexo/".$oCotizacion->ID.".pdf";
+            if(!file_exists($ruta_anexo)){
+                $ruta_anexo="";
+            }else{
+                $GLOBALS['nombre_anexo']=$oCotizacion->ID.".pdf";
+            }
             $GLOBALS['dtNumero_Cuenta']=mostrarNumeroCuentas(2,$oCotizacion->moneda_ID,$oCotizacion,null);
             $GLOBALS['dtRepresentanteCliente']=$dtRepresentanteCliente;
             $GLOBALS['dtCliente']=$dtCliente;
@@ -3165,7 +3179,8 @@ function post_cotizacion_mantenimiento_obsequio_editar($id){
             $GLOBALS['dtEstado']=$dtEstado;
             $GLOBALS['oNumero_Cuenta']=$oNumero_Cuenta;
             $GLOBALS['dtMoneda']=moneda::getGrid();
-            $GLOBALS['mensaje']='';
+            $GLOBALS['ruta_anexo']=$ruta_anexo;
+            //$GLOBALS['mensaje']='';
         }
     function post_Cotizacion_Mantenimiento_Editar($id){
         require ROOT_PATH.'models/cotizacion.php';
@@ -3258,12 +3273,29 @@ if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.ph
                     }
 
                 }
-                if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK) {
-                
+                if (isset($_FILES['file_anexo']) && $_FILES['file_anexo']['error'] === UPLOAD_ERR_OK) {
+                    //print_r($_FILES['file_anexo']);
+                    if($_FILES['file_anexo']['type']=="application/pdf"){
+                        $fileTmpPath=$_FILES['file_anexo']['tmp_name'];
+                        $uploadFileDir = ruta_archivo.'/archivos/cotizacion_anexo/';
+                        $newFileName=$oCotizacion->ID.".pdf";
+                        $dest_path = $uploadFileDir . $newFileName;
+                        if(!move_uploaded_file($fileTmpPath, $dest_path))
+                        {
+                          $mensaje = 'Ocurrió un error al subir el archivo.';
+                        }else{
+                            $mensaje = 'Se actualizó y se subió el documento anexo correctamente.';
+                        }
+                            
+                        }else{
+                            $mensaje = 'No se subió el documento anexo, solo se permiten archivos PDF.';
+                        }
                     
+                }else{
+                    $mensaje="Se actualizó correctamente";
                 }
 
-                $mensaje="Se actualizó correctamente";
+                
                 $resultado=1;
             }catch(Exception $ex){
                     $resultado=-1;
@@ -17342,6 +17374,7 @@ function get_Comprobante_RegulaDescargarPDF($id){
     function post_ajaxCargarFilarDocumetosBjas(){
             require ROOT_PATH . 'models/comunicacion_baja.php';
             $facturas=(isset($_POST['ckFacturas']))? 1:0;
+            $facturas_erradas=(isset($_POST['ckFacturas_Erradas']))? 1:0;
             $nota_credito=(isset($_POST['ckNota_Credito']))? 1:0;
             $nota_debito=(isset($_POST['ckNota_Debito']))? 1:0;
             
@@ -17350,7 +17383,7 @@ function get_Comprobante_RegulaDescargarPDF($id){
 
             $resultado=0;
             try{
-                $filas=utf8_encode(comunicacion_baja::getFilasDocumentos($facturas,$nota_credito,$nota_debito,$ID));
+                $filas=utf8_encode(comunicacion_baja::getFilasDocumentos($facturas,$facturas_erradas,$nota_credito,$nota_debito,$ID));
                 $resultado=1;
             }catch(Exception $ex){
                 $resultado=-1;

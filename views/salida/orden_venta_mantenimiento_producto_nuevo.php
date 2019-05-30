@@ -1028,16 +1028,16 @@
             VerSeparaciones(resultado.producto_ID);
         });
      }
-    function calcularTipoCambio(tipo_ID){
+    function calcularTipoCambio(tipo){
         var tipo_cambio=<?php echo $GLOBALS['oOrden_Venta']->tipo_cambio; ?>;
-        if(tipo_ID=="1"){
+        if(tipo=="1"){
             var valorSoles=$('#txtPrecioUnitarioSoles').val().split(',').join('')*1;
             var valorDolares=redondear(parseFloat(valorSoles)/tipo_cambio,bd_largo_decimal);
-            $('#txtPrecioUnitarioDolares').val(valorDolares);
+            $('#txtPrecioUnitarioDolares').val(formatear_moneda(valorDolares,bd_largo_decimal));
         }else{
             var valorDolares=$('#txtPrecioUnitarioDolares').val().split(',').join('')*1;
             var valorSoles=redondear(parseFloat(valorDolares)*tipo_cambio,bd_largo_decimal);
-            $('#txtPrecioUnitarioSoles').val(valorSoles);
+            $('#txtPrecioUnitarioSoles').val(formatear_moneda(valorSoles,bd_largo_decimal));
         }
         ProductoValores();
     }
@@ -1151,8 +1151,8 @@
         //calcularDescuento();
         $('#txtSubTotalSoles').val(subtotalSoles); 
         $('#txtSubTotalDolares').val(subTotalDolares);
-        $('#tdSubTotalSoles').html(subtotalSoles); 
-        $('#tdSubTotalDolares').html(subTotalDolares);    
+        $('#tdSubTotalSoles').html(formatear_moneda(subtotalSoles,2)); 
+        $('#tdSubTotalDolares').html(formatear_moneda(subTotalDolares,2));    
        
         var descuento=0;
         var descuento_dolares=0;
@@ -1168,10 +1168,10 @@
             descuento_dolares=descuento;
             descuento_soles=redondear(descuento_dolares*tipo_cambio,2);
         }
-        $("#tdDescuentoDolares").text(descuento_dolares);
-        $("#txtDescuentoDolares").val(descuento_dolares);
-        $("#tdDescuentoSoles").text(descuento_soles);
-        $("#txtDescuentoSoles").val(descuento_soles);
+        $("#tdDescuentoDolares").text(formatear_moneda(descuento_dolares,2));
+        $("#txtDescuentoDolares").val(formatear_moneda(descuento_dolares,2));
+        $("#tdDescuentoSoles").text(formatear_moneda(descuento_soles,2));
+        $("#txtDescuentoSoles").val(formatear_moneda(descuento_soles,2));
         
         var valor_venta_soles=0;
         
@@ -1186,10 +1186,10 @@
         }
         
         
-        $("#tdValorVentaDolares").html(valor_venta_dolares);
-        $("#txtValorVentaDolares").val(valor_venta_dolares);
-        $("#tdValorVentaSoles").html(valor_venta_soles);
-        $("#txtValorVentaSoles").val(valor_venta_soles);
+        $("#tdValorVentaDolares").html(formatear_moneda(valor_venta_dolares,2));
+        $("#txtValorVentaDolares").val(formatear_moneda(valor_venta_dolares,2));
+        $("#tdValorVentaSoles").html(formatear_moneda(valor_venta_soles,2));
+        $("#txtValorVentaSoles").val(formatear_moneda(valor_venta_soles,2));
         
         var isc_soles=0;
             var isc_dolares=0;
@@ -1221,10 +1221,10 @@
                 isc_soles=redondear(isc_unit_soles*valor1,2);
                 isc_dolares=redondear(isc_unit_dolares*valor1,2);
             }
-            $("#tdIscDolares").html(isc_dolares);
-            $("#txtIscDolares").val(isc_dolares);
-            $("#tdIscSoles").html(isc_soles);
-            $("#txtIscSoles").val(isc_soles);
+            $("#tdIscDolares").html(formatear_moneda(isc_dolares,2));
+            $("#txtIscDolares").val(formatear_moneda(isc_dolares,2));
+            $("#tdIscSoles").html(formatear_moneda(isc_soles,2));
+            $("#txtIscSoles").val(formatear_moneda(isc_soles,2));
             
             
         var tipo_impuesto=$("#selImpuestos_Tipo").val();
@@ -1242,18 +1242,20 @@
         enviarAjax('salida/ajaxExtraerIGV','frm',obj,function(res){
             
             var resultado=$.parseJSON(res);
-            valor_igv_dolares=redondear(parseFloat(resultado.resultado_dolares),2);
-            valor_igv_soles=redondear(parseFloat(resultado.resultado_soles),2);
-            $('#txtIgvDolares').val(valor_igv_dolares);
-            $('#tdIgvDolares').html(valor_igv_dolares);
-            $('#txtIgvSoles').val(valor_igv_soles);
-            $('#tdIgvSoles').html(valor_igv_soles);
-            var total_venta_dolares=valor_igv_dolares+valor_venta_dolares+isc_dolares;
-            var total_venta_soles=valor_igv_soles+valor_venta_soles+isc_soles;
-            $("#tdTotalDolares").html(redondear(total_venta_dolares,2));
-            $("#txtTotalDolares").val(redondear(total_venta_dolares,2));
-            $("#tdTotalSoles").html(redondear(total_venta_soles,2));
-            $("#txtTotalSoles").val(redondear(total_venta_soles,2)); 
+            
+            valor_igv_dolares=parseFloat(redondear(parseFloat(resultado.resultado_dolares),2));
+            valor_igv_soles=parseFloat(redondear(parseFloat(resultado.resultado_soles),2));
+            //console.log(valor_igv_soles);
+            $('#txtIgvDolares').val(formatear_moneda(valor_igv_dolares,2));
+            $('#tdIgvDolares').html(formatear_moneda(valor_igv_dolares,2));
+            $('#txtIgvSoles').val(formatear_moneda(valor_igv_soles,2));
+            $('#tdIgvSoles').html(formatear_moneda(valor_igv_soles,2));
+            var total_venta_dolares=valor_igv_dolares+parseFloat(valor_venta_dolares)+parseFloat(isc_dolares);
+            var total_venta_soles=valor_igv_soles+parseFloat(valor_venta_soles)+parseFloat(isc_soles);
+            $("#tdTotalDolares").html(formatear_moneda(total_venta_dolares,2));
+            $("#txtTotalDolares").val(formatear_moneda(total_venta_dolares,2));
+            $("#tdTotalSoles").html(formatear_moneda(total_venta_soles,2));
+            $("#txtTotalSoles").val(formatear_moneda(total_venta_soles,2)); 
             if($.trim(resultado.mensaje)!=""){
                 toastem.info(resultado.mensaje);
             }
@@ -1262,8 +1264,7 @@
         });
         
         }
-   
-    function calcularDescuento(){
+   function calcularDescuento(){
         var moneda_ID=<?php  echo $GLOBALS['oOrden_Venta']->moneda_ID?>;
         var igv=parseFloat(<?php  echo $GLOBALS['oOrden_Venta']->igv;?>);
         var inclute_igv=($("#ckIncluyeIgv").is(":checked"))?1:0;
@@ -1278,7 +1279,7 @@
             valor_venta_bruto=valor_unitario*cantidad;
         }
         var descuento=redondear(valor_venta_bruto*porcentaje_descuento/100,2);
-        $("#txtTotal_Descuento").val(descuento);
+        $("#txtTotal_Descuento").val(formatear_moneda(descuento,2));
     }
     function VerSeparaciones(producto_ID){
         cargarValores('/Funcion/ajaxVerSeparaciones',producto_ID,function(resultado){

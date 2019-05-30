@@ -68,7 +68,7 @@
                 <li class="nav-item"><a data-toggle="tab" href="#divDatos_Economicos"><i class="fa fa-cc-visa" aria-hidden="true"></i><span>Datos económicos</span> </a></li>
                 <li class="nav-item"><a href="#DivProductos" data-toggle="tab" onclick="fncCargar_Detalle_Cotizacion();"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Productos</span></a></li>
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" onclick="fncCargar_Detalle_Obsequios();"><i class="fa fa-cubes"></i><span>Obsequios</span></a></li>
-                 <li class="nav-item"><a href="#anexo" data-toggle="tab" ><i class="fa fa-cubes"></i><span>Documento Anexo</span></a></li>
+                 <li class="nav-item"><a href="#anexo" data-toggle="tab" ><i class="fa fa-file-pdf-o"></i><span>Documento Anexo</span></a></li>
             </ul>
             <div class="pull-right" id="btns-grupo">
                 
@@ -327,12 +327,18 @@
                         <label class="control-label col-sm-4">Documento anexo(.pdf)</label>
                         <div class="col-sm-8">
                             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                                <span class="input-group-addon btn btn-success btn-file"><span class="fileinput-new">Seleccionar</span><span class="fileinput-exists">Cambiar</span><input type="file" name="file_anexo"></span>
+                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"><?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['nombre_anexo']:""); ?></span></div>
+                                <span class="input-group-addon btn btn-success btn-file"><span class="fileinput-new">Seleccionar</span><span class="fileinput-exists">Cambiar</span><input type="file" name="file_anexo" value="<?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['nombre_anexo']:""); ?>"></span>
                                 <a href="#" class="input-group-addon btn btn-danger fileinput-exists" data-dismiss="fileinput">Eliminar</a>
                             </div>
                         </div>
                         
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <iframe id="frame_anexo" src="<?php echo  $GLOBALS['ruta_anexo']?>" style="width:100%; height: 600px;overflow:auto;"></iframe>
+                            
+                        </div>
                     </div>
                 </div>
             </div>

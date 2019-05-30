@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_producto_nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_electronico_mantenimiento_comprobante_editar.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_editar.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_producto_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/connect_new.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/models/salida_detalle.php</file>
             <file>file:/C:/xampp/htdocs/proyecto/proyecto/controls/salidaController.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/cotizacion_mantenimiento_producto_editar.php</file>
-            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/shared/content-view.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/views/salida/orden_venta_mantenimiento_producto_nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/proyecto/proyecto/include/js/jscript.js</file>
         </group>
     </open-files>
 </project-private>

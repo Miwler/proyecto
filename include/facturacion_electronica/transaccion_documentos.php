@@ -462,6 +462,7 @@ XML;
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         //print_r($response);
         curl_close($ch);
+        
         if ($httpcode == 200) {
             $doc = new DOMDocument();
             $doc->loadXML($response);
@@ -562,7 +563,7 @@ XML;
             log_error(__FILE__,"transaccion_documento.enviar_documento",$ex->getMessage());
         }
     }
-    function consultar_documento_sunat($array_parametros,$metodo){
+   function consultar_documento_sunat($array_parametros,$metodo){
         try{
             $array=$this->getParamEmisor($_SESSION['empresa_ID']);
             $username=$array['RUC'].$array['UsuarioSol'];
@@ -689,46 +690,62 @@ XML;
 $string1 = <<< XML
 $contenido
 XML;
-                                            // echo $string1;
+                                             //echo $string1;
                                             $sxe = new SimpleXMLElement($string1);
-
+											//print_r($sxe);
 
                                             $ns = $sxe->getNamespaces(true);
-                                            $child = $sxe->children($ns['cbc']);
-                                            $fecha_respuesta=$child->ResponseDate.' '.$child->ResponseTime;
-                                            $array_resultado['documento_fecha_resultado']=$fecha_respuesta;
+											IF(count($ns)>0){
+												$child = $sxe->children($ns['cbc']);
+												$fecha_respuesta=$child->ResponseDate.' '.$child->ResponseTime;
+												$array_resultado['documento_fecha_resultado']=$fecha_respuesta;
+												
+												$array=array();
+												$array=$child->Note;
+												$observacion="";
+												for($i=0;$i<count($array);$i++){
+													$observacion.=$array[$i]."<br>";
+												}
+												$array_resultado['documento_observacion']=$observacion; 
+												
+												$Document = $sxe->children($ns['cac']);
+												$DocumentResponse=$Document->DocumentResponse;
+												$response=$DocumentResponse->children($ns['cac']);
+												$response1=$response->Response;
+												$res=$response1->children($ns['cbc']);
+												//var_dump($Document);
+												$descripcion_estado=$res->Description;
+												$codigo_estado=$res->ResponseCode;
+												$array_resultado['documento_descripcion_estado']=$descripcion_estado;
+												$array_resultado['documento_codigo_estado']=$codigo_estado;
+											   
+												$info=$sxe->children($ns['ext']);
+												$UBLExtensions=$info->UBLExtensions;
+												$info2=$UBLExtensions->children($ns['ext']);
+												$UBLExtension=$info2->UBLExtension;
+												$info3=$UBLExtension->children($ns['ext']);
+												$ExtensionContent=$info3->ExtensionContent;
+												$ExtensionContent1=$ExtensionContent->children();
+												$Signature=$ExtensionContent1->Signature->children();
+												$SignedInfo=$Signature->SignedInfo->children();
+												$Reference=$SignedInfo->Reference->children();
+												$array_resultado['documento_codigo_hash']= $Reference->DigestValue;
+										
+											}else{
+												$this->error=1;
+												$array_error=json_decode(json_encode($sxe), TRUE);
+												$obs="<p><b>error_message: </b>".$array_error['error_message']."</p>";
+												$obs.="<p><b>transaction_id: </b>".$array_error['transaction_id']."</p>";
+												$obs.="<p><b>error_code: </b>".$array_error['error_code']."</p>";
+												$obs.="<p><b>error_subcode: </b>".$array_error['error_subcode']."</p>";
+												$obs.="<p><b>formatted_error_msg: </b>".$array_error['formatted_error_msg']."</p>";
+												
+												$array_resultado['documento_observacion']=$obs;
+												$this->observacion=$obs;
+												//print_r($array_error);
+											}
+											
                                             
-                                            $array=array();
-                                            $array=$child->Note;
-                                            $observacion="";
-                                            for($i=0;$i<count($array);$i++){
-                                                $observacion.=$array[$i]."<br>";
-                                            }
-                                            $array_resultado['documento_observacion']=$observacion; 
-                                            
-                                            $Document = $sxe->children($ns['cac']);
-                                            $DocumentResponse=$Document->DocumentResponse;
-                                            $response=$DocumentResponse->children($ns['cac']);
-                                            $response1=$response->Response;
-                                            $res=$response1->children($ns['cbc']);
-                                            //var_dump($Document);
-                                            $descripcion_estado=$res->Description;
-                                            $codigo_estado=$res->ResponseCode;
-                                            $array_resultado['documento_descripcion_estado']=$descripcion_estado;
-                                            $array_resultado['documento_codigo_estado']=$codigo_estado;
-                                           
-                                            $info=$sxe->children($ns['ext']);
-                                            $UBLExtensions=$info->UBLExtensions;
-                                            $info2=$UBLExtensions->children($ns['ext']);
-                                            $UBLExtension=$info2->UBLExtension;
-                                            $info3=$UBLExtension->children($ns['ext']);
-                                            $ExtensionContent=$info3->ExtensionContent;
-                                            $ExtensionContent1=$ExtensionContent->children();
-                                            $Signature=$ExtensionContent1->Signature->children();
-                                            $SignedInfo=$Signature->SignedInfo->children();
-                                            $Reference=$SignedInfo->Reference->children();
-                                            $array_resultado['documento_codigo_hash']= $Reference->DigestValue;
-                                    
                                         }
 
                                     }
@@ -836,6 +853,7 @@ XML;
             log_error(__FILE__,"transaccion_documento.enviar_documento",$ex->getMessage());
         }
     }
+    
     function generar_xml(){
         $ruta="";
         try{

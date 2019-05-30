@@ -720,11 +720,11 @@ function buscarProducto(codigo){
         $(this).val(valor);
         
     });
-    function ProductoValores(){   
+   function ProductoValores(){   
         var caso="total-detalle";
-        var caja1=$('#txtCantidad').val();
+        /*var caja1=$('#txtCantidad').val();
         var caja2=$('#valor_unit_soles_registrado').val().split(',').join('');
-        var caja3=$('#valor_unit_dolares_registrado').val().split(',').join('');
+        var caja3=$('#valor_unit_dolares_registrado').val().split(',').join('');*/
         var incluye_igv=($("#ckIncluyeIgv").is(":checked"))?1:0;
         var valIGV=parseFloat($('#txtValIgv').val());
         
