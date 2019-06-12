@@ -96,7 +96,7 @@ class ingreso {
         $this->orden_ingreso_ID='null';
         $this->usuario_id=$_SESSION["usuario_ID"];
         $this->usuario_mod_id=$_SESSION["usuario_ID"];
-        $this->empresa_ID=$_SESSION["empresa_ID"];
+        $this->empresa_ID=$_GET['empresa_ID'];
         $this->codigo=0;
 
     }
@@ -153,13 +153,13 @@ class ingreso {
             $q='select ifnull(max(ID),0)+1 as ID from ingreso;';
             $cn =new connect_new();
             $ID=$cn->getData($q);
-            $q='select ifnull(max(codigo),0)+1 as ID from ingreso where tipo_movimiento_ID='.$this->tipo_movimiento_ID.' and  empresa_ID='.$_SESSION['empresa_ID'].';';
+            $q='select ifnull(max(codigo),0)+1 as ID from ingreso where tipo_movimiento_ID='.$this->tipo_movimiento_ID.' and  empresa_ID='.$_GET['empresa_ID'].';';
             $cn =new connect_new();
             $codigo=$cn->getData($q);
             
             $q='INSERT INTO ingreso(ID,codigo,empresa_ID,tipo_movimiento_ID,tipo_comprobante_ID,serie,numero,proveedor_ID,fecha_emision,fecha_vencimiento,tipo_cambio,vigv,';
             $q.='con_igv,estado_ID,descuento,recargo,subtotal,igv,total,usuario_id,numero_guia,moneda_ID,orden_ingreso_ID,descripcion,periodo,monto_pendiente,forma_pago_ID) ';
-            $q.='VALUES ('.$ID.','.$codigo.','.$_SESSION['empresa_ID'].','.$this->tipo_movimiento_ID.','.$this->tipo_comprobante_ID.',"'.$this->serie.'",'.$this->numero.',';
+            $q.='VALUES ('.$ID.','.$codigo.','.$_GET['empresa_ID'].','.$this->tipo_movimiento_ID.','.$this->tipo_comprobante_ID.',"'.$this->serie.'",'.$this->numero.',';
             $q.=$this->proveedor_ID.','.$fecha_emision_save.','.$fecha_vencimiento_save.','.number_format($this->tipo_cambio,2,'.','').',';
             $q.= number_format($this->vigv,2,'.','').','.$this->con_igv.','.$this->estado_ID.','.number_format($this->descuento,2,'.','').','.number_format($this->recargo,2,'.','').',';
             $q.=number_format($this->subtotal,2,'.','').','.number_format($this->igv,2,'.','').','.number_format($this->total,2,'.','').','.$this->usuario_id.',"'.$this->numero_guia.'",';
@@ -395,7 +395,7 @@ function actualizar2(){
             try{
                     //Verifico que no se repita la serie y el número por cada proveedor
                     $q='SELECT count(ID) FROM ingreso';
-                    $q.=' WHERE empresa_ID='.$_SESSION['empresa_ID'].' and del=0 and proveedor_ID="'.$this->proveedor_ID.'" and serie="'.$this->serie.'" and numero="'.$this->numero.'"';		
+                    $q.=' WHERE empresa_ID='.$_GET['empresa_ID'].' and del=0 and proveedor_ID="'.$this->proveedor_ID.'" and serie="'.$this->serie.'" and numero="'.$this->numero.'"';		
 
                     if($this->ID!=0){
                             $q.=' and ID<>'.$this->ID;
@@ -420,7 +420,7 @@ function actualizar2(){
         try {
             $q = 'select count(co.ID) ';
             $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct';
-            $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID  and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
+            $q.=' where co.empresa_ID='.$_GET['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID  and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -443,7 +443,7 @@ function actualizar2(){
             $q.= 'ct.nombre as comprobante,co.subtotal,co.vigv,co.subtotal,co.total,co.periodo';
             $q.=',co.monto_pendiente,co.estado_ID,ifNull(orden_ingreso_ID,-1) as orden_ingreso_ID';
             $q.=' FROM ingreso co,proveedor pr,estado est, moneda mo, comprobante_tipo ct ';
-            $q.=' where co.empresa_ID='.$_SESSION['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
+            $q.=' where co.empresa_ID='.$_GET['empresa_ID'].' and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID and mo.ID=co.moneda_ID and ct.ID=co.tipo_comprobante_ID ';
 
 
             if ($filtro != '') {

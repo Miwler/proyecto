@@ -27,7 +27,7 @@ $(document).ready(function(){
 
 
 <?php if(!isset($GLOBALS['resultado'])||$GLOBALS['resultado']==1||$GLOBALS['resultado']==-1){ ?>
-<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal form-bordered" >
+<form id="form" method="POST" action="/Salida/Cotizacion_Mantenimiento_Nuevo" onsubmit="return validar();"  class="form-horizontal form-bordered" enctype="multipart/form-data">
     <div class="panel panel-tab rounded shadow">
         <div class="panel-heading no-padding">
             <ul class="nav nav-tabs responsive-tabs">
@@ -37,6 +37,7 @@ $(document).ready(function(){
                 
                 <li class="nav-item"><a href="#DivProductos" data-toggle="tab" onclick="fncCargar_Detalle_Cotizacion();"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Productos</span></a></li>
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" onclick="fncCargar_Detalle_Obsequios();"><i class="fa fa-cubes"></i><span>Obsequios</span></a></li>
+                <li class="nav-item"><a href="#anexo" data-toggle="tab" ><i class="fa fa-file-pdf-o"></i><span>Documento Anexo</span></a></li>
             </ul>
             <div class="pull-right">
                 <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
@@ -275,11 +276,28 @@ $(document).ready(function(){
                 
                 <div class="tab-pane fade inner-all" id="DivProductos">
                     <?php if (isset($GLOBALS['resultado']) && $GLOBALS['resultado'] == 1) { ?>
-                    <button  type="button" id="btnAgregar" name="btnDetalle" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Agregar
-                    </button>
                     
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <button  type="button" id="btnAgregar" name="btnDetalle" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Agregar
+                            </button>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbCostoUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oCotizacion']->mostrar_precio_unitario==1?"":"checked");?> value="0">
+                                <label for="rbCostoUnitario">Mostrar en la cotización precio unitario sin IGV. </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbPrecioUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oCotizacion']->mostrar_precio_unitario==1?"checked":"");?> value="1">
+                                <label for="rbPrecioUnitario">Mostrar en la cotización precio unitario incluido IGV</label>
+                            </div>
+                        </div>
+                       
+                    </div>
                     <?php } ?>
                     <div class="divCuerpo form-group" id="productos">
                         
@@ -296,6 +314,31 @@ $(document).ready(function(){
                         
                     </div>
                 </div>
+                <div class="tab-pane fade inner-all" id="anexo">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Documento anexo(.pdf)</label>
+                        <div class="col-sm-8">
+                            <input type="hidden" id="ruta" name="ruta" value="<?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['ruta_anexo']:""); ?>">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"><?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['nombre_anexo']:""); ?></span></div>
+                                <span class="input-group-addon btn btn-success btn-file"><span class="fileinput-new">Seleccionar</span><span class="fileinput-exists">Cambiar</span><input type="file" id="file_anexo" name="file_anexo" value="<?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['nombre_anexo']:""); ?>"></span>
+                                <a href="#" class="input-group-addon btn btn-danger fileinput-exists" data-dismiss="fileinput">Eliminar</a>
+                            </div>
+                            <button type="button" class="btn btn-danger" id="btnEliminarAnexo" name="btnEliminarAnexo" style="display: none" onclick="$('#ruta').val('');$('#frame_anexo').attr('src','');$('.fileinput .fileinput-filename').html('');">Eliminar</button>
+                       
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe id="frame_anexo" class="embed-responsive-item" src="" style="width:100%; height: 600px;overflow:auto;"></iframe>
+                            
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
        
@@ -304,6 +347,51 @@ $(document).ready(function(){
     <input id="chkOrdenASC" name="chkOrdenASC"   value="ASC" style="display:none;">
 </form>
 <script type="text/javascript">
+    $(document).ready(function(){
+        $("#frame_anexo").attr("src","");
+        $("#frame_anexo").attr("src","<?php echo  $GLOBALS['ruta_anexo']?>");
+        <?php if($GLOBALS['ruta_anexo']!=""){?>
+            $("#btnEliminarAnexo").css("display","");
+        <?php } ?>
+        
+       
+    });
+    $("#file_anexo").change(function () {
+        
+            filePreview(this);
+        });
+     function filePreview(input) {
+            var uploadFile = input.files[0];
+            if(uploadFile){
+                if (!window.FileReader) {
+                    $('#file_anexo').val('');
+                    toastem.error('El navegador no soporta la lectura de archivos', 'error');
+                    return;
+                }
+
+                if (!(/\.(pdf)$/i).test(uploadFile.name)) {
+                    $('#file_anexo').val('');
+                    toastem.error('Solo se admiten archivos PDF', 'error');
+                    return;
+                }
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(input.files[0]);
+
+                    reader.onload = function (e) {
+                       // console.log(e.target.result);
+                        $('#frame_anexo').prop("src", e.target.result);
+                        //$('#uploadForm').after('<img src="' + e.target.result + '" width="450"       height= "300" />');
+                    }
+                }
+            }else{
+                $("#ruta").val('');
+                $("#btnEliminarAnexo").css("display","");
+            }
+            
+        }
+
     $("#selCliente").change(function(){
         var id=this.value;
         if(id==0){
@@ -374,10 +462,6 @@ $(document).ready(function(){
             }
         }); 
     }
-     
-
-
-   
     var fncCargar_Detalle_Cotizacion=function(){
        
         var cotizacion_ID=$('#txtCotizacion_ID').val();

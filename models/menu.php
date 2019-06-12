@@ -252,14 +252,17 @@ class menu
 	{		
 		$cn =new connect_new();
 		try 
-		{   
+		{   $var=explode('?',$ruta);
+                    if(count($var>0)){
+                        $ruta=$var[0];
+                    }
 			//$q='call getMenu('.$usuario_id.',2,"'.$ruta.'")';
 				
 			$retorna=$cn->store_procedure_getData(
                             "getMenu",
                               array(
                                 "iusuario_ID"=>$usuario_id,
-                                "iempresa_ID"=>$_SESSION['empresa_ID'],
+                                "iempresa_ID"=>$_GET['empresa_ID'],
                                 "iruta"=>$ruta));
                         //print_r($dt);
 			//$retorna=$cn->getData($q);

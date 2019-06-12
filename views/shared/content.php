@@ -99,10 +99,20 @@
         <script src="../../include/jspanel-4.1.2/extensions/contextmenu/jspanel.contextmenu.js" type="text/javascript"></script>
         <script src="../../include/jspanel-4.1.2/extensions/dock/jspanel.dock.js" type="text/javascript"></script>
         -->
-      <script>
-          var bd_largo_decimal=<?php echo (defined('bd_largo_decimal')? bd_largo_decimal:0);?>;
-        var bd_tipo_calculo_precio="<?php echo (defined('bd_tipo_calculo_precio')? bd_tipo_calculo_precio:0);?>";
        
+      <script>
+        var bd_largo_decimal=<?php echo (defined('bd_largo_decimal')? bd_largo_decimal:0);?>;
+        var bd_tipo_calculo_precio="<?php echo (defined('bd_tipo_calculo_precio')? bd_tipo_calculo_precio:0);?>";
+        var empresa_ID_seleccionado=<?php echo (isset($GLOBALS['empresa_ID_seleccionado'])?$GLOBALS['empresa_ID_seleccionado']:-1);?>;
+        function redireccion(ruta){
+            window.locationf=ruta;
+        }
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
         $(function () {
             $('.moneda').keypress(function (e) {
                 if (e == null) {    
@@ -155,7 +165,7 @@
 
                         <!-- Start brand -->
                         <a class="navbar-brand" href="#">
-                            <?php if(isset($_SESSION['empresa_ID'])&&$_SESSION['empresa_ID']!=1){?>
+                            <?php if(defined('logo')&&isset($_GET['empresa_ID'])&&$_GET['empresa_ID']!=1){?>
                             <img class="logo" src="<?php echo logo;?>" style="max-height: 50px;"/>
                             <?php }else{?>
                             <img src="../../include/img/logo/1.png" alt="" style="max-height: 50px;"/>
@@ -201,7 +211,7 @@
                                     <div style="text-align: center;"><b>Empresas</b></div>
                                     <ul>
                                         <?php foreach($_SESSION['dtEmpresa'] as $iempresa){?>
-                                         <li><a href="home/main/<?php echo $iempresa['ID']?>"><div class="circulo_modulo <?php echo $iempresa['stilo_fondo_tabs'];?>" ></div>
+                                         <li><a href="home/main/<?php echo $iempresa['ID']?>?empresa_ID=<?php echo $iempresa['ID']?>"><div class="circulo_modulo <?php echo $iempresa['stilo_fondo_cabecera'];?>" ></div>
                                                 <span><?php echo strtoupper($iempresa['nombre']);?></span>
                                             </a>
                                         </li>
@@ -406,8 +416,10 @@
                 <!-- Start left navigation - menu -->
                 <ul class="sidebar-menu" tabindex="0" style="height: 542px; overflow: hidden; outline: none;">
                     <li class="sidebar-category">
+                        
                         <span><?php echo $_SESSION['empresa']?></span>
                         <span class="pull-right"><i class="<?php echo $_SESSION['icono']?>"></i></span>
+                        
                     </li>
                     
                     <?php
@@ -657,6 +669,15 @@
             $("#menu-empresas").show("fast");
         }
         $(document).ready(function() {
+            $("form").each(function(){
+                var metodo=$(this).attr("method");
+                var action=$.trim($(this).attr("action"));
+                if(metodo.toUpperCase()=='POST'&&action!=""){
+                    var url_enviar_post=action+'?empresa_ID='+getParameterByName('empresa_ID');
+                    $(this).prop('action',url_enviar_post);
+                }
+            });
+          
             /*$("#float_modal_hijo_hijo").draggable({
                 handle: ".modal-header"
             });
@@ -709,7 +730,14 @@
 
         });
         
-  
+    function viewWindows(url,empresa_ID){
+         window.location.href = url+'?empresa_ID='+empresa_ID;
+        block_ui(function(){
+            
+             
+        });
+       
+    }
 
     $('#btn-getstarted-1').on('click', function () {
         jsPanel.create({

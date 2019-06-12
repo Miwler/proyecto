@@ -1257,7 +1257,7 @@ function post_ajaxEmpresa_Mantenimiento() {
             $resultado.='<td class="tdLeft">' . utf8_encode($item['nombre']) . '</td>';
             $resultado.='<td class="tdLeft">' . utf8_encode($item['ruc']) . '</td>';
             $resultado.='<td class="tdLeft">' . utf8_encode($item['ruta']) . '</td>';
-            $resultado.='<td class="tdLeft">' . utf8_encode($item['direccion']) . '</td>';
+            $resultado.='<td class="tdLeft">' . ($item['direccion']) . '</td>';
             $botones=array();
             if($item['ID']>0){
                 $boton='<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar"><span class="glyphicon glyphicon-pencil"></span> Editar</a>';
@@ -1305,6 +1305,7 @@ function get_Empresa_Mantenimiento_Nuevo() {
     $oEmpresa->stilo_fondo_cabecera="";
     $oEmpresa->color_documentos='#848484';
     $oEmpresa->ruta=ruta_archivo;
+    $oEmpresa->bd_largo_decimal=0;
     $GLOBALS['oEmpresa'] = $oEmpresa;
     $oDatos_Generales=new datos_generales();
     //Valores por defecto
@@ -1333,6 +1334,7 @@ function get_Empresa_Mantenimiento_Nuevo() {
     $oDatos_Generales->beta_ws_factura='https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService';
     $oDatos_Generales->prod_ws_guia='https://e-guiaremision.sunat.gob.pe/ol-ti-itemision-guia-gem/billService';
     $oDatos_Generales->prod_ws_factura='https://e-factura.sunat.gob.pe/ol-ti-itcpfegem/billService';
+    
     $GLOBALS['oDatos_Generales']=$oDatos_Generales;
     $GLOBALS['dtDepartamento']=$dtDepartamento;
     $GLOBALS['dtProvincia']=$dtProvincia;
@@ -1428,10 +1430,12 @@ function post_Empresa_Mantenimiento_Nuevo() {
     
     $lista_modulo=$_POST['lista_modulos'];
     $lista_reportes=$_POST['lista_reportes'];
+    $bd_largo_decimal=$_POST['selBd_Largo_Decimal'];
+    $fecha_inicio_reportes=$_POST['txtFecha_Inicio_Reporte'];
     $oEmpresa = new empresa(); 
     $oDatos_Generales=new datos_generales();
     try {  
-        
+        $oEmpresa->fecha_new=$fecha_inicio_reportes;
         $oEmpresa->nombre = $nombre;
         $oEmpresa->stilo_fondo_tabs = $stilo_fondo_tabs;
         $oEmpresa->stilo_fondo_boton = $stilo_fondo_boton;
@@ -1459,6 +1463,9 @@ function post_Empresa_Mantenimiento_Nuevo() {
         $oEmpresa->lista_reportes=$lista_reportes;
         $oEmpresa->color_documentos=$color_documentos;
         $oEmpresa->precio_incluye_igv=$precio_incluye_igv;
+        $oEmpresa->bd_largo_decimal=$bd_largo_decimal;
+        $oEmpresa->fecha_inicio_reportes= FormatTextToDate($fecha_inicio_reportes, 'Y-m-d');
+        
         $oEmpresa->insertar();
         $lista_reportes1=reportes::getLista($oEmpresa->ID);
         if($oEmpresa->ID>0){
@@ -1495,16 +1502,19 @@ function post_Empresa_Mantenimiento_Nuevo() {
             $oDatos_Generales->usuario_id=$_SESSION['usuario_ID'];
             $oDatos_Generales->insertar();
             if($oDatos_Generales->ID>0){
-                if($_FILES['imagen']['tmp_name']!=""){
-                    $dir_subida = ruta_guardar_archivos.'/imagenes/logo/';
+                if($_FILES['logo']['tmp_name']!=""){
+                    $dir_subida = ruta_guardar_archivos.'/imagenes/logo_comprobantes/';
                     $nombre_temporal=explode('.',basename($_FILES['logo']['name']));
                     $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
                     $nombre1=$oEmpresa->ID.'.'.$extension;
                     $fichero_subido = $dir_subida .basename($nombre1);
-
-                    if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido)) {
-
-                        $oDatos_Generales->imagen=$nombre1;
+                    $sesio= date("d_m_Y_H_i_s", $time)."logo_comprobantes";
+                    $fichero_subido_temp=ruta_guardar_archivos.'/temp/imagenes/' .basename($sesio.'.'.$extension);
+    
+                    if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido_temp)) {
+                        redimensionarJPEG ($fichero_subido_temp, $fichero_subido, 600, 190, 'alto');
+                        
+                        $oDatos_Generales->logo_extension=$nombre1;
 
                     }else{$mensaje="Se guardó la información, pero no se subió el logo.";}
                 }
@@ -1520,17 +1530,17 @@ function post_Empresa_Mantenimiento_Nuevo() {
                         $oDatos_Generales->favicon=$nombre2;
                     }else{$mensaje="Se guardó la información, pero no se subió el icono.";}
                 }  
-                if($_FILES['logo']['tmp_name']!=""){
-                        $dir_subida = ruta_guardar_archivos.'/files/imagenes/logo_comprobantes/';
+                if($_FILES['imagen']['tmp_name']!=""){
+                        $dir_subida = ruta_guardar_archivos.'/imagenes/logo/';
                         //$dir_subida = $_SERVER['DOCUMENT_ROOT'].'/imagenes/imagen/';
-                        $nombre_temporal=explode('.',basename($_FILES['logo']['name']));
+                        $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
 
                         $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
                         $nombre3=$oEmpresa->ID.'.'.$extension;
                         $fichero_subido = $dir_subida .basename($nombre3);
 
-                        if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido)) {
-                           $oDatos_Generales->logo_extension=$nombre3;
+                        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
+                           $oDatos_Generales->imagen=$nombre3;
                         }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
                 }
                 $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];
@@ -1663,6 +1673,10 @@ function crear_ficheros_empresa($empresa_ID){
     if (!file_exists($ruta_sunat)){
          mkdir($ruta_sunat);
     }
+    $ruta_sunat=ruta_archivo."/archivos/cotizacion_anexo/";
+    if (!file_exists($ruta_sunat)){
+         mkdir($ruta_sunat);
+    }
     $ruta_sunat=ruta_archivo."/imagenes/";
     if (!file_exists($ruta_sunat)){
          mkdir($ruta_sunat);
@@ -1723,6 +1737,10 @@ function crear_ficheros_empresa($empresa_ID){
     if (!file_exists($ruta_sunat)){
          mkdir($ruta_sunat);
     }
+    $ruta_sunat=ruta_archivo."/temp/cotizacion/";
+    if (!file_exists($ruta_sunat)){
+         mkdir($ruta_sunat);
+    }
     $ruta_sunat=ruta_archivo."/temp/guia_remision/";
     if (!file_exists($ruta_sunat)){
          mkdir($ruta_sunat);
@@ -1749,6 +1767,8 @@ function get_Empresa_Mantenimiento_Editar($ID) {
     $oEmpresa = empresa::getByID($ID);
     
     $oEmpresa->getConfiguracion();
+    $fecha_reportes=new DateTime($oEmpresa->fecha_inicio_reportes);
+    $oEmpresa->fecha_view=$fecha_reportes->format('d/m/Y');
     $GLOBALS['oEmpresa'] = $oEmpresa;
     $oDatos_Generales=datos_generales::getByID1($ID);
     //Valores por defecto
@@ -1764,24 +1784,37 @@ function get_Empresa_Mantenimiento_Editar($ID) {
     $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
     $dtProvincia=provincia::getGrid("pv.departamento_ID=".$oProvincia->departamento_ID,-1,-1,"pv.nombre asc");
     $dtDistrito=distrito::getGrid("dt.provincia_ID=".$oDistrito->provincia_ID,-1,-1,"dt.nombre asc");
+    
     $oDatos_Generales->departamento_ID=$oProvincia->departamento_ID;
     $oDatos_Generales->provincia_ID=$oDistrito->provincia_ID;
-    $oDatos_Generales->favicon="default.ico";
-    $oDatos_Generales->logo_extension="default.jpg";
-    $oDatos_Generales->imagen="default.jpg";
+    //$oDatos_Generales->favicon="default.ico";
+    //$oDatos_Generales->logo_extension="default.jpg";
+    //$oDatos_Generales->imagen="default.jpg";
+    if($oEmpresa->distrito_ID_default!=null){
+        $oDistrito1=distrito::getByID($oEmpresa->distrito_ID_default);
+        $dtDistrito1=distrito::getGrid("dt.provincia_ID=".$oDistrito1->provincia_ID,-1,-1,"dt.nombre asc");
+        $oProvincia1=provincia::getByID($oDistrito1->provincia_ID);
+        $dtProvincia1=provincia::getGrid("pv.departamento_ID=".$oProvincia1->departamento_ID,-1,-1,"pv.nombre asc");
+    }else{
+        $dtDistrito1=array();
+        $dtProvincia1=array();
+    }
+    
     //$oDatos_Generales->tipo_cambio=tipo_cambio_default;//Tipo de cambio por defecto;
     //$oDatos_Generales->vigv=igv_default;
-    $oDatos_Generales->periodo_defecto=date('Y');
-    $oDatos_Generales->etiquetas_correo='Correo principal|Correo de información|Correo de venta';
-    $oDatos_Generales->etiquetas_celulares=' Celular1|Celular2|Celular3';
+    //$oDatos_Generales->periodo_defecto=date('Y');
+    //$oDatos_Generales->etiquetas_correo='Correo principal|Correo de información|Correo de venta';
+    //$oDatos_Generales->etiquetas_celulares=' Celular1|Celular2|Celular3';
     $oDatos_Generales->beta_ws_guia='https://e-beta.sunat.gob.pe/ol-ti-itemision-guia-gem-beta/billService';
     $oDatos_Generales->beta_ws_factura='https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService';
     $oDatos_Generales->prod_ws_guia='https://e-guiaremision.sunat.gob.pe/ol-ti-itemision-guia-gem/billService';
     $oDatos_Generales->prod_ws_factura='https://e-factura.sunat.gob.pe/ol-ti-itcpfegem/billService';
     $GLOBALS['oDatos_Generales']=$oDatos_Generales;
     $GLOBALS['dtDepartamento']=$dtDepartamento;
+    $GLOBALS['dtProvincia1']=$dtProvincia1;
     $GLOBALS['dtProvincia']=$dtProvincia;
     $GLOBALS['dtDistrito']=$dtDistrito;
+    $GLOBALS['dtDistrito1']=$dtDistrito1;
     $GLOBALS['dtMoneda']=$dtMoneda;
     $GLOBALS['dtEstadoCompra']=$dtEstadoCompra;
     $GLOBALS['dtTipo_Comprobante_Compra']=$dtTipo_Comprobante_Compra;
@@ -1790,169 +1823,238 @@ function get_Empresa_Mantenimiento_Editar($ID) {
     $GLOBALS['lista_reportes']=$lista_reportes;
   
 }
-/*function get_Empresa_Mantenimiento_Editar($id) {
+function post_Empresa_Mantenimiento_Editar($ID) {
     require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
+    if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';
     require ROOT_PATH . 'models/distrito.php';
     require ROOT_PATH . 'models/provincia.php';
     require ROOT_PATH . 'models/departamento.php';
-    require ROOT_PATH . 'models/configuracion.php';
-    global $returnView_float;
-    $returnView_float = true;
-    $oEmpresa = empresa::getByID($id);
-    $dtConfiguracion=configuracion::getGrid();
-   
-    $GLOBALS['oEmpresa'] = $oEmpresa;
-    $oDatos_Generales=datos_generales::getByID1($oEmpresa->ID);
-    $oDistrito=distrito::getByID( $oDatos_Generales->distrito_ID);
-    $oProvincia=provincia::getByID($oDistrito->provincia_ID);
-    $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
-    $dtProvincia=provincia::getGrid("pv.departamento_ID=".$oProvincia->departamento_ID,-1,-1,"pv.nombre asc");
-    $dtDistrito=distrito::getGrid("dt.provincia_ID=".$oDistrito->provincia_ID,-1,-1,"dt.nombre asc");
-    $oDatos_Generales->departamento_ID=$oProvincia->departamento_ID;
-    $oDatos_Generales->provincia_ID=$oDistrito->provincia_ID;
-   
-    $GLOBALS['oDatos_Generales']=$oDatos_Generales;
-    $GLOBALS['dtDepatamento']=$dtDepartamento;
-    $GLOBALS['dtProvincia']=$dtProvincia;
-    $GLOBALS['dtDistrito']=$dtDistrito;
-  
-}
-
-function post_Empresa_Mantenimiento_Editar($id) {
-    require ROOT_PATH . 'models/empresa.php';
-    require ROOT_PATH . 'models/datos_generales.php';
-    require ROOT_PATH . 'models/distrito.php';
-    require ROOT_PATH . 'models/provincia.php';
-    require ROOT_PATH . 'models/departamento.php';
-    require ROOT_PATH . 'models/configuracion.php';
+    
+    require ROOT_PATH . 'models/moneda.php';
+    require ROOT_PATH . 'models/estado.php';
+    require ROOT_PATH . 'models/tipo_comprobante.php';
+    
+    require ROOT_PATH . 'models/modulo.php';
+    require ROOT_PATH . 'models/reportes.php';
     global $returnView_float;
     $returnView_float = true;
     $dtConfiguracion=configuracion::getGrid();
     $nombre = FormatTextSave($_POST['txtNombre']);
-    $ruta = FormatTextSave($_POST['txtRuta']);
+    //$ruta = FormatTextSave($_POST['txtRuta']);
     $stilo_fondo_tabs=$_POST['selStilo_fondo_tabs'];
     $stilo_fondo_boton=$_POST['selStilo_fondo_boton'];
     $stilo_fondo_cabecera=$_POST['selStilo_fondo_cabecera'];
+    $color_documentos=$_POST['color_documentos'];
+    $clase_icono=$_POST['txtClassIcono'];
+    //Valores por defecto
+    $dtMoneda=moneda::getGrid("",-1,-1,"descripcion asc");
+    $dtEstadoCompra=estado::getGrid("tabla='ingreso'",-1,-1,"orden asc");
+    $dtTipo_Comprobante_Compra=tipo_comprobante::getGrid("ID in(1,3)",-1,-1,"nombre asc");
+    $dtModulo=modulo::getGrid("ID<>1",-1,-1,"nombre asc");
     
     //Datos generales
-    $nombre_corto=FormatTextSave($_POST['txtAlias']);
+    $nombre_corto=($_POST['txtAlias']);
     $distrito_ID=  $_POST['selDistrito'];
     $direccion=  test_input($_POST['txtDireccion']);
-    $observacion=  FormatTextSave($_POST['txtObservacion']);
+    $observacion=  ($_POST['txtObservacion']);
     
-    $razon_social=  FormatTextSave($_POST['txtRazon_Social']);
-    $ruc=  FormatTextSave($_POST['txtRuc']);
-    $direccion_fiscal=  FormatTextSave($_POST['txtDireccion_Fiscal']);
+    $razon_social=  ($_POST['txtRazon_Social']);
+    $ruc=  ($_POST['txtRuc']);
+    $direccion_fiscal=  ($_POST['txtDireccion_Fiscal']);
     
     $tipo_cambio=$_POST['txtTipo_Cambio'];
     $vigv=$_POST['txtVigv'];
     
-    $pagina_web=  FormatTextSave($_POST['txtPagina_Web']);
-    $correo=FormatTextSave($_POST['txtCorreo']);
-    $telefono=  FormatTextSave($_POST['txtTelefono']);
-    $celular=  FormatTextSave($_POST['txtCelular']);
-    $persona_contacto=FormatTextSave($_POST['txtPersona_Contacto']);
-    $cargo_contacto=FormatTextSave($_POST['txtCargo_Contacto']);
+    $pagina_web=  ($_POST['txtPagina_Web']);
+    $correo="";
+    $telefono="";
+    $celular= "";
+    $persona_contacto="";
+    $cargo_contacto="";
     
-    $sitio_web=FormatTextSave($_POST['txtSitio_Web']);
-    $quienes_somos=FormatTextSave($_POST['txtQuienes_Somos']);
-    $mision=FormatTextSave($_POST['txtMision']);
-    $vision=FormatTextSave($_POST['txtVision']);
-    $skype=FormatTextSave($_POST['txtSkype']);
+    $sitio_web=($_POST['txtSitio_Web']);
+    $quienes_somos=($_POST['txtQuienes_Somos']);
+    $mision=($_POST['txtMision']);
+    $vision=($_POST['txtVision']);
+    $skype="";
     
-    $mail_webmaster=FormatTextSave($_POST['txtMail_Webmaster']);
-    $password_webmaster=FormatTextSave($_POST['txtPassword_Webmaster']);
-    $servidorSMTP=FormatTextSave($_POST['txtServidorSMTP']);
-    $puertoSMTP=FormatTextSave($_POST['txtPuertoSMTP']);
+    $mail_webmaster=($_POST['txtMail_Webmaster']);
+    $password_webmaster=($_POST['txtPassword_Webmaster']);
+    $servidorSMTP=($_POST['txtServidorSMTP']);
+    $puertoSMTP=($_POST['txtPuertoSMTP']);
     
-    $oEmpresa = empresa::getByID($id); 
-    $oDatos_Generales=datos_generales::getByID1($id);
+    //Configuracion default
+    $moneda=$_POST['SelMoneda'];
+    $periodo_inicio=$_POST['txtPeriodo'];
+    $estado_compra=$_POST['SelEstadoCompra'];
+    $compra_tipo_comprobante_ID=$_POST['SelComprobanteCompra'];
+    $link_comprobante_electronico=$_POST['txtLink_Comprobante_Electronico'];
+    $departamento_ID_default=$_POST['selDepartamento1'];
+    $provincia_ID_default=$_POST['selProvincia1'];
+    $distrito_ID_default=$_POST['selDistrito1'];
+    $configuracion_correo_empresa=$_POST['txtOpcionesCorreo'];
+    $configuracion_celular_empresa=$_POST['txtOpcionesCelular'];
+    $beta_ws_guia=$_POST['txtWebServisGuiaBeta'];
+    $beta_ws_factura=$_POST['txtWebServisFacturaBeta'];
+    $precio_incluye_igv=$_POST['selIncluyeIgv'];
+    $produccion_ws_guia=$_POST['txtWebServisGuiaProd'];
+    $produccion_ws_factura=$_POST['txtWebServisFacturaProd'];
+    
+    
+    $conexion_ws_sunat=$_POST['SelWebServis'];
+    $bd_largo_decimal=$_POST['selBd_Largo_Decimal'];
+    
+    $fecha_inicio_reportes=$_POST['txtFecha_Inicio_Reporte'];
+    $lista_modulo=$_POST['lista_modulos'];
+    $lista_reportes=$_POST['lista_reportes'];
+    
+    $oDatos_Generales=new datos_generales();
     try {  
-        
+        $oEmpresa = empresa::getByID($ID);
+    
+        $oEmpresa->getConfiguracion();
+        $oEmpresa->fecha_view=$fecha_inicio_reportes;
         $oEmpresa->nombre = $nombre;
         $oEmpresa->stilo_fondo_tabs = $stilo_fondo_tabs;
         $oEmpresa->stilo_fondo_boton = $stilo_fondo_boton;
         $oEmpresa->stilo_fondo_cabecera = $stilo_fondo_cabecera;
-        $oEmpresa->ruta=$ruta;
+        $oEmpresa->ruta=ruta_archivo;
+        $oEmpresa->icono=$clase_icono;
         $oEmpresa->usuario_mod_id = $_SESSION['usuario_ID'];
+        $oEmpresa->moneda=$moneda;
+        $oEmpresa->periodo_inicio=$periodo_inicio;
+        $oEmpresa->estado_compra=$estado_compra;
+        $oEmpresa->compra_tipo_comprobante_ID=$compra_tipo_comprobante_ID;
         
-        $oEmpresa->actualizar();
-        //agregamos los valores de datos generales
-        
-        if($_FILES['imagen']['tmp_name']!=""){
-                $dir_subida = $dtConfiguracion[5]['valores'].'/imagenes/logo/';
-                $nombre_temporal=explode('.',basename($_FILES['logo']['name']));
-                $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
-                $nombre1=$oDatos_Generales->ID.'.'.$extension;
-                $fichero_subido = $dir_subida .basename($nombre1);
-                
-                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
-                   
-                    $oDatos_Generales->logo_extension=$nombre1;
-        
-                }else{$mensaje="Se guardó la información, pero no se subió el logo.";}
-        }
-        if($_FILES['icono']['tmp_name']!=""){
-            $dir_subida = $dtConfiguracion[5]['valores'].'/imagenes/favicon/';
-            $nombre_temporal=explode('.',basename($_FILES['icono']['name']));
+        $oEmpresa->link_comprobante_electronico=$link_comprobante_electronico;
+        $oEmpresa->departamento_ID_default=$departamento_ID_default;
+        $oEmpresa->provincia_ID_default=$provincia_ID_default;
+        $oEmpresa->distrito_ID_default=$distrito_ID_default;
+        $oEmpresa->configuracion_correo_empresa=$configuracion_correo_empresa;
+        $oEmpresa->configuracion_celular_empresa=$configuracion_celular_empresa;
+        $oEmpresa->beta_ws_guia=$beta_ws_guia;
+        $oEmpresa->beta_ws_factura=$beta_ws_factura;
+        $oEmpresa->produccion_ws_factura=$produccion_ws_factura;
+        $oEmpresa->produccion_ws_guia=$produccion_ws_guia;
+        $oEmpresa->conexion_ws_sunat=$conexion_ws_sunat;
+        $oEmpresa->lista_modulo=$lista_modulo;
+        $oEmpresa->lista_reportes=$lista_reportes;
+        $oEmpresa->color_documentos=$color_documentos;
+        $oEmpresa->precio_incluye_igv=$precio_incluye_igv;
+        $oEmpresa->bd_largo_decimal=$bd_largo_decimal;
+        $oEmpresa->fecha_inicio_reportes= FormatTextToDate($fecha_inicio_reportes, 'Y-m-d');
+        $oEmpresa->actualizar1();
+        $lista_reportes1=reportes::getLista($oEmpresa->ID);
+        if($oEmpresa->ID>0){
+            crear_ficheros_empresa($oEmpresa->ID);
+            $oDatos_Generales=datos_generales::getByID1($oEmpresa->ID);
+            if ($oDatos_Generales==null){
+                $oDatos_Generales=new datos_generales();
+            }
+            //agregamos los valores de datos generales
+            $oDatos_Generales->empresa_ID=$oEmpresa->ID;
+            $oDatos_Generales->ruc=$ruc;
+            $oDatos_Generales->razon_social=$razon_social;
+            $oDatos_Generales->alias=$nombre_corto;
+            $oDatos_Generales->direccion=$direccion;
+            $oDatos_Generales->direccion_fiscal=$direccion_fiscal;
+            $oDatos_Generales->distrito_ID=$distrito_ID;
+            $oDatos_Generales->favicon="default.ico";
+            $oDatos_Generales->logo_extension="default.jpg";
+            $oDatos_Generales->imagen="default.jpg";    
+            $oDatos_Generales->correo=$correo;
+            $oDatos_Generales->pagina_web=$pagina_web;
+            $oDatos_Generales->telefono=$telefono;
+            $oDatos_Generales->celular=$celular;      
+            $oDatos_Generales->tipo_cambio=$tipo_cambio;
+            $oDatos_Generales->vigv=$vigv;
+            $oDatos_Generales->observacion=$observacion;
+            $oDatos_Generales->quienes_somos=$quienes_somos;
+            $oDatos_Generales->mision=$mision;
+            $oDatos_Generales->vision=$vision;
+            $oDatos_Generales->skype=$skype;
+            $oDatos_Generales->persona_contacto=$persona_contacto;
+            $oDatos_Generales->cargo_contacto=$cargo_contacto;
+            $oDatos_Generales->mail_webmaster=$mail_webmaster;
+            $oDatos_Generales->password_webmaster=$password_webmaster;
+            $oDatos_Generales->servidorSMTP=$servidorSMTP;
+            $oDatos_Generales->puertoSMTP=$puertoSMTP;
+            $oDatos_Generales->sitio_web=$sitio_web;
+            if ($oDatos_Generales==null){
+                $oDatos_Generales->usuario_id=$_SESSION['usuario_ID'];
+                $oDatos_Generales->insertar();
+            }else{
+                $oDatos_Generales->usuario_mod_id=$_SESSION['usuario_ID'];
+                $oDatos_Generales->actualizar();
+            }
+            
+            if($oDatos_Generales->ID>0){
+                if($_FILES['logo']['tmp_name']!=""){
+                    $dir_subida = ruta_guardar_archivos.'/imagenes/logo_comprobantes/';
+                    $nombre_temporal=explode('.',basename($_FILES['logo']['name']));
+                    $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
+                    $nombre1=$oEmpresa->ID.'.'.$extension;
+                    $fichero_subido = $dir_subida .basename($nombre1);
+                     
+                    $sesio= date("d_m_Y_H_i_s", time())."logo_comprobantes";
+                    $fichero_subido_temp=ruta_guardar_archivos.'/temp/imagenes/' .basename($sesio.'.'.$extension);
+    
+                    if (move_uploaded_file($_FILES['logo']['tmp_name'], $fichero_subido_temp)) {
+                        redimensionarJPEG ($fichero_subido_temp, $fichero_subido, 100, 100, 'alto');
+                        
+                        $oDatos_Generales->logo_extension=$nombre1;
 
-            $extension=$nombre_temporal[1];
-            $nombre2=$oDatos_Generales->ID.'.'.$extension;
-            $fichero_subido = $dir_subida .basename($nombre2);
+                    }else{$mensaje="Se guardó la información, pero no se subió el logo.";}
+                }
+                if($_FILES['icono']['tmp_name']!=""){
+                    $dir_subida = ruta_guardar_archivos.'/imagenes/favicon/';
+                    $nombre_temporal=explode('.',basename($_FILES['icono']['name']));
 
-            if (move_uploaded_file($_FILES['icono']['tmp_name'], $fichero_subido)) {
-                $oDatos_Generales->favicon=$nombre2;
-            }else{$mensaje="Se guardó la información, pero no se subió el icono.";}
-        }  
-        if($_FILES['imagen']['tmp_name']!=""){
-                //$dir_subida = $_SERVER['DOCUMENT_ROOT'].'/files/imagenes/logo/';
-                $dir_subida = $_SERVER['DOCUMENT_ROOT'].'/imagenes/imagen/';
-                $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
-                
-                $extension=(strtoupper($nombre_temporal[1])=="JPG"||strtoupper($nombre_temporal[1])=="png"||strtoupper($nombre_temporal[1])=="gif")?$nombre_temporal[1]:"JPG";
-                $nombre3=$oDatos_Generales->ID.'.'.$extension;
-                $fichero_subido = $dir_subida .basename($nombre3);
-                
-                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
-                   $oDatos_Generales->imagen=$nombre3;
-                }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
+                    $extension=$nombre_temporal[1];
+                    $nombre2=$oEmpresa->ID.'.'.$extension;
+                    $fichero_subido = $dir_subida .basename($nombre2);
+
+                    if (move_uploaded_file($_FILES['icono']['tmp_name'], $fichero_subido)) {
+                        $oDatos_Generales->favicon=$nombre2;
+                    }else{$mensaje="Se guardó la información, pero no se subió el icono.";}
+                }  
+                if($_FILES['imagen']['tmp_name']!=""){
+                        $dir_subida = ruta_guardar_archivos.'/imagenes/logo/';
+                        //$dir_subida = $_SERVER['DOCUMENT_ROOT'].'/imagenes/imagen/';
+                        $nombre_temporal=explode('.',basename($_FILES['imagen']['name']));
+
+                        $extension=(strtoupper($nombre_temporal[1])=="JPG")?$nombre_temporal[1]:"JPG";
+                        $nombre3=$oEmpresa->ID.'.'.$extension;
+                        $fichero_subido = $dir_subida .basename($nombre3);
+
+                        if (move_uploaded_file($_FILES['imagen']['tmp_name'], $fichero_subido)) {
+                           $oDatos_Generales->imagen=$nombre3;
+                        }else{$mensaje="Se guardó la información, pero no se subió la imagen.";}
+                }
+                $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];
+                $oDatos_Generales->actualizar();
+                $resultado=1;
+                $mensaje=$oEmpresa->getMessage;
+            }else{
+                $resultado=-1;
+                $mensaje="Se creó la empresa, pero no se crearon los datos generales";
+            }
+            
+            
+            
+        }else{
+            $resultado=-1;
+            $mensaje="No se creó la empresa";
         }
-        $oDatos_Generales->empresa_ID=$oEmpresa->ID;
-        $oDatos_Generales->ruc=$ruc;
-        $oDatos_Generales->razon_social=$razon_social;
-        $oDatos_Generales->alias=$nombre_corto;
-        $oDatos_Generales->direccion=$direccion;
-        $oDatos_Generales->direccion_fiscal=$direccion_fiscal;
-        $oDatos_Generales->distrito_ID=$distrito_ID;
-        $oDatos_Generales->correo=$correo;
-        $oDatos_Generales->pagina_web=$pagina_web;
-        $oDatos_Generales->telefono=$telefono;
-        $oDatos_Generales->celular=$celular;      
-        $oDatos_Generales->tipo_cambio=$tipo_cambio;
-        $oDatos_Generales->vigv=$vigv;
-        $oDatos_Generales->observacion=$observacion;
-        $oDatos_Generales->quienes_somos=$quienes_somos;
-        $oDatos_Generales->mision=$mision;
-        $oDatos_Generales->vision=$vision;
-        $oDatos_Generales->skype=$skype;
-        $oDatos_Generales->persona_contacto=$persona_contacto;
-        $oDatos_Generales->cargo_contacto=$cargo_contacto;
-        $oDatos_Generales->mail_webmaster=$mail_webmaster;
-        $oDatos_Generales->password_webmaster=$password_webmaster;
-        $oDatos_Generales->servidorSMTP=$servidorSMTP;
-        $oDatos_Generales->puertoSMTP=$puertoSMTP;
-        $oDatos_Generales->sitio_web=$sitio_web;
-        $oDatos_Generales->usuario_mod_id=$_SESSION["usuario_ID"];
-        $oDatos_Generales->actualizar();
-        $GLOBALS['resultado'] = 1;
-        $GLOBALS['mensaje'] = $oEmpresa->getMessage;
+        
     } catch (Exception $ex) {
-        $GLOBALS['resultado'] = -1;
-        $GLOBALS['mensaje'] = $ex->getMessage();
+        $resultado=-1;
+        $mensaje= mensaje_error;
+        log_error(__FILE__, "Configuracion_GeneralController/", $ex->getMessage());
+        
     }
     
-    $oDatos_Generales->distrito_ID=$dtConfiguracion[1]["valores"];//Seleccionamos Lima
+    
     $oDistrito=distrito::getByID($oDatos_Generales->distrito_ID);
     $oProvincia=provincia::getByID($oDistrito->provincia_ID);
     $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
@@ -1960,13 +2062,26 @@ function post_Empresa_Mantenimiento_Editar($id) {
     $dtDistrito=distrito::getGrid("dt.provincia_ID=".$oDistrito->provincia_ID,-1,-1,"dt.nombre asc");
     $oDatos_Generales->departamento_ID=$oProvincia->departamento_ID;
     $oDatos_Generales->provincia_ID=$oDistrito->provincia_ID;
-
+    $oDistrito1=distrito::getByID($oEmpresa->distrito_ID_default);
+    $dtDistrito1=distrito::getGrid("dt.provincia_ID=".$oDistrito1->provincia_ID,-1,-1,"dt.nombre asc");
+    $oProvincia1=provincia::getByID($oDistrito1->provincia_ID);
+    $dtProvincia1=provincia::getGrid("pv.departamento_ID=".$oProvincia1->departamento_ID,-1,-1,"pv.nombre asc");
     $GLOBALS['oDatos_Generales']=$oDatos_Generales;
     $GLOBALS['dtDepatamento']=$dtDepartamento;
     $GLOBALS['dtProvincia']=$dtProvincia;
+    $GLOBALS['dtProvincia1']=$dtProvincia1;
     $GLOBALS['dtDistrito']=$dtDistrito;
+    $GLOBALS['dtDistrito1']=$dtDistrito1;
     $GLOBALS['oEmpresa'] = $oEmpresa;
-}*/
+    $GLOBALS['dtMoneda']=$dtMoneda;
+    $GLOBALS['dtEstadoCompra']=$dtEstadoCompra;
+    $GLOBALS['dtTipo_Comprobante_Compra']=$dtTipo_Comprobante_Compra;
+    $GLOBALS['dtModulo']=$dtModulo;
+    $GLOBALS['lista_reportes']=$lista_reportes1;
+    $GLOBALS['resultado']=$resultado;
+    $GLOBALS['mensaje']=$mensaje;
+}
+
 function post_ajaxEmpresa_Mantenimiento_Eliminar($id) {
     require ROOT_PATH . 'models/empresa.php';
     if(!class_exists('datos_generales'))require ROOT_PATH.'models/datos_generales.php';

@@ -54,7 +54,7 @@ class resumen_diario {
     $this->numero=0;
     $this->tipo_ID="NULL";
     $this->estado_ID="NULL";
-    $this->empresa_ID=$_SESSION["empresa_ID"];
+    $this->empresa_ID=$_GET['empresa_ID'];
     $this->usuario_id=$_SESSION["usuario_ID"];
     $this->usuario_mod_id=$_SESSION["usuario_ID"];
 
@@ -222,13 +222,13 @@ class resumen_diario {
         try
         {
             
-        //$q='call getTabla_Orden_Venta("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
+        //$q='call getTabla_Orden_Venta("'.$opcion.'",'.$_GET['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
         //console_log($q);
         //$dt=$cn->getTabla($q);
         $dt=$cn->store_procedure_getGridParse(
                 'sp_resumen_diario_getTabla',
                 array(
-                    'iempresa_ID'=>$_SESSION['empresa_ID']
+                    'iempresa_ID'=>$_GET['empresa_ID']
                 ));
         //var_dump($dt);
         return $dt;

@@ -119,7 +119,7 @@ class categoria {
         try {
             $q = 'select count(ca.ID) ';
             $q.=' FROM categoria as ca, linea li ';
-            $q.=' where ca.linea_ID=li.ID and ca.del=0 and ca.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where ca.linea_ID=li.ID and ca.del=0 and ca.empresa_ID='.$_GET['empresa_ID'];
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -166,7 +166,7 @@ class categoria {
         try {
             $q = 'SELECT ca.ID,ca.nombre as nombre,ca.descripcion,ca.linea_ID,li.nombre as linea,ca.empresa_ID';
             $q.=' FROM categoria  ca , linea li';
-            $q.=' where ca.linea_ID=li.ID and ca.del=0 and ca.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where ca.linea_ID=li.ID and ca.del=0 and ca.empresa_ID='.$_GET['empresa_ID'];
 
 
             if ($filtro != '') {

@@ -96,6 +96,11 @@
 	<script type="text/javascript" >
         
         var fparentPadre1= parent.fparentPadre1;   
+        function redireccion(ruta){
+            console.log(ruta);
+            parent.redireccion(ruta);
+            //window.locationf=ruta;
+        }
          //Bloquear Enter
         function stopRKey(evt) {
             var evt = (evt) ? evt : ((event) ? event : null);
@@ -104,6 +109,12 @@
         }
         var bd_largo_decimal=<?php echo (defined('bd_largo_decimal')? bd_largo_decimal:0);?>;
         var bd_tipo_calculo_precio="<?php echo (defined('bd_tipo_calculo_precio')? bd_tipo_calculo_precio:0);?>";
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
         $(function () {
             $('.moneda_redondeo').css('text-align', 'right'); 
             $('.moneda_redondeo').keypress(function (e) {
@@ -205,6 +216,15 @@
             $('#btn-close').css('display','none');
         }   
        $(document).ready(function(){
+           $("form").each(function(){
+              var metodo=$(this).attr("method");
+              var action=$.trim($(this).attr("action"));
+              if(metodo.toUpperCase()=='POST'&&action!=""){
+                  var url_enviar_post=action+'?empresa_ID='+getParameterByName('empresa_ID');
+                  $(this).prop('action',url_enviar_post);
+              }
+          });
+           
            var ul=parent.get_breadcrumb();
            var titulo=$("#h2Titulo").text();
            $("#divArbol").html(ul+'<li class="active">'+titulo+'</li></ol>');

@@ -228,7 +228,7 @@ static function getByIDCliente($cliente_ID) {
             $oRepresentanteCliente = null;
 
             foreach ($dt as $item) {
-                $oRepresentanteCliente = new representantecliente();
+                $oRepresentanteCliente = new cliente_contacto();
 
                 $oRepresentanteCliente->ID = $item['ID'];
                 $oRepresentanteCliente->nombres = $item['nombres'];

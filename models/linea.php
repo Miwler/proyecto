@@ -200,7 +200,7 @@ class linea {
         try {
             $q = 'select count(li.ID) ';
             $q.=' FROM linea as li ';
-            $q.=' where li.del=0 and li.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where li.del=0 and li.empresa_ID='.$_GET['empresa_ID'];
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -299,7 +299,7 @@ class linea {
         try {
             $q = 'SELECT li.ID,upper(li.nombre) as nombre, upper(li.descripcion) as descripcion,ifnull(li.imagen,"") as imagen,li.empresa_ID';
             $q.=' FROM linea as li ';
-            $q.=' where li.del=0 and li.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where li.del=0 and li.empresa_ID='.$_GET['empresa_ID'];
 
 
             if ($filtro != '') {

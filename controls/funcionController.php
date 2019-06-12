@@ -123,15 +123,15 @@
          if(!class_exists('cotizacion_numero_cuenta')){
            require ROOT_PATH.'models/cotizacion_numero_cuenta.php'; 
         }
-        $dtNumero_Cuenta=numero_cuenta::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+        $dtNumero_Cuenta=numero_cuenta::getGrid("empresa_ID=".$_GET['empresa_ID']." and estado_ID=116");
         switch($case){
             case 1:
-                $html='<table class="table table-default" id="tbnumero_cuenta" cellspacing="0">';
+                $html='<table class="table table-primary" id="tbnumero_cuenta" cellspacing="0">';
                 $html.='<thead><tr>
-                            <th>Banco</th>
-                            <th>Número de cuenta</th>
-                            <th>CCI</th>
-                            <th>Op</th>
+                            <th class="text-center">Banco</th>
+                            <th class="text-center">Número de cuenta</th>
+                            <th class="text-center">CCI</th>
+                            <th class="text-center">Op</th>
                         </tr></thead><tbody>';
 
                 foreach($dtNumero_Cuenta as $value){
@@ -144,15 +144,18 @@
                         $style="";
                     }
                     $checked=""; 
+                    /*
                     if($value['ID']==1||$value['ID']==2){
                         $checked="checked";
+                    }*/
+                    if($value['seleccionado']==1){
+                       $checked="checked";  
                     }
-                    
                     $html.='<tr class="'.$class.'" style="display:'.$style.'">';
                     $html.='<td>'. FormatTextViewHtml($value['abreviatura']).'</td>';
                     $html.='<td>'. $value['numero'].'</td>';
                     $html.='<td>'. $value['cci'].'</td>';
-                    $html.='<td style="text-align: center;"><div class="ckbox ckbox-theme"><input type="checkbox" id="cknumero_cuenta'. $value['ID'].'" name="cknumero_cuenta'.$value['ID'].'" '.$checked.' value="'.$value['ID'].'"><label for="cknumero_cuenta'. $value['ID'].'"></label></div></td>';
+                    $html.='<td class="text-center"><div class="ckbox ckbox-theme"><input type="checkbox" id="cknumero_cuenta'. $value['ID'].'" name="cknumero_cuenta'.$value['ID'].'" '.$checked.' value="'.$value['ID'].'"><label for="cknumero_cuenta'. $value['ID'].'"></label></div></td>';
                     $html.='</tr>';
 
                 }
@@ -160,12 +163,12 @@
             break;
             case 2:
                 
-                $html='<table class="table table-hover" id="tbnumero_cuenta" >';
+                $html='<table class="table table-hover table-primary" id="tbnumero_cuenta" >';
                 $html.='<thead><tr>
-                            <th>Banco</th>
-                            <th>Número de cuenta</th>
-                            <th>CCI</th>
-                            <th>Op</th>
+                            <th class="text-center">Banco</th>
+                            <th class="text-center">Número de cuenta</th>
+                            <th class="text-center">CCI</th>
+                            <th class="text-center">Op</th>
                         </tr></thead> <tbody>';
                 foreach($dtNumero_Cuenta as $value){
                     $class="cssDolares";
@@ -532,9 +535,9 @@
         $html="<option value='-1'>Ningún valor</option>";
         try{
             
-            //$dtCategoria=categoria::getGrid("ca.empresa_ID=".$_SESSION['empresa_ID']." and ca.linea_ID=".$linea_ID,-1,-1,"ca.nombre asc");
+            //$dtCategoria=categoria::getGrid("ca.empresa_ID=".$_GET['empresa_ID']." and ca.linea_ID=".$linea_ID,-1,-1,"ca.nombre asc");
             $html="<option value='0'>TODOS</option>";
-            $html.= utf8_encode(categoria::getOption($linea_ID,$_SESSION['empresa_ID']));
+            $html.= utf8_encode(categoria::getOption($linea_ID,$_GET['empresa_ID']));
             /*foreach($dtCategoria as $item){
                 $html.="<option value='".$item['ID']."'>".FormatTextView(strtoupper($item['nombre']))."</option>";
             }*/

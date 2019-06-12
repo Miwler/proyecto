@@ -537,7 +537,7 @@ class cotizacion_detalle {
         try {
             $q = 'SELECT ID,producto_ID,cotizacion_ID,trim(descripcion) as descripcion ,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,';
             $q.='precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,';
-            $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,orden_cotizacion,pagina_cotizacion,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id, ';
+            $q.='estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,orden_cotizacion,pagina_cotizacion,incluye_igv,valor_unit_soles_registrado,valor_unit_dolares_registrado,usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id, ';
              $q.="ifnull((case when tipo_ID=1 then 'Producto' when tipo_ID=2 then 'Producto componente' when tipo_ID=3 then 'Componente' else 'Obsequio' end),'') as tipo_descripcion,tipo_ID";
             $q.=' FROM cotizacion_detalle ';
             $q.=' where del=0 ';

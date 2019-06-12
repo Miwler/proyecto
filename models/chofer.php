@@ -146,7 +146,7 @@ class chofer {
         try {
             $q = 'select cho.ID, pe.apellido_paterno,pe.apellido_materno,pe.nombres,cho.licencia_conducir,cho.celular,cho.empresa_ID,cho.estado_ID,es.nombre as estado';
             $q.=' from chofer cho,persona pe,estado es';
-            $q.=' where cho.persona_ID=pe.ID and cho.estado_ID=es.ID and cho.del=0 and pe.del=0 and cho.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where cho.persona_ID=pe.ID and cho.estado_ID=es.ID and cho.del=0 and pe.del=0 and cho.empresa_ID='.$_GET['empresa_ID'];
 
 
             if ($filtro != '') {
@@ -169,7 +169,7 @@ class chofer {
         $cn = new connect_new();
         
         try {
-            $q="select count(ID) from chofer where del=0 and empresa_ID=".$_SESSION['empresa_ID']." and persona_ID=".$this->persona_ID;
+            $q="select count(ID) from chofer where del=0 and empresa_ID=".$_GET['empresa_ID']." and persona_ID=".$this->persona_ID;
            
             if($this->ID!=''&& $this->ID>0){
                 $q.=' and ID<>'.$this->ID;

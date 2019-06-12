@@ -150,7 +150,7 @@ class tipo_comprobante {
       $dt=$cn->store_procedure_getGrid(
           "sp_tipo_comprobante_getTipos",
             array(
-                "iempresa_ID"=>$_SESSION['empresa_ID'],
+                "iempresa_ID"=>$_GET['empresa_ID'],
                 "ielectronico"=>$electronico,
                 "iaccion"=>$accion,
                 "correlativos_ID"=>$correlativos_ID,

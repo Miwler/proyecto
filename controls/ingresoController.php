@@ -13,7 +13,7 @@
         
         global $returnView;
         $returnView=true;
-        $dtProveedor=proveedor::getGrid('ID<>0 and empresa_ID='.$_SESSION['empresa_ID'],-1,-1,"razon_social asc");
+        $dtProveedor=proveedor::getGrid('ID<>0 and empresa_ID='.$_GET['empresa_ID'],-1,-1,"razon_social asc");
         //$dtComprobante_Tipo=comprobante_tipo::getGrid('ID<>0');
         $dtEstado=estado::getGrid('tabla="ingreso" and ID in (9,11)');
         $dtMoneda=moneda::getGrid();
@@ -219,8 +219,8 @@ function get_Compra_Mantenimiento_Nuevo(){
     global $returnView_float;
     $returnView_float=true;
     try{
-        //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
-        $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_GET['empresa_ID']);
+        $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
         $oCompra = new ingreso();
         $oCompra->oEstado=estado::getByID(estado_compra);
         $oCompra->dtEstado=estado::getGrid("est.ID in (".estado_compra.")",-1,-1);
@@ -230,7 +230,7 @@ function get_Compra_Mantenimiento_Nuevo(){
         //$dtTipo_Comprobante=tipo_comprobante_empresa::getGrid('accion="compra"');
         $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,compra_tipo_comprobante_ID,"tipo_comprobantes_sinserie");
         
-        $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
+        $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID'],-1,-1,"prv.razon_social asc");
         $oCompra->moneda_ID=moneda;
         $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
         $oCompra->tipo_comprobante_ID=compra_tipo_comprobante_ID;
@@ -286,7 +286,7 @@ function post_Compra_Mantenimiento_Nuevo(){
     $moneda_ID=$_POST['cboMoneda'];
     $tipo_cambio=$_POST['txtTipo_Cambio'];
     $descripcion=  $_POST['txtComentario'];
-    //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+    //$Configuracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_GET['empresa_ID']);
     
     try{
         if($ID==0){
@@ -354,10 +354,10 @@ function post_Compra_Mantenimiento_Nuevo(){
     }
     $oCompra->dtForma_Pago=forma_pago::getGrid('ID>0',-1,-1,'ID asc');
     $oProveedor=proveedor::getByID($oCompra->proveedor_ID);
-    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social asc");
+    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID'],-1,-1,"prv.razon_social asc");
     $oCompra->oProveedor=$oProveedor;
     $oCompra->dtProveedor=$dtProveedor;
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oCompra->dtMoneda=moneda::getGrid();
     $dtFormaPago=forma_pago::getGrid();
     $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,$tipo_comprobante_ID,"tipo_comprobantes_sinserie");
@@ -376,7 +376,7 @@ function get_compra_mantenimiento_buscar_orden(){
      if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
     global $returnView_float;
     $returnView_float=true;
-    $dtOrden_Compra=orden_ingreso::getGrid('oc.empresa_ID='.$_SESSION['empresa_ID'].' and oc.estado_ID=56',-1,-1,'oc.numero_orden desc');
+    $dtOrden_Compra=orden_ingreso::getGrid('oc.empresa_ID='.$_GET['empresa_ID'].' and oc.estado_ID=56',-1,-1,'oc.numero_orden desc');
     
     $GLOBALS['dtOrden_Compra']=$dtOrden_Compra;
  
@@ -402,7 +402,7 @@ function get_Compra_Mantenimiento_Nuevo_Producto($compra_ID){
         $oLinea=new linea();
         $oEstado=new estado();
         $oProducto=new producto();
-        $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
         $dtCategoria=$oCategoria->getGrid('',-1,-1,'ca.nombre asc');
         $dtLinea=$oLinea->getGrid('',-1,-1,'li.nombre asc');
         
@@ -691,7 +691,7 @@ function get_Compra_Mantenimiento_Producto_Serie($compra_detalle_ID){
         global $returnView_float;
         $returnView_float=true; 
         
-        $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
       
         $oCompra_Detalle=ingreso_detalle::getByID($compra_detalle_ID);
         $oCompra_Detalle->oProducto=producto::getByID($oCompra_Detalle->producto_ID);
@@ -1378,7 +1378,7 @@ function get_Compra_Mantenimiento_Editar($id){
     global $returnView_float;
     $returnView_float=true;
 
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oCompra=ingreso::getByID($id);
     
     if($oCompra==null){
@@ -1405,7 +1405,7 @@ function get_Compra_Mantenimiento_Editar($id){
     $oCompra->oProveedor=proveedor::getByID($oCompra->proveedor_ID);   
 //    $oCompra->dtComprobante_Tipo=$dtComprobante_tipo;
     $oCompra->dtTipo_Comprobante=$dtTipo_Comprobante;
-    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID']);
+    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID']);
     $oCompra->dtProveedor=$dtProveedor;
     $GLOBALS['oCompra']=$oCompra;
 
@@ -1491,10 +1491,10 @@ function post_Compra_Mantenimiento_Editar($id){
         $GLOBALS['mensaje'] = $ex->getMessage();
     }
     $oCompra->oProveedor=proveedor::getByID($oCompra->proveedor_ID);
-    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID']);
+    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID']);
     $oCompra->dtProveedor=$dtProveedor;
     
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $dtMoneda=moneda::getGrid();
     $oCompra->dtMoneda=$dtMoneda;
     $dtTipo_Comprobante=tipo_comprobante::getComprobantes(0,"compra",0,$oCompra->tipo_comprobante_ID,"tipo_comprobantes_sinserie");
@@ -1529,7 +1529,7 @@ function get_Compra_Mantenimiento_Ver_Detalle($id){
  global $returnView_float;
  $returnView_float=true;
 
- $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+ $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
  $oCompra=ingreso::getByID($id);
  $oEstado=estado::getByID($oCompra->estado_ID);
  $oProveedor=proveedor::getByID($oCompra->proveedor_ID); 
@@ -1612,7 +1612,7 @@ try{
     $GLOBALS['mensaje'] = $ex->getMessage();
 }
 $oProveedor=proveedor::getByID($oCompra->proveedor_ID);
-$oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+$oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
 $dtMoneda=moneda::getGrid();
 $dtComprobante_tipo=comprobante_tipo::getGrid('ct.en_compra=1');
 $oEstado=estado::getByID($oCompra->estado_ID);
@@ -1751,7 +1751,7 @@ function post_ajaxCompra_Mantenimiento_Detalle() {
     require ROOT_PATH . 'models/producto.php';
     require ROOT_PATH . 'models/estado.php';
     if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";;
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
    
     $compra_ID=$_POST['id'];
     
@@ -2127,7 +2127,7 @@ function get_Pagos_Mantenimiento() {
        $a++;
     }
     if($proveedor_IDs!=""){
-        $GLOBALS['dtProveedor']=proveedor::getGrid('prv.empresa_ID='.$_SESSION['empresa_ID'].' and prv.ID in ('.$proveedor_IDs.')',-1,-1,'prv.razon_social asc');
+        $GLOBALS['dtProveedor']=proveedor::getGrid('prv.empresa_ID='.$_GET['empresa_ID'].' and prv.ID in ('.$proveedor_IDs.')',-1,-1,'prv.razon_social asc');
     }else{
             $GLOBALS['dtProveedor']=array();
     }    
@@ -2338,7 +2338,7 @@ function post_ajaxGrabarPagos_Mantenimiento_Registro(){
     $monto_pendiente=0;
     try{
         $oCompra=ingreso::getByID($compra_ID);
-        $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
         if(trim($monto_pagado)==""){
             throw new Exception("Debe registrar un monto.");
         }
@@ -2489,7 +2489,7 @@ function get_Orden_Compra_Mantenimiento(){
 
     global $returnView;
     $returnView=true;
-    $dtProveedor=proveedor::getGrid('ID<>0 and empresa_ID='.$_SESSION['empresa_ID'],-1,-1,"razon_social asc");
+    $dtProveedor=proveedor::getGrid('ID<>0 and empresa_ID='.$_GET['empresa_ID'],-1,-1,"razon_social asc");
     $dtEstado=estado::getGrid('tabla="orden_ingreso" and ID in (55,56)');
     $dtMoneda=moneda::getGrid();
    
@@ -2664,11 +2664,11 @@ function get_orden_compra_mantenimiento_nuevo_producto($orden_compra_ID){
         $oLinea=new linea();
         $oEstado=new estado();
         $oProducto=new producto();
-        $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
-        $dtCategoria=$oCategoria->getGrid("ca.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"ca.nombre asc");
-        $dtLinea=$oLinea->getGrid("li.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"li.nombre asc");
+        $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
+        $dtCategoria=$oCategoria->getGrid("ca.empresa_ID=".$_GET['empresa_ID'],-1,-1,"ca.nombre asc");
+        $dtLinea=$oLinea->getGrid("li.empresa_ID=".$_GET['empresa_ID'],-1,-1,"li.nombre asc");
         
-        $dtProducto=$oProducto->getGrid("pr.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"pr.nombre asc");
+        $dtProducto=$oProducto->getGrid("pr.empresa_ID=".$_GET['empresa_ID'],-1,-1,"pr.nombre asc");
         $oOrden_Compra=orden_ingreso::getByID($orden_compra_ID);
         $oOrden_compra_detalle=new orden_ingreso_detalle();
         
@@ -2777,14 +2777,14 @@ function get_Orden_Compra_Mantenimiento_Nuevo(){
     $returnView_float=true;
     $oOrden_Compra = new orden_ingreso();
     
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_ingreso"');
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oOrden_Compra->dtMoneda=$dtMoneda;
     $oOrden_Compra->dtEstado=$dtEstado;
     $oOrden_Compra->moneda_ID=moneda;
     $oOrden_Compra->estado_ID=55;
-    $oOrden_Compra->dtProveedor=proveedor::getGrid("ID<>0 and empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"razon_social");
+    $oOrden_Compra->dtProveedor=proveedor::getGrid("ID<>0 and empresa_ID=".$_GET['empresa_ID'],-1,-1,"razon_social");
     $oOrden_Compra->fecha=date('d/m/Y');
     $oOrden_Compra->ID=0;
     //$oOrden_Compra->comentario='';
@@ -2852,8 +2852,8 @@ function post_Orden_Compra_Mantenimiento_Nuevo(){
         $GLOBALS['resultado'] = -1;
         $GLOBALS['mensaje'] = $ex->getMessage();
     }
-    $oOrden_Compra->dtProveedor=proveedor::getGrid("ID<>0 and empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"razon_social");
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oOrden_Compra->dtProveedor=proveedor::getGrid("ID<>0 and empresa_ID=".$_GET['empresa_ID'],-1,-1,"razon_social");
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $dtMoneda=moneda::getGrid();
     $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_ingreso"');
     $oOrden_Compra->dtEstado=$dtEstado;
@@ -2872,7 +2872,7 @@ function get_Orden_Compra_Mantenimiento_Editar($id){
     global $returnView_float;
     $returnView_float=true;
     
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_ingreso"');
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
 
@@ -2883,7 +2883,7 @@ function get_Orden_Compra_Mantenimiento_Editar($id){
         return;
     }
     $oOrden_Compra->oEstado=estado::getByID($oOrden_Compra->estado_ID);
-    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social");
+    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID'],-1,-1,"prv.razon_social");
     $oProveedor=proveedor::getByID($oOrden_Compra->proveedor_ID);
     $oOrden_Compra->vigv=round($oOrden_Compra->vigv,2);
     $oOrden_Compra->oProveedor=$oProveedor;
@@ -2951,8 +2951,8 @@ function post_Orden_Compra_Mantenimiento_Editar(){
     
     
     $oProveedor=proveedor::getByID($oOrden_Compra->proveedor_ID);
-    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID'],-1,-1,"prv.razon_social");
-    $oDatos_generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID'],-1,-1,"prv.razon_social");
+    $oDatos_generales=datos_generales::getByID1($_GET['empresa_ID']);
     $dtMoneda=moneda::getGrid();
     $dtEstado=estado::getGrid('est.ID in (55,56) and est.tabla="orden_ingreso"');
 
@@ -3005,7 +3005,7 @@ function post_ajaxOrden_Compra_Mantenimiento_Producto(){
     require ROOT_PATH . 'models/estado.php';
      if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
     require ROOT_PATH . 'controls/funcionController.php';
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $orden_compra_ID=$_POST['id'];
     $resultado='<div class="" >';
     $resultado.= '<table id="tabla-producto" class="table table-striped table-teal table-bordered"><thead><tr>';
@@ -3225,7 +3225,7 @@ function get_Orden_Compra_PDF($id){
     $returnView_float=true;
     $oOrden_Compra=orden_ingreso::getByID($id);
     $oMoneda=moneda::getByID($oOrden_Compra->moneda_ID);
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oProveedor=proveedor::getByID($oOrden_Compra->proveedor_ID);
     if($oProveedor==null){
         $oProveedor=new proveedor();
@@ -3476,7 +3476,7 @@ function get_Anulacion_Comprobante_Mantenimiento() {
     global $returnView;
     $returnView = true;
     $GLOBALS['dtMoneda']=moneda::getGrid('',-1,-1,'ID desc');
-    $dtCompra=ingreso::getGrid('co.empresa_ID='.$_SESSION['empresa_ID'],-1,-1,'co.fecha_emision desc');
+    $dtCompra=ingreso::getGrid('co.empresa_ID='.$_GET['empresa_ID'],-1,-1,'co.fecha_emision desc');
     $proveedor_IDs='';
     $a=0;
     $array_periodo=array();
@@ -3499,7 +3499,7 @@ function get_Anulacion_Comprobante_Mantenimiento() {
         $periodo=substr($item['fecha_emision'],0,4);
        $a++;
     }
-    $filtro="prv.empresa_ID=".$_SESSION['empresa_ID'];
+    $filtro="prv.empresa_ID=".$_GET['empresa_ID'];
     if($proveedor_IDs!=""){
         $filtro.=" and prv.ID in (".$proveedor_IDs.")";
     }

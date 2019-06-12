@@ -136,7 +136,7 @@ class guia_venta {
     $this->motivo_traslado_ID=1;
     $this->usuario_id=$_SESSION["usuario_ID"];
     $this->usuario_mod_id=$_SESSION["usuario_ID"];
-    $this->empresa_ID=$_SESSION['empresa_ID'];
+    $this->empresa_ID=$_GET['empresa_ID'];
     $this->departamento_ID_llegada=departamento_ID_default;
     $this->provincia_ID_llegada=provincia_ID_default;
     $this->distrito_ID_llegada=distrito_ID_default;

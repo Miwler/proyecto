@@ -74,6 +74,21 @@ function fncPage() { ?>
                     </script>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                   <div class="ckbox ckbox-danger">
+                        <input id="ckEstado" name="ckEstado"  type="checkbox" <?php echo(($GLOBALS['oNumero_Cuenta']->estado_ID==117?"checked":""));?>>
+                        <label for="ckEstado">Desactivar número de cuenta.</label>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="clearfix"></div>
+                    <div class="ckbox ckbox-success">
+                        <input id="ckSeleccinado" name="ckSeleccinado"  type="checkbox" <?php echo(($GLOBALS['oNumero_Cuenta']->seleccionado==1?"checked":""));?>>
+                        <label for="ckSeleccinado">Predeterminar para aparecer seleccionado.</label>
+                    </div>
+                </div>
+            </div>
         </div>
         
          <div class="form-footer">

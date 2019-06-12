@@ -42,6 +42,9 @@ class empresa
         private $correlativos_ID_guia_electronico;
         private $imagen_documentos;
         private $precio_incluye_igv;
+        private $bd_largo_decimal;
+        private $fecha_inicio_reportes;
+        private $fecha_view;
 	public function __set($var, $valor)
 	{
 		// convierte a minúsculas toda una cadena la función strtolower
@@ -147,7 +150,9 @@ class empresa
                     "iconexion_ws_sunat"=>$this->conexion_ws_sunat,
                     "ilista_modulo"=>$this->lista_modulo,
                     "ilista_reportes"=>$this->lista_reportes,
-                    "iprecio_incluye_igv"=>$this->precio_incluye_igv
+                    "iprecio_incluye_igv"=>$this->precio_incluye_igv,
+                    "ibd_largo_decimal"=>$this->bd_largo_decimal,
+                     "ifecha_inicio_reportes"=>$this->fecha_inicio_reportes
                 ),0);
           if($ID>0){
             $this->getMessage="El registro se guardó correctamente.";
@@ -182,7 +187,57 @@ class empresa
 			throw new Exception("Ocurrio un erroren la consulta");
 		}
 	}		
-	
+	function actualizar1()
+    {
+    $cn =new connect_new();
+    $retornar =0;
+    try
+    {
+      $retornar=$cn->store_procedure_transa(
+          "sp_empresa_Update",
+            array(
+              "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "inombre"=>$this->nombre,
+                    "iruta"=>$this->ruta,
+                    "istilo_fondo_tabs"=>$this->stilo_fondo_tabs,
+                    "istilo_fondo_boton"=>$this->stilo_fondo_boton,
+                    "istilo_fondo_cabecera"=>$this->stilo_fondo_cabecera,
+                     "icolor_documentos"=>$this->color_documentos,
+                     "iicono"=>$this->icono,
+                    "iusuario_mod_id"=>$this->usuario_mod_id,
+                    "imoneda"=>$this->moneda,
+                    "iperiodo_inicio"=>$this->periodo_inicio,
+                    "iestado_compra"=>$this->estado_compra,
+                    "icompra_tipo_comprobante_ID"=>$this->compra_tipo_comprobante_ID,
+                    "ilink_comprobante_electronico"=>$this->link_comprobante_electronico,
+                    "idepartamento_ID_default"=>$this->departamento_ID_default,
+                    "iprovincia_ID_default"=>$this->provincia_ID_default,
+                    "idistrito_ID_default"=>$this->distrito_ID_default,
+                    "iconfiguracion_correo_empresa"=>$this->configuracion_correo_empresa,
+                    "iconfiguracion_celular_empresa"=>$this->configuracion_celular_empresa,
+                    "ibeta_ws_guia"=>$this->beta_ws_guia,
+                    "ibeta_ws_factura"=>$this->beta_ws_factura,
+                    "iproduccion_ws_factura"=>$this->produccion_ws_factura,
+                    "iproduccion_ws_guia"=>$this->produccion_ws_guia,
+                    "iconexion_ws_sunat"=>$this->conexion_ws_sunat,
+                    "ilista_modulo"=>$this->lista_modulo,
+                    "ilista_reportes"=>$this->lista_reportes,
+                    "iprecio_incluye_igv"=>$this->precio_incluye_igv,
+                    "iprecio_incluye_igv"=>$this->precio_incluye_igv,
+                    "ibd_largo_decimal"=>$this->bd_largo_decimal,
+                    "ifecha_inicio_reportes"=>$this->fecha_inicio_reportes
+            ),0);
+      if($retornar>0){
+          $this->getMessage="Se actualizó correctamente.";
+      }
+      return $retornar;
+    }catch(Exeption $ex)
+    {
+      log_error(__FILE__, "empresa.actualizar", $ex->getMessage());
+      throw new Exception($ex->getMessage());
+    }
+  }
 	function eliminar(){
             $cn =new connect_new();
             $retornar=-1;
@@ -472,10 +527,18 @@ class empresa
                 if($item['nombre']=="conexion_ws_sunat"){
                     $this->conexion_ws_sunat=$item['valor'];
                 }
+                if($item['nombre']=="precio_incluye_igv"){
+                    $this->precio_incluye_igv=$item['valor'];
+                }
+                if($item['nombre']=="bd_largo_decimal"){
+                    $this->bd_largo_decimal=$item['valor'];
+                }
+                if($item['nombre']=="fecha_inicio_reportes"){
+                    $this->fecha_inicio_reportes=$item['valor'];
+                }
                 if($item['nombre']=="lista_modulo"){
                     $this->lista_modulo=$item['valor'];
                 }
-                
                 
               }
             

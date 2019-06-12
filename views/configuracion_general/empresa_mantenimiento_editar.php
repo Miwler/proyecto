@@ -228,8 +228,10 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Logo:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <img id="imagen_previa" src="<?php echo $GLOBALS['oEmpresa']->ruta;?>/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->logo_extension;?>" style="height: 80px">
+                                    
+                                    <img id="imagen_previa" style="height: 80px">
                                 <input type="file" name="logo" id="logo" onchange="fileValidation();">
+                                <small class="form-text text-muted">Imagen para los comprobantes.</small>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -242,8 +244,9 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Imagen principal:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
-                                    <img id="imagen_previaiImagen" src="<?php echo $GLOBALS['oEmpresa']->ruta;?>/imagenes/imagen/<?php echo $GLOBALS['oDatos_Generales']->imagen;?>" style="height: 40px">
+                                    <img id="imagen_previaiImagen" src="<?php echo $GLOBALS['oEmpresa']->ruta;?>/imagenes/logo/<?php echo $GLOBALS['oDatos_Generales']->imagen;?>" style="height: 40px">
                                 <input type="file" name="imagen" id="imagen" onchange="fileValidationImagen();">
+                                <small class="form-text text-muted">Imagen para el encabezado de cada empresa.</small>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -336,6 +339,13 @@
                                         $("#selStilo_fondo_cabecera").val(estilo);
                                     });
                                 </script>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Color de Documentos PDF:</label>
+                                <div class="col-sm-8">
+                                    
+                                    <input name="color_documentos" type="color" id="colcolor_documentosor" value="<?php echo$GLOBALS['oEmpresa']->color_documentos;?>" class="form-control"/>
+                                </div>
                             </div>
                             <div class="form-group form-group-divider">
                                 <div class="form-inner">
@@ -458,7 +468,7 @@
                                 <label class="control-label col-sm-4">Departamento por defecto:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
                                     <select id="selDepartamento1" name="selDepartamento1" class="form-control" onclick="fncDepartamento1();">
-                                        <option id="0">Seleccione</option>
+                                        <option value="0">Seleccione</option>
                                         <?php foreach($GLOBALS['dtDepartamento'] as $departamento){?>
                                         <option value="<?php echo $departamento['ID']?>"><?php echo ($departamento['nombre'])?></option>
                                         <?php } ?>
@@ -472,20 +482,28 @@
                                 <label class="control-label col-sm-4">Provincia por defecto:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
                                     <select id="selProvincia1" name="selProvincia1" class="form-control" onclick="fncProvincia1();">
-                                        <option id="0">Seleccione</option>
-                                        
+                                        <option value="0">Seleccione</option>
+                                        <?php foreach($GLOBALS['dtProvincia1'] as $provincia){?>
+                                        <option value="<?php echo $provincia['ID']?>"><?php echo ($provincia['nombre'])?></option>
+                                        <?php } ?>
                                     </select>
-                                    
+                                    <script>
+                                        $("#selProvincia1").val(<?php echo $GLOBALS['oEmpresa']->provincia_ID_default;?>);
+                                    </script>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4">Distrito por defecto:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
                                     <select id="selDistrito1" name="selDistrito1" class="form-control" >
-                                        <option id="0">Seleccione</option>
-                                       
+                                        <option value="0">Seleccione</option>
+                                        <?php foreach($GLOBALS['dtDistrito1'] as $distrito){?>
+                                        <option value="<?php echo $distrito['ID']?>"><?php echo ($distrito['nombre'])?></option>
+                                        <?php } ?>
                                     </select>
-                                    
+                                    <script>
+                                        $("#selDistrito1").val(<?php echo $GLOBALS['oEmpresa']->distrito_ID_default;?>);
+                                    </script>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -500,6 +518,19 @@
                                 <div class="col-sm-8">
                                     <input type="text" id="txtOpcionesCelular" name="txtOpcionesCelular"  autocomplete="off" class="form-control" autocomplete="off" value="<?php echo $GLOBALS['oEmpresa']->configuracion_celular_empresa;?>"  >
                                     <small class="form-text text-muted">Cada etiqueta de celular lo separamos con "|".</small>    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Precion incluyen IGV:<span class="asterisk">*</span></label>
+                                <div class="col-sm-8">
+                                    <select id="selIncluyeIgv" name="selIncluyeIgv" class="form-control">
+                                        <option value="1">SI</option>
+                                        <option value="0">NO</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        $("#selIncluyeIgv").val(<?php echo $GLOBALS['oEmpresa']->precio_incluye_igv?>);
+                                    </script>
+                                    <small class="form-text text-muted">Valor por defecto si incluye IGV</small>    
                                 </div>
                             </div>
                             <div class="form-group">
@@ -544,6 +575,32 @@
                                     <small class="form-text text-muted">Seleccionamos beta para realizar pruebas de envío o producción cuando ya este revisado.</small>    
                                 </div>
                             </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Largo decimal precios unitarios:<span class="asterisk">*</span></label>
+                                <div class="col-sm-8">
+                                    <select id="selBd_Largo_Decimal" name="selBd_Largo_Decimal" class="form-control">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <script>
+                                        $("#selBd_Largo_Decimal").val("<?php echo $GLOBALS['oEmpresa']->bd_largo_decimal;?>");
+                                    </script>
+                                    <small class="form-text text-muted">Registre el largo de decimal de los precios y costos unitarios de las ventas.</small>    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Fecha inicio para reportes:<span class="asterisk">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtFecha_Inicio_Reporte" name="txtFecha_Inicio_Reporte" class="form-control date-range-picker-single" value="<?php echo $GLOBALS['oEmpresa']->fecha_view;?>">
+                                    
+                                    <small class="form-text text-muted">Registre la fecha para inicio de los reportes.</small>    
+                                </div>
+                            </div>
+                            
                             <div class="form-group form-group-divider">
                                 <div class="form-inner">
                                     <h4 class="no-margin">Asignar Reportes</h4>
@@ -567,7 +624,10 @@
     
    
     <script type="text/javascript">
-    
+    $(document).ready(function(){
+        $("#imagen_previa").attr("src","");
+        $("#imagen_previa").attr("src","<?php echo ($GLOBALS['oEmpresa']->ruta."/imagenes/logo_comprobantes/".$GLOBALS['oDatos_Generales']->logo_extension);?>");
+    });
      var validar=function(){
         
         var nombre=$.trim($("#txtNombre").val());
@@ -938,7 +998,13 @@
         }
         var fncDepartamento1=function(){
             var obj = $('#selDepartamento1');
-            ajaxSelect('selProvincia1', '/Mantenimiento/ajaxSelect_Provincia/' + obj.val(), '',fncProvincia1);
+            if(obj.val()!=0){
+                ajaxSelect('selProvincia1', '/Mantenimiento/ajaxSelect_Provincia/' + obj.val(), '',fncProvincia1);
+            }else{
+                $('#selProvincia1').html("<option value='0'>--</option>");
+                $('#selDistrito1').html("<option value='0'>--</option>");
+            }
+            
         }
         var fncProvincia=function(){
             var obj = $('#selProvincia');
@@ -946,7 +1012,12 @@
         }
         var fncProvincia1=function(){
             var obj = $('#selProvincia1');
-            ajaxSelect('selDistrito1', '/Mantenimiento/ajaxSelect_Distrito/' + obj.val(), '',null);
+            if(obj.val()!=0){
+                 ajaxSelect('selDistrito1', '/Mantenimiento/ajaxSelect_Distrito/' + obj.val(), '',null);
+            }else{
+                $('#selDistrito1').html("<option value='0'>--</option>");
+            }
+           
         }
     </script>
     <?php } ?>  

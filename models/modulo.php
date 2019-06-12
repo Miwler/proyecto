@@ -217,7 +217,7 @@ class modulo
 		{
 			$q='select distinct(m.ID),m.orden,m.nombre,m.nombre_corto,m.imagen,m.usuario_id,ifnull(m.usuario_mod_id ,-1) as usuario_mod_id ';
 			$q.=' from modulo as m, menu me,menu_usuario mu,modulo_empresa moe';
-			$q.=' where m.ID=me.modulo_ID and me.ID=mu.menu_ID and moe.modulo_ID=m.ID and m.del=0 and me.del=0 and mu.del=0 and moe.del=0 and moe.empresa_ID='.$_SESSION['empresa_ID'].' and mu.usuario_ID='.$usuario_id;
+			$q.=' where m.ID=me.modulo_ID and me.ID=mu.menu_ID and moe.modulo_ID=m.ID and m.del=0 and me.del=0 and mu.del=0 and moe.del=0 and moe.empresa_ID='.$_GET['empresa_ID'].' and mu.usuario_ID='.$usuario_id;
                         $q.=' Order By m.orden';			
 			//echo $q;
 			$dt=$cn->getGrid($q);									

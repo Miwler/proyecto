@@ -353,7 +353,7 @@ class cliente {
             $q.='clt.forma_pago_ID,clt.banco,clt.numero_cuenta_soles,clt.numero_cuenta_dolares,clt.estado_ID,';
             $q.='clt.descuento,clt.tiempo_credito,clt.usuario_id,td.abreviatura as documento';
             $q.=' FROM cliente as clt,tipo_documento td ';
-            $q.=' where clt.tipo_documento_ID=td.ID and clt.del=0 and clt.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where clt.tipo_documento_ID=td.ID and clt.del=0 and clt.empresa_ID='.$_GET['empresa_ID'];
             
 
             if ($filtro != '') {
@@ -379,7 +379,7 @@ class cliente {
         $retornar = -1;
         try {
             $q="select  count(ID) from cliente ";
-            $q.=" where del=0 and empresa_ID=".$_SESSION['empresa_ID']." and ruc ='".$this->ruc."'";
+            $q.=" where del=0 and empresa_ID=".$_GET['empresa_ID']." and ruc ='".$this->ruc."'";
            
                 $filtro="";
                 if(isset($this->ID)){
@@ -403,7 +403,7 @@ class cliente {
         $retornar = -1;
         try {
             $q="select  count(ID) from cliente ";
-            $q.=" where del=0 and empresa_ID=".$_SESSION['empresa_ID']." and razon_social ='".$this->razon_social."'";
+            $q.=" where del=0 and empresa_ID=".$_GET['empresa_ID']." and razon_social ='".$this->razon_social."'";
            
                 $filtro="";
                 if(isset($this->ID)){
@@ -442,11 +442,11 @@ class cliente {
         $cn =new connect_new();
         try 
         {
-            //$q='call getListaClientes('.$_SESSION['empresa_ID'].',"'.$buscar.'");';
+            //$q='call getListaClientes('.$_GET['empresa_ID'].',"'.$buscar.'");';
             //echo $q;
             //$dt=$cn->getGrid($q);
             $dt=$cn->store_procedure_getGrid('getListaClientes',
-                    array('empresa_ID'=>$_SESSION['empresa_ID'],
+                    array('empresa_ID'=>$_GET['empresa_ID'],
                         'buscar'=>$buscar));
             return $dt;												
         }catch(Exception $ex)

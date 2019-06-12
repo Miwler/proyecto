@@ -286,15 +286,15 @@ function window_float_open_modal(titulo,url,id,q,f0,ancho,alto)
 	
 	/*Envio el ID*/
     var  cad = (id != '') ? '/' + id : '';  
-	
+	cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
 	/*Envio la cadena de consultas*/
-	if (typeof (q) == 'undefined') {      
-		cad =cad +'?aleatorio=' + aleatorio;
+	if (typeof (q) == 'undefined' || $.trim(q)=="") {      
+		cad =cad +'&aleatorio=' + aleatorio;
 	} else{
-		cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
+		cad =cad +'&'+ q +'&aleatorio=' + aleatorio;
 	}
 	
-	iframe.src = url.toLowerCase() + cad ;
+	iframe.src = url.toLowerCase() + cad;
         //iframe.className+="embed-responsive-item"; //embed-responsive-item
         var window_float=$("#float_modal .modal-body");
         
@@ -358,18 +358,17 @@ function window_float_open_modal_hijo(titulo,url,id,q,f0,ancho,alto)
 	iframe.style.border=0;
 	
 	/*Envio el ID*/
-    var  cad = (id != '') ? '/' + id : '';  
+        var  cad = (id != '') ? '/' + id : '';  
+	cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
+	/*Envio la cadena de consultas*/
+	if (typeof (q) == 'undefined' || $.trim(q)=="") {      
+		cad =cad +'&aleatorio=' + aleatorio;
+	} else{
+		cad =cad +'&'+ q +'&aleatorio=' + aleatorio;
+	} 
 	
 	/*Envio la cadena de consultas*/
-       
-		
-	if ($.trim(q)!=""||q.length>0) {
-           
-            cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
-		
-	} else{
-           cad =cad +'?aleatorio=' + aleatorio;
-	}
+
 	//alert(cad);
 	iframe.src = url.toLowerCase() + cad ;
         //iframe.className+="embed-responsive-item"; //embed-responsive-item
@@ -418,13 +417,13 @@ function window_float_open_modal_hijo_hijo(titulo,url,id,q,f0,ancho,alto)
 	
 	/*Envio el ID*/
     var  cad = (id != '') ? '/' + id : '';  
-	
+	cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
 	/*Envio la cadena de consultas*/
-	if (typeof (q) == 'undefined') {      
-		cad =cad +'?aleatorio=' + aleatorio;
+	if (typeof (q) == 'undefined' || $.trim(q)=="") {      
+		cad =cad +'&aleatorio=' + aleatorio;
 	} else{
-		cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
-	}
+		cad =cad +'&'+ q +'&aleatorio=' + aleatorio;
+	} 
 	
 	iframe.src = url.toLowerCase() + cad ;
         //iframe.className+="embed-responsive-item"; //embed-responsive-item
@@ -490,14 +489,14 @@ function window_float_open_padre(url,id,q,f0)
 	iframe.style.border=0;
 	
 	/*Envio el ID*/
-    var  cad = (id != '') ? '/' + id : '';  
-	
+     var  cad = (id != '') ? '/' + id : '';  
+	cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
 	/*Envio la cadena de consultas*/
-	if (typeof (q) == 'undefined') {      
-		cad =cad +'?aleatorio=' + aleatorio;
+	if (typeof (q) == 'undefined' || $.trim(q)=="") {      
+		cad =cad +'&aleatorio=' + aleatorio;
 	} else{
-		cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
-	}
+		cad =cad +'&'+ q +'&aleatorio=' + aleatorio;
+	} 
 	
 	iframe.src = url.toLowerCase() + cad ;
     window_float.append(iframe);
@@ -580,14 +579,17 @@ function window_float_exportar(url,divForm,id,q)
                 var window_float = $('#window-float');
                 iframe.id = 'iwindow-float';
                 //id=2015;
-                var  cad = (id != '') ? '/' + id : '';  
+               
 	
                 /*Envio la cadena de consultas*/
-                if (typeof (q) == 'undefined') {      
-                        cad =cad +'?aleatorio=' + aleatorio1;
+                 var  cad = (id != '') ? '/' + id : '';  
+                cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
+                /*Envio la cadena de consultas*/
+                if (typeof (q) == 'undefined' || $.trim(q)=="") {      
+                        cad =cad +'&aleatorio=' + aleatorio;
                 } else{
-                        cad =cad +'?'+ q +'&aleatorio=' + aleatorio1;
-                }
+                        cad =cad +'&'+ q +'&aleatorio=' + aleatorio;
+                } 
                 
                 //alert(respuesta.dtReporte);
                 var url="/Reporte/Exportar_Excel";
@@ -689,14 +691,17 @@ function float_close_padre() {
     });    
 }
 function window_open(url, q) {
-    var cad = (q != '') ? '/' + q : '';    
+    var cad = (q != '') ? '/' + q : ''; 
+	cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
+	/*Envio la cadena de consultas*/
+	  
     window.location = url + cad;
 
 }
 
 function redireccionar(url)
 {
-    window.location = url;
+    window.location = url+'?empresa_ID='+getParameterByName('empresa_ID');;
 }
 
 function returnPageBack() {
@@ -1245,14 +1250,14 @@ function window_open_view(url,id,q,f0)
 	iframe.style.border=0;
 	
 	/*Envio el ID*/
-    var  cad = (id != '') ? '/' + id : '';  
-	
-	/*Envio la cadena de consultas*/
-	if (typeof (q) == 'undefined') {      
-		cad =cad +'?aleatorio=' + aleatorio;
-	} else{
-		cad =cad +'?'+ q +'&aleatorio=' + aleatorio;
-	}
+   var  cad = (id != '') ? '/' + id : '';  
+                cad=cad+'?empresa_ID='+getParameterByName('empresa_ID');
+                /*Envio la cadena de consultas*/
+                if (typeof (q) == 'undefined' || $.trim(q)=="") {      
+                        cad =cad +'&aleatorio=' + aleatorio;
+                } else{
+                        cad =cad +'&'+ q +'&aleatorio=' + aleatorio;
+                } 
 	
 	var src = url.toLowerCase() + cad ;
      $("#divContenedorDIV").html('<iframe id="iframeContenedor" class="embed-responsive-item" src="'+src+'" allowfullscreen></iframe>');

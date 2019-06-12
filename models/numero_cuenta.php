@@ -18,6 +18,8 @@ class numero_cuenta {
     private $nombre_banco;
     private $moneda_ID;
     private $dtMoneda;
+    private $estado_ID;
+    private $seleccionado;
     private $usuario_id;
     private $usuario_mod_id;
     private $abreviatura;
@@ -49,7 +51,7 @@ class numero_cuenta {
      static function getByID($ID) {
         $cn = new connect_new();
         try {
-            $q = "Select ID,nombre_banco,numero,cci,moneda_ID,ifNull(abreviatura,'') as abreviatura,ifNull(usuario_id,0) as usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id";
+            $q = "Select ID,nombre_banco,numero,cci,moneda_ID,ifNull(abreviatura,'') as abreviatura,empresa_ID,estado_ID,seleccionado,ifNull(usuario_id,0) as usuario_id,ifNull(usuario_mod_id,-1) as usuario_mod_id";
             $q.=' from numero_cuenta ';
             $q.=' where del=0 and ID=' . $ID;
 
@@ -65,6 +67,9 @@ class numero_cuenta {
                 $oNumero_Cuenta->cci = $item['cci'];
                 $oNumero_Cuenta->moneda_ID = $item['moneda_ID'];
                 $oNumero_Cuenta->abreviatura = $item['abreviatura'];
+                $oNumero_Cuenta->estado_ID = $item['estado_ID'];
+                $oNumero_Cuenta->seleccionado = $item['seleccionado'];
+                $oNumero_Cuenta->empresa_ID = $item['empresa_ID'];
                 $oNumero_Cuenta->usuario_id = $item['usuario_id'];
                 $oNumero_Cuenta->usuario_mod_id = $item['usuario_mod_id'];
              
@@ -81,8 +86,8 @@ class numero_cuenta {
 			$cn = new connect_new();
             $ID = $cn->getData($q);
             
-            $q=' INSERT INTO numero_cuenta (ID,nombre_banco,numero,cci,moneda_ID,usuario_id) ';
-            $q.=' VALUES ('.$ID.',"'.$this->nombre_banco.'","'.$this->numero.'","'.$this->cci.'",'.$this->moneda_ID.','.$this->usuario_id.')' ;
+            $q=' INSERT INTO numero_cuenta (ID,nombre_banco,numero,cci,moneda_ID,estado_ID,seleccionado,usuario_id) ';
+            $q.=' VALUES ('.$ID.',"'.$this->nombre_banco.'","'.$this->numero.'","'.$this->cci.'",'.$this->moneda_ID.','.$this->estado_ID.','.$this->seleccionado.','.$this->usuario_id.')' ;
             $cn = new connect_new();
             $retorna = $cn->transa($q);
             $this->ID=$ID;
@@ -93,35 +98,38 @@ class numero_cuenta {
         }
     }
     function insertar1()
-    {
-    $cn =new connect_new();
-    try
-    {
-      $ID=$cn->store_procedure_transa(
-          "sp_numero_cuenta_Insert",
-            array(
-            "iID"=>0,
-            "inumero"=>$this->numero,
-            "icci"=>$this->cci,
-            "inombre_banco"=>$this->nombre_banco,
-            "imoneda_ID"=>$this->moneda_ID,
-            "iabreviatura"=>$this->abreviatura,
-            "iempresa_ID"=>$this->empresa_ID,
-            "iusuario_id"=>$this->usuario_id,
+        {
+        $cn =new connect_new();
+        try
+        {
+          $ID=$cn->store_procedure_transa(
+              "sp_numero_cuenta_Insert",
+                array(
+                    "iID"=>0,
+                    "inumero"=>$this->numero,
+                    "icci"=>$this->cci,
+                    "inombre_banco"=>$this->nombre_banco,
+                    "imoneda_ID"=>$this->moneda_ID,
+                    "iabreviatura"=>$this->abreviatura,
+                    "iempresa_ID"=>$this->empresa_ID,
+                    "iestado_ID"=>$this->estado_ID,
+                    "iseleccionado"=>$this->seleccionado,
+                    "iusuario_id"=>$this->usuario_id,
 
-        ),0);
-      if($ID>0){
-        $this->getMessage="El registro se guardó correctamente.";
-        $this->ID=$ID;
-        return $ID;
-      } 
-      return $ID;
-    }catch(Exeption $ex)
-    {
-      log_error(__FILE__, "numero_cuenta.insertar", $ex->getMessage());
-      throw new Exception($ex->getMessage());
-    }
-  }
+                ),0);
+          if($ID>0){
+            $this->getMessage="El registro se guardó correctamente.";
+            $this->ID=$ID;
+            return $ID;
+          } else {
+              throw new Exception("No se registró");
+          }
+        }catch(Exeption $ex)
+        {
+          log_error(__FILE__, "numero_cuenta.insertar", $ex->getMessage());
+          throw new Exception($ex->getMessage());
+        }
+      }
     function actualizar() {
         $cn = new connect_new();
         try {
@@ -139,6 +147,7 @@ class numero_cuenta {
         }
     }  
     function actualizar1()
+    
     {
     $cn =new connect_new();
     $retornar =0;
@@ -147,17 +156,20 @@ class numero_cuenta {
       $retornar=$cn->store_procedure_transa(
           "sp_numero_cuenta_Update",
             array(
-              "retornar"=>$retornar,
-            "iID"=>$this->ID,
-            "inumero"=>$this->numero,
-            "icci"=>$this->cci,
-            "inombre_banco"=>$this->nombre_banco,
-            "imoneda_ID"=>$this->moneda_ID,
-            "iabreviatura"=>$this->abreviatura,
-            "iusuario_mod_id"=>$this->usuario_mod_id
-        ),0);
+                "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "inumero"=>$this->numero,
+                "icci"=>$this->cci,
+                "inombre_banco"=>$this->nombre_banco,
+                "imoneda_ID"=>$this->moneda_ID,
+                "iabreviatura"=>$this->abreviatura,
+                "iempresa_ID"=>$this->empresa_ID,
+                "iestado_ID"=>$this->estado_ID,
+                "iseleccionado"=>$this->seleccionado,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
       if($retornar>0){
-          $this->getMessage="Se actualizó correctamente";
+           $this->getMessage="Se actualizó correctamente.";
       }
       return $retornar;
     }catch(Exeption $ex)
@@ -235,7 +247,7 @@ class numero_cuenta {
 		$cn =new connect_new();
 		try 
 		{
-			$q='select ID,nombre_banco,numero,cci,moneda_ID,ifnull(abreviatura,"") as abreviatura';
+			$q='select ID,nombre_banco,numero,cci,moneda_ID,ifnull(abreviatura,"") as abreviatura,estado_ID,seleccionado';
 			$q.=' FROM numero_cuenta';
 			$q.=' where del=0 ';
 			

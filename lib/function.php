@@ -1,13 +1,14 @@
 <?php 
         function cargarInformacion($empresa_ID){
+            if(!class_exists("configuracion_empresa"))require ROOT_PATH."models/configuracion_empresa.php";
             //echo $empresa_ID.'oooooo';
-            if(isset($_SESSION['empresa_ID'])){
+            if($empresa_ID>0){
                 //echo $_SESSION['empresa_ID'];
 
-                if($_SESSION['empresa_ID']!=1){
+                if($empresa_ID!=1){
                     if(!class_exists('datos_generales'))require ROOT_PATH."models/datos_generales.php";
                     if(!class_exists('empresa'))require ROOT_PATH."models/empresa.php";
-                    $oEmpresa=empresa::getByID($_SESSION['empresa_ID']);
+                    $oEmpresa=empresa::getByID($empresa_ID);
                     if($oEmpresa!=null){
                         $_COOKIE["color_documentos"]=$oEmpresa->color_documentos;
 
@@ -53,22 +54,33 @@
                 if(!class_exists('configuracion_empresa')){
                         require ROOT_PATH . 'models/configuracion_empresa.php';
                 }
-
-                $dtConfiguracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+                
+                $dtConfiguracion_Empresa=configuracion_empresa::getGrid("empresa_ID=".$empresa_ID);
+               
                 foreach($dtConfiguracion_Empresa as $config){
-                    $_SESSION[$config['nombre']]=$config['valor'];
+                    //$_SESSION[$config['nombre']]=$config['valor'];
+                    if(!defined($config['nombre']))define($config['nombre'],$config['valor']);
                 }
             }
         }
         function validar_menu($ruta){
+            
            if(!class_exists("seguridad")){
                 require ROOT_PATH . 'models/seguridad.php';
             }
+            $enlace=explode("?", $ruta);
+            $empresa_ID=0;
+            if(count($enlace)>0){
+                $ruta=$enlace[0];
+                $empresa_ID=$_GET['empresa_ID'];
+                
+            }
+           
             if($ruta=="/home/index"){
                 $retorna=1;
-            }else if(isset($_SESSION['empresa_ID'])){
-                cargarInformacion($_SESSION['empresa_ID']);
-                if($ruta=='/home/main/'.$_SESSION['empresa_ID']){
+            }else if($empresa_ID>0){
+                cargarInformacion($empresa_ID);
+                if($ruta=='/home/main/'.$empresa_ID){
                 $retorna=1;
                 
                 }else{ 
@@ -563,5 +575,42 @@
       $rgb['a'] = $alpha;
    }
    return $rgb;
+}
+function redimensionarJPEG ($origen, $destino, $ancho_max, $alto_max, $fijar) {
+
+    $info_imagen= getimagesize($origen);
+    $ancho=$info_imagen[0];
+    $alto=$info_imagen[1];
+    if ($ancho>=$alto)
+    {
+        $nuevo_alto= round($alto * $ancho_max / $ancho,0);
+        $nuevo_ancho=$ancho_max;
+    }
+    else
+    {
+        $nuevo_ancho= round($ancho * $alto_max / $alto,0);
+        $nuevo_alto=$alto_max;
+    }
+    switch ($fijar)
+    {
+        case "ancho":
+            $nuevo_alto= round($alto * $ancho_max / $ancho,0);
+            $nuevo_ancho=$ancho_max;
+            break;
+        case "alto":
+            $nuevo_ancho= round($ancho * $alto_max / $alto,0);
+            $nuevo_alto=$alto_max;
+            break;
+        default:
+            $nuevo_ancho=$nuevo_ancho;
+            $nuevo_alto=$nuevo_alto;
+            break;
+    }
+    $imagen_nueva= imagecreatetruecolor($nuevo_ancho,$nuevo_alto);
+    $imagen_vieja= imagecreatefromjpeg($origen);
+    imagecopyresampled($imagen_nueva, $imagen_vieja, 0, 0, 0, 0,$nuevo_ancho, $nuevo_alto, $ancho, $alto);
+    imagejpeg($imagen_nueva,$destino);
+    imagedestroy($imagen_nueva);
+    imagedestroy($imagen_vieja);
 }
 ?>

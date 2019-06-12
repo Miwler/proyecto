@@ -217,7 +217,7 @@ class vehiculo {
         try {
             $q = 'SELECT ID,marca,placa,certificado_inscripcion,descripcion,empresa_ID,usuario_ID,ifnull(usuario_mod_id,-1) as usuario_mod_id';
             $q.=' FROM vehiculo';
-            $q.=' where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where del=0 and empresa_ID='.$_GET['empresa_ID'];
 
 
             if ($filtro != '') {

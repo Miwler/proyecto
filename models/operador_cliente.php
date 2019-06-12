@@ -56,7 +56,7 @@ class operador_cliente {
             $ID=$cn->getData($q);
 
             $q = 'INSERT INTO operador_cliente (ID,empresa_ID,cliente_ID,operador_ID,estado_ID,usuario_id)';
-            $q.='VALUES ('.$ID.','.$_SESSION['empresa_ID'].','.$this->cliente_ID.','.$this->operador_ID.','.$this->estado_ID.','. $this->usuario_id .'); ';
+            $q.='VALUES ('.$ID.','.$_GET['empresa_ID'].','.$this->cliente_ID.','.$this->operador_ID.','.$this->estado_ID.','. $this->usuario_id .'); ';
               
          
             $cn = new connect_new();
@@ -103,7 +103,7 @@ class operador_cliente {
         try {
 
             $q = 'UPDATE operador_cliente SET del=1,usuario_mod_id=' . $this->usuario_id . ', fdm=Now()';
-            $q.=' WHERE empresa_ID='.$_SESSION['empresa_ID'].' and del=0 and operador_ID=' . $this->operador_ID. ' and cliente_ID='.$this->cliente_ID;
+            $q.=' WHERE empresa_ID='.$_GET['empresa_ID'].' and del=0 and operador_ID=' . $this->operador_ID. ' and cliente_ID='.$this->cliente_ID;
 
             $retornar = $cn->transa($q);
 
@@ -207,7 +207,7 @@ class operador_cliente {
         try {
            
             $q='select count(ID) from operador_cliente';
-            $q.=' where empresa_ID='.$_SESSION['empresa_ID'].' and del=0 and operador_ID='.$this->operador_ID.' and cliente_ID='.$this->cliente_ID;
+            $q.=' where empresa_ID='.$_GET['empresa_ID'].' and del=0 and operador_ID='.$this->operador_ID.' and cliente_ID='.$this->cliente_ID;
             
 //echo $q;
             $retorna = $cn->getData($q);
@@ -225,7 +225,7 @@ class operador_cliente {
         try {
             $q = 'SELECT ID,descripcion,usuario_id,fecha,operador_ID,cliente_ID,estado_id';
             $q.=' FROM operador_cliente ';
-            $q.=' where empresa_ID='.$_SESSION['empresa_ID'].' and del=0';
+            $q.=' where empresa_ID='.$_GET['empresa_ID'].' and del=0';
             
             echo $q;
             

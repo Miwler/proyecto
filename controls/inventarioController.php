@@ -1,5 +1,5 @@
 <?php
-function get_Inventario_Mantenimiento() {
+function get_Inventario_Mantenimiento(){
     
     require ROOT_PATH . 'models/producto.php';
    
@@ -8,6 +8,9 @@ function get_Inventario_Mantenimiento() {
     $returnView = true;
     $dtProducto=producto::getGrid("",-1,-1,"pr.nombre asc");
     $GLOBALS['dtProducto']=$dtProducto;
+    
+    //echo $_ENV["empresa_ID"];
+    //echo $_ENV['empresa_ID'];
 }
 function post_ajaxInventario_Mantenimiento() {
     require ROOT_PATH . 'models/inventario.php';
@@ -19,7 +22,7 @@ function post_ajaxInventario_Mantenimiento() {
     $campo_orden = $_POST['campo_orden'];
 
     try {
-        $dt =inventario::getProducto($_SESSION['empresa_ID']); 
+        $dt =inventario::getProducto($_GET['empresa_ID']); 
         
         $array_cabecera=array(
             array("cabecera"=>'N°',"class_alineado"=>'text-center',"campo"=>'ID',"filtro"=>"no"),

@@ -13,7 +13,7 @@
          
             var iframe = document.createElement('iframe');
            iframe.id='pdfImprimir';
-            iframe.src =url;
+            iframe.src =url+'?empresa_ID='+getParameterByName('empresa_ID');
             $('#pdf').html(iframe);
            
         };
@@ -30,7 +30,7 @@
                 $('body').append('<div id="pdf" ></div>');
                 var iframe = document.createElement('iframe');
                 iframe.id='pdfImprimir';
-                iframe.src =url;
+                iframe.src =url+'?empresa_ID='+getParameterByName('empresa_ID');
                 $('#pdf').html(iframe);
             }else {
                 

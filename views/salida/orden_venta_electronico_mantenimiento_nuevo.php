@@ -293,7 +293,20 @@
                             </script>
                         </div>
                     </div>
-                   
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbCostoUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oOrden_Venta']->mostrar_precio_unitario==1?"":"checked");?> value="0">
+                                <label for="rbCostoUnitario">Mostrar en la factura precio unitario sin IGV. </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbPrecioUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oOrden_Venta']->mostrar_precio_unitario==1?"checked":"");?> value="1">
+                                <label for="rbPrecioUnitario">Mostrar en la factura precio unitario incluido IGV</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <label>Nro. Cuentas: </label>
@@ -956,6 +969,13 @@
              $('#txtTelefono_Vendedor').val(resultado.operador_telefono);
              $('#txtCelular1').val(resultado.operador_celular1);
              $('#txtGarantia').val(resultado.Garantia);
+             if(resultado.mostrar_precio_unitario==1){
+                $("#rbCostoUnitario").prop("checked",false);
+                $("#rbPrecioUnitario").prop("checked",true);
+             }else{
+                 $("#rbCostoUnitario").prop("checked",true);
+                $("#rbPrecioUnitario").prop("checked",false);
+             }
              $('#btnDescargar').css('display','');
              $('#btnDescargar').prop('src','');
              var texto=String(resultado.numero_cuenta_IDs);
@@ -974,8 +994,11 @@
              }
             
              $('#btnImportar').css('display', 'none');
+             $("#btnImportarGuia").css("display","none");
              mostrarBotones();
              fncCargar_Detalle_Orden_Venta();
+             fncCargar_Comprobantes_Ventas();
+             fncCargar_Guias_Ventas();
              
         });
     }
@@ -1108,11 +1131,13 @@
        $("#txtPorcentaje_Descuento").prop('disabled',true);
        $("#txtDescuento_Global").prop('disabled',true);
        $("#txtOtros_Cargos").prop('disabled',true);
-      
+      $("#rbCostoUnitario").prop('disabled',true);
+       $("#rbPrecioUnitario").prop('disabled',true);
        $('#tbnumero_cuenta input').each(function(){
            $(this).prop('disabled',true);
        });
        $('#btnEliminar').prop('disabled',true);
+       $("#btnAgregar").css("display","none");
       // $('#').prop('disabled',true);
    }
    function fncEnviarSUNAT(id) {
@@ -1347,6 +1372,8 @@
                     }
                     if(respuesta.ver_boton_agregar>0){
                         $("#btnComprobantes").css("display","none");
+                    }else{
+                        $("#btnComprobantes").css("display","");
                     }
                 });
             }catch(e){

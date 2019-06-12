@@ -185,18 +185,26 @@
         $returnView=true;
         
         $oEmpresa=empresa::getByID($id);
+       
+        
         cargarInformacion($id);
-        $_SESSION['empresa_ID']=$id;
-        //echo $_SESSION['empresa_ID'];
+        
+        //$_SESSION['empresa_ID_old']=isset($_SESSION['empresa_ID'])?$_SESSION['empresa_ID']:0;
+        //$_SESSION['empresa_ID']=$id;
+        
+        
         $_SESSION['icono']=$oEmpresa->icono;
         $_SESSION['empresa']=  FormatTextView($oEmpresa->nombre);
         $_SESSION['tabs']=$oEmpresa->stilo_fondo_tabs;
         $_SESSION['boton']=$oEmpresa->stilo_fondo_boton;
         $_SESSION['cabecera']=$oEmpresa->stilo_fondo_cabecera;
         
+        
+        
         $dtEmpresa=empresa::getEmpresaxUsuarioID($_SESSION['usuario_ID']);
         //print_r($dtEmpresa);
         $_SESSION['dtEmpresa']=$dtEmpresa;
+        
         //cargarInformacion($id);
         /*if($_SESSION['usuario_ID']>0){
             $filtro="moe.empresa_ID=".$_SESSION['empresa_ID']." and mu.usuario_ID=".$_SESSION['usuario_ID'];

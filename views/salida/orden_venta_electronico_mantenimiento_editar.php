@@ -254,6 +254,20 @@
                             </script>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbCostoUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oOrden_Venta']->mostrar_precio_unitario==1?"":"checked");?> value="0">
+                                <label for="rbCostoUnitario">Mostrar en la factura precio unitario sin IGV. </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbPrecioUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oOrden_Venta']->mostrar_precio_unitario==1?"checked":"");?> value="1">
+                                <label for="rbPrecioUnitario">Mostrar en la factura precio unitario incluido IGV</label>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="form-group">
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -653,8 +667,11 @@
                     if(respuesta.bloquear_edicion>0){
                         bloquear_edicion();
                     }
+                    //console.log(respuesta.ver_boton_agregar);
                     if(respuesta.ver_boton_agregar>0){
                         $("#btnComprobantes").css("display","none");
+                    }else{
+                        $("#btnComprobantes").css("display","");
                     }
                 });
             }catch(e){
@@ -703,8 +720,11 @@
                     if(respuesta.bloquear_edicion>0){
                         bloquear_edicion();
                     }
+                    //console.log(respuesta.ver_boton_agregar);
                     if(respuesta.ver_boton_agregar>0){
                         $("#btnGuia").css("display","none");
+                    }else{
+                         $("#btnGuia").css("display","");
                     }
                     //$("#contenedor_imprimir").html(respuesta.boton_imprimir);
                 });
@@ -921,6 +941,7 @@
                      $('#cknumero_cuenta'+arrayID[i]).attr('checked','checked');
                  }
              }
+             $("#btnAgregar").css("display","none");
              $('#btnImportar').css('display', 'none');
              mostrarBotones();
              fncCargar_Detalle_Orden_Venta();
@@ -975,7 +996,8 @@
        $("#txtPorcentaje_Descuento").prop('disabled',true);
        $("#txtDescuento_Global").prop('disabled',true);
        $("#txtOtros_Cargos").prop('disabled',true);
-      
+       $("#rbCostoUnitario").prop('disabled',true);
+       $("#rbPrecioUnitario").prop('disabled',true);
        $('#tbnumero_cuenta input').each(function(){
            $(this).prop('disabled',true);
        });

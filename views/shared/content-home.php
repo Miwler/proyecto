@@ -76,6 +76,24 @@
                 padding-right: 20px;
             } 
         </style>
+        <script type="text/javascript" >
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            $(document).ready(function(){
+               $("form").each(function(){
+              var metodo=$(this).attr("method");
+              var action=$.trim($(this).attr("action"));
+              if(metodo.toUpperCase()=='POST'&&action!=""){
+                  var url_enviar_post=action+'?empresa_ID='+getParameterByName('empresa_ID');
+                  $(this).prop('action',url_enviar_post);
+              }
+          });
+            });
+        </script>
 </head>
 <body class="page-sound page-header-fixed page-sidebar-fixed page-footer-fixed" style='background:url("../include/img/background1.jpg") repeat-x;'>
       <!-- START @WRAPPER -->
@@ -337,7 +355,10 @@
         }                 
         $(document).ready(function() {
             
-            
+            var objeto_formulario=$("form[method='POST'][action!='']");
+           var url_enviar_post=objeto_formulario.attr('action');
+           url_enviar_post=url_enviar_post+'?empresa_ID='+getParameterByName('empresa_ID');
+           objeto_formulario.prop('action',url_enviar_post);
                 
                 
             $(document).click(function(e){

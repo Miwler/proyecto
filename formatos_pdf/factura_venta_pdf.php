@@ -326,22 +326,43 @@ class PDF2 extends FPDF
     $this->Cell(30,$this->font_size,utf8_decode('IMPORTE TOTAL'),0,0,'L');
     $this->Cell(10,$this->font_size,utf8_decode($this->cabecera[0]['simbolo']),0,0,'R');
     $this->Cell(25,$this->font_size,$monto_total,1,0,'R');
-    $this->Ln(10);
-    $this->SetFont('Arial','',8);
-    $y=$this->GetY();
-    $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
-    $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
+   
+    //$this->Ln(10);
     
-    $this->Image(getCodigoQr($variable,"qr",array("size"=>3,"align"=>"L","border"=>1)),100,$y,25,25,'PNG');
-//    $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,100,$y,25,25,'PNG');
-    $this->setY($y+25);   
-    $this->Cell(200,$this->font_size,utf8_decode('Representacion impresa de la '.$this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA,'.link_comprobante_electronico),0,0,'C');
-        $this->Ln(5);
-    
-    $this->Cell(200,$this->font_size,"DigestValue: ".$this->hash,0,0,'C');
+   
     
    }
+   function codigo_has($y){
+       $this->SetFont('Arial','',8);
+        //$y=$this->GetY();
+        $variable=$this->cabecera[0]['ruc']."|".$this->cabecera[0]['codigo_comprobante']."|".$this->cabecera[0]['serie']."|".$this->cabecera[0]['numero_concatenado']."|";
+        $variable.=$this->cabecera[0]['monto_total_igv']."|".$this->cabecera[0]['monto_total']."|".$this->cabecera[0]['fecha_emision']."|06|".$this->cabecera[0]['cliente_ruc'];
 
+        $this->Image(getCodigoQr($variable,"qr",array("size"=>3,"align"=>"L","border"=>1)),100,$y,25,25,'PNG');
+    //    $this->Image('http://chart.apis.google.com/chart?cht=qr&chs=230x230&chl='.$variable,100,$y,25,25,'PNG');
+        $this->setY($y+25);   
+        $this->Cell(200,$this->font_size,utf8_decode('Representacion impresa de la '.$this->cabecera[0]['tipo_comprobante'].' ELECTRÓNICA,'.link_comprobante_electronico),0,0,'C');
+            $this->Ln(5);
+
+        $this->Cell(200,$this->font_size,"DigestValue: ".$this->hash,0,0,'C');
+   }
+    function numero_cuenta($array){
+        $y=$this->GetY()-15;
+        $this->SetY($y);
+        $this->SetFont('Arial','',8);
+        $this->Cell(25,5,"Banco",1,0,'L');
+        $this->Cell(35,5,utf8_decode("Número cuenta"),1,0,'L');
+        $this->Cell(40,5,"CCI",1,0,'L');
+        //$this->Cell(30,5,"Moneda",1,0,'L');
+        $this->Ln();
+        foreach($array as $valor){
+            $this->Cell(25,5,$valor['abreviatura'],1,0,'L');
+            $this->Cell(35,5,$valor['numero'],1,0,'L');
+            $this->Cell(40,5,$valor['cci'],1,0,'L');
+            $this->Ln();
+        }
+        
+    }
 
     function Footer(){
         

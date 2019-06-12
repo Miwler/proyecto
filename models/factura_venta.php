@@ -106,7 +106,7 @@ class factura_venta {
         $this->serie="";
         $this->opcion=0;
         $this->numero_producto=0;
-        $this->empresa_ID=$_SESSION['empresa_ID'];
+        $this->empresa_ID=$_GET['empresa_ID'];
         $this->correlativos_ID='NULL';
         $this->gravadas=0;
         $this->anticipos=0;
@@ -314,7 +314,7 @@ class factura_venta {
             "sp_factura_venta_getByNumero",
             array("iSerie"=>$serie,
                 "iNumero"=>$numero,
-                "iempresa_ID"=>$_SESSION['empresa_ID']));
+                "iempresa_ID"=>$_GET['empresa_ID']));
         $ofactura_venta=null;
         foreach($dt as $item)
         {
@@ -536,7 +536,7 @@ class factura_venta {
             inner join correlativos c on fv.correlativos_ID=c.ID
             inner join tipo_comprobante_empresa tce on tce.ID=c.tipo_comprobante_empresa_ID
             inner join tipo_comprobante tc on tc.ID=tce.tipo_comprobante_ID ';
-            $q.=' where fv.del=0 and fv.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where fv.del=0 and fv.empresa_ID='.$_GET['empresa_ID'];
 
                 if($filtro!=''){
                         $q.=' and '.$filtro;
@@ -644,7 +644,7 @@ class factura_venta {
                     $q='select fv.ID,ov.numero as salida,fv.fecha_emision,fv.fecha_vencimiento,fv.numero_concatenado,ov.moneda_ID,cl.razon_social as cliente,fv.pago,fv.forma_pago_ID,fv.monto_total_neto,fv.monto_total_igv,fv.monto_total,fv.estado_ID';
                      $q.=' ,es.nombre as estado, fv.monto_pendiente';
                     $q.=' from factura_venta fv, salida ov,cliente cl, estado es';
-                    $q.=' where ov.empresa_ID='.$_SESSION['empresa_ID'].' and fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID ';
+                    $q.=' where ov.empresa_ID='.$_GET['empresa_ID'].' and fv.del=0 and ov.del=0 and fv.salida_ID=ov.ID and ov.cliente_ID=cl.ID and fv.estado_ID=es.ID ';
 
                         if($filtro!=''){
 				$q.=' and '.$filtro;
@@ -670,13 +670,13 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero,$electronico)
         {
             $dt=$cn->store_procedure_getGridParse("getTabla_Factura_Emitida_SNC",
                     array(
-                        "iempresa_ID"=>$_SESSION['empresa_ID'],
+                        "iempresa_ID"=>$_GET['empresa_ID'],
                         "iperiodo"=>$periodo,
                         "iserie"=>$serie,
                         "inumero"=>$numero,
                         "ielectronico"=>$electronico
                     ));
-            //$q='call getTabla_Factura_Emitida_SNC('.$_SESSION['empresa_ID'].','.$periodo.',"'.$serie.'",'.$numero.');';
+            //$q='call getTabla_Factura_Emitida_SNC('.$_GET['empresa_ID'].','.$periodo.',"'.$serie.'",'.$numero.');';
             //echo $q;
             //$dt=$cn->getTabla($q);
             return $dt;
@@ -815,7 +815,7 @@ static function getTablaFactura_VentaSNC($periodo,$serie,$numero,$electronico)
                 'sp_factura_venta_getTabla',
                 array(
                     'opcion'=>$opcion,
-                    'empresa_ID'=>$_SESSION['empresa_ID'],
+                    'empresa_ID'=>$_GET['empresa_ID'],
                     'cliente_ID'=>$cliente_ID,
                     'periodo'=>$todos,
                     'fecha_inicio'=>$fecha_inicio,

@@ -135,7 +135,7 @@ class PDF2 extends FPDF
     }
     function cabecera_header(){
         require ROOT_PATH . 'include/lib_fecha_texto.php';
-        $this->Image(logo_documentos , 8 ,8, 70, 20 , "JPG" );
+        $this->Image(logo_documentos , 8 ,8, 70, 20 , "jpg" );
         $this->SetFont('Arial','',8);
         $this->SetTextColor(0);
         $this->SetXY(8,18);
@@ -219,6 +219,26 @@ class PDF2 extends FPDF
             $this->SetFont('Arial','',9);
             $this->Ln();
        }
+    }
+    function numero_cuenta($array){
+        $y=$this->GetY()-25;
+        $this->SetY($y);
+        $this->SetFont('Arial','',8);
+        $this->Cell(25,5,"Banco",1,0,'L');
+        $this->Cell(35,5,utf8_decode("Número cuenta"),1,0,'L');
+        $this->Cell(40,5,"CCI",1,0,'L');
+        //$this->Cell(30,5,"Moneda",1,0,'L');
+        $this->Ln();
+        foreach($array as $valor){
+            $this->Cell(25,5,$valor['abreviatura'],1,0,'L');
+            $this->Cell(35,5,$valor['numero'],1,0,'L');
+            $this->Cell(40,5,$valor['cci'],1,0,'L');
+            $this->Ln();
+            //$this->Cell(30,5,utf8_decode($valor['moneda']),1,0,'L');
+            /*$array_fila=array($valor['abreviatura'],$valor['numero'],$valor['cci']);
+            $this->Row($array_fila,5);*/
+        }
+        
     }
     function contenedor_detalle($alto){
     

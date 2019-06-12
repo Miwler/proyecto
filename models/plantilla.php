@@ -43,7 +43,7 @@ class plantilla {
   }
   function __construct()
   {
-        $this->empresa_ID=$_SESSION["empresa_ID"];
+        $this->empresa_ID=$_GET['empresa_ID'];
     $this->documento="";
     $this->parte="";
     $this->estructura="";

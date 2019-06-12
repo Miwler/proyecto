@@ -290,7 +290,7 @@ class producto {
         try {
             $q = 'select count(pr.ID) ';
             $q.=' FROM producto pr, categoria ca, linea li ';
-            $q.=' where ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and pr.del=0 and li.del=0 and pr.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and pr.del=0 and li.del=0 and pr.empresa_ID='.$_GET['empresa_ID'];
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -396,7 +396,7 @@ static function getByID($ID)
             $q.= 'li.nombre as linea , ca.ID as categoria_ID , es.nombre as estado,pr.moneda_ID,pr.precio_inicial_soles,';
             $q.= 'pr.precio_inicial_dolares,pr.tipo_cambio,pr.ver_web,pr.caracteristicas,pr.especificaciones,pr.activo';
             $q.=' FROM producto pr, categoria ca, estado es,linea li ';
-            $q.=' where pr.empresa_ID='.$_SESSION['empresa_ID'].' and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es.ID=pr.estado_ID and li.del=0';
+            $q.=' where pr.empresa_ID='.$_GET['empresa_ID'].' and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es.ID=pr.estado_ID and li.del=0';
 
 
            if ($filtro != '') {
@@ -441,7 +441,7 @@ static function getByID($ID)
         $cn =new connect_new();
         try
         {
-        $q='call sp_producto_getLista('.$_SESSION['empresa_ID'].','.$categoria_ID.','.$linea_ID.');';
+        $q='call sp_producto_getLista('.$_GET['empresa_ID'].','.$categoria_ID.','.$linea_ID.');';
         //echo $q;
         //console_log($q);
         $retorna=$cn->getData($q);
@@ -458,7 +458,7 @@ static function getByID($ID)
         {
             $dt=$cn->store_procedure_getGrid("sp_producto_getCodigo", 
                     array('icodigo'=>$codigo,
-                        'iempresa_ID'=>$_SESSION['empresa_ID']));
+                        'iempresa_ID'=>$_GET['empresa_ID']));
        
         
             return $dt;
@@ -473,7 +473,7 @@ static function getByID($ID)
         $retornar = -1;
         try {
             $q="select  count(ID) from producto ";
-            $q.=" where empresa_ID=".$_SESSION['empresa_ID']." and del=0 and upper(nombre) like upper('".$this->nombre."') and empresa_ID=".$this->empresa_ID;
+            $q.=" where empresa_ID=".$_GET['empresa_ID']." and del=0 and upper(nombre) like upper('".$this->nombre."') and empresa_ID=".$this->empresa_ID;
            
             $filtro="";
             if(isset ($this->ID)){
@@ -495,7 +495,7 @@ function verificarHijos($categoria_ID){
         try {
 		//Verifico que no se repita el nombre
             $q='SELECT count(ID) FROM producto pr';
-            $q.=' WHERE pr.empresa_ID='.$_SESSION['empresa_ID'].' and  pr.del=0 and pr.categoria_ID='.$categoria_ID;		
+            $q.=' WHERE pr.empresa_ID='.$_GET['empresa_ID'].' and  pr.del=0 and pr.categoria_ID='.$categoria_ID;		
             //echo $q;
             $retornar=$cn->getData($q);			
             return $retornar;
@@ -525,7 +525,7 @@ function verificarHijos($categoria_ID){
         $cn = new connect_new();
         try {
             
-            $q="call getOptionProducto(".$_SESSION['empresa_ID'].",'".$nombre."');";
+            $q="call getOptionProducto(".$_GET['empresa_ID'].",'".$nombre."');";
            
             //echo $q;
             $dt = $cn->getData($q);
@@ -542,13 +542,13 @@ function verificarHijos($categoria_ID){
         {
             $dt=$cn->store_procedure_getGrid("getListaProductos1",
             array(
-                "iempresa_ID"=>$_SESSION['empresa_ID'],
+                "iempresa_ID"=>$_GET['empresa_ID'],
                 "buscar"=>$buscar,
                 "ilinea_ID"=>$linea_ID,
                 "icategoria_ID"=>$categoria_ID
             ));
             
-            //$q='call getListaProductos1('.$_SESSION['empresa_ID'].",'".FormatTextSave($buscar)."',".$linea_ID.','.$categoria_ID.');';
+            //$q='call getListaProductos1('.$_GET['empresa_ID'].",'".FormatTextSave($buscar)."',".$linea_ID.','.$categoria_ID.');';
             //echo $q;
             //$dt=$cn->getGrid($q);									
             return $dt;												

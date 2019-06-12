@@ -91,7 +91,7 @@ class operador {
             $ID=$cn->getData($q);
             
             $q = 'insert into operador(ID, persona_ID,empresa_ID, telefono,celular,mail,fecha_contrato,comision,cargo_ID, usuario_id)';
-            $q.='values('.$ID.','.$this->persona_ID.','.$_SESSION["empresa_ID"].',"'.$this->telefono.'","'.$this->celular.'","'.$this->mail.'",'.$fecha_contrato_save.',';
+            $q.='values('.$ID.','.$this->persona_ID.','.$_GET['empresa_ID'].',"'.$this->telefono.'","'.$this->celular.'","'.$this->mail.'",'.$fecha_contrato_save.',';
             $q.=$this->comision.','.$this->cargo_ID.','.$this->usuario_id.');';
             //echo $q;
 			$cn = new connect_new();
@@ -185,7 +185,7 @@ class operador {
         try {
             $q = 'select count(op.ID) ';
             $q.=' FROM operador as op, cargo as ca, persona pe,persona_documento ped';
-            $q.=' where op.persona_ID=pe.ID and op.cargo_ID=ca.ID and ped.persona_ID=pe.ID and  op.del=0 and op.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where op.persona_ID=pe.ID and op.cargo_ID=ca.ID and ped.persona_ID=pe.ID and  op.del=0 and op.empresa_ID='.$_GET['empresa_ID'];
 
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
@@ -242,7 +242,7 @@ static function getByID($ID)
             $q.= 'op.usuario_id,ifnull(op.usuario_mod_id,-1) as usuario_mod_id,';
             $q.= 'pe.apellido_paterno, pe.apellido_materno,pe.nombres,ifnull(ped.numero,"") as numero';
             $q.=' FROM operador as op, cargo as ca, persona pe left join persona_documento ped on ped.persona_ID=pe.ID';
-            $q.=' where op.persona_ID=pe.ID and op.cargo_ID=ca.ID  and op.del=0 and op.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where op.persona_ID=pe.ID and op.cargo_ID=ca.ID  and op.del=0 and op.empresa_ID='.$_GET['empresa_ID'];
 
 
             if ($filtro != '') {
@@ -301,6 +301,29 @@ static function getByID($ID)
             return $retorna;
         } catch (Exception $ex) {
             throw new Exception($q);
+        }
+    }
+     static function getJson()
+    {
+        //$cn =new connect_new();
+        $cn=new connect_new();
+        try
+        {
+            
+        //$q='call getTabla_Orden_Venta("'.$opcion.'",'.$_GET['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
+        //console_log($q);
+        //$dt=$cn->getTabla($q);
+        $dt=$cn->store_procedure_getGrid(
+                'sp_operador_getBuscar',
+                array(                
+                    'iempresa_ID'=>$_GET['empresa_ID'])
+                );
+        //var_dump($dt);
+        return $dt;
+        }catch(Exception $ex)
+        {
+            log_error(__FILE__, "salida.getTabla", $ex->getMessage());
+                throw new Exception("Ocurrió un error en el sistema");
         }
     }
 }

@@ -7,8 +7,15 @@
 	//require ROOT_PATH."models/connect.php";
         
 	require ROOT_PATH."lib/settings.php";
+        
 	$config=json_decode(file_get_contents('lib/config.sm'),true);
-	
+        $empresa_ID=0;
+        //echo $_SERVER['REQUEST_URI'];
+        if(isset($_GET['empresa_ID'])){
+            $empresa_ID=$_GET['empresa_ID'];
+            cargarInformacion($empresa_ID);
+        }
+        
 	if(!isset($config)){
 		echo "Error de configuraciòn";
 		return;
@@ -26,9 +33,10 @@
 	//-----------------------------------------
 	$method=strtolower($_SERVER['REQUEST_METHOD']);	
 	$returnView=false;
-	$returnView_float=false;	
-	//------------------------------------
+	$returnView_float=false;
+     
 	
+
 	pathMVC($controlador,$vista,$id);	
 	
 	if(!isset($_SESSION['user-autentication']))
@@ -41,7 +49,8 @@
 	switch($controlador)
 	{
 		case '':	
-                    //echo "aquiideed";
+                   //echo "aquiideed";
+                   
 			$head=ROOT_PATH."lib/main_Head.php";
 			$page=ROOT_PATH."lib/main.php";			
 			
@@ -94,7 +103,7 @@
 			
 			//Arma la función de acuerdo a la configuración de MVC
 			if(function_exists ($method.'_'.$vista)){
-                            
+                       
 				call_user_func_array($method.'_'.$vista,array($id));						
 			}else{
 				$returnView=true;
@@ -137,31 +146,58 @@
 				$vista='index';
 			}
                         
+                        
 			//if(validar_menu($_SERVER["REQUEST_URI"])>0){
-                        $pageController=ROOT_PATH.'controls/'.strtolower($controlador).'Controller.php';				
-                        if(!isset($_SESSION['empresa_ID']) && $controlador!="home"){
-                            if(!class_exists('empresa')){
-                                require ROOT_PATH . 'models/empresa.php';
-                            }
-         
-                            $dtEmpresa_Usuario=empresa::getEmpresaxUsuarioID($_SESSION['usuario_ID']);
-                            $GLOBALS['dtEmpresa_Usuario']=$dtEmpresa_Usuario;
-                            $vista="empresas";
-                            $controlador="acceso";
-                            $pageController=ROOT_PATH.'controls/'.strtolower($controlador).'Controller.php';
-                            $page=ROOT_PATH.'lib/empresas.php';
+                        $pageController=ROOT_PATH.'controls/'.strtolower($controlador).'Controller.php';
+                     
+                        
+                       /* if(isset($_SESSION['empresa_ID_old'])&& $_SESSION['empresa_ID_old']>0 &&$_SESSION['empresa_ID_o']!=$_SESSION['empresa_ID']){
+                            $vista="main";
+                            $controlador="home";
+                            //$pageController=ROOT_PATH.'controls/'.strtolower($controlador).'Controller.php';
+                            //$page=ROOT_PATH.'lib/empresas.php';
+                          
+                           $page=ROOT_PATH.'views/'.strtolower($controlador).'/'.strtolower($vista).'.php';
+                            //require $pageController;
+                           
                             require $page;
-                            //$returnView=true;
-                        } 
+                            
+                        }*/
+                            if(!isset($empresa_ID) && $controlador!="home"){
+                                if(!class_exists('empresa')){
+                                    require ROOT_PATH . 'models/empresa.php';
+                                }
+
+                                $dtEmpresa_Usuario=empresa::getEmpresaxUsuarioID($_SESSION['usuario_ID']);
+                                $GLOBALS['dtEmpresa_Usuario']=$dtEmpresa_Usuario;
+                                $vista="empresas";
+                                $controlador="acceso";
+                                $pageController=ROOT_PATH.'controls/'.strtolower($controlador).'Controller.php';
+                                $page=ROOT_PATH.'lib/empresas.php';
+                                require $page;
+
+                                //$returnView=true;
+                            } 
 			if (file_exists($pageController)) {
+                            
+                            
 				require $pageController;
 			}
 				
 			//Arma la función de acuerdo a la configuración de MVC
 			if(function_exists ($method.'_'.$vista)){
-                           
-                           
-                            call_user_func_array($method.'_'.$vista,array($id));
+                            
+                            //$GLOBALS['empresa_ID']=$_GET['empresa_ID'];
+                            //echo "<script>call redireccion('home/main/1');</script>";
+                           /*if($_SESSION['empresa_ID_old']!=-1&&$_SESSION['empresa_ID_old']!=$_SESSION['empresa_ID']){
+                               echo "<script>call redireccion('".ROOT_PATH."home/main/1');</script>";
+                               
+                               //header('Location: /view/home/main.php');
+                           }else{
+                                
+                           }*/
+                          // echo $_COOKIE['empresa_ID'];
+                           call_user_func_array($method.'_'.$vista,array($id));
 										
 			}else{
 				$returnView=true;
@@ -172,6 +208,7 @@
                             if(isset($_SESSION['usuario_ID'])){
                                 $nombre_fichero=ROOT_PATH.'views/'.strtolower($controlador).'/'.strtolower($vista).'.php';	
 				if (file_exists($nombre_fichero)) {
+                                   
                                     if(validar_menu($_SERVER["REQUEST_URI"])==0){
                                         $page=ROOT_PATH."error_seguridad.php";
                                     }else{
@@ -215,6 +252,8 @@
 				}				
 				require $page;
 			}
+                        //}
+                        
                        /* }else{
                             $page=ROOT_PATH."error_seguridad.php";
                             require $page;

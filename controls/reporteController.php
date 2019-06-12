@@ -24,7 +24,7 @@
         global $returnView;
         $returnView=true;
         
-        $dtReportes=reportes_empresa_usuario::getGrid('rem.empresa_ID='.$_SESSION['empresa_ID'].' and re.modulo_ID=2 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.titulo asc");
+        $dtReportes=reportes_empresa_usuario::getGrid('rem.empresa_ID='.$_GET['empresa_ID'].' and re.modulo_ID=2 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.titulo asc");
         
         $GLOBALS['dtReportes']=$dtReportes;
         
@@ -274,7 +274,7 @@
         $resultado.='<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">';
         
         //$resultado.='<input type="text" id="txtProveedor_ID" class="form-control" disabled>';
-        $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_SESSION['empresa_ID']." and prv.ID<>0",-1,-1,"prv.razon_social asc");
+        $dtProveedor=proveedor::getGrid("prv.empresa_ID=".$_GET['empresa_ID']." and prv.ID<>0",-1,-1,"prv.razon_social asc");
         $resultado.='<select id="selProveedor" name="selProveedor" class="chosen-select">';
         $resultado.='<option value="0">-TODOS-</option>';
         foreach($dtProveedor as $iproveedor){
@@ -566,8 +566,8 @@
         global $returnView;
         $returnView=true;
         
-        //$dtReportes=reportes_empresa_usuario::getLista('rem.empresa_ID='.$_SESSION['empresa_ID'].' and re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
-        $dtReportes=reportes_empresa_usuario::getLista($_SESSION['empresa_ID'],$_SESSION['usuario_ID'],3);
+        //$dtReportes=reportes_empresa_usuario::getLista('rem.empresa_ID='.$_GET['empresa_ID'].' and re.modulo_ID=3 and reu.usuario_ID='.$_SESSION['usuario_ID'],-1,-1,"re.orden,re.titulo asc");
+        $dtReportes=reportes_empresa_usuario::getLista($_GET['empresa_ID'],$_SESSION['usuario_ID'],3);
         
         $GLOBALS['dtReportes']=$dtReportes;
         

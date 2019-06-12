@@ -63,6 +63,7 @@ class salida {
     Private $ver_factura;
     Private $ver_guia;
     private $cadena_numero_cuenta;
+    private $mostrar_precio_unitario;
     private $tipo;
 
     public function __set($var, $valor)
@@ -142,6 +143,7 @@ class salida {
         $this->visc_dolares=0;
         $this->descuento_item_soles=0;
         $this->descuento_item_dolares=0;
+        $this->mostrar_precio_unitario=precio_incluye_igv;
         $this->usuario_id=$_SESSION['usuario_ID'];
         $this->usuario_mod_id=$_SESSION['usuario_ID'];
 
@@ -196,6 +198,7 @@ class salida {
         $this->visc_dolares;
         $this->descuento_item_soles;
         $this->descuento_item_dolares;
+        $this->mostrar_precio_unitario;
         $this->usuario_id;
         $this->usuario_mod_id;
 
@@ -217,7 +220,7 @@ class salida {
             $q.='precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,forma_pago_ID,';
             $q.='tiempo_credito,descuento_soles,descuento_dolares,estado_ID,tipo_cambio,plazo_entrega,lugar_entrega,';
             $q.='validez_oferta,garantia,observacion,numero_pagina,nproducto_pagina,ver_adicional,adicional,tipo_ID,usuario_id)';
-            $q.='values ('.$ID.','.$_SESSION['empresa_ID'].','.$this->cotizacion_ID.','.$this->cliente_ID.','.$this->cliente_contacto_ID.','.$this->operador_ID.',';
+            $q.='values ('.$ID.','.$_GET['empresa_ID'].','.$this->cotizacion_ID.','.$this->cliente_ID.','.$this->cliente_contacto_ID.','.$this->operador_ID.',';
             $q.=$this->periodo.','.$this->numero.',"'.$this->numero_concatenado.'","'.$this->numero_orden_compra.'",'.$this->moneda_ID.','.$fecha_save.','.$this->igv.',';
             $q.=$this->vigv_soles.','.$this->vigv_dolares.','.$this->precio_venta_neto_soles.','.$this->precio_venta_total_soles.','.$this->precio_venta_neto_dolares.',';
             $q.=$this->precio_venta_total_dolares.','.$this->forma_pago_ID.','.$this->tiempo_credito.','.$this->descuento_soles.','.$this->descuento_dolares.','.$this->estado_ID.',';
@@ -336,7 +339,7 @@ class salida {
         {
             $q='SELECT  count(ov.ID)';
             $q.=' FROM salida ov,cliente cl, estado es ';
-            $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID and ov.empresa_ID='.$_SESSION['empresa_ID'];
+            $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID and ov.empresa_ID='.$_GET['empresa_ID'];
             if ($filtro!='')
             {
                     $q.=' and '.$filtro;
@@ -491,6 +494,7 @@ class salida {
             $osalida->visc_dolares=round($item["visc_dolares"],2);
             $osalida->descuento_item_soles=round($item["descuento_item_soles"],2);
             $osalida->descuento_item_dolares=round($item["descuento_item_dolares"],2);
+            $osalida->mostrar_precio_unitario=$item["mostrar_precio_unitario"];
             $osalida->usuario_id=$item["usuario_id"];
             $osalida->usuario_mod_id=$item["usuario_mod_id"];
         }
@@ -543,14 +547,14 @@ class salida {
         try
         {
             
-        //$q='call getTabla_Orden_Venta("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
+        //$q='call getTabla_Orden_Venta("'.$opcion.'",'.$_GET['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
         //console_log($q);
         //$dt=$cn->getTabla($q);
         $dt=$cn->store_procedure_getGridParse(
                 'sp_salida_getTabla_Orden_Venta',
                 array(
                     'opcion'=>$opcion,
-                    'empresa_ID'=>$_SESSION['empresa_ID'],
+                    'empresa_ID'=>$_GET['empresa_ID'],
                     'cliente_ID'=>$cliente_ID,
                     'periodo'=>$todos,
                     'fecha_inicio'=>$fecha_inicio,
@@ -575,7 +579,7 @@ class salida {
         $cn =new connect_new();
         try
         {
-            $q='select DISTINCT periodo from salida where del=0 and empresa_ID='.$_SESSION['empresa_ID'];
+            $q='select DISTINCT periodo from salida where del=0 and empresa_ID='.$_GET['empresa_ID'];
                 //echo $q;
                 $dt=$cn->getGrid($q);
                 return $dt;
@@ -589,9 +593,9 @@ class salida {
       $cn =new connect_new();
       $numero=0;
         try{
-            //$q='select ifnull(max(numero),0) +1 as numero from salida where empresa_ID='.$_SESSION['empresa_ID'];
+            //$q='select ifnull(max(numero),0) +1 as numero from salida where empresa_ID='.$_GET['empresa_ID'];
             $retorna=$cn->store_procedure_getData('sp_salida_getNumero', 
-                    array('iempresa_ID'=>$_SESSION['empresa_ID']));
+                    array('iempresa_ID'=>$_GET['empresa_ID']));
             //$numero=$cn->getData($q);
            
             return $retorna;
@@ -607,7 +611,7 @@ class salida {
             {
                 $q='SELECT  count(ov.ID)';
                 $q.=' FROM salida ov,cliente cl, estado es ';
-                $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID and ov.empresa_ID='.$_SESSION['empresa_ID'];
+                $q.=' where ov.del=0 and ov.cliente_ID=cl.ID and ov.estado_ID=es.ID and ov.empresa_ID='.$_GET['empresa_ID'];
                 if ($filtro!='')
                 {
                     $q.=' and '.$filtro;
@@ -650,7 +654,7 @@ class salida {
             $cn->transa($q);
             $q = ' select ov.fecha,dayname(ov.fecha) as dia, sum(ov.precio_venta_total_soles) as total_dia , ov.moneda_ID ';
             $q.='from salida ov ';
-            $q.='  where ov.empresa_ID='.$_SESSION['empresa_ID'].' and YEARWEEK(ov.fecha) =  YEARWEEK(CURDATE()) and ov.moneda_ID = 1 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42)  ';
+            $q.='  where ov.empresa_ID='.$_GET['empresa_ID'].' and YEARWEEK(ov.fecha) =  YEARWEEK(CURDATE()) and ov.moneda_ID = 1 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42)  ';
             $q.=' group by ov.fecha ';
      //       $q.=' order by day(co.fecha_emision) desc';
             $q.=' limit 7 ';
@@ -671,7 +675,7 @@ class salida {
             $cn->transa($q);
             $q = 'select ov.fecha,dayname(ov.fecha) as dia, sum(ov.precio_venta_total_dolares) as total_dia , ov.moneda_ID ';
             $q.='from salida ov ';
-            $q.=' where empresa_ID='.$_SESSION['empresa_ID'].' and  YEARWEEK(ov.fecha) =  YEARWEEK(CURDATE()) and ov.moneda_ID = 2 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
+            $q.=' where empresa_ID='.$_GET['empresa_ID'].' and  YEARWEEK(ov.fecha) =  YEARWEEK(CURDATE()) and ov.moneda_ID = 2 and ov.del=0 and (ov.estado_ID= 40 or ov.estado_ID= 42) ';
             $q.=' group by ov.fecha ';
      //       $q.=' order by day(co.fecha_emision) desc';
             $q.=' limit 7 ';
@@ -812,7 +816,7 @@ class salida {
               "sp_salida_Insert",
                 array(
                 "iID"=>0,
-                "iempresa_ID"=>$_SESSION['empresa_ID'],
+                "iempresa_ID"=>$_GET['empresa_ID'],
                 "icotizacion_ID"=>$this->cotizacion_ID,
                 "icliente_ID"=>$this->cliente_ID,
                 "icliente_contacto_ID"=>$this->cliente_contacto_ID,
@@ -859,10 +863,14 @@ class salida {
                 "idescuento_global"=>$this->descuento_global,
                 "imonto_detraccion"=>$this->monto_detraccion,
                 "itipo_ID"=>$this->tipo_ID,
+                "imostrar_precio_unitario"=>$this->mostrar_precio_unitario,
                 "iusuario_id"=>$this->usuario_id,
                 "cadena_numero_cuenta"=>$this->cadena_numero_cuenta  
             ),0);
-          $this->ID=$ID;
+          if($ID>0){
+            $this->ID=$ID;
+          }
+          
           return $ID;
         }catch(Exeption $ex)
         {
@@ -878,63 +886,64 @@ class salida {
       $retornar=$cn->store_procedure_transa(
           "sp_salida_Update",
             array(
-              "retornar"=>$retornar,
-            "iID"=>$this->ID,
-            "iempresa_ID"=>$this->empresa_ID,
-            "icotizacion_ID"=>$this->cotizacion_ID,
-            "icliente_ID"=>$this->cliente_ID,
-            "icliente_contacto_ID"=>$this->cliente_contacto_ID,
-            "ioperador_ID"=>$this->operador_ID,
-            "iperiodo"=>$this->periodo,
-            "inumero"=>$this->numero,
-            "inumero_concatenado"=>$this->numero_concatenado,
-            "inumero_orden_compra"=>$this->numero_orden_compra,
-            "imoneda_ID"=>$this->moneda_ID,
-            "ifecha"=>FormatTextToDate($this->fecha,'Y-m-d'),
-            "iigv"=>$this->igv,
-            "ivigv_soles"=>$this->vigv_soles,
-            "ivigv_dolares"=>$this->vigv_dolares,
-            "iprecio_venta_neto_soles"=>$this->precio_venta_neto_soles,
-            "iprecio_venta_total_soles"=>$this->precio_venta_total_soles,
-            "iprecio_venta_neto_dolares"=>$this->precio_venta_neto_dolares,
-            "iprecio_venta_total_dolares"=>$this->precio_venta_total_dolares,
-            "iforma_pago_ID"=>$this->forma_pago_ID,
-            "itiempo_credito"=>$this->tiempo_credito,
-            "idescuento_soles"=>$this->descuento_soles,
-            "idescuento_dolares"=>$this->descuento_dolares,
-            "iestado_ID"=>$this->estado_ID,
-            "itipo_cambio"=>$this->tipo_cambio,
-            "ilugar_entrega"=>$this->lugar_entrega,
-            "iplazo_entrega"=>$this->plazo_entrega,
-            "ivalidez_oferta"=>$this->validez_oferta,
-            "igarantia"=>$this->garantia,
-            "iobservacion"=>$this->observacion,
-            "inproducto_pagina"=>$this->nproducto_pagina,
-            "inumero_pagina"=>$this->numero_pagina,
-            "iimpresion"=>$this->impresion,
-            "iadicional"=>$this->adicional,
-            "iver_adicional"=>$this->ver_adicional,
-            "itipo"=>$this->tipo,
-            "iisc"=>$this->isc,
-            "idetraccion"=>$this->detraccion,
-            "iporcentaje_descuento"=>$this->porcentaje_descuento,
-            "ianticipos"=>$this->anticipos,
-            "iexoneradas"=>$this->exoneradas,
-            "iinafectas"=>$this->inafectas,
-            "igravadas"=>$this->gravadas,
-            "igratuitas"=>$this->gratuitas,
-            "iotros_cargos"=>$this->otros_cargos,
-            "idescuento_global"=>$this->descuento_global,
-            "imonto_detraccion"=>$this->monto_detraccion,
-            "itipo_ID"=>$this->tipo_ID,
-            "ivalor_venta_soles"=>$this->valor_venta_soles,
-            "ivalor_venta_dolares"=>$this->valor_venta_dolares,
-            "ivisc_soles"=>$this->visc_soles,
-            "ivisc_dolares"=>$this->visc_dolares,
-            "idescuento_item_soles"=>$this->descuento_item_soles,
-            "idescuento_item_dolares"=>$this->descuento_item_dolares,
-            "iusuario_mod_id"=>$this->usuario_mod_id,
-            "cadena_numero_cuenta"=>$this->cadena_numero_cuenta),0);
+                "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iempresa_ID"=>$this->empresa_ID,
+                "icotizacion_ID"=>$this->cotizacion_ID,
+                "icliente_ID"=>$this->cliente_ID,
+                "icliente_contacto_ID"=>$this->cliente_contacto_ID,
+                "ioperador_ID"=>$this->operador_ID,
+                "iperiodo"=>$this->periodo,
+                "inumero"=>$this->numero,
+                "inumero_concatenado"=>$this->numero_concatenado,
+                "inumero_orden_compra"=>$this->numero_orden_compra,
+                "imoneda_ID"=>$this->moneda_ID,
+                "ifecha"=>FormatTextToDate($this->fecha,'Y-m-d'),
+                "iigv"=>$this->igv,
+                "ivigv_soles"=>$this->vigv_soles,
+                "ivigv_dolares"=>$this->vigv_dolares,
+                "iprecio_venta_neto_soles"=>$this->precio_venta_neto_soles,
+                "iprecio_venta_total_soles"=>$this->precio_venta_total_soles,
+                "iprecio_venta_neto_dolares"=>$this->precio_venta_neto_dolares,
+                "iprecio_venta_total_dolares"=>$this->precio_venta_total_dolares,
+                "iforma_pago_ID"=>$this->forma_pago_ID,
+                "itiempo_credito"=>$this->tiempo_credito,
+                "idescuento_soles"=>$this->descuento_soles,
+                "idescuento_dolares"=>$this->descuento_dolares,
+                "iestado_ID"=>$this->estado_ID,
+                "itipo_cambio"=>$this->tipo_cambio,
+                "ilugar_entrega"=>$this->lugar_entrega,
+                "iplazo_entrega"=>$this->plazo_entrega,
+                "ivalidez_oferta"=>$this->validez_oferta,
+                "igarantia"=>$this->garantia,
+                "iobservacion"=>$this->observacion,
+                "inproducto_pagina"=>$this->nproducto_pagina,
+                "inumero_pagina"=>$this->numero_pagina,
+                "iimpresion"=>$this->impresion,
+                "iadicional"=>$this->adicional,
+                "iver_adicional"=>$this->ver_adicional,
+                "itipo"=>$this->tipo,
+                "iisc"=>$this->isc,
+                "idetraccion"=>$this->detraccion,
+                "iporcentaje_descuento"=>$this->porcentaje_descuento,
+                "ianticipos"=>$this->anticipos,
+                "iexoneradas"=>$this->exoneradas,
+                "iinafectas"=>$this->inafectas,
+                "igravadas"=>$this->gravadas,
+                "igratuitas"=>$this->gratuitas,
+                "iotros_cargos"=>$this->otros_cargos,
+                "idescuento_global"=>$this->descuento_global,
+                "imonto_detraccion"=>$this->monto_detraccion,
+                "itipo_ID"=>$this->tipo_ID,
+                "ivalor_venta_soles"=>$this->valor_venta_soles,
+                "ivalor_venta_dolares"=>$this->valor_venta_dolares,
+                "ivisc_soles"=>$this->visc_soles,
+                "ivisc_dolares"=>$this->visc_dolares,
+                "idescuento_item_soles"=>$this->descuento_item_soles,
+                "idescuento_item_dolares"=>$this->descuento_item_dolares,
+                "imostrar_precio_unitario"=>$this->mostrar_precio_unitario,
+                "iusuario_mod_id"=>$this->usuario_mod_id,
+                "cadena_numero_cuenta"=>$this->cadena_numero_cuenta),0);
       if($retornar>0)$this->getMessage="Se actualizó correctamente";
       return $retornar;
     }catch(Exeption $ex)
@@ -963,6 +972,29 @@ class salida {
        log_error(__FILE__,"salida.actualizar_new",$ex->getMessage());
     }
   }
+  static function getTabla_Orden_Venta()
+    {
+        //$cn =new connect_new();
+        $cn=new connect_new();
+        try
+        {
+            
+        //$q='call getTabla_Orden_Venta("'.$opcion.'",'.$_GET['empresa_ID'].','.$cliente_ID.','.$todos.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$periodo_texto.'",'.$numero.','.$numero_factura.');';
+        //console_log($q);
+        //$dt=$cn->getTabla($q);
+        $dt=$cn->store_procedure_getGrid(
+                'sp_salida_getReporte',
+                array(                
+                    'iempresa_ID'=>$_GET['empresa_ID'])
+                );
+        //var_dump($dt);
+        return $dt;
+        }catch(Exception $ex)
+        {
+            log_error(__FILE__, "salida.getTabla", $ex->getMessage());
+                throw new Exception("Ocurrió un error en el sistema");
+        }
+    }
   }
 
 

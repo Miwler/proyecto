@@ -101,7 +101,7 @@ var enviar = function (obj,btn)
   //alert (data);
      $.ajax({
          type: $(obj.Form).attr('method'),
-         url: (obj.url == '') ? $(obj.Form).attr('action') : obj.url,
+         url: ((obj.url == '') ? $(obj.Form).attr('action') : obj.url),
          data: data,
          cache:false,
          datatype: "json",
@@ -181,7 +181,7 @@ var ajaxGuardar= function (obj, btn) {
     $(obj.Div).html('<div id="grid-loading"><center>Guardando...</center></div>');
      $.ajax({
         type: $(obj.Form).attr('method'),
-        url: $(obj.Form).attr('action'),
+        url: $(obj.Form).attr('action')+'?empresa_ID='+getParameterByName('empresa_ID'),
         contentType: false,
         processData: false,
         data: data,
@@ -278,7 +278,7 @@ var enviarValor = function (divForm,divResultado,url,url1)
  //alert (data);
     $.ajax({
         type: 'post',
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache:false,
         datatype: "json",
@@ -369,7 +369,7 @@ var enviarValorHijo = function (divForm,divResultado,url,url1)
  //alert (data);
     $.ajax({
         type: 'post',
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache:false,
         datatype: "json",
@@ -463,7 +463,7 @@ var enviarValores = function (divForm,url,resultado)
  //alert (data);
     $.ajax({
         type: 'post',
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache:false,
         datatype: "json",
@@ -492,7 +492,7 @@ var mostrarValores = function (divResultado,url,id)
 //alert(id);
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             ID: id
 
@@ -527,7 +527,7 @@ var mostrarValor = function (divResultado,url,id,divresultado1)
 {
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             ID: id
 
@@ -561,7 +561,7 @@ var mostrarValor = function (divResultado,url,id,divresultado1)
 var cargarValores=function(url,id,resultado){
   $.ajax({
       type: "post",
-      url: url,
+      url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
       data: {
           id: id
       },
@@ -590,7 +590,7 @@ var cargarValores1=function(url,id,id1,resultado){
     //alert(id);
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             id: id,
             id1: id1
@@ -612,7 +612,7 @@ var cargarValores2=function(url,id,id1,id2,resultado){
     //alert(id);
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             id: id,
             id1: id1,
@@ -635,7 +635,7 @@ var cargarValores3=function(url,id,id1,id2,id3,resultado){
     //alert(id);
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             id: id,
             id1: id1,
@@ -714,7 +714,7 @@ var cargarFormularios=function(url,divForm,funcion,resultado){
 
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache:false,
         datatype: "json",
@@ -789,7 +789,7 @@ var enviarFormulario = function(url,divForm,resultado)
  //alert (data);
     $.ajax({
         type: 'post',
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache:false,
         datatype: "json",
@@ -819,7 +819,7 @@ var actualizarCk=function(url,id,valor){
 
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             cotizacion_detalle_ID: id,
             ver_precio: valor
@@ -842,7 +842,7 @@ var seleccionarCk=function(url,ID1,ID2){
    //alert(ID1);
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             ID1: ID1,
             ID2:ID2
@@ -867,7 +867,7 @@ var regitrarSeries=function(url,ID,serie){
    //alert(menu_ID);
     $.ajax({
         type: "post",
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: {
             ID: ID,
             serie: serie
@@ -988,7 +988,7 @@ function lista(url,contenedor,id_txt,funcion,funcion_limpiar){
                 //clear_data();
                 //console.log(url);
                 $.ajax({
-                    url: url,
+                    url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
                     data: {buscar:request.term},
                     dataType: "json",
                     type: "POST",
@@ -1044,7 +1044,7 @@ function lista_producto(url,contenedor,id_txt,ilinea_ID,icategoria_ID,funcion,fu
             //clear_data();
             var texto=request.term;
             $.ajax({
-                url: url,
+                url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
                 data: {
                     buscar:request.term,
                     linea_ID:ilinea_ID,
@@ -1149,7 +1149,7 @@ var enviarAjax = function (url, divForm, myObject1, resultado) {
 
     $.ajax({
         type: 'post',
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache: false,                
         datatype: "json",
@@ -1221,7 +1221,7 @@ var enviarAjaxParse = function (url, divForm, myObject1, resultado) {
 
     $.ajax({
         type: 'post',
-        url: url,
+        url: url+'?empresa_ID='+getParameterByName('empresa_ID'),
         data: data,
         cache: false,                
         datatype: "json",

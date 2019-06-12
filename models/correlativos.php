@@ -161,7 +161,7 @@ class correlativos {
             $numero=$cn->store_procedure_getData("sp_correlativos_getNumero",
                     array(
                         "iID"=>$correlativo_ID,
-                        "iempresa_ID"=>$_SESSION['empresa_ID']
+                        "iempresa_ID"=>$_GET['empresa_ID']
                     ));
             		
             		
@@ -182,7 +182,7 @@ class correlativos {
                         array(
                            "iaccion"=> $accion,
                             "ielectronico"=>$electronico,
-                            "iempresa_ID"=>$_SESSION['empresa_ID']
+                            "iempresa_ID"=>$_GET['empresa_ID']
                         ));
                     									
                 return $dt;												
@@ -265,7 +265,7 @@ class correlativos {
                         "correlativos_ID_nota_debito"=>$correlativos_ID_nota_debito,
                         "compra_tipo_comprobante_ID"=>$compra_tipo_comprobante_ID,
                         "iusuario_id"=>$_SESSION['usuario_ID'],
-                        "iempresa_ID"=>$_SESSION['empresa_ID']
+                        "iempresa_ID"=>$_GET['empresa_ID']
                     ),0);
             return $retorna;
         }catch(Exception $ex){
@@ -283,7 +283,7 @@ class correlativos {
             $dt=$cn->store_procedure_getGrid(
                     "sp_configuracion_empresa_getValor",
                     array(
-                        "iempresa_ID"=>$_SESSION['empresa_ID'],
+                        "iempresa_ID"=>$_GET['empresa_ID'],
                         "inombre"=>$nombre
                     ));
             if(count($dt)>0){

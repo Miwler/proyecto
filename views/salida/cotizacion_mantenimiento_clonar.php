@@ -67,6 +67,7 @@
                 
                 <li class="nav-item"><a href="#DivProductos" data-toggle="tab" onclick="fncCargar_Detalle_Cotizacion();"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Productos</span></a></li>
                 <li class="nav-item"><a href="#DivObsequios" data-toggle="tab" onclick="fncCargar_Detalle_Obsequios();"><i class="fa fa-cubes"></i><span>Obsequios</span></a></li>
+                <li class="nav-item"><a href="#anexo" data-toggle="tab" ><i class="fa fa-file-pdf-o"></i><span>Documento Anexo</span></a></li>
             </ul>
             <div id="divContenedorBtn" class="pull-right">
                 <button  id="btnEnviar" name="btnEnviar" class="btn btn-success" >
@@ -111,7 +112,7 @@
                            <div class="form-group">
                                <label class="control-label col-sm-3">Dirección: </label>
                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido text-uppercase" ><?php echo utf8_encode(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
+                                   <textarea id="txtDireccion" name="txtDireccion" disabled style="height: 60px;overflow:auto;resize:none;" class="form-control form-requerido text-uppercase" ><?php echo FormatTextView(trim($GLOBALS['oCliente']->direccion)); ?></textarea>
                                </div>
                            </div>
                            <div class="form-group">
@@ -228,7 +229,7 @@
                         <label class="control-label col-sm-3">Lugar de entrega:</label>
                        
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo utf8_encode(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
+                            <textarea id="txtLugar_Entrega" name="txtLugar_Entrega" style="height: 40px;overflow:auto;resize:none;" class="form-control text-uppercase"><?php echo FormatTextView(trim($GLOBALS['oCotizacion']->lugar_entrega)); ?></textarea>
                         </div>
                     </div>
 
@@ -236,7 +237,7 @@
                         <label class="control-label col-sm-3">Observación:</label>
                         
                         <div class="col-lg-9 col-md-9 col-sm-9">
-                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control"  rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize:none;"><?php echo $GLOBALS['oCotizacion']->observacion; ?></textarea>
+                            <textarea id="txtObservacion" name="txtObservacion" class="comentario form-control"  rows="1" cols="10" maxlength="150" style="height: 80px;overflow:auto;resize:none;"><?php echo FormatTextView($GLOBALS['oCotizacion']->observacion); ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -298,10 +299,27 @@
                 </div>
                
                 <div class="tab-pane fade inner-all" id="DivProductos">
-                    <button  type="button" id="btnAgregar" name="btnDetalle" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Agregar
-                    </button>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <button  type="button" id="btnAgregar" name="btnDetalle" class='btn btn-success' onclick="fncRegistrar_Productos();" title="Agregar producto" >
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Agregar
+                            </button>
+                        </div>
+                         <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbCostoUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oCotizacion']->mostrar_precio_unitario==1?"":"checked");?> value="0">
+                                <label for="rbCostoUnitario">Mostrar en la cotización precio unitario sin IGV. </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="rdio rdio-teal">
+                                <input id="rbPrecioUnitario" type="radio" name="preciounitario" <?php echo ($GLOBALS['oCotizacion']->mostrar_precio_unitario==1?"checked":"");?> value="1">
+                                <label for="rbPrecioUnitario">Mostrar en la cotización precio unitario incluido IGV</label>
+                            </div>
+                        </div>
+                       
+                    </div>
                     <div class="divCuerpo" id="productos">
                         
                     </div>
@@ -315,6 +333,31 @@
                         
                     </div>
                 </div>
+                <div class="tab-pane fade inner-all" id="anexo">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Documento anexo(.pdf)</label>
+                        <div class="col-sm-8">
+                            <input type="hidden" id="ruta" name="ruta" value="<?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['ruta_anexo']:""); ?>">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"><?php echo(isset($GLOBALS['nombre_anexo'])?$GLOBALS['nombre_anexo']:""); ?></span></div>
+                                <span class="input-group-addon btn btn-success btn-file"><span class="fileinput-new">Seleccionar</span><span class="fileinput-exists">Cambiar</span><input type="file" id="file_anexo" name="file_anexo"></span>
+                                <a href="#" class="input-group-addon btn btn-danger fileinput-exists" data-dismiss="fileinput">Eliminar</a>
+                            </div>
+                            
+                            <button type="button" class="btn btn-danger" id="btnEliminarAnexo" name="btnEliminarAnexo" style="display: none" onclick="$('#ruta').val('');$('#frame_anexo').attr('src','');$('.fileinput .fileinput-filename').html('');">Eliminar</button>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe id="frame_anexo" class="embed-responsive-item" src="" style="width:100%; height: 600px;overflow:auto;"></iframe>
+                            
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
        
@@ -323,6 +366,50 @@
     <input id="chkOrdenASC" name="chkOrdenASC"   value="ASC" style="display:none;">
 </form>
 <script type="text/javascript">
+    $(document).ready(function(){
+        $("#frame_anexo").attr("src","");
+        $("#frame_anexo").attr("src","<?php echo  $GLOBALS['ruta_anexo']?>");
+        <?php if($GLOBALS['ruta_anexo']!=""){?>
+            $("#btnEliminarAnexo").css("display","");
+        <?php } ?>
+        
+       
+    });
+     $("#file_anexo").change(function () {
+        
+            filePreview(this);
+        });
+          function filePreview(input) {
+            var uploadFile = input.files[0];
+            if(uploadFile){
+                if (!window.FileReader) {
+                    $('#file_anexo').val('');
+                    toastem.error('El navegador no soporta la lectura de archivos', 'error');
+                    return;
+                }
+
+                if (!(/\.(pdf)$/i).test(uploadFile.name)) {
+                    $('#file_anexo').val('');
+                    toastem.error('Solo se admiten archivos PDF', 'error');
+                    return;
+                }
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(input.files[0]);
+
+                    reader.onload = function (e) {
+                       // console.log(e.target.result);
+                        $('#frame_anexo').prop("src", e.target.result);
+                        //$('#uploadForm').after('<img src="' + e.target.result + '" width="450"       height= "300" />');
+                    }
+                }
+            }else{
+                $("#ruta").val('');
+                $("#btnEliminarAnexo").css("display","");
+            }
+            
+        }
     $("#selCliente").change(function(){
         var id=this.value;
         if(id==0){

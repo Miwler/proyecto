@@ -54,7 +54,7 @@ class comunicacion_baja {
     $this->FechaReferencia=NULL;
     $this->numero=0;
     $this->estado_ID=108;
-    $this->empresa_ID=$_SESSION["empresa_ID"];
+    $this->empresa_ID=$_GET['empresa_ID'];
     $this->MotivoBaja='';
     $this->usuario_id=$_SESSION["usuario_ID"];
     $this->usuario_mod_id=$_SESSION["usuario_ID"];
@@ -233,7 +233,7 @@ class comunicacion_baja {
                 "inota_credito"=>$nota_credito,
                 "inota_debito"=>$nota_debito,
                 "iID"=>$ID,
-                "iempresa_ID"=>$_SESSION['empresa_ID']));
+                "iempresa_ID"=>$_GET['empresa_ID']));
       
       return $retornar;
     }catch(Exeption $ex)

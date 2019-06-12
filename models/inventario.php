@@ -97,7 +97,7 @@ class inventario {
             }     
             $q = 'insert into inventario(ID,empresa_ID, ingreso_detalle_ID,salida_detalle_ID, descripcion, producto_ID,estado_ID,';
             $q.= 'utilidad_soles,utilidad_dolares,comision_soles,comision_dolares,serie,cotizacion_detalle_ID,usuario_id )';
-            $q.='values('.$ID.','.$_SESSION['empresa_ID'].','. $ingreso_detalle_ID .','.$salida_detalle_ID. ',"'.FormatTextSave($this->descripcion). '",' .$this->producto_ID.
+            $q.='values('.$ID.','.$_GET['empresa_ID'].','. $ingreso_detalle_ID .','.$salida_detalle_ID. ',"'.FormatTextSave($this->descripcion). '",' .$this->producto_ID.
                 ','.$this->estado_ID.','.$utilidad_soles.','.$utilidad_dolares.','.$comision_soles.','.$comision_dolares.',"'.$serie.'",'.$cotizacion_detalle_ID.','.$this->usuario_id . ')';
             //echo $q;
             $cn = new connect_new();
@@ -226,7 +226,7 @@ class inventario {
             $q='select ID, producto_ID,ingreso_detalle_ID, salida_detalle_ID,';
             $q.=' descripcion,estado_ID,utilidad_soles,utilidad_dolares,comision_soles,';
             $q.="comision_dolares,ifnull(serie,'') as serie,cotizacion_detalle_ID,usuario_id,ifnull(usuario_mod_id,-1) as usuario_mod_id";
-            $q.=' from inventario where empresa_ID='.$_SESSION['empresa_ID'].' and del=0';
+            $q.=' from inventario where empresa_ID='.$_GET['empresa_ID'].' and del=0';
 
 
             if ($filtro != '') {
@@ -250,7 +250,7 @@ class inventario {
         $cn = new connect_new();
         try {
             $q='select count(ID)';
-            $q.=' from inventario where empresa_ID='.$_SESSION['empresa_ID'].' and del=0';
+            $q.=' from inventario where empresa_ID='.$_GET['empresa_ID'].' and del=0';
 
 
             if ($filtro != '') {

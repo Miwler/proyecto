@@ -81,7 +81,7 @@ function post_Proveedor_Mantenimiento_Nuevo() {
     $oProveedor = new proveedor();
     $oProveedor_Contacto=new proveedor_contacto();
     try {
-        $oProveedor->empresa_ID=$_SESSION['empresa_ID'];
+        $oProveedor->empresa_ID=$_GET['empresa_ID'];
         $oProveedor->ruc = $ruc;
         $oProveedor->razon_social = $razon_social;
         $oProveedor->direccion_fiscal = $direccion_fiscal;
@@ -364,9 +364,9 @@ function post_ajaxProveedor_Mantenimiento() {
             break;
     }
     if($ruc!=""){
-        $filtro='prv.empresa_ID='.$_SESSION['empresa_ID'].' and prv.ruc="'.$ruc.'"';
+        $filtro='prv.empresa_ID='.$_GET['empresa_ID'].' and prv.ruc="'.$ruc.'"';
     }else{
-       $filtro = 'prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.razon_social) like "%' . strtoupper($razon_social) . '%"';
+       $filtro = 'prv.empresa_ID='.$_GET['empresa_ID'].' and upper(prv.razon_social) like "%' . strtoupper($razon_social) . '%"';
     }
     
     //---------------------------------------					 
@@ -568,7 +568,7 @@ function post_ajaxCbo_ProveedorRuc(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.ruc) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
+        $filtro='prv.empresa_ID='.$_GET['empresa_ID'].' and upper(prv.ruc) like "%'.strtoupper(FormatTextSave($buscar)).'%"';
     }else{
         $filtro='prv.ID=0';
     }
@@ -593,7 +593,7 @@ function post_ajaxCbo_ProveedorRazonSocial(){
     require ROOT_PATH.'models/proveedor.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='prv.empresa_ID='.$_SESSION['empresa_ID'].' and upper(prv.razon_social) like "%'.strtoupper($buscar).'%"';
+        $filtro='prv.empresa_ID='.$_GET['empresa_ID'].' and upper(prv.razon_social) like "%'.strtoupper($buscar).'%"';
     }else{
         $filtro='prv.ID=0';
     }
@@ -702,7 +702,7 @@ function post_Categoria_Mantenimiento_Nuevo() {
         $oCategoria->descripcion = $descripcion;
         $oCategoria->linea_ID=$linea_ID;
         $oCategoria->imagen="";
-        $oCategoria->empresa_ID=$_SESSION['empresa_ID'];
+        $oCategoria->empresa_ID=$_GET['empresa_ID'];
         $oCategoria->usuario_id = $_SESSION['usuario_ID'];
         if ($oCategoria->verificarDuplicado() > 0) {
             //throw new Exception($oProducto->message);
@@ -792,7 +792,7 @@ function post_Categoria_Mantenimiento_Editar($id) {
         $oCategoria->descripcion = $descripcion;
         $oCategoria->linea_ID=$linea_ID;
         $oCategoria->usuario_mod_id = $_SESSION['usuario_ID'];
-        $oCategoria->empresa_ID=$_SESSION['empresa_ID'];
+        $oCategoria->empresa_ID=$_GET['empresa_ID'];
         if ($oCategoria->verificarDuplicado() > 0) {
             //throw new Exception($oProducto->message);
              $mensaje="No se puede registrar porque existe un producto con el mismo nombre";
@@ -871,7 +871,7 @@ function post_ajaxCategoria_Mantenimiento() {
     }else{
         $linea_ID=$_POST['selLinea'];
         $categoria_ID=$_POST['selCategoria'];
-        $filtro="ca.empresa_ID=".$_SESSION['empresa_ID'];
+        $filtro="ca.empresa_ID=".$_GET['empresa_ID'];
         if($linea_ID!="0"){
            $filtro.=((trim($filtro!=""))?" and ":"").'ca.linea_ID='.$linea_ID;
         }
@@ -1008,7 +1008,7 @@ function post_Vehiculo_Mantenimiento_Nuevo() {
         $oVehiculo->marca = $marca;
         $oVehiculo->certificado_inscripcion = $certificado_inscripcion;
         $oVehiculo->usuario_id = $_SESSION['usuario_ID'];
-        $oVehiculo->empresa_ID=$_SESSION['empresa_ID'];
+        $oVehiculo->empresa_ID=$_GET['empresa_ID'];
         /*if ($oVehiculo->verificarDuplicado() > 0) {
             throw new Exception($oVehiculo->getMessage);
         }*/
@@ -1143,9 +1143,9 @@ function post_ajaxVehiculo_Mantenimiento() {
         break;
     }
     if(trim($codigo)!=""){
-        $filtro= "empresa_ID=".$_SESSION['empresa_ID']. " and ID=".$codigo;
+        $filtro= "empresa_ID=".$_GET['empresa_ID']. " and ID=".$codigo;
     }else{
-       $filtro = 'empresa_ID='.$_SESSION['empresa_ID'].' and upper(concat(placa," ",marca)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+       $filtro = 'empresa_ID='.$_GET['empresa_ID'].' and upper(concat(placa," ",marca)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
     }
     
     //---------------------------------------					 
@@ -1355,7 +1355,7 @@ function post_Cliente_Mantenimiento_Nuevo() {
     $oCliente=new cliente();
     $oCliente_Contacto=new cliente_contacto();
     try {
-        $oCliente->empresa_ID=$_SESSION['empresa_ID'];
+        $oCliente->empresa_ID=$_GET['empresa_ID'];
         $oCliente->codigo=$oCliente->getCodigo();
         $oCliente->razon_social = $razon_social;
         $oCliente->nombre_comercial = $nombre_comercial;
@@ -1396,7 +1396,7 @@ function post_Cliente_Mantenimiento_Nuevo() {
                     $oPerador_Cliente->operador_ID=$operador_ID;
                     $oPerador_Cliente->estado_ID=74;//Estado activo//75 inactivo
                     $oPerador_Cliente->usuario_id=$_SESSION['usuario_ID'];
-                    $oPerador_Cliente->empresa_ID=$_SESSION['empresa_ID'];
+                    $oPerador_Cliente->empresa_ID=$_GET['empresa_ID'];
                     $oPerador_Cliente->insertar();
                  }
                 if(isset($_POST['txtPersona_ID'])&&trim($_POST['txtPersona_ID'])!=""&&$_POST['txtPersona_ID']!=0){
@@ -1546,7 +1546,7 @@ function post_Cliente_Mantenimiento_Editar($id) {
 
     $oCliente_Contacto=new cliente_contacto();
     try {
-        //$oCliente->empresa_ID=$_SESSION['empresa_ID'];
+        //$oCliente->empresa_ID=$_GET['empresa_ID'];
         //$oCliente->codigo=$oCliente->getCodigo();
         $oCliente->razon_social = $razon_social;
         $oCliente->nombre_comercial = $nombre_comercial;
@@ -1806,9 +1806,9 @@ function post_ajaxCliente_Mantenimiento() {
             break;
     }
     if($ruc!=""){
-        $filtro='clt.empresa_ID='.$_SESSION['empresa_ID'].' and clt.ruc="'.$ruc.'"';
+        $filtro='clt.empresa_ID='.$_GET['empresa_ID'].' and clt.ruc="'.$ruc.'"';
     }else{
-       $filtro = 'clt.empresa_ID='.$_SESSION['empresa_ID'].' and upper(clt.razon_social) like "%' . strtoupper($razon_social) . '%"';
+       $filtro = 'clt.empresa_ID='.$_GET['empresa_ID'].' and upper(clt.razon_social) like "%' . strtoupper($razon_social) . '%"';
     }
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><thead><tr>';
@@ -1946,9 +1946,9 @@ function post_ajaxCliente_Mantenimiento_Contacto_Eliminar()
     require ROOT_PATH.'models/cliente.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='empresa_ID='.$_SESSION['empresa_ID'].' and clt.ruc like "%'.test_input($buscar).'%"';
+        $filtro='empresa_ID='.$_GET['empresa_ID'].' and clt.ruc like "%'.test_input($buscar).'%"';
     }else{
-        $filtro='clt.ID=0 and empresa_ID='.$_SESSION['empresa_ID'];
+        $filtro='clt.ID=0 and empresa_ID='.$_GET['empresa_ID'];
     }
 
     $dtCliente=cliente::getGrid($filtro);
@@ -1973,9 +1973,9 @@ function post_ajaxCbo_ClienteRazonSocial(){
     require ROOT_PATH.'models/cliente.php';
     $buscar=$_POST['txtBuscar'];
     if(trim($buscar)!=""){
-        $filtro='clt.empresa_ID='.$_SESSION['empresa_ID'].' and clt.razon_social like "%'.test_input($buscar).'%"';
+        $filtro='clt.empresa_ID='.$_GET['empresa_ID'].' and clt.razon_social like "%'.test_input($buscar).'%"';
     }else{
-        $filtro='clt.ID=0 and clt.empresa_ID='.$_SESSION['empresa_ID'];
+        $filtro='clt.ID=0 and clt.empresa_ID='.$_GET['empresa_ID'];
     }
 
     $dtCliente=cliente::getGrid($filtro);
@@ -2195,7 +2195,7 @@ function post_Chofer_Mantenimiento_Nuevo() {
         if ($oChofer->verificarDuplicado() > 0) {
             throw new Exception('Ya existe el chofer');
         }
-        $oChofer->empresa_ID = $_SESSION['empresa_ID'];
+        $oChofer->empresa_ID = $_GET['empresa_ID'];
         $oChofer->licencia_conducir = $licencia_conducir;
         $oChofer->celular = $celular;
         $oChofer->estado_ID = $estado_ID;
@@ -2331,9 +2331,9 @@ function post_ajaxChofer_Mantenimiento() {
             break;
     }
     if($codigo!=""){
-        $filtro="empresa_ID=".$_SESSION['empresa_ID']." and cho.ID=".$codigo;
+        $filtro="empresa_ID=".$_GET['empresa_ID']." and cho.ID=".$codigo;
     }else{
-        $filtro = 'empresa_ID='.$_SESSION['empresa_ID'].' and upper(concat(pe.apellido_paterno," ",pe.apellido_materno,"",pe.nombres)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+        $filtro = 'empresa_ID='.$_GET['empresa_ID'].' and upper(concat(pe.apellido_paterno," ",pe.apellido_materno,"",pe.nombres)) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     }
     
@@ -2485,7 +2485,7 @@ function get_Producto_Mantenimiento_Nuevo($id) {
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oProducto->dtMoneda=$dtMoneda;
     $oProducto->moneda_ID=moneda;
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oProducto->tipo_cambio=$oDatos_Generales->tipo_cambio;
     $GLOBALS['categoria_ID']= $categoria_ID;
     $GLOBALS['linea_ID']= $linea_ID;
@@ -2534,7 +2534,7 @@ function post_Producto_Mantenimiento_Nuevo() {
     $oProducto = new producto;
 
     try {
-        $oProducto->empresa_ID=$_SESSION['empresa_ID'];
+        $oProducto->empresa_ID=$_GET['empresa_ID'];
         $oProducto->nombre = $nombre;
         $oProducto->descripcion = $descripcion;
         $oProducto->categoria_ID = $categoria;
@@ -2588,7 +2588,7 @@ function post_Producto_Mantenimiento_Nuevo() {
    
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oProducto->dtMoneda=$dtMoneda;
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oProducto->tipo_cambio=$oDatos_Generales->tipo_cambio;
 
     $dtUnidad_Medida=unidad_medida::getGrid();
@@ -2648,7 +2648,7 @@ function get_Producto_Mantenimiento_Editar($id) {
         $GLOBALS['dtUnidad_Medida']=$dtUnidad_Medida;
         $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
         $oProducto->dtMoneda=$dtMoneda;
-        $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
         $oProducto->tipo_cambio=$oDatos_Generales->tipo_cambio;
         
         $GLOBALS['mensaje'] = '';
@@ -2692,7 +2692,7 @@ function post_Producto_Mantenimiento_Editar($id) {
                 $GLOBALS['mensaje']='Parecer que el registro ya fue eliminado';
         }else{
             $oProducto->ID=$id;
-            $oProducto->empresa_ID=$_SESSION['empresa_ID'];
+            $oProducto->empresa_ID=$_GET['empresa_ID'];
             $oProducto->nombre = $nombre;
             $oProducto->descripcion = $descripcion;
             $oProducto->unidad_medida_ID = $unidad_medida_ID;
@@ -2729,7 +2729,7 @@ function post_Producto_Mantenimiento_Editar($id) {
     }
     $dtMoneda=moneda::getGrid('',-1,-1,'ID desc');
     $oProducto->dtMoneda=$dtMoneda;
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oProducto->tipo_cambio=$oDatos_Generales->tipo_cambio;
     $dtUnidad_Medida=unidad_medida::getGrid();
     $GLOBALS['dtLinea']=linea::getGrid();
@@ -3039,9 +3039,9 @@ function post_ajaxCbo_Producto(){
     require ROOT_PATH.'models/producto.php';
     $buscar=trim($_POST['txtBuscar']);
     if(trim($buscar)!=""){
-        $filtro='pr.empresa_ID='.$_SESSION['empresa_ID'].' and upper(pr.nombre) like "%'.strtoupper($buscar).'%"';
+        $filtro='pr.empresa_ID='.$_GET['empresa_ID'].' and upper(pr.nombre) like "%'.strtoupper($buscar).'%"';
     }else{
-        $filtro='pr.empresa_ID='.$_SESSION['empresa_ID'].' and pr.ID=0';
+        $filtro='pr.empresa_ID='.$_GET['empresa_ID'].' and pr.ID=0';
     }
 
     $dtProducto=producto::getGrid1($filtro);
@@ -4858,7 +4858,7 @@ function post_Linea_Mantenimiento_Nuevo() {
         $oLinea->descripcion = $descripcion;
         $oLinea->tipo=$tipo;
         $oLinea->imagen = "";
-        $oLinea->empresa_ID=$_SESSION['empresa_ID'];
+        $oLinea->empresa_ID=$_GET['empresa_ID'];
         $oLinea->usuario_id = $_SESSION['usuario_ID'];
         if ($oLinea->verificarDuplicado() > 0) {
             //throw new Exception($oProducto->message);
@@ -4936,7 +4936,7 @@ function post_Linea_Mantenimiento_Editar($id) {
         $oLinea->descripcion = $descripcion;
         $oLinea->tipo=$tipo;
         $oLinea->usuario_mod_id = $_SESSION['usuario_ID'];
-        $oLinea->empresa_ID=$_SESSION['empresa_ID'];
+        $oLinea->empresa_ID=$_GET['empresa_ID'];
         if ($oLinea->verificarDuplicado() > 0) {
             
             $mensaje="No se puede registrar porque existe una línea con el mismo nombre.";
@@ -5131,7 +5131,7 @@ function get_Datos_generales_Mantenimiento() {
     require ROOT_PATH . 'models/distrito.php';
     global $returnView;
     $returnView = true;
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $oDistrito=distrito::getByID($oDatos_Generales->distrito_ID);
     $oProvincia=provincia::getByID($oDistrito->provincia_ID);
     $dtDepartamento=departamento::getGrid("",-1,-1,"d.nombre asc");
@@ -5180,7 +5180,7 @@ function post_Datos_generales_Mantenimiento(){
     $distrito_ID=  $_POST['selDistrito'];
     $urbanizacion=$_POST['txtUrbanizacion'];
     $observacion= trim($_POST['txtObservacion']);
-    $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+    $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
     $usuariosol=$_POST['txtUsuarioSol'];
     $clavesol=$_POST['txtClaveSol'];
     $certificado=$_POST['txtCertificado'];
@@ -5695,15 +5695,18 @@ function post_Numero_Cuenta_Mantenimiento_Nuevo() {
     $moneda_ID=$_POST['selMoneda_ID'];
     $abreviatura=$_POST['txtAbreviatura'];
     $oNumero_Cuenta=new numero_cuenta();
-    
+    $estado_ID=isset($_POST['ckEstado'])?117:116;
+    $seleccionado=isset($_POST['ckSeleccinado'])?1:0;
    try {
        $oNumero_Cuenta->nombre_banco=$nombre_banco;
        $oNumero_Cuenta->abreviatura= $abreviatura;
-        $oNumero_Cuenta->numero=$numero;
+       $oNumero_Cuenta->numero=$numero;
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
+       $oNumero_Cuenta->estado_ID=$estado_ID;
+       $oNumero_Cuenta->seleccionado=$seleccionado;
        $oNumero_Cuenta->usuario_id=$_SESSION['usuario_ID'];
-       $oNumero_Cuenta->empresa_ID=$_SESSION['empresa_ID'];
+       $oNumero_Cuenta->empresa_ID=$_GET['empresa_ID'];
        $oNumero_Cuenta->insertar1();
        $resultado=1;
        $mensaje=$oNumero_Cuenta->getMessage;
@@ -5739,14 +5742,19 @@ function post_Numero_Cuenta_Mantenimiento_Editar($id) {
     $numero=$_POST['txtNumero'];
     $cci=$_POST['txtCci'];
     $moneda_ID=$_POST['selMoneda_ID'];
-    $oNumero_Cuenta=numero_cuenta::getByID($id);
     $abreviatura=$_POST['txtAbreviatura'];
+    $estado_ID=isset($_POST['ckEstado'])?117:116;
+    $seleccionado=isset($_POST['ckSeleccinado'])?1:0;
+    $oNumero_Cuenta=numero_cuenta::getByID($id);
+    
    try {
        $oNumero_Cuenta->nombre_banco=$nombre_banco;
        $oNumero_Cuenta->numero=$numero;
        $oNumero_Cuenta->abreviatura=$abreviatura;
        $oNumero_Cuenta->cci=$cci;
        $oNumero_Cuenta->moneda_ID=$moneda_ID;
+       $oNumero_Cuenta->estado_ID=$estado_ID;
+       $oNumero_Cuenta->seleccionado=$seleccionado;
        $oNumero_Cuenta->usuario_mod_id=$_SESSION['usuario_ID'];
        $oNumero_Cuenta->actualizar1();
        $resultado=1;
@@ -5765,6 +5773,7 @@ function post_Numero_Cuenta_Mantenimiento_Editar($id) {
 function post_ajaxNumero_Cuenta_Mantenimiento() {
     require ROOT_PATH . 'models/numero_cuenta.php';
     require ROOT_PATH . 'models/moneda.php';
+    require ROOT_PATH . 'models/estado.php';
     require ROOT_PATH . 'controls/funcionController.php';
     $buscar = $_POST['txtBuscar'];
     $paginaActual = $_POST['num_page'] == 0 ? 1 : $_POST['num_page'];
@@ -5789,11 +5798,16 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
         case 4:
             $orden = 'moneda_ID ' . $orden_tipo;
             break;
+        case 5:
+            $orden = 'estado_ID ' . $orden_tipo;
+        case 6:
+            $orden = 'seleccionado ' . $orden_tipo;
+            break;
         default:
             $orden = 'ID ' . $orden_tipo;
             break;
     }
-    $filtro = 'empresa_ID='.$_SESSION['empresa_ID'].' and (numero) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
+    $filtro = 'empresa_ID='.$_GET['empresa_ID'].' and (numero) like "%' . str_replace(' ', '%', strtoupper(FormatTextSave($buscar))) . '%"';
 
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-hover table-bordered"><tr>';
@@ -5802,9 +5816,12 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
     $resultado.='<th class="thOrden" onclick="fncOrden(2);">numero cuenta' . (($txtOrden == 2 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(3);">Cuenta Interbancaria' . (($txtOrden == 3 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
     $resultado.='<th class="thOrden" onclick="fncOrden(4);">Moneda' . (($txtOrden == 4 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(5);">Estado' . (($txtOrden == 5 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+    $resultado.='<th class="thOrden" onclick="fncOrden(6);">Predeterminado' . (($txtOrden == 6 ? "<img class=" . $orden_class . " />" : "")) . '</th>';
+   
     $resultado.='<th class="tdCenter">Opciones</th>';
     $resultado.='</tr>';
-    $colspanFooter = 6;
+    $colspanFooter = 8;
     try {
         
         $cantidadMaxima = numero_cuenta::getCount($filtro);
@@ -5813,12 +5830,16 @@ function post_ajaxNumero_Cuenta_Mantenimiento() {
         $i=($paginaActual-1)*$cantidadMostrar+1;
         foreach ($dtNumero_Cuenta as $item) {
             $oMoneda=moneda::getByID($item['moneda_ID']);
+            $oEstado=estado::getByID($item['estado_ID']);
             $resultado.='<tr class="tr-item">';
             $resultado.='<td class="text-center">'.$i.'</td>';
             $resultado.='<td class="tdleft">' . test_input($item['nombre_banco']). '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['numero']). '</td>';
             $resultado.='<td class="tdLeft">' . test_input($item['cci']). '</td>';
+           
             $resultado.='<td class="tdLeft">' . test_input($oMoneda->descripcion). '</td>';
+            $resultado.='<td class="text-center">' . $oEstado->nombre. '</td>';
+             $resultado.='<td class="text-center">' . ($item['seleccionado']==1?"Seleccionado":""). '</td>';
             $botones=array();
             array_push($botones,'<a onclick="fncEditar(' . $item['ID'] . ');" title="Editar numero de cuenta"><span class="glyphicon glyphicon-pencil"></span>Editar</a>');
             array_push($botones,'<a onclick="modal.confirmacion(&#39;El proceso es irreversible, esta seguro de eliminar el registro.&#39;,&#39;Eliminar numero de cuenta&#39;,fncEliminar,&#39;' . $item['ID'] . '&#39;);" title="Eliminar numero de cuenta"><span class="glyphicon glyphicon-trash"></span>Eliminar</a>');
@@ -6142,7 +6163,7 @@ function post_ajaxCorrelativos_Mantenimiento() {
             break;
     }
     
-    $filtro= 'co.empresa_ID=' . $_SESSION['empresa_ID'];
+    $filtro= 'co.empresa_ID=' . $_GET['empresa_ID'];
 
     //---------------------------------------					 
     $resultado = '<table id="websendeos" class="grid table table-bordered table-hover table-teal"><thead><tr>';
@@ -6158,7 +6179,7 @@ function post_ajaxCorrelativos_Mantenimiento() {
     $colspanFooter = 7;
     try {
         $array_default=array('correlativos_ID','correlativos_ID_fisico','correlativos_ID_guia_electronico','correlativos_ID_guia_fisico','correlativos_ID_nota_credito','correlativos_ID_nota_debito');
-        $dtconfi=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre in ('correlativos_ID','correlativos_ID_fisico','correlativos_ID_guia_electronico','correlativos_ID_guia_fisico','correlativos_ID_nota_credito','correlativos_ID_nota_debito')");
+        $dtconfi=configuracion_empresa::getCount("empresa_ID=".$_GET['empresa_ID']." and nombre in ('correlativos_ID','correlativos_ID_fisico','correlativos_ID_guia_electronico','correlativos_ID_guia_fisico','correlativos_ID_nota_credito','correlativos_ID_nota_debito')");
         $cantidadMaxima = count(correlativos::getTabla($filtro));
         
         $dtCorrelativos = correlativos::getTabla($filtro, (($paginaActual * $cantidadMostrar) - ($cantidadMostrar)), $cantidadMostrar, $orden);
@@ -6176,9 +6197,9 @@ function post_ajaxCorrelativos_Mantenimiento() {
             $select="<select   onchange='fnRegistrarDefault(".$item['ID'].",this.value)'>";
             //$select.="<option value='0'>No asignado</option>";
             /*for($y=0;$y<count($array_default);$y++){
-                $contar=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre='".$array_default[$y]."' and valor<>'".$item['ID']."'");
+                $contar=configuracion_empresa::getCount("empresa_ID=".$_GET['empresa_ID']." and nombre='".$array_default[$y]."' and valor<>'".$item['ID']."'");
                 
-                $contar_select=configuracion_empresa::getCount("empresa_ID=".$_SESSION['empresa_ID']." and nombre='".$array_default[$y]."' and valor='".$item['ID']."'");
+                $contar_select=configuracion_empresa::getCount("empresa_ID=".$_GET['empresa_ID']." and nombre='".$array_default[$y]."' and valor='".$item['ID']."'");
                 
                 if($contar==0){
                     $select.="<option value='".$array_default[$y]."' ".(($contar_select>0)?"selected":"").">".$array_default[$y]."</option>";
@@ -6220,7 +6241,7 @@ function post_ajaxGrabarCorrelativosDefault(){
     $nombres=$_POST['nombres'];
     try{
         $obj=new configuracion_empresa();
-        $obj->empresa_ID=$_SESSION['empresa_ID'];
+        $obj->empresa_ID=$_GET['empresa_ID'];
         $obj->valor=$correlativos_ID;
         $obj->nombre=$nombres;
         $obj->descripcion="";
@@ -6329,7 +6350,7 @@ function post_Correlativos_Mantenimiento_Nuevo($id) {
         $obj1=new tipo_comprobante_empresa();
         $obj1->accion=$accion;
         $obj1->tipo_comprobante_ID=$tipo_comprobante_ID;
-        $obj1->empresa_ID=$_SESSION['empresa_ID'];
+        $obj1->empresa_ID=$_GET['empresa_ID'];
         $obj1->usuario_mod_id=$_SESSION['usuario_ID'];
         $tipo_comprobante_empresa_ID=$obj1->insertar();
         
@@ -6341,7 +6362,7 @@ function post_Correlativos_Mantenimiento_Nuevo($id) {
         $obj->electronico=$electronico;
         $obj->tipo_comprobante_empresa_ID=$tipo_comprobante_empresa_ID;
         $obj->usuario_mod_id=$_SESSION['usuario_ID'];
-        $obj->empresa_ID=$_SESSION['empresa_ID'];
+        $obj->empresa_ID=$_GET['empresa_ID'];
         $obj->insertar();
         
         $mensaje="Se registró correctamente";
@@ -6378,14 +6399,14 @@ function get_Correlativos_Mantenimiento_Defecto() {
     );
     //print_r($valores);
     $GLOBALS['valores']=$valores;
-    $dtCorrelativosVentaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=1",-1,-1,"co.ID desc");
-    $dtCorrelativosVentaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosVentaE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='venta' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosVentaF=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='venta' and co.electronico=0",-1,-1,"co.ID desc");
     
-    $dtTipoComprobanteCompra=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='compra'",-1,-1,"co.ID desc");
-    $dtCorrelativosGuiaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=1",-1,-1,"co.ID desc");
-    $dtCorrelativosGuiaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=0",-1,-1,"co.ID desc");
-    $dtCorrelativosNotaCreditoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_credito' and co.electronico=1",-1,-1,"co.ID desc");
-    $dtCorrelativosNotaDebitoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_debito' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtTipoComprobanteCompra=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='compra'",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='guia_remision' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaF=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='guia_remision' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaCreditoE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='nota_credito' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaDebitoE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='nota_debito' and co.electronico=1",-1,-1,"co.ID desc");
     $GLOBALS['dtCorrelativosVentaE'] = $dtCorrelativosVentaE;
     $GLOBALS['dtCorrelativosVentaF'] = $dtCorrelativosVentaF;
     $GLOBALS['dtTipoComprobanteCompra'] = $dtTipoComprobanteCompra;
@@ -6430,13 +6451,13 @@ function post_Correlativos_Mantenimiento_Defecto() {
     
     
     $GLOBALS['$valores']=$valores;
-    $dtCorrelativosVentaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=1",-1,-1,"co.ID desc");
-    $dtCorrelativosVentaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='venta' and co.electronico=0",-1,-1,"co.ID desc");
-    $dtCorrelativosCompra=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='compra'",-1,-1,"co.ID desc");
-    $dtCorrelativosGuiaE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=1",-1,-1,"co.ID desc");
-    $dtCorrelativosGuiaF=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='guia_remision' and co.electronico=0",-1,-1,"co.ID desc");
-    $dtCorrelativosNotaCreditoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_credito' and co.electronico=1",-1,-1,"co.ID desc");
-    $dtCorrelativosNotaDebitoE=correlativos::getTabla("co.empresa_ID=".$_SESSION['empresa_ID']." and tce.accion='nota_debito' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosVentaE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='venta' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosVentaF=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='venta' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosCompra=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='compra'",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='guia_remision' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosGuiaF=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='guia_remision' and co.electronico=0",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaCreditoE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='nota_credito' and co.electronico=1",-1,-1,"co.ID desc");
+    $dtCorrelativosNotaDebitoE=correlativos::getTabla("co.empresa_ID=".$_GET['empresa_ID']." and tce.accion='nota_debito' and co.electronico=1",-1,-1,"co.ID desc");
     $GLOBALS['dtCorrelativosVentaE'] = $dtCorrelativosVentaE;
     $GLOBALS['dtCorrelativosVentaF'] = $dtCorrelativosVentaF;
     $GLOBALS['dtCorrelativosCompra'] = $dtCorrelativosCompra;
@@ -6635,15 +6656,15 @@ function post_Persona_Mantenimiento_Nuevo_Otro() {
         if(!class_exists('imagen_documentos'))require ROOT_PATH.'models/imagen_documentos.php';
         global  $returnView_float;
         $returnView_float=true;
-	$oEmpresa=empresa::getByID($_SESSION['empresa_ID']);
+	$oEmpresa=empresa::getByID($_GET['empresa_ID']);
         
-        $dt=imagen_documentos::getGrid("empresa_ID=".$_SESSION['empresa_ID']);
+        $dt=imagen_documentos::getGrid("empresa_ID=".$_GET['empresa_ID']);
         $imagen_documentos=NEW imagen_documentos();
-        $array=array("imagen1"=>(($imagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])=="")?"D1.jpg":$imagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])),
-            "imagen2"=>(($imagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])=="")?"D2.jpg":$imagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])),
-            "imagen3"=>(($imagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])=="")?"D3.jpg":$imagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])),
-            "imagen4"=>(($imagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])=="")?"D4.jpg":$imagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])),
-            "imagen5"=>(($imagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])=="")?"D5.jpg":$imagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])),
+        $array=array("imagen1"=>(($imagen_documentos->getImagen('cotizacion','footer',1,$_GET['empresa_ID'])=="")?"D1.jpg":$imagen_documentos->getImagen('cotizacion','footer',1,$_GET['empresa_ID'])),
+            "imagen2"=>(($imagen_documentos->getImagen('cotizacion','footer',2,$_GET['empresa_ID'])=="")?"D2.jpg":$imagen_documentos->getImagen('cotizacion','footer',2,$_GET['empresa_ID'])),
+            "imagen3"=>(($imagen_documentos->getImagen('cotizacion','footer',3,$_GET['empresa_ID'])=="")?"D3.jpg":$imagen_documentos->getImagen('cotizacion','footer',3,$_GET['empresa_ID'])),
+            "imagen4"=>(($imagen_documentos->getImagen('cotizacion','footer',4,$_GET['empresa_ID'])=="")?"D4.jpg":$imagen_documentos->getImagen('cotizacion','footer',4,$_GET['empresa_ID'])),
+            "imagen5"=>(($imagen_documentos->getImagen('cotizacion','footer',5,$_GET['empresa_ID'])=="")?"D5.jpg":$imagen_documentos->getImagen('cotizacion','footer',5,$_GET['empresa_ID'])),
             ); 
         $GLOBALS['oEmpresa']=$oEmpresa;
         $GLOBALS['array']=$array;
@@ -6715,11 +6736,11 @@ function post_Documentos_Mantenimiento_Formato(){
             $mensaje=$ex->getMessage();
     }
     $oimagen_documentos=new imagen_documentos();
-    $array=array("imagen1"=>(($oimagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])=="")?"D1.jpg":$oimagen_documentos->getImagen('cotizacion','footer',1,$_SESSION['empresa_ID'])),
-            "imagen2"=>(($oimagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])=="")?"D2.jpg":$oimagen_documentos->getImagen('cotizacion','footer',2,$_SESSION['empresa_ID'])),
-            "imagen3"=>(($oimagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])=="")?"D3.jpg":$oimagen_documentos->getImagen('cotizacion','footer',3,$_SESSION['empresa_ID'])),
-            "imagen4"=>(($oimagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])=="")?"D4.jpg":$oimagen_documentos->getImagen('cotizacion','footer',4,$_SESSION['empresa_ID'])),
-            "imagen5"=>(($oimagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])=="")?"D5.jpg":$oimagen_documentos->getImagen('cotizacion','footer',5,$_SESSION['empresa_ID'])),
+    $array=array("imagen1"=>(($oimagen_documentos->getImagen('cotizacion','footer',1,$_GET['empresa_ID'])=="")?"D1.jpg":$oimagen_documentos->getImagen('cotizacion','footer',1,$_GET['empresa_ID'])),
+            "imagen2"=>(($oimagen_documentos->getImagen('cotizacion','footer',2,$_GET['empresa_ID'])=="")?"D2.jpg":$oimagen_documentos->getImagen('cotizacion','footer',2,$_GET['empresa_ID'])),
+            "imagen3"=>(($oimagen_documentos->getImagen('cotizacion','footer',3,$_GET['empresa_ID'])=="")?"D3.jpg":$oimagen_documentos->getImagen('cotizacion','footer',3,$_GET['empresa_ID'])),
+            "imagen4"=>(($oimagen_documentos->getImagen('cotizacion','footer',4,$_GET['empresa_ID'])=="")?"D4.jpg":$oimagen_documentos->getImagen('cotizacion','footer',4,$_GET['empresa_ID'])),
+            "imagen5"=>(($oimagen_documentos->getImagen('cotizacion','footer',5,$_GET['empresa_ID'])=="")?"D5.jpg":$oimagen_documentos->getImagen('cotizacion','footer',5,$_GET['empresa_ID'])),
             ); 
     $GLOBALS['oEmpresa']=$oEmpresa;
     $GLOBALS['array']=$array;

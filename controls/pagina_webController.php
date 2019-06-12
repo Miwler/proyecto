@@ -15,8 +15,8 @@
         global $returnView;
         $returnView=true;
         
-        if(isset($_SESSION['empresa_ID'])){
-            $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        if(isset($_GET['empresa_ID'])){
+            $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
         }else{
             $oDatos_Generales=new datos_generales();
         }
@@ -70,8 +70,8 @@
         global $returnView;
         $returnView=true;
         
-        if(isset($_SESSION['empresa_ID'])){
-            $oDatos_Generales=datos_generales::getByID1($_SESSION['empresa_ID']);
+        if(isset($_GET['empresa_ID'])){
+            $oDatos_Generales=datos_generales::getByID1($_GET['empresa_ID']);
         }else{
             $oDatos_Generales=new datos_generales();
         }
@@ -138,7 +138,7 @@
                 $orden = 'ID ' . $orden_tipo;
                 break;
         }
-         $filtro='empresa_ID='.$_SESSION['empresa_ID'];
+         $filtro='empresa_ID='.$_GET['empresa_ID'];
        
         if($buscar!=''){
             
@@ -213,7 +213,7 @@
             $oWeb_Banner=new web_banner();
             $oWeb_Banner->nombre=$nombre;
             $oWeb_Banner->descripcion=$descripcion;
-            $oWeb_Banner->empresa_ID=$_SESSION['empresa_ID'];
+            $oWeb_Banner->empresa_ID=$_GET['empresa_ID'];
             $oWeb_Banner->usuario_id=$_SESSION['usuario_ID'];
             $oWeb_Banner->insertar();
            
@@ -653,7 +653,7 @@
                 $orden = 'ID  ' . $orden_tipo;
                 break;
         }
-         $filtro='empresa_ID='.$_SESSION['empresa_ID'];
+         $filtro='empresa_ID='.$_GET['empresa_ID'];
        
         if($buscar!=''){
             
@@ -732,7 +732,7 @@
             $oMarca->url=$url;
             $oMarca->imagen="";
             $oMarca->orden=$orden;
-            $oMarca->empresa_ID=$_SESSION['empresa_ID'];
+            $oMarca->empresa_ID=$_GET['empresa_ID'];
             $oMarca->usuario_id=$_SESSION['usuario_ID'];
             $oMarca->insertar();
             
@@ -899,7 +899,7 @@
                 $orden = 'ID  ' . $orden_tipo;
                 break;
         }
-        $filtro='empresa_ID='.$_SESSION['empresa_ID'];
+        $filtro='empresa_ID='.$_GET['empresa_ID'];
        
         if($buscar!=''){
             
@@ -989,7 +989,7 @@
     
         
         try {
-                $dt =web_chat_session::getTabla($_SESSION['empresa_ID']); 
+                $dt =web_chat_session::getTabla($_GET['empresa_ID']); 
 
                 $array_cabecera=array(
                     array("cabecera"=>'N°',"class_alineado"=>'text-center',"campo"=>'ID',"filtro"=>"no"),
@@ -1186,7 +1186,7 @@
                 $orden = 'ID ' . $orden_tipo;
                 break;
         }
-        $filtro='empresa_ID='.$_SESSION['empresa_ID'];
+        $filtro='empresa_ID='.$_GET['empresa_ID'];
        
         if($buscar!=''){
             
@@ -1272,7 +1272,7 @@
         try{
             $oWeb_Menu->nombre=$nombre;
             $oWeb_Menu->tipo=$tipo;
-            $oWeb_Menu->empresa_ID=$_SESSION['empresa_ID'];
+            $oWeb_Menu->empresa_ID=$_GET['empresa_ID'];
             $oWeb_Menu->descripcion=$descripcion;
             if($ID==0){
                 $oWeb_Menu->usuario_id=$_SESSION['usuario_ID'];
@@ -1502,7 +1502,7 @@
         try{
             $oWeb_Menu->nombre=$nombre;
             $oWeb_Menu->tipo=$tipo;
-            $oWeb_Menu->empresa_ID=$_SESSION['empresa_ID'];
+            $oWeb_Menu->empresa_ID=$_GET['empresa_ID'];
             $oWeb_Menu->descripcion=$descripcion;
             $oWeb_Menu->usuario_mod_id=$_SESSION['usuario_ID'];
             $oWeb_Menu->actualizar();

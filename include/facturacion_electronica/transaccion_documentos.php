@@ -76,7 +76,7 @@ class transaccion_documentos
 
     {
         
-        $OUTPUT = ROOT_PATH.ruta_archivo."/SUNAT/XML/".$_SESSION['empresa_ID']."/".$carpeta."/".$NombreArchivo;
+        $OUTPUT = ROOT_PATH.ruta_archivo."/SUNAT/XML/".$_GET['empresa_ID']."/".$carpeta."/".$NombreArchivo;
         $bin = base64_decode($TramaXmlFirmado);
         file_put_contents($OUTPUT, $bin);
     }
@@ -84,7 +84,7 @@ class transaccion_documentos
     function escribir_archivo_cdr($NombreArchivo,$TramaXmlFirmado,$carpeta)
     {
 
-      $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$carpeta."/".$NombreArchivo;
+      $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_GET['empresa_ID']."/".$carpeta."/".$NombreArchivo;
       $bin = base64_decode($TramaXmlFirmado);
       //$bin = ($TramaXmlFirmado);
       file_put_contents($OUTPUT, $bin);
@@ -94,7 +94,7 @@ class transaccion_documentos
         $ReferenceNodeName = 'ExtensionContent';
         $ruta="";
         try{
-            $array=$this->getParamEmisor($_SESSION['empresa_ID']);
+            $array=$this->getParamEmisor($_GET['empresa_ID']);
             if (openssl_pkcs12_read(file_get_contents($array['RutaCertificado']), $certs, $array['PasswordCertificado'])) {
                 $publicKey = $certs['cert'];
                 $privateKey = openssl_pkey_get_private($certs['pkey']);
@@ -121,7 +121,7 @@ class transaccion_documentos
 
             $objSign->add509Cert($publicKey);
             //$xmlName=$this->array_documento['Emisor']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
-            $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/XML/".$_SESSION['empresa_ID']."/".$documento."/";
+            $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/XML/".$_GET['empresa_ID']."/".$documento."/";
             $ruta=$xmlpath.$this->nombre_documento.'.xml';                
             $domDocument->save($ruta);
            
@@ -134,13 +134,13 @@ class transaccion_documentos
     }
     function enviar_documento($ruta_xml,$documento,$metodo){
         try{
-            $array=$this->getParamEmisor($_SESSION['empresa_ID']);
+            $array=$this->getParamEmisor($_GET['empresa_ID']);
         $username=$array['RUC'].$array['UsuarioSol'];
         $password=$array['ClaveSol'];
         
         //Creamos el archivo zip
         $zip=new ZipArchive();
-        $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/ZIP_ENVIADOS/".$_SESSION['empresa_ID']."/";
+        $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/ZIP_ENVIADOS/".$_GET['empresa_ID']."/";
         
         $nombre_zip=$this->nombre_documento.".zip";
         $ruta_archivo_zip=$xmlpath.$nombre_zip;
@@ -195,10 +195,10 @@ class transaccion_documentos
                  
                 $array[]= $x->sendBill($parametros);
                //print_r($array);
-                $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/".$nombre_zip;
+                $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_GET['empresa_ID']."/".$documento."/".$nombre_zip;
                 
                 file_put_contents($ZIP_resultado, $array[0]->applicationResponse);
-                //$ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-20536781499-01-F001-0000001.zip";
+                //$ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_GET['empresa_ID']."/".$documento."/R-20536781499-01-F001-0000001.zip";
                 $string=file_get_contents($ZIP_resultado);
               
                 $this->cdr_sunat= base64_encode($string);
@@ -274,10 +274,10 @@ XML;
                  
                 $array[]= $x->sendBill($parametros);
                //print_r($array[]);
-                $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/".$nombre_zip;
+                $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_GET['empresa_ID']."/".$documento."/".$nombre_zip;
                 
                 file_put_contents($ZIP_resultado, $array[0]->applicationResponse);
-                //$ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-20536781499-01-F001-0000001.zip";
+                //$ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_GET['empresa_ID']."/".$documento."/R-20536781499-01-F001-0000001.zip";
                 $string=file_get_contents($ZIP_resultado);
               
                 $this->cdr_sunat= base64_encode($string);
@@ -351,13 +351,13 @@ XML;
     }
     function enviar_documento_sunat($ruta_xml,$documento,$metodo){
         try{
-            $array=$this->getParamEmisor($_SESSION['empresa_ID']);
+            $array=$this->getParamEmisor($_GET['empresa_ID']);
             $username=$array['RUC'].$array['UsuarioSol'];
             $password=$array['ClaveSol'];
         
         //Creamos el archivo zip
         $zip=new ZipArchive();
-        $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/ZIP_ENVIADOS/".$_SESSION['empresa_ID']."/";
+        $xmlpath=ROOT_PATH.ruta_archivo."/SUNAT/ZIP_ENVIADOS/".$_GET['empresa_ID']."/";
         
         $nombre_zip=$this->nombre_documento.".zip";
         $ruta_archivo_zip=$xmlpath.$nombre_zip;
@@ -468,7 +468,7 @@ XML;
             $doc->loadXML($response);
             if(strtolower($metodo)=="sendbill"){
                 if (isset($doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue)) {
-                    $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_SESSION['empresa_ID']."/".$documento."/R-".$nombre_zip;
+                    $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR/".$_GET['empresa_ID']."/".$documento."/R-".$nombre_zip;
                         $xmlCDR = $doc->getElementsByTagName('applicationResponse')->item(0)->nodeValue;
                         file_put_contents($ZIP_resultado, base64_decode($xmlCDR));
                         $string=file_get_contents($ZIP_resultado);
@@ -565,7 +565,7 @@ XML;
     }
    function consultar_documento_sunat($array_parametros,$metodo){
         try{
-            $array=$this->getParamEmisor($_SESSION['empresa_ID']);
+            $array=$this->getParamEmisor($_GET['empresa_ID']);
             $username=$array['RUC'].$array['UsuarioSol'];
             $password=$array['ClaveSol'];
             
@@ -667,8 +667,8 @@ XML;
                         
                     }
                     if (isset($doc->getElementsByTagName('content')->item(0)->nodeValue)) {
-                        $ruta_archivo=ruta_archivo."/SUNAT/CDR_consulta/".$_SESSION['empresa_ID']."/".$documento.".zip";
-                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR_consulta/".$_SESSION['empresa_ID']."/".$documento.".zip";
+                        $ruta_archivo=ruta_archivo."/SUNAT/CDR_consulta/".$_GET['empresa_ID']."/".$documento.".zip";
+                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR_consulta/".$_GET['empresa_ID']."/".$documento.".zip";
                             
                         $xmlCDR = $doc->getElementsByTagName('content')->item(0)->nodeValue;
                             //echo $xmlCDR;
@@ -769,7 +769,7 @@ XML;
                         
                     }
                     if (isset($doc->getElementsByTagName('content')->item(0)->nodeValue)) {
-                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR_consulta/".$_SESSION['empresa_ID']."/".$documento.".zip";
+                        $ZIP_resultado=ROOT_PATH.ruta_archivo."/SUNAT/CDR_consulta/".$_GET['empresa_ID']."/".$documento.".zip";
                             $xmlCDR = $doc->getElementsByTagName('content')->item(0)->nodeValue;
                             //echo $xmlCDR;
                             file_put_contents($ZIP_resultado, base64_decode($xmlCDR));
@@ -865,7 +865,7 @@ XML;
                     $this->nombre_documento=$this->array_documento['Emisor']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
 
-                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
+                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_GET['empresa_ID']."/".$NombreArchivo;
                     $xml->save($OUTPUT);
                     $ruta=$OUTPUT;
                     break;
@@ -876,7 +876,7 @@ XML;
                     
                     $this->nombre_documento=$this->array_documento['Remitente']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
-                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
+                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_GET['empresa_ID']."/".$NombreArchivo;
                     
                     if($xml->save($OUTPUT)==false){
                         throw  new Exception("Existe un error en la creación del XML");
@@ -892,7 +892,7 @@ XML;
                     $this->nombre_documento=$this->array_documento['Emisor']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
 
-                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
+                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_GET['empresa_ID']."/".$NombreArchivo;
                     $xml->save($OUTPUT);
                     $ruta=$OUTPUT;
                     break;
@@ -902,7 +902,7 @@ XML;
                     $this->nombre_documento=$this->array_documento['Emisor']['NroDocumento'].'-'.$this->array_documento['TipoDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
 
-                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
+                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_GET['empresa_ID']."/".$NombreArchivo;
                     $xml->save($OUTPUT);
                     $ruta=$OUTPUT;
                     break;
@@ -913,7 +913,7 @@ XML;
                     $this->nombre_documento=$this->array_documento['Emisor']['NroDocumento'].'-'.$this->array_documento['IdDocumento'];
                     $NombreArchivo=$this->nombre_documento.".xml";
 
-                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_SESSION['empresa_ID']."/".$NombreArchivo;
+                    $OUTPUT =  ROOT_PATH.ruta_archivo."/SUNAT/XML_SINFIRMAR/".$_GET['empresa_ID']."/".$NombreArchivo;
                     $xml->save($OUTPUT);
                     $ruta=$OUTPUT;
                     break;

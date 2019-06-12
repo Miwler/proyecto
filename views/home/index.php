@@ -30,7 +30,7 @@
                         <div class="icon">
                             <i class="<?php echo $item['icono']?>"></i>
                         </div>
-                        <a  href="/home/main/<?php echo $item['ID'];?>" class="small-box-footer">
+                        <a  href="/home/main/<?php echo $item['ID'];?>?empresa_ID=<?php echo $item['ID'];?>" class="small-box-footer">
                             <?php echo strtoupper($item['nombre']);?> <i class="fa fa-arrow-circle-right"></i>
                         </a>
 

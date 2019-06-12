@@ -165,7 +165,7 @@ class comprobante_regula {
             //echo $q;
             $cn =new connect_new();
             $retornar=$cn->transa($q);
-            $q="call sp_tabla_movimiento_Insertar(".$ID.",'comprobante_regula',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_id.",".$_SESSION['empresa_ID'].",".$this->usuario_id.")";
+            $q="call sp_tabla_movimiento_Insertar(".$ID.",'comprobante_regula',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_id.",".$_GET['empresa_ID'].",".$this->usuario_id.")";
             $cn =new connect_new();
             $cn->transa($q);
             $this->ID=$ID;
@@ -216,7 +216,7 @@ class comprobante_regula {
             //console_log($q);
             $cn =new connect_new();
             $retornar=$cn->transa($q);
-            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'comprobante_regula',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_mod_id.",".$_SESSION['empresa_ID'].",".$this->usuario_mod_id.")";
+            $q="call sp_tabla_movimiento_Insertar(".$this->ID.",'comprobante_regula',".$this->estado_ID.",'".date("Y-m-d H:i:s")."','',".$this->usuario_mod_id.",".$_GET['empresa_ID'].",".$this->usuario_mod_id.")";
             $cn =new connect_new();
             $cn->transa($q);
             $this->getMessage='Se guardó correctamente';
@@ -251,7 +251,7 @@ class comprobante_regula {
 		{
                     $q='select count(cr.ID) ';
                     $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.documento_relacionado_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
-                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];;
+                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_GET['empresa_ID'];;
 
                     if ($filtro!='')
                     {
@@ -456,7 +456,7 @@ class comprobante_regula {
 		{
                     $q='select cr.ID,cr.serie,cr.numero_concatenado,ti.nombre as tipo,ifnull(cr.fecha_emision,"") as fecha_emision,fv.serie as serie_factura,fv.numero as numero_factura,es.nombre as estado,cr.estado_ID,mo.simbolo as moneda,cr.monto_total';
                     $q.=' from comprobante_regula cr,factura_venta fv,tipo ti, estado es,moneda mo where cr.documento_relacionado_ID=fv.ID and cr.tipo_ID=ti.ID and cr.moneda_ID=mo.ID and ';
-                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_SESSION['empresa_ID'];
+                    $q.='cr.estado_ID=es.ID and fv.del=0 and cr.del=0 and ti.del=0 and cr.empresa_ID='.$_GET['empresa_ID'];
                   
                         if($filtro!=''){
 				$q.=' and '.$filtro;
@@ -519,7 +519,7 @@ class comprobante_regula {
             $dt=$cn->store_procedure_getGrid("getTabla_Comprobante_Regula", 
                     array(
                         "iopcion"=>$opcion,
-                        "iempresa_ID"=>$_SESSION['empresa_ID'],
+                        "iempresa_ID"=>$_GET['empresa_ID'],
                         "icliente_ID"=>$cliente_ID,
                         "iperiodo"=>$periodo,
                         "ifecha_inicio"=>$fecha_inicio,
@@ -530,7 +530,7 @@ class comprobante_regula {
                         "inumero"=>$numero,
                         "idocumento"=>$documento
                     ));
-        //$q='call getTabla_Comprobante_Regula("'.$opcion.'",'.$_SESSION['empresa_ID'].','.$cliente_ID.','.$periodo.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$serie.'",'.$numero.',"'.$documento.'");';
+        //$q='call getTabla_Comprobante_Regula("'.$opcion.'",'.$_GET['empresa_ID'].','.$cliente_ID.','.$periodo.',"'.$fecha_inicio.'","'.$fecha_fin.'",'.$estado_ID.','.$moneda_ID.',"'.$serie.'",'.$numero.',"'.$documento.'");';
         //console_log($q);
         //$dt=$cn->getTabla($q);
         return $dt;

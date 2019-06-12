@@ -45,6 +45,22 @@
         $(document).ready(function(){
             window.parent.ocultarClose();
         });
+        function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            $(document).ready(function(){
+               $("form").each(function(){
+                    var metodo=$(this).attr("method");
+                    var action=$.trim($(this).attr("action"));
+                    if(metodo.toUpperCase()=='POST'&&action!=""){
+                        var url_enviar_post=action+'?empresa_ID='+getParameterByName('empresa_ID');
+                        $(this).prop('action',url_enviar_post);
+                    }
+                });
+            });
 	</script>
 	<?php  fncHead();	?>
 </head>

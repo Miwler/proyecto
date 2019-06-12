@@ -36,7 +36,7 @@ class cotizacion {
     
     private $boton_producto;
     private $boton_pdf;
-   
+    private $mostrar_precio_unitario;
     
     Private $getMessage;
 
@@ -95,13 +95,15 @@ class cotizacion {
     $this->area_texto="";
     $this->numero_pagina=0;
     $this->producto_pagina="";
+    $this->mostrar_precio_unitario=precio_incluye_igv;
     $this->usuario_id=$_SESSION["usuario_ID"];
     $this->usuario_mod_id=$_SESSION["usuario_ID"];
+   
 
   }
   function __destruct()
   {
-        $this->cliente_contacto_ID;
+    $this->cliente_contacto_ID;
     $this->operador_ID;
     $this->periodo;
     $this->numero;
@@ -125,8 +127,10 @@ class cotizacion {
     $this->area_texto;
     $this->numero_pagina;
     $this->producto_pagina;
+    $this->mostrar_precio_unitario;
     $this->usuario_id;
     $this->usuario_mod_id;
+    
 
   }
     function insertar()
@@ -145,11 +149,11 @@ class cotizacion {
             $q=" insert into cotizacion (ID,empresa_ID,cliente_ID,cliente_contacto_ID,operador_ID,periodo,numero,numero_concatenado,moneda_ID,fecha,";
             $q.=" igv,vigv_soles,vigv_dolares,precio_venta_neto_soles,precio_venta_total_soles,precio_venta_neto_dolares,precio_venta_total_dolares,";
             $q.="forma_pago_ID,tiempo_credito,tardanza,plazo_entrega,estado_ID,tipo_cambio,lugar_entrega,";
-            $q.=" validez_oferta,garantia,observacion,usuario_id) values (".$ID.",".$this->empresa_ID;
+            $q.=" validez_oferta,garantia,observacion,mostrar_precio_unitario,usuario_id) values (".$ID.",".$this->empresa_ID;
             $q.=",".$this->cliente_ID.",".$this->cliente_contacto_ID.",".$this->operador_ID.",'".$this->periodo."','".$this->numero."','".$this->numero_concatenado."',".$this->moneda_ID.",".$fecha_save.",";
             $q.=$this->igv.",".$this->vigv_soles.",".$this->vigv_dolares.",".$this->precio_venta_neto_soles.",".$this->precio_venta_total_soles.",".$this->precio_venta_neto_dolares.",".$this->precio_venta_total_dolares.",";
             $q.=$this->forma_pago_ID.",".$this->tiempo_credito.",'".$this->tardanza."','".$this->plazo_entrega."',".$this->estado_ID.",".$this->tipo_cambio.",'".$this->lugar_entrega."',";
-            $q.="'".$this->validez_oferta."','".$this->garantia."','".$this->observacion."',".$this->usuario_id.");";
+            $q.="'".$this->validez_oferta."','".$this->garantia."','".$this->observacion."',".$this->mostrar_precio_unitario.",".$this->usuario_id.");";
             $cn =new connect_new();
             $retornar=$cn->transa($q);
             $this->ID=$ID;
@@ -173,7 +177,7 @@ class cotizacion {
             $q='update cotizacion set cliente_ID='.$this->cliente_ID.',cliente_contacto_ID='.$this->cliente_contacto_ID.',operador_ID='.$this->operador_ID.',periodo="'.$this->periodo.'",numero="'.$this->numero.'",numero_concatenado="'.$this->numero_concatenado.'",moneda_ID='.$this->moneda_ID.',fecha='.$fecha_save;
             $q.=',igv='.$this->igv.',vigv_soles='.$this->vigv_soles.',vigv_dolares='.$this->vigv_dolares.',precio_venta_neto_soles='.$this->precio_venta_neto_soles.',precio_venta_total_soles='.$this->precio_venta_total_soles.',precio_venta_neto_dolares='.$this->precio_venta_neto_dolares.',precio_venta_total_dolares='.$this->precio_venta_total_dolares;
             $q.=',forma_pago_ID='.$this->forma_pago_ID.',tiempo_credito='.$this->tiempo_credito.',tardanza="'.$this->tardanza.'",plazo_entrega="'.$this->plazo_entrega.'",estado_ID='.$this->estado_ID.',tipo_cambio='.$this->tipo_cambio.',lugar_entrega="'.$this->lugar_entrega;
-            $q.='",validez_oferta="'.$this->validez_oferta.'",garantia="'.$this->garantia.'",observacion="'.$this->observacion.'",usuario_mod_id='.$this->usuario_mod_id.',fdm=now() where del=0 and ID='.$this->ID;
+            $q.='",validez_oferta="'.$this->validez_oferta.'",garantia="'.$this->garantia.'",observacion="'.$this->observacion.'",mostrar_precio_unitario='.$this->mostrar_precio_unitario.',usuario_mod_id='.$this->usuario_mod_id.',fdm=now() where del=0 and ID='.$this->ID;
            //echo $q;
             $retornar=$cn->transa($q);
             $this->getMessage='Se actualizó correctamente';
@@ -191,39 +195,40 @@ class cotizacion {
       $ID=$cn->store_procedure_transa(
           "sp_cotizacion_Update",
             array(
-              "retornar"=>$retornar,
-    "iID"=>$this->ID,
-    "iempresa_ID"=>$this->empresa_ID,
-    "icliente_ID"=>$this->cliente_ID,
-    "icliente_contacto_ID"=>$this->cliente_contacto_ID,
-    "ioperador_ID"=>$this->operador_ID,
-    "iperiodo"=>$this->periodo,
-    "inumero"=>$this->numero,
-    "inumero_concatenado"=>$this->numero_concatenado,
-    "imoneda_ID"=>$this->moneda_ID,
-    "ifecha"=> FormatTextToDate($this->fecha,"Y-m-d"),
-    "iigv"=>$this->igv,
-    "ivigv_soles"=>$this->vigv_soles,
-    "ivigv_dolares"=>$this->vigv_dolares,
-    "iprecio_venta_neto_soles"=>$this->precio_venta_neto_soles,
-    "iprecio_venta_total_soles"=>$this->precio_venta_total_soles,
-    "iprecio_venta_neto_dolares"=>$this->precio_venta_neto_dolares,
-    "iprecio_venta_total_dolares"=>$this->precio_venta_total_dolares,
-    "iforma_pago_ID"=>$this->forma_pago_ID,
-    "itiempo_credito"=>$this->tiempo_credito,
-    "itardanza"=>$this->tardanza,
-    "iplazo_entrega"=>$this->plazo_entrega,
-    "iestado_ID"=>$this->estado_ID,
-    "itipo_cambio"=>$this->tipo_cambio,
-    "ilugar_entrega"=>$this->lugar_entrega,
-    "ivalidez_oferta"=>$this->validez_oferta,
-    "igarantia"=>$this->garantia,
-    "iobservacion"=>$this->observacion,
-    "iarea_texto"=>$this->area_texto,
-    "inumero_pagina"=>$this->numero_pagina,
-    "iproducto_pagina"=>$this->producto_pagina,
-    "iusuario_mod_id"=>$this->usuario_mod_id
-),0);
+                "retornar"=>$retornar,
+                "iID"=>$this->ID,
+                "iempresa_ID"=>$this->empresa_ID,
+                "icliente_ID"=>$this->cliente_ID,
+                "icliente_contacto_ID"=>$this->cliente_contacto_ID,
+                "ioperador_ID"=>$this->operador_ID,
+                "iperiodo"=>$this->periodo,
+                "inumero"=>$this->numero,
+                "inumero_concatenado"=>$this->numero_concatenado,
+                "imoneda_ID"=>$this->moneda_ID,
+                "ifecha"=> FormatTextToDate($this->fecha,"Y-m-d"),
+                "iigv"=>$this->igv,
+                "ivigv_soles"=>$this->vigv_soles,
+                "ivigv_dolares"=>$this->vigv_dolares,
+                "iprecio_venta_neto_soles"=>$this->precio_venta_neto_soles,
+                "iprecio_venta_total_soles"=>$this->precio_venta_total_soles,
+                "iprecio_venta_neto_dolares"=>$this->precio_venta_neto_dolares,
+                "iprecio_venta_total_dolares"=>$this->precio_venta_total_dolares,
+                "iforma_pago_ID"=>$this->forma_pago_ID,
+                "itiempo_credito"=>$this->tiempo_credito,
+                "itardanza"=>$this->tardanza,
+                "iplazo_entrega"=>$this->plazo_entrega,
+                "iestado_ID"=>$this->estado_ID,
+                "itipo_cambio"=>$this->tipo_cambio,
+                "ilugar_entrega"=>$this->lugar_entrega,
+                "ivalidez_oferta"=>$this->validez_oferta,
+                "igarantia"=>$this->garantia,
+                "iobservacion"=>$this->observacion,
+                "iarea_texto"=>$this->area_texto,
+                "inumero_pagina"=>$this->numero_pagina,
+                "iproducto_pagina"=>$this->producto_pagina,
+                "imostrar_precio_unitario"=>$this->mostrar_precio_unitario,
+                "iusuario_mod_id"=>$this->usuario_mod_id
+            ),0);
       if($retornar>0){
           $this->getMessage="Se actualizó correctamente";
       }
@@ -402,6 +407,7 @@ class cotizacion {
       $ocotizacion->area_texto=$item["area_texto"];
       $ocotizacion->numero_pagina=$item["numero_pagina"];
       $ocotizacion->producto_pagina=$item["producto_pagina"];
+      $ocotizacion->mostrar_precio_unitario=$item["mostrar_precio_unitario"];
       $ocotizacion->usuario_id=$item["usuario_id"];
       $ocotizacion->usuario_mod_id=$item["usuario_mod_id"];
 
@@ -477,7 +483,7 @@ class cotizacion {
       $cn =new connect_new();
       $numero=0;
         try{
-            $q='select ifnull(max(numero),0) +1 as numero from cotizacion where empresa_ID='.$_SESSION['empresa_ID'];
+            $q='select ifnull(max(numero),0) +1 as numero from cotizacion where empresa_ID='.$_GET['empresa_ID'];
             $numero=$cn->getData($q);
             //echo $q;
             return $numero;

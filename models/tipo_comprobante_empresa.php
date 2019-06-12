@@ -170,7 +170,7 @@ class tipo_comprobante_empresa {
     $retornar =0;
     try
     {
-        $filtro="empresa_ID=".$_SESSION['empresa_ID'].(($filtro<>"")?" and ":"").$filtro;
+        $filtro="empresa_ID=".$_GET['empresa_ID'].(($filtro<>"")?" and ":"").$filtro;
         $dt=$cn->store_procedure_getGrid(
           "sp_tipo_comprobante_empresa_getGrid",
             array(

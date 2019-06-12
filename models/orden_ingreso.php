@@ -50,7 +50,7 @@ class orden_ingreso {
     }
     function __construct()
     {
-        $this->empresa_ID=$_SESSION["empresa_ID"];
+        $this->empresa_ID=$_GET['empresa_ID'];
         $this->numero_orden=0;
         $this->fecha=NULL;
         $this->proveedor_ID=0;
@@ -137,11 +137,11 @@ class orden_ingreso {
             $q = 'select ifnull(max(ID),0)+1 as ID from orden_ingreso;';
              $cn = new connect_new();
             $ID = $cn->getData($q);
-            $q = 'select ifnull(max(numero_orden),0)+1 as ID from orden_ingreso where  tipo_orden_ID='.$this->tipo_orden_ID.' and empresa_ID='.$_SESSION['empresa_ID'].';';
+            $q = 'select ifnull(max(numero_orden),0)+1 as ID from orden_ingreso where  tipo_orden_ID='.$this->tipo_orden_ID.' and empresa_ID='.$_GET['empresa_ID'].';';
             $cn = new connect_new();
             $numero_orden=$cn->getData($q);
             $q = 'INSERT INTO orden_ingreso(ID,empresa_ID,tipo_orden_ID,numero_orden,fecha,proveedor_ID,moneda_ID,estado_ID,tipo_cambio,vigv,subtotal,igv,total,comentario,usuario_id)';
-            $q.='values (' . $ID .','.$_SESSION["empresa_ID"].','.$this->tipo_orden_ID.',' . $numero_orden . ',' . $fecha_save . ',' . $this->proveedor_ID . ',' . $this->moneda_ID . ',' . $this->estado_ID . ',"' . number_format($this->tipo_cambio, 2, '.', '') . '","' . number_format($this->vigv, 2, '.', '') . '","' . number_format($this->subtotal, 2, '.', '') . '",' . number_format($this->igv, 2, '.', '') . ',' . number_format($this->total, 2, '.', '') .',"'.$this->comentario.'",' . $this->usuario_id . ')';
+            $q.='values (' . $ID .','.$_GET['empresa_ID'].','.$this->tipo_orden_ID.',' . $numero_orden . ',' . $fecha_save . ',' . $this->proveedor_ID . ',' . $this->moneda_ID . ',' . $this->estado_ID . ',"' . number_format($this->tipo_cambio, 2, '.', '') . '","' . number_format($this->vigv, 2, '.', '') . '","' . number_format($this->subtotal, 2, '.', '') . '",' . number_format($this->igv, 2, '.', '') . ',' . number_format($this->total, 2, '.', '') .',"'.$this->comentario.'",' . $this->usuario_id . ')';
             $cn = new connect_new();
 			$retornar = $cn->transa($q);
             //echo $q;
@@ -252,7 +252,7 @@ class orden_ingreso {
         try {
             $q = 'SELECT  count(oc.ID)';
             $q.=' FROM orden_ingreso oc,proveedor prv,estado es,moneda mo ';
-            $q.=' where oc.empresa_ID='.$_SESSION["empresa_ID"].' and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID';
+            $q.=' where oc.empresa_ID='.$_GET['empresa_ID'].' and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID';
             if ($filtro != '') {
                 $q.=' and ' . $filtro;
             }
@@ -310,7 +310,7 @@ class orden_ingreso {
             $q.= ', oc.usuario_mod_id,oc.estado_ID';
             $q.=',mo.simbolo';
             $q.=' FROM orden_ingreso oc, proveedor prv, estado es, moneda mo ';
-            $q.=' where oc.empresa_ID='.$_SESSION["empresa_ID"].' and  oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID';
+            $q.=' where oc.empresa_ID='.$_GET['empresa_ID'].' and  oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID';
 
 
             if ($filtro != '') {
@@ -346,7 +346,7 @@ class orden_ingreso {
     {
         $cn =new connect_new();
         $retornar =0;
-        $filtro="oc.empresa_ID=".$_SESSION['empresa_ID'].(($filtro!="")?(" and ".$filtro):"");
+        $filtro="oc.empresa_ID=".$_GET['empresa_ID'].(($filtro!="")?(" and ".$filtro):"");
         
         try
         {

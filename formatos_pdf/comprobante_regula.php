@@ -118,7 +118,7 @@ class PDF2 extends FPDF
     }
     function cabecera_header(){
         require ROOT_PATH . 'include/lib_fecha_texto.php';
-        $this->Image("files/imagenes/logo_comprobantes/".$_SESSION['empresa_ID'].".jpg", 10 ,8, 70, 20, "JPG" );
+        $this->Image("files/imagenes/logo_comprobantes/".$_GET['empresa_ID'].".jpg", 10 ,8, 70, 20, "JPG" );
         $this->SetFont('Arial','',8);
         $this->SetTextColor(0);
         $this->SetXY(10,18);

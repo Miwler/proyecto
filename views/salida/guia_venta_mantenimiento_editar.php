@@ -39,10 +39,12 @@
                         Guardar
                 </button>
                 <?php if ($GLOBALS['oGuia_Venta']->ID >0) { ?>
+                <?php if($GLOBALS['oGuia_Venta']->estado_ID<>98){?>
                 <button  id="btnEnviarSUNAT" name="btnEnviarSUNAT" type="button" class="btn btn-lilac" onclick="fncEnviarGuiaSUNAT();" title="Descargar PDF" >
                     <i class="fa fa-check"></i>
                     Enviar SUNAT
                 </button> 
+                <?php } ?>
                 <button  id="btnDescargar" name="btnDescargar" type="button" class="btn btn-danger" onclick="descargar();" title="Descargar PDF" >
                     <span class="glyphicon glyphicon-cloud-download"></span>
                     PDF

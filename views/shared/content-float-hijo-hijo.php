@@ -39,7 +39,23 @@
         <script type="text/javascript" src="include/js/jModal.js"></script>
        <link href="../../include/css/toastem.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" >		
-        var fParent2= parent.fParent2;   		
+        var fParent2= parent.fParent2;   
+        function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            $(document).ready(function(){
+                $("form").each(function(){
+                    var metodo=$(this).attr("method");
+                    var action=$.trim($(this).attr("action"));
+                    if(metodo.toUpperCase()=='POST'&&action!=""){
+                        var url_enviar_post=action+'?empresa_ID='+getParameterByName('empresa_ID');
+                        $(this).prop('action',url_enviar_post);
+                    }
+                });
+            });
 	</script>
 	<?php  fncHead();	?>
 </head>

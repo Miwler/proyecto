@@ -134,7 +134,7 @@ class impuestos_tipo {
         $cn = new connect_new();
         try {
             $dt=$cn->store_procedure_getGrid("sp_impuestos_tipo_getMontoImpuesto", 
-                    array("iempresa_ID"=>$_SESSION['empresa_ID'],
+                    array("iempresa_ID"=>$_GET['empresa_ID'],
                         "imoneda_ID"=>$moneda_ID,
                         "itipo_cambio"=>$tipo_cambio,
                         "impuestos_tipo_ID"=>$impuesto_tipo_ID,

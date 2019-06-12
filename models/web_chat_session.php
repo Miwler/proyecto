@@ -222,7 +222,7 @@ class web_chat_session {
       $dt=$cn->store_procedure_getGrid(
           "sp_web_chat_session_getTabla",
             array(
-              "iempresa_ID"=>$_SESSION['empresa_ID']));
+              "iempresa_ID"=>$_GET['empresa_ID']));
       return $dt;
     }catch(Exeption $ex)
     {

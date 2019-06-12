@@ -21,7 +21,7 @@ class PDF2 extends FPDF
     public $electronico;
     public $font_size=5;
     public $subtitle_size=8;
-   
+    public $array_motivo;
     public $hash="";
             function Row($data,$altura)
     {
@@ -233,6 +233,7 @@ class PDF2 extends FPDF
        $this->SetFont('Arial','',7);
        $this->Ln();
        $this->Ln(1);
+       $y=$this->GetY();
        $this->SetTextColor(0);
        $this->Cell(80,5,'TRANSPORTISTA:',1,0,'C',true);
        $this->Ln();
@@ -250,6 +251,37 @@ class PDF2 extends FPDF
        $this->SetXY(10,243);
        $this->Cell(30,5,'R.U.C./D.N.I.:',0,0,'L',false);
        $this->Rect(10,235,80,15);
+       $x=95;
+       $x1=129;
+       $this->SetXY($x,$y);
+       $this->Cell(115,5,'MOTIVO DEL TRASLADO:',1,0,'C',true);
+       $this->Ln();
+       $this->SetFont('Arial','',6);
+       $i=0;
+       
+       $y1=$this->GetY();
+       $bloque=1;
+       foreach($this->array_motivo as $motivo){
+           if($motivo['bloque']==1){
+                $this->SetX($x);
+                $this->Cell(27,5,$motivo['nombre'],0,0,'L');
+                $this->Cell(4,4,($motivo['ID']==$this->cabecera[0]["motivo_traslado_ID"]?"X":""),1,0,'C');
+                $this->Ln();
+                
+           }else{
+                if($i==0){
+                     $this->SetY($y1);
+                }
+                $this->SetX($x1);
+                $this->Cell(75,5,$motivo['nombre'],0,0,'L');
+                $this->Cell(4,4,($motivo['ID']==$this->cabecera[0]["motivo_traslado_ID"]?"X":""),1,0,'C');
+                $this->Ln();
+                $i++;
+           }  
+       }
+       $y2=$this->GetY();
+       $this->Rect($x,$y1,115,($y2-$y1));
+       $array_opcion=array('Venta','VENTA SUJETA A CONFIRMACION DEL COMPRADOR','Compra');
        
        
       

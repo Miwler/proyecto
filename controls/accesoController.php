@@ -2,7 +2,7 @@
 	function get_Login($id){
 		global $returnView;
 		$returnView=true;	
-               $GLOBALS['dtEmpresa_Usuario']="deedededededed";
+               //$GLOBALS['dtEmpresa_Usuario']="deedededededed";
 	}
 	
 	function post_Login(){
@@ -24,6 +24,7 @@
                         $oUsuario=usuario::validar($nombre,$contrasena);
                         
                         if($oUsuario){
+                            
                                 $resultado=1;	
                                 $_SESSION['user-autentication']=true;
                                 $_SESSION['usuario_ID']=$oUsuario->ID;

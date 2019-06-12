@@ -1,729 +1,621 @@
 ============================ERROR====================================
-FECHA Y HORA: 11 04 2019 23:04:37
+FECHA Y HORA: 03 06 2019 18:06:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_transa
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'precio_venta_unitario_soles' in 'field list'
+SET @_retornar = '0';
+SET @_isalida_detalle_ID = '3946';
+SET @_iproducto_ID_old = '2449';
+SET @_iusuario_id = '0';
+SET @_iempresa_ID = '2';
+CALL `sp_inventario_Update_Salida_Detalle`( @_retornar, @_isalida_detalle_ID, @_iproducto_ID_old, @_iusuario_id, @_iempresa_ID)SELECT @_retornar AS retornar
+============================ERROR====================================
+FECHA Y HORA: 03 06 2019 18:06:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.post_Orden_Venta_Mantenimiento_Producto_Editar
+ERROR: Error en la bd
+============================ERROR====================================
+FECHA Y HORA: 03 06 2019 20:06:22
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '"F001",148,"000148","2019-04-11","2019-04-11",90,2,600,108,708,0,2,6,0,0,0,0,600' at line 1INSERT INTO comprobante_regula (ID,documento_relacionado_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,tipo_cambio,usuario_id) VALUES (57,1728,199,,"F001",148,"000148","2019-04-11","2019-04-11",90,2,600,108,708,0,2,6,0,0,0,0,600,0,0,0,0,"erre",3.35,0);
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1insert into salida_numero_cuenta(ID,salida_ID,numero_cuenta_ID,usuario_id)values(2168,1879,1,);
 ============================ERROR====================================
-FECHA Y HORA: 11 04 2019 23:04:37
+FECHA Y HORA: 03 06 2019 20:06:22
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_Nota_Credito_Mantenimiento_Nuevo
-ERROR: INSERT INTO comprobante_regula (ID,documento_relacionado_ID,cliente_ID,tipo_ID,serie,numero,numero_concatenado,fecha_emision,fecha_vencimiento,estado_ID,moneda_ID,monto_total_neto,monto_total_igv,monto_total,monto_pendiente,empresa_ID,correlativos_ID,porcentaje_descuento,anticipo,exoneradas,inafectas,gravadas,gratuitas,otros_cargos,descuento_global,monto_detraccion,observacion,tipo_cambio,usuario_id) VALUES (57,1728,199,,"F001",148,"000148","2019-04-11","2019-04-11",90,2,600,108,708,0,2,6,0,0,0,0,600,0,0,0,0,"erre",3.35,0);
+METODO: salida/post_ajaxExtraerGuia
+ERROR: Ocurrio un error en la consulta
 ============================ERROR====================================
-FECHA Y HORA: 16 04 2019 17:04:08
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 17:04:09
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 17:04:12
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 17:04:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 17:04:16
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 17:04:17
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:35
+FECHA Y HORA: 03 06 2019 20:06:59
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:06
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
-SET @_isalida_ID = '1855';
-SET @_iserie = 'T001';
-SET @_inumero = '0000126';
-SET @_ifecha_emision = '16/04/2019';
-SET @_inumero_orden_venta = '0001847-2019';
-SET @_inumero_orden_compra = '';
-SET @_iver_descripcion = '0';
-SET @_iver_componente = '0';
-SET @_iver_adicional = '0';
-SET @_iver_serie = '0';
-SET @_iincluir_obsequios = '1';
-SET @_ifecha_inicio_traslado = '16/04/2019';
-SET @_distrito_ID_partida = '1303';
-SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
-SET @_distrito_ID_llegada = '1261';
-SET @_punto_llegada = '';
-SET @_motivo_traslado_ID = '1';
-SET @_descripcion_motivo = '';
-SET @_modalidad_traslado_ID = '2';
-SET @_ivehiculo_ID = '6';
-SET @_ichofer_ID = '34';
-SET @_ruc_empresa_transporte = '';
-SET @_empresa_transporte = '';
-SET @_placa_vehiculo = '';
-SET @_documento_conductor = '';
-SET @_ielectronico = '1';
-SET @_ipeso_bruto_total = '2';
-SET @_opcion = 'cabecera';
-CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:06
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getVista_Previa
-ERROR: Ocurrio un Error en la consulta
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:27
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
-SET @_isalida_ID = '1855';
-SET @_iserie = 'T001';
-SET @_inumero = '0000126';
-SET @_ifecha_emision = '16/04/2019';
-SET @_inumero_orden_venta = '0001847-2019';
-SET @_inumero_orden_compra = '';
-SET @_iver_descripcion = '0';
-SET @_iver_componente = '0';
-SET @_iver_adicional = '0';
-SET @_iver_serie = '0';
-SET @_iincluir_obsequios = '1';
-SET @_ifecha_inicio_traslado = '16/04/2019';
-SET @_distrito_ID_partida = '1303';
-SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
-SET @_distrito_ID_llegada = '1261';
-SET @_punto_llegada = '';
-SET @_motivo_traslado_ID = '1';
-SET @_descripcion_motivo = '';
-SET @_modalidad_traslado_ID = '2';
-SET @_ivehiculo_ID = '6';
-SET @_ichofer_ID = '34';
-SET @_ruc_empresa_transporte = '';
-SET @_empresa_transporte = '';
-SET @_placa_vehiculo = '';
-SET @_documento_conductor = '';
-SET @_ielectronico = '1';
-SET @_ipeso_bruto_total = '2';
-SET @_opcion = 'cabecera';
-CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:27
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getVista_Previa
-ERROR: Ocurrio un Error en la consulta
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:36
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
-SET @_isalida_ID = '1855';
-SET @_iserie = 'T001';
-SET @_inumero = '0000126';
-SET @_ifecha_emision = '16/04/2019';
-SET @_inumero_orden_venta = '0001847-2019';
-SET @_inumero_orden_compra = '';
-SET @_iver_descripcion = '0';
-SET @_iver_componente = '0';
-SET @_iver_adicional = '0';
-SET @_iver_serie = '0';
-SET @_iincluir_obsequios = '1';
-SET @_ifecha_inicio_traslado = '16/04/2019';
-SET @_distrito_ID_partida = '1303';
-SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
-SET @_distrito_ID_llegada = '1261';
-SET @_punto_llegada = '';
-SET @_motivo_traslado_ID = '1';
-SET @_descripcion_motivo = '';
-SET @_modalidad_traslado_ID = '2';
-SET @_ivehiculo_ID = '6';
-SET @_ichofer_ID = '34';
-SET @_ruc_empresa_transporte = '';
-SET @_empresa_transporte = '';
-SET @_placa_vehiculo = '';
-SET @_documento_conductor = '';
-SET @_ielectronico = '1';
-SET @_ipeso_bruto_total = '2';
-SET @_opcion = 'cabecera';
-CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:36
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getVista_Previa
-ERROR: Ocurrio un Error en la consulta
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:12
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
-SET @_isalida_ID = '1855';
-SET @_iserie = 'T001';
-SET @_inumero = '0000126';
-SET @_ifecha_emision = '16/04/2019';
-SET @_inumero_orden_venta = '0001847-2019';
-SET @_inumero_orden_compra = '';
-SET @_iver_descripcion = '0';
-SET @_iver_componente = '0';
-SET @_iver_adicional = '0';
-SET @_iver_serie = '0';
-SET @_iincluir_obsequios = '1';
-SET @_ifecha_inicio_traslado = '16/04/2019';
-SET @_distrito_ID_partida = '1303';
-SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
-SET @_distrito_ID_llegada = '1261';
-SET @_punto_llegada = '';
-SET @_motivo_traslado_ID = '1';
-SET @_descripcion_motivo = '';
-SET @_modalidad_traslado_ID = '2';
-SET @_ivehiculo_ID = '6';
-SET @_ichofer_ID = '34';
-SET @_ruc_empresa_transporte = '';
-SET @_empresa_transporte = '';
-SET @_placa_vehiculo = '';
-SET @_documento_conductor = '';
-SET @_ielectronico = '1';
-SET @_ipeso_bruto_total = '2';
-SET @_opcion = 'cabecera';
-CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:12
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getVista_Previa
-ERROR: Ocurrio un Error en la consulta
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:30
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cl.operador_ID' in 'on clause'
-SET @_isalida_ID = '1855';
-SET @_iserie = 'T001';
-SET @_inumero = '0000126';
-SET @_ifecha_emision = '16/04/2019';
-SET @_inumero_orden_venta = '0001847-2019';
-SET @_inumero_orden_compra = '';
-SET @_iver_descripcion = '0';
-SET @_iver_componente = '0';
-SET @_iver_adicional = '0';
-SET @_iver_serie = '0';
-SET @_iincluir_obsequios = '1';
-SET @_ifecha_inicio_traslado = '16/04/2019';
-SET @_distrito_ID_partida = '1303';
-SET @_punto_partida = 'Calle San SimÃ³n 121 Urb. San Diego - SMP';
-SET @_distrito_ID_llegada = '1261';
-SET @_punto_llegada = '';
-SET @_motivo_traslado_ID = '1';
-SET @_descripcion_motivo = '';
-SET @_modalidad_traslado_ID = '2';
-SET @_ivehiculo_ID = '6';
-SET @_ichofer_ID = '34';
-SET @_ruc_empresa_transporte = '';
-SET @_empresa_transporte = '';
-SET @_placa_vehiculo = '';
-SET @_documento_conductor = '';
-SET @_ielectronico = '1';
-SET @_ipeso_bruto_total = '2';
-SET @_opcion = 'cabecera';
-CALL `sp_guia_venta_getVistaPrevia`( @_isalida_ID, @_iserie, @_inumero, @_ifecha_emision, @_inumero_orden_venta, @_inumero_orden_compra, @_iver_descripcion, @_iver_componente, @_iver_adicional, @_iver_serie, @_iincluir_obsequios, @_ifecha_inicio_traslado, @_distrito_ID_partida, @_punto_partida, @_distrito_ID_llegada, @_punto_llegada, @_motivo_traslado_ID, @_descripcion_motivo, @_modalidad_traslado_ID, @_ivehiculo_ID, @_ichofer_ID, @_ruc_empresa_transporte, @_empresa_transporte, @_placa_vehiculo, @_documento_conductor, @_ielectronico, @_ipeso_bruto_total, @_opcion)
-============================ERROR====================================
-FECHA Y HORA: 16 04 2019 22:04:30
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\guia_venta.php
-METODO: guia_venta.getVista_Previa
-ERROR: Ocurrio un Error en la consulta
-============================ERROR====================================
-FECHA Y HORA: 17 04 2019 20:04:11
+FECHA Y HORA: 03 06 2019 20:06:03
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_desarrollo.tabla_moviminto' doesn't exist
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 17 04 2019 20:04:20
+FECHA Y HORA: 04 06 2019 01:06:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcÃ³ la opciÃ³n con guÃ­a.
+============================ERROR====================================
+FECHA Y HORA: 04 06 2019 01:06:27
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_desarrollo.tabla_moviminto' doesn't exist
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and fv.estado_ID=94 Order By fv.fecha_emision asc' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 22 04 2019 23:04:16
+FECHA Y HORA: 04 06 2019 01:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Orden_Venta_Electronico_Mantenimiento_Guia_Nuevo
+ERROR: No ha generado la factura o no marcÃ³ la opciÃ³n con guÃ­a.
+============================ERROR====================================
+FECHA Y HORA: 04 06 2019 01:06:32
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGridParse
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_factura_venta_getTabla; expected 11, got 10
-SET @_opcion= 'filtrar';
-SET @_empresa_ID= '2';
-SET @_cliente_ID= '0';
-SET @_periodo= '2019';
-SET @_fecha_inicio= '2019-04-22';
-SET @_fecha_fin= '2019-04-22';
-SET @_estado_ID= '0';
-SET @_moneda_ID= '0';
-SET @_periodo2= '2019';
-SET @_inumero_factura= '0';
-CALL `sp_factura_venta_getTabla`( @_opcion, @_empresa_ID, @_cliente_ID, @_periodo, @_fecha_inicio, @_fecha_fin, @_estado_ID, @_moneda_ID, @_periodo2, @_inumero_factura);
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and fv.estado_ID=94 Order By fv.fecha_emision asc' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 22 04 2019 23:04:16
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\factura_venta.php
+FECHA Y HORA: 04 06 2019 23:06:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tb.numero' in 'order clause'
+SET @_iempresa_ID = '2';
+CALL `sp_salida_getReporte`( @_iempresa_ID)
+============================ERROR====================================
+FECHA Y HORA: 04 06 2019 23:06:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\salida.php
 METODO: salida.getTabla
 ERROR: Ocurrio un Error en la consulta
 ============================ERROR====================================
-FECHA Y HORA: 22 04 2019 23:04:16
+FECHA Y HORA: 04 06 2019 23:06:09
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_ajaxOrden_Venta_Electronico_Mantenimiento
+METODO: saldia/post_ajaxOrden_Venta_Mantenimiento_Asignar
 ERROR: OcurriÃ³ un error en el sistema
 ============================ERROR====================================
-FECHA Y HORA: 23 04 2019 00:04:29
+FECHA Y HORA: 04 06 2019 23:06:43
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGridParse
-ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'bd_desarrollo.guia_veta' doesn't exist
-SET @_opcion= 'filtrar';
-SET @_empresa_ID= '2';
-SET @_cliente_ID= '0';
-SET @_periodo= '2019';
-SET @_fecha_inicio= '2019-04-23';
-SET @_fecha_fin= '2019-04-23';
-SET @_estado_ID= '0';
-SET @_moneda_ID= '0';
-SET @_periodo2= '2019';
-SET @_inumero_factura= '0';
-CALL `sp_factura_venta_getTabla`( @_opcion, @_empresa_ID, @_cliente_ID, @_periodo, @_fecha_inicio, @_fecha_fin, @_estado_ID, @_moneda_ID, @_periodo2, @_inumero_factura);
+METODO: connect_new.store_procedure_getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tb.numero' in 'order clause'
+SET @_iempresa_ID = '2';
+CALL `sp_salida_getReporte`( @_iempresa_ID)
 ============================ERROR====================================
-FECHA Y HORA: 23 04 2019 00:04:29
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\factura_venta.php
+FECHA Y HORA: 04 06 2019 23:06:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\salida.php
 METODO: salida.getTabla
 ERROR: Ocurrio un Error en la consulta
 ============================ERROR====================================
-FECHA Y HORA: 23 04 2019 00:04:29
+FECHA Y HORA: 04 06 2019 23:06:43
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController.post_ajaxOrden_Venta_Electronico_Mantenimiento
+METODO: saldia/post_ajaxOrden_Venta_Mantenimiento_Asignar
 ERROR: OcurriÃ³ un error en el sistema
 ============================ERROR====================================
-FECHA Y HORA: 23 04 2019 19:04:57
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 23 04 2019 19:04:59
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 30 04 2019 22:04:30
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 30 04 2019 22:04:34
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 30 04 2019 22:04:25
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 30 04 2019 22:04:27
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:50
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:58
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:20
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:25
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:28
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:35
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:52
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:06
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 00:05:17
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getData
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and clt.ruc=''' at line 1
-============================ERROR====================================
-FECHA Y HORA: 07 05 2019 21:05:46
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_cliente_getByID does not exist
-SET @_iID = '746';
-CALL `sp_cliente_getByID`( @_iID)
-============================ERROR====================================
-FECHA Y HORA: 09 05 2019 21:05:38
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
-SET @_iempresa_ID = '';
-CALL `sp_producto_getGrid`( @_iempresa_ID)
-============================ERROR====================================
-FECHA Y HORA: 09 05 2019 21:05:30
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
-SET @_iempresa_ID = '2';
-CALL `sp_producto_getGrid`( @_iempresa_ID)
-============================ERROR====================================
-FECHA Y HORA: 09 05 2019 21:05:52
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
-SET @_iempresa_ID = '2';
-CALL `sp_producto_getGrid`( @_iempresa_ID)
-============================ERROR====================================
-FECHA Y HORA: 09 05 2019 21:05:25
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1318 Incorrect number of arguments for PROCEDURE bd_desarrollo.sp_producto_getGrid; expected 4, got 1
-SET @_iempresa_ID = '2';
-CALL `sp_producto_getGrid`( @_iempresa_ID)
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:16
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:39
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:13
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:34
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:55
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:16
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:37
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:58
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:06
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:35
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 13 05 2019 22:05:56
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.
-
-============================ERROR====================================
-FECHA Y HORA: 17 05 2019 21:05:43
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 17 05 2019 21:05:44
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
-============================ERROR====================================
-FECHA Y HORA: 18 05 2019 01:05:33
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_web_chat_session_Update does not exist
-SET @_retornar = '0';
-SET @_iID = '1';
-SET @_iempresa_ID = '2';
-SET @_inombre_visitante = 'miwler';
-SET @_iemail_visitante = 'miwler0081@gmail.com';
-SET @_iusuario_remitente_ID = '-1';
-SET @_iusuario_receptor_ID = '0';
-SET @_ifecha = '2019-04-25 00:00:00';
-SET @_isession = '19688242845cc28353e1a8d0.24525636';
-SET @_iestado_ID = '66';
-SET @_iusuario_mod_id = '0';
-SET @_idescripcion = 'Chat principal';
-CALL `sp_web_chat_session_Update`( @_retornar, @_iID, @_iempresa_ID, @_inombre_visitante, @_iemail_visitante, @_iusuario_remitente_ID, @_iusuario_receptor_ID, @_ifecha, @_isession, @_iestado_ID, @_iusuario_mod_id, @_idescripcion)SELECT @_retornar AS retornar
-============================ERROR====================================
-FECHA Y HORA: 18 05 2019 01:05:52
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_web_chat_session_Update does not exist
-SET @_retornar = '0';
-SET @_iID = '1';
-SET @_iempresa_ID = '2';
-SET @_inombre_visitante = 'miwler';
-SET @_iemail_visitante = 'miwler0081@gmail.com';
-SET @_iusuario_remitente_ID = '-1';
-SET @_iusuario_receptor_ID = '0';
-SET @_ifecha = '2019-04-25 00:00:00';
-SET @_isession = '19688242845cc28353e1a8d0.24525636';
-SET @_iestado_ID = '66';
-SET @_iusuario_mod_id = '0';
-SET @_idescripcion = 'Chat principal';
-CALL `sp_web_chat_session_Update`( @_retornar, @_iID, @_iempresa_ID, @_inombre_visitante, @_iemail_visitante, @_iusuario_remitente_ID, @_iusuario_receptor_ID, @_ifecha, @_isession, @_iestado_ID, @_iusuario_mod_id, @_idescripcion)SELECT @_retornar AS retornar
-============================ERROR====================================
-FECHA Y HORA: 18 05 2019 01:05:25
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1305 PROCEDURE bd_desarrollo.sp_web_chat_session_Update does not exist
-SET @_retornar = '0';
-SET @_iID = '1';
-SET @_iempresa_ID = '2';
-SET @_inombre_visitante = 'miwler';
-SET @_iemail_visitante = 'miwler0081@gmail.com';
-SET @_iusuario_remitente_ID = '-1';
-SET @_iusuario_receptor_ID = '0';
-SET @_ifecha = '2019-04-25 00:00:00';
-SET @_isession = '19688242845cc28353e1a8d0.24525636';
-SET @_iestado_ID = '66';
-SET @_iusuario_mod_id = '0';
-SET @_idescripcion = 'Chat principal';
-CALL `sp_web_chat_session_Update`( @_retornar, @_iID, @_iempresa_ID, @_inombre_visitante, @_iemail_visitante, @_iusuario_remitente_ID, @_iusuario_receptor_ID, @_ifecha, @_isession, @_iestado_ID, @_iusuario_mod_id, @_idescripcion)SELECT @_retornar AS retornar
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:21
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '2';
-SET @_iruta = '/home/main/2';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:35
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '2';
-SET @_iruta = '/home/main/2';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:39
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '2';
-SET @_iruta = '/home/main/2';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:54
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '1';
-SET @_iruta = '/home/main/1';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:56
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '23';
-SET @_iruta = '/home/main/23';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:56
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '23';
-SET @_iruta = '/files/imagenes/logo/23.jpg';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:14
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '23';
-SET @_iruta = '/home/main/23';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:14
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '23';
-SET @_iruta = '/files/imagenes/logo/23.jpg';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 19 05 2019 22:05:41
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getData
-ERROR: SQLSTATE[HY000]: General error: 1267 Illegal mix of collations (utf8_general_ci,IMPLICIT) and (utf32_general_ci,IMPLICIT) for operation 'like'SET @_iusuario_ID = '0';
-SET @_iempresa_ID = '2';
-SET @_iruta = '/home/main/2';
-CALL `getMenu`( @_iusuario_ID, @_iempresa_ID, @_iruta)
-============================ERROR====================================
-FECHA Y HORA: 20 05 2019 22:05:11
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=13922' at line 1update cotizacion_detalle set producto_ID=330,cotizacion_ID=5192,descripcion="MEM KING 2GB 1333 CL9 RANK X16 
-
-Memoria Kingston KVR13N9S6/2, 2GB, DDR3, 1333MHz, CL9.",cantidad=2,precio_venta_unitario_soles=10084.74600,precio_venta_subtotal_soles=20169.49,precio_venta_subtotal_dolares=5932.20,precio_venta_unitario_dolares=2966.10200,igv=0.18,vigv_soles=3630.51,vigv_dolares=1067.80,precio_venta_soles=23800.00,precio_venta_dolares=7000.00,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=13922
-============================ERROR====================================
-FECHA Y HORA: 20 05 2019 22:05:27
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=13927' at line 1update cotizacion_detalle set producto_ID=79,cotizacion_ID=5195,descripcion="DISCO DURO 1TB SATA3 7200 WESTERN DIGITAL MOD WD10EZEX, 64M BLUE",cantidad=1,precio_venta_unitario_soles=7284.83100,precio_venta_subtotal_soles=7284.83,precio_venta_subtotal_dolares=2174.58,precio_venta_unitario_dolares=2174.57600,igv=0.18,vigv_soles=1311.27,vigv_dolares=391.42,precio_venta_soles=8596.10,precio_venta_dolares=2566.00,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=13927
-============================ERROR====================================
-FECHA Y HORA: 20 05 2019 22:05:36
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=15819' at line 1update cotizacion_detalle set producto_ID=4907,cotizacion_ID=6107,descripcion="Regulador de voltaje , 1000VA / 600W,",cantidad=4,precio_venta_unitario_soles=45.00000,precio_venta_subtotal_soles=180.00,precio_venta_subtotal_dolares=54.56,precio_venta_unitario_dolares=13.64000,igv=0.18,vigv_soles=32.40,vigv_dolares=9.82,precio_venta_soles=212.40,precio_venta_dolares=64.38,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15819
-============================ERROR====================================
-FECHA Y HORA: 20 05 2019 22:05:15
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0)' at line 1insert into cotizacion_detalle (ID,producto_ID,cotizacion_ID,descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,incluye_igv,usuario_id) values(15824,2091,6109,"021-05429 OFFICESTD SNGL LICSAPK OLP NL",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,,0)
-============================ERROR====================================
-FECHA Y HORA: 20 05 2019 22:05:25
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0)' at line 1insert into cotizacion_detalle (ID,producto_ID,cotizacion_ID,descripcion,cantidad,precio_venta_unitario_soles,precio_venta_unitario_dolares,precio_venta_subtotal_soles,precio_venta_subtotal_dolares,precio_venta_soles,precio_venta_dolares,igv,vigv_soles,vigv_dolares,cotizacion_detalle_ID,estado_id,ver_precio,separacion,tiempo_separacion,cantidad_separada,tipo,tipo_ID,incluye_igv,usuario_id) values(15824,2091,6109,"021-05429 OFFICESTD SNGL LICSAPK OLP NL",2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,,0)
-============================ERROR====================================
-FECHA Y HORA: 21 05 2019 00:05:01
+FECHA Y HORA: 05 06 2019 19:06:40
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'inv.fdc' in 'where clause'
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
 ============================ERROR====================================
-FECHA Y HORA: 21 05 2019 00:05:09
+FECHA Y HORA: 05 06 2019 19:06:40
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'inv.fdc' in 'where clause'
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
 ============================ERROR====================================
-FECHA Y HORA: 21 05 2019 00:05:45
+FECHA Y HORA: 05 06 2019 19:06:41
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
-ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'inv.fdc' in 'where clause'
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
 ============================ERROR====================================
-FECHA Y HORA: 22 05 2019 21:05:40
+FECHA Y HORA: 05 06 2019 19:06:42
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.store_procedure_getGrid
-ERROR: SQLSTATE[42S02]: Base table or view not found: 1109 Unknown table 'me' in field list
-SET @_imodulo_ID = '9';
-SET @_iusuario_ID = '32';
-SET @_iempresa_ID = '1';
-CALL `sp_menu_getLista`( @_imodulo_ID, @_iusuario_ID, @_iempresa_ID)
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
 ============================ERROR====================================
-FECHA Y HORA: 22 05 2019 21:05:40
-RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\configuracion_generalController.php
-METODO: configuracion_generaleController/post_ajaxExtraer_Menu_Modulo
-ERROR: Ocurrio un Error en la consulta
+FECHA Y HORA: 05 06 2019 19:06:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
 ============================ERROR====================================
-FECHA Y HORA: 23 05 2019 00:05:24
+FECHA Y HORA: 05 06 2019 19:06:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:55
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 19:06:03
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 20:06:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 20:06:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 20:06:58
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:41
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:42
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:44
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:08
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:09
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:11
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Seleccione' in 'where clause'
+============================ERROR====================================
+FECHA Y HORA: 05 06 2019 23:06:49
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
 METODO: connect_new.getGrid
 ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
 ============================ERROR====================================
-FECHA Y HORA: 23 05 2019 00:05:24
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.getGrid
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
-============================ERROR====================================
-FECHA Y HORA: 23 05 2019 21:05:20
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=15824' at line 1update cotizacion_detalle set producto_ID=274,cotizacion_ID=6110,descripcion="PR1333-4G200 4GB DDR3 1333 NON ECC SODIMM
-NUEVA",cantidad=2,precio_venta_unitario_soles=788.24,precio_venta_subtotal_soles=1576.48,precio_venta_subtotal_dolares=472.00,precio_venta_unitario_dolares=236.00000,igv=0.18,vigv_soles=283.77,vigv_dolares=84.96,precio_venta_soles=1860.25,precio_venta_dolares=556.96,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15824
-============================ERROR====================================
-FECHA Y HORA: 23 05 2019 21:05:11
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.transa
-ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'usuario_mod_id=0, fdm=now() where del=0 and id=15824' at line 1update cotizacion_detalle set producto_ID=274,cotizacion_ID=6110,descripcion="PR1333-4G200 4GB DDR3 1333 NON ECC SODIMM
-NUEVA",cantidad=2,precio_venta_unitario_soles=788.24,precio_venta_subtotal_soles=1576.48,precio_venta_subtotal_dolares=472.00,precio_venta_unitario_dolares=236.00000,igv=0.18,vigv_soles=283.77,vigv_dolares=84.96,precio_venta_soles=1860.25,precio_venta_dolares=556.96,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15824
-============================ERROR====================================
-FECHA Y HORA: 23 05 2019 21:05:11
+FECHA Y HORA: 06 06 2019 18:06:33
 RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
-METODO: salidaController/actualizar_costos_cotizacion_detalle
-ERROR: update cotizacion_detalle set producto_ID=274,cotizacion_ID=6110,descripcion="PR1333-4G200 4GB DDR3 1333 NON ECC SODIMM
-NUEVA",cantidad=2,precio_venta_unitario_soles=788.24,precio_venta_subtotal_soles=1576.48,precio_venta_subtotal_dolares=472.00,precio_venta_unitario_dolares=236.00000,igv=0.18,vigv_soles=283.77,vigv_dolares=84.96,precio_venta_soles=1860.25,precio_venta_dolares=556.96,cotizacion_detalle_ID=0,estado_id=0,ver_precio=1,separacion=0,tiempo_separacion=0,cantidad_separada=0,tipo=1,incluye_igv=,usuario_mod_id=0, fdm=now() where del=0 and id=15824
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: exception 'Exception' with message 'FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/default.jpg' in C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(1246): FPDF->Error('Not a JPEG file...')
+#1 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsejpg('files/imagenes/...')
+#2 C:\xampp\htdocs\proyecto\proyecto\formatos_pdf\factura_venta_pdf.php(127): FPDF->Image('files/imagenes/...', 8, 8, 70, 20, 'JPG')
+#3 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(13238): PDF2->cabecera_header()
+#4 [internal function]: get_Factura_Vista_PreviaPDF('1798')
+#5 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Factura_Vis...', Array)
+#6 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#7 {main}
 ============================ERROR====================================
-FECHA Y HORA: 23 05 2019 23:05:49
-RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
+FECHA Y HORA: 06 06 2019 18:06:37
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: exception 'Exception' with message 'FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/default.jpg' in C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(1246): FPDF->Error('Not a JPEG file...')
+#1 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsejpg('files/imagenes/...')
+#2 C:\xampp\htdocs\proyecto\proyecto\formatos_pdf\factura_venta_pdf.php(127): FPDF->Image('files/imagenes/...', 8, 8, 70, 20, 'JPG')
+#3 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(13238): PDF2->cabecera_header()
+#4 [internal function]: get_Factura_Vista_PreviaPDF('1798')
+#5 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Factura_Vis...', Array)
+#6 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#7 {main}
 ============================ERROR====================================
-FECHA Y HORA: 23 05 2019 23:05:50
+FECHA Y HORA: 06 06 2019 18:06:47
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: exception 'Exception' with message 'FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/default.jpg' in C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(1246): FPDF->Error('Not a JPEG file...')
+#1 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsejpg('files/imagenes/...')
+#2 C:\xampp\htdocs\proyecto\proyecto\formatos_pdf\factura_venta_pdf.php(127): FPDF->Image('files/imagenes/...', 8, 8, 70, 20, 'JPG')
+#3 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(13238): PDF2->cabecera_header()
+#4 [internal function]: get_Factura_Vista_PreviaPDF('1798')
+#5 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Factura_Vis...', Array)
+#6 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#7 {main}
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 18:06:13
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: post_ajaxVistaPrevia_Comprobante_Electronico
+ERROR: FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/default.jpg
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 19:06:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: post_ajaxVistaPrevia_Comprobante_Electronico
+ERROR: FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/default.jpg
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 19:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: post_ajaxVistaPrevia_Comprobante_Electronico
+ERROR: FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/default.jpg
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 19:06:33
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: salidaController.get_Factura_Vista_PreviaPDF
+ERROR: exception 'Exception' with message 'FPDF error: Not a JPEG file: files/imagenes/logo_comprobantes/2.jpg' in C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php:273
+Stack trace:
+#0 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(1246): FPDF->Error('Not a JPEG file...')
+#1 C:\xampp\htdocs\proyecto\proyecto\include\fpdf\fpdf.php(887): FPDF->_parsejpg('files/imagenes/...')
+#2 C:\xampp\htdocs\proyecto\proyecto\formatos_pdf\factura_venta_pdf.php(127): FPDF->Image('files/imagenes/...', 8, 8, 70, 20, 'JPG')
+#3 C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php(13238): PDF2->cabecera_header()
+#4 [internal function]: get_Factura_Vista_PreviaPDF('1798')
+#5 C:\xampp\htdocs\proyecto\proyecto\lib\controlPage.php(164): call_user_func_array('get_Factura_Vis...', Array)
+#6 C:\xampp\htdocs\proyecto\proyecto\index.php(5): require('C:\\xampp\\htdocs...')
+#7 {main}
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 20:06:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\salidaController.php
+METODO: post_ajaxVistaPrevia_Comprobante_Electronico
+ERROR: FPDF error: Missing or incorrect image file: logo_documentos
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:30
 RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
-METODO: connect_new.connect_new
-ERROR: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
-
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:35
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 06 06 2019 23:06:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:15
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:43
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By pr.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:20
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By pr.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 00:06:45
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By pr.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 22:06:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 22:06:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 22:06:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 22:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 22:06:21
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 07 06 2019 22:06:01
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:51
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:54
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:25
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:18
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:22
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:49
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:52
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 20:06:53
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:36
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:57
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and pr.del=0 and ca.del=0 and ca.ID=pr.categoria_ID and ca.linea_ID=li.ID and es' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:04
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By razon_social asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:46
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: Ingreso/post_ajaxOrden_Compra_Mantenimiento
+ERROR: SELECT  count(oc.ID) FROM orden_ingreso oc,proveedor prv,estado es,moneda mo  where oc.empresa_ID= and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\controls\ingresoController.php
+METODO: Ingreso/post_ajaxOrden_Compra_Mantenimiento
+ERROR: SELECT  count(oc.ID) FROM orden_ingreso oc,proveedor prv,estado es,moneda mo  where oc.empresa_ID= and oc.del=0 and oc.proveedor_ID=prv.ID and oc.estado_ID=es.ID and oc.moneda_ID=mo.ID
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 21:06:06
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By razon_social' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:39
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and ca.empresa_ID= Order By ca.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:02
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and ca.empresa_ID=2 Order By ca.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:31
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and ca.empresa_ID=2 Order By ca.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:56
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and ca.empresa_ID=2 Order By ca.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:29
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and li.empresa_ID=2 Order By li.nombre asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:14
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By li.ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 22:06:28
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?empresa_ID=2 Order By ID asc' at line 1
+============================ERROR====================================
+FECHA Y HORA: 11 06 2019 23:06:16
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getData
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'and co.del=0 and co.proveedor_ID=pr.ID and est.ID=co.estado_ID  and mo.ID=co.mon' at line 1
+============================ERROR====================================
+FECHA Y HORA: 12 06 2019 00:06:17
+RUTA: C:\xampp\htdocs\proyecto\proyecto\models\connect_new.php
+METODO: connect_new.getGrid
+ERROR: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Order By clt.razon_social asc' at line 1

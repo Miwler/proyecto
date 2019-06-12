@@ -538,6 +538,30 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="control-label col-sm-4">Largo decimal precios unitarios:<span class="asterisk">*</span></label>
+                                <div class="col-sm-8">
+                                    <select id="selBd_Largo_Decimal" name="selBd_Largo_Decimal" class="form-control">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <script>
+                                        $("#selBd_Largo_Decimal").val("<?php echo $GLOBALS['oEmpresa']->bd_largo_decimal;?>");
+                                    </script>
+                                    <small class="form-text text-muted">Registre el largo de decimal de los precios y costos unitarios de las ventas.</small>    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Fecha inicio para reportes:<span class="asterisk">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtFecha_Inicio_Reporte" name="txtFecha_Inicio_Reporte" class="form-control date-range-picker-single" value="<?php echo $GLOBALS['oEmpresa']->fecha_view;?>">
+                                    
+                                    <small class="form-text text-muted">Registre la fecha para inicio de los reportes.</small>    
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="control-label col-sm-4">Seleccion de webservis SUNAT:<span class="asterisk">*</span></label>
                                 <div class="col-sm-8">
                                     <select id="SelWebServis" name="SelWebServis" class="form-control">

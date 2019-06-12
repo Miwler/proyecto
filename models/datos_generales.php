@@ -278,7 +278,7 @@ private $periodo_defecto;
     {
       $dt=$cn->store_procedure_getGrid(
           "sp_datos_generales_getByEmpresa",
-          array("iepresa_ID"=>$_SESSION['empresa_ID']));
+          array("iepresa_ID"=>$_GET['empresa_ID']));
       $oDatos_generales=null;
       foreach($dt as $item)
       {
